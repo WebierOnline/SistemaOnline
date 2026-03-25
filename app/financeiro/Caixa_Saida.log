@@ -1,0 +1,13 @@
+Line 69: Class TabDlg.SSTab of control SSTab1 was not a loaded control class.
+Line 138: Class ChamaleonBtn.chameleonButton of control cmdCal1 was not a loaded control class.
+Line 228: Class MSMask.MaskEdBox of control mskData was not a loaded control class.
+Line 315: Class ChamaleonBtn.chameleonButton of control cmdConsData was not a loaded control class.
+Line 357: Class MSFlexGridLib.MSFlexGrid of control GridSaidas was not a loaded control class.
+Line 450: Class MSMask.MaskEdBox of control mskConsData was not a loaded control class.
+Line 474: Class ChamaleonBtn.chameleonButton of control cmdSair was not a loaded control class.
+Line 513: Class ChamaleonBtn.chameleonButton of control cmdSalvar was not a loaded control class.
+Line 552: Class ChamaleonBtn.chameleonButton of control cmdAlterar was not a loaded control class.
+Line 591: Class ChamaleonBtn.chameleonButton of control cmdCancelar was not a loaded control class.
+Line 630: Class ChamaleonBtn.chameleonButton of control cmdExcluir was not a loaded control class.
+Line 669: Class ChamaleonBtn.chameleonButton of control cmdNovo was not a loaded control class.
+Line 748: Class MSComctlLib.StatusBar of control StatusBar1 was not a loaded control class.

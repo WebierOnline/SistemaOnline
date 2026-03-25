@@ -1,0 +1,32 @@
+6024|2022-05-08 07:23:50.5030|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.7960|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.8560|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.8700|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.8700|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.9210|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.9480|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.9480|INFO||frmPrincipal|Consultando as notas!
+6024|2022-05-08 07:23:50.9640|INFO||frmPrincipal|Seleciona a Empresa
+6024|2022-05-08 07:23:50.9640|INFO||frmPrincipal|Pega o último NSU consultado gravado na Empresa
+6024|2022-05-08 07:23:51.0090|INFO||frmPrincipal|Configurando DLL. Empresa: ANTONIO DA COSTA MAURIZ ME - CNPJ/CPF: 12.237.232/0001-47 - Licença: 8c30279bea260fe3a99c30e1dd1343f6f9425953cc6772f14b9be32376341068
+6024|2022-05-08 07:23:51.0660|INFO||frmPrincipal|DLL Configurada, Carregando Configurações!
+6024|2022-05-08 07:23:51.0660|INFO||frmPrincipal|Consultando a Empresa: ANTONIO DA COSTA MAURIZ ME
+6024|2022-05-08 07:23:51.1090|ERROR||frmPrincipal|Erro Consultar Notas Erro ao Consultar Notas Destinadas Comunicação
+Sem comunicação com o serviço NFeDistribuicaoDFe:
+O nome remoto não pôde ser resolvido: 'www1.nfe.fazenda.gov.br'
+ Detalhes: - 
+6024|2022-05-08 07:23:51.1090|INFO||frmPrincipal|Timer de verificação paralisado!
+6024|2022-05-08 07:23:51.1090|INFO||frmPrincipal|Iniciado Timer para fazer a consulta
+7060|2022-05-08 21:12:20.0803|DEBUG||frmPrincipal|Log Iniciado
+7060|2022-05-08 21:12:20.1583|INFO||frmPrincipal|Verificando Configurações de Sequencia
+7060|2022-05-08 21:12:20.1895|INFO||frmPrincipal|Verificando se Existem Configurações de Empresas
+7060|2022-05-08 21:12:20.2363|INFO||frmPrincipal|Encontrada(s) 1 empresa(s)
+7060|2022-05-08 21:12:20.2363|INFO||frmPrincipal|Verificando se Existe a Configuração da DLL
+7060|2022-05-08 21:12:20.9851|INFO||frmPrincipal|Iniciado Timer para fazer a consulta
+7060|2022-05-08 21:12:21.0007|INFO||frmPrincipal|Seleciona a Empresa
+7060|2022-05-08 21:12:21.0007|INFO||frmPrincipal|Pega o último NSU consultado gravado na Empresa
+7060|2022-05-08 21:12:21.1411|INFO||frmPrincipal|Configurando DLL. Empresa: ANTONIO DA COSTA MAURIZ ME - CNPJ/CPF: 12.237.232/0001-47 - Licença: 8c30279bea260fe3a99c30e1dd1343f6f9425953cc6772f14b9be32376341068
+7060|2022-05-08 21:12:21.1723|INFO||frmPrincipal|DLL Configurada, Carregando Configurações!
+7060|2022-05-08 21:12:21.1723|INFO||frmPrincipal|Consultando a Empresa: ANTONIO DA COSTA MAURIZ ME
+7060|2022-05-08 21:12:24.6199|INFO||frmPrincipal|Resultado da consulta: <retDistDFeInt xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versao="1.01" xmlns="http://www.portalfiscal.inf.br/nfe"><tpAmb>1</tpAmb><verAplic>1.5.10</verAplic><cStat>137</cStat><xMotivo>Nenhum documento localizado</xMotivo><dhResp>2022-05-08T21:12:25-03:00</dhResp><ultNSU>000000000012983</ultNSU><maxNSU>000000000012983</maxNSU></retDistDFeInt>
+7060|2022-05-08 21:12:24.6199|INFO||frmPrincipal|Resultado da consulta: 137 - Nenhum documento localizado

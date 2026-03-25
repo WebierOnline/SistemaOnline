@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.portalfiscal.inf.br/nfe" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:element name="GuiaGNRE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element type="xs:byte" name="FTipoIdentificadoSolicitante"/>
+        <xs:element type="xs:long" name="FIdentificadorSolicitante"/>
+        <xs:element type="xs:int" name="FNumeroProtocoloLote"/>
+        <xs:element type="xs:byte" name="FAmbiente"/>
+        <xs:element name="Guias">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element type="xs:byte" name="Identificador"/>
+              <xs:element type="xs:byte" name="SequencialGuia"/>
+              <xs:element type="xs:byte" name="SituacaoGuia"/>
+              <xs:element type="xs:string" name="UFFavorecida"/>
+              <xs:element type="xs:int" name="CodReceita"/>
+              <xs:element type="xs:byte" name="TipoDocEmitente"/>
+              <xs:element type="xs:long" name="DocEmitente"/>
+              <xs:element type="xs:string" name="RazaoSocialEmitente"/>
+              <xs:element type="xs:string" name="EnderecoEmitente"/>
+              <xs:element type="xs:string" name="MunicipioEmitente"/>
+              <xs:element type="xs:string" name="UFEmitente"/>
+              <xs:element type="xs:int" name="CEPEmitente"/>
+              <xs:element type="xs:long" name="TelefoneEmitente"/>
+              <xs:element type="xs:byte" name="TipoDocDestinatario"/>
+              <xs:element type="xs:long" name="DocDestinatario"/>
+              <xs:element type="xs:string" name="MunicipioDestinatario"/>
+              <xs:element type="xs:string" name="Produto"/>
+              <xs:element type="xs:short" name="NumDocOrigem"/>
+              <xs:element type="xs:int" name="Convenio"/>
+              <xs:element type="xs:string" name="InfoComplementares"/>
+              <xs:element type="xs:int" name="DataVencimento"/>
+              <xs:element type="xs:int" name="DataLimitePagamento"/>
+              <xs:element type="xs:string" name="PeriodoReferencia"/>
+              <xs:element type="xs:int" name="MesAnoReferencia"/>
+              <xs:element type="xs:byte" name="Parcela"/>
+              <xs:element type="xs:float" name="ValorPrincipal"/>
+              <xs:element type="xs:float" name="AtualizacaoMonetaria"/>
+              <xs:element type="xs:float" name="Juros"/>
+              <xs:element type="xs:float" name="Multa"/>
+              <xs:element type="xs:integer" name="RepresentacaoNumerica"/>
+              <xs:element type="xs:integer" name="CodigoBarras"/>
+              <xs:element type="xs:byte" name="QtdeVias"/>
+              <xs:element type="xs:long" name="NumeroControle"/>
+              <xs:element type="xs:byte" name="IdentificadorGuia"/>
+              <xs:element type="xs:byte" name="GuiaGeradaContingencia"/>
+              <xs:element type="xs:string" name="Reservado"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

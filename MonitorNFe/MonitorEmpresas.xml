@@ -1,0 +1,24 @@
+<?xml version="1.0" standalone="yes"?>
+<ConfiguracaoApp>
+  <Codigo>1</Codigo>
+  <CertificadoSerial>02AF2F01B1E5BA56DDABEDC6B116B745D46E045A</CertificadoSerial>
+  <CertificadoSenha />
+  <CertificadoA3>False</CertificadoA3>
+  <tpAmb>1</tpAmb>
+  <ModeloDocumento>55</ModeloDocumento>
+  <DiretorioSalvarCopiaXml />
+  <DiretorioSalvarXml>C:\Sistemas\Backup\Sistema - NFe</DiretorioSalvarXml>
+  <licencaDLL>8c30279bea260fe3a99c30e1dd1343f6f9425953cc6772f14b9be32376341068</licencaDLL>
+  <EmitenteCNPJ>12.237.232/0001-47</EmitenteCNPJ>
+  <EmitentexNome>ANTONIO DA COSTA MAURIZ ME</EmitentexNome>
+  <EmitenteCodigoIBGE>2211209</EmitenteCodigoIBGE>
+  <EmitenteCRT>3 - Regime Normal</EmitenteCRT>
+  <Ativo>True</Ativo>
+  <ultNSU>13322</ultNSU>
+  <TipoSistema>Online.info</TipoSistema>
+  <ServidorBD>CLIENTE-PC\SQLEXPRESS2008</ServidorBD>
+  <NomeBD>cyber_base</NomeBD>
+  <UsuarioBD>sa</UsuarioBD>
+  <SenhaBD>190106web</SenhaBD>
+  <IdFilial>12.237.232/0001-47</IdFilial>
+</ConfiguracaoApp>

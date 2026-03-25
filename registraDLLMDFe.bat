@@ -1,0 +1,1 @@
+regasm MDFeDLL.dll /tlb:MDFeDLL.tlb /codebase

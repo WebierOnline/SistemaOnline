@@ -1,0 +1,16 @@
+7080|2024-03-11 15:53:22.8143|DEBUG||frmPrincipal|Log Iniciado
+7080|2024-03-11 15:53:22.9391|INFO||frmPrincipal|Verificando Configurações de Sequencia
+7080|2024-03-11 15:53:22.9547|INFO||frmPrincipal|Verificando se Existem Configurações de Empresas
+7080|2024-03-11 15:53:22.9859|INFO||frmPrincipal|Encontrada(s) 1 empresa(s)
+7080|2024-03-11 15:53:22.9859|INFO||frmPrincipal|Verificando se Existe a Configuração da DLL
+7080|2024-03-11 15:53:24.1101|INFO||frmPrincipal|Iniciado Timer para fazer a consulta
+7080|2024-03-11 15:53:24.1257|INFO||frmPrincipal|Seleciona a Empresa
+7080|2024-03-11 15:53:24.1257|INFO||frmPrincipal|Pega o último NSU consultado gravado na Empresa
+7080|2024-03-11 15:53:24.6435|INFO||frmPrincipal|Configurando DLL. Empresa: ANTONIO DA COSTA MAURIZ ME - CNPJ/CPF: 12.237.232/0001-47 - Licença: 8c30279bea260fe3a99c30e1dd1343f6f9425953cc6772f14b9be32376341068
+7080|2024-03-11 15:53:24.7059|INFO||frmPrincipal|DLL Configurada, Carregando Configurações!
+7080|2024-03-11 15:53:24.7059|INFO||frmPrincipal|Consultando a Empresa: ANTONIO DA COSTA MAURIZ ME
+7080|2024-03-11 15:53:24.7371|ERROR||frmPrincipal|Erro Consultar Notas Erro DistribuicaoDFe
+Certificado digital nº 02AF2F01B1E5BA56DDABEDC6B116B745D46E045A não encontrado!
+ Detalhes: - 
+7080|2024-03-11 15:53:24.7371|INFO||frmPrincipal|Timer de verificação paralisado!
+7080|2024-03-11 15:53:24.7527|INFO||frmPrincipal|Iniciado Timer para fazer a consulta

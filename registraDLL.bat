@@ -1,0 +1,1 @@
+regasm snfe.dll /tlb:snfe.tlb /codebase

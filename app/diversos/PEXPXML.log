@@ -1,0 +1,37 @@
+Line 2: Could not create reference: '{0A8A0428-822E-11D3-BBEF-444553540000}#1.0#0'.
+Line 3: Could not create reference: '{DE518574-296B-11D3-BBE9-444553540000}#2.0#0'.
+Line 17: Class gPainel2.gPainel of control Painel was not a loaded control class.
+Line 33: Class GBotao2.GBotao of control botOk was not a loaded control class.
+Line 59: Class GBotao2.GBotao of control botCancela was not a loaded control class.
+Line 133: Class gPainel2.gPainel of control Painel was not a loaded control class.
+Line 19: The property name BevelOuter in Painel is invalid.
+Line 20: The property name BevelInner in Painel is invalid.
+Line 21: The property name BorderWidth in Painel is invalid.
+Line 22: The property name BevelWidth in Painel is invalid.
+Line 24: The property name Stretch in Painel is invalid.
+Line 30: The property name _extentx in Painel is invalid.
+Line 31: The property name _extenty in Painel is invalid.
+Line 17: Property BorderStyle in Painel could not be set.
+Line 34: The property name ButtonStyle in botOk is invalid.
+Line 35: The property name JoinSeparators in botOk is invalid.
+Line 36: The property name LeftSeparator in botOk is invalid.
+Line 37: The property name TopSeparator in botOk is invalid.
+Line 40: The property name ButtonType in botOk is invalid.
+Line 45: The property name CaptionAlign in botOk is invalid.
+Line 46: The property name CaptionOffset in botOk is invalid.
+Line 57: The property name Caption in botOk is invalid.
+Line 60: The property name ButtonStyle in botCancela is invalid.
+Line 61: The property name JoinSeparators in botCancela is invalid.
+Line 62: The property name LeftSeparator in botCancela is invalid.
+Line 63: The property name TopSeparator in botCancela is invalid.
+Line 66: The property name ButtonType in botCancela is invalid.
+Line 71: The property name CaptionAlign in botCancela is invalid.
+Line 72: The property name CaptionOffset in botCancela is invalid.
+Line 83: The property name Caption in botCancela is invalid.
+Line 135: The property name BevelOuter in Painel is invalid.
+Line 136: The property name BevelInner in Painel is invalid.
+Line 137: The property name BorderWidth in Painel is invalid.
+Line 138: The property name BevelWidth in Painel is invalid.
+Line 140: The property name Stretch in Painel is invalid.
+Line 146: The property name _extentx in Painel is invalid.
+Line 147: The property name _extenty in Painel is invalid.

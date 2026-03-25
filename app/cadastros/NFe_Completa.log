@@ -1,0 +1,46 @@
+Line 355: Property TabPicture(4) in SSTab1 had an invalid file reference.
+Line 367: Property TabPicture(5) in SSTab1 had an invalid file reference.
+Line 371: Property TabPicture(6) in SSTab1 had an invalid file reference.
+Line 469: Property MICON in chameleonButton1 had an invalid file reference.
+Line 470: Property PICN in chameleonButton1 had an invalid file reference.
+Line 471: Property PICH in chameleonButton1 had an invalid file reference.
+Line 681: Property TabPicture(0) in SSTab4 had an invalid file reference.
+Line 687: Property TabPicture(1) in SSTab4 had an invalid file reference.
+Line 700: Property Text in txtInfComple could not be set.
+Line 748: Property TabPicture(0) in SSTab3 had an invalid file reference.
+Line 756: Property TabPicture(1) in SSTab3 had an invalid file reference.
+Line 784: Property TabPicture(2) in SSTab3 had an invalid file reference.
+Line 789: Property TabPicture(3) in SSTab3 had an invalid file reference.
+Line 1272: Property MICON in cmdAdicionarItem had an invalid file reference.
+Line 1310: Property MICON in cmdRemoverItem had an invalid file reference.
+Line 1547: Property List in cboFinalidade could not be set.
+Line 1547: Property ItemData in cboFinalidade could not be set.
+Line 1733: Property MICON in cmdCal2 had an invalid file reference.
+Line 1734: Property PICN in cmdCal2 had an invalid file reference.
+Line 1735: Property PICH in cmdCal2 had an invalid file reference.
+Line 1774: Property MICON in cmdCal1 had an invalid file reference.
+Line 1775: Property PICN in cmdCal1 had an invalid file reference.
+Line 1776: Property PICH in cmdCal1 had an invalid file reference.
+Line 2091: Property Picture in Image1 had an invalid file reference.
+Line 2121: Property MICON in cmdCancelar had an invalid file reference.
+Line 2122: Property PICN in cmdCancelar had an invalid file reference.
+Line 2160: Property MICON in cmdNovo had an invalid file reference.
+Line 2161: Property PICN in cmdNovo had an invalid file reference.
+Line 2199: Property MICON in cmdExcluir had an invalid file reference.
+Line 2200: Property PICN in cmdExcluir had an invalid file reference.
+Line 2238: Property MICON in cmdSalvar had an invalid file reference.
+Line 2239: Property PICN in cmdSalvar had an invalid file reference.
+Line 2277: Property MICON in cmdAlterar had an invalid file reference.
+Line 2278: Property PICN in cmdAlterar had an invalid file reference.
+Line 2316: Property MICON in cmdSair had an invalid file reference.
+Line 2317: Property PICN in cmdSair had an invalid file reference.
+Line 2355: Property MICON in cmdImprimir had an invalid file reference.
+Line 2356: Property PICN in cmdImprimir had an invalid file reference.
+Line 2394: Property MICON in cmdTransmitir had an invalid file reference.
+Line 2395: Property PICN in cmdTransmitir had an invalid file reference.
+Line 2433: Property MICON in cmdCancelarNota had an invalid file reference.
+Line 2434: Property PICN in cmdCancelarNota had an invalid file reference.
+Line 2473: Property MICON in cmdRecalcularNF had an invalid file reference.
+Line 2474: Property PICN in cmdRecalcularNF had an invalid file reference.
+Line 2512: Property MICON in cmdConsultar had an invalid file reference.
+Line 2513: Property PICN in cmdConsultar had an invalid file reference.
