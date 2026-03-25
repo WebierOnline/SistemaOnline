@@ -1,0 +1,13 @@
+# VB6 - arquivos temporários
+*.exp
+*.lib
+*.pdb
+*.tmp
+*.log
+MSSCCPRJ.SCC
+*.vbw
+
+# SQL Server - nunca enviar o .mdf e .ldf!
+*.mdf
+*.ldf
+*.bak
