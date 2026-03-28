@@ -27,7 +27,6 @@ Begin VB.Form Produtos_Entrada
       _ExtentX        =   26908
       _ExtentY        =   16536
       _Version        =   393216
-      Tab             =   1
       TabHeight       =   520
       TabMaxWidth     =   3528
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -41,52 +40,62 @@ Begin VB.Form Produtos_Entrada
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Produtos_Entrada.frx":23D2
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "frmTransporte"
-      Tab(0).Control(1)=   "frmItens"
-      Tab(0).Control(2)=   "frmNota"
-      Tab(0).Control(3)=   "cmdCancelar"
-      Tab(0).Control(4)=   "cmdAlterar"
-      Tab(0).Control(5)=   "cmdExcluir"
-      Tab(0).Control(6)=   "cmdSalvar"
-      Tab(0).Control(7)=   "cmdNovo"
-      Tab(0).Control(8)=   "cmdFechar"
-      Tab(0).Control(9)=   "cmdImprimirEntrada"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "cmdImprimirEntrada"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "cmdFechar"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "cmdNovo"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "cmdSalvar"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "cmdExcluir"
+      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(5)=   "cmdAlterar"
+      Tab(0).Control(5).Enabled=   0   'False
+      Tab(0).Control(6)=   "cmdCancelar"
+      Tab(0).Control(6).Enabled=   0   'False
+      Tab(0).Control(7)=   "frmNota"
+      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).Control(8)=   "frmItens"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "frmTransporte"
+      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).ControlCount=   10
       TabCaption(1)   =   "HISTÓRICO"
       TabPicture(1)   =   "Produtos_Entrada.frx":23EE
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Grid_Historico"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Produtos_Entrada.frx":240A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "txtAliqICMSProd"
-      Tab(2).Control(1)=   "txtValorICMSProd"
-      Tab(2).Control(2)=   "txtAliqIPIProd"
-      Tab(2).Control(3)=   "txtValorIPIProd"
-      Tab(2).Control(4)=   "txtAliqICMSSTProd"
-      Tab(2).Control(5)=   "txtValorICMSSTProd"
-      Tab(2).Control(6)=   "txtCustoLiquido"
-      Tab(2).Control(7)=   "Grid"
-      Tab(2).Control(8)=   "Data6"
-      Tab(2).Control(9)=   "Data5"
-      Tab(2).Control(10)=   "Frame9"
-      Tab(2).Control(11)=   "cmdImprimir"
+      Tab(2).Control(0)=   "Label25"
+      Tab(2).Control(1)=   "lblValor"
+      Tab(2).Control(2)=   "Label9"
+      Tab(2).Control(3)=   "lblQuant"
+      Tab(2).Control(4)=   "Label26"
+      Tab(2).Control(5)=   "Label27"
+      Tab(2).Control(6)=   "Label21"
+      Tab(2).Control(7)=   "Label18"
+      Tab(2).Control(8)=   "Label16"
+      Tab(2).Control(9)=   "Label15"
+      Tab(2).Control(10)=   "Label6"
+      Tab(2).Control(11)=   "Label5"
       Tab(2).Control(12)=   "cmdExibir"
-      Tab(2).Control(13)=   "Label5"
-      Tab(2).Control(14)=   "Label6"
-      Tab(2).Control(15)=   "Label15"
-      Tab(2).Control(16)=   "Label16"
-      Tab(2).Control(17)=   "Label18"
-      Tab(2).Control(18)=   "Label21"
-      Tab(2).Control(19)=   "Label27"
-      Tab(2).Control(20)=   "Label26"
-      Tab(2).Control(21)=   "lblQuant"
-      Tab(2).Control(22)=   "Label9"
-      Tab(2).Control(23)=   "lblValor"
-      Tab(2).Control(24)=   "Label25"
+      Tab(2).Control(13)=   "cmdImprimir"
+      Tab(2).Control(14)=   "Frame9"
+      Tab(2).Control(15)=   "Data5"
+      Tab(2).Control(16)=   "Data6"
+      Tab(2).Control(17)=   "Grid"
+      Tab(2).Control(18)=   "txtCustoLiquido"
+      Tab(2).Control(19)=   "txtValorICMSSTProd"
+      Tab(2).Control(20)=   "txtAliqICMSSTProd"
+      Tab(2).Control(21)=   "txtValorIPIProd"
+      Tab(2).Control(22)=   "txtAliqIPIProd"
+      Tab(2).Control(23)=   "txtValorICMSProd"
+      Tab(2).Control(24)=   "txtAliqICMSProd"
       Tab(2).ControlCount=   25
       Begin VB.TextBox txtAliqICMSProd 
          Alignment       =   1  'Right Justify
@@ -170,7 +179,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   65
          Top             =   1380
          Width           =   12735
@@ -251,7 +260,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   57
          Top             =   2340
          Width           =   12735
@@ -969,7 +978,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   54
          Top             =   420
          Width           =   12735
@@ -1223,7 +1232,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_Historico 
          Height          =   7215
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   44
          Top             =   420
          Width           =   13995
@@ -1520,7 +1529,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   29
          Top             =   1860
          Width           =   2175
@@ -1559,7 +1568,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   30
          Top             =   2520
          Width           =   2175
@@ -1598,7 +1607,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   31
          Top             =   3180
          Width           =   2175
@@ -1637,7 +1646,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   28
          Top             =   1200
          Width           =   2175
@@ -1676,7 +1685,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -1715,7 +1724,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdFechar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   33
          Top             =   8580
          Width           =   2175
@@ -1754,7 +1763,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimirEntrada 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   32
          Top             =   3840
          Width           =   2175
@@ -2061,7 +2070,7 @@ Begin VB.Form Produtos_Entrada
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:26"
+            TextSave        =   "11:06"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
