@@ -1,0 +1,1 @@
+regasm /u ImpressaoDeEtiquetas.dll /tlb:ImpressaoDeEtiquetas.tlb
