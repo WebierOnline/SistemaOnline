@@ -177,7 +177,7 @@ Begin VB.Form Entrada_Estoque
             AutoSize        =   -1  'True
             BackColor       =   &H80000005&
             BackStyle       =   0  'Transparent
-            Caption         =   "Vocï¿½ deseja deseja fazer a entrada no estoque com o produto relacionado ou com o produto original? "
+            Caption         =   "Você deseja deseja fazer a entrada no estoque com o produto relacionado ou com o produto original? "
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   13.5
@@ -222,7 +222,7 @@ Begin VB.Form Entrada_Estoque
             AutoSize        =   -1  'True
             BackColor       =   &H80000005&
             BackStyle       =   0  'Transparent
-            Caption         =   "Estï¿½ fracionado com o produto:"
+            Caption         =   "Está fracionado com o produto:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   18
@@ -321,7 +321,7 @@ Begin VB.Form Entrada_Estoque
          Tab(0).Control(10)=   "cmdVinculos"
          Tab(0).Control(10).Enabled=   0   'False
          Tab(0).ControlCount=   11
-         TabCaption(1)   =   "Informaï¿½ï¿½es"
+         TabCaption(1)   =   "Informações"
          TabPicture(1)   =   "Entrada_Estoque.frx":008C
          Tab(1).ControlEnabled=   0   'False
          Tab(1).Control(0)=   "Frame1"
@@ -371,7 +371,7 @@ Begin VB.Form Entrada_Estoque
             End
          End
          Begin VB.Frame Frame13 
-            Caption         =   "Informaï¿½ï¿½es"
+            Caption         =   "Informações"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -398,7 +398,7 @@ Begin VB.Form Entrada_Estoque
             Begin VB.Label Label68 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Informaï¿½ï¿½es Adicionais"
+               Caption         =   "Informações Adicionais"
                Height          =   195
                Left            =   120
                TabIndex        =   216
@@ -496,7 +496,7 @@ Begin VB.Form Entrada_Estoque
                Begin VB.Label Label42 
                   AutoSize        =   -1  'True
                   BackStyle       =   0  'Transparent
-                  Caption         =   "Numeraï¿½ï¿½o"
+                  Caption         =   "Numeração"
                   Height          =   195
                   Left            =   3840
                   TabIndex        =   202
@@ -546,7 +546,7 @@ Begin VB.Form Entrada_Estoque
                Begin VB.Label Label33 
                   AutoSize        =   -1  'True
                   BackStyle       =   0  'Transparent
-                  Caption         =   "Espï¿½cie"
+                  Caption         =   "Espécie"
                   Height          =   195
                   Left            =   900
                   TabIndex        =   197
@@ -957,7 +957,7 @@ Begin VB.Form Entrada_Estoque
             Height          =   315
             Left            =   1740
             TabIndex        =   158
-            ToolTipText     =   "Descriï¿½ï¿½o"
+            ToolTipText     =   "Descrição"
             Top             =   2760
             Width           =   5190
          End
@@ -1189,7 +1189,7 @@ Begin VB.Form Entrada_Estoque
          Left            =   13920
          TabIndex        =   113
          TabStop         =   0   'False
-         ToolTipText     =   "Cï¿½d do Pedido"
+         ToolTipText     =   "Cód do Pedido"
          Top             =   360
          Width           =   855
       End
@@ -1200,7 +1200,7 @@ Begin VB.Form Entrada_Estoque
          Left            =   14820
          TabIndex        =   112
          TabStop         =   0   'False
-         ToolTipText     =   "Cï¿½d da Nota"
+         ToolTipText     =   "Cód da Nota"
          Top             =   360
          Width           =   855
       End
@@ -1336,7 +1336,7 @@ Begin VB.Form Entrada_Estoque
             Left            =   1740
             Locked          =   -1  'True
             TabIndex        =   117
-            ToolTipText     =   "Descriï¿½ï¿½o"
+            ToolTipText     =   "Descrição"
             Top             =   240
             Width           =   5190
          End
@@ -1418,7 +1418,7 @@ Begin VB.Form Entrada_Estoque
             Top             =   1080
             Width           =   8055
             Begin VB.Frame Frame14 
-               Caption         =   "Varejo - ï¿½ vista"
+               Caption         =   "Varejo - à vista"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -1509,7 +1509,7 @@ Begin VB.Form Entrada_Estoque
                End
             End
             Begin VB.Frame Frame15 
-               Caption         =   "Varejo - ï¿½ Prazo"
+               Caption         =   "Varejo - à Prazo"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -1562,7 +1562,7 @@ Begin VB.Form Entrada_Estoque
                End
             End
             Begin VB.Frame Frame16 
-               Caption         =   "Atac. - ï¿½ Vista"
+               Caption         =   "Atac. - à Vista"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -1615,7 +1615,7 @@ Begin VB.Form Entrada_Estoque
                End
             End
             Begin VB.Frame Frame17 
-               Caption         =   "Atac. - ï¿½ Prazo"
+               Caption         =   "Atac. - à Prazo"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -1855,7 +1855,7 @@ Begin VB.Form Entrada_Estoque
             Begin VB.Label lblFracao 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Fraï¿½ï¿½o"
+               Caption         =   "Fração"
                Enabled         =   0   'False
                Height          =   195
                Left            =   2100
@@ -2006,7 +2006,7 @@ Begin VB.Form Entrada_Estoque
             _ExtentX        =   2672
             _ExtentY        =   556
             BTYPE           =   3
-            TX              =   "Atualizar Descriï¿½ï¿½o"
+            TX              =   "Atualizar Descrição"
             ENAB            =   0   'False
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
@@ -2397,7 +2397,7 @@ Begin VB.Form Entrada_Estoque
          Top             =   6120
          Width           =   15
          Begin VB.Frame Frame11 
-            Caption         =   "Atacado - ï¿½ Prazo"
+            Caption         =   "Atacado - à Prazo"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2434,7 +2434,7 @@ Begin VB.Form Entrada_Estoque
             End
          End
          Begin VB.Frame Frame10 
-            Caption         =   "Atacado - ï¿½ Vista"
+            Caption         =   "Atacado - à Vista"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2471,7 +2471,7 @@ Begin VB.Form Entrada_Estoque
             End
          End
          Begin VB.Frame Frame9 
-            Caption         =   "Varejo - ï¿½ Prazo"
+            Caption         =   "Varejo - à Prazo"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2508,7 +2508,7 @@ Begin VB.Form Entrada_Estoque
             End
          End
          Begin VB.Frame Frame8 
-            Caption         =   "Varejo - ï¿½ vista"
+            Caption         =   "Varejo - à vista"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2705,7 +2705,7 @@ Begin VB.Form Entrada_Estoque
          Top             =   8280
          Width           =   15615
          Begin VB.Frame Frame5 
-            Caption         =   "Critï¿½rios:"
+            Caption         =   "Critérios:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2756,7 +2756,7 @@ Begin VB.Form Entrada_Estoque
             End
          End
          Begin VB.Frame Frame4 
-            Caption         =   "Critï¿½rios"
+            Caption         =   "Critérios"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2933,7 +2933,7 @@ Begin VB.Form Entrada_Estoque
             Begin VB.Label lblConNotaMes 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Mï¿½s:"
+               Caption         =   "Mês:"
                Height          =   195
                Left            =   180
                TabIndex        =   65
@@ -3128,7 +3128,7 @@ Begin VB.Form Entrada_Estoque
             Left            =   12900
             TabIndex        =   128
             TabStop         =   0   'False
-            ToolTipText     =   "Cï¿½d do Entrada"
+            ToolTipText     =   "Cód do Entrada"
             Top             =   0
             Width           =   855
          End
@@ -3232,7 +3232,7 @@ Begin VB.Form Entrada_Estoque
          Begin VB.Label Label4 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Dt. Emissï¿½o"
+            Caption         =   "Dt. Emissão"
             Height          =   195
             Left            =   7980
             TabIndex        =   35
@@ -3242,7 +3242,7 @@ Begin VB.Form Entrada_Estoque
          Begin VB.Label Label1 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Nï¿½ NF"
+            Caption         =   "Nº NF"
             Height          =   195
             Index           =   2
             Left            =   120
@@ -4491,40 +4491,27 @@ sHora = Format$(Time(), ocHORA)
 Dim VarCodEntradaNovo As Long
 VarCodEntradaNovo = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM produtos_entrada", "r", 0) + 1
 
-sSQL = "INSERT INTO produtos_entrada ( " & _
-        "CODIGO, " & _
-        "DATA_ENTRADA, " & _
-        "HORA_ENTRADA, " & _
-        "NOTAFISCAL, " & _
-        "VALOR, " & _
-        "DATA_EMISSAO, " & _
-        "DATA_SAIDA, " & _
-        "HORA_SAIDA, " & _
-        "COD_FORNECEDOR, " & _
-        "COD_TRANSPORTADORA, " & _
-        "VALOR_FRETE, " & _
-        "Chave, " & _
-        "XML, " & _
-        "TIPO_FRETE " & _
-        " ) " & _
-        "SELECT " & VarCodEntradaNovo & ", " & _
-        "CONVERT(DATETIME, '" & sData & "', 103), " & _
-        "CONVERT(DATETIME, '" & sHora & "', 103), " & _
-        "EntradaEstoque.NumeroNota, " & _
-        "EntradaEstoque.ValorNota, " & _
-        "EntradaEstoque.DataEmissao, " & _
-        "EntradaEstoque.DataSaida, EntradaEstoque.HoraSaida, EntradaEstoque.CodigoCorrentista, EntradaEstoque.TranspCodigo, EntradaEstoque.TranspValorServico, EntradaEstoque.ChavedeAcesso, " & _
-        "1, " & _   '1 = importado via XML (flag)
-        "CASE EntradaEstoque.TranspModFrete " & _
-        "  WHEN 0 THEN '0 - EMITENTE' " & _
-        "  WHEN 1 THEN '1 - DESTINATARIO' " & _
-        "  WHEN 2 THEN '2 - TERCEIROS' " & _
-        "  WHEN 3 THEN '3 - PROP.EMITENTE' " & _
-        "  WHEN 4 THEN '4 - PROP.DESTINAT.' " & _
-        "  ELSE '9 - SEM TRANSPORTE' " & _
-        "END " & _
-        "FROM EntradaEstoque " & _
-        "WHERE EntradaEstoque.CodigoNota = " & lCompra & ";"
+'-- colunas (parte 1: basicas)
+sSQL = "INSERT INTO produtos_entrada (" & _
+       "CODIGO, DATA_ENTRADA, HORA_ENTRADA, NOTAFISCAL, VALOR, " & _
+       "DataEmissao, DataSaida, HoraSaida, " & _
+       "COD_FORNECEDOR, COD_TRANSPORTADORA, VALOR_FRETE, Chave, XML, TIPO_FRETE, " & _
+       "CodigoNota, SerieNF, ModeloNF, NaturezaOperacao, RazaoSocial, CNPJ_CPF, " & _
+       "ValorProdutos, ValorDesconto, ValorIPI, ValorICMS, ValorICMSST) "
+'-- SELECT valores (parte 2)
+sSQL = sSQL & _
+       "SELECT " & VarCodEntradaNovo & ", " & _
+       "CONVERT(DATETIME, '" & sData & "', 103), " & _
+       "CONVERT(DATETIME, '" & sHora & "', 103), " & _
+       "e.NumeroNota, e.ValorNota, e.DataEmissao, e.DataSaida, e.HoraSaida, " & _
+       "e.CodigoCorrentista, e.TranspCodigo, e.TranspValorServico, e.ChavedeAcesso, " & _
+       "1, CASE e.TranspModFrete " & _
+       "  WHEN 0 THEN '0 - EMITENTE' WHEN 1 THEN '1 - DESTINATARIO' " & _
+       "  WHEN 2 THEN '2 - TERCEIROS' WHEN 3 THEN '3 - PROP.EMITENTE' " & _
+       "  WHEN 4 THEN '4 - PROP.DESTINAT.' ELSE '9 - SEM TRANSPORTE' END, " & _
+       "e.CodigoNota, e.SerieNF, e.ModeloNF, e.NaturezaOperacao, e.RazaoSocial, e.CNPJ_CPF, " & _
+       "e.ValorProdutos, e.ValorDesconto, e.ValorIPI, e.ValorICMS, e.ValorICMSST " & _
+       "FROM EntradaEstoque e WHERE e.CodigoNota = " & lCompra & ";"
 
 msgResultado = SQLExecuta(sSQL)
 If Not Vazio(msgResultado) Then
@@ -4848,7 +4835,25 @@ End Sub
 
 
 Private Sub cmdBuscarXML_Click()
-ShellExecute hwnd, "open", "https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g=", vbNullString, vbNullString, conSwNo
+Dim sURL As String
+Dim sChrome As String
+Dim sFirefox As String
+
+sURL = "https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsulta=resumo&tipoConteudo=7PhJ+gAVw2g="
+
+sChrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(sChrome) Then sChrome = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+
+sFirefox = "C:\Program Files\Mozilla Firefox\firefox.exe"
+If Not Existe(sFirefox) Then sFirefox = "C:\Program Files (x86)\Mozilla Firefox\firefox.exe"
+
+If Existe(sChrome) Then
+    ShellExecute hwnd, "open", sChrome, sURL, vbNullString, conSwNo
+ElseIf Existe(sFirefox) Then
+    ShellExecute hwnd, "open", sFirefox, sURL, vbNullString, conSwNo
+Else
+    ShellExecute hwnd, "open", sURL, vbNullString, vbNullString, conSwNo
+End If
 End Sub
 
 Private Sub cmdImprimir_Click()
@@ -6958,9 +6963,34 @@ End If
           If TbVinculo.RecordCount > 0 Then
              CodProduto = TbVinculo!IDProduto
              qtfracao = IIf(TbVinculo!Fracionamento > 0, TbVinculo!Fracionamento, 1)
-             SQLExecuta "UPDATE VinculoXMLProduto SET CustoUnitario = " & FSQL(xVUnCom / qtfracao) & ", " & _
-                        "DataAtualizacao = GETDATE() " & _
-                        "WHERE IDFornecedor = " & Codigo_fornecedor & " AND cProd = '" & Replace(xCProd, "'", "''") & "'"
+             Dim oDetVin As Object
+             Set oDetVin = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
+             Dim sVinNCM As String, sVinCEST As String, sVinCFOP As String
+             sVinNCM = ""
+             sVinCEST = ""
+             sVinCFOP = "0"
+             If oDetVin.selectNodes("prod/NCM").Length > 0 Then sVinNCM = oDetVin.selectNodes("prod/NCM").item(0).Text
+             If oDetVin.selectNodes("prod/CEST").Length > 0 Then sVinCEST = oDetVin.selectNodes("prod/CEST").item(0).Text
+             If oDetVin.selectNodes("prod/CFOP").Length > 0 Then sVinCFOP = oDetVin.selectNodes("prod/CFOP").item(0).Text
+             Dim sVinSql As String
+             sVinSql = "UPDATE VinculoXMLProduto SET " & _
+                       "CustoUnitario = " & FSQL(xVUnCom / qtfracao) & ", " & _
+                       "DataAtualizacao = GETDATE(), " & _
+                       "NCM = '" & sVinNCM & "', " & _
+                       "CFOP = " & sVinCFOP & ", " & _
+                       "CST = '" & Replace(csticms, "'", "''") & "', " & _
+                       "pICMS = " & FSQL(ICMSAliquota) & ", " & _
+                       "IPICST = '" & cstipi & "', " & _
+                       "IPIpIPI = " & FSQL(IPIpIPI) & ", " & _
+                       "PISCST = '" & cstpis & "', "
+             sVinSql = sVinSql & _
+                       "PISpPIS = " & FSQL(PISpPIS) & ", " & _
+                       "COFINSCST = '" & cstcofins & "', " & _
+                       "COFINSpCOFINS = " & FSQL(COFINSpCOFINS) & ", " & _
+                       "CEST = '" & sVinCEST & "' " & _
+                       "WHERE IDFornecedor = " & Codigo_fornecedor & " AND cProd = '" & Replace(xCProd, "'", "''") & "'"
+             SQLExecuta sVinSql
+             Set oDetVin = Nothing
           End If
           TbVinculo.Close
 
@@ -7000,7 +7030,7 @@ End If
            'Compras_XML!CFOP = xCfop
            Compras_XML.Update
            
-           'Lanï¿½ando os itens no Banco
+           'Lançando os itens no Banco
            Compras_Itens_XML.AddNew
            Compras_Itens_XML!CodigoNota = Compra
            'Compras_Itens_XML!Ite_documento = Compra
