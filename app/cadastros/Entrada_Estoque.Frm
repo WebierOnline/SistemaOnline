@@ -7031,9 +7031,9 @@ End If
                        "IPICST = '" & cstipi & "', " & _
                        "IPIpIPI = " & FSQL(IPIpIPI) & ", "
              sVinSql = sVinSql & _
-                       "PISCST = '" & cstpis & "', " & _
+                       "PISCST = '" & pisCST & "', " & _
                        "PISpPIS = " & FSQL(PISpPIS) & ", " & _
-                       "COFINSCST = '" & cstcofins & "', " & _
+                       "COFINSCST = '" & cofinsCST & "', " & _
                        "COFINSpCOFINS = " & FSQL(COFINSpCOFINS) & ", " & _
                        "CEST = '" & sVinCEST & "', " & _
                        "CustoUnitario = " & FSQL(xVUnCom / qtfracao) & ", " & _
@@ -7053,9 +7053,9 @@ End If
              sVinSql = sVinSql & _
                        "'" & Replace(sVinxProd, "'", "''") & "','" & sVinuCom & "'," & _
                        "'" & sVinNCM & "'," & sVinCFOP & ",'" & Replace(csticms, "'", "''") & "'," & _
-                       FSQL(ICMSAliquota) & ",'" & cstipi & "'," & FSQL(IPIpIPI) & ",'" & cstpis & "',"
+                       FSQL(ICMSAliquota) & ",'" & cstipi & "'," & FSQL(IPIpIPI) & ",'" & pisCST & "',"
              sVinSql = sVinSql & _
-                       FSQL(PISpPIS) & ",'" & cstcofins & "'," & FSQL(COFINSpCOFINS) & ",'" & sVinCEST & "'," & _
+                       FSQL(PISpPIS) & ",'" & cofinsCST & "'," & FSQL(COFINSpCOFINS) & ",'" & sVinCEST & "'," & _
                        CodProduto & ",'" & sVinEANProduto & "'," & FSQL(qtfracao) & "," & _
                        FSQL(xVUnCom / qtfracao) & ",GETDATE())"
              SQLExecuta sVinSql
