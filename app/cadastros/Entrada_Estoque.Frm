@@ -6955,30 +6955,34 @@ End If
 
           qtfracao = 1
           CodProduto = 0
+          Dim bVinculoBusca1 As Boolean
+          bVinculoBusca1 = False
+          Dim sVinNCM As String, sVinCEST As String, sVinCFOP As String
+          Dim oDetVin As Object
+          sVinNCM = ""
+          sVinCEST = ""
+          sVinCFOP = "0"
+          Set oDetVin = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
+          If oDetVin.selectNodes("prod/NCM").Length > 0 Then sVinNCM = oDetVin.selectNodes("prod/NCM").item(0).Text
+          If oDetVin.selectNodes("prod/CEST").Length > 0 Then sVinCEST = oDetVin.selectNodes("prod/CEST").item(0).Text
+          If oDetVin.selectNodes("prod/CFOP").Length > 0 Then sVinCFOP = oDetVin.selectNodes("prod/CFOP").item(0).Text
+          Set oDetVin = Nothing
 
           '--- Busca 1: VinculoXMLProduto por IDFornecedor + cProd ---
           RsOpen TbVinculo, "SELECT IDProduto, Fracionamento FROM VinculoXMLProduto " & _
                             " WHERE IDFornecedor = " & Codigo_fornecedor & _
-                            "   AND cProd = '" & Replace(xCProd, "'", "''") & "'"
+                            "   AND cProd = '" & Replace(xCProd, "'" , "''") & "'"
           If TbVinculo.RecordCount > 0 Then
              CodProduto = TbVinculo!IDProduto
              qtfracao = IIf(TbVinculo!Fracionamento > 0, TbVinculo!Fracionamento, 1)
-             Dim oDetVin As Object
-             Set oDetVin = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
-             Dim sVinNCM As String, sVinCEST As String, sVinCFOP As String
-             sVinNCM = ""
-             sVinCEST = ""
-             sVinCFOP = "0"
-             If oDetVin.selectNodes("prod/NCM").Length > 0 Then sVinNCM = oDetVin.selectNodes("prod/NCM").item(0).Text
-             If oDetVin.selectNodes("prod/CEST").Length > 0 Then sVinCEST = oDetVin.selectNodes("prod/CEST").item(0).Text
-             If oDetVin.selectNodes("prod/CFOP").Length > 0 Then sVinCFOP = oDetVin.selectNodes("prod/CFOP").item(0).Text
+             bVinculoBusca1 = True
              Dim sVinSql As String
              sVinSql = "UPDATE VinculoXMLProduto SET " & _
                        "CustoUnitario = " & FSQL(xVUnCom / qtfracao) & ", " & _
                        "DataAtualizacao = GETDATE(), " & _
                        "NCM = '" & sVinNCM & "', " & _
                        "CFOP = " & sVinCFOP & ", " & _
-                       "CST = '" & Replace(csticms, "'", "''") & "', " & _
+                       "CST = '" & Replace(csticms, "'" , "''") & "', " & _
                        "pICMS = " & FSQL(ICMSAliquota) & ", " & _
                        "IPICST = '" & cstipi & "', " & _
                        "IPIpIPI = " & FSQL(IPIpIPI) & ", " & _
@@ -6988,9 +6992,8 @@ End If
                        "COFINSCST = '" & cstcofins & "', " & _
                        "COFINSpCOFINS = " & FSQL(COFINSpCOFINS) & ", " & _
                        "CEST = '" & sVinCEST & "' " & _
-                       "WHERE IDFornecedor = " & Codigo_fornecedor & " AND cProd = '" & Replace(xCProd, "'", "''") & "'"
+                       "WHERE IDFornecedor = " & Codigo_fornecedor & " AND cProd = '" & Replace(xCProd, "'" , "''") & "'"
              SQLExecuta sVinSql
-             Set oDetVin = Nothing
           End If
           TbVinculo.Close
 
@@ -7018,6 +7021,36 @@ End If
                 'fracionamento = quantas unidades tributaveis ha por unidade comercial
                 qtfracao = xQTrib / xQCom
              End If
+          End If
+
+          '--- Auto-vincular: INSERT em VinculoXMLProduto quando produto foi encontrado mas nao havia vinculo ---
+          If CodProduto > 0 And Not bVinculoBusca1 Then
+             Dim sVinxProd As String, sVinuCom As String, sVinEANProduto As String
+             Dim sAutoVin As String
+             Dim oDetAuto As Object
+             sVinxProd = ""
+             sVinuCom = ""
+             sVinEANProduto = ""
+             Set oDetAuto = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
+             If oDetAuto.selectNodes("prod/xProd").Length > 0 Then sVinxProd = oDetAuto.selectNodes("prod/xProd").item(0).Text
+             If oDetAuto.selectNodes("prod/uCom").Length > 0 Then sVinuCom = oDetAuto.selectNodes("prod/uCom").item(0).Text
+             Set oDetAuto = Nothing
+             sVinEANProduto = SQLExecutaRetorno("SELECT ISNULL(EAN,'') r FROM Produtos WHERE Codigo = " & CodProduto, "r", "")
+             sAutoVin = "IF NOT EXISTS (SELECT 1 FROM VinculoXMLProduto WHERE IDFornecedor = " & Codigo_fornecedor & _
+                        " AND cProd = '" & Replace(xCProd, "'" , "''") & "') " & _
+                        "INSERT INTO VinculoXMLProduto (IDFornecedor,cProd,EANEmbalagem,xProd,uCom," & _
+                        "NCM,CFOP,CST,pICMS,IPICST,IPIpIPI,PISCST,PISpPIS,COFINSCST,COFINSpCOFINS,CEST," & _
+                        "IDProduto,EANProduto,Fracionamento,CustoUnitario,DataAtualizacao) VALUES (" & _
+                        Codigo_fornecedor & ",'" & Replace(xCProd, "'" , "''") & "','" & cEAN & "',"
+             sAutoVin = sAutoVin & _
+                        "'" & Replace(sVinxProd, "'" , "''") & "','" & sVinuCom & "'," & _
+                        "'" & sVinNCM & "'," & sVinCFOP & ",'" & Replace(csticms, "'" , "''") & "'," & _
+                        FSQL(ICMSAliquota) & ",'" & cstipi & "'," & FSQL(IPIpIPI) & ",'" & cstpis & "',"
+             sAutoVin = sAutoVin & _
+                        FSQL(PISpPIS) & ",'" & cstcofins & "'," & FSQL(COFINSpCOFINS) & ",'" & sVinCEST & "'," & _
+                        CodProduto & ",'" & sVinEANProduto & "'," & FSQL(qtfracao) & "," & _
+                        FSQL(xVUnCom / qtfracao) & ",GETDATE())"
+             SQLExecuta sAutoVin
           End If
     
            xCfop = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/CFOP").item(0).Text
