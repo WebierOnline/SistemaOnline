@@ -7392,6 +7392,7 @@ End If
                  "Deseja vincular agora?", vbQuestion + vbYesNo, "Produtos nao identificados") = vbYes Then
           Dim frmVinc2 As New frmVinculoProdutoXML
           frmVinc2.NumeroEntrada = Compra
+          frmVinc2.MostrarTodos = True
           frmVinc2.Show vbModal
           Unload frmVinc2
           Set frmVinc2 = Nothing
