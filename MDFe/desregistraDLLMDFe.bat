@@ -1,1 +1,0 @@
-regasm /u MDFeDLL.dll /tlb:MDFeDLL.tlb
