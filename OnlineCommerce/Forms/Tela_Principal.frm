@@ -408,8 +408,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":32021
-         PICN            =   "Tela_Principal.frx":3203D
+         MICON           =   "Tela_Principal.frx":2C4E4
+         PICN            =   "Tela_Principal.frx":2C500
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -419,11 +419,11 @@ Begin VB.MDIForm Tela_Principal
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdContasAreceber 
+      Begin ChamaleonBtn.chameleonButton cmdParcelas 
          Height          =   750
          Left            =   6240
          TabIndex        =   15
-         ToolTipText     =   "Contas à Receber"
+         ToolTipText     =   "Parcelas"
          Top             =   10
          Width           =   750
          _ExtentX        =   1323
@@ -448,8 +448,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":33DCF
-         PICN            =   "Tela_Principal.frx":33DEB
+         MICON           =   "Tela_Principal.frx":2D230
+         PICN            =   "Tela_Principal.frx":2D24C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -488,8 +488,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":345E7
-         PICN            =   "Tela_Principal.frx":34603
+         MICON           =   "Tela_Principal.frx":2DE9E
+         PICN            =   "Tela_Principal.frx":2DEBA
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -528,8 +528,128 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":349FD
-         PICN            =   "Tela_Principal.frx":34A19
+         MICON           =   "Tela_Principal.frx":2E2B4
+         PICN            =   "Tela_Principal.frx":2E2D0
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   4
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdXML 
+         Height          =   750
+         Left            =   7020
+         TabIndex        =   19
+         ToolTipText     =   "Entrada de NFe pela XML"
+         Top             =   0
+         Width           =   750
+         _ExtentX        =   1323
+         _ExtentY        =   1323
+         BTYPE           =   3
+         TX              =   ""
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   16777215
+         BCOLO           =   16777215
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Tela_Principal.frx":2EF63
+         PICN            =   "Tela_Principal.frx":2EF7F
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   4
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdPreco 
+         Height          =   750
+         Left            =   7800
+         TabIndex        =   20
+         ToolTipText     =   "Ajuste de estoque"
+         Top             =   0
+         Width           =   750
+         _ExtentX        =   1323
+         _ExtentY        =   1323
+         BTYPE           =   3
+         TX              =   ""
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   16777215
+         BCOLO           =   16777215
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Tela_Principal.frx":2FADB
+         PICN            =   "Tela_Principal.frx":2FAF7
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   4
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdNFe 
+         Height          =   750
+         Left            =   8580
+         TabIndex        =   21
+         ToolTipText     =   "Nota Fiscal Eletronica"
+         Top             =   0
+         Width           =   750
+         _ExtentX        =   1323
+         _ExtentY        =   1323
+         BTYPE           =   3
+         TX              =   ""
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   16777215
+         BCOLO           =   16777215
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Tela_Principal.frx":304C8
+         PICN            =   "Tela_Principal.frx":304E4
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -593,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:52"
+            TextSave        =   "22:00"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -985,8 +1105,8 @@ Dim varTipoEmpresa As String
       cmdCaixa.Left = 4680
       cmdContasApagar.Visible = True
       cmdContasApagar.Left = 5460
-      cmdContasAreceber.Visible = True
-      cmdContasAreceber.Left = 6240
+      cmdParcelas.Visible = True
+      cmdParcelas.Left = 6240
       cmdCalculadora.Visible = True
       cmdCalculadora.Left = 9360
       If varTipoEmpresa = "5" Then
@@ -1022,8 +1142,8 @@ Dim varTipoEmpresa As String
       cmdCaixa.Left = 4680
       cmdContasApagar.Visible = True
       cmdContasApagar.Left = 5460
-      cmdContasAreceber.Visible = True
-      cmdContasAreceber.Left = 6240
+      cmdParcelas.Visible = True
+      cmdParcelas.Left = 6240
       cmdCalculadora.Visible = True
       cmdCalculadora.Left = 9360
       'cmdOS.Visible = True
@@ -1058,8 +1178,8 @@ Dim varTipoEmpresa As String
       cmdCaixa.Left = 4680
       cmdContasApagar.Visible = True
       cmdContasApagar.Left = 5460
-      cmdContasAreceber.Visible = True
-      cmdContasAreceber.Left = 6240
+      cmdParcelas.Visible = True
+      cmdParcelas.Left = 6240
       cmdCalculadora.Visible = True
       cmdCalculadora.Left = 9360
       If varTipoEmpresa = "5" Then
@@ -1196,6 +1316,14 @@ End Sub
 
 
 
+Private Sub cmdNFe_Click()
+Menu_FAT_NFeCompeta_Click
+End Sub
+
+Private Sub cmdPreco_Click()
+Menu_PROD_Simples_Click
+End Sub
+
 Private Sub cmdResumoFiscal_Click()
 Notas_Adesivas.Show
 End Sub
@@ -1203,6 +1331,10 @@ End Sub
 
 Private Sub cmdVendasConsRapida_Click()
 Produtos_BuscaRapida.Show 1
+End Sub
+
+Private Sub cmdXML_Click()
+Menu_Entrada_Estoque_Click
 End Sub
 
 Private Sub lblalerta_DblClick()
@@ -1247,17 +1379,14 @@ Private Sub cmdCaixa_Click()
 'Principal_Caixa.txtCodFunc.Text = txtCodFuncionario.Text
 Principal_Caixa.Show 1
 End Sub
-Private Sub cmdConsulta_Click()
-   Principal_Consultas.Show
-End Sub
 Private Sub cmdConsultaOS_Click()
    'MENU_SERV_Consulta_Click
 End Sub
 Private Sub cmdContasApagar_Click()
    Menu_Fin_APagar_Click
 End Sub
-Private Sub cmdContasAreceber_Click()
-   Menu_Fin_AReceber_Click
+Private Sub cmdParcelas_Click()
+Menu_Fin_Parcelas_Click
 End Sub
 Private Sub cmdLogon_Click()
    menulogoff_Click

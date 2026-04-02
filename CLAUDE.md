@@ -13,7 +13,8 @@ C:\Projeto\
 ├── OnlineCommerce\         ← OnlineCommerce.vbp  (v3.2.16) — sistema principal
 │   ├── Classes\
 │   ├── Forms\
-│   └── Modulos\
+│   ├── Modulos\
+│   └── NFE\                (DLLs da NF-e + XMLs das notas geradas)
 ├── PDV\                    ← OnlinePDV.vbp  (v3.3.16) — ponto de venda
 │   ├── Classes\
 │   ├── Forms\

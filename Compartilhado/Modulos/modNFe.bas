@@ -149,7 +149,7 @@ Screen.MousePointer = vbHourglass
  If NFe.RecordCount > 0 Then
     NFe.MoveFirst
     iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-    sistNFe.exibirAvisos = True
+    sistNFe.exibirAvisos = False
     If Not Vazio(NFe!ChavedeAcesso) Then
        iRetorno = sistNFe.ConsultarProtocolo(NFe!ChavedeAcesso)
        NFeChaveAcesso = NFe!ChavedeAcesso
@@ -2161,7 +2161,7 @@ Dim sistNFe As snfe.Util
    
    iRetorno = ConfiguraDLLNFeNFCe(ModeloNF, "1", sistNFe)
 
-   sistNFe.exibirAvisos = True
+   sistNFe.exibirAvisos = False
 
    'NFe
    If ModeloNF = 55 Then

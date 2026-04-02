@@ -174,8 +174,8 @@ If App.PrevInstance Then
     End
 End If
 
-ChDir App.Path                         'Muda o diretório padrão para onde está o sistema
-appPathApp = App.Path                  'Armazena o diretório do sistema
+ChDir App.path                         'Muda o diretório padrão para onde está o sistema
+appPathApp = App.path                  'Armazena o diretório do sistema
 NormalizePath appPathApp               'Normaliza o diretório
 appPathIni = appPathApp & ocArqvINI    'Armazena o arquivo ini
 appEXEName = App.EXEName & ".exe"
@@ -188,9 +188,9 @@ LerConfiguracao
 'Produtos_Estoque_Simples.Show
 'Configuracao_Geral.Show
 'Sistema_Financeiro.Show
-OS_Recapadora.Show
+'OS_Recapadora.Show
 'Produtos_Cadastro.Show
-'NFe_Completa.Show
+NFe_Completa.Show
 'Tela_Principal.Show
 'Notas_Adesivas.Show
 'Sistema_Financeiro.Show
