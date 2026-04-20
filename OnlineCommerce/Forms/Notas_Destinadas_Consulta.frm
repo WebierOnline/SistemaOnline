@@ -1291,8 +1291,9 @@ dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
 xCaminhoXML = dirXML & "nfe\arquivos\ConfRecebto\" & vChave & "-procNFe.xml"
 If Existe(xCaminhoXML) = -1 Then
    Load Entrada_Estoque
-   Call Entrada_Estoque.ImportarXML(xCaminhoXML)
-   Entrada_Estoque.CriarEntradaEstoque Compra
+   If Entrada_Estoque.ImportarXML(xCaminhoXML) Then
+      Entrada_Estoque.CriarEntradaEstoque Compra
+   End If
    Entrada_Estoque.Show 1
    Call cmdAtualizarGrid_Click
 Else

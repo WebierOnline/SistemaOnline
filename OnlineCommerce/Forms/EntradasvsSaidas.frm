@@ -815,9 +815,9 @@ ElseIf cboCriterio.Text = "PERÍODO" Then
 End If
 
     sSQL = "SELECT  PRODUTOS.CODIGO, DESCRICAO, " & _
-    "(SELECT SUM(produtos_entrada_itens.QUANT) FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.CODIGO = produtos_entrada_itens.CODIGO_ENTRADA WHERE (produtos_entrada_itens.CODIGO_PRODUTO = Produtos.CODIGO) and " & varEntrada & ") AS varQuantEntrada, " & _
+    "(SELECT SUM(produtos_entrada_itens.QuantidadeTributavel) FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.CODIGO = produtos_entrada_itens.CODIGO_ENTRADA WHERE (produtos_entrada_itens.CodigoProduto = Produtos.CODIGO) and " & varEntrada & ") AS varQuantEntrada, " & _
     "(SELECT SUM(pedidos_itens.QUANTIDADE) FROM pedidos INNER JOIN pedidos_itens ON pedidos.COD_PEDIDO = pedidos_itens.COD_PEDIDO WHERE (pedidos_itens.COD_PRODUTO = Produtos.CODIGO) and " & varVenda & "   ) AS varQuantVendida, " & _
-    "((SELECT SUM(produtos_entrada_itens.QUANT) FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.CODIGO = produtos_entrada_itens.CODIGO_ENTRADA WHERE (produtos_entrada_itens.CODIGO_PRODUTO = Produtos.CODIGO) and " & varEntrada & ") - (SELECT SUM(pedidos_itens.QUANTIDADE) FROM pedidos INNER JOIN pedidos_itens ON pedidos.COD_PEDIDO = pedidos_itens.COD_PEDIDO WHERE (pedidos_itens.COD_PRODUTO = Produtos.CODIGO) and " & varVenda & " )) as varQuantRestante " & _
+    "((SELECT SUM(produtos_entrada_itens.QuantidadeTributavel) FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.CODIGO = produtos_entrada_itens.CODIGO_ENTRADA WHERE (produtos_entrada_itens.CodigoProduto = Produtos.CODIGO) and " & varEntrada & ") - (SELECT SUM(pedidos_itens.QUANTIDADE) FROM pedidos INNER JOIN pedidos_itens ON pedidos.COD_PEDIDO = pedidos_itens.COD_PEDIDO WHERE (pedidos_itens.COD_PRODUTO = Produtos.CODIGO) and " & varVenda & " )) as varQuantRestante " & _
     "FROM Produtos " & _
     "ORDER BY PRODUTOS.CODIGO"
     
@@ -997,9 +997,9 @@ End If
 fExibir = 1
 
 If cboConsulta.Text = "TODOS" Then
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
      "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-     "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+     "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
      "ORDER BY varDesc, " & INDICE
   
   'sSQL = "SELECT notafiscal, ref, produtos.fabricante as produtos.FABRICANTE, produtos.tamanho as produtos.TAMANHO, produtos_entrada.codigo AS produtos_entrada.codigo, produtos_entrada.data_entrada AS produtos_entrada.DATA_ENTRADA, " & _
@@ -1009,8 +1009,8 @@ If cboConsulta.Text = "TODOS" Then
      "produtos_entrada_itens.lucro_valor AS var_lucro, produtos_entrada_itens.imposto_valor_venda AS var_impvenda, " & _
      "produtos_entrada_itens.venda AS var_vlrvenda, produtos_entrada.*, produtos_entrada_itens.* " & _
      "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-     "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
-     "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+     "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
+     "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
 
 ElseIf cboConsulta.Text = "MENSAL" Then
 If Not ExistInList(cboConsDescricao) Then
@@ -1025,53 +1025,53 @@ End If
 
 If cboConsAno.Text = "" Or cboConsDescricao.Text = "" Then Exit Sub
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
   "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-  "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+  "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
   "WHERE (MONTH(data_entrada) = " & cboConsDescricao.ListIndex + 1 & ") AND (YEAR(data_entrada) = " & cboConsAno & ") " & _
-  "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+  "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
 
 ElseIf cboConsulta.Text = "DETALHADO" Then
 
   If cboConsDescricao.Text = "FABRICANTE" Then
   
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE  (fabricante = '" & cboConsAno.Text & "') " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
   
   ElseIf cboConsDescricao.Text = "REFERENCIA" Then
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE  (REF = '" & cboConsAno.Text & "') " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
   
   ElseIf cboConsDescricao.Text = "TAMANHO" Then
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE  (TAMANHO = '" & cboConsAno.Text & "') " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
 
   ElseIf cboConsDescricao.Text = "LINHA" Then
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE  (CATEGORIA = '" & cboConsAno.Text & "') " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
 
   ElseIf cboConsDescricao.Text = "COD. BARRA" Then
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE  (COD_BARRA = '" & cboConsAno.Text & "') " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
 
   End If
   
@@ -1089,11 +1089,11 @@ ElseIf cboConsulta.Text = "DETALHADO + MENSAL" Then
 
   If cboConsAno.Text = "" Or cboConsDescricao.Text = "" Or cboConsRef.Text = "" Then Exit Sub
 
-  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.descricao as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.quant as varQuant " & _
+  sSQL = "SELECT produtos.*, produtos_entrada.*, produtos_entrada_itens.*, produtos_entrada_itens.NomeProduto as varDesc, produtos_entrada.codigo AS varCodEnt, produtos_entrada.data_entrada as varData, produtos_entrada_itens.QuantidadeTributavel as varQuant " & _
       "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
-      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
+      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.CodigoProduto  " & _
       "WHERE (REF = '" & cboConsRef.Text & "') AND (MONTH(data_entrada) = " & cboConsDescricao.ListIndex + 1 & ") AND (YEAR(data_entrada) = " & cboConsAno & ") " & _
-      "ORDER BY produtos_entrada_itens.descricao, " & INDICE
+      "ORDER BY produtos_entrada_itens.NomeProduto, " & INDICE
   End If
 
 Set r = dbData.OpenRecordset(sSQL)
@@ -1220,9 +1220,9 @@ Dim bNovoGrupo As Boolean
            .TextMatrix(.Rows - 1, 1) = rTabela("varCodEnt")
            .TextMatrix(.Rows - 1, 2) = Format$(rTabela("varData"), "dd/mm/yy")
         If tipoEmpresa = 4 Then
-           .TextMatrix(.Rows - 1, 3) = "[" & Format$(rTabela("notafiscal"), "000,000") & "] " & rTabela("varDesc") & " /  " & rTabela("produtos.TAMANHO") & " / " & rTabela("produtos.FABRICANTE")
+           .TextMatrix(.Rows - 1, 3) = "[" & Format$(rTabela("NumeroNota"), "000,000") & "] " & rTabela("varDesc") & " /  " & rTabela("produtos.TAMANHO") & " / " & rTabela("produtos.FABRICANTE")
         Else
-           .TextMatrix(.Rows - 1, 3) = "[" & Format$(rTabela("notafiscal"), "000,000") & "] " & rTabela("varDesc")
+           .TextMatrix(.Rows - 1, 3) = "[" & Format$(rTabela("NumeroNota"), "000,000") & "] " & rTabela("varDesc")
         End If
            .TextMatrix(.Rows - 1, 4) = Format$(rTabela("varQuant"), ocMONEY)
            '.TextMatrix(.Rows - 1, 5) = Format$(rTabela("var_custo"), ocMONEY)

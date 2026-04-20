@@ -27,6 +27,7 @@ Begin VB.Form Produtos_Entrada
       _ExtentX        =   26908
       _ExtentY        =   16536
       _Version        =   393216
+      Tab             =   2
       TabHeight       =   520
       TabMaxWidth     =   3528
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -40,7 +41,7 @@ Begin VB.Form Produtos_Entrada
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Produtos_Entrada.frx":23D2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdImprimirEntrada"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdFechar"
@@ -70,38 +71,63 @@ Begin VB.Form Produtos_Entrada
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Produtos_Entrada.frx":240A
-      Tab(2).ControlEnabled=   0   'False
+      Tab(2).ControlEnabled=   -1  'True
       Tab(2).Control(0)=   "Label25"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "lblValor"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Label9"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "lblQuant"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "Label26"
+      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "Label27"
+      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).Control(6)=   "Label21"
+      Tab(2).Control(6).Enabled=   0   'False
       Tab(2).Control(7)=   "Label18"
+      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).Control(8)=   "Label16"
+      Tab(2).Control(8).Enabled=   0   'False
       Tab(2).Control(9)=   "Label15"
+      Tab(2).Control(9).Enabled=   0   'False
       Tab(2).Control(10)=   "Label6"
+      Tab(2).Control(10).Enabled=   0   'False
       Tab(2).Control(11)=   "Label5"
+      Tab(2).Control(11).Enabled=   0   'False
       Tab(2).Control(12)=   "cmdExibir"
+      Tab(2).Control(12).Enabled=   0   'False
       Tab(2).Control(13)=   "cmdImprimir"
+      Tab(2).Control(13).Enabled=   0   'False
       Tab(2).Control(14)=   "Frame9"
+      Tab(2).Control(14).Enabled=   0   'False
       Tab(2).Control(15)=   "Data5"
+      Tab(2).Control(15).Enabled=   0   'False
       Tab(2).Control(16)=   "Data6"
+      Tab(2).Control(16).Enabled=   0   'False
       Tab(2).Control(17)=   "Grid"
+      Tab(2).Control(17).Enabled=   0   'False
       Tab(2).Control(18)=   "txtCustoLiquido"
+      Tab(2).Control(18).Enabled=   0   'False
       Tab(2).Control(19)=   "txtValorICMSSTProd"
+      Tab(2).Control(19).Enabled=   0   'False
       Tab(2).Control(20)=   "txtAliqICMSSTProd"
+      Tab(2).Control(20).Enabled=   0   'False
       Tab(2).Control(21)=   "txtValorIPIProd"
+      Tab(2).Control(21).Enabled=   0   'False
       Tab(2).Control(22)=   "txtAliqIPIProd"
+      Tab(2).Control(22).Enabled=   0   'False
       Tab(2).Control(23)=   "txtValorICMSProd"
+      Tab(2).Control(23).Enabled=   0   'False
       Tab(2).Control(24)=   "txtAliqICMSProd"
+      Tab(2).Control(24).Enabled=   0   'False
       Tab(2).ControlCount=   25
       Begin VB.TextBox txtAliqICMSProd 
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -73920
+         Left            =   1080
          TabIndex        =   106
          Top             =   8760
          Visible         =   0   'False
@@ -111,7 +137,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -72600
+         Left            =   2400
          TabIndex        =   105
          Top             =   8760
          Visible         =   0   'False
@@ -121,7 +147,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -71280
+         Left            =   3720
          TabIndex        =   104
          Top             =   8760
          Visible         =   0   'False
@@ -131,7 +157,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -69960
+         Left            =   5040
          TabIndex        =   103
          Top             =   8760
          Visible         =   0   'False
@@ -141,7 +167,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -68640
+         Left            =   6360
          TabIndex        =   102
          Top             =   8760
          Visible         =   0   'False
@@ -151,7 +177,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -67320
+         Left            =   7680
          TabIndex        =   101
          Top             =   8760
          Visible         =   0   'False
@@ -161,7 +187,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   -66000
+         Left            =   9000
          TabIndex        =   100
          Top             =   8760
          Visible         =   0   'False
@@ -179,7 +205,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   65
          Top             =   1380
          Width           =   12735
@@ -260,7 +286,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6915
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   57
          Top             =   2340
          Width           =   12735
@@ -978,7 +1004,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   54
          Top             =   420
          Width           =   12735
@@ -1245,7 +1271,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   5535
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   43
          Top             =   420
          Width           =   15015
@@ -1264,7 +1290,7 @@ Begin VB.Form Produtos_Entrada
          DefaultType     =   2  'UseODBC
          Exclusive       =   0   'False
          Height          =   300
-         Left            =   -73320
+         Left            =   1680
          Options         =   0
          ReadOnly        =   0   'False
          RecordsetType   =   1  'Dynaset
@@ -1281,7 +1307,7 @@ Begin VB.Form Produtos_Entrada
          DefaultType     =   2  'UseODBC
          Exclusive       =   0   'False
          Height          =   300
-         Left            =   -73260
+         Left            =   1740
          Options         =   0
          ReadOnly        =   0   'False
          RecordsetType   =   1  'Dynaset
@@ -1303,7 +1329,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1275
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   40
          Top             =   6780
          Width           =   12615
@@ -1529,7 +1555,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   29
          Top             =   1860
          Width           =   2175
@@ -1568,7 +1594,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   30
          Top             =   2520
          Width           =   2175
@@ -1607,7 +1633,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   31
          Top             =   3180
          Width           =   2175
@@ -1646,7 +1672,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   28
          Top             =   1200
          Width           =   2175
@@ -1685,7 +1711,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -1724,7 +1750,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdFechar 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   33
          Top             =   8580
          Width           =   2175
@@ -1763,7 +1789,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimirEntrada 
          Height          =   615
-         Left            =   12960
+         Left            =   -62040
          TabIndex        =   32
          Top             =   3840
          Width           =   2175
@@ -1802,7 +1828,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   555
-         Left            =   -62220
+         Left            =   12780
          TabIndex        =   89
          Top             =   7440
          Width           =   2355
@@ -1841,7 +1867,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   555
-         Left            =   -62220
+         Left            =   12780
          TabIndex        =   99
          Top             =   6840
          Width           =   2355
@@ -1883,7 +1909,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. ICMS"
          Height          =   195
-         Left            =   -73920
+         Left            =   1080
          TabIndex        =   113
          Top             =   8520
          Visible         =   0   'False
@@ -1894,7 +1920,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor ICMS"
          Height          =   195
-         Left            =   -72600
+         Left            =   2400
          TabIndex        =   112
          Top             =   8520
          Visible         =   0   'False
@@ -1905,7 +1931,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. IPI"
          Height          =   195
-         Left            =   -71280
+         Left            =   3720
          TabIndex        =   111
          Top             =   8520
          Visible         =   0   'False
@@ -1916,7 +1942,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor IPI"
          Height          =   195
-         Left            =   -69960
+         Left            =   5040
          TabIndex        =   110
          Top             =   8520
          Visible         =   0   'False
@@ -1927,7 +1953,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. ICMS ST"
          Height          =   195
-         Left            =   -68580
+         Left            =   6420
          TabIndex        =   109
          Top             =   8520
          Visible         =   0   'False
@@ -1938,7 +1964,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor ICMS ST"
          Height          =   195
-         Left            =   -67260
+         Left            =   7740
          TabIndex        =   108
          Top             =   8520
          Visible         =   0   'False
@@ -1949,7 +1975,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Custo Liquido"
          Height          =   195
-         Left            =   -66000
+         Left            =   9000
          TabIndex        =   107
          Top             =   8520
          Visible         =   0   'False
@@ -1968,7 +1994,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -64740
+         Left            =   10260
          TabIndex        =   52
          Top             =   6000
          Width           =   735
@@ -1990,7 +2016,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   255
-         Left            =   -63960
+         Left            =   11040
          TabIndex        =   51
          Top             =   6000
          Width           =   1365
@@ -2009,7 +2035,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -62400
+         Left            =   12600
          TabIndex        =   50
          Top             =   6000
          Width           =   795
@@ -2031,7 +2057,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   255
-         Left            =   -61500
+         Left            =   13500
          TabIndex        =   49
          Top             =   6000
          Width           =   1605
@@ -2041,7 +2067,7 @@ Begin VB.Form Produtos_Entrada
          Caption         =   "D� um duplo-clique para ver mais informa��es"
          ForeColor       =   &H00008000&
          Height          =   195
-         Left            =   -74820
+         Left            =   180
          TabIndex        =   39
          Top             =   6000
          Width           =   3255
@@ -2070,7 +2096,7 @@ Begin VB.Form Produtos_Entrada
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11:06"
+            TextSave        =   "06:00"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2242,9 +2268,9 @@ Private Sub FormatarGrid_Historico(rTabela As ADODB.Recordset)
       If Not rTabela Is Nothing Then
         Do While Not rTabela.EOF
            .TextMatrix(.rows - 1, 1) = Format(rTabela("data_entrada"), "dd/mm/yy")
-           .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("notafiscal"))
+           .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("NumeroNota"))
            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("varfornecedor"))
-           .TextMatrix(.rows - 1, 4) = Format$(rTabela("valor_frete"), ocMONEY)
+           .TextMatrix(.rows - 1, 4) = Format$(rTabela("ValorFrete"), ocMONEY)
            .TextMatrix(.rows - 1, 5) = Format$(rTabela("valor"), ocMONEY)
            
            rTabela.MoveNext
@@ -2325,8 +2351,8 @@ If txtCodigo.Text = "" Then
    sSQL_Itens = "SELECT * FROM produtos_entrada_itens WHERE 1 = 0;"
    Set r = dbData.OpenRecordset(sSQL_Itens)
 Else
-   sSQL_Itens = "SELECT produtos_entrada_itens.*, produtos_entrada_itens.codigo as varCod,  produtos.COD_BARRA as var_CodBarra, produtos.REF as var_REF, produtos.codigo, produtos.descricao as varDesc, produtos.tamanho, produtos.fabricante, produtos_entrada_itens.CUSTO as var_custo, (produtos_entrada_itens.CUSTO * produtos_entrada_itens.QUANT) as varTotalCustoItem, produtos_entrada_itens.VALOR_VV as var_venda  " & _
-          " FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CODIGO_PRODUTO " & _
+   sSQL_Itens = "SELECT produtos_entrada_itens.*, produtos_entrada_itens.codigo as varCod, produtos.COD_BARRA as var_CodBarra, produtos.REF as var_REF, produtos.codigo, produtos.descricao as varDesc, produtos.tamanho, produtos.fabricante " & _
+          " FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CodigoProduto " & _
           " WHERE (codigo_entrada = " & txtCodigo.Text & ") ORDER BY varDesc, TAMANHO, REF;"
    Set r = dbData.OpenRecordset(sSQL_Itens)
 End If
@@ -2349,7 +2375,7 @@ If txtCodigo.Text = "" Then Exit Sub
 vlrSoma = 0
 
 'somar custo
-sSQL = "SELECT ISNULL(SUM(custo_compra * quant), 0) AS var_soma_custo FROM produtos_entrada_itens WHERE (codigo_entrada = " & txtCodigo.Text & ");"
+sSQL = "SELECT 0 AS var_soma_custo;"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then vlrSoma = r("var_soma_custo")
 If r.State <> 0 Then r.Close
@@ -3042,9 +3068,9 @@ Private Sub Command1_Click()
       
       'Consulta o saldo inicial do per�do
       sSQL = "SELECT codigo, descricao, " & _
-         "(SELECT ISNULL(SUM(produtos_entrada_itens.quant), 0) FROM produtos_entrada_itens " & _
+         "(SELECT ISNULL(SUM(produtos_entrada_itens.QuantidadeTributavel), 0) FROM produtos_entrada_itens " & _
          "INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo " & _
-         "WHERE (codigo_produto = produtos.codigo) AND (produtos_entrada.data_entrada < CONVERT(DATETIME, '" & Format(dIni, ocDATA) & "', 103))) - " & _
+         "WHERE (CodigoProduto = produtos.codigo) AND (produtos_entrada.data_entrada < CONVERT(DATETIME, '" & Format(dIni, ocDATA) & "', 103))) - " & _
          "(SELECT ISNULL(SUM(quantidade), 0)  FROM produtos_entrada_itens WHERE cod_produto = produtos.Codigo " & _
          "AND (data < CONVERT(DATETIME, '" & Format$(dIni, ocDATA) & "', 103))) - " & _
          "(SELECT ISNULL(SUM(saida), 0) FROM produtos_saida WHERE (cod_produto = produtos.codigo) " & _
@@ -3067,9 +3093,9 @@ Private Sub Command1_Click()
          
          'Consulta dia a dia
          sSQL = "SELECT codigo, descricao, " & _
-            "(SELECT ISNULL(SUM(produtos_entrada_itens.quant), 0) FROM produtos_entrada_itens " & _
+            "(SELECT ISNULL(SUM(produtos_entrada_itens.QuantidadeTributavel), 0) FROM produtos_entrada_itens " & _
             "INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo " & _
-            "WHERE (codigo_produto = produtos.codigo) AND (produtos_entrada.data_entrada = CONVERT(DATETIME, '" & Format$(DIA, ocDATA) & "', 103))) AS total_entrada, " & _
+            "WHERE (CodigoProduto = produtos.codigo) AND (produtos_entrada.data_entrada = CONVERT(DATETIME, '" & Format$(DIA, ocDATA) & "', 103))) AS total_entrada, " & _
             "(SELECT ISNULL(SUM(quantidade), 0)  FROM produtos_entrada_itens WHERE (cod_produto = produtos.codigo) " & _
             "AND (data = CONVERT(DATETIME, '" & Format$(DIA, ocDATA) & "', 103))) + " & _
             "(SELECT ISNULL(SUM(saida ), 0) FROM produtos_saida WHERE (cod_produto = produtos.codigo) " & _
@@ -3168,14 +3194,11 @@ Set r = Nothing
 sSQL = "INSERT INTO produtos_entrada_itens (" & _
    "codigo, " & _
    "codigo_entrada, " & _
-   "codigo_produto, " & _
-   "descricao, " & _
-   "quant, " & _
-   "custo, " & _
-   "MARGEM_VV, VALOR_VV, MARGEM_VP, VALOR_VP, MARGEM_AV, VALOR_AV, MARGEM_AP, VALOR_AP ) VALUES (" & _
+   "CodigoProduto, " & _
+   "NomeProduto, " & _
+   "QuantidadeTributavel ) VALUES (" & _
    var_COD_ITENS & ", " & txtCodigo.Text & ", " & txtCodProduto.Text & ", '" & cboDescricao.Text & "', " & _
-   Replace(CDbl(txtQuant.Text), ",", ".") & ", " & Replace(CCur(txtCusto.Text), ",", ".") & ", " & _
-   Replace(CDbl(varMargemVV), ",", ".") & ", " & Replace(CCur(txtValorVV.Text), ",", ".") & ", " & Replace(CDbl(varMargemVP), ",", ".") & ", " & Replace(CCur(txtValorVP.Text), ",", ".") & ", " & Replace(CDbl(varMargemAV), ",", ".") & ", " & Replace(CCur(txtValorAV.Text), ",", ".") & ", " & Replace(CDbl(varMargemAP), ",", ".") & ", " & Replace(CCur(txtValorAP.Text), ",", ".") & ")"
+   Replace(CDbl(txtQuant.Text), ",", ".") & ")"
 
 'Adiciona o registro
 dbData.Execute sSQL
@@ -3374,7 +3397,7 @@ If cboConsulta.Text = "" Then Exit Sub
 
 'Seleciona a ordem dos registros
 If cboOrdem.Text = "NUM DA NOTA" Then
-    INDICE = "notafiscal;"
+    INDICE = "NumeroNota;"
 ElseIf cboOrdem.Text = "DATA" Then
     INDICE = "data_entrada;"
 ElseIf cboOrdem.Text = "VALOR" Then
@@ -3382,53 +3405,53 @@ ElseIf cboOrdem.Text = "VALOR" Then
 ElseIf cboOrdem.Text = "FORNECEDOR" Then
     INDICE = "fornecedor;"
 Else
-    INDICE = "notafiscal;"
+    INDICE = "NumeroNota;"
 End If
    
 'Seleciona os registros
 fExibir = 0
 
 If cboConsulta.Text = "TODOS" Then
-   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
-   "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
+   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
+   "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
    "ORDER BY " & INDICE
 ElseIf cboConsulta.Text = "NOTA FISCAL" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
-          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
-          "WHERE (notafiscal = " & cboConsDescricao.Text & ") " & _
+   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
+          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
+          "WHERE (NumeroNota = " & cboConsDescricao.Text & ") " & _
           "ORDER BY " & INDICE
 ElseIf cboConsulta.Text = "FORNECEDOR" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent,  produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
-          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
+   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent,  produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML " & _
+          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
           "WHERE (razao = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
           
 ElseIf cboConsulta.Text = "PRODUTO" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT DISTINCT produtos_entrada.notafiscal, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
-          "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
-          "WHERE (produtos_entrada_itens.descricao = '" & cboConsDescricao.Text & "') " & _
+   sSQL = "SELECT DISTINCT produtos_entrada.NumeroNota, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
+          "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.CodigoProduto = produtos.codigo " & _
+          "WHERE (produtos_entrada_itens.NomeProduto = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
 
 ElseIf cboConsulta.Text = "C�D. BARRA" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
+   sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
           "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
           "WHERE (cod_barra = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
           
 ElseIf cboConsulta.Text = "REFER�NCIA" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
+   sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
           "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
           "WHERE (ref = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
           
 ElseIf cboConsulta.Text = "FABRICANTE" Then
   If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT produtos_entrada.codigo AS var_codent,  produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
+   sSQL = "SELECT produtos_entrada.codigo AS var_codent,  produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
           "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
           "WHERE (fabricante = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
@@ -3444,14 +3467,14 @@ ElseIf cboConsulta.Text = "MENSAL" Then
       Exit Sub
    End If
    If cboConsDescricao.Text = "" Then Exit Sub
-   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML  " & _
-          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
+   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML  " & _
+          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
           "WHERE (MONTH(data_entrada) = " & cboConsDescricao.ListIndex + 1 & ") AND (YEAR(data_entrada) = " & cboConsAno & ")  " & _
           "ORDER BY " & INDICE
 ElseIf cboConsulta.Text = "PER�ODO" Then
 
-   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.notafiscal, produtos_entrada.DataEmissao, produtos_entrada.VALOR_FRETE, produtos_entrada.valor, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML  " & _
-          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
+   sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML  " & _
+          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
           "WHERE (DataEmissao >= CONVERT(DATETIME, '" & Format(mskInicial.Text, ocDATA) & "', 103)) AND (DataEmissao <= CONVERT(DATETIME, '" & Format(mskFinal.Text, ocDATA) & "', 103))  " & _
           "ORDER BY " & INDICE
 End If
@@ -3609,14 +3632,14 @@ If txtFreteTotal.Text = "" Then varValorFrete = CCur(0) Else varValorFrete = CCu
 sSQL = "UPDATE produtos_entrada SET " & _
    "data_entrada = CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), " & _
    "hora_entrada = '" & Format$(mskHora.Text, ocHORA) & "', " & _
-   "COD_FORNECEDOR = " & TxtCodFornecedor.Text & ", " & _
-   "COD_TRANSPORTADORA = " & txtCodTransportadora.Text & ", " & _
+   "CodigoCorrentista = " & TxtCodFornecedor.Text & ", " & _
+   "TranspCodigo = " & txtCodTransportadora.Text & ", " & _
    "DataEmissao = CONVERT(DATETIME, '" & Format$(mskDataEmissao.Text, ocDATA) & "', 103), " & _
    "DataSaida = CONVERT(DATETIME, '" & Format$(mskDataSaida.Text, ocDATA) & "', 103), " & _
    "HoraSaida = '" & Format$(mskHoraSaida.Text, ocHORA) & "', " & _
-   "notafiscal = '" & txtNotaFiscal.Text & "', " & _
-   "TIPO_FRETE = '" & cboTipoFrete.Text & "', " & _
-   "valor_frete = " & FSQL(varValorFrete) & "  , " & _
+   "NumeroNota = '" & txtNotaFiscal.Text & "', " & _
+   "ModFrete = '" & cboTipoFrete.Text & "', " & _
+   "ValorFrete = " & FSQL(varValorFrete) & "  , " & _
    "valor = " & Replace(CCur(txtValor.Text), ",", ".")
 
 'Condi��o para atualiza��o
@@ -3632,8 +3655,8 @@ Dim varValorFrete As Currency
 If txtFreteTotal.Text = "" Then varValorFrete = CCur(0) Else varValorFrete = CCur(txtFreteTotal.Text)
 
 sSQL = "INSERT INTO produtos_entrada (" & _
-   "codigo, data_entrada, hora_entrada, cod_fornecedor, notafiscal, " & _
-   "valor_frete, valor, DataEmissao, DataSaida, HoraSaida, TIPO_FRETE, COD_TRANSPORTADORA, XML) VALUES ("
+   "codigo, data_entrada, hora_entrada, CodigoCorrentista, NumeroNota, " & _
+   "ValorFrete, ValorNota, DataEmissao, DataSaida, HoraSaida, ModFrete, TranspCodigo, XML) VALUES ("
 
 sSQL = sSQL & _
    txtCodigo & ", CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), '" & Format$(mskHora.Text, ocHORA) & "', " & TxtCodFornecedor.Text & ", " & txtNotaFiscal.Text & ",  " & FSQL(varValorFrete) & ", " & IIf((txtValor.Text = ""), "Null", FSQL(txtValor.Text)) & ", CONVERT(DATETIME, '" & Format$(mskDataEmissao.Text, ocDATA) & "', 103), CONVERT(DATETIME, '" & Format$(mskDataSaida.Text, ocDATA) & "', 103), '" & Format$(mskHoraSaida.Text, ocHORA) & "',  '" & cboTipoFrete.Text & "', " & IIf((txtCodTransportadora.Text = ""), "Null", txtCodTransportadora.Text) & ", 0 )"
@@ -4105,11 +4128,11 @@ With Grid
          .ColAlignment(2) = 1
          .TextMatrix(.rows - 1, 1) = rTabela("var_codent")
          .TextMatrix(.rows - 1, 2) = Format$(rTabela("data_entrada"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("notafiscal"))
+         .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("NumeroNota"))
          .TextMatrix(.rows - 1, 4) = Format$(rTabela("DataEmissao"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("descricao"))
-         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("QUANT"))
-         .TextMatrix(.rows - 1, 7) = Format$(rTabela("CUSTO"), ocMONEY)
+         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("NomeProduto"))
+         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("QuantidadeTributavel"))
+         .TextMatrix(.rows - 1, 7) = ""
          .TextMatrix(.rows - 1, 8) = Format$(rTabela("VALOR_VV"), ocMONEY)
          .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("vXML"))
          
@@ -4190,10 +4213,10 @@ With Grid
          
          .TextMatrix(.rows - 1, 1) = rTabela("var_codent")
          .TextMatrix(.rows - 1, 2) = Format$(rTabela("DATA_ENTRADA"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("notafiscal"))
+         .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("NumeroNota"))
          .TextMatrix(.rows - 1, 4) = Format$(rTabela("DataEmissao"), "dd/mm/yy")
          .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("razao"))
-         .TextMatrix(.rows - 1, 6) = Format$(rTabela("VALOR_FRETE"), ocMONEY)
+         .TextMatrix(.rows - 1, 6) = Format$(rTabela("ValorFrete"), ocMONEY)
          .TextMatrix(.rows - 1, 7) = Format$(rTabela("valor"), ocMONEY)
          .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("vXML"))
          
@@ -4381,23 +4404,23 @@ With Grid_Cadastro
       Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = rTabela("varCod")
             .TextMatrix(.rows - 1, 2) = rTabela("codigo_entrada")
-            .TextMatrix(.rows - 1, 4) = Format$(rTabela("codigo_produto"), "0000")
+            .TextMatrix(.rows - 1, 4) = Format$(rTabela("CodigoProduto"), "0000")
          If tipoEmpresa = 4 Then
-            .TextMatrix(.rows - 1, 5) = rTabela("descricao") & " /  " & rTabela("tamanho") & " / " & rTabela("var_ref")
+            .TextMatrix(.rows - 1, 5) = rTabela("NomeProduto") & " /  " & rTabela("tamanho") & " / " & rTabela("var_ref")
          Else
-            .TextMatrix(.rows - 1, 5) = rTabela("descricao")
+            .TextMatrix(.rows - 1, 5) = rTabela("NomeProduto")
          End If
-            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("quant"))
-         .TextMatrix(.rows - 1, 7) = Format$(rTabela("custo"), ocMONEY)
-         .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("MARGEM_VV"), 2) & "%"
-         .TextMatrix(.rows - 1, 9) = Format$(rTabela("VALOR_VV"), ocMONEY)
-         .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("MARGEM_VP"), 2) & "%"
-         .TextMatrix(.rows - 1, 11) = Format$(rTabela("VALOR_VP"), ocMONEY)
-         .TextMatrix(.rows - 1, 12) = FormatNumber(rTabela("MARGEM_AV"), 2) & "%"
-         .TextMatrix(.rows - 1, 13) = Format$(rTabela("VALOR_AV"), ocMONEY)
-         .TextMatrix(.rows - 1, 14) = FormatNumber(rTabela("MARGEM_AP"), 2) & "%"
-         .TextMatrix(.rows - 1, 15) = Format$(rTabela("VALOR_AP"), ocMONEY)
-         .TextMatrix(.rows - 1, 16) = Format$(rTabela("varTotalCustoItem"), ocMONEY)
+            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("QuantidadeTributavel"))
+         .TextMatrix(.rows - 1, 7) = ""
+         .TextMatrix(.rows - 1, 8) = ""
+         .TextMatrix(.rows - 1, 9) = ""
+         .TextMatrix(.rows - 1, 10) = ""
+         .TextMatrix(.rows - 1, 11) = ""
+         .TextMatrix(.rows - 1, 12) = ""
+         .TextMatrix(.rows - 1, 13) = ""
+         .TextMatrix(.rows - 1, 14) = ""
+         .TextMatrix(.rows - 1, 15) = ""
+         .TextMatrix(.rows - 1, 16) = ""
          
          rTabela.MoveNext
          .rows = .rows + 1
@@ -4471,8 +4494,8 @@ Private Sub Mostrar_Historico()
    
    Else
       sSQL = "SELECT produtos_entrada.*, fornecedor.codigo, fornecedor.razao as varFornecedor " & _
-             "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
-             "WHERE (cod_fornecedor = " & TxtCodFornecedor.Text & ") ORDER BY data_entrada;"
+             "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
+             "WHERE (CodigoCorrentista = " & TxtCodFornecedor.Text & ") ORDER BY data_entrada;"
          '"FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
 
    End If
@@ -4622,10 +4645,10 @@ If cmdAlterar.Enabled = True Then
    If txtCodigo.Text = "" Then Exit Sub
    
    sSQL = "SELECT produtos_entrada.*, fornecedor.codigo, fornecedor.razao AS varFornecedor " & _
-          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.cod_fornecedor = fornecedor.codigo " & _
+          "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
           "WHERE (produtos_entrada.codigo = " & txtCodigo.Text & ");"
    Set r = dbData.OpenRecordset(sSQL)
-   '          "INNER JOIN produtos_entrada ON produtos_entrada.cod_transportadora = transportadora.codigo  " & _
+   '          "INNER JOIN produtos_entrada ON produtos_entrada.TranspCodigo = transportadora.codigo  " & _
    If r.EOF Then Exit Sub
    '     "FROM produtos_entrada INNER JOIN produtos_entrada_itens ON produtos_entrada.codigo = produtos_entrada_itens.codigo_entrada " & _
      "INNER JOIN produtos ON produtos.codigo = produtos_entrada_itens.codigo_produto  " & _
@@ -4643,15 +4666,15 @@ If Not rTabela Is Nothing Then
 'txtCodigo.Text = ValidateNull(rTabela("codigo"))
 mskData.Text = Format$(rTabela("data_entrada"), "dd/mm/yy")
 mskHora.Text = Format$(rTabela("hora_entrada"), ocHRMN)
-TxtCodFornecedor.Text = ValidateNull(rTabela("COD_FORNECEDOR"))
-txtNotaFiscal.Text = ValidateNull(rTabela("notafiscal"))
+TxtCodFornecedor.Text = ValidateNull(rTabela("CodigoCorrentista"))
+txtNotaFiscal.Text = ValidateNull(rTabela("NumeroNota"))
 txtValor.Text = Format$(rTabela("valor"), ocMONEY)
-txtFreteTotal.Text = Format$(rTabela("VALOR_frete"), ocMONEY)
+txtFreteTotal.Text = Format$(rTabela("ValorFrete"), ocMONEY)
 mskDataEmissao.Text = Format$(rTabela("DataEmissao"), "dd/mm/yy")
 mskDataSaida.Text = Format$(rTabela("DataSaida"), "dd/mm/yy")
 mskHoraSaida.Text = Format$(rTabela("HoraSaida"), ocHRMN)
-cboTipoFrete.Text = ValidateNull(rTabela("TIPO_FRETE"))
-txtCodTransportadora.Text = ValidateNull(rTabela("COD_TRANSPORTADORA"))
+cboTipoFrete.Text = ValidateNull(rTabela("ModFrete"))
+txtCodTransportadora.Text = ValidateNull(rTabela("TranspCodigo"))
 cboFornecedor.Text = ValidateNull(rTabela("varFornecedor"))
 cboTransportadora.Text = ""
 End If

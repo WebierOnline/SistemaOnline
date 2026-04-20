@@ -1182,7 +1182,7 @@ If cboCriterioSec.Text = "" Then Exit Sub
         INDICE = "produtos.descricao;"
     End If
 
-sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, Produtos_Quant.QUANT, ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, Produtos_Quant.FORMA, Produtos_Quant.COD_ENTRADA, Produtos_Quant.COD_PRODUTO, produtos_entrada.NOTAFISCAL, produtos.descricao, isnull(produtos_entrada.CODIGO,0) AS vCodEntrada " & _
+sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, Produtos_Quant.QUANT, ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, Produtos_Quant.FORMA, Produtos_Quant.COD_ENTRADA, Produtos_Quant.COD_PRODUTO, produtos_entrada.NumeroNota, produtos.descricao, isnull(produtos_entrada.CODIGO,0) AS vCodEntrada " & _
        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO LEFT OUTER JOIN produtos_entrada ON Produtos_Quant.COD_ENTRADA = produtos_entrada.CODIGO " & _
        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') "
     
@@ -1347,7 +1347,7 @@ With Grid
         .TextMatrix(.rows - 1, 5) = rTabela("vCodEntrada")
         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("DESCRICAO"))
         .TextMatrix(.rows - 1, 7) = rTabela("FORMA")
-        .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("notafiscal"))
+        .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("NumeroNota"))
         .TextMatrix(.rows - 1, 9) = rTabela("QUANT")
         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("vQuantEstoque"))
          rTabela.MoveNext

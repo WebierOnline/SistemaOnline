@@ -1,9 +1,9 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
-Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#..\..\..\Program Files (x86)\Common Files\System\ado\msado28.tlb#Microsoft ActiveX Data Objects 2.8 Library
-Reference=*\G{00000600-0000-0010-8000-00AA006D2EA4}#6.0#0#..\..\..\Program Files (x86)\Common Files\System\ado\msadox.dll#Microsoft ADO Ext. 6.0 for DDL and Security
-Reference=*\G{115C6BC9-3536-4A28-B38B-7F01DA118C74}#4.1#0#D:\Sistema\Projetos\2026\Sistema_RTC\Sistema2\snfe.tlb#EkklesiaSoft NFe/NFCe - DLL de Emissão de Nota Fiscal Eletrônica
-Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#3.0#0#..\..\..\Windows\SysWOW64\msxml3.dll#Microsoft XML, v3.0
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#..\..\Windows\SysWOW64\stdole2.tlb#OLE Automation
+Reference=*\G{2A75196C-D9EB-4129-B803-931327F72D5C}#2.8#0#..\..\Program Files (x86)\Common Files\System\ado\msado28.tlb#Microsoft ActiveX Data Objects 2.8 Library
+Reference=*\G{00000600-0000-0010-8000-00AA006D2EA4}#6.0#0#..\..\Program Files (x86)\Common Files\System\ado\msadox.dll#Microsoft ADO Ext. 6.0 for DDL and Security
+Reference=*\G{115C6BC9-3536-4A28-B38B-7F01DA118C74}#4.1#0#..\OnlineCommerce\NFE\snfe.tlb#EkklesiaSoft NFe/NFCe - DLL de Emissão de Nota Fiscal Eletrônica
+Reference=*\G{F5078F18-C551-11D3-89B9-0000F81FE221}#3.0#0#..\..\Windows\SysWOW64\msxml3.dll#Microsoft XML, v3.0
 Object={C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0; msmask32.ocx
 Object={5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0; msflxgrd.ocx
 Object={61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0; chamaleonbtn.ocx

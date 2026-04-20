@@ -1120,7 +1120,7 @@ totalEntr = 0
 totalSaid = 0
 
 'Calcula as entradas
-sSQL = "SELECT ISNULL(SUM(quant), 0) AS total_entradas FROM produtos_entrada_itens WHERE (codigo_produto = " & txtCodProduto & ");"
+sSQL = "SELECT ISNULL(SUM(QuantidadeTributavel), 0) AS total_entradas FROM produtos_entrada_itens WHERE (CodigoProduto = " & txtCodProduto & ");"
 Set rE = dbData.OpenRecordset(sSQL)
 If Not rE.BOF Then totalEntr = rE("total_entradas")
 If rE.State <> 0 Then rE.Close

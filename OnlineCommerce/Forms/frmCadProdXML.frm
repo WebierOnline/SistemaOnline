@@ -1,30 +1,56 @@
 VERSION 5.00
-Begin VB.Form frmCadProdXML
+Begin VB.Form frmCadProdXML 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "Cadastrar Produto - Varejo"
-   ClientHeight    =   5760
+   Caption         =   "CADASTRO DE PRODUTOS - VAREJO"
+   ClientHeight    =   4620
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   8400
+   ClientWidth     =   8280
    MaxButton       =   0   'False
    MinButton       =   0   'False
+   ScaleHeight     =   4620
+   ScaleWidth      =   8280
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Frame fraInfo
-      Caption         =   "Produto conforme NF-e"
-      Height          =   2040
-      Left            =   120
+   Begin VB.Frame fraInfo 
+      Caption         =   "Produto da Nota Fiscal de Compra:"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   1380
+      Left            =   60
       TabIndex        =   0
       Top             =   60
       Width           =   8160
-      Begin VB.Label lblNomeXML
-         BackStyle       =   0  'Transparent
+      Begin VB.Label lblNomeXML 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   1680
+         Left            =   900
          TabIndex        =   1
-         Top             =   360
-         Width           =   6240
-         BeginProperty Font
+         Top             =   300
+         Width           =   7020
+      End
+      Begin VB.Label lblUnid 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -33,15 +59,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblUnid
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   1200
+         Left            =   1260
          TabIndex        =   2
-         Top             =   720
+         Top             =   600
          Width           =   1200
-         BeginProperty Font
+      End
+      Begin VB.Label lblNCM 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -50,15 +78,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblNCM
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
          Left            =   3120
          TabIndex        =   3
-         Top             =   720
+         Top             =   600
          Width           =   1680
-         BeginProperty Font
+      End
+      Begin VB.Label lblCEST 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -67,15 +97,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblCEST
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
          Left            =   5520
          TabIndex        =   4
-         Top             =   720
-         Width           =   2280
-         BeginProperty Font
+         Top             =   600
+         Width           =   2400
+      End
+      Begin VB.Label lblValor 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -84,15 +116,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblValor
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   1200
+         Left            =   1260
          TabIndex        =   5
-         Top             =   1080
-         Width           =   1440
-         BeginProperty Font
+         Top             =   900
+         Width           =   1200
+      End
+      Begin VB.Label lblICMSCST 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -101,15 +135,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblICMSCST
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   3600
+         Left            =   3480
          TabIndex        =   6
-         Top             =   1080
+         Top             =   900
          Width           =   720
-         BeginProperty Font
+      End
+      Begin VB.Label lblPISCST 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -118,15 +154,17 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblPISCST
-         BackStyle       =   0  'Transparent
-         Height          =   255
-         Left            =   5160
+         ForeColor       =   &H80000008&
+         Height          =   225
+         Left            =   5040
          TabIndex        =   7
-         Top             =   1080
-         Width           =   720
-         BeginProperty Font
+         Top             =   900
+         Width           =   765
+      End
+      Begin VB.Label lblCOFINSCST 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
             Charset         =   0
@@ -135,113 +173,135 @@ Begin VB.Form frmCadProdXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-      End
-      Begin VB.Label lblCOFINSCST
-         BackStyle       =   0  'Transparent
+         ForeColor       =   &H80000008&
          Height          =   255
          Left            =   6960
          TabIndex        =   8
-         Top             =   1080
+         Top             =   900
          Width           =   960
-         BeginProperty Font
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
       End
-      Begin VB.Label Label1
+      Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Nome XML:"
-         Height          =   225
+         Caption         =   "Produto:"
+         Height          =   195
          Left            =   240
          TabIndex        =   9
-         Top             =   360
-         Width           =   1380
+         Top             =   300
+         Width           =   600
       End
-      Begin VB.Label Label2
+      Begin VB.Label Label2 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Unidade:"
-         Height          =   225
-         Left            =   240
+         Caption         =   "Unid. Medida:"
+         Height          =   195
+         Left            =   180
          TabIndex        =   10
-         Top             =   720
-         Width           =   900
+         Top             =   600
+         Width           =   990
       End
-      Begin VB.Label Label3
+      Begin VB.Label Label3 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "NCM:"
          Height          =   225
          Left            =   2640
          TabIndex        =   11
-         Top             =   720
+         Top             =   600
          Width           =   450
       End
-      Begin VB.Label Label4
+      Begin VB.Label Label4 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "CEST:"
          Height          =   225
          Left            =   4920
          TabIndex        =   12
-         Top             =   720
+         Top             =   600
          Width           =   570
       End
-      Begin VB.Label Label5
+      Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Vl.Unit.:"
-         Height          =   225
-         Left            =   240
+         Caption         =   "Valor Unit.:"
+         Height          =   195
+         Left            =   420
          TabIndex        =   13
-         Top             =   1080
-         Width           =   930
+         Top             =   900
+         Width           =   780
       End
-      Begin VB.Label Label6
+      Begin VB.Label Label6 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "ICMS CST:"
          Height          =   225
-         Left            =   2760
+         Left            =   2640
          TabIndex        =   14
-         Top             =   1080
+         Top             =   900
          Width           =   810
       End
-      Begin VB.Label Label7
+      Begin VB.Label Label7 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "PIS CST:"
          Height          =   225
-         Left            =   4440
+         Left            =   4320
          TabIndex        =   15
-         Top             =   1080
+         Top             =   900
          Width           =   690
       End
-      Begin VB.Label Label8
+      Begin VB.Label Label8 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "COFINS CST:"
          Height          =   225
-         Left            =   6120
+         Left            =   5880
          TabIndex        =   16
-         Top             =   1080
+         Top             =   900
          Width           =   810
       End
    End
-   Begin VB.Frame fraCad
-      Caption         =   "Dados para Cadastro (Varejo)"
-      Height          =   2820
-      Left            =   120
+   Begin VB.Frame fraCad 
+      Caption         =   "Produto que você está cadastando (Varejo):"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   2520
+      Left            =   60
       TabIndex        =   17
-      Top             =   2220
+      Top             =   1500
       Width           =   8160
-      Begin VB.Label Label9
+      Begin VB.TextBox txtDescricao 
+         Height          =   315
+         Left            =   1080
+         TabIndex        =   19
+         Top             =   390
+         Width           =   6840
+      End
+      Begin VB.ComboBox cboUnidade 
+         Height          =   315
+         Left            =   1080
+         Style           =   2  'Dropdown List
+         TabIndex        =   29
+         Top             =   780
+         Width           =   1200
+      End
+      Begin VB.TextBox txtEAN 
+         BackColor       =   &H00C0FFFF&
+         Height          =   315
+         Left            =   1440
+         MaxLength       =   14
+         TabIndex        =   21
+         Top             =   1410
+         Width           =   2400
+      End
+      Begin VB.Label Label9 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Descricao:"
@@ -251,14 +311,7 @@ Begin VB.Form frmCadProdXML
          Top             =   420
          Width           =   870
       End
-      Begin VB.TextBox txtDescricao
-         Height          =   315
-         Left            =   1320
-         TabIndex        =   19
-         Top             =   390
-         Width           =   6600
-      End
-      Begin VB.Label Label11
+      Begin VB.Label Label11 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Unidade:"
@@ -268,94 +321,87 @@ Begin VB.Form frmCadProdXML
          Top             =   840
          Width           =   750
       End
-      Begin VB.ComboBox cboUnidade
-         Height          =   315
-         Left            =   1320
-         Style           =   2  'Dropdown List
-         TabIndex        =   29
-         Top             =   810
-         Width           =   1200
-      End
-      Begin VB.Label Label10
+      Begin VB.Label Label10 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "COD. BARRA *:"
+         Caption         =   "COD. BARRA:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          ForeColor       =   &H000000FF&
-         Height          =   225
-         Left            =   240
+         Height          =   195
+         Left            =   180
          TabIndex        =   20
-         Top             =   1260
-         Width           =   1170
+         Top             =   1440
+         Width           =   1215
       End
-      Begin VB.TextBox txtEAN
-         BackColor       =   &H00C0FFC0&
-         Height          =   315
-         Left            =   1560
-         MaxLength       =   14
-         TabIndex        =   21
-         Top             =   1230
-         Width           =   2400
-      End
-      Begin VB.Label lblEANHint
+      Begin VB.Label lblEANHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "EAN da embalagem UNITARIA (ex: 7892840808051)"
+         Caption         =   "Códifo de barra da embalagem UNITARIA (ex: 7892840808051)"
          ForeColor       =   &H00808080&
-         Height          =   225
-         Left            =   4080
+         Height          =   195
+         Left            =   180
          TabIndex        =   22
-         Top             =   1275
-         Width           =   3840
+         Top             =   1140
+         Width           =   4530
       End
-      Begin VB.Label lblHint1
+      Begin VB.Label lblHint1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Leia o codigo de barras da embalagem individual (nao da caixa do fornecedor)."
          ForeColor       =   &H00808080&
-         Height          =   225
-         Left            =   240
+         Height          =   195
+         Left            =   1440
          TabIndex        =   23
-         Top             =   1680
-         Width           =   7680
+         Top             =   1740
+         Width           =   5580
       End
-      Begin VB.Label lblAviso
+      Begin VB.Label lblAviso 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "* Sem o COD. BARRA o produto nao sera salvo."
+         Caption         =   "* Sem o COD. BARRA o produto não será salvo."
          ForeColor       =   &H000000FF&
-         Height          =   225
-         Left            =   240
+         Height          =   195
+         Left            =   1440
          TabIndex        =   24
          Top             =   1980
-         Width           =   7680
+         Width           =   3435
       End
-      Begin VB.Label lblRegime
-         BackStyle       =   0  'Transparent
-         Caption         =   ""
+      Begin VB.Label lblRegime 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         Caption         =   "0000"
          ForeColor       =   &H00808080&
-         Height          =   225
-         Left            =   240
+         Height          =   195
+         Left            =   7665
          TabIndex        =   25
          Top             =   2280
-         Width           =   7680
+         Width           =   360
       End
    End
-   Begin VB.CommandButton cmdSalvar
+   Begin VB.CommandButton cmdSalvar 
       Caption         =   "&Salvar"
       Default         =   -1  'True
       Height          =   435
-      Left            =   5400
+      Left            =   5280
       TabIndex        =   26
-      Top             =   5220
+      Top             =   4080
       Width           =   1440
    End
-   Begin VB.CommandButton cmdCancelar
+   Begin VB.CommandButton cmdCancelar 
       Cancel          =   -1  'True
       Caption         =   "&Cancelar"
       Height          =   435
-      Left            =   6960
+      Left            =   6780
       TabIndex        =   27
-      Top             =   5220
+      Top             =   4080
       Width           =   1440
    End
 End
@@ -390,28 +436,28 @@ Public ResUnidade    As String
 
 '==============================================================
 Private Sub Form_Load()
-   Cancelado    = True
+   Cancelado = True
    ResDescricao = ""
-   ResEAN       = ""
+   ResEAN = ""
 End Sub
 
 '==============================================================
 'Chamado pelo formulario pai apos definir as variaveis Pub*
 Public Sub InicializarUI()
-   lblNomeXML.Caption   = PubNome
-   lblUnid.Caption      = PubUnidade
-   lblNCM.Caption       = PubNCM
-   lblCEST.Caption      = PubCEST
-   lblValor.Caption     = "R$ " & Format(PubValorUnit, "##,##0.0000")
-   lblICMSCST.Caption   = PubICMSCST
-   lblPISCST.Caption    = PubPISCST
+   lblNomeXML.Caption = PubNome
+   lblUnid.Caption = PubUnidade
+   lblNCM.Caption = PubNCM
+   lblCEST.Caption = PubCEST
+   lblValor.Caption = FormatNumber(PubValorUnit, 2)
+   lblICMSCST.Caption = PubICMSCST
+   lblPISCST.Caption = PubPISCST
    lblCOFINSCST.Caption = PubCOFINSCST
 
    Dim sRegNome As String
    If PubRegime = 1 Or PubRegime = 2 Then
-      sRegNome = "Simples Nacional  (ICMS 102 / PIS 07 / COFINS 07)"
+      sRegNome = "Simples Nacional (ICMS 102 / PIS 07 / COFINS 07)"
    Else
-      sRegNome = "Regime Normal  (tributacao conforme NF-e de entrada)"
+      sRegNome = "Regime Normal (tributacao conforme NF-e de entrada)"
    End If
    lblRegime.Caption = "Tributacao aplicada: " & sRegNome
 
@@ -458,10 +504,27 @@ Private Sub cmdSalvar_Click()
       txtEAN.SetFocus
       Exit Sub
    End If
-   Cancelado    = False
+   Dim sEANBusca As String
+   sEANBusca = Replace(Trim(txtEAN.Text), "'", "''")
+   Dim lQtdExist As Long
+   lQtdExist = SQLExecutaRetorno("SELECT COUNT(*) r FROM Produtos WHERE LTRIM(RTRIM(ISNULL(COD_BARRA,''))) = '" & sEANBusca & "' OR LTRIM(RTRIM(ISNULL(EAN,''))) = '" & sEANBusca & "'", "r", 0)
+   If lQtdExist > 0 Then
+      Dim lCodExist As Long
+      lCodExist = SQLExecutaRetorno("SELECT TOP 1 Codigo r FROM Produtos WHERE LTRIM(RTRIM(ISNULL(COD_BARRA,''))) = '" & sEANBusca & "' OR LTRIM(RTRIM(ISNULL(EAN,''))) = '" & sEANBusca & "'", "r", 0)
+      Dim sDescExist As String
+      sDescExist = SQLExecutaRetorno("SELECT ISNULL(DESCRICAO,'') r FROM Produtos WHERE Codigo = " & lCodExist, "r", "")
+      MsgBox "Ja existe um produto cadastrado com este codigo de barras:" & vbCrLf & vbCrLf & _
+             "EAN: " & Trim(txtEAN.Text) & vbCrLf & _
+             "Descricao: " & sDescExist & vbCrLf & vbCrLf & _
+             "Verifique se o produto ja esta cadastrado antes de criar um novo.", _
+             vbExclamation, "Codigo de Barras Duplicado"
+      txtEAN.SetFocus
+      Exit Sub
+   End If
+   Cancelado = False
    ResDescricao = Trim(txtDescricao.Text)
-   ResEAN       = Trim(txtEAN.Text)
-   ResUnidade   = cboUnidade.Text
+   ResEAN = Trim(txtEAN.Text)
+   ResUnidade = cboUnidade.Text
    Me.Hide
 End Sub
 

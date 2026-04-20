@@ -5883,8 +5883,8 @@ Dim r As ADODB.Recordset
 If txtCodBarra.Text = "" Then Exit Sub
 
 sSQL = "SELECT produtos.codigo AS var_codprod, produtos.descricao AS var_desc, produtos.unid_medida AS var_unidmed, " & _
-   "produtos_entrada_itens.valor_vv AS var_venda, produtos_entrada_itens.codigo_produto, produtos.cod_barra, produtos.ativo, " & _
-   "produtos_entrada_itens.codigo FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.codigo_produto " & _
+   "NULL AS var_venda, produtos_entrada_itens.CodigoProduto, produtos.cod_barra, produtos.ativo, " & _
+   "produtos_entrada_itens.codigo FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CodigoProduto " & _
    "WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (produtos.ativo = 1) ORDER BY produtos_entrada_itens.codigo DESC;"
 
 Set r = dbData.OpenRecordset(sSQL)
@@ -6198,8 +6198,8 @@ Private Sub Verifica_Existencia_Produto()
    Dim r As ADODB.Recordset
    
    sSQL = "SELECT produtos.cod_barra AS var_codbarra, produtos.unid_medida AS var_unidmed, produtos.codigo AS var_codprod, " & _
-      "produtos.descricao AS var_desc, produtos_entrada_itens.venda AS var_venda FROM produtos LEFT JOIN ultimas_entradas ON produtos.codigo = ultimas_entradas.codigo_produto " & _
-      "LEFT JOIN produtos_entrada_itens ON ultimas_entradas.codigo_produto = produtos_entrada_itens.codigo_produto AND ultimas_entradas.ultentrada = produtos_entrada_itens.codigo_entrada " & _
+      "produtos.descricao AS var_desc, NULL AS var_venda FROM produtos LEFT JOIN ultimas_entradas ON produtos.codigo = ultimas_entradas.codigo_produto " & _
+      "LEFT JOIN produtos_entrada_itens ON ultimas_entradas.codigo_produto = produtos_entrada_itens.CodigoProduto AND ultimas_entradas.ultentrada = produtos_entrada_itens.codigo_entrada " & _
       "WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (produtos.ativo = 1);"
    
    Set r = dbData.OpenRecordset(sSQL)
@@ -6218,7 +6218,7 @@ Dim vCodProduto As Long
 If txtCodBarra.Text = "" Then Exit Sub
 
 sSQL = "SELECT produtos.codigo AS var_codprod, produtos.cod_barra, produtos.ativo, " & _
-   "produtos_entrada_itens.codigo FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.codigo_produto " & _
+   "produtos_entrada_itens.codigo FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CodigoProduto " & _
    "WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (produtos.ativo = 1) ORDER BY produtos_entrada_itens.codigo DESC;"
 
 Set r = dbData.OpenRecordset(sSQL)

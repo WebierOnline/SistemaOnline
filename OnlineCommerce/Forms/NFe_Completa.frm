@@ -53,34 +53,34 @@ Begin VB.Form NFe_Completa
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdEnviarPDF"
-      Tab(1).Control(1)=   "cmdEnviarXML"
-      Tab(1).Control(2)=   "cmdEspelho"
-      Tab(1).Control(3)=   "cmdEditar"
-      Tab(1).Control(4)=   "cmdCartaCorrecao"
-      Tab(1).Control(5)=   "cmdInutilizar"
-      Tab(1).Control(6)=   "cmdDuplicar"
-      Tab(1).Control(7)=   "cmdConsultar"
-      Tab(1).Control(8)=   "cmdCancelarNota"
-      Tab(1).Control(9)=   "cmdTransmitir"
-      Tab(1).Control(10)=   "cmdImprimir"
-      Tab(1).Control(11)=   "cmdCopiarChave"
-      Tab(1).Control(12)=   "GridNotas"
-      Tab(1).Control(13)=   "Frame4"
-      Tab(1).Control(14)=   "Frame2"
-      Tab(1).Control(15)=   "picAguarde"
-      Tab(1).Control(16)=   "frmCorreção"
-      Tab(1).Control(17)=   "txtCodObservacao"
-      Tab(1).Control(17).Enabled=   0   'False
+      Tab(1).Control(0)=   "txtCodObservacao"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "frmCorreção"
+      Tab(1).Control(2)=   "picAguarde"
+      Tab(1).Control(3)=   "Frame2"
+      Tab(1).Control(4)=   "Frame4"
+      Tab(1).Control(5)=   "GridNotas"
+      Tab(1).Control(6)=   "cmdCopiarChave"
+      Tab(1).Control(7)=   "cmdImprimir"
+      Tab(1).Control(8)=   "cmdTransmitir"
+      Tab(1).Control(9)=   "cmdCancelarNota"
+      Tab(1).Control(10)=   "cmdConsultar"
+      Tab(1).Control(11)=   "cmdDuplicar"
+      Tab(1).Control(12)=   "cmdInutilizar"
+      Tab(1).Control(13)=   "cmdCartaCorrecao"
+      Tab(1).Control(14)=   "cmdEditar"
+      Tab(1).Control(15)=   "cmdEspelho"
+      Tab(1).Control(16)=   "cmdEnviarXML"
+      Tab(1).Control(17)=   "cmdEnviarPDF"
       Tab(1).ControlCount=   18
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblQuantPedidos"
-      Tab(2).Control(1)=   "cmdConverterNFe"
+      Tab(2).Control(0)=   "picAguarde2"
+      Tab(2).Control(1)=   "frmFiltrosPedidos"
       Tab(2).Control(2)=   "GridPedidos"
-      Tab(2).Control(3)=   "frmFiltrosPedidos"
-      Tab(2).Control(4)=   "picAguarde2"
+      Tab(2).Control(3)=   "cmdConverterNFe"
+      Tab(2).Control(4)=   "lblQuantPedidos"
       Tab(2).ControlCount=   5
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
@@ -2085,19 +2085,19 @@ Begin VB.Form NFe_Completa
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":1D264
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Label71"
+         Tab(1).Control(0)=   "cboModFrete"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(2)=   "cboModFrete"
+         Tab(1).Control(2)=   "Label71"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":1D280
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Label15"
-         Tab(2).Control(1)=   "Label67"
-         Tab(2).Control(2)=   "cboIndicadorPagamento"
-         Tab(2).Control(3)=   "frmFatura"
-         Tab(2).Control(4)=   "frmDuplicata"
-         Tab(2).Control(5)=   "cboFormaPgto"
+         Tab(2).Control(0)=   "cboFormaPgto"
+         Tab(2).Control(1)=   "frmDuplicata"
+         Tab(2).Control(2)=   "frmFatura"
+         Tab(2).Control(3)=   "cboIndicadorPagamento"
+         Tab(2).Control(4)=   "Label67"
+         Tab(2).Control(5)=   "Label15"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":1D29C
@@ -2107,8 +2107,8 @@ Begin VB.Form NFe_Completa
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":1D2B8
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboFormatoDANFe"
-         Tab(4).Control(1)=   "cboTipoEmissao"
+         Tab(4).Control(0)=   "cboTipoEmissao"
+         Tab(4).Control(1)=   "cboFormatoDANFe"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
          TabPicture(5)   =   "NFe_Completa.frx":1D2D4
@@ -3110,12 +3110,12 @@ Begin VB.Form NFe_Completa
             TabCaption(0)   =   "Informações Complementares"
             TabPicture(0)   =   "NFe_Completa.frx":21ACA
             Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "cmdRemoverOBS"
-            Tab(0).Control(1)=   "cmdAdicionarOBS"
+            Tab(0).Control(0)=   "txtCodOBS"
+            Tab(0).Control(0).Enabled=   0   'False
+            Tab(0).Control(1)=   "cboObservacao"
             Tab(0).Control(2)=   "txtInfComple"
-            Tab(0).Control(3)=   "cboObservacao"
-            Tab(0).Control(4)=   "txtCodOBS"
-            Tab(0).Control(4).Enabled=   0   'False
+            Tab(0).Control(3)=   "cmdAdicionarOBS"
+            Tab(0).Control(4)=   "cmdRemoverOBS"
             Tab(0).ControlCount=   5
             TabCaption(1)   =   "Informações Adicionais"
             TabPicture(1)   =   "NFe_Completa.frx":21AE6
@@ -3272,18 +3272,18 @@ Begin VB.Form NFe_Completa
             TabCaption(1)   =   "Volumes"
             TabPicture(1)   =   "NFe_Completa.frx":21B56
             Tab(1).ControlEnabled=   0   'False
-            Tab(1).Control(0)=   "Label13"
-            Tab(1).Control(1)=   "Label12"
-            Tab(1).Control(2)=   "Label10"
-            Tab(1).Control(3)=   "Label17"
-            Tab(1).Control(4)=   "Label18"
-            Tab(1).Control(5)=   "Label11"
-            Tab(1).Control(6)=   "txtVolPesoLiquido"
-            Tab(1).Control(7)=   "txtVolNumeracao"
-            Tab(1).Control(8)=   "txtVolMarca"
-            Tab(1).Control(9)=   "txtVolEspecie"
-            Tab(1).Control(10)=   "txtVolQuant"
-            Tab(1).Control(11)=   "txtVolPesoBruto"
+            Tab(1).Control(0)=   "txtVolPesoBruto"
+            Tab(1).Control(1)=   "txtVolQuant"
+            Tab(1).Control(2)=   "txtVolEspecie"
+            Tab(1).Control(3)=   "txtVolMarca"
+            Tab(1).Control(4)=   "txtVolNumeracao"
+            Tab(1).Control(5)=   "txtVolPesoLiquido"
+            Tab(1).Control(6)=   "Label11"
+            Tab(1).Control(7)=   "Label18"
+            Tab(1).Control(8)=   "Label17"
+            Tab(1).Control(9)=   "Label10"
+            Tab(1).Control(10)=   "Label12"
+            Tab(1).Control(11)=   "Label13"
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
             TabPicture(2)   =   "NFe_Completa.frx":21B72
@@ -4360,7 +4360,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "18:44"
+            TextSave        =   "13:21"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4416,6 +4416,7 @@ Dim vTipoCRT As Integer
 Dim bSupressChkEvents As Boolean
 Dim vRegimeTributario As Integer
 Dim vIPICompoeDIFAL As Integer
+Dim vPCreditoSN     As Double
 Dim printSQL As String
 Dim TipoSelecaoConsulta As String
 
@@ -4510,13 +4511,15 @@ Dim curIPIvBC    As Currency
 Dim dblIPIpGravar As Double
 Dim curVBCST     As Currency
 Dim curVICMSST   As Currency
+Dim curPCredSN   As Double
+Dim curVCredICMSSN As Currency
 Dim sCurModBC    As String
 Dim sIPIcEnq     As String
 Dim bSimples     As Boolean
 Dim bDevolucao   As Boolean
 Dim sUpd         As String
 
-bSimples   = (vRegimeTributario = 1 Or vRegimeTributario = 2 Or vRegimeTributario = 5)
+bSimples = (vRegimeTributario = 1 Or vRegimeTributario = 2 Or vRegimeTributario = 5)
 bDevolucao = (Left(cboFinalidade.Text, 1) = "4")
 
 sSQL = "SELECT ITEM, " & _
@@ -4530,19 +4533,19 @@ sSQL = "SELECT ITEM, " & _
 RsOpen rItens, sSQL
 
 Do While Not rItens.EOF
-    vItem        = rItens("ITEM")
-    vValProd     = CCur(rItens("vProd"))
-    sCST         = Right(Format(rItens("CST"), "@"), 3)
-    dblPICMS     = CDbl(IIf(IsNull(rItens("pICMS")),    0, rItens("pICMS")))
-    dblPRedBC    = CDbl(IIf(IsNull(rItens("pRedBC")),   0, rItens("pRedBC")))
-    sModBC       = Trim(IIf(IsNull(rItens("modBC")),    "", rItens("modBC")))
-    sItemIPICST  = Trim(IIf(IsNull(rItens("IPICST")),   "", rItens("IPICST")))
-    dblPIPI      = CDbl(IIf(IsNull(rItens("IPIpIPI")),  0, rItens("IPIpIPI")))
-    dblPPIS      = CDbl(IIf(IsNull(rItens("PISpPIS")),  0, rItens("PISpPIS")))
-    dblPCOFINS   = CDbl(IIf(IsNull(rItens("cofinspcofins")), 0, rItens("cofinspcofins")))
-    dblPMVA      = CDbl(IIf(IsNull(rItens("pMVAST")),   0, rItens("pMVAST")))
-    dblPICMSST   = CDbl(IIf(IsNull(rItens("pICMSST")),  0, rItens("pICMSST")))
-    dblPRedBCST  = CDbl(IIf(IsNull(rItens("pRedBCST")), 0, rItens("pRedBCST")))
+    vItem = rItens("ITEM")
+    vValProd = CCur(rItens("vProd"))
+    sCST = Right(Format(rItens("CST"), "@"), 3)
+    dblPICMS = CDbl(IIf(IsNull(rItens("pICMS")), 0, rItens("pICMS")))
+    dblPRedBC = CDbl(IIf(IsNull(rItens("pRedBC")), 0, rItens("pRedBC")))
+    sModBC = Trim(IIf(IsNull(rItens("modBC")), "", rItens("modBC")))
+    sItemIPICST = Trim(IIf(IsNull(rItens("IPICST")), "", rItens("IPICST")))
+    dblPIPI = CDbl(IIf(IsNull(rItens("IPIpIPI")), 0, rItens("IPIpIPI")))
+    dblPPIS = CDbl(IIf(IsNull(rItens("PISpPIS")), 0, rItens("PISpPIS")))
+    dblPCOFINS = CDbl(IIf(IsNull(rItens("cofinspcofins")), 0, rItens("cofinspcofins")))
+    dblPMVA = CDbl(IIf(IsNull(rItens("pMVAST")), 0, rItens("pMVAST")))
+    dblPICMSST = CDbl(IIf(IsNull(rItens("pICMSST")), 0, rItens("pICMSST")))
+    dblPRedBCST = CDbl(IIf(IsNull(rItens("pRedBCST")), 0, rItens("pRedBCST")))
 
     ' IPI antecipado (necessario para base do ICMS com consumidor final)
     If bSimples And Not bDevolucao Then
@@ -4581,35 +4584,35 @@ Do While Not rItens.EOF
     ' PIS / COFINS
     If bSimples And Not bDevolucao Then
         curBasePISCOFINS = 0
-        curVPIS   = 0
+        curVPIS = 0
         curVCOFINS = 0
     Else
         curBasePISCOFINS = vValProd - curVICMS
         If curBasePISCOFINS < 0 Then curBasePISCOFINS = 0
-        curVPIS    = CCur(Format(curBasePISCOFINS * dblPPIS   / 100, "0.00"))
+        curVPIS = CCur(Format(curBasePISCOFINS * dblPPIS / 100, "0.00"))
         curVCOFINS = CCur(Format(curBasePISCOFINS * dblPCOFINS / 100, "0.00"))
     End If
 
     ' IPI gravar
     If bSimples And Not bDevolucao Then
-        sIPIcEnq     = "999"
-        curIPIvBC    = 0
+        sIPIcEnq = "999"
+        curIPIvBC = 0
         dblIPIpGravar = 0
-        vValorIPI    = 0
+        vValorIPI = 0
     Else
         If sItemIPICST = "99" Or sItemIPICST = "53" Or sItemIPICST = "52" Or sItemIPICST = "50" Then
             sIPIcEnq = "999"
         Else
             sIPIcEnq = ""
         End If
-        curIPIvBC    = vValProd
+        curIPIvBC = vValProd
         dblIPIpGravar = dblPIPI
     End If
 
     ' ICMS-ST
     If chkICMSST.Value = 1 Then
         If bSimples And Not bDevolucao Then
-            curVBCST   = 0
+            curVBCST = 0
             curVICMSST = 0
         Else
             curVBCST = (vValProd + vValorIPI) * (1 + dblPMVA / 100)
@@ -4618,8 +4621,17 @@ Do While Not rItens.EOF
             If curVICMSST < 0 Then curVICMSST = 0
         End If
     Else
-        curVBCST   = 0
+        curVBCST = 0
         curVICMSST = 0
+    End If
+
+    ' Credito Simples Nacional (CSOSN 101/201)
+    If bSimples And Not bDevolucao And (sCST = "101" Or sCST = "201") Then
+        curPCredSN     = vPCreditoSN
+        curVCredICMSSN = CCur(Format(curBaseICMS * curPCredSN / 100, "0.00"))
+    Else
+        curPCredSN     = 0
+        curVCredICMSSN = 0
     End If
 
     sUpd = "UPDATE NotaFiscalItens SET " & _
@@ -4635,7 +4647,9 @@ Do While Not rItens.EOF
            "IPIpIPI = " & FSQL(dblIPIpGravar, 4) & ", " & _
            "IPIvIPI = " & FSQL(vValorIPI, 2) & ", " & _
            "vBCST = " & FSQL(curVBCST, 2) & ", " & _
-           "vICMSST = " & FSQL(curVICMSST, 2) & " " & _
+           "vICMSST = " & FSQL(curVICMSST, 2) & ", " & _
+           "pCredSN = " & FSQL(curPCredSN, 4) & ", " & _
+           "vCredICMSSN = " & FSQL(curVCredICMSSN, 2) & " " & _
            "WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & vItem
     dbData.Execute sUpd
 
@@ -4839,7 +4853,7 @@ Dim vTotalProdutoNota As Currency
 '(ValorUnitarioComercializacao * QuantidadeComercial)
 'itens
 'sSQL = "SELECT SUM(ValorTotalBruto) as ValorProdutosItens FROM NotaFiscalItens WHERE CodigoNota = " & Val(vCodNota)
-sSQL = "SELECT SUM(ValorUnitarioComercializacao * QuantidadeComercial) as ValorProdutosItens FROM NotaFiscalItens WHERE CodigoNota = " & Val(vCodNota)
+sSQL = "SELECT SUM(ValorTotalBruto) as ValorProdutosItens FROM NotaFiscalItens WHERE CodigoNota = " & Val(vCodNota)
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
@@ -5214,7 +5228,7 @@ With Grid_Correcao
    .Cols = 9
    .rows = 2
    
-   .ColWidth(0) = 0
+   .ColWidth(0) = 300
    .ColWidth(1) = 500
    .ColWidth(2) = 700
    .ColWidth(3) = 900
@@ -5323,7 +5337,7 @@ If txtCodNota.Text = "" Then Exit Sub
 
 ' Todos os totais vem dos itens
 sSQL = "SELECT " & _
-       "ISNULL(SUM(ValorUnitarioComercializacao * QuantidadeComercial), 0) AS ValorProdutos, " & _
+       "ISNULL(SUM(ValorTotalBruto), 0) AS ValorProdutos, " & _
        "ISNULL(SUM(ValorFrete),   0) AS ValorFrete,   " & _
        "ISNULL(SUM(ValorSeguro),  0) AS ValorSeguro,  " & _
        "ISNULL(SUM(ValorOutros),  0) AS ValorOutros,  " & _
@@ -5402,6 +5416,28 @@ txtTotalDup.Text = FormatNumber(varNota, 2)
 txtNumParcDup.Text = "1"
 txtIntervaloDup.Text = "30"
 If IsDate(mskEmissao) Then mskInicioDup.Text = Format(mskEmissao.Text, "dd/mm/yy") Else mskInicioDup.Text = Format(mskEmissao.Text, "dd/mm/yy")
+AtualizarInfCompleCredSN
+End Sub
+
+Private Sub AtualizarInfCompleCredSN()
+    If vTipoCRT = 3 Or txtCodNota.Text = "" Then Exit Sub
+    Dim sBaseSimples As String
+    sBaseSimples = "EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS."
+    Dim rCred As ADODB.Recordset
+    Dim dblSomaCredSN As Double
+    dblSomaCredSN = 0
+    Set rCred = dbData.OpenRecordset("SELECT ISNULL(SUM(vCredICMSSN), 0) AS total FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND CST IN ('101','201')")
+    If Not rCred.EOF Then dblSomaCredSN = CDbl(rCred("total"))
+    rCred.Close
+    Set rCred = Nothing
+    If dblSomaCredSN > 0 Then
+        txtInfComple.Text = "DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL. " & _
+                            "PERMITE O APROVEITAMENTO DO CRÉDITO DE ICMS NO VALOR DE R$ " & Format(dblSomaCredSN, "#,##0.00") & _
+                            "; CORRESPONDENTE À ALÍQUOTA DE " & Format(vPCreditoSN, "0.00") & _
+                            "%, NOS TERMOS DO ART. 23 DA LEI COMPLEMENTAR Nº 123, DE 2006."
+    Else
+        txtInfComple.Text = sBaseSimples
+    End If
 End Sub
 
 Private Sub CalcularICMSInterNota()
@@ -5453,7 +5489,7 @@ End If
 If vTotalDesc = 0 Then Exit Sub
 
 ' Busca subtotal total dos itens
-sSQL = "SELECT ISNULL(SUM(ValorUnitarioComercializacao * QuantidadeComercial), 0) AS TotalSubtotal " & _
+sSQL = "SELECT ISNULL(SUM(ValorTotalBruto), 0) AS TotalSubtotal " & _
        "FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 Set rTot = dbData.OpenRecordset(sSQL)
 If rTot.EOF Then Exit Sub
@@ -5498,7 +5534,7 @@ If txtCodNota.Text = "" Then Exit Sub
 'If GridNotasItens.Rows <= 1 Then Exit Sub
 
 sSQL = "UPDATE NotaFiscalItens SET " & _
-       "ValorTotalBruto = ((ValorUnitarioComercializacao * QuantidadeComercial) - ValorDesconto),  vBC = ((ValorUnitarioComercializacao * QuantidadeComercial) - ValorDesconto) FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
+       "ValorTotalBruto = ROUND((ValorUnitarioComercializacao * QuantidadeComercial) - ValorDesconto, 2),  vBC = ROUND((ValorUnitarioComercializacao * QuantidadeComercial) - ValorDesconto, 2) FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 SQLExecuta sSQL
 
 Exibir_Itens
@@ -5507,7 +5543,7 @@ End Sub
 Private Sub MostrarValorProdutos()
 If txtCodNota.Text = "" Then Exit Sub
 'sSQL = "SELECT SUM(ValorTotalBruto) as ValorProdutos FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
-sSQL = "SELECT SUM(ValorUnitarioComercializacao * QuantidadeComercial) as ValorProdutos FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
+sSQL = "SELECT SUM(ValorTotalBruto) as ValorProdutos FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 Set r = dbData.OpenRecordset(sSQL)
 'Debug.Print sSQL
 
@@ -5576,7 +5612,7 @@ Set r = dbData.OpenRecordset(sSQL)
 varValorDesconto = ValidateNull(r("vValorDesc"))
 
 'valor dos produtos
-sSQL = "SELECT SUM(ValorUnitarioComercializacao * QuantidadeComercial) as vValorProdutos FROM NotaFiscalItens WHERE (vICMS <> '0.00') AND CodigoNota = " & Val(txtCodNota.Text)
+sSQL = "SELECT SUM(ValorTotalBruto) as vValorProdutos FROM NotaFiscalItens WHERE (vICMS <> '0.00') AND CodigoNota = " & Val(txtCodNota.Text)
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
@@ -6155,33 +6191,13 @@ If txtCodNota.Text = "" Then Exit Sub
     
     'tributos
     Tb("EAN") = Format(vEAN, "@")
-    ' CFOP: converter 5xxx -> 6xxx se operacao interestadual
-    Dim sCFOPFinal As String
-    sCFOPFinal = Format(vCFOP, "@")
-    If Left(cboDestOperacao.Text, 1) = "2" Then
-        If Left(sCFOPFinal, 1) = "5" Then sCFOPFinal = "6" & Mid(sCFOPFinal, 2)
-    End If
-    Tb("CFOP") = sCFOPFinal
+    Tb("CFOP") = Format(vCFOP, "@")
     Tb("NCM") = Format(vNCM, "@")
     Tb("UnidadeComercial") = UCase(Format(vUnid_medida, "@"))
     vValorProdutos = CDbl(Format(txtSubTotal, "@"))
     
     'ICMS
-    ' CST/CSOSN: para Simples (1,2), derivar do CFOP original do cadastro
-    Dim sCSTFinal As String
-    If vRegimeTributario = 1 Or vRegimeTributario = 2 Then
-        If Right(Format(vCFOP, "@"), 3) = "102" Then
-            sCSTFinal = "102"
-        ElseIf Right(Format(vCFOP, "@"), 3) = "405" Then
-            sCSTFinal = "500"
-        Else
-            sCSTFinal = Right(Format(vICMSCST, "@"), 3)
-        End If
-    Else
-        sCSTFinal = Right(Format(vICMSCST, "@"), 3)
-    End If
-    vICMSCST = sCSTFinal
-    Tb("CST") = sCSTFinal
+    Tb("CST") = Right(Format(vICMSCST, "@"), 3)
     Tb("modBC") = Format(IIf(vModBC = "", 3, vModBC), "@")
     If vICMSAliq = "" Then Tb("pICMS") = CDbl(Format(0, "@")) Else Tb("pICMS") = CDbl(Format(vICMSAliq, "@"))
     If vpRedBC = "" Then Tb("pRedBC") = CDbl(Format(0, "@")) Else Tb("pRedBC") = CDbl(Format(vpRedBC, "@"))
@@ -6320,17 +6336,7 @@ If txtCodNota.Text = "" Then Exit Sub
         Else
             ' Regime Normal ou devolucao: calcula ST via MVA
             dblAliqInterna = CDbl(IIf(vPICMSST = "" Or vPICMSST = "0,00", 0, vPICMSST))
-            If vUFEmpresa <> vUFDest And vUFDest <> "" Then
-                Set rDifalLDI = dbData.OpenRecordset("SELECT AliquotaInterestadual FROM TribMatrizInterestadual WHERE UF_Origem = '" & vUFEmpresa & "' AND UF_Destino = '" & vUFDest & "'")
-                If Not rDifalLDI.EOF Then
-                    dblAliqInter = CDbl(rDifalLDI("AliquotaInterestadual"))
-                Else
-                    dblAliqInter = CDbl(IIf(vAliqUFInter = 0, 0, vAliqUFInter))
-                End If
-                rDifalLDI.Close
-            Else
-                dblAliqInter = 0
-            End If
+            dblAliqInter = CDbl(IIf(vAliqUFInter = 0, 0, vAliqUFInter))
 
             ' MVA: ajustado se interestadual, original se interna
             If vUFEmpresa <> vUFDest And vUFDest <> "" And dblAliqInterna > 0 Then
@@ -6442,6 +6448,15 @@ If txtCodNota.Text = "" Then Exit Sub
         Tb("vBCUFDest") = 0: Tb("vBCFCPUFDest") = 0: Tb("pFCPUFDest") = 0
         Tb("pICMSUFDest") = 0: Tb("pICMSInter") = 0: Tb("pICMSInterPart") = 0
         Tb("vFCPUFDest") = 0: Tb("vICMSUFRemet") = 0: Tb("vICMSUFDest") = 0
+    End If
+    
+    ' Credito Simples Nacional (CSOSN 101/201)
+    If (vRegimeTributario = 1 Or vRegimeTributario = 2) And (sCSTFinal = "101" Or sCSTFinal = "201") Then
+        Tb("pCredSN")     = vPCreditoSN
+        Tb("vCredICMSSN") = CCur(Format(curBaseICMS * vPCreditoSN / 100, "0.00"))
+    Else
+        Tb("pCredSN")     = 0
+        Tb("vCredICMSSN") = 0
     End If
 End Sub
 
@@ -6745,7 +6760,7 @@ Resume
 End Sub
 
 Private Sub Mostrar_AliqUF()
-sSQL = "SELECT CRT, ESTADO, RegimeTributario, IPICompoeDIFAL FROM empresa"
+sSQL = "SELECT CRT, ESTADO, RegimeTributario, IPICompoeDIFAL, pCreditoICMSSimplesNacional FROM empresa"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.EOF Then
@@ -6753,6 +6768,7 @@ If Not r.EOF Then
     vUFEmpresa = r("ESTADO")
     vRegimeTributario = IIf(IsNull(r("RegimeTributario")), 0, r("RegimeTributario"))
     vIPICompoeDIFAL = IIf(IsNull(r("IPICompoeDIFAL")), 0, r("IPICompoeDIFAL"))
+    vPCreditoSN = IIf(IsNull(r("pCreditoICMSSimplesNacional")), 0, CDbl(r("pCreditoICMSSimplesNacional")))
     
     If Left(cboDestOperacao.Text, 1) = 2 Then
         vAliqUFInter = Format(12, "#0.00")
@@ -6879,8 +6895,8 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
       .rows = 2
 
       'Colunas fixas (sempre visiveis)
-      .ColWidth(0) = 200    'indicador de linha
-      .ColWidth(1) = 400    'No.
+      .ColWidth(0) = 300    'indicador de linha
+      .ColWidth(1) = 0      'No.
       .ColWidth(2) = 1500   'EAN
       .ColWidth(3) = 0      'COD. (oculto)
       .ColWidth(4) = 3500   'DESCRICAO
@@ -7035,12 +7051,12 @@ Private Sub AplicarEstadoCheckboxes()
     Dim bHabilitar As Boolean
     ' CRT 1/2/4 (Simples/MEI) com Finalidade <> 4: desabilita IPI, ST e RedBC
     bHabilitar = Not (vTipoCRT = 1 Or vTipoCRT = 2 Or vTipoCRT = 4) Or (Left(cboFinalidade.Text, 1) = "4")
-    chkIPI.Enabled    = bHabilitar
+    chkIPI.Enabled = bHabilitar
     chkICMSST.Enabled = bHabilitar
     chkpRedBC.Enabled = bHabilitar
     If Not bHabilitar Then
         bSupressChkEvents = True
-        chkIPI.Value    = 0
+        chkIPI.Value = 0
         chkICMSST.Value = 0
         chkpRedBC.Value = 0
         bSupressChkEvents = False
@@ -7107,6 +7123,7 @@ Private Sub cboFinalidade_Change()
 End Sub
 
 Private Sub cboFinalidade_Click()
+    AjustarNaturezaPadrao
     AplicarVisibilidadeGridItens
     AplicarEstadoCheckboxes
     RecalcularItensNota
@@ -7797,6 +7814,95 @@ Do While Not r.EOF
 End If
 End Sub
 
+Private Sub CarregarNaturezas()
+Dim r       As ADODB.Recordset
+Dim nMin    As Long
+Dim nMax    As Long
+Dim sAvDev  As String
+Dim sWhere  As String
+
+cboNatureza.Clear
+
+' Prefixo: TipoNota + DestOperacao
+If Left(cboTipoNota.Text, 1) = "1" Then  ' SAIDA
+    Select Case Left(cboDestOperacao.Text, 1)
+        Case "2": nMin = 6000: nMax = 6999
+        Case "3": nMin = 7000: nMax = 7999
+        Case Else: nMin = 5000: nMax = 5999
+    End Select
+Else  ' ENTRADA
+    Select Case Left(cboDestOperacao.Text, 1)
+        Case "2": nMin = 2000: nMax = 2999
+        Case "3": nMin = 3000: nMax = 3999
+        Case Else: nMin = 1000: nMax = 1999
+    End Select
+End If
+
+' Avulsos de devolucao fora do range xx2xx
+Select Case nMin
+    Case 1000: sAvDev = "1410,1411,1902,1904,1906"
+    Case 2000: sAvDev = "2902"
+    Case 5000: sAvDev = "5411,5413,5553,5556,5902,5906,5913"
+    Case 6000: sAvDev = "6411,6413,6553,6556,6902,6906"
+    Case Else: sAvDev = ""
+End Select
+
+' Sub-filtro de finalidade
+Select Case Left(cboFinalidade.Text, 1)
+    Case "3"
+        sWhere = " WHERE (CodigoNatureza BETWEEN " & (nMin + 600) & " AND " & (nMin + 699) & ")" & _
+                 "    OR CodigoNatureza = " & (nMin + 933)
+    Case "4"
+        sWhere = " WHERE (CodigoNatureza BETWEEN " & (nMin + 200) & " AND " & (nMin + 299) & ")"
+        If sAvDev <> "" Then sWhere = sWhere & " OR CodigoNatureza IN (" & sAvDev & ")"
+    Case Else
+        sWhere = " WHERE CodigoNatureza BETWEEN " & nMin & " AND " & nMax & _
+                 " AND NOT (CodigoNatureza BETWEEN " & (nMin + 200) & " AND " & (nMin + 299) & ")" & _
+                 " AND NOT (CodigoNatureza BETWEEN " & (nMin + 600) & " AND " & (nMin + 699) & ")" & _
+                 " AND CodigoNatureza <> " & (nMin + 933)
+        If sAvDev <> "" Then sWhere = sWhere & " AND CodigoNatureza NOT IN (" & sAvDev & ")"
+End Select
+
+sSQL = "SELECT CodigoNatureza FROM NaturezaOperacaoNF" & sWhere & " ORDER BY CodigoNatureza"
+Set r = dbData.OpenRecordset(sSQL)
+Do While Not r.EOF
+    cboNatureza.AddItem r("CodigoNatureza")
+    r.MoveNext
+Loop
+If r.State <> 0 Then r.Close
+Set r = Nothing
+End Sub
+
+Private Sub AjustarNaturezaPadrao()
+' Auto-ajuste quando ENTRADA: Finalidade=3 e DestOperacao=1
+If Left(cboTipoNota.Text, 1) = "0" Then
+    cboFinalidade.Text    = "3 - NFe DE AJUSTE"
+    cboDestOperacao.Text  = "1 - Operação Interna"
+End If
+
+CarregarNaturezas
+
+' Default especifico por combinacao
+Dim sTipo As String, sFin As String, sDest As String
+sTipo = Left(cboTipoNota.Text, 1)
+sFin  = Left(cboFinalidade.Text, 1)
+sDest = Left(cboDestOperacao.Text, 1)
+
+If sTipo = "1" And sFin = "1" And sDest = "1" Then
+    cboNatureza.Text = "5102"
+ElseIf sTipo = "1" And sFin = "1" And sDest = "2" Then
+    cboNatureza.Text = "6102"
+ElseIf sTipo = "1" And sFin = "1" And sDest = "3" Then
+    cboNatureza.Text = "7102"
+ElseIf sTipo = "1" And sFin = "4" And sDest = "1" Then
+    cboNatureza.Text = "5202"
+ElseIf sTipo = "1" And sFin = "4" And sDest = "2" Then
+    cboNatureza.Text = "6202"
+Else
+    If cboNatureza.ListCount > 0 Then cboNatureza.Text = cboNatureza.List(0)
+End If
+End Sub
+
 Private Sub AtualizarCFOPCSTItens()
     If txtCodNota.Text = "" Then Exit Sub
     Dim vCodNota As Long
@@ -7804,16 +7910,16 @@ Private Sub AtualizarCFOPCSTItens()
     Dim bInter As Boolean
     bInter = (Left(cboDestOperacao.Text, 1) = "2")
 
-    ' 1. Converter CFOP
+    ' 1. Converter CFOP (CFOP e SMALLINT: usar aritmetica em vez de SUBSTRING)
     If bInter Then
-        dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6' + SUBSTRING(CFOP, 2, 3) WHERE CodigoNota = " & vCodNota & " AND LEFT(CFOP, 1) = '5'"
+        dbData.Execute "UPDATE NotaFiscalItens SET CFOP = CFOP + 1000 WHERE CodigoNota = " & vCodNota & " AND CFOP BETWEEN 5000 AND 5999"
     Else
-        dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5' + SUBSTRING(CFOP, 2, 3) WHERE CodigoNota = " & vCodNota & " AND LEFT(CFOP, 1) = '6'"
+        dbData.Execute "UPDATE NotaFiscalItens SET CFOP = CFOP - 1000 WHERE CodigoNota = " & vCodNota & " AND CFOP BETWEEN 6000 AND 6999"
     End If
 
     ' 2. Atualizar CST/CSOSN para Simples (regime 1 ou 2)
     If vRegimeTributario = 1 Or vRegimeTributario = 2 Then
-        dbData.Execute "UPDATE NotaFiscalItens SET CST = CASE WHEN RIGHT(CFOP, 3) = '102' THEN '102' WHEN RIGHT(CFOP, 3) = '405' THEN '500' ELSE CST END WHERE CodigoNota = " & vCodNota
+        dbData.Execute "UPDATE NotaFiscalItens SET CST = CASE WHEN CFOP % 1000 = 102 THEN '102' WHEN CFOP % 1000 = 405 THEN '500' ELSE CST END WHERE CodigoNota = " & vCodNota
     End If
 
     ' 3. Recalcular impostos e exibir grid
@@ -7856,8 +7962,7 @@ If Not r.EOF Then
     End If
 End If
 
-If cboDestOperacao.Text = "1 - Operação Interna" Then cboNatureza.Text = "5102"
-If cboDestOperacao.Text = "2 - Operação Interestadual" Then cboNatureza.Text = "6102"
+AjustarNaturezaPadrao
 AtualizarCFOPCSTItens
 End Sub
 
@@ -8176,6 +8281,10 @@ SelectControl cboTipoDest
 moCombo.AttachTo cboTipoDest
 End Sub
 
+
+Private Sub cboTipoNota_LostFocus()
+AjustarNaturezaPadrao
+End Sub
 
 Private Sub cboTipoNota_GotFocus()
 Dim VarText As String
@@ -8718,23 +8827,9 @@ txtValor.Text = Format(vrVenda, ocMONEY)
 End Sub
 
 Private Sub cboNatureza_GotFocus()
-Dim r As ADODB.Recordset
 Dim itemAtual As String
-
 itemAtual = cboNatureza.Text
-cboNatureza.Clear
-
-sSQL = "SELECT CodigoNatureza, NomeNatureza FROM NaturezaOperacaoNF ORDER BY CodigoNatureza;"
-Set r = dbData.OpenRecordset(sSQL)
-
-Do While Not r.EOF
-   cboNatureza.AddItem r("CodigoNatureza")
-   r.MoveNext
-Loop
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
+CarregarNaturezas
 cboNatureza.Text = itemAtual
 SelectControl cboNatureza
 moCombo.AttachTo cboNatureza
@@ -10873,8 +10968,8 @@ Dim dblPIPI   As Double
 Dim dblMVA    As Double
 
 txtEdit.Visible = False
-sVal     = Trim(txtEdit.Text)
-sItem    = GridNotasItens.TextMatrix(iRow, 1)
+sVal = Trim(txtEdit.Text)
+sItem = GridNotasItens.TextMatrix(iRow, 1)
 sCodProd = GridNotasItens.TextMatrix(iRow, 3)
 
 If sItem = "" Then Exit Sub
@@ -10958,7 +11053,7 @@ Select Case iCol
             Exit Sub
         End If
         dblPICMS = Val(sVal)
-        curVBC   = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 16), ".", ""), ",", ".")))
+        curVBC = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 16), ".", ""), ",", ".")))
         curVICMS = CCur(Format(curVBC * dblPICMS / 100, "0.00"))
         dbData.Execute "UPDATE NotaFiscalItens SET pICMS = " & FSQL(dblPICMS, 4) & ", vICMS = " & FSQL(curVICMS, 2) & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
         GridNotasItens.TextMatrix(iRow, 17) = FormatNumber(dblPICMS, 2)
@@ -10972,9 +11067,9 @@ Select Case iCol
         End If
         dblPRedBC = Val(sVal)
         curSubTot = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 15), ".", ""), ",", ".")))
-        curVBC    = CCur(Format(curSubTot * (1 - dblPRedBC / 100), "0.00"))
-        dblPICMS  = Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 17), ".", ""), ",", "."))
-        curVICMS  = CCur(Format(curVBC * dblPICMS / 100, "0.00"))
+        curVBC = CCur(Format(curSubTot * (1 - dblPRedBC / 100), "0.00"))
+        dblPICMS = Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 17), ".", ""), ",", "."))
+        curVICMS = CCur(Format(curVBC * dblPICMS / 100, "0.00"))
         dbData.Execute "UPDATE NotaFiscalItens SET pRedBC = " & FSQL(dblPRedBC, 4) & ", vBC = " & FSQL(curVBC, 2) & ", vICMS = " & FSQL(curVICMS, 2) & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
         GridNotasItens.TextMatrix(iRow, 19) = FormatNumber(dblPRedBC, 2)
         GridNotasItens.TextMatrix(iRow, 16) = FormatNumber(curVBC, 2)
@@ -10986,10 +11081,10 @@ Select Case iCol
             MsgBox "Alíquota ICMS-ST inválida (0 a 100)!", vbInformation, "Aviso"
             Exit Sub
         End If
-        dblPICMSST  = Val(sVal)
-        curVBCST    = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 20), ".", ""), ",", ".")))
-        curVICMS    = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 18), ".", ""), ",", ".")))
-        curVICMSST  = CCur(Format(curVBCST * dblPICMSST / 100, "0.00")) - curVICMS
+        dblPICMSST = Val(sVal)
+        curVBCST = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 20), ".", ""), ",", ".")))
+        curVICMS = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 18), ".", ""), ",", ".")))
+        curVICMSST = CCur(Format(curVBCST * dblPICMSST / 100, "0.00")) - curVICMS
         If curVICMSST < 0 Then curVICMSST = 0
         dbData.Execute "UPDATE NotaFiscalItens SET pICMSST = " & FSQL(dblPICMSST, 4) & ", vICMSST = " & FSQL(curVICMSST, 2) & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
         GridNotasItens.TextMatrix(iRow, 21) = FormatNumber(dblPICMSST, 2)
@@ -11001,13 +11096,13 @@ Select Case iCol
             MsgBox "MVA inválido (deve ser >= 0)!", vbInformation, "Aviso"
             Exit Sub
         End If
-        dblMVA      = Val(sVal)
-        curSubTot   = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 15), ".", ""), ",", ".")))
-        curVIPI     = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 26), ".", ""), ",", ".")))
-        curVBCST    = CCur(Format((curSubTot + curVIPI) * (1 + dblMVA / 100), "0.00"))
-        dblPICMSST  = Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 21), ".", ""), ",", "."))
-        curVICMS    = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 18), ".", ""), ",", ".")))
-        curVICMSST  = CCur(Format(curVBCST * dblPICMSST / 100, "0.00")) - curVICMS
+        dblMVA = Val(sVal)
+        curSubTot = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 15), ".", ""), ",", ".")))
+        curVIPI = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 26), ".", ""), ",", ".")))
+        curVBCST = CCur(Format((curSubTot + curVIPI) * (1 + dblMVA / 100), "0.00"))
+        dblPICMSST = Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 21), ".", ""), ",", "."))
+        curVICMS = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 18), ".", ""), ",", ".")))
+        curVICMSST = CCur(Format(curVBCST * dblPICMSST / 100, "0.00")) - curVICMS
         If curVICMSST < 0 Then curVICMSST = 0
         dbData.Execute "UPDATE NotaFiscalItens SET pMVAST = " & FSQL(dblMVA, 4) & ", vBCST = " & FSQL(curVBCST, 2) & ", vICMSST = " & FSQL(curVICMSST, 2) & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
         GridNotasItens.TextMatrix(iRow, 23) = FormatNumber(dblMVA, 2)
@@ -11028,9 +11123,9 @@ Select Case iCol
             MsgBox "Alíquota IPI inválida (0 a 100)!", vbInformation, "Aviso"
             Exit Sub
         End If
-        dblPIPI   = Val(sVal)
+        dblPIPI = Val(sVal)
         curSubTot = CCur(Val(Replace(Replace(GridNotasItens.TextMatrix(iRow, 15), ".", ""), ",", ".")))
-        curVIPI   = CCur(Format(curSubTot * dblPIPI / 100, "0.00"))
+        curVIPI = CCur(Format(curSubTot * dblPIPI / 100, "0.00"))
         dbData.Execute "UPDATE NotaFiscalItens SET IPIpIPI = " & FSQL(dblPIPI, 4) & ", IPIvIPI = " & FSQL(curVIPI, 2) & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
         GridNotasItens.TextMatrix(iRow, 25) = FormatNumber(dblPIPI, 2)
         GridNotasItens.TextMatrix(iRow, 26) = FormatNumber(curVIPI, 2)
@@ -11098,7 +11193,7 @@ cboConNotaAno.Text = Year(Date)
 cmdExibirConNotas_Click
 'ExibirUltimasNfe
 
-sSQL = "SELECT CRT, ESTADO, RegimeTributario, IPICompoeDIFAL FROM empresa"
+sSQL = "SELECT CRT, ESTADO, RegimeTributario, IPICompoeDIFAL, pCreditoICMSSimplesNacional FROM empresa"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.EOF Then
@@ -11106,6 +11201,7 @@ If Not r.EOF Then
     vUFEmpresa = r("ESTADO")
     vRegimeTributario = IIf(IsNull(r("RegimeTributario")), 0, r("RegimeTributario"))
     vIPICompoeDIFAL = IIf(IsNull(r("IPICompoeDIFAL")), 0, r("IPICompoeDIFAL"))
+    vPCreditoSN = IIf(IsNull(r("pCreditoICMSSimplesNacional")), 0, CDbl(r("pCreditoICMSSimplesNacional")))
     If Left(cboDestOperacao.Text, 1) = 2 Then
         vAliqUFInter = Format(12, "#0.00")
         vAliqUFDest = Format(18, "#0.00")
@@ -12024,8 +12120,8 @@ Private Sub LimparGridNotas()
       .Cols = 8
       .rows = 2
       
-      .ColWidth(0) = 0
-      .ColWidth(1) = 500
+      .ColWidth(0) = 300
+      .ColWidth(1) = 0
       .ColWidth(2) = 1000
       .ColWidth(3) = 1100
       .ColWidth(4) = 2000
@@ -12108,8 +12204,8 @@ With GridNotasItens
    .Cols = 17
    .rows = 2
    
-   .ColWidth(0) = 200
-   .ColWidth(1) = 400
+   .ColWidth(0) = 300
+   .ColWidth(1) = 0
    .ColWidth(2) = 1500
    .ColWidth(3) = 0
    .ColWidth(4) = 3500
@@ -12197,7 +12293,7 @@ Public Sub FormatarGridNotas(rTabela As ADODB.Recordset)
       .Cols = 15
       .rows = 2
       
-      .ColWidth(0) = 0
+      .ColWidth(0) = 300
       .ColWidth(1) = 0
       .ColWidth(2) = 900
       .ColWidth(3) = 1100

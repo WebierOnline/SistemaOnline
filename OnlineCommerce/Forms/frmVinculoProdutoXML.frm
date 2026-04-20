@@ -6,12 +6,12 @@ Begin VB.Form frmVinculoProdutoXML
    ClientHeight    =   9240
    ClientLeft      =   0
    ClientTop       =   0
-   ClientWidth     =   10110
+   ClientWidth     =   10095
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   9240
-   ScaleWidth      =   10110
+   ScaleWidth      =   10095
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin MSFlexGridLib.MSFlexGrid lstItens 
@@ -31,7 +31,7 @@ Begin VB.Form frmVinculoProdutoXML
       Appearance      =   0
    End
    Begin VB.Frame fraFornecedor 
-      Caption         =   "Produto escolhido na Nota Fiscal de Entrada"
+      Caption         =   "PRODUTO SELECIONADO DA NOTA FISCAL DE ENTRADA"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   8.25
@@ -41,13 +41,14 @@ Begin VB.Form frmVinculoProdutoXML
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1680
+      Height          =   960
       Left            =   60
       TabIndex        =   1
-      Top             =   2640
+      Top             =   2700
       Width           =   9960
       Begin VB.Label lblCProdVal 
-         BackStyle       =   0  'Transparent
+         Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -57,65 +58,15 @@ Begin VB.Form frmVinculoProdutoXML
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+         ForeColor       =   &H80000008&
          Height          =   255
-         Left            =   1200
+         Left            =   900
          TabIndex        =   2
-         Top             =   360
-         Width           =   3600
-      End
-      Begin VB.Label lblEANVal 
-         BackStyle       =   0  'Transparent
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   6000
-         TabIndex        =   3
-         Top             =   360
-         Width           =   3600
-      End
-      Begin VB.Label lblXProdVal 
-         BackStyle       =   0  'Transparent
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   1200
-         TabIndex        =   4
-         Top             =   720
-         Width           =   8400
-      End
-      Begin VB.Label lblUComVal 
-         BackStyle       =   0  'Transparent
-         BeginProperty Font 
-            Name            =   "Arial"
-            Size            =   9
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   255
-         Left            =   1200
-         TabIndex        =   5
-         Top             =   1080
+         Top             =   240
          Width           =   1800
       End
-      Begin VB.Label lblVUnComVal 
-         BackStyle       =   0  'Transparent
+      Begin VB.Label lblEANVal 
+         BackColor       =   &H00C0FFFF&
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   9
@@ -126,19 +77,70 @@ Begin VB.Form frmVinculoProdutoXML
             Strikethrough   =   0   'False
          EndProperty
          Height          =   255
-         Left            =   4800
+         Left            =   900
+         TabIndex        =   3
+         Top             =   540
+         Width           =   1800
+      End
+      Begin VB.Label lblXProdVal 
+         BackColor       =   &H00C0FFFF&
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   3840
+         TabIndex        =   4
+         Top             =   240
+         Width           =   5940
+      End
+      Begin VB.Label lblUComVal 
+         BackColor       =   &H00C0FFFF&
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   3720
+         TabIndex        =   5
+         Top             =   540
+         Width           =   1680
+      End
+      Begin VB.Label lblVUnComVal 
+         BackColor       =   &H00C0FFFF&
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   255
+         Left            =   7440
          TabIndex        =   6
-         Top             =   1080
-         Width           =   2400
+         Top             =   540
+         Width           =   2280
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "cProd:"
          Height          =   225
-         Left            =   240
+         Left            =   180
          TabIndex        =   20
-         Top             =   360
+         Top             =   240
          Width           =   870
       End
       Begin VB.Label Label2 
@@ -146,9 +148,9 @@ Begin VB.Form frmVinculoProdutoXML
          BackStyle       =   0  'Transparent
          Caption         =   "EAN:"
          Height          =   225
-         Left            =   5040
+         Left            =   180
          TabIndex        =   21
-         Top             =   360
+         Top             =   540
          Width           =   585
       End
       Begin VB.Label Label3 
@@ -156,9 +158,9 @@ Begin VB.Form frmVinculoProdutoXML
          BackStyle       =   0  'Transparent
          Caption         =   "Descricao:"
          Height          =   225
-         Left            =   240
+         Left            =   2880
          TabIndex        =   22
-         Top             =   720
+         Top             =   240
          Width           =   945
       End
       Begin VB.Label Label4 
@@ -166,32 +168,32 @@ Begin VB.Form frmVinculoProdutoXML
          BackStyle       =   0  'Transparent
          Caption         =   "Unidade:"
          Height          =   225
-         Left            =   240
+         Left            =   2880
          TabIndex        =   23
-         Top             =   1080
+         Top             =   540
          Width           =   795
       End
       Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Vl. Unit. Fornecedor:"
-         Height          =   225
-         Left            =   3120
+         Caption         =   "Valor Unit. Fornecedor:"
+         Height          =   195
+         Left            =   5640
          TabIndex        =   24
-         Top             =   1080
-         Width           =   1620
+         Top             =   540
+         Width           =   1635
       End
    End
    Begin VB.Frame fraVinculo 
       Caption         =   "Localizar produto interno"
-      Height          =   4020
-      Left            =   120
+      Height          =   4560
+      Left            =   60
       TabIndex        =   7
-      Top             =   4380
-      Width           =   9900
+      Top             =   3960
+      Width           =   9960
       Begin VB.TextBox txtBusca 
          Height          =   315
-         Left            =   180
+         Left            =   120
          TabIndex        =   8
          Top             =   480
          Width           =   6840
@@ -199,19 +201,19 @@ Begin VB.Form frmVinculoProdutoXML
       Begin VB.CommandButton cmdBuscar 
          Caption         =   "&Buscar"
          Height          =   315
-         Left            =   7140
+         Left            =   7020
          TabIndex        =   9
          Top             =   480
          Width           =   1215
       End
-      Begin MSFlexGridLib.MSFlexGrid lstProdutos
-         Height          =   2370
-         Left            =   180
+      Begin MSFlexGridLib.MSFlexGrid lstProdutos 
+         Height          =   3330
+         Left            =   120
          TabIndex        =   10
          Top             =   840
-         Width           =   9600
-         _ExtentX        =   16933
-         _ExtentY        =   4180
+         Width           =   9720
+         _ExtentX        =   17145
+         _ExtentY        =   5874
          _Version        =   393216
          Rows            =   1
          Cols            =   1
@@ -223,54 +225,63 @@ Begin VB.Form frmVinculoProdutoXML
       Begin VB.TextBox txtFracionamento 
          Alignment       =   1  'Right Justify
          Height          =   315
-         Left            =   1620
+         Left            =   1320
          TabIndex        =   11
          Text            =   "1"
-         Top             =   3600
+         Top             =   4200
          Width           =   735
       End
       Begin VB.Label lblBuscaHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Digite o nome, EAN ou codigo do produto e clique Buscar:"
+         Caption         =   "Digite o ""Nome do Produto"" ou ""Código de Barra"" e clique Buscar:"
          ForeColor       =   &H00808080&
-         Height          =   225
-         Left            =   180
+         Height          =   195
+         Left            =   120
          TabIndex        =   25
          Top             =   240
-         Width           =   6000
+         Width           =   4725
       End
       Begin VB.Label lblListaHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Selecione o produto interno correspondente:"
-         ForeColor       =   &H00808080&
+         Caption         =   "*Selecione o produto interno correspondente:"
+         BeginProperty Font 
+            Name            =   "Arial Narrow"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00004080&
          Height          =   225
-         Left            =   180
+         Left            =   6660
          TabIndex        =   26
-         Top             =   3300
-         Width           =   4035
+         Top             =   4200
+         Width           =   3165
       End
       Begin VB.Label lblFracLabel 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Fracionamento:"
          Height          =   225
-         Left            =   180
+         Left            =   120
          TabIndex        =   27
-         Top             =   3600
+         Top             =   4200
          Width           =   1320
       End
       Begin VB.Label lblFracHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "unidades internas por embalagem do fornecedor"
+         Caption         =   "*unidades internas por embalagem do fornecedor"
          ForeColor       =   &H00808080&
-         Height          =   225
-         Left            =   2460
+         Height          =   195
+         Left            =   2100
          TabIndex        =   17
-         Top             =   3660
-         Width           =   4590
+         Top             =   4200
+         Width           =   3465
       End
    End
    Begin VB.CommandButton cmdVincular 
@@ -287,7 +298,7 @@ Begin VB.Form frmVinculoProdutoXML
       Height          =   555
       Left            =   120
       TabIndex        =   12
-      Top             =   8520
+      Top             =   8580
       Width           =   2415
    End
    Begin VB.CommandButton cmdCadastrar 
@@ -295,7 +306,7 @@ Begin VB.Form frmVinculoProdutoXML
       Height          =   555
       Left            =   2640
       TabIndex        =   13
-      Top             =   8520
+      Top             =   8580
       Width           =   2535
    End
    Begin VB.CommandButton cmdDesvincular 
@@ -303,21 +314,94 @@ Begin VB.Form frmVinculoProdutoXML
       Height          =   555
       Left            =   5280
       TabIndex        =   19
-      Top             =   8520
-      Width           =   1905
+      Top             =   8580
+      Width           =   1440
+   End
+   Begin VB.CommandButton cmdAlterar 
+      Caption         =   "&Alterar"
+      Enabled         =   0   'False
+      Height          =   555
+      Left            =   6840
+      TabIndex        =   34
+      Top             =   8580
+      Width           =   1440
    End
    Begin VB.CommandButton cmdEncerrar 
       Caption         =   "&Encerrar"
       Height          =   555
-      Left            =   7260
+      Left            =   8340
       TabIndex        =   14
-      Top             =   8520
-      Width           =   2640
+      Top             =   8580
+      Width           =   1635
    End
-   Begin VB.Label lblTituloLista 
+   Begin VB.Label Label73 
+      AutoSize        =   -1  'True
+      BackColor       =   &H00000000&
+      Caption         =   "    "
+      Height          =   195
+      Index           =   0
+      Left            =   7500
+      TabIndex        =   33
+      Top             =   540
+      Width           =   180
+   End
+   Begin VB.Label Label73 
+      AutoSize        =   -1  'True
+      BackColor       =   &H8000000D&
+      Caption         =   "    "
+      Height          =   195
+      Index           =   2
+      Left            =   8820
+      TabIndex        =   32
+      Top             =   540
+      Width           =   180
+   End
+   Begin VB.Label Label74 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
-      Caption         =   "Itens para vincular:"
+      Caption         =   "Legenda:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Index           =   0
+      Left            =   6660
+      TabIndex        =   31
+      Top             =   540
+      Width           =   810
+   End
+   Begin VB.Label Label74 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Com vinculo"
+      Height          =   195
+      Index           =   1
+      Left            =   7800
+      TabIndex        =   30
+      Top             =   540
+      Width           =   870
+   End
+   Begin VB.Label Label74 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Sem vinculo"
+      Height          =   195
+      Index           =   3
+      Left            =   9120
+      TabIndex        =   29
+      Top             =   540
+      Width           =   870
+   End
+   Begin VB.Label Label6 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "PRODUTOS DO SEU ESTOQUE ATUAL:"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9
@@ -327,11 +411,30 @@ Begin VB.Form frmVinculoProdutoXML
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   255
+      Height          =   225
+      Left            =   60
+      TabIndex        =   28
+      Top             =   3720
+      Width           =   3195
+   End
+   Begin VB.Label lblTituloLista 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "PRODUTOS DA NOTA FISCAL DE ENTRADA (XML):"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
       Left            =   120
       TabIndex        =   15
       Top             =   540
-      Width           =   1800
+      Width           =   4140
    End
    Begin VB.Label lblContador 
       Alignment       =   2  'Center
@@ -395,14 +498,23 @@ Private Type tItemXML
    Nome       As String
    uCom       As String
    vUnCom     As Double
+   vUnTrib    As Double
+   qCom       As Double
    NCM        As String
    CEST       As String
    Vinculado       As Boolean
-   IDProdVinculado As Long      '0 = nao vinculado
-   '--- Tributacao da NF-e (entrada) ---
+   IDProdVinculado As Long
+   '--- Tributacao ICMS ---
    ICMSCST    As String
    ICMSAliq   As Double
    pRedBC     As Double
+   modBC      As Integer
+   '--- Substituicao Tributaria ---
+   pMVAST     As Double
+   pICMSST    As Double
+   pRedBCST   As Double
+   modBCST    As Integer
+   '--- IPI / PIS / COFINS ---
    IPICST     As String
    IPIAliq    As Double
    PISCST     As String
@@ -410,6 +522,13 @@ Private Type tItemXML
    COFINSCST  As String
    COFINSAliq As Double
    CFOP       As String
+   '--- Reforma Tributaria (IBS/CBS/IS) ---
+   IBSCBSCST  As String
+   IBSUFpAliq As Double
+   IBSMunpAliq As Double
+   CBSpAliq   As Double
+   ISCST      As String
+   ISpIS      As Double
 End Type
 
 Private arrItens()   As tItemXML
@@ -429,9 +548,10 @@ Private Sub Form_Load()
    iSelecionado = -1
 
    'Botoes inicialmente desabilitados ate o usuario selecionar itens
-   cmdVincular.Enabled    = False
+   cmdVincular.Enabled = False
    cmdDesvincular.Enabled = False
-   cmdCadastrar.Enabled   = False
+   cmdCadastrar.Enabled = False
+   cmdAlterar.Enabled = False
 
    'Monta filtro: MostrarTodos carrega todos; caso contrario so pendentes
    Dim sWhere As String
@@ -446,14 +566,22 @@ Private Sub Form_Load()
    RsOpen rs, "SELECT Item, Referencia AS cProd, ISNULL(EAN,'') AS EAN, " & _
               "       NomeProduto, UnidadeComercial AS uCom, " & _
               "       ValorUnitarioComercializacao AS vUnCom, " & _
+              "       ISNULL(QuantidadeComercial,0) AS qCom, " & _
+              "       ISNULL(ValorUnitarioTributario,0) AS vUnTrib, " & _
               "       ISNULL(NCM,'') AS NCM, ISNULL(CEST,'') AS CEST, " & _
               "       ISNULL(CST,'') AS ICMSCST, ISNULL(pICMS,0) AS ICMSAliq, " & _
-              "       ISNULL(pRedBC,0) AS pRedBC, " & _
+              "       ISNULL(pRedBC,0) AS pRedBC, ISNULL(modBC,3) AS modBC, " & _
+              "       ISNULL(pMVAST,0) AS pMVAST, ISNULL(pICMSST,0) AS pICMSST, " & _
+              "       ISNULL(pRedBCST,0) AS pRedBCST, ISNULL(modBCST,4) AS modBCST, " & _
               "       ISNULL(IPICST,'') AS IPICST, ISNULL(IPIpIPI,0) AS IPIAliq, " & _
               "       ISNULL(pisCST,'') AS PISCST, ISNULL(PISpPIS,0) AS PISAliq, " & _
               "       ISNULL(cofinsCST,'') AS COFINSCST, " & _
               "       ISNULL(COFINSpCOFINS,0) AS COFINSAliq, " & _
               "       ISNULL(CFOP,'') AS CFOP, " & _
+              "       ISNULL(IBSCBSCST,'') AS IBSCBSCST, " & _
+              "       ISNULL(IBSUFpAliq,0) AS IBSUFpAliq, ISNULL(IBSMunpAliq,0) AS IBSMunpAliq, " & _
+              "       ISNULL(CBSpAliq,0) AS CBSpAliq, " & _
+              "       ISNULL(ISCST,'') AS ISCST, ISNULL(ISpIS,0) AS ISpIS, " & _
               "       ISNULL(CodigoProduto, 0) AS IDProdVinculado, " & _
               "       CASE WHEN (CodigoProduto IS NULL OR CodigoProduto = 0) " & _
               "            THEN 0 ELSE 1 END AS jaVinculado " & _
@@ -498,11 +626,13 @@ Private Sub Form_Load()
          .COFINSCST = rs!COFINSCST & ""
          .CFOP = rs!CFOP & ""
          .vUnCom = 0
-         .ICMSAliq = 0
-         .pRedBC = 0
-         .IPIAliq = 0
-         .PISAliq = 0
-         .COFINSAliq = 0
+         .vUnTrib = 0
+         .qCom = 0
+         .ICMSAliq = 0: .pRedBC = 0: .modBC = 3
+         .pMVAST = 0: .pICMSST = 0: .pRedBCST = 0: .modBCST = 4
+         .IPIAliq = 0: .PISAliq = 0: .COFINSAliq = 0
+         .IBSUFpAliq = 0: .IBSMunpAliq = 0: .CBSpAliq = 0: .ISpIS = 0
+         .IBSCBSCST = rs!IBSCBSCST & "": .ISCST = rs!ISCST & ""
          .Vinculado = (rs!jaVinculado <> 0)
          .IDProdVinculado = 0
          On Error Resume Next
@@ -510,11 +640,16 @@ Private Sub Form_Load()
          On Error GoTo ErrForm_Load
          On Error Resume Next
          .vUnCom = CDbl(rs!vUnCom)
+         .vUnTrib = CDbl(rs!vUnTrib)
+         .qCom = CDbl(rs!qCom)
          .ICMSAliq = CDbl(rs!ICMSAliq)
-         .pRedBC = CDbl(rs!pRedBC)
+         .pRedBC = CDbl(rs!pRedBC): .modBC = CInt(rs!modBC)
+         .pMVAST = CDbl(rs!pMVAST): .pICMSST = CDbl(rs!pICMSST)
+         .pRedBCST = CDbl(rs!pRedBCST): .modBCST = CInt(rs!modBCST)
          .IPIAliq = CDbl(rs!IPIAliq)
-         .PISAliq = CDbl(rs!PISAliq)
-         .COFINSAliq = CDbl(rs!COFINSAliq)
+         .PISAliq = CDbl(rs!PISAliq): .COFINSAliq = CDbl(rs!COFINSAliq)
+         .IBSUFpAliq = CDbl(rs!IBSUFpAliq): .IBSMunpAliq = CDbl(rs!IBSMunpAliq)
+         .CBSpAliq = CDbl(rs!CBSpAliq): .ISpIS = CDbl(rs!ISpIS)
          On Error GoTo ErrForm_Load
       End With
       n = n + 1
@@ -539,16 +674,16 @@ Private Sub Form_Load()
       Dim jcI As Integer, cForeI As Long
       cForeI = IIf(arrItens(n).Vinculado, vbBlack, RGB(0, 0, 128))
       For jcI = 0 To 4
-         lstItens.Row = n : lstItens.Col = jcI
+         lstItens.Row = n: lstItens.Col = jcI
          lstItens.CellBackColor = lstItens.BackColor
          lstItens.CellForeColor = cForeI
       Next jcI
       lstItens.Row = n
-      lstItens.Col = 0 : lstItens.Text = arrItens(n).cProd
-      lstItens.Col = 1 : lstItens.Text = arrItens(n).Nome
-      lstItens.Col = 2 : lstItens.Text = arrItens(n).uCom
-      lstItens.Col = 3 : lstItens.Text = arrItens(n).sEAN
-      lstItens.Col = 4 : lstItens.Text = IIf(arrItens(n).Vinculado, "[OK]", "")
+      lstItens.Col = 0: lstItens.Text = arrItens(n).cProd
+      lstItens.Col = 1: lstItens.Text = arrItens(n).Nome
+      lstItens.Col = 2: lstItens.Text = arrItens(n).uCom
+      lstItens.Col = 3: lstItens.Text = arrItens(n).sEAN
+      lstItens.Col = 4: lstItens.Text = IIf(arrItens(n).Vinculado, "[OK]", "")
    Next n
 
    'Inicializa colunas do lstProdutos
@@ -599,23 +734,23 @@ End Sub
 Private Sub AtualizarItemLista(idx As Integer)
    Dim jcA As Integer, cBackA As Long, cForeA As Long
    If idx = iSelecionado Then
-      cBackA = RGB(0, 102, 204) : cForeA = vbWhite
+      cBackA = RGB(0, 102, 204): cForeA = vbWhite
    ElseIf arrItens(idx).Vinculado Then
-      cBackA = lstItens.BackColor : cForeA = vbBlack
+      cBackA = lstItens.BackColor: cForeA = vbBlack
    Else
-      cBackA = lstItens.BackColor : cForeA = RGB(0, 0, 128)
+      cBackA = lstItens.BackColor: cForeA = RGB(0, 0, 128)
    End If
    For jcA = 0 To 4
-      lstItens.Row = idx : lstItens.Col = jcA
+      lstItens.Row = idx: lstItens.Col = jcA
       lstItens.CellBackColor = cBackA
       lstItens.CellForeColor = cForeA
    Next jcA
    lstItens.Row = idx
-   lstItens.Col = 0 : lstItens.Text = arrItens(idx).cProd
-   lstItens.Col = 1 : lstItens.Text = arrItens(idx).Nome
-   lstItens.Col = 2 : lstItens.Text = arrItens(idx).uCom
-   lstItens.Col = 3 : lstItens.Text = arrItens(idx).sEAN
-   lstItens.Col = 4 : lstItens.Text = IIf(arrItens(idx).Vinculado, "[OK]", "")
+   lstItens.Col = 0: lstItens.Text = arrItens(idx).cProd
+   lstItens.Col = 1: lstItens.Text = arrItens(idx).Nome
+   lstItens.Col = 2: lstItens.Text = arrItens(idx).uCom
+   lstItens.Col = 3: lstItens.Text = arrItens(idx).sEAN
+   lstItens.Col = 4: lstItens.Text = IIf(arrItens(idx).Vinculado, "[OK]", "")
 End Sub
 
 '==============================================================
@@ -632,7 +767,7 @@ Private Sub lstItens_Click()
       Dim jcP As Integer, cForeP As Long
       cForeP = IIf(arrItens(iPrev).Vinculado, vbBlack, RGB(0, 0, 128))
       For jcP = 0 To 4
-         lstItens.Row = iPrev : lstItens.Col = jcP
+         lstItens.Row = iPrev: lstItens.Col = jcP
          lstItens.CellBackColor = lstItens.BackColor
          lstItens.CellForeColor = cForeP
       Next jcP
@@ -658,7 +793,7 @@ Private Sub lstItens_Click()
    lblEANVal.Caption = arrItens(idx).sEAN
    lblXProdVal.Caption = arrItens(idx).Nome
    lblUComVal.Caption = arrItens(idx).uCom
-   lblVUnComVal.Caption = "R$ " & Format(arrItens(idx).vUnCom, "##,##0.0000")
+   lblVUnComVal.Caption = FormatNumber(arrItens(idx).vUnCom, 2)
 
    'Limpa busca
    LimparProdutos
@@ -715,7 +850,7 @@ Private Sub cmdBuscar_Click()
    ReDim arrIDProduto(0)
 
    If TbBusca.EOF Then
-      lstProdutos.Row = 0 : lstProdutos.Col = 0
+      lstProdutos.Row = 0: lstProdutos.Col = 0
       lstProdutos.Text = "  (nenhum produto encontrado)"
       Exit Sub
    End If
@@ -749,7 +884,7 @@ Private Sub cmdBuscar_Click()
                If arrIDProduto(k) = idVinc Then
                   Dim jcK As Integer
                   For jcK = 0 To 3
-                     lstProdutos.Row = k - 1 : lstProdutos.Col = jcK
+                     lstProdutos.Row = k - 1: lstProdutos.Col = jcK
                      lstProdutos.CellForeColor = RGB(180, 0, 0)
                      lstProdutos.CellBackColor = lstProdutos.BackColor
                   Next jcK
@@ -763,7 +898,8 @@ End Sub
 
 '==============================================================
 Private Sub txtBusca_KeyPress(KeyAscii As Integer)
-   If KeyAscii = 13 Then cmdBuscar_Click
+KeyAscii = Asc(UCase(Chr(KeyAscii)))
+If KeyAscii = 13 Then cmdBuscar_Click
 End Sub
 
 '==============================================================
@@ -845,22 +981,24 @@ Private Sub cmdCadastrar_Click()
    frac = Val(txtFracionamento.Text)
    If frac <= 0 Then frac = 1
 
-   Dim item As tItemXML
-   item = arrItens(iSelecionado)
+   Dim Item As tItemXML
+   Item = arrItens(iSelecionado)
 
-   'Pergunta modo de venda
-   Dim resp As Integer
-   resp = MsgBox("Como este produto sera vendido?" & vbCrLf & vbCrLf & _
-                 "SIM  = Atacado (vende a caixa/embalagem do fornecedor)" & vbCrLf & _
-                 "NAO  = Varejo  (vende a unidade individual)", _
-                 vbQuestion + vbYesNoCancel, "Modo de Venda")
-   If resp = vbCancel Then Exit Sub
+   ' Exibir form de escolha do modo de cadastro
+   Load frmModoVenda
+   frmModoVenda.SetNome Item.Nome
+   frmModoVenda.Show vbModal, Me
+   Dim nEscolha As Integer
+   nEscolha = frmModoVenda.Escolha
+   Unload frmModoVenda
+   If nEscolha = 0 Then Exit Sub
+
    Dim bVarejo As Boolean
-   bVarejo = (resp = vbNo)
+   bVarejo = (nEscolha = 2)
 
    'Unidade convertida para 2 chars maiusculo
    Dim sUnidade As String
-   sUnidade = ConverterUnidade(item.uCom, bVarejo)
+   sUnidade = ConverterUnidade(Item.uCom, bVarejo)
 
    'Tributacao conforme regime da revenda
    Dim iRegime As Integer
@@ -873,7 +1011,7 @@ Private Sub cmdCadastrar_Click()
    'Digito 4 (ex: 1405,2403,5405) -> 5405 (com ST)
    'Digito 1 (ex: 1102,5102) ou outros -> 5102
    Dim sCFOPSaida As String
-   If Len(item.CFOP) >= 2 And Mid(item.CFOP, 2, 1) = "4" Then
+   If Len(Item.CFOP) >= 2 And Mid(Item.CFOP, 2, 1) = "4" Then
       sCFOPSaida = "5405"
    Else
       sCFOPSaida = "5102"
@@ -902,11 +1040,11 @@ Private Sub cmdCadastrar_Click()
       sCOFINSCST = "07": dCOFINSAliq = 0
    Else
       'Regime Normal: usa valores da NF-e de entrada
-      sICMSCST = item.ICMSCST: dICMSAliq = item.ICMSAliq
-      dpRedBC = item.pRedBC
-      sIPICST = item.IPICST: dIPIAliq = item.IPIAliq
-      sPISCST = item.PISCST: dPISAliq = item.PISAliq
-      sCOFINSCST = item.COFINSCST: dCOFINSAliq = item.COFINSAliq
+      sICMSCST = Item.ICMSCST: dICMSAliq = Item.ICMSAliq
+      dpRedBC = Item.pRedBC
+      sIPICST = Item.IPICST: dIPIAliq = Item.IPIAliq
+      sPISCST = Item.PISCST: dPISAliq = Item.PISAliq
+      sCOFINSCST = Item.COFINSCST: dCOFINSAliq = Item.COFINSAliq
    End If
 
    Dim sDesc   As String
@@ -915,14 +1053,14 @@ Private Sub cmdCadastrar_Click()
    If bVarejo Then
       'Varejo: exibe form para o usuario informar EAN da unidade
       Load frmCadProdXML
-      frmCadProdXML.PubNome = item.Nome
+      frmCadProdXML.PubNome = Item.Nome
       frmCadProdXML.PubUnidade = sUnidade
-      frmCadProdXML.PubNCM = item.NCM
-      frmCadProdXML.PubCEST = item.CEST
+      frmCadProdXML.PubNCM = Item.NCM
+      frmCadProdXML.PubCEST = Item.CEST
       frmCadProdXML.PubICMSCST = sICMSCST
       frmCadProdXML.PubPISCST = sPISCST
       frmCadProdXML.PubCOFINSCST = sCOFINSCST
-      frmCadProdXML.PubValorUnit = item.vUnCom / frac
+      frmCadProdXML.PubValorUnit = Item.vUnCom / frac
       frmCadProdXML.PubRegime = iRegime
       frmCadProdXML.InicializarUI
       frmCadProdXML.Show vbModal, Me
@@ -936,13 +1074,138 @@ Private Sub cmdCadastrar_Click()
       Unload frmCadProdXML
    Else
       'Atacado: usa nome e EAN da caixa conforme NF-e
-      If MsgBox("Criar produto (ATACADO) com os dados da XML?" & vbCrLf & vbCrLf & _
-                "Descricao: " & item.Nome & vbCrLf & _
-                "Unidade  : " & sUnidade & vbCrLf & _
-                "NCM      : " & item.NCM, _
-                vbQuestion + vbYesNo, "Cadastrar Produto - Atacado") = vbNo Then Exit Sub
-      sDesc = item.Nome
-      sEANCad = item.sEAN
+      Dim sEANAtac As String
+      sEANAtac = Trim(Item.sEAN)
+      If nEscolha <> 3 And sEANAtac <> "" And UCase(sEANAtac) <> "SEM GTIN" Then
+         Dim sEANAtacEsc As String
+         sEANAtacEsc = Replace(sEANAtac, "'", "''")
+         Dim lQtdDupAtac As Long
+         lQtdDupAtac = SQLExecutaRetorno("SELECT COUNT(*) r FROM Produtos WHERE LTRIM(RTRIM(ISNULL(COD_BARRA,''))) = '" & sEANAtacEsc & "' OR LTRIM(RTRIM(ISNULL(EAN,''))) = '" & sEANAtacEsc & "'", "r", 0)
+         If lQtdDupAtac > 0 Then
+            Dim lCodDupAtac As Long
+            lCodDupAtac = SQLExecutaRetorno("SELECT TOP 1 Codigo r FROM Produtos WHERE LTRIM(RTRIM(ISNULL(COD_BARRA,''))) = '" & sEANAtacEsc & "' OR LTRIM(RTRIM(ISNULL(EAN,''))) = '" & sEANAtacEsc & "'", "r", 0)
+            Dim sDescAtac As String
+            sDescAtac = SQLExecutaRetorno("SELECT ISNULL(DESCRICAO,'') r FROM Produtos WHERE Codigo = " & lCodDupAtac, "r", "")
+            MsgBox "Ja existe um produto cadastrado com este codigo de barras:" & vbCrLf & vbCrLf & _
+                   "EAN: " & sEANAtac & vbCrLf & _
+                   "Descricao: " & sDescAtac & vbCrLf & vbCrLf & _
+                   "Verifique se o produto ja esta cadastrado antes de criar um novo.", _
+                   vbExclamation, "Codigo de Barras Duplicado"
+            Exit Sub
+         End If
+      End If
+      If nEscolha = 3 Then
+         If MsgBox("Deseja fazer o cadastro do produto abaixo?" & vbCrLf & vbCrLf & _
+                   "Descricao: " & Item.Nome & vbCrLf & _
+                   "EAN      : " & Item.sEAN & vbCrLf & _
+                   "Unidade  : " & sUnidade, _
+                   vbQuestion + vbYesNo, "Cadastrar Produto - Manual") = vbNo Then Exit Sub
+      Else
+         If MsgBox("Criar produto (ATACADO) com os dados da XML?" & vbCrLf & vbCrLf & _
+                   "Descricao: " & Item.Nome & vbCrLf & _
+                   "Unidade  : " & sUnidade & vbCrLf & _
+                   "NCM      : " & Item.NCM, _
+                   vbQuestion + vbYesNo, "Cadastrar Produto - Atacado") = vbNo Then Exit Sub
+      End If
+      sDesc = Item.Nome
+      sEANCad = Item.sEAN
+   End If
+
+   ' MANUAL: abre Produtos_Cadastro pre-preenchido com dados da XML
+   If nEscolha = 3 Then
+      Dim lMaxCodAnt As Long
+      lMaxCodAnt = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Produtos", "r", 0)
+
+      Load Produtos_Cadastro
+      Produtos_Cadastro.SSTab1.Tab = 0
+      Produtos_Cadastro.CriarNovoProduto
+
+      ' Dados basicos
+      If Item.sEAN = "SEM GTIN" Or Item.sEAN = "" Then
+          Produtos_Cadastro.txtCodBarra.Text = ""
+          Produtos_Cadastro.txtEAN.Text = ""
+      Else
+          Produtos_Cadastro.txtCodBarra.Text = Item.sEAN
+          Produtos_Cadastro.txtEAN.Text = Item.sEAN
+      End If
+      Produtos_Cadastro.txtDescricao.Text = Item.Nome
+      Produtos_Cadastro.cboUnidMedida.Text = ConverterUnidade(Item.uCom, False)
+      Produtos_Cadastro.txtNCM.Text = Item.NCM
+      Produtos_Cadastro.txtCEST.Text = Item.CEST
+
+      ' CFOP e CST ja convertidos pelo regime
+      Produtos_Cadastro.cboCFOP.Text = sCFOPSaida
+      Produtos_Cadastro.cboCST.Text = sICMSCST
+
+      ' ICMS
+      Produtos_Cadastro.txtICMSAliquota.Text = FormatNumber(dICMSAliq, 2)
+      Produtos_Cadastro.txtRedBCAliquota.Text = FormatNumber(dpRedBC, 2)
+
+      ' ST
+      Produtos_Cadastro.txtMVA.Text = FormatNumber(Item.pMVAST, 2)
+      Produtos_Cadastro.txtSTAliq.Text = FormatNumber(Item.pICMSST, 2)
+      Produtos_Cadastro.txtRedBCST.Text = FormatNumber(Item.pRedBCST, 2)
+      If Item.modBC >= 0 And Item.modBC <= 3 Then Produtos_Cadastro.cboModBC.ListIndex = Item.modBC
+      If Item.modBCST >= 0 And Item.modBCST <= 6 Then Produtos_Cadastro.cboModBCST.ListIndex = Item.modBCST
+
+      ' PIS / COFINS / IPI
+      Produtos_Cadastro.txtPISCST.Text = sPISCST
+      Produtos_Cadastro.txtPisAliquota.Text = FormatNumber(dPISAliq, 2)
+      Produtos_Cadastro.txtCOFINSCST.Text = sCOFINSCST
+      Produtos_Cadastro.txtCofinsAliquota.Text = FormatNumber(dCOFINSAliq, 2)
+      Produtos_Cadastro.txtIPICST.Text = sIPICST
+      Produtos_Cadastro.txtIPIAliquota.Text = FormatNumber(dIPIAliq, 2)
+
+      ' Reforma Tributaria: selecionar combos pelo prefixo de 2 digitos
+      Dim kM As Integer
+      Dim sIBSM As String
+      sIBSM = Left(Item.IBSCBSCST & "  ", 2)
+      If Trim(sIBSM) = "" Then sIBSM = "01"
+      For kM = 0 To Produtos_Cadastro.cboIBSCBSCST.ListCount - 1
+          If Left(Produtos_Cadastro.cboIBSCBSCST.List(kM), 2) = sIBSM Then
+              Produtos_Cadastro.cboIBSCBSCST.ListIndex = kM: Exit For
+          End If
+      Next kM
+      Produtos_Cadastro.txtCBSpAliq.Text = FormatNumber(Item.CBSpAliq, 4)
+      Produtos_Cadastro.txtIBSUFpAliq.Text = FormatNumber(Item.IBSUFpAliq, 4)
+      Produtos_Cadastro.txtIBSMunpAliq.Text = FormatNumber(Item.IBSMunpAliq, 4)
+      Dim sISM As String
+      sISM = Left(Item.ISCST & "  ", 2)
+      If Trim(sISM) = "" Then sISM = "00"
+      For kM = 0 To Produtos_Cadastro.cboISCST.ListCount - 1
+          If Left(Produtos_Cadastro.cboISCST.List(kM), 2) = sISM Then
+              Produtos_Cadastro.cboISCST.ListIndex = kM: Exit For
+          End If
+      Next kM
+      Produtos_Cadastro.txtISpIS.Text = FormatNumber(Item.ISpIS, 4)
+
+      ' Custo e margens
+      Produtos_Cadastro.txtCusto.Text = Format(Item.vUnCom / frac, "##,##0.00")
+      Produtos_Cadastro.txtMargemVV.Text = "0,00%"
+      Produtos_Cadastro.txtMargemVP.Text = "0,00%"
+      Produtos_Cadastro.txtMargemAV.Text = "0,00%"
+      Produtos_Cadastro.txtMargemAP.Text = "0,00%"
+      Produtos_Cadastro.txtValorVV.Text = "0,00"
+      Produtos_Cadastro.txtValorVP.Text = "0,00"
+      Produtos_Cadastro.txtValorAV.Text = "0,00"
+      Produtos_Cadastro.txtValorAP.Text = "0,00"
+
+      Produtos_Cadastro.Show vbModal, Me
+
+      ' Verificar se produto foi salvo (codigo maior que o anterior)
+      Dim lNovoCod As Long
+      lNovoCod = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Produtos WHERE CODIGO > " & lMaxCodAnt, "r", 0)
+      If lNovoCod > 0 Then
+          If Not ExecutarVinculo(lNovoCod, frac) Then Exit Sub
+          arrItens(iSelecionado).Vinculado = True
+          arrItens(iSelecionado).IDProdVinculado = lNovoCod
+          AtualizarItemLista iSelecionado
+          AvancarParaProximo
+          VerificarConclusao
+      Else
+          MsgBox "Produto nao salvo. Realize o vinculo manualmente apos o cadastro.", vbInformation
+      End If
+      Exit Sub
    End If
 
    'Sanitiza
@@ -959,7 +1222,9 @@ Private Sub cmdCadastrar_Click()
           " cod_barra, ean, descricao, fabricante, unid_medida, categoria, PRATELEIRA, " & _
           " quant_min, INF_ADICIONA, quant_estoque, ref, tamanho, " & _
           " ICMSCST, ICMSAliq, PISCST, PISALIQ, COFINSCST, COFINSALIQ, IPICST, IPIALIQ, pRedBc, " & _
-          " NCM, CEST, CFOP, Alterado, PedirPeso, CODPROD_FRACAO, QUANT_FRACAO) " & _
+          " NCM, CEST, CFOP, Alterado, PedirPeso, CODPROD_FRACAO, QUANT_FRACAO, " & _
+          " pMVAST, pICMSST, pRedBCST, modBC, modBCST, " & _
+          " IBSCBSCST, CBSpAliq, IBSUFpAliq, IBSMunpAliq, ISCST, ISpIS, ESTOQUE_FISCAL) " & _
           "VALUES (" & _
           novoCodigo & ", 1, 0, 0, 0, 0, 0, 0, " & _
           "'" & sEANCad & "', '" & sEANCad & "', '" & sDesc & "', '', '" & sUnidade & "', '', '', " & _
@@ -969,7 +1234,12 @@ Private Sub cmdCadastrar_Click()
           "'" & sCOFINSCST & "', " & FSQL(dCOFINSAliq) & ", " & _
           "'" & sIPICST & "', " & FSQL(dIPIAliq) & ", " & _
           FSQL(dpRedBC) & ", " & _
-          "'" & item.NCM & "', '" & item.CEST & "', '" & sCFOPSaida & "', 0, 0, 0, 0)"
+          "'" & Item.NCM & "', '" & Item.CEST & "', '" & sCFOPSaida & "', 0, 0, 0, 0, " & _
+          FSQL(Item.pMVAST) & ", " & FSQL(Item.pICMSST) & ", " & FSQL(Item.pRedBCST) & ", " & _
+          Item.modBC & ", " & Item.modBCST & ", " & _
+          "'" & Item.IBSCBSCST & "', " & FSQL(Item.CBSpAliq) & ", " & _
+          FSQL(Item.IBSUFpAliq) & ", " & FSQL(Item.IBSMunpAliq) & ", " & _
+          "'" & Item.ISCST & "', " & FSQL(Item.ISpIS) & ", 0)"
 
    Dim msgErro As String
    msgErro = SQLExecuta(sSQL)
@@ -1023,21 +1293,21 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
    ExecutarVinculo = False
    If iSelecionado < 0 Then Exit Function
 
-   Dim item As tItemXML
-   item = arrItens(iSelecionado)
+   Dim Item As tItemXML
+   Item = arrItens(iSelecionado)
 
    Dim custoUnit As Double
-   custoUnit = IIf(frac > 0, item.vUnCom / frac, item.vUnCom)
+   custoUnit = Item.vUnTrib
 
    'EAN da embalagem
    Dim sEANEmb As String
-   sEANEmb = item.sEAN
+   sEANEmb = Item.sEAN
    If Vazio(sEANEmb) Then
       On Error Resume Next
       Dim rsE As New ADODB.Recordset
       RsOpen rsE, "SELECT EAN FROM EntradaEstoqueItens " & _
                   "WHERE CodigoNota = " & NumeroEntrada & _
-                  "  AND Referencia = '" & Replace(item.cProd, "'", "''") & "'"
+                  "  AND Referencia = '" & Replace(Item.cProd, "'", "''") & "'"
       If Err.Number = 0 Then
          If Not rsE.EOF Then sEANEmb = Trim(rsE!EAN & "")
       End If
@@ -1050,6 +1320,10 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
    Dim sEANProd As String
    sEANProd = Trim(SQLExecutaRetorno("SELECT ISNULL(EAN,'') r FROM Produtos WHERE Codigo = " & IDProdSel, "r", ""))
 
+   'Unidade de medida interna
+   Dim sUnidMedida As String
+   sUnidMedida = Trim(SQLExecutaRetorno("SELECT ISNULL(UNID_MEDIDA,'') r FROM Produtos WHERE Codigo = " & IDProdSel, "r", ""))
+
    'IDFornecedor
    Dim IDForn As Long
    IDForn = SQLExecutaRetorno("SELECT CodigoCorrentista FROM EntradaEstoque WHERE CodigoNota = " & NumeroEntrada, "CodigoCorrentista", 0)
@@ -1059,7 +1333,7 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
    sOutroCProd = SQLExecutaRetorno("SELECT TOP 1 cProd + ' - ' + xProd r FROM VinculoXMLProduto " & _
                   "WHERE IDFornecedor = " & IDForn & _
                   "  AND IDProduto = " & IDProdSel & _
-                  "  AND cProd <> '" & Replace(item.cProd, "'", "''") & "'", "r", "")
+                  "  AND cProd <> '" & Replace(Item.cProd, "'", "''") & "'", "r", "")
    If Len(Trim(sOutroCProd)) > 0 Then
       MsgBox "Este produto interno ja esta vinculado a outro item da NF-e:" & vbCrLf & vbCrLf & _
              sOutroCProd & vbCrLf & vbCrLf & _
@@ -1073,31 +1347,40 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
    Dim qtdExiste As Long
    qtdExiste = SQLExecutaRetorno("SELECT COUNT(*) r FROM VinculoXMLProduto " & _
                                  "WHERE IDFornecedor = " & IDForn & _
-                                 "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'", "r", 0)
+                                 "  AND cProd = '" & Replace(Item.cProd, "'", "''") & "'", "r", 0)
    Dim sSQL As String
    If qtdExiste = 0 Then
       sSQL = "INSERT INTO VinculoXMLProduto " & _
-             "(IDFornecedor, cProd, EANEmbalagem, xProd, uCom, IDProduto, EANProduto, Fracionamento, CustoUnitario, DataAtualizacao) " & _
+             "(IDFornecedor, cProd, EANEmbalagem, xProd, uCom, QuantidadeComercial, ValorUnitarioComercializacao, " & _
+             "IDProduto, EANProduto, UNID_MEDIDA, Fracionamento, CustoUnitario, DataAtualizacao) " & _
              "VALUES (" & _
              IDForn & ", " & _
-             "'" & Replace(item.cProd, "'", "''") & "', " & _
+             "'" & Replace(Item.cProd, "'", "''") & "', " & _
              "'" & sEANEmb & "', " & _
-             "'" & Replace(item.Nome, "'", "''") & "', " & _
-             "'" & item.uCom & "', " & _
+             "'" & Replace(Item.Nome, "'", "''") & "', " & _
+             "'" & Item.uCom & "', " & _
+             FSQL(Item.qCom) & ", " & _
+             FSQL(Item.vUnCom) & ", " & _
              IDProdSel & ", " & _
              "'" & sEANProd & "', " & _
+             "'" & sUnidMedida & "', " & _
              FSQL(frac) & ", " & _
              FSQL(custoUnit) & ", GETDATE())"
    Else
       sSQL = "UPDATE VinculoXMLProduto SET " & _
+             "EANEmbalagem = '" & sEANEmb & "', " & _
+             "xProd = '" & Replace(Item.Nome, "'", "''") & "', " & _
+             "uCom = '" & Item.uCom & "', " & _
+             "QuantidadeComercial = " & FSQL(Item.qCom) & ", " & _
+             "ValorUnitarioComercializacao = " & FSQL(Item.vUnCom) & ", " & _
              "IDProduto = " & IDProdSel & ", " & _
              "EANProduto = '" & sEANProd & "', " & _
-             "EANEmbalagem = '" & sEANEmb & "', " & _
+             "UNID_MEDIDA = '" & sUnidMedida & "', " & _
              "Fracionamento = " & FSQL(frac) & ", " & _
              "CustoUnitario = " & FSQL(custoUnit) & ", " & _
              "DataAtualizacao = GETDATE() " & _
              "WHERE IDFornecedor = " & IDForn & _
-             "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'"
+             "  AND cProd = '" & Replace(Item.cProd, "'", "''") & "'"
    End If
 
    Dim msgErro As String
@@ -1107,13 +1390,15 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
       Exit Function
    End If
 
-   'Atualiza CodigoProduto + quantidades em EntradaEstoqueItens
+   'Atualiza EANEmbalagem e Fracionamento em Produtos
+   SQLExecuta "UPDATE Produtos SET EANEmbalagem = '" & sEANEmb & "', " & _
+              "Fracionamento = " & FSQL(frac) & " WHERE Codigo = " & IDProdSel
+
+   'Vincula CodigoProduto em EntradaEstoqueItens (dados brutos da XML preservados)
    sSQL = "UPDATE EntradaEstoqueItens SET " & _
-          "CodigoProduto = " & IDProdSel & ", " & _
-          "QuantidadeComercial = QuantidadeComercial * " & FSQL(frac) & ", " & _
-          "ValorUnitarioComercializacao = ValorUnitarioComercializacao / " & FSQL(frac) & " " & _
+          "CodigoProduto = " & IDProdSel & " " & _
           "WHERE CodigoNota = " & NumeroEntrada & _
-          "  AND Referencia = '" & Replace(item.cProd, "'", "''") & "' " & _
+          "  AND Referencia = '" & Replace(Item.cProd, "'", "''") & "' " & _
           "  AND (CodigoProduto = 0 OR CodigoProduto IS NULL)"
    msgErro = SQLExecuta(sSQL)
    If Not Vazio(msgErro) Then
@@ -1159,9 +1444,20 @@ Private Sub cmdDesvincular_Click()
       MsgBox "Este item nao possui vinculo para desfazer.", vbExclamation
       Exit Sub
    End If
+   Dim lAdicionada As Long
+   lAdicionada = SQLExecutaRetorno("SELECT COUNT(*) r FROM EntradaEstoqueItens " & _
+                                  "WHERE CodigoNota = " & NumeroEntrada & _
+                                  " AND Referencia = '" & Replace(arrItens(iSelecionado).cProd, "'", "''") & "'" & _
+                                  " AND Adicionada = 1", "r", 0)
+   If lAdicionada > 0 Then
+      MsgBox "Esse produto ja foi adicionado ao seu estoque!" & vbCrLf & _
+             "Para aceitar desvincular, voce precisa remove-lo da entrada de itens.", _
+             vbExclamation, "Operacao nao permitida"
+      Exit Sub
+   End If
 
-   Dim item As tItemXML
-   item = arrItens(iSelecionado)
+   Dim Item As tItemXML
+   Item = arrItens(iSelecionado)
 
    Dim IDForn As Long
    IDForn = SQLExecutaRetorno("SELECT CodigoCorrentista FROM EntradaEstoque WHERE CodigoNota = " & NumeroEntrada, "CodigoCorrentista", 0)
@@ -1171,14 +1467,14 @@ Private Sub cmdDesvincular_Click()
    Dim sDescVinc As String
    dFrac = SQLExecutaRetorno("SELECT ISNULL(Fracionamento,1) r FROM VinculoXMLProduto " & _
                              "WHERE IDFornecedor = " & IDForn & _
-                             "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'", "r", 1)
+                             "  AND cProd = '" & Replace(Item.cProd, "'", "''") & "'", "r", 1)
    sDescVinc = SQLExecutaRetorno("SELECT TOP 1 CAST(IDProduto AS VARCHAR) + ' - ' + xProd r FROM VinculoXMLProduto " & _
                                  "WHERE IDFornecedor = " & IDForn & _
-                                 "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'", "r", "")
+                                 "  AND cProd = '" & Replace(Item.cProd, "'", "''") & "'", "r", "")
    If dFrac <= 0 Then dFrac = 1
 
    If MsgBox("Desfazer vinculo do item:" & vbCrLf & vbCrLf & _
-             "NF-e    : " & item.cProd & " - " & item.Nome & vbCrLf & _
+             "NF-e    : " & Item.cProd & " - " & Item.Nome & vbCrLf & _
              "Produto : " & sDescVinc & vbCrLf & vbCrLf & _
              "O CodigoProduto sera zerado na entrada e o produto sera desvinculado.", _
              vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Desvinculo") = vbNo Then Exit Sub
@@ -1189,7 +1485,7 @@ Private Sub cmdDesvincular_Click()
                         "IDProduto = 0, EANProduto = '', Fracionamento = 1, " & _
                         "CustoUnitario = 0, DataAtualizacao = GETDATE() " & _
                         "WHERE IDFornecedor = " & IDForn & _
-                        "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'")
+                        "  AND cProd = '" & Replace(Item.cProd, "'", "''") & "'")
    If Not Vazio(msgErro) Then
       MsgBox "Erro ao desvincular: " & msgErro, vbCritical
       Exit Sub
@@ -1203,11 +1499,11 @@ Private Sub cmdDesvincular_Click()
              "QuantidadeComercial = QuantidadeComercial / " & FSQL(dFrac) & ", " & _
              "ValorUnitarioComercializacao = ValorUnitarioComercializacao * " & FSQL(dFrac) & " " & _
              "WHERE CodigoNota = " & NumeroEntrada & _
-             "  AND Referencia = '" & Replace(item.cProd, "'", "''") & "'"
+             "  AND Referencia = '" & Replace(Item.cProd, "'", "''") & "'"
    Else
       sSQL = "UPDATE EntradaEstoqueItens SET CodigoProduto = 0 " & _
              "WHERE CodigoNota = " & NumeroEntrada & _
-             "  AND Referencia = '" & Replace(item.cProd, "'", "''") & "'"
+             "  AND Referencia = '" & Replace(Item.cProd, "'", "''") & "'"
    End If
    msgErro = SQLExecuta(sSQL)
    If Not Vazio(msgErro) Then
@@ -1220,6 +1516,24 @@ Private Sub cmdDesvincular_Click()
    cmdBuscar_Click
    MsgBox "Vinculo desfeito com sucesso.", vbInformation
    AtualizarBotoes
+End Sub
+
+Private Sub cmdAlterar_Click()
+   Dim idxP As Integer
+   idxP = lstProdutos.Row + 1
+   If UBound(arrIDProduto) < idxP Then Exit Sub
+   Dim lCodProd As Long
+   lCodProd = arrIDProduto(idxP)
+   If lCodProd <= 0 Then Exit Sub
+
+   Load Produtos_Cadastro
+   Produtos_Cadastro.SSTab1.Tab = 0
+   Produtos_Cadastro.EditarProduto lCodProd
+   Produtos_Cadastro.Show vbModal, Me
+   Unload Produtos_Cadastro
+
+   ' Recarrega lstProdutos para exibir dados atualizados
+   cmdBuscar_Click
 End Sub
 
 '==============================================================
@@ -1267,12 +1581,15 @@ End Sub
 '==============================================================
 'Limpa o FlexGrid de produtos (equivalente a lstProdutos.Clear)
 Private Sub LimparProdutos()
-   lstProdutos.Rows = 1
+   lstProdutos.rows = 1
    lstProdutos.Row = 0
-   lstProdutos.Col = 0
-   lstProdutos.Text = ""
-   lstProdutos.CellForeColor = lstProdutos.ForeColor
-   lstProdutos.CellBackColor = lstProdutos.BackColor
+   Dim jcL As Integer
+   For jcL = 0 To lstProdutos.Cols - 1
+      lstProdutos.Col = jcL
+      lstProdutos.Text = ""
+      lstProdutos.CellForeColor = lstProdutos.ForeColor
+      lstProdutos.CellBackColor = lstProdutos.BackColor
+   Next jcL
 End Sub
 
 'Atualiza o Enabled dos botoes conforme o estado atual da selecao
@@ -1294,9 +1611,10 @@ Private Sub AtualizarBotoes()
       bTemProd = (arrIDProduto(idxP) > 0)
    End If
 
-   cmdVincular.Enabled    = bTemItem And (Not bVinculado) And bTemProd
+   cmdVincular.Enabled = bTemItem And (Not bVinculado) And bTemProd
    cmdDesvincular.Enabled = bTemItem And bVinculado And bTemProd
-   cmdCadastrar.Enabled   = bTemItem And (Not bVinculado)
+   cmdCadastrar.Enabled = bTemItem And (Not bVinculado)
+   cmdAlterar.Enabled = bTemProd
 End Sub
 
 'Adiciona uma linha ao FlexGrid de produtos (equivalente a lstProdutos.AddItem)
@@ -1304,8 +1622,8 @@ Private Sub AdicionarProduto(sCodigo As String, sNome As String, sUnid As String
    If lstProdutos.TextMatrix(0, 0) = "" Then
       lstProdutos.Row = 0
    Else
-      lstProdutos.Rows = lstProdutos.Rows + 1
-      lstProdutos.Row = lstProdutos.Rows - 1
+      lstProdutos.rows = lstProdutos.rows + 1
+      lstProdutos.Row = lstProdutos.rows - 1
    End If
    Dim jcAP As Integer
    For jcAP = 0 To 3
@@ -1313,8 +1631,8 @@ Private Sub AdicionarProduto(sCodigo As String, sNome As String, sUnid As String
       lstProdutos.CellForeColor = lstProdutos.ForeColor
       lstProdutos.CellBackColor = lstProdutos.BackColor
    Next jcAP
-   lstProdutos.Col = 0 : lstProdutos.Text = sCodigo
-   lstProdutos.Col = 1 : lstProdutos.Text = sNome
-   lstProdutos.Col = 2 : lstProdutos.Text = sUnid
-   lstProdutos.Col = 3 : lstProdutos.Text = sEAN
+   lstProdutos.Col = 0: lstProdutos.Text = sCodigo
+   lstProdutos.Col = 1: lstProdutos.Text = sNome
+   lstProdutos.Col = 2: lstProdutos.Text = sUnid
+   lstProdutos.Col = 3: lstProdutos.Text = sEAN
 End Sub

@@ -6553,7 +6553,7 @@ If txtPecas.Text <> "" And txtCodPeca.Text = "" Then
    sSQL = "SELECT DISTINCT produtos.codigo AS var_cod, produtos.ref AS var_ref, produtos.tamanho AS var_tam, produtos.fabricante AS var_fab, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc, " & _
       "produtos.quant_estoque AS var_quant, (SELECT  TOP 1 produtos_entrada_itens.venda FROM produtos_entrada_itens " & _
       "LEFT JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo " & _
-      "WHERE produtos_entrada_itens.codigo_produto = produtos.codigo ORDER BY " & _
+      "WHERE produtos_entrada_itens.CodigoProduto = produtos.codigo ORDER BY " & _
       "produtos_entrada.data_entrada DESC, produtos_entrada.hora_entrada) AS venda " & _
       "FROM produtos WHERE (descricao LIKE '%" & txtPecas.Text & "%') AND (produtos.ativo = 1) " & _
       "ORDER BY descricao;"

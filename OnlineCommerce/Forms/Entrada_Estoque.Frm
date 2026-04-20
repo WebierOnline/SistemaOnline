@@ -11,7 +11,7 @@ Begin VB.Form Entrada_Estoque
    Caption         =   "ENTRADA NO ESTOQUE PELA XML"
    ClientHeight    =   9930
    ClientLeft      =   735
-   ClientTop       =   1455
+   ClientTop       =   1755
    ClientWidth     =   16005
    KeyPreview      =   -1  'True
    LinkTopic       =   "Frm_NF"
@@ -32,73 +32,83 @@ Begin VB.Form Entrada_Estoque
       _ExtentY        =   16748
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Nota Fiscal"
       TabPicture(0)   =   "Entrada_Estoque.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdBuscarXML"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdExcluir"
-      Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "ChaDownloadXML"
-      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(2)=   "cmdDownloadXML"
       Tab(0).Control(3)=   "cmdImportarXML"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "cmdSair"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "cmdNovo"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "frmNota"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "Frame6"
-      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "frmValores"
-      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "txtCodNota"
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "txtCodPedido"
       Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "Tab_Entrada"
-      Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "frmProdFracionado"
-      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "Consulta"
       TabPicture(1)   =   "Entrada_Estoque.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame3"
-      Tab(1).Control(1)=   "GridNotas"
-      Tab(1).Control(2)=   "lblSomaNota"
-      Tab(1).Control(3)=   "lblTotalNota"
-      Tab(1).Control(4)=   "Label9"
-      Tab(1).Control(5)=   "Label13"
-      Tab(1).Control(6)=   "Label12"
-      Tab(1).Control(7)=   "Label10"
-      Tab(1).Control(8)=   "Label17"
-      Tab(1).Control(9)=   "Label18"
-      Tab(1).Control(10)=   "Label22"
-      Tab(1).Control(11)=   "Label7"
-      Tab(1).Control(12)=   "Label8"
-      Tab(1).Control(13)=   "Label21"
-      Tab(1).Control(14)=   "Label20"
-      Tab(1).Control(15)=   "Label19"
-      Tab(1).Control(16)=   "Label16"
-      Tab(1).Control(17)=   "Label15"
-      Tab(1).Control(18)=   "Label11"
-      Tab(1).Control(19)=   "Label14"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Label14"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "Label11"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "Label15"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "Label16"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "Label19"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "Label20"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "Label21"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "Label8"
+      Tab(1).Control(7).Enabled=   0   'False
+      Tab(1).Control(8)=   "Label7"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "Label22"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "Label18"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "Label17"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).Control(12)=   "Label10"
+      Tab(1).Control(12).Enabled=   0   'False
+      Tab(1).Control(13)=   "Label12"
+      Tab(1).Control(13).Enabled=   0   'False
+      Tab(1).Control(14)=   "Label13"
+      Tab(1).Control(14).Enabled=   0   'False
+      Tab(1).Control(15)=   "Label9"
+      Tab(1).Control(15).Enabled=   0   'False
+      Tab(1).Control(16)=   "lblTotalNota"
+      Tab(1).Control(16).Enabled=   0   'False
+      Tab(1).Control(17)=   "lblSomaNota"
+      Tab(1).Control(17).Enabled=   0   'False
+      Tab(1).Control(18)=   "GridNotas"
+      Tab(1).Control(18).Enabled=   0   'False
+      Tab(1).Control(19)=   "Frame3"
+      Tab(1).Control(19).Enabled=   0   'False
       Tab(1).ControlCount=   20
       Begin VB.Frame frmProdFracionado 
          Height          =   3675
-         Left            =   3420
-         TabIndex        =   218
-         Top             =   720
+         Left            =   -71040
+         TabIndex        =   163
+         Top             =   1560
          Visible         =   0   'False
          Width           =   9615
          Begin ChamaleonBtn.chameleonButton cmdProdFrancionado 
             Height          =   615
             Left            =   1740
-            TabIndex        =   224
+            TabIndex        =   164
             Top             =   2820
             Width           =   2175
             _ExtentX        =   3836
@@ -136,7 +146,7 @@ Begin VB.Form Entrada_Estoque
          Begin ChamaleonBtn.chameleonButton cmdProdOriginal 
             Height          =   615
             Left            =   5040
-            TabIndex        =   225
+            TabIndex        =   165
             Top             =   2820
             Width           =   2175
             _ExtentX        =   3836
@@ -190,7 +200,7 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H80000008&
             Height          =   720
             Left            =   240
-            TabIndex        =   223
+            TabIndex        =   166
             Top             =   1860
             Width           =   9225
             WordWrap        =   -1  'True
@@ -213,7 +223,7 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H00000080&
             Height          =   360
             Left            =   180
-            TabIndex        =   222
+            TabIndex        =   167
             Top             =   1320
             Width           =   855
          End
@@ -235,7 +245,7 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H80000008&
             Height          =   435
             Left            =   180
-            TabIndex        =   221
+            TabIndex        =   168
             Top             =   900
             Width           =   5445
          End
@@ -257,7 +267,7 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H00000080&
             Height          =   360
             Left            =   180
-            TabIndex        =   220
+            TabIndex        =   169
             Top             =   540
             Width           =   855
          End
@@ -279,14 +289,14 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H80000008&
             Height          =   435
             Left            =   180
-            TabIndex        =   219
+            TabIndex        =   170
             Top             =   120
             Width           =   2445
          End
       End
       Begin TabDlg.SSTab Tab_Entrada 
          Height          =   3195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   147
          Top             =   1380
          Width           =   15615
@@ -300,46 +310,74 @@ Begin VB.Form Entrada_Estoque
          Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "lblProdutoCadastrado"
          Tab(0).Control(0).Enabled=   0   'False
-         Tab(0).Control(1)=   "frmItens"
+         Tab(0).Control(1)=   "cmdVinculos"
          Tab(0).Control(1).Enabled=   0   'False
-         Tab(0).Control(2)=   "txtCFOPSel"
+         Tab(0).Control(2)=   "frmItens"
          Tab(0).Control(2).Enabled=   0   'False
-         Tab(0).Control(3)=   "txtCSTSel"
+         Tab(0).Control(3)=   "txtCFOPSel"
          Tab(0).Control(3).Enabled=   0   'False
-         Tab(0).Control(4)=   "txtNCMSel"
+         Tab(0).Control(4)=   "txtCSTSel"
          Tab(0).Control(4).Enabled=   0   'False
-         Tab(0).Control(5)=   "txtDescricaoSel"
+         Tab(0).Control(5)=   "txtNCMSel"
          Tab(0).Control(5).Enabled=   0   'False
-         Tab(0).Control(6)=   "txtValorSel"
+         Tab(0).Control(6)=   "txtDescricaoSel"
          Tab(0).Control(6).Enabled=   0   'False
-         Tab(0).Control(7)=   "txtCodBarraSel"
+         Tab(0).Control(7)=   "txtValorSel"
          Tab(0).Control(7).Enabled=   0   'False
-         Tab(0).Control(8)=   "txtUnidMedSel"
+         Tab(0).Control(8)=   "txtCodBarraSel"
          Tab(0).Control(8).Enabled=   0   'False
-         Tab(0).Control(9)=   "txtQuantSel"
+         Tab(0).Control(9)=   "txtUnidMedSel"
          Tab(0).Control(9).Enabled=   0   'False
-         Tab(0).Control(10)=   "cmdVinculos"
+         Tab(0).Control(10)=   "txtQuantSel"
          Tab(0).Control(10).Enabled=   0   'False
          Tab(0).ControlCount=   11
-         TabCaption(1)   =   "Informações"
+         TabCaption(1)   =   "Totais da nota"
          TabPicture(1)   =   "Entrada_Estoque.frx":008C
          Tab(1).ControlEnabled=   0   'False
          Tab(1).Control(0)=   "Frame1"
-         Tab(1).Control(1)=   "Frame13"
-         Tab(1).ControlCount=   2
+         Tab(1).ControlCount=   1
          TabCaption(2)   =   "Parcelas e Transportes"
          TabPicture(2)   =   "Entrada_Estoque.frx":00A8
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Frame2"
+         Tab(2).Control(0)=   "Frame13"
          Tab(2).Control(1)=   "Frame18"
-         Tab(2).ControlCount=   2
-         Begin VB.CommandButton cmdVinculos 
-            Caption         =   "Ver &Vinculos"
-            Height          =   375
-            Left            =   12960
-            TabIndex        =   229
-            Top             =   2760
-            Width           =   2175
+         Tab(2).Control(2)=   "Frame2"
+         Tab(2).ControlCount=   3
+         Begin VB.Frame Frame13 
+            Caption         =   "Informações"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1335
+            Left            =   -66540
+            TabIndex        =   211
+            Top             =   1740
+            Width           =   7035
+            Begin VB.TextBox txtInformacao 
+               Alignment       =   1  'Right Justify
+               Height          =   675
+               Left            =   120
+               MaxLength       =   50
+               TabIndex        =   212
+               Top             =   540
+               Width           =   6780
+            End
+            Begin VB.Label Label68 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Informações Adicionais"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   213
+               Top             =   300
+               Width           =   1635
+            End
          End
          Begin VB.Frame Frame18 
             Caption         =   "Parcelas"
@@ -352,58 +390,22 @@ Begin VB.Form Entrada_Estoque
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   2715
+            Height          =   1335
             Left            =   -66540
-            TabIndex        =   216
+            TabIndex        =   171
             Top             =   360
             Width           =   7035
             Begin MSFlexGridLib.MSFlexGrid MSFlexGrid1 
-               Height          =   1935
+               Height          =   975
                Left            =   120
-               TabIndex        =   217
-               Top             =   420
+               TabIndex        =   172
+               Top             =   240
                Width           =   6795
                _ExtentX        =   11986
-               _ExtentY        =   3413
+               _ExtentY        =   1720
                _Version        =   393216
                SelectionMode   =   1
                Appearance      =   0
-            End
-         End
-         Begin VB.Frame Frame13 
-            Caption         =   "Informações"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   2715
-            Left            =   -66600
-            TabIndex        =   210
-            Top             =   360
-            Width           =   7095
-            Begin VB.TextBox txtInformacao 
-               Alignment       =   1  'Right Justify
-               Height          =   855
-               Left            =   120
-               MaxLength       =   50
-               TabIndex        =   214
-               Top             =   540
-               Width           =   6840
-            End
-            Begin VB.Label Label68 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Informações Adicionais"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   215
-               Top             =   300
-               Width           =   1635
             End
          End
          Begin VB.Frame Frame2 
@@ -419,14 +421,14 @@ Begin VB.Form Entrada_Estoque
             EndProperty
             Height          =   2715
             Left            =   -74940
-            TabIndex        =   183
+            TabIndex        =   181
             Top             =   360
             Width           =   8355
             Begin VB.TextBox txtPlaca 
                Height          =   315
                Left            =   6480
                MaxLength       =   8
-               TabIndex        =   203
+               TabIndex        =   201
                Top             =   1140
                Width           =   1245
             End
@@ -434,7 +436,7 @@ Begin VB.Form Entrada_Estoque
                Height          =   315
                Left            =   7800
                MaxLength       =   2
-               TabIndex        =   202
+               TabIndex        =   200
                Top             =   1140
                Width           =   465
             End
@@ -442,14 +444,14 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "Volume"
                Height          =   1095
                Left            =   60
-               TabIndex        =   189
+               TabIndex        =   187
                Top             =   1500
                Width           =   8235
                Begin VB.TextBox txtVolPesoLiquido 
                   Height          =   315
                   Left            =   6480
                   MaxLength       =   50
-                  TabIndex        =   195
+                  TabIndex        =   193
                   Top             =   480
                   Width           =   1545
                End
@@ -457,7 +459,7 @@ Begin VB.Form Entrada_Estoque
                   Height          =   315
                   Left            =   3840
                   MaxLength       =   50
-                  TabIndex        =   194
+                  TabIndex        =   192
                   Top             =   480
                   Width           =   1065
                End
@@ -465,7 +467,7 @@ Begin VB.Form Entrada_Estoque
                   Height          =   315
                   Left            =   2160
                   MaxLength       =   50
-                  TabIndex        =   193
+                  TabIndex        =   191
                   Top             =   480
                   Width           =   1665
                End
@@ -473,7 +475,7 @@ Begin VB.Form Entrada_Estoque
                   Height          =   315
                   Left            =   900
                   MaxLength       =   50
-                  TabIndex        =   192
+                  TabIndex        =   190
                   Top             =   480
                   Width           =   1245
                End
@@ -481,7 +483,7 @@ Begin VB.Form Entrada_Estoque
                   Height          =   315
                   Left            =   60
                   MaxLength       =   50
-                  TabIndex        =   191
+                  TabIndex        =   189
                   Top             =   480
                   Width           =   825
                End
@@ -489,7 +491,7 @@ Begin VB.Form Entrada_Estoque
                   Height          =   315
                   Left            =   4920
                   MaxLength       =   50
-                  TabIndex        =   190
+                  TabIndex        =   188
                   Top             =   480
                   Width           =   1545
                End
@@ -499,7 +501,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Numeração"
                   Height          =   195
                   Left            =   3840
-                  TabIndex        =   201
+                  TabIndex        =   199
                   Top             =   240
                   Width           =   825
                End
@@ -509,7 +511,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Marca"
                   Height          =   195
                   Left            =   2160
-                  TabIndex        =   200
+                  TabIndex        =   198
                   Top             =   240
                   Width           =   450
                End
@@ -519,7 +521,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Qtde Vol."
                   Height          =   195
                   Left            =   60
-                  TabIndex        =   199
+                  TabIndex        =   197
                   Top             =   240
                   Width           =   660
                End
@@ -529,7 +531,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Peso bruto"
                   Height          =   195
                   Left            =   4920
-                  TabIndex        =   198
+                  TabIndex        =   196
                   Top             =   240
                   Width           =   765
                End
@@ -539,7 +541,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Peso liquido"
                   Height          =   195
                   Left            =   6480
-                  TabIndex        =   197
+                  TabIndex        =   195
                   Top             =   240
                   Width           =   855
                End
@@ -549,7 +551,7 @@ Begin VB.Form Entrada_Estoque
                   Caption         =   "Espécie"
                   Height          =   195
                   Left            =   900
-                  TabIndex        =   196
+                  TabIndex        =   194
                   Top             =   240
                   Width           =   570
                End
@@ -559,7 +561,7 @@ Begin VB.Form Entrada_Estoque
                Height          =   285
                Left            =   5280
                MaxLength       =   50
-               TabIndex        =   187
+               TabIndex        =   185
                Top             =   840
                Visible         =   0   'False
                Width           =   600
@@ -567,14 +569,14 @@ Begin VB.Form Entrada_Estoque
             Begin VB.ComboBox cboTransporte 
                Height          =   315
                Left            =   120
-               TabIndex        =   186
+               TabIndex        =   184
                Top             =   1140
                Width           =   6315
             End
             Begin VB.ComboBox cboModFrete 
                Height          =   315
                Left            =   120
-               TabIndex        =   184
+               TabIndex        =   182
                Top             =   540
                Width           =   3375
             End
@@ -584,7 +586,7 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "Placa"
                Height          =   195
                Left            =   6480
-               TabIndex        =   205
+               TabIndex        =   203
                Top             =   900
                Width           =   405
             End
@@ -594,7 +596,7 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "UF"
                Height          =   195
                Left            =   7800
-               TabIndex        =   204
+               TabIndex        =   202
                Top             =   900
                Width           =   210
             End
@@ -604,7 +606,7 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "Transportadora"
                Height          =   195
                Left            =   120
-               TabIndex        =   188
+               TabIndex        =   186
                Top             =   900
                Width           =   1080
             End
@@ -614,13 +616,13 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "Tipo de Frete"
                Height          =   195
                Left            =   120
-               TabIndex        =   185
+               TabIndex        =   183
                Top             =   300
                Width           =   945
             End
          End
          Begin VB.Frame Frame1 
-            Caption         =   "Valores e Impostos"
+            Caption         =   "Totais da Nota"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -634,236 +636,19 @@ Begin VB.Form Entrada_Estoque
             Left            =   -74880
             TabIndex        =   162
             Top             =   360
-            Width           =   8235
-            Begin VB.TextBox txtValorCOFINS 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   1695
-               MaxLength       =   50
-               TabIndex        =   208
-               Top             =   1680
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorPIS 
-               Alignment       =   1  'Right Justify
-               Height          =   315
+            Width           =   15375
+            Begin MSFlexGridLib.MSFlexGrid grdTotaisNota 
+               Height          =   2355
                Left            =   60
-               MaxLength       =   50
-               TabIndex        =   206
-               Top             =   1680
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorFrete 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   60
-               MaxLength       =   50
-               TabIndex        =   172
-               Top             =   1080
-               Width           =   1560
-            End
-            Begin VB.TextBox txtBaseICMS 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   60
-               MaxLength       =   50
-               TabIndex        =   171
-               Top             =   480
-               Width           =   1560
-            End
-            Begin VB.TextBox txtBaseICMSST 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   3315
-               MaxLength       =   50
-               TabIndex        =   170
-               Top             =   480
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorSeguro 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   1695
-               MaxLength       =   50
-               TabIndex        =   169
-               Top             =   1080
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorOutrasDespesas 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   4935
-               MaxLength       =   50
-               TabIndex        =   168
-               Top             =   1080
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorICMS 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   1695
-               MaxLength       =   50
-               TabIndex        =   167
-               Top             =   480
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorICMSST 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   4935
-               MaxLength       =   50
-               TabIndex        =   166
-               Top             =   480
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorIPI 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   6555
-               MaxLength       =   50
-               TabIndex        =   165
-               Top             =   1080
-               Width           =   1560
-            End
-            Begin VB.TextBox txtValorDesconto 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   3315
-               MaxLength       =   50
-               TabIndex        =   164
-               Top             =   1080
-               Width           =   1560
-            End
-            Begin VB.TextBox txtTotaldosProdutos 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   6555
-               Locked          =   -1  'True
-               MaxLength       =   50
-               TabIndex        =   163
-               TabStop         =   0   'False
-               Top             =   480
-               Width           =   1560
-            End
-            Begin VB.Label Label66 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do COFINS"
-               Height          =   195
-               Left            =   1740
-               TabIndex        =   209
-               Top             =   1440
-               Width           =   1215
-            End
-            Begin VB.Label Label65 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do PIS"
-               Height          =   195
-               Left            =   60
-               TabIndex        =   207
-               Top             =   1440
-               Width           =   885
-            End
-            Begin VB.Label Label32 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Base ICMS"
-               Height          =   195
-               Left            =   60
-               TabIndex        =   182
-               Top             =   240
-               Width           =   795
-            End
-            Begin VB.Label Label31 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Base ICMS ST"
-               Height          =   195
-               Left            =   3315
-               TabIndex        =   181
-               Top             =   240
-               Width           =   1050
-            End
-            Begin VB.Label Label30 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do Seguro"
-               Height          =   195
-               Left            =   1695
-               TabIndex        =   180
-               Top             =   840
-               Width           =   1140
-            End
-            Begin VB.Label Label29 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Outras Despesas"
-               Height          =   195
-               Left            =   4935
-               TabIndex        =   179
-               Top             =   840
-               Width           =   1215
-            End
-            Begin VB.Label Label28 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do Frete"
-               Height          =   195
-               Left            =   60
-               TabIndex        =   178
-               Top             =   840
-               Width           =   990
-            End
-            Begin VB.Label Label26 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do ICMS"
-               Height          =   195
-               Left            =   1695
-               TabIndex        =   177
-               Top             =   240
-               Width           =   1020
-            End
-            Begin VB.Label Label25 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do ICMS ST"
-               Height          =   195
-               Left            =   4935
-               TabIndex        =   176
-               Top             =   240
-               Width           =   1275
-            End
-            Begin VB.Label Label24 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do IPI"
-               Height          =   195
-               Left            =   6555
-               TabIndex        =   175
-               Top             =   840
-               Width           =   825
-            End
-            Begin VB.Label Label6 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Valor do Desconto"
-               Height          =   195
-               Left            =   3315
-               TabIndex        =   174
-               Top             =   840
-               Width           =   1320
-            End
-            Begin VB.Label Label2 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Total dos Produtos"
-               Height          =   195
-               Left            =   6555
                TabIndex        =   173
-               Top             =   240
-               Width           =   1335
+               Top             =   300
+               Width           =   15255
+               _ExtentX        =   26908
+               _ExtentY        =   4154
+               _Version        =   393216
+               ScrollBars      =   2
+               SelectionMode   =   1
+               Appearance      =   0
             End
          End
          Begin VB.TextBox txtQuantSel 
@@ -1019,7 +804,7 @@ Begin VB.Form Entrada_Estoque
             Width           =   750
          End
          Begin VB.Frame frmItens 
-            Caption         =   "Itens da Nota"
+            Caption         =   "Itens da Nota de Entrada (Compra)"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -1047,6 +832,92 @@ Begin VB.Form Entrada_Estoque
                SelectionMode   =   1
                Appearance      =   0
             End
+            Begin VB.Label Label74 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Sem vinculo"
+               Height          =   195
+               Index           =   3
+               Left            =   3780
+               TabIndex        =   174
+               Top             =   2040
+               Width           =   870
+            End
+            Begin VB.Label Label74 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Adicionado"
+               Height          =   195
+               Index           =   2
+               Left            =   5100
+               TabIndex        =   175
+               Top             =   2040
+               Width           =   795
+            End
+            Begin VB.Label Label74 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Com vinculo (não adicionado)"
+               Height          =   195
+               Index           =   1
+               Left            =   1260
+               TabIndex        =   176
+               Top             =   2040
+               Width           =   2100
+            End
+            Begin VB.Label Label74 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Legenda:"
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   195
+               Index           =   0
+               Left            =   120
+               TabIndex        =   177
+               Top             =   2040
+               Width           =   810
+            End
+            Begin VB.Label Label73 
+               AutoSize        =   -1  'True
+               BackColor       =   &H8000000D&
+               Caption         =   "    "
+               Height          =   195
+               Index           =   2
+               Left            =   3540
+               TabIndex        =   178
+               Top             =   2040
+               Width           =   180
+            End
+            Begin VB.Label Label73 
+               AutoSize        =   -1  'True
+               BackColor       =   &H000040C0&
+               Caption         =   "    "
+               Height          =   195
+               Index           =   1
+               Left            =   4860
+               TabIndex        =   179
+               Top             =   2040
+               Width           =   180
+            End
+            Begin VB.Label Label73 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00000000&
+               Caption         =   "    "
+               Height          =   195
+               Index           =   0
+               Left            =   1020
+               TabIndex        =   180
+               Top             =   2040
+               Width           =   180
+            End
             Begin VB.Label lblValorNota 
                Alignment       =   1  'Right Justify
                AutoSize        =   -1  'True
@@ -1063,7 +934,7 @@ Begin VB.Form Entrada_Estoque
                Height          =   195
                Left            =   14700
                TabIndex        =   153
-               Top             =   2100
+               Top             =   2040
                Width           =   225
             End
             Begin VB.Label lblSubTotal 
@@ -1082,7 +953,7 @@ Begin VB.Form Entrada_Estoque
                Height          =   195
                Left            =   12420
                TabIndex        =   152
-               Top             =   2100
+               Top             =   2040
                Width           =   225
             End
             Begin VB.Label lblTotalDesc 
@@ -1101,7 +972,7 @@ Begin VB.Form Entrada_Estoque
                Height          =   195
                Left            =   13800
                TabIndex        =   151
-               Top             =   2100
+               Top             =   2040
                Width           =   225
             End
             Begin VB.Label lblQuant 
@@ -1119,10 +990,48 @@ Begin VB.Form Entrada_Estoque
                Height          =   195
                Left            =   9900
                TabIndex        =   150
-               Top             =   2100
+               Top             =   2040
                Visible         =   0   'False
                Width           =   225
             End
+         End
+         Begin ChamaleonBtn.chameleonButton cmdVinculos 
+            Height          =   315
+            Left            =   13800
+            TabIndex        =   204
+            Top             =   2760
+            Width           =   1695
+            _ExtentX        =   2990
+            _ExtentY        =   556
+            BTYPE           =   3
+            TX              =   "Mostrar vinculos"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Entrada_Estoque.frx":00C4
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
          End
          Begin VB.Label lblProdutoCadastrado 
             AutoSize        =   -1  'True
@@ -1138,7 +1047,7 @@ Begin VB.Form Entrada_Estoque
             ForeColor       =   &H00000000&
             Height          =   195
             Left            =   12420
-            TabIndex        =   226
+            TabIndex        =   205
             Top             =   2820
             Width           =   75
          End
@@ -1147,7 +1056,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   13920
+         Left            =   -61080
          TabIndex        =   113
          TabStop         =   0   'False
          ToolTipText     =   "Cód do Pedido"
@@ -1158,7 +1067,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   14820
+         Left            =   -60180
          TabIndex        =   112
          TabStop         =   0   'False
          ToolTipText     =   "Cód da Nota"
@@ -1177,7 +1086,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   4815
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   97
          Top             =   4560
          Width           =   13395
@@ -1438,7 +1347,7 @@ Begin VB.Form Entrada_Estoque
                   FCOLO           =   0
                   MCOL            =   12632256
                   MPTR            =   1
-                  MICON           =   "Entrada_Estoque.frx":00C4
+                  MICON           =   "Entrada_Estoque.frx":00E0
                   UMCOL           =   -1  'True
                   SOFT            =   0   'False
                   PICPOS          =   0
@@ -1747,7 +1656,7 @@ Begin VB.Form Entrada_Estoque
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Entrada_Estoque.frx":00E0
+               MICON           =   "Entrada_Estoque.frx":00FC
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1786,7 +1695,7 @@ Begin VB.Form Entrada_Estoque
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Entrada_Estoque.frx":00FC
+               MICON           =   "Entrada_Estoque.frx":0118
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1867,7 +1776,7 @@ Begin VB.Form Entrada_Estoque
          End
          Begin ChamaleonBtn.chameleonButton cmdAdicionar2 
             Height          =   315
-            Left            =   9060
+            Left            =   10140
             TabIndex        =   23
             ToolTipText     =   "Adiciona"
             Top             =   2340
@@ -1894,8 +1803,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0118
-            PICN            =   "Entrada_Estoque.frx":0134
+            MICON           =   "Entrada_Estoque.frx":0134
+            PICN            =   "Entrada_Estoque.frx":0150
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1907,7 +1816,7 @@ Begin VB.Form Entrada_Estoque
          End
          Begin ChamaleonBtn.chameleonButton cmdRemover2 
             Height          =   315
-            Left            =   10680
+            Left            =   11760
             TabIndex        =   25
             ToolTipText     =   "Remove"
             Top             =   2340
@@ -1934,8 +1843,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":04CE
-            PICN            =   "Entrada_Estoque.frx":04EA
+            MICON           =   "Entrada_Estoque.frx":04EA
+            PICN            =   "Entrada_Estoque.frx":0506
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1986,7 +1895,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0884
+            MICON           =   "Entrada_Estoque.frx":08A0
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2025,7 +1934,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":08A0
+            MICON           =   "Entrada_Estoque.frx":08BC
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2064,7 +1973,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":08BC
+            MICON           =   "Entrada_Estoque.frx":08D8
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2103,7 +2012,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":08D8
+            MICON           =   "Entrada_Estoque.frx":08F4
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2142,7 +2051,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":08F4
+            MICON           =   "Entrada_Estoque.frx":0910
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2181,7 +2090,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0910
+            MICON           =   "Entrada_Estoque.frx":092C
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2220,7 +2129,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":092C
+            MICON           =   "Entrada_Estoque.frx":0948
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2259,7 +2168,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0948
+            MICON           =   "Entrada_Estoque.frx":0964
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2298,7 +2207,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0964
+            MICON           =   "Entrada_Estoque.frx":0980
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2353,7 +2262,7 @@ Begin VB.Form Entrada_Estoque
       Begin VB.Frame Frame6 
          Caption         =   "Frame6"
          Height          =   3135
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   72
          Top             =   6120
          Width           =   15
@@ -2570,8 +2479,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0980
-            PICN            =   "Entrada_Estoque.frx":099C
+            MICON           =   "Entrada_Estoque.frx":099C
+            PICN            =   "Entrada_Estoque.frx":09B8
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2610,8 +2519,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":0D36
-            PICN            =   "Entrada_Estoque.frx":0D52
+            MICON           =   "Entrada_Estoque.frx":0D52
+            PICN            =   "Entrada_Estoque.frx":0D6E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2661,7 +2570,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1095
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   55
          Top             =   8280
          Width           =   15615
@@ -2684,7 +2593,7 @@ Begin VB.Form Entrada_Estoque
             Begin VB.ComboBox cboOrdem 
                Height          =   315
                Left            =   3360
-               TabIndex        =   227
+               TabIndex        =   206
                Top             =   300
                Width           =   1755
             End
@@ -2701,7 +2610,7 @@ Begin VB.Form Entrada_Estoque
                Caption         =   "Ordem:"
                Height          =   195
                Left            =   2760
-               TabIndex        =   228
+               TabIndex        =   207
                Top             =   300
                Width           =   510
             End
@@ -2761,9 +2670,9 @@ Begin VB.Form Entrada_Estoque
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Entrada_Estoque.frx":10EC
-               PICN            =   "Entrada_Estoque.frx":1108
-               PICH            =   "Entrada_Estoque.frx":345B
+               MICON           =   "Entrada_Estoque.frx":1108
+               PICN            =   "Entrada_Estoque.frx":1124
+               PICH            =   "Entrada_Estoque.frx":3477
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2802,9 +2711,9 @@ Begin VB.Form Entrada_Estoque
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Entrada_Estoque.frx":57AE
-               PICN            =   "Entrada_Estoque.frx":57CA
-               PICH            =   "Entrada_Estoque.frx":7B1D
+               MICON           =   "Entrada_Estoque.frx":57CA
+               PICN            =   "Entrada_Estoque.frx":57E6
+               PICH            =   "Entrada_Estoque.frx":7B39
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2975,8 +2884,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":9E70
-            PICN            =   "Entrada_Estoque.frx":9E8C
+            MICON           =   "Entrada_Estoque.frx":9E8C
+            PICN            =   "Entrada_Estoque.frx":9EA8
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3014,8 +2923,8 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":A766
-            PICN            =   "Entrada_Estoque.frx":A782
+            MICON           =   "Entrada_Estoque.frx":A782
+            PICN            =   "Entrada_Estoque.frx":A79E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3038,7 +2947,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   31
          Top             =   360
          Width           =   15615
@@ -3046,7 +2955,7 @@ Begin VB.Form Entrada_Estoque
             BackColor       =   &H00C0FFFF&
             Height          =   315
             Left            =   10740
-            TabIndex        =   211
+            TabIndex        =   208
             Top             =   540
             Width           =   4455
          End
@@ -3135,7 +3044,7 @@ Begin VB.Form Entrada_Estoque
          Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
             Height          =   315
             Left            =   15180
-            TabIndex        =   212
+            TabIndex        =   209
             Top             =   540
             Width           =   315
             _ExtentX        =   556
@@ -3160,7 +3069,7 @@ Begin VB.Form Entrada_Estoque
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Entrada_Estoque.frx":C514
+            MICON           =   "Entrada_Estoque.frx":C530
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3176,7 +3085,7 @@ Begin VB.Form Entrada_Estoque
             Caption         =   "Chave"
             Height          =   195
             Left            =   10740
-            TabIndex        =   213
+            TabIndex        =   210
             Top             =   300
             Width           =   465
          End
@@ -3224,52 +3133,14 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   28
-         Top             =   6060
+         Top             =   4680
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "&Novo"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Entrada_Estoque.frx":C530
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdSair 
-         Height          =   615
-         Left            =   13560
-         TabIndex        =   29
-         Top             =   8640
-         Width           =   2175
-         _ExtentX        =   3836
-         _ExtentY        =   1085
-         BTYPE           =   3
-         TX              =   "&Fechar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3298,16 +3169,16 @@ Begin VB.Form Entrada_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdImportarXML 
+      Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   13560
-         TabIndex        =   27
-         Top             =   5400
+         Left            =   -61440
+         TabIndex        =   29
+         Top             =   8640
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   "&Ler XML"
+         TX              =   "&Fechar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3336,30 +3207,17 @@ Begin VB.Form Entrada_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin MSFlexGridLib.MSFlexGrid GridNotas 
-         Height          =   7515
-         Left            =   -74880
-         TabIndex        =   37
-         Top             =   480
-         Width           =   15615
-         _ExtentX        =   27543
-         _ExtentY        =   13256
-         _Version        =   393216
-         TextStyleFixed  =   1
-         SelectionMode   =   1
-         Appearance      =   0
-      End
-      Begin ChamaleonBtn.chameleonButton ChaDownloadXML 
+      Begin ChamaleonBtn.chameleonButton cmdImportarXML 
          Height          =   615
-         Left            =   13560
-         TabIndex        =   3
-         Top             =   7380
+         Left            =   -61440
+         TabIndex        =   27
+         Top             =   6660
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   "&Download XML"
-         ENAB            =   0   'False
+         TX              =   "&Ler XML"
+         ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -3387,16 +3245,29 @@ Begin VB.Form Entrada_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdExcluir 
+      Begin MSFlexGridLib.MSFlexGrid GridNotas 
+         Height          =   7515
+         Left            =   120
+         TabIndex        =   37
+         Top             =   480
+         Width           =   15615
+         _ExtentX        =   27543
+         _ExtentY        =   13256
+         _Version        =   393216
+         TextStyleFixed  =   1
+         SelectionMode   =   1
+         Appearance      =   0
+      End
+      Begin ChamaleonBtn.chameleonButton cmdDownloadXML 
          Height          =   615
-         Left            =   13560
-         TabIndex        =   26
-         Top             =   6720
+         Left            =   -61440
+         TabIndex        =   3
+         Top             =   6000
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   "&Excluir"
+         TX              =   "Baixar XML Direto"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3425,17 +3296,17 @@ Begin VB.Form Entrada_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdBuscarXML 
+      Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   13560
-         TabIndex        =   145
-         Top             =   4740
+         Left            =   -61440
+         TabIndex        =   26
+         Top             =   7320
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   "&Baixar XML"
-         ENAB            =   -1  'True
+         TX              =   "&Excluir"
+         ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -3463,6 +3334,44 @@ Begin VB.Form Entrada_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdBuscarXML 
+         Height          =   615
+         Left            =   -61440
+         TabIndex        =   145
+         Top             =   5340
+         Width           =   2175
+         _ExtentX        =   3836
+         _ExtentY        =   1085
+         BTYPE           =   3
+         TX              =   "&Baixar XML Sefaz"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Entrada_Estoque.frx":C5D8
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin VB.Label lblSomaNota 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
@@ -3477,7 +3386,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -59520
+         Left            =   15480
          TabIndex        =   141
          Top             =   8040
          Width           =   225
@@ -3495,7 +3404,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   71
          Top             =   8040
          Width           =   225
@@ -3505,7 +3414,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Placa"
          Height          =   195
-         Left            =   -66300
+         Left            =   8700
          TabIndex        =   54
          Top             =   2040
          Visible         =   0   'False
@@ -3516,7 +3425,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Numero"
          Height          =   195
-         Left            =   -70575
+         Left            =   4425
          TabIndex        =   53
          Top             =   2700
          Visible         =   0   'False
@@ -3527,7 +3436,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Marca"
          Height          =   195
-         Left            =   -71685
+         Left            =   3315
          TabIndex        =   52
          Top             =   2700
          Visible         =   0   'False
@@ -3538,7 +3447,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Qtde Vol."
          Height          =   195
-         Left            =   -73560
+         Left            =   1440
          TabIndex        =   50
          Top             =   2700
          Visible         =   0   'False
@@ -3549,7 +3458,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso bruto"
          Height          =   195
-         Left            =   -69570
+         Left            =   5430
          TabIndex        =   49
          Top             =   2700
          Visible         =   0   'False
@@ -3560,7 +3469,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso liquido"
          Height          =   195
-         Left            =   -68625
+         Left            =   6375
          TabIndex        =   48
          Top             =   2700
          Visible         =   0   'False
@@ -3571,7 +3480,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "UF"
          Height          =   195
-         Left            =   -65445
+         Left            =   9555
          TabIndex        =   47
          Top             =   2040
          Visible         =   0   'False
@@ -3582,7 +3491,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Transportadora"
          Height          =   195
-         Left            =   -70320
+         Left            =   4680
          TabIndex        =   46
          Top             =   2040
          Visible         =   0   'False
@@ -3593,7 +3502,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Fatura"
          Height          =   195
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   44
          Top             =   1200
          Visible         =   0   'False
@@ -3604,7 +3513,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS"
          Height          =   195
-         Left            =   -67605
+         Left            =   7395
          TabIndex        =   43
          Top             =   1440
          Visible         =   0   'False
@@ -3615,7 +3524,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS Sub."
          Height          =   195
-         Left            =   -66405
+         Left            =   8595
          TabIndex        =   42
          Top             =   1440
          Visible         =   0   'False
@@ -3626,7 +3535,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Seguro"
          Height          =   195
-         Left            =   -69870
+         Left            =   5130
          TabIndex        =   41
          Top             =   1440
          Visible         =   0   'False
@@ -3637,7 +3546,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Despesas"
          Height          =   195
-         Left            =   -68730
+         Left            =   6270
          TabIndex        =   40
          Top             =   1440
          Visible         =   0   'False
@@ -3648,7 +3557,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Mensagem"
          Height          =   195
-         Left            =   -72540
+         Left            =   2460
          TabIndex        =   39
          Top             =   1440
          Visible         =   0   'False
@@ -3659,7 +3568,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Especie"
          Height          =   195
-         Left            =   -72690
+         Left            =   2310
          TabIndex        =   51
          Top             =   2700
          Visible         =   0   'False
@@ -3670,7 +3579,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Valor do Frete"
          Height          =   195
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   45
          Top             =   2040
          Visible         =   0   'False
@@ -3692,8 +3601,8 @@ Begin VB.Form Entrada_Estoque
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   21749
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3705,7 +3614,7 @@ Begin VB.Form Entrada_Estoque
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "07:56"
+            TextSave        =   "06:47"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3722,6 +3631,34 @@ Begin VB.Form Entrada_Estoque
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
+   End
+   Begin VB.Menu Menu_Ajuda 
+      Caption         =   "&Ajuda"
+      Begin VB.Menu Menu_Ajuda_BaixarXML1 
+         Caption         =   "Aula 1 - Baixar XML Sefaz"
+      End
+      Begin VB.Menu Menu_Ajuda_BaixarXML2 
+         Caption         =   "Aula 1.1 - Baixar XML Direto"
+         Enabled         =   0   'False
+      End
+      Begin VB.Menu Menu_Ajuda_LerXML 
+         Caption         =   "Aula 2 - Ler XML"
+      End
+      Begin VB.Menu Menu_Ajuda_Vincular 
+         Caption         =   "Aula 3 - Vincular Produtos"
+      End
+      Begin VB.Menu Menu_Ajuda_Cadastro 
+         Caption         =   "Aula 4 - Cadastro de produtos pela XML"
+      End
+      Begin VB.Menu Menu_Ajuda_Adicionar 
+         Caption         =   "Aula 5 - Entrada de produtos ao Estoque"
+      End
+      Begin VB.Menu Menu_Ajuda_Remover 
+         Caption         =   "Aula 6 - Remover Entrada ao Estoque"
+      End
+      Begin VB.Menu Menu_Ajuda_ConsultaNota 
+         Caption         =   "Aula 7 - Encontrar uma Nota"
+      End
    End
 End
 Attribute VB_Name = "Entrada_Estoque"
@@ -3746,12 +3683,16 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim Compra As Long
 Dim oCfg As ConfigItem
+   Dim url As String
+   Dim chromePath As String
 
 'abrir site para consultar ncm
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
 ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, _
 ByVal nShowCmd As Long) As Long
 Private Const conSwNormal = 1
+
+
 
 Private Sub AtualizarGrid_Itens()
   Dim i As Integer
@@ -3797,14 +3738,14 @@ Tb("NCM") = Format(txtNCM, "@")
 Tb("CST") = Right(Format(txtCST, "@"), 3)
 Tb("UnidadeComercial") = UCase(Format(txtUnid, "@"))
 Tb("ValorUnitarioComercializacao") = CDbl(Format(txtValor, "@"))
-Tb("ValorTotalBruto") = CDbl(Format(txtSubtotal, "@"))
+Tb("ValorTotalBruto") = CDbl(Format(txtSubTotal, "@"))
 Tb("tipodesconto") = Format(1, "@")
 Tb("desconto") = CDbl(Format(txtDesc, "@"))
 Tb("Valordesconto") = CDbl(Format(txtDesc, "@"))
 If txtQuant.Text <> "" Then Tb("QuantidadeComercial") = CDbl(Format(txtQuant, "@")) Else Tb("QuantidadeComercial") = Format(1, "@")
 If txtICMS.Text <> "" Then Tb("pICMS") = CDbl(Format(txtICMS, "@"))
-If txtICMS.Text <> "" Then Tb("vBC") = CDbl(Format(txtSubtotal, "@"))
-If txtICMS.Text <> "" Then Tb("vICMS") = Round(Format(txtSubtotal, "@") * (Format(txtICMS, "@") / 100), 2)
+If txtICMS.Text <> "" Then Tb("vBC") = CDbl(Format(txtSubTotal, "@"))
+If txtICMS.Text <> "" Then Tb("vICMS") = Round(Format(txtSubTotal, "@") * (Format(txtICMS, "@") / 100), 2)
 End Sub
 
 Private Sub Calcular_Total()
@@ -3815,7 +3756,7 @@ If txtQuant.Text = "" Then var_Quant = 1 Else var_Quant = txtQuant.Text
 If txtValor.Text = "" Then var_VALOR = 0 Else var_VALOR = txtValor.Text
 
 var_Total = var_VALOR * var_Quant
-txtSubtotal.Text = Format(var_Total, ocMONEY)
+txtSubTotal.Text = Format(var_Total, ocMONEY)
 End Sub
 Sub Clear_Controls()
    Limpa_Tudo Me
@@ -3828,7 +3769,7 @@ txtCodProduto.Text = ""
 txtCST = Format("0", "@")
 txtNCM = Format("0", "@")
 txtValor = Format("0", "@")
-txtSubtotal = Format("0", "@")
+txtSubTotal = Format("0", "@")
 txtQuant = Format("1", "@")
 txtICMS = Format("0", "@")
 txtCfop = Format("0", "@")
@@ -3870,7 +3811,6 @@ Sub Load_Data()
     TbEntrada("VolumeMarca") = Format(Text12, "@")
     TbEntrada("VolumeNumeracao") = Format(txtVolNumeracao, "@")
     TbEntrada("CodigoObservacao") = IIf(IsNull(Format(Text15, "@")) Or Vazio(Format(Text15, "@")), 0, Format(Text15, "@"))
-    TbEntrada("ValorFrete") = IIf(Vazio(txtValorFrete), 0, CDbl(Format(txtValorFrete, "##0.00")))
     TbEntrada("ValorSeguro") = IIf(IsNull(Format(Text19, "@")) Or Vazio(Format(Text19, "@")), 0, CDbl(Format(Text19, "##0.00")))
     TbEntrada("ValorOutrasDespesas") = IIf(IsNull(Format(Text16, "@")) Or Vazio(Format(Text16, "@")), 0, CDbl(Format(Text16, "##0.00")))
     TbEntrada("NumeroNota") = Format(txtNumNota, "@")
@@ -3943,18 +3883,7 @@ Public Sub Load_Controls()
     
     Text15 = Format(TbEntrada("CodigoObservacao"), "@")
     
-    txtValorSeguro = Format(TbEntrada("ValorSeguro"), "##,##0.00")
-    txtValorOutrasDespesas = Format(TbEntrada("ValorOutrasDespesas"), "##,##0.00")
-    txtValorFrete = Format(TbEntrada("ValorFrete"), "##,##0.00")
-    txtBaseICMS = Format(TbEntrada("BaseICMS"), "##,##0.00")
-    txtValorICMS = Format(TbEntrada("ValorICMS"), "##,##0.00")
-    txtBaseICMSST = Format(TbEntrada("BaseICMSST"), "##,##0.00")
-    txtValorICMSST = Format(TbEntrada("ValorICMSST"), "##,##0.00")
-    txtValorIPI = Format(TbEntrada("ValorIPI"), "##,##0.00")
-    txtValorPIS = Format(TbEntrada("ValorPIS"), "##,##0.00")
-    txtValorCOFINS = Format(TbEntrada("ValorCOFINS"), "##,##0.00")
-    txtValorDesconto = Format(TbEntrada("ValorDesconto"), "##,##0.00")
-    txtTotaldosProdutos = Format(TbEntrada("ValorProdutos"), "##,##0.00")
+    CarregarTotaisNota TbEntrada
     txtTotaldaNota = Format(TbEntrada("valornota"), "##,##0.00")
     
     'transporte
@@ -4224,7 +4153,7 @@ On Error GoTo ErrLoad
 
 RsOpen TbConsulta, "SELECT top(200) CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 order by CodigoNota desc"
 
@@ -4486,26 +4415,93 @@ sHora = Format$(Time(), ocHORA)
 Dim VarCodEntradaNovo As Long
 VarCodEntradaNovo = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM produtos_entrada", "r", 0) + 1
 
-'-- colunas (parte 1: basicas)
-sSQL = "INSERT INTO produtos_entrada (" & _
-       "CODIGO, DATA_ENTRADA, HORA_ENTRADA, NOTAFISCAL, VALOR, " & _
+'-- colunas: parte 1 de 3
+sSQL = "INSERT INTO produtos_entrada (CODIGO, DATA_ENTRADA, HORA_ENTRADA, XML, " & _
+       "CodigoNota, NumeroNota, SerieNF, ModeloNF, cCodigoNota, TipoDocumento, " & _
+       "FinalidadeEmissaoNFe, TipoNota, ChavedeAcesso, ChavedeAcessoAdicional, " & _
        "DataEmissao, DataSaida, HoraSaida, " & _
-       "COD_FORNECEDOR, COD_TRANSPORTADORA, VALOR_FRETE, Chave, XML, TIPO_FRETE, " & _
-       "CodigoNota, SerieNF, ModeloNF, NaturezaOperacao, RazaoSocial, CNPJ_CPF, " & _
-       "ValorProdutos, ValorDesconto, ValorIPI, ValorICMS, ValorICMSST) "
-'-- SELECT valores (parte 2)
+       "NaturezaOperacao, IdentificadorDestino, ConsumidorFinal, IndicadorPresencaComprador, " & _
+       "RazaoSocial, CNPJ_CPF, InscricaoEstadual, InscricaoMunicipal, Suframa, " & _
+       "Logradouro, Numero, Complemento, Bairro, CodigoIBGE, Municipio, UF, CEP, CodigoPais, Pais, Telefone, " & _
+       "IndicadorFormaPagamento, FormatoImpressaoDANFE, FormatoEmissaoNFe, IndicadorIEDestinatario, Origem, " & _
+       "CodigoCorrentista, TranspCodigo, ValorFrete, ModFrete, TranspModFrete, "
+'-- colunas: parte 2 de 3
+sSQL = sSQL & _
+       "TranspNome, TranspInscricaoEstadual, TranspEndereco, TranspUF, TranspMunicipio, TranspCNPJ_CPF, " & _
+       "TranspValorServico, TranspBCRetencaoICMS, TranspAliquotaRetencaoICMS, TranspValorRetencaoICMS, " & _
+       "TranspCFOP, TranspcMunFG, TranspPlaca, TranspPlacaUF, TranspRNTC, " & _
+       "TranspReboquePlaca, TranspReboquePlacaUF, TranspReboqueRNTC, " & _
+       "VolumeQuantidade, VolumeEspecie, VolumeMarca, VolumeNumeracao, VolumePesoLiquido, VolumePesoBruto, Lacres, " & _
+       "ValorProdutos, ValorNota, ValorDesconto, ValorIPI, ValorICMS, ValorICMSST, " & _
+       "BaseICMS, BaseICMSST, ValorSeguro, TipoDesconto, PercDesconto, ValorImportacao, " & _
+       "ValorPIS, ValorCOFINS, ValorOutrasDespesas, ValorIsento, " & _
+       "ValorServico, ValorBCISS, ValorISS, ValorPISISS, ValorPISCOFINS, " & _
+       "ValorRetidoPIS, ValorRetidoCOFINS, ValorRetidoCSLL, ValorBCIRRF, ValorIRRF, " & _
+       "ValorRetidoBCPrev, ValorRetidoPrev, ValorFunRural, " & _
+       "ValorFCP, ValorFCPST, ValorFCPSTRet, ValorIPIDevol, " & _
+       "vFCPUFDest, vICMSUFDest, vICMSUFRemet, "
+'-- colunas: parte 3 de 3
+sSQL = sSQL & _
+       "qBCMono, vICMSMono, qBCMonoReten, vICMSMonoReten, qBCMonoRet, vICMSMonoRet, " & _
+       "vNFTot, TotTributos, PagvPag, vBCSTRetTotal, vICMSSTRetTotal, vICMSSubstitutoTotal, " & _
+       "TotIBSCBSvBC, TotIBSUFvDif, TotIBSUFvDevTrib, TotIBSUFvIBS, " & _
+       "TotIBSMunvDif, TotIBSMunvDevTrib, TotIBSMunvIBS, " & _
+       "TotIBSvIBS, TotIBSvCredPres, TotIBSvCredPresCondSus, " & _
+       "TotCBSvDif, TotCBSvDevTrib, TotCBSvCBS, TotCBSvCredPres, TotCBSvCredPresCondSus, " & _
+       "TotISvIS, TotIBSMonovIBSMono, TotIBSMonovCBSMono, " & _
+       "TotIBSMonovIBSMonoReten, TotIBSMonovCBSMonoReten, TotIBSMonovIBSMonoRet, TotIBSMonovCBSMonoRet, " & _
+       "NumeroFatura, ValorOriginalFatura, ValorDescontoFatura, ValorLiquidoFatura, " & _
+       "NumeroDuplicata, VencimentoDuplicata, ValorDuplicata, " & _
+       "InformacoesAdicionais, InformacoesComplementares, UFEmbarque, LocEmbarque, " & _
+       "NumeroRecibo, DataHoraRecebimento, NumeroProtocolo, DataHoraProcotolo, " & _
+       "Enviada, Cancelada, Denegada, Justificativa, EmProcessamento, " & _
+       "CodigoObservacao, CanceladaProtocolo, CodigoNatureza, " & _
+       "ContingenciaDataHora, ContingenciaJustificativa, Email, CodigoVenda) "
+'-- SELECT: parte 1 de 3
 sSQL = sSQL & _
        "SELECT " & VarCodEntradaNovo & ", " & _
        "CONVERT(DATETIME, '" & sData & "', 103), " & _
-       "CONVERT(DATETIME, '" & sHora & "', 103), " & _
-       "e.NumeroNota, e.ValorNota, e.DataEmissao, e.DataSaida, e.HoraSaida, " & _
-       "e.CodigoCorrentista, e.TranspCodigo, e.TranspValorServico, e.ChavedeAcesso, " & _
-       "1, CASE e.TranspModFrete " & _
-       "  WHEN 0 THEN '0 - EMITENTE' WHEN 1 THEN '1 - DESTINATARIO' " & _
-       "  WHEN 2 THEN '2 - TERCEIROS' WHEN 3 THEN '3 - PROP.EMITENTE' " & _
-       "  WHEN 4 THEN '4 - PROP.DESTINAT.' ELSE '9 - SEM TRANSPORTE' END, " & _
-       "e.CodigoNota, e.SerieNF, e.ModeloNF, e.NaturezaOperacao, e.RazaoSocial, e.CNPJ_CPF, " & _
-       "e.ValorProdutos, e.ValorDesconto, e.ValorIPI, e.ValorICMS, e.ValorICMSST " & _
+       "CONVERT(DATETIME, '" & sHora & "', 103), 1, " & _
+       "e.CodigoNota, e.NumeroNota, e.SerieNF, e.ModeloNF, e.cCodigoNota, e.TipoDocumento, " & _
+       "e.FinalidadeEmissaoNFe, e.TipoNota, e.ChavedeAcesso, e.ChavedeAcessoAdicional, " & _
+       "e.DataEmissao, e.DataSaida, e.HoraSaida, " & _
+       "e.NaturezaOperacao, e.IdentificadorDestino, e.ConsumidorFinal, e.IndicadorPresencaComprador, " & _
+       "e.RazaoSocial, e.CNPJ_CPF, e.InscricaoEstadual, e.InscricaoMunicipal, e.Suframa, " & _
+       "e.Logradouro, e.Numero, e.Complemento, e.Bairro, e.CodigoIBGE, e.Municipio, e.UF, e.CEP, e.CodigoPais, e.Pais, e.Telefone, " & _
+       "e.IndicadorFormaPagamento, e.FormatoImpressaoDANFE, e.FormatoEmissaoNFe, e.IndicadorIEDestinatario, e.Origem, " & _
+       "e.CodigoCorrentista, e.TranspCodigo, e.ValorFrete, e.ModFrete, e.TranspModFrete, "
+'-- SELECT: parte 2 de 3
+sSQL = sSQL & _
+       "e.TranspNome, e.TranspInscricaoEstadual, e.TranspEndereco, e.TranspUF, e.TranspMunicipio, e.TranspCNPJ_CPF, " & _
+       "e.TranspValorServico, e.TranspBCRetencaoICMS, e.TranspAliquotaRetencaoICMS, e.TranspValorRetencaoICMS, " & _
+       "e.TranspCFOP, e.TranspcMunFG, e.TranspPlaca, e.TranspPlacaUF, e.TranspRNTC, " & _
+       "e.TranspReboquePlaca, e.TranspReboquePlacaUF, e.TranspReboqueRNTC, " & _
+       "e.VolumeQuantidade, e.VolumeEspecie, e.VolumeMarca, e.VolumeNumeracao, e.VolumePesoLiquido, e.VolumePesoBruto, e.Lacres, " & _
+       "e.ValorProdutos, e.ValorNota, e.ValorDesconto, e.ValorIPI, e.ValorICMS, e.ValorICMSST, " & _
+       "e.BaseICMS, e.BaseICMSST, e.ValorSeguro, e.TipoDesconto, e.PercDesconto, e.ValorImportacao, " & _
+       "e.ValorPIS, e.ValorCOFINS, e.ValorOutrasDespesas, e.ValorIsento, " & _
+       "e.ValorServico, e.ValorBCISS, e.ValorISS, e.ValorPISISS, e.ValorPISCOFINS, " & _
+       "e.ValorRetidoPIS, e.ValorRetidoCOFINS, e.ValorRetidoCSLL, e.ValorBCIRRF, e.ValorIRRF, " & _
+       "e.ValorRetidoBCPrev, e.ValorRetidoPrev, e.ValorFunRural, " & _
+       "e.ValorFCP, e.ValorFCPST, e.ValorFCPSTRet, e.ValorIPIDevol, " & _
+       "e.vFCPUFDest, e.vICMSUFDest, e.vICMSUFRemet, "
+'-- SELECT: parte 3 de 3
+sSQL = sSQL & _
+       "e.qBCMono, e.vICMSMono, e.qBCMonoReten, e.vICMSMonoReten, e.qBCMonoRet, e.vICMSMonoRet, " & _
+       "e.vNFTot, e.TotTributos, e.PagvPag, e.vBCSTRetTotal, e.vICMSSTRetTotal, e.vICMSSubstitutoTotal, " & _
+       "e.TotIBSCBSvBC, e.TotIBSUFvDif, e.TotIBSUFvDevTrib, e.TotIBSUFvIBS, " & _
+       "e.TotIBSMunvDif, e.TotIBSMunvDevTrib, e.TotIBSMunvIBS, " & _
+       "e.TotIBSvIBS, e.TotIBSvCredPres, e.TotIBSvCredPresCondSus, " & _
+       "e.TotCBSvDif, e.TotCBSvDevTrib, e.TotCBSvCBS, e.TotCBSvCredPres, e.TotCBSvCredPresCondSus, " & _
+       "e.TotISvIS, e.TotIBSMonovIBSMono, e.TotIBSMonovCBSMono, " & _
+       "e.TotIBSMonovIBSMonoReten, e.TotIBSMonovCBSMonoReten, e.TotIBSMonovIBSMonoRet, e.TotIBSMonovCBSMonoRet, " & _
+       "e.NumeroFatura, e.ValorOriginalFatura, e.ValorDescontoFatura, e.ValorLiquidoFatura, " & _
+       "e.NumeroDuplicata, e.VencimentoDuplicata, e.ValorDuplicata, " & _
+       "e.InformacoesAdicionais, e.InformacoesComplementares, e.UFEmbarque, e.LocEmbarque, " & _
+       "e.NumeroRecibo, e.DataHoraRecebimento, e.NumeroProtocolo, e.DataHoraProcotolo, " & _
+       "e.Enviada, e.Cancelada, e.Denegada, e.Justificativa, e.EmProcessamento, " & _
+       "e.CodigoObservacao, e.CanceladaProtocolo, e.CodigoNatureza, " & _
+       "e.ContingenciaDataHora, e.ContingenciaJustificativa, e.Email, e.CodigoVenda " & _
        "FROM EntradaEstoque e WHERE e.CodigoNota = " & lCompra & ";"
 
 msgResultado = SQLExecuta(sSQL)
@@ -4625,7 +4621,7 @@ cboFiltroNota.AddItem "TODAS"
 cboFiltroNota.AddItem "NUM. NOTA"
 cboFiltroNota.AddItem "CHAVE DE ACESSO"
 cboFiltroNota.AddItem "FORNECEDOR"
-cboFiltroNota.AddItem "PERaODO"
+cboFiltroNota.AddItem "PERIODO"
 cboFiltroNota.AddItem "MENSAL"
 cboFiltroNota.Text = vTexto
 
@@ -4728,7 +4724,7 @@ ElseIf cboFiltroNota.Text = "FORNECEDOR" Then
     cmdConNotaCal1.Visible = False
     cmdConNotaCal2.Visible = False
     cboConNotaCliente.SetFocus
-ElseIf cboFiltroNota.Text = "PERaODO" Then
+ElseIf cboFiltroNota.Text = "PERIODO" Then
     lblConNotaInicial.Visible = True
     lblConNotaFinal.Visible = True
     mskConNotaInicial.Visible = True
@@ -4778,7 +4774,7 @@ moCombo.AttachTo cboOrdem
 End Sub
 
 
-Private Sub ChaDownloadXML_Click()
+Private Sub cmdDownloadXML_Click()
  Dim objNFe As snfe.Util, chaveNFe As String, rsEmpresa As New ADODB.Recordset
  Set objNFe = New snfe.Util
  
@@ -4893,7 +4889,7 @@ Set r = dbData.OpenRecordset(sSQL)
    
    If cboFiltroNota.Text = "MENSAL" Then
       REL_Prod_Entrada_NotaXML.dfTipo.Caption = "Tipo: Mas = " & cboConNotaMes.Text & "/" & cboConNotaAno.Text
-   ElseIf cboFiltroNota.Text = "PERaODO" Then
+   ElseIf cboFiltroNota.Text = "PERIODO" Then
       REL_Prod_Entrada_NotaXML.dfTipo.Caption = "Tipo: Datas = " & mskConNotaInicial.Text & " a " & mskConNotaFinal.Text
    ElseIf cboFiltroNota.Text = "FORNECEDOR" Then
       REL_Prod_Entrada_NotaXML.dfTipo.Caption = "Tipo: Fornecedor = " & cboConNotaCliente.Text & ""
@@ -4997,56 +4993,53 @@ If txtCusto.Text = "" Or txtCusto.Text = "0" Then
 End If
 
 Dim var_COD_ITENS As Long
+Dim var_COD_PRECOS As Long
+Dim var_COD_QUANT As Long
 
 'AUTONUMERAaaO
 sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_entrada_itens;"
 Set r = dbData.OpenRecordset(sSQL)
-
 If Not r.BOF Then var_COD_ITENS = r("cod_itens") + 1
-
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
- Dim varMargemVV As Double
- Dim varMargemVP As Double
- Dim varMargemAV As Double
- Dim varMargemAP As Double
- 
- If txtMargemVV.Text = "" Then MsgBox "Margem de lucro em branco!", vbInformation, "Aviso do Sistema": Exit Sub
- If txtMargemVP.Text = "" Then MsgBox "Margem de lucro em branco!", vbInformation, "Aviso do Sistema": Exit Sub
- If txtMargemAV.Text = "" Then MsgBox "Margem de lucro em branco!", vbInformation, "Aviso do Sistema": Exit Sub
- If txtMargemAP.Text = "" Then MsgBox "Margem de lucro em branco!", vbInformation, "Aviso do Sistema": Exit Sub
- 
- varMargemVV = Left$(txtMargemVV.Text, Len(txtMargemVV.Text) - 1)
- varMargemVP = Left$(txtMargemVP.Text, Len(txtMargemVP.Text) - 1)
- varMargemAV = Left$(txtMargemAV.Text, Len(txtMargemAV.Text) - 1)
- varMargemAP = Left$(txtMargemAP.Text, Len(txtMargemAP.Text) - 1)
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_precos;"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then var_COD_PRECOS = r("cod_itens") + 1
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant;"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then var_COD_QUANT = r("cod_itens") + 1
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
 
 sSQL = "INSERT INTO produtos_entrada_itens (" & _
    "codigo, " & _
    "codigo_entrada, " & _
-   "codigo_produto, " & _
-   "descricao, " & _
-   "quant, " & _
-   "custo, " & _
-   "MARGEM_VV, VALOR_VV, MARGEM_VP, VALOR_VP, MARGEM_AV, VALOR_AV, MARGEM_AP, VALOR_AP, ean, itemxml ) VALUES (" & _
+   "CodigoProduto, " & _
+   "NomeProduto, " & _
+   "QuantidadeTributavel, " & _
+   "ean, itemxml ) VALUES (" & _
    var_COD_ITENS & ", " & txtCodEntrada.Text & ", " & txtCodProdExist.Text & ", '" & txtDescricaoExist.Text & "', " & _
-   Replace(CDbl(txtQuantFinal.Text), ",", ".") & ", " & Replace(CCur(txtCusto.Text), ",", ".") & ", " & _
-   Replace(CDbl(varMargemVV), ",", ".") & ", " & Replace(CCur(txtValorVV.Text), ",", ".") & ", " & Replace(CDbl(varMargemVP), ",", ".") & ", " & Replace(CCur(txtValorVP.Text), ",", ".") & ", " & Replace(CDbl(varMargemAV), ",", ".") & ", " & Replace(CCur(txtValorAV.Text), ",", ".") & ", " & Replace(CDbl(varMargemAP), ",", ".") & ", " & Replace(CCur(txtValorAP.Text), ",", ".") & ", '" & txtCodBarraExist.Text & "', " & txtItem.Text & ")"
+   Replace(CDbl(txtQuantFinal.Text), ",", ".") & ", '" & txtCodBarraExist.Text & "', " & txtItem.Text & ")"
 
 '--- Regime da empresa e dados fiscais (lidos antes da transacao) ---
 Dim sCRT2 As String
 sCRT2 = SQLExecutaRetorno("SELECT TOP 1 ISNULL(crt,'') r FROM empresa", "r", "")
 
 Dim sNCMEnt As String, sCFOPEnt As String
-Dim sPISCSTEnt As String, sCOFINSCSTEnt As String
+Dim sCSTEnt As String, sPISCSTEnt As String, sCOFINSCSTEnt As String
 Dim rFisc2 As New ADODB.Recordset
 RsOpen rFisc2, "SELECT ISNULL(NCM,'') AS NCM, ISNULL(CAST(CFOP AS VARCHAR(10)),'0') AS CFOP, " & _
-               "ISNULL(pisCST,'') AS pisCST, ISNULL(cofinsCST,'') AS cofinsCST " & _
+               "ISNULL(CST,'') AS CST, ISNULL(PISCST,'') AS PISCST, ISNULL(COFINSCST,'') AS COFINSCST " & _
                "FROM EntradaEstoqueItens WHERE CodigoNota = " & txtCodNota.Text & " AND Item = " & txtItem.Text
 If Not rFisc2.EOF Then
    sNCMEnt = CStr(rFisc2!NCM)
    sCFOPEnt = CStr(rFisc2!CFOP)
+   sCSTEnt = CStr(rFisc2!CST)
    sPISCSTEnt = CStr(rFisc2!PISCST)
    sCOFINSCSTEnt = CStr(rFisc2!COFINSCST)
 End If
@@ -5072,19 +5065,37 @@ End If
 If rProd2.State <> 0 Then rProd2.Close
 Set rProd2 = Nothing
 
-Dim sCFOPSaida2 As String
-Select Case Mid(sCFOPEnt, 2, 1)
-   Case "1": sCFOPSaida2 = "5102"
-   Case "4": sCFOPSaida2 = "5405"
-   Case Else: sCFOPSaida2 = ""
-End Select
+'-- CFOP: converte saida->entrada (5xxx->1xxx, 6xxx->2xxx)
+Dim sCFOPEntrada2 As String
+If Left(sCFOPEnt, 1) = "5" Then
+   sCFOPEntrada2 = "1" & Mid(sCFOPEnt, 2)
+ElseIf Left(sCFOPEnt, 1) = "6" Then
+   sCFOPEntrada2 = "2" & Mid(sCFOPEnt, 2)
+Else
+   sCFOPEntrada2 = sCFOPEnt
+End If
+
+'-- CST->CSOSN quando regime Simples Nacional (CRT=1)
+Dim sCSTEntrada2 As String
+If sCRT2 = "1" Then
+   Select Case sCSTEnt
+      Case "000": sCSTEntrada2 = "102"
+      Case "010": sCSTEntrada2 = "201"
+      Case "020": sCSTEntrada2 = "101"
+      Case "030": sCSTEntrada2 = "202"
+      Case "040": sCSTEntrada2 = "300"
+      Case "041": sCSTEntrada2 = "400"
+      Case "060": sCSTEntrada2 = "500"
+      Case "070": sCSTEntrada2 = "203"
+      Case "090": sCSTEntrada2 = "900"
+      Case Else:  sCSTEntrada2 = sCSTEnt
+   End Select
+Else
+   sCSTEntrada2 = sCSTEnt
+End If
 
 Dim sICMSCST2 As String
-Select Case sCFOPSaida2
-   Case "5102": sICMSCST2 = "102"
-   Case "5405": sICMSCST2 = "500"
-   Case Else:   sICMSCST2 = ""
-End Select
+sICMSCST2 = sCSTEntrada2
 
 Dim sPISCST2 As String
 Select Case sPISCSTEnt
@@ -5108,8 +5119,8 @@ Dim sSetFisc As String
 sSetFisc = ""
 If sNCMEnt <> "" And sNCMEnt <> sNCMAtual2 Then _
    sSetFisc = sSetFisc & "NCM = '" & Replace(sNCMEnt, "'", "''") & "', "
-If sCFOPSaida2 <> "" And sCFOPSaida2 <> Trim(sCFOPAtual2) Then _
-   sSetFisc = sSetFisc & "CFOP = '" & sCFOPSaida2 & "', "
+If sCFOPEntrada2 <> "" And sCFOPEntrada2 <> Trim(sCFOPAtual2) Then _
+   sSetFisc = sSetFisc & "CFOP = '" & sCFOPEntrada2 & "', "
 If sICMSCST2 <> "" And sICMSCST2 <> sICMSCSTAtual2 Then _
    sSetFisc = sSetFisc & "ICMSCST = '" & sICMSCST2 & "', "
 If sPISCST2 <> "" And sPISCST2 <> sPISCSTAtual2 Then _
@@ -5130,11 +5141,84 @@ bTransAberta = True
 'Adiciona o registro
 dbData.Execute sSQL
 
-Preco_Entrada
-Quant_Entrada
+'-- Copia campos fiscais de EntradaEstoqueItens -> produtos_entrada_itens
+Dim sJoinEnt As String
+sJoinEnt = " FROM produtos_entrada_itens p INNER JOIN EntradaEstoqueItens e" & _
+           " ON e.CodigoNota = " & txtCodNota.Text & " AND e.Item = " & txtItem.Text & _
+           " WHERE p.codigo = " & var_COD_ITENS
+
+'-- Identificacao, qtd comercial, totais item, CFOP e CST convertidos
+dbData.Execute "UPDATE p SET" & _
+   " p.CodigoNota=e.CodigoNota, p.Item=e.Item, p.InformacoesAdicionaisProduto=e.InformacoesAdicionaisProduto," & _
+   " p.NCM=e.NCM, p.Genero=e.Genero, p.Referencia=e.Referencia, p.Adicionada=1," & _
+   " p.UnidadeComercial=e.UnidadeComercial, p.QuantidadeComercial=e.QuantidadeComercial," & _
+   " p.ValorUnitarioComercializacao=e.ValorUnitarioComercializacao, p.ValorTotalBruto=e.ValorTotalBruto," & _
+   " p.EANTrib=e.EANTrib, p.UnidadeTributavel=e.UnidadeTributavel, p.ValorUnitarioTributario=e.ValorUnitarioTributario," & _
+   " p.ValorFrete=e.ValorFrete, p.ValorSeguro=e.ValorSeguro, p.TipoDesconto=e.TipoDesconto," & _
+   " p.Desconto=e.Desconto, p.ValorDesconto=e.ValorDesconto, p.ValorTributos=e.ValorTributos," & _
+   " p.vOutro=e.vOutro, p.vItem=e.vItem, p.indTot=e.indTot," & _
+   " p.CFOP=" & sCFOPEntrada2 & ", p.CST='" & sCSTEntrada2 & "'" & _
+   sJoinEnt
+
+'-- ICMS detalhado
+dbData.Execute "UPDATE p SET" & _
+   " p.modBC=e.modBC, p.pRedBC=e.pRedBC, p.vBC=e.vBC, p.pICMS=e.pICMS, p.vICMS=e.vICMS," & _
+   " p.modBCST=e.modBCST, p.pMVAST=e.pMVAST, p.pRedBCST=e.pRedBCST, p.vBCST=e.vBCST," & _
+   " p.pICMSST=e.pICMSST, p.vICMSST=e.vICMSST," & _
+   " p.vICMSOp=e.vICMSOp, p.pDif=e.pDif, p.vICMSDeson=e.vICMSDeson, p.motDesICMS=e.motDesICMS," & _
+   " p.vBCFCPST=e.vBCFCPST, p.pFCPST=e.pFCPST, p.vFCPST=e.vFCPST," & _
+   " p.vBCSTRet=e.vBCSTRet, p.pST=e.pST, p.vICMSSubstituto=e.vICMSSubstituto, p.vICMSSTRet=e.vICMSSTRet," & _
+   " p.vBCFCPSTRet=e.vBCFCPSTRet, p.pFCPSTRet=e.pFCPSTRet, p.vFCPSTRet=e.vFCPSTRet," & _
+   " p.CEST=e.CEST, p.indEscala=e.indEscala, p.nFCI=e.nFCI, p.TipoProduto=e.TipoProduto" & _
+   sJoinEnt
+
+'-- IPI, II, PIS, COFINS, ISS
+dbData.Execute "UPDATE p SET" & _
+   " p.IPIclEnq=e.IPIclEnq, p.IPICNPJProd=e.IPICNPJProd, p.IPIcSelo=e.IPIcSelo," & _
+   " p.IPIqSelo=e.IPIqSelo, p.IPIcEnq=e.IPIcEnq, p.IPICST=e.IPICST," & _
+   " p.IPIvIPI=e.IPIvIPI, p.IPIvBC=e.IPIvBC, p.IPIpIPI=e.IPIpIPI," & _
+   " p.IPIvUnid=e.IPIvUnid, p.IPIqUnid=e.IPIqUnid," & _
+   " p.IIvBC=e.IIvBC, p.IIvDespAdu=e.IIvDespAdu, p.IIvII=e.IIvII, p.IIvIOF=e.IIvIOF," & _
+   " p.PISCST=e.PISCST, p.PISvBC=e.PISvBC, p.PISpPIS=e.PISpPIS," & _
+   " p.PISvPIS=e.PISvPIS, p.PISqBCProd=e.PISqBCProd, p.PISvAliqProd=e.PISvAliqProd," & _
+   " p.COFINSCST=e.COFINSCST, p.COFINSvBC=e.COFINSvBC, p.COFINSpCOFINS=e.COFINSpCOFINS," & _
+   " p.COFINSvCOFINS=e.COFINSvCOFINS, p.COFINSqBCProd=e.COFINSqBCProd, p.COFINSvAliqProd=e.COFINSvAliqProd," & _
+   " p.ISSvBC=e.ISSvBC, p.ISSvAliq=e.ISSvAliq, p.ISSvISSQN=e.ISSvISSQN," & _
+   " p.ISScMunFG=e.ISScMunFG, p.ISScListServ=e.ISScListServ" & _
+   sJoinEnt
+
+'-- IBS/CBS
+dbData.Execute "UPDATE p SET" & _
+   " p.IBSCBSCST=e.IBSCBSCST, p.IBSCBScClassTrib=e.IBSCBScClassTrib, p.IBSCBSvBC=e.IBSCBSvBC," & _
+   " p.IBSUFpAliq=e.IBSUFpAliq, p.IBSUFpRedAliq=e.IBSUFpRedAliq, p.IBSUFpAliqEfet=e.IBSUFpAliqEfet, p.IBSUFvIBS=e.IBSUFvIBS," & _
+   " p.IBSMunpAliq=e.IBSMunpAliq, p.IBSMunpRedAliq=e.IBSMunpRedAliq, p.IBSMunpAliqEfet=e.IBSMunpAliqEfet," & _
+   " p.IBSMunvIBS=e.IBSMunvIBS, p.IBSvIBS=e.IBSvIBS," & _
+   " p.CBSpAliq=e.CBSpAliq, p.CBSpRedAliq=e.CBSpRedAliq, p.CBSpAliqEfet=e.CBSpAliqEfet, p.CBSvCBS=e.CBSvCBS," & _
+   " p.ISCST=e.ISCST, p.IScClassTrib=e.IScClassTrib, p.ISvBCIS=e.ISvBCIS, p.ISpIS=e.ISpIS, p.ISvIS=e.ISvIS," & _
+   " p.IBSUFpDif=e.IBSUFpDif, p.IBSUFvDif=e.IBSUFvDif, p.IBSUFvDevTrib=e.IBSUFvDevTrib," & _
+   " p.IBSMunpDif=e.IBSMunpDif, p.IBSMunvDif=e.IBSMunvDif, p.IBSMunvDevTrib=e.IBSMunvDevTrib," & _
+   " p.CBSpDif=e.CBSpDif, p.CBSvDif=e.CBSvDif, p.CBSvDevTrib=e.CBSvDevTrib" & _
+   sJoinEnt
+
+'-- IBS/CBS Mono
+dbData.Execute "UPDATE p SET" & _
+   " p.IBSCBSMonoqBCMono=e.IBSCBSMonoqBCMono, p.IBSCBSMonoadRemIBS=e.IBSCBSMonoadRemIBS," & _
+   " p.IBSCBSMonoadRemCBS=e.IBSCBSMonoadRemCBS, p.IBSCBSMonovIBSMono=e.IBSCBSMonovIBSMono," & _
+   " p.IBSCBSMonovCBSMono=e.IBSCBSMonovCBSMono," & _
+   " p.IBSCBSMonoqBCMonoReten=e.IBSCBSMonoqBCMonoReten, p.IBSCBSMonoadRemIBSReten=e.IBSCBSMonoadRemIBSReten," & _
+   " p.IBSCBSMonovIBSMonoReten=e.IBSCBSMonovIBSMonoReten, p.IBSCBSMonoadRemCBSReten=e.IBSCBSMonoadRemCBSReten," & _
+   " p.IBSCBSMonovCBSMonoReten=e.IBSCBSMonovCBSMonoReten," & _
+   " p.IBSCBSMonoqBCMonoRet=e.IBSCBSMonoqBCMonoRet, p.IBSCBSMonoadRemIBSRet=e.IBSCBSMonoadRemIBSRet," & _
+   " p.IBSCBSMonovIBSMonoRet=e.IBSCBSMonovIBSMonoRet, p.IBSCBSMonoadRemCBSRet=e.IBSCBSMonoadRemCBSRet," & _
+   " p.IBSCBSMonovCBSMonoRet=e.IBSCBSMonovCBSMonoRet," & _
+   " p.IBSCBSMonovTotIBSMonoItem=e.IBSCBSMonovTotIBSMonoItem, p.IBSCBSMonovTotCBSMonoItem=e.IBSCBSMonovTotCBSMonoItem" & _
+   sJoinEnt
+
+Preco_Entrada var_COD_PRECOS
+Quant_Entrada var_COD_QUANT
 
 'Atualiza o estoque do produto
-dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(txtQuantFinal.Text, ",", ".") & " WHERE (codigo = " & txtCodProdExist.Text & ");"
+dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(txtQuantFinal.Text), ",", ".") & " WHERE (codigo = " & txtCodProdExist.Text & ");"
 
 'Marcar produto como adicionado ao estoque
 dbData.Execute "UPDATE EntradaEstoqueItens SET adicionada = 1 WHERE (codigonota = " & txtCodNota.Text & ") and item = " & txtItem.Text & ";"
@@ -5178,13 +5262,28 @@ Private Sub Mostrar_Itens()
 Dim sSQL_Itens As String
 Dim r As ADODB.Recordset
 
+Dim sSel As String
+sSel = "SELECT pei.codigo AS varCod, pei.codigo_entrada, pei.CodigoProduto, " & _
+       "pei.NomeProduto, ISNULL(pei.EAN,'') AS ean, " & _
+       "ISNULL(pei.UnidadeTributavel,'') AS UnidadeTributavel, " & _
+       "ISNULL(pei.NCM,'') AS NCM, ISNULL(pei.CFOP,0) AS CFOP, " & _
+       "ISNULL(pei.CST,'') AS CST, ISNULL(pei.pICMS,0) AS pICMS, " & _
+       "ISNULL(pei.PISCST,'') AS PISCST, ISNULL(pei.PISpPIS,0) AS PISpPIS, " & _
+       "ISNULL(pei.COFINSCST,'') AS COFINSCST, " & _
+       "ISNULL(pei.COFINSpCOFINS,0) AS COFINSpCOFINS, " & _
+       "ISNULL(pei.QuantidadeTributavel,0) AS QuantidadeTributavel, " & _
+       "ISNULL((SELECT TOP 1 pp.VALOR_VV FROM Produtos_Precos pp " & _
+       "        WHERE pp.COD_PRODUTO = pei.CodigoProduto " & _
+       "          AND pp.COD_ENTRADA = pei.codigo_entrada),0) AS VALOR_VV, " & _
+       "pei.itemxml, p.COD_BARRA AS var_CodBarra, " & _
+       "ISNULL(p.REF,'') AS var_REF, ISNULL(p.tamanho,'') AS tamanho " & _
+       "FROM produtos p INNER JOIN produtos_entrada_itens pei " & _
+       "ON p.codigo = pei.CodigoProduto"
 If txtCodEntrada.Text = "" Then
-   sSQL_Itens = "SELECT * FROM produtos_entrada_itens WHERE 1 = 0;"
+   sSQL_Itens = sSel & " WHERE 1=0"
    Set r = dbData.OpenRecordset(sSQL_Itens)
 Else
-   sSQL_Itens = "SELECT produtos_entrada_itens.*, produtos_entrada_itens.codigo as varCod,  produtos.COD_BARRA as var_CodBarra, produtos.REF as var_REF, produtos.codigo, produtos.descricao as varDesc, produtos.tamanho, produtos.fabricante, produtos_entrada_itens.CUSTO as var_custo, (produtos_entrada_itens.CUSTO * produtos_entrada_itens.QUANT) as varTotalCustoItem, produtos_entrada_itens.VALOR_VV as var_venda  " & _
-          " FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CODIGO_PRODUTO " & _
-          " WHERE (codigo_entrada = " & txtCodEntrada.Text & ") ORDER BY varCod;"
+   sSQL_Itens = sSel & " WHERE pei.codigo_entrada = " & txtCodEntrada.Text & " ORDER BY varCod"
    Set r = dbData.OpenRecordset(sSQL_Itens)
 End If
 
@@ -5212,36 +5311,36 @@ With GridEntradaItens
     .ColWidth(2) = 0
     .ColWidth(3) = 0
     .ColWidth(4) = 0
-    .ColWidth(5) = 4500
-    .ColWidth(6) = 700
-    .ColWidth(7) = 850
-    .ColWidth(8) = 650
-    .ColWidth(9) = 850
-    .ColWidth(10) = 650
-    .ColWidth(11) = 850
-    .ColWidth(12) = 650
-    .ColWidth(13) = 850
-    .ColWidth(14) = 650
-    .ColWidth(15) = 850
-    .ColWidth(16) = 0
-    .ColWidth(17) = 500
+    .ColWidth(5) = 5000
+    .ColWidth(6) = 600
+    .ColWidth(7) = 1000
+    .ColWidth(8) = 600
+    .ColWidth(9) = 600
+    .ColWidth(10) = 450
+    .ColWidth(11) = 600
+    .ColWidth(12) = 450
+    .ColWidth(13) = 900
+    .ColWidth(14) = 450
+    .ColWidth(15) = 800
+    .ColWidth(16) = 1100
+    .ColWidth(17) = 0
 
     .TextMatrix(0, 1) = "COD"
     .TextMatrix(0, 2) = "COD_ENTRADA"
     .TextMatrix(0, 3) = "COD_BARRA"
     .TextMatrix(0, 4) = "CÓD."
     .TextMatrix(0, 5) = "DESCRIÇÃO"
-    .TextMatrix(0, 6) = "QTDE"
-    .TextMatrix(0, 7) = "CUSTO"
-    .TextMatrix(0, 8) = "% VV"
-    .TextMatrix(0, 9) = "VALOR"
-    .TextMatrix(0, 10) = "% VP "
-    .TextMatrix(0, 11) = "VALOR"
-    .TextMatrix(0, 12) = "% AV"
-    .TextMatrix(0, 13) = "VALOR"
-    .TextMatrix(0, 14) = "% AP"
-    .TextMatrix(0, 15) = "VALOR"
-    .TextMatrix(0, 16) = "SUBTOTAL"
+    .TextMatrix(0, 6) = "UNID."
+    .TextMatrix(0, 7) = "NCM"
+    .TextMatrix(0, 8) = "CFOP"
+    .TextMatrix(0, 9) = "CST"
+    .TextMatrix(0, 10) = "%"
+    .TextMatrix(0, 11) = "PIS"
+    .TextMatrix(0, 12) = "%"
+    .TextMatrix(0, 13) = "COFINS"
+    .TextMatrix(0, 14) = "%"
+    .TextMatrix(0, 15) = "QTDE"
+    .TextMatrix(0, 16) = "VALOR VV"
     .TextMatrix(0, 17) = "ITEMXML"
     
    'colocar os cabeaalho em negrito
@@ -5265,23 +5364,23 @@ With GridEntradaItens
             .TextMatrix(.rows - 1, 1) = rTabela("varCod")
             .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("ean"))
             .TextMatrix(.rows - 1, 2) = rTabela("codigo_entrada")
-            .TextMatrix(.rows - 1, 4) = Format$(rTabela("codigo_produto"), "0000")
+            .TextMatrix(.rows - 1, 4) = Format$(rTabela("CodigoProduto"), "0000")
          If tipoEmpresa = 4 Then
-            .TextMatrix(.rows - 1, 5) = rTabela("descricao") & " /  " & rTabela("tamanho") & " / " & rTabela("var_ref")
+            .TextMatrix(.rows - 1, 5) = rTabela("NomeProduto") & " /  " & rTabela("tamanho") & " / " & rTabela("var_ref")
          Else
-            .TextMatrix(.rows - 1, 5) = rTabela("descricao")
+            .TextMatrix(.rows - 1, 5) = rTabela("NomeProduto")
          End If
-            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("quant"))
-         .TextMatrix(.rows - 1, 7) = Format$(rTabela("custo"), ocMONEY)
-         .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("MARGEM_VV"), 2) & "%"
-         .TextMatrix(.rows - 1, 9) = Format$(rTabela("VALOR_VV"), ocMONEY)
-         .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("MARGEM_VP"), 2) & "%"
-         .TextMatrix(.rows - 1, 11) = Format$(rTabela("VALOR_VP"), ocMONEY)
-         .TextMatrix(.rows - 1, 12) = FormatNumber(rTabela("MARGEM_AV"), 2) & "%"
-         .TextMatrix(.rows - 1, 13) = Format$(rTabela("VALOR_AV"), ocMONEY)
-         .TextMatrix(.rows - 1, 14) = FormatNumber(rTabela("MARGEM_AP"), 2) & "%"
-         .TextMatrix(.rows - 1, 15) = Format$(rTabela("VALOR_AP"), ocMONEY)
-         .TextMatrix(.rows - 1, 16) = Format$(rTabela("varTotalCustoItem"), ocMONEY)
+         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("UnidadeTributavel"))
+         .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("NCM"))
+         .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("CFOP"))
+         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("CST"))
+         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("pICMS"))
+         .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("PISCST"))
+         .TextMatrix(.rows - 1, 12) = ValidateNull(rTabela("PISpPIS"))
+         .TextMatrix(.rows - 1, 13) = ValidateNull(rTabela("COFINSCST"))
+         .TextMatrix(.rows - 1, 14) = ValidateNull(rTabela("COFINSpCOFINS"))
+         .TextMatrix(.rows - 1, 15) = ValidateNull(rTabela("QuantidadeTributavel"))
+         .TextMatrix(.rows - 1, 16) = Format(ValidateNull(rTabela("VALOR_VV")), "##,##0.00")
          .TextMatrix(.rows - 1, 17) = rTabela("itemxml")
          
          rTabela.MoveNext
@@ -5325,6 +5424,18 @@ With GridEntradaItens
             .CellFontBold = True
          Next
    
+        'FUNDO CINZA CLARO: QTDE TRIB e VALOR VV
+         For i = 1 To .rows - 1
+            .Row = i
+            .Col = 15
+            .CellBackColor = &HE0E0E0
+         Next
+         For i = 1 To .rows - 1
+            .Row = i
+            .Col = 16
+            .CellBackColor = &HE0E0E0
+         Next
+   
    .Redraw = True
    .rows = .rows - 1
 End With
@@ -5332,21 +5443,11 @@ End With
 End Sub
 
 
-Private Sub Preco_Entrada()
+Private Sub Preco_Entrada(ByVal AutoNumeracao As Long)
 Dim sSQL As String
-Dim r As ADODB.Recordset
 
 'ENTRADA DO PRODUTO
 'If cmdSalvar.Enabled = True Then
-   Dim AutoNumeracao As Long
-   
-   'AUTONUMERAaaO
-   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_precos;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   If Not r.BOF Then AutoNumeracao = r("cod_itens") + 1
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
 
     Dim varMargemVV As Double
     Dim varMargemVP As Double
@@ -5364,21 +5465,11 @@ Dim r As ADODB.Recordset
 'End If
 End Sub
 
-Private Sub Quant_Entrada()
+Private Sub Quant_Entrada(ByVal AutoNumeracao As Long)
 Dim sSQL As String
-Dim r As ADODB.Recordset
 
 'ENTRADA DO PRODUTO
 'If cmdSalvar.Enabled = True Then
-Dim AutoNumeracao As Long
-
-'AUTONUMERAaaO
-sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant;"
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not r.BOF Then AutoNumeracao = r("cod_itens") + 1
-If r.State <> 0 Then r.Close
-Set r = Nothing
 
 Dim vCodFunc As Integer
 If txtCodUsuario.Text = "" Then
@@ -5388,7 +5479,7 @@ Else
 End If
 
 sSQL = "INSERT INTO produtos_quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
-   AutoNumeracao & ", " & txtCodProdExist.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & txtCodEntrada.Text & ", 'ENTRADA', " & Replace(CDbl(txtQuantFinal.Text), ",", ".") & ", 'ADIaaO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", " & Replace(CDbl(txtQuantExist.Text), ",", ".") & ");"
+   AutoNumeracao & ", " & txtCodProdExist.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & txtCodEntrada.Text & ", 'ENTRADA', " & Replace(CDbl(txtQuantFinal.Text), ",", ".") & ", 'ADIÇÃO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", " & Replace(CDbl(txtQuantExist.Text), ",", ".") & ");"
 dbData.Execute sSQL
 End Sub
 Private Sub SomarGridItens()
@@ -5475,29 +5566,135 @@ End Sub
 
 Private Sub cmdAtualProd_Click()
 If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation + vbYesNo) = vbYes Then
+
+    If txtItem.Text = "" Or txtCodNota.Text = "" Then
+        MsgBox "Selecione um item da nota antes de cadastrar.", vbExclamation
+        Exit Sub
+    End If
+
+    ' 1. Buscar todos os campos fiscais do item
+    Dim rItem As ADODB.Recordset
+    Set rItem = dbData.OpenRecordset( _
+        "SELECT pICMS, pRedBC, modBC, modBCST, pMVAST, pICMSST, pRedBCST, " & _
+        "PISCST, PISpPIS, COFINSCST, COFINSpCOFINS, IPICST, IPIpIPI, " & _
+        "CEST, IBSCBSCST, IBSUFpAliq, IBSMunpAliq, CBSpAliq, ISCST, ISpIS, CFOP " & _
+        "FROM EntradaEstoqueItens WHERE Item = " & Val(txtItem.Text) & " AND CodigoNota = " & Val(txtCodNota.Text))
+
+    If rItem.EOF Then
+        rItem.Close: Set rItem = Nothing
+        MsgBox "Item nao encontrado.", vbExclamation
+        Exit Sub
+    End If
+
+    ' 2. CRT da empresa para converter CFOP/CST
+    Dim rEmp As ADODB.Recordset
+    Set rEmp = dbData.OpenRecordset("SELECT TOP 1 CRT FROM empresa")
+    Dim nCRT As Integer
+    nCRT = IIf(rEmp.EOF, 1, Val(rEmp("CRT") & ""))
+    rEmp.Close: Set rEmp = Nothing
+
+    ' 3. Converter CFOP entrada -> CFOP venda pelos ultimos 3 digitos
+    ' x403 = ST ja pago (substituido)  -> 5405 / CSOSN 500 / CST 060
+    ' x401 = ST substituto             -> 5401 / CSOSN 201 / CST 010
+    ' x101 = industrializacao propria  -> 5101 / CSOSN 102 / CST 000
+    ' demais (102 etc) = revenda normal -> 5102 / CSOSN 102 / CST 000
+    Dim nUlt3 As Long
+    nUlt3 = Val(rItem("CFOP") & "") Mod 1000
+    Dim sCFOPVenda As String, sCSTVenda As String
+    If nUlt3 = 403 Then
+        sCFOPVenda = "5405": sCSTVenda = IIf(nCRT = 1, "500", "060")
+    ElseIf nUlt3 = 401 Then
+        sCFOPVenda = "5401": sCSTVenda = IIf(nCRT = 1, "201", "010")
+    ElseIf nUlt3 = 101 Then
+        sCFOPVenda = "5101": sCSTVenda = IIf(nCRT = 1, "102", "000")
+    Else
+        sCFOPVenda = "5102": sCSTVenda = IIf(nCRT = 1, "102", "000")
+    End If
+
+    ' 4. Abrir e inicializar Produtos_Cadastro
     Load Produtos_Cadastro
     Produtos_Cadastro.SSTab1.Tab = 0
-    
     Produtos_Cadastro.CriarNovoProduto
-    
-    If txtCodBarraSel.Text = "SEM GTIN" Then Produtos_Cadastro.txtCodBarra.Text = "" Else Produtos_Cadastro.txtCodBarra.Text = txtCodBarraSel.Text
-    If txtCodBarraSel.Text = "SEM GTIN" Then Produtos_Cadastro.txtEAN.Text = "" Else Produtos_Cadastro.txtEAN.Text = txtCodBarraSel.Text
-    Produtos_Cadastro.txtDescricao = TirarEspaco(txtDescricaoSel.Text)
-    Produtos_Cadastro.cboUnidMedida = txtUnidMedSel.Text
-    Produtos_Cadastro.txtNCM = txtNCMSel.Text
-    If Mid(txtCFOPSel, 2, 1) = 4 Then Produtos_Cadastro.cboCFOP = "5405" Else Produtos_Cadastro.cboCFOP = "5102"
-    If Mid(txtCFOPSel, 2, 1) = 4 Then Produtos_Cadastro.cboCST = "500" Else Produtos_Cadastro.cboCST = "102"
-    'Produtos_Cadastro.txtCfop = "5102"
-    'Produtos_Cadastro.txtCST = "102"
-    Produtos_Cadastro.txtCusto = txtValorSel.Text
-    Produtos_Cadastro.txtMargemVV = "0"
-    Produtos_Cadastro.txtValorVV = "0"
-    Produtos_Cadastro.txtMargemVP = "0"
-    Produtos_Cadastro.txtValorVP = "0"
-    Produtos_Cadastro.txtMargemAV = "0"
-    Produtos_Cadastro.txtValorAV = "0"
-    Produtos_Cadastro.txtMargemAP = "0"
-    Produtos_Cadastro.txtValorAP = "0"
+
+    ' 5. Dados basicos
+    If txtCodBarraSel.Text = "SEM GTIN" Or txtCodBarraSel.Text = "" Then
+        Produtos_Cadastro.txtCodBarra.Text = ""
+        Produtos_Cadastro.txtEAN.Text = ""
+    Else
+        Produtos_Cadastro.txtCodBarra.Text = txtCodBarraSel.Text
+        Produtos_Cadastro.txtEAN.Text = txtCodBarraSel.Text
+    End If
+    Produtos_Cadastro.txtDescricao.Text = TirarEspaco(txtDescricaoSel.Text)
+    Produtos_Cadastro.cboUnidMedida.Text = txtUnidMedSel.Text
+    Produtos_Cadastro.txtNCM.Text = txtNCMSel.Text
+    Produtos_Cadastro.txtCEST.Text = ValidateNull(rItem("CEST"))
+
+    ' 6. CFOP e CST convertidos (combos ja populados pelo Form_Load)
+    Produtos_Cadastro.cboCFOP.Text = sCFOPVenda
+    Produtos_Cadastro.cboCST.Text = sCSTVenda
+
+    ' 7. ICMS
+    Produtos_Cadastro.txtICMSAliquota.Text = FormatNumber(ValidateNull(rItem("pICMS")), 2)
+    Produtos_Cadastro.txtRedBCAliquota.Text = FormatNumber(ValidateNull(rItem("pRedBC")), 2)
+
+    ' 8. Substituicao Tributaria
+    Produtos_Cadastro.txtMVA.Text = FormatNumber(ValidateNull(rItem("pMVAST")), 2)
+    Produtos_Cadastro.txtSTAliq.Text = FormatNumber(ValidateNull(rItem("pICMSST")), 2)
+    Produtos_Cadastro.txtRedBCST.Text = FormatNumber(ValidateNull(rItem("pRedBCST")), 2)
+    Dim nModBC As Integer, nModBCST As Integer
+    nModBC = IIf(IsNull(rItem("modBC")), 3, Val(rItem("modBC") & ""))
+    nModBCST = IIf(IsNull(rItem("modBCST")), 4, Val(rItem("modBCST") & ""))
+    If nModBC >= 0 And nModBC <= 3 Then Produtos_Cadastro.cboModBC.ListIndex = nModBC
+    If nModBCST >= 0 And nModBCST <= 6 Then Produtos_Cadastro.cboModBCST.ListIndex = nModBCST
+
+    ' 9. PIS
+    Produtos_Cadastro.txtPISCST.Text = ValidateNull(rItem("PISCST"))
+    Produtos_Cadastro.txtPisAliquota.Text = FormatNumber(ValidateNull(rItem("PISpPIS")), 2)
+
+    ' 10. COFINS
+    Produtos_Cadastro.txtCOFINSCST.Text = ValidateNull(rItem("COFINSCST"))
+    Produtos_Cadastro.txtCofinsAliquota.Text = FormatNumber(ValidateNull(rItem("COFINSpCOFINS")), 2)
+
+    ' 11. IPI
+    Produtos_Cadastro.txtIPICST.Text = ValidateNull(rItem("IPICST"))
+    Produtos_Cadastro.txtIPIAliquota.Text = FormatNumber(ValidateNull(rItem("IPIpIPI")), 2)
+
+    ' 12. Reforma Tributaria: selecionar combo pelo prefixo de 2 digitos
+    Dim sIBSCST As String, sISCST As String, k As Integer
+    sIBSCST = Left(ValidateNull(rItem("IBSCBSCST")) & "  ", 2)
+    If Trim(sIBSCST) = "" Then sIBSCST = "01"  ' default: tributado integralmente
+    For k = 0 To Produtos_Cadastro.cboIBSCBSCST.ListCount - 1
+        If Left(Produtos_Cadastro.cboIBSCBSCST.List(k), 2) = sIBSCST Then
+            Produtos_Cadastro.cboIBSCBSCST.ListIndex = k: Exit For
+        End If
+    Next k
+    Produtos_Cadastro.txtCBSpAliq.Text = FormatNumber(ValidateNull(rItem("CBSpAliq")), 4)
+    Produtos_Cadastro.txtIBSUFpAliq.Text = FormatNumber(ValidateNull(rItem("IBSUFpAliq")), 4)
+    Produtos_Cadastro.txtIBSMunpAliq.Text = FormatNumber(ValidateNull(rItem("IBSMunpAliq")), 4)
+
+    sISCST = Left(ValidateNull(rItem("ISCST")) & "  ", 2)
+    If Trim(sISCST) = "" Then sISCST = "00"  ' default: nao incidente
+    For k = 0 To Produtos_Cadastro.cboISCST.ListCount - 1
+        If Left(Produtos_Cadastro.cboISCST.List(k), 2) = sISCST Then
+            Produtos_Cadastro.cboISCST.ListIndex = k: Exit For
+        End If
+    Next k
+    Produtos_Cadastro.txtISpIS.Text = FormatNumber(ValidateNull(rItem("ISpIS")), 4)
+
+    ' 13. Custo (margens ficam zeradas para o usuario preencher)
+    Produtos_Cadastro.txtCusto.Text = txtValorSel.Text
+    Produtos_Cadastro.txtMargemVV.Text = "0,00%"
+    Produtos_Cadastro.txtMargemVP.Text = "0,00%"
+    Produtos_Cadastro.txtMargemAV.Text = "0,00%"
+    Produtos_Cadastro.txtMargemAP.Text = "0,00%"
+    Produtos_Cadastro.txtValorVV.Text = "0,00"
+    Produtos_Cadastro.txtValorVP.Text = "0,00"
+    Produtos_Cadastro.txtValorAV.Text = "0,00"
+    Produtos_Cadastro.txtValorAP.Text = "0,00"
+
+    rItem.Close
+    Set rItem = Nothing
+
     Produtos_Cadastro.Show
 End If
 End Sub
@@ -5528,7 +5725,7 @@ Dim vrVenda As Currency
 If txtCodProduto.Text = "" Then Exit Sub
 
 'mostrar o ultimo preao de compra
-sSQL = "SELECT TOP 1 venda FROM produtos_entrada_itens WHERE (codigo_produto = " & txtCodProduto & ") ORDER BY codigo DESC;"
+sSQL = "SELECT TOP 1 venda FROM produtos_entrada_itens WHERE (CodigoProduto = " & txtCodProduto & ") ORDER BY codigo DESC;"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.EOF Then vrVenda = r("venda")
@@ -5622,13 +5819,13 @@ End If
 If cboFiltroNota.Text = "TODAS" Then
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 " & _
                     "ORDER BY " & INDICE
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 " & _
                         "ORDER BY " & INDICE
@@ -5636,13 +5833,13 @@ ElseIf cboFiltroNota.Text = "NUM. NOTA" Then
     If txtConNotaNumNota.Text = "" Then Exit Sub
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 WHERE NumeroNota = " & txtConNotaNumNota & " " & _
                     "ORDER BY " & INDICE
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 WHERE NumeroNota = " & txtConNotaNumNota & " " & _
                         "ORDER BY " & INDICE
@@ -5650,13 +5847,13 @@ ElseIf cboFiltroNota.Text = "CHAVE DE ACESSO" Then
     If txtConNotaNumNota.Text = "" Then Exit Sub
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, ChavedeAcesso," & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 WHERE ChavedeAcesso = '" & txtConNotaNumNota & "' " & _
                     "ORDER BY " & INDICE
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, ChavedeAcesso, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 WHERE ChavedeAcesso = '" & txtConNotaNumNota & "' " & _
                         "ORDER BY " & INDICE
@@ -5665,27 +5862,27 @@ ElseIf cboFiltroNota.Text = "FORNECEDOR" Then
     If txtConNotaCodCliente.Text = "" Then Exit Sub
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 WHERE CodigoCorrentista = " & txtConNotaCodCliente.Text & " " & _
                     "ORDER BY " & INDICE
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 WHERE CodigoCorrentista = " & txtConNotaCodCliente.Text & " " & _
                         "ORDER BY " & INDICE
-ElseIf cboFiltroNota.Text = "PERaODO" Then
+ElseIf cboFiltroNota.Text = "PERIODO" Then
     If mskConNotaInicial.Text = "" Then Exit Sub
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 WHERE (DataEmissao >= CONVERT(DATETIME, '" & Format(mskConNotaInicial.Text, ocDATA) & "', 103)) AND (DataEmissao <= CONVERT(DATETIME, '" & Format(mskConNotaFinal.Text, ocDATA) & "', 103)) " & _
                     "ORDER BY " & INDICE
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 WHERE (DataEmissao >= CONVERT(DATETIME, '" & Format(mskConNotaInicial.Text, ocDATA) & "', 103)) AND (DataEmissao <= CONVERT(DATETIME, '" & Format(mskConNotaFinal.Text, ocDATA) & "', 103)) " & _
                         "ORDER BY " & INDICE
@@ -5729,12 +5926,12 @@ End If
 
     RsOpen TbConsulta, "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                    "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                     "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                     "FROM EntradaEstoque AS EntradaEstoque_1 WHERE " & vWhere & " AND (YEAR(DataEmissao) = " & cboConNotaAno & ") order by CodigoNota desc"
     sSQL = "SELECT CodigoNota, NumeroNota, DataEmissao, RazaoSocial, ValorNota, " & _
                         "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'RECEBIDA' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status, " & _
-                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDaNCIA' END) AS SITUACAO,  " & _
+                        "(CASE WHEN (SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) < 1 THEN ' ' ELSE 'PENDÊNCIAS' END) AS SITUACAO,  " & _
                         "(SELECT COUNT(Item) FROM EntradaEstoqueItens WHERE (CodigoNota = EntradaEstoque_1.CodigoNota) AND (Adicionada = 0)) AS vSomaPendencia  " & _
                         "FROM EntradaEstoque AS EntradaEstoque_1 WHERE " & vWhere & " AND (YEAR(DataEmissao) = " & cboConNotaAno & ") order by CodigoNota desc"
 End If
@@ -5804,12 +6001,15 @@ If GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 1) <> "" Then
    bTransRem = False
    On Error GoTo ErrRemover2
 
+   Dim dQtdRem As Double
+   dQtdRem = CDbl(SQLExecutaRetorno("SELECT ISNULL(QuantidadeTributavel,0) r FROM produtos_entrada_itens WHERE codigo = " & GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 1), "r", "0"))
+
    dbData.Execute "BEGIN TRANSACTION"
    bTransRem = True
 
    dbData.Execute "UPDATE EntradaEstoqueItens SET adicionada = 0 WHERE (codigonota = " & txtCodNota.Text & ") and item = " & GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 17) & ";"
-   dbData.Execute "DELETE FROM produtos_entrada_itens WHERE (codigo = " & GridEntradaItens.TextMatrix(GridEntradaItens.Row, 1) & ") AND (codigo_entrada = " & txtCodEntrada.Text & ");"
-   dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 6) & " WHERE (codigo = " & GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 4) & ");"
+   dbData.Execute "DELETE FROM produtos_entrada_itens WHERE (codigo = " & GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 1) & ") AND (codigo_entrada = " & txtCodEntrada.Text & ");"
+   dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(dQtdRem, ",", ".") & " WHERE (codigo = " & Val(GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 4)) & ");"
    dbData.Execute "DELETE FROM Produtos_Quant WHERE (COD_PRODUTO = " & GridEntradaItens.TextMatrix(GridEntradaItens.Row, 4) & ") AND (COD_ENTRADA = " & txtCodEntrada.Text & ");"
    dbData.Execute "DELETE FROM Produtos_precos WHERE (COD_PRODUTO = " & GridEntradaItens.TextMatrix(GridEntradaItens.Row, 4) & ") AND (COD_ENTRADA = " & txtCodEntrada.Text & ");"
 
@@ -5913,7 +6113,7 @@ With dlgArquivo                                  'vamos apresentar dilogo para p
  .CancelError = True                             'vamos testar se o usurio cancelou
  i = Rat(vgArqAtual$, "\")                       'tem diretorio
  If i > 0 Then                                   'coloca
-  .InitDir = Left$(vgArqAtual$, i)               'o diretrio default
+  .InitDir = Environ("USERPROFILE") & "\Downloads"
  End If
  .DialogTitle = "Selecionar o arquivo XML para importaaao"  'tiulo do dilogo...
  .Filter = "Selecione o XML a Ser Importado|*.xml|Todos os Arquivos (*.*)|*.*"          'filtra todos
@@ -6020,9 +6220,23 @@ Dim str_sql_item As String
 
 '--- Verificacao antecipada: NF-e ja importada? (ChavedeAcesso e unica por NF-e) ---
 sSQL = "SELECT COUNT(1) r FROM EntradaEstoque WHERE ChavedeAcesso = '" & _
-       XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").item(0).Text & "'"
+       XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").Item(0).Text & "'"
 If SQLExecutaRetorno(sSQL, "r", 0) > 0 Then
-    MsgBox "Essa Nota Fiscal ja foi adicionada anteriormente!", vbInformation, "Aviso do Sistema"
+    If MsgBox("Essa Nota Fiscal ja foi adicionada anteriormente!" & vbCrLf & "Deseja reabri-la?", _
+              vbQuestion + vbYesNo, "Aviso do Sistema") = vbYes Then
+        Dim lCodNotaExist As Long
+        lCodNotaExist = SQLExecutaRetorno("SELECT CodigoNota r FROM EntradaEstoque WHERE ChavedeAcesso = '" & _
+                        XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").Item(0).Text & "'", "r", 0)
+        If lCodNotaExist > 0 Then
+            If TbEntrada.State = 1 Then TbEntrada.Close
+            RsOpen TbEntrada, "SELECT *, " & _
+                              "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status " & _
+                              "FROM EntradaEstoque WHERE CodigoNota = " & lCodNotaExist
+            xCaminhoXML = arqXML
+            Load_Controls
+            Frm_NF.Tab = 0
+        End If
+    End If
     ImportarXML = False: Exit Function
 End If
 
@@ -6032,7 +6246,7 @@ On Error Resume Next
 
 'Trata da Mascara Cnpj\cpf
 'CNPJ = Retira(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/CNPJ").Item(0).Text, "./-", UM_A_UM) 'desmarquei
-CNPJ = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/CNPJ").item(0).Text
+CNPJ = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/CNPJ").Item(0).Text
 
 If Len(CNPJ) < 14 Then
    CPF = Mid(CNPJ, 1, 3) & "." & Mid(CNPJ, 4, 3) & "." & Mid(CNPJ, 7, 3) & "-" & Mid(CNPJ, 10, 2) 'desmarquei
@@ -6080,27 +6294,27 @@ If Fornecedores.RecordCount = 0 Then
 
     varCodFornecedor = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM fornecedor", "r", 0) + 1
     'Replace para escapar aspas simples no nome â€” evita erro SQL em razoes sociais com apostrofo
-    varRAZAOForn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text), 35), "'", "''")
-    varFantasiaFor = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").item(0).Text), 35), "'", "''")
+    varRAZAOForn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").Item(0).Text), 35), "'", "''")
+    varFantasiaFor = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").Item(0).Text), 35), "'", "''")
     If tipoEmp = 0 Then varCNPJforn = CPF
     If tipoEmp = 1 Then varCNPJforn = CNPJ
-    varIEforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").item(0).Text
-    varENDERECOforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").item(0).Text), 40), "'", "''")
-    varNUMforn = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text)
-    varBairroforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").item(0).Text), 20), "'", "''")
-    varCidadeforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text), 20), "'", "''")
-    varEstadoforn = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
-    varCEPform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text
-    varCODIBGEform = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").item(0).Text)
+    varIEforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").Item(0).Text
+    varENDERECOforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").Item(0).Text), 40), "'", "''")
+    varNUMforn = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text)
+    varBairroforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").Item(0).Text), 20), "'", "''")
+    varCidadeforn = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").Item(0).Text), 20), "'", "''")
+    varEstadoforn = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text)
+    varCEPform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").Item(0).Text
+    varCODIBGEform = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").Item(0).Text)
 
     'Telefone: tag <fone> em enderEmit (opcional)
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").Length > 0 Then
-       varTelefoneForn = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").item(0).Text
+       varTelefoneForn = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").Item(0).Text
     End If
 
     'Complemento: tag <xCpl> em enderEmit (opcional)
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Length > 0 Then
-       varComplementoForn = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").item(0).Text), 30), "'", "''")
+       varComplementoForn = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Item(0).Text), 30), "'", "''")
     End If
 
     'Comando de inclusao
@@ -6130,17 +6344,17 @@ If Fornecedores.RecordCount = 0 Then
 Else
     'Fornecedor ja cadastrado: atualiza endereco com os dados mais recentes da NF-e
     Codigo_fornecedor = Fornecedores!Codigo
-    Fornecedores!Endereco = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").item(0).Text), 40)
-    Fornecedores!Numero = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text)
-    Fornecedores!bairro = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").item(0).Text), 20)
-    Fornecedores!Cidade = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text), 20)
-    Fornecedores!Estado = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
-    Fornecedores!CEP = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text
+    Fornecedores!Endereco = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").Item(0).Text), 40)
+    Fornecedores!Numero = Val(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text)
+    Fornecedores!bairro = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").Item(0).Text), 20)
+    Fornecedores!Cidade = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").Item(0).Text), 20)
+    Fornecedores!Estado = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text)
+    Fornecedores!CEP = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").Item(0).Text
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Length > 0 Then
-       Fornecedores!Complemento = Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").item(0).Text), 30)
+       Fornecedores!Complemento = Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Item(0).Text), 30)
     End If
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").Length > 0 Then
-       Fornecedores!telefone = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").item(0).Text
+       Fornecedores!telefone = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/fone").Item(0).Text
     End If
     Fornecedores.Update
 End If
@@ -6153,10 +6367,10 @@ If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta").Length > 0 Then
    'Obtem CNPJ ou CPF da transportadora (mutuamente exclusivos na NF-e)
    varCNPJtransp = ""
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").Length > 0 Then
-      varCNPJtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").item(0).Text
+      varCNPJtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").Item(0).Text
       varTipotransp = "PJ"  'Pessoa Juridica
    ElseIf XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").Length > 0 Then
-      varCNPJtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").item(0).Text
+      varCNPJtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").Item(0).Text
       varTipotransp = "PF"  'Pessoa Fisica
    End If
 
@@ -6166,11 +6380,11 @@ If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta").Length > 0 Then
       If TbTransportadora.RecordCount = 0 Then
          'Transportadora nao encontrada: cadastra automaticamente com dados da NF-e
          varCodTransp = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Transportadora", "r", 0) + 1
-         varNomeTransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xNome").item(0).Text), 35), "'", "''")
-         varIEtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").item(0).Text
-         varEndtransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").item(0).Text), 40), "'", "''")
-         varCidtransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").item(0).Text), 20), "'", "''")
-         varUFtransp = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").item(0).Text)
+         varNomeTransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xNome").Item(0).Text), 35), "'", "''")
+         varIEtransp = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").Item(0).Text
+         varEndtransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").Item(0).Text), 40), "'", "''")
+         varCidtransp = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").Item(0).Text), 20), "'", "''")
+         varUFtransp = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").Item(0).Text)
 
          sSQL = "INSERT INTO Transportadora " & _
                 "(CODIGO, RAZAO, CNPJ, IE, Endereco, Cidade, Estado, TIPO) VALUES (" & _
@@ -6189,10 +6403,10 @@ If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta").Length > 0 Then
       Else
          'Transportadora ja cadastrada: atualiza endereco com dados mais recentes da NF-e
          Codigo_transportadora = TbTransportadora!Codigo
-         TbTransportadora!Endereco = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").item(0).Text), 40), "'", "''")
-         TbTransportadora!Cidade = Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").item(0).Text), 20)
-         TbTransportadora!Estado = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").item(0).Text)
-         TbTransportadora!IE = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").item(0).Text
+         TbTransportadora!Endereco = Replace(Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").Item(0).Text), 40), "'", "''")
+         TbTransportadora!Cidade = Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").Item(0).Text), 20)
+         TbTransportadora!Estado = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").Item(0).Text)
+         TbTransportadora!IE = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").Item(0).Text
          TbTransportadora.Update
       End If
 
@@ -6208,18 +6422,18 @@ End If
    
    Compras_XML.AddNew
    Compras_XML!CodigoNota = Compra
-   Compras_XML!ModeloNF = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/mod").item(0).Text
-   Compras_XML!NumeroNota = Format(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/nNF").item(0).Text, "000000000")
-   Compras_XML!SerieNF = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/serie").item(0).Text
-   Compras_XML!ChavedeAcesso = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").item(0).Text
-   Compras_XML!NaturezaOperacao = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/natOp").item(0).Text)
+   Compras_XML!ModeloNF = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/mod").Item(0).Text
+   Compras_XML!NumeroNota = Format(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/nNF").Item(0).Text, "000000000")
+   Compras_XML!SerieNF = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/serie").Item(0).Text
+   Compras_XML!ChavedeAcesso = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").Item(0).Text
+   Compras_XML!NaturezaOperacao = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/natOp").Item(0).Text)
    
-   If XMLDOC.getElementsByTagName("nfeProc/protNFe").item(0).Attributes.getNamedItem("versao").Text = "2.00" Then
-       Compras_XML!DataEmissao = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").item(0).Text
-       Compras_XML!DataSaida = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").item(0).Text
+   If XMLDOC.getElementsByTagName("nfeProc/protNFe").Item(0).Attributes.getNamedItem("versao").Text = "2.00" Then
+       Compras_XML!DataEmissao = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").Item(0).Text
+       Compras_XML!DataSaida = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").Item(0).Text
    Else
-       Compras_XML!DataEmissao = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").item(0).Text, 10)
-       Compras_XML!DataSaida = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").item(0).Text, 10)
+       Compras_XML!DataEmissao = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").Item(0).Text, 10)
+       Compras_XML!DataSaida = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").Item(0).Text, 10)
    End If
   
    'Compras_XML!TipoEntradaEst = "Nota Fiscal"
@@ -6228,34 +6442,34 @@ End If
    'Codigo_fornecedor ja definido em ambas as branches do bloco acima (novo ou existente)
    Compras_XML!CodigoCorrentista = Codigo_fornecedor
        
-   Compras_XML!RazaoSocial = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text)
-   Compras_XML!InscricaoEstadual = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").item(0).Text)
+   Compras_XML!RazaoSocial = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").Item(0).Text)
+   Compras_XML!InscricaoEstadual = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").Item(0).Text)
    
    'Compras_XML!CNPJ_CPF = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/CNPJ").Item(0).Text)
    If tipoEmp = 0 Then Compras_XML!CNPJ_CPF = CPF
    If tipoEmp = 1 Then Compras_XML!CNPJ_CPF = CNPJ
    
-   Compras_XML!logradouro = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").item(0).Text)
-   Compras_XML!Numero = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text)
+   Compras_XML!logradouro = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").Item(0).Text)
+   Compras_XML!Numero = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text)
    'xCpl: Complemento do endereco do emitente - tag <xCpl> em enderEmit (opcional)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Length > 0 Then
-      Compras_XML!Complemento = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").item(0).Text)
+      Compras_XML!Complemento = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Item(0).Text)
    End If
-   Compras_XML!bairro = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").item(0).Text)
-   Compras_XML!CodigoIBGE = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").item(0).Text)
-   Compras_XML!Municipio = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text)
-   Compras_XML!UF = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
-   Compras_XML!CEP = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text)
-   Compras_XML!telefone = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/fone").item(0).Text)
+   Compras_XML!bairro = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").Item(0).Text)
+   Compras_XML!CodigoIBGE = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").Item(0).Text)
+   Compras_XML!Municipio = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").Item(0).Text)
+   Compras_XML!UF = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text)
+   Compras_XML!CEP = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").Item(0).Text)
+   Compras_XML!telefone = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/fone").Item(0).Text)
 
    ' indPag: em NF-e 4.0+ esta em pag/detPag/indPag; em NF-e 3.x estava em ide/indPag (removido)
    ' sIndPag vazio = tag ausente na XML (NF-e antigas sem o campo)
    Dim sIndPag As String
    sIndPag = ""
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/indPag").Length > 0 Then
-      sIndPag = XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/indPag").item(0).Text
+      sIndPag = XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/indPag").Item(0).Text
    ElseIf XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/indPag").Length > 0 Then
-      sIndPag = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/indPag").item(0).Text
+      sIndPag = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/indPag").Item(0).Text
    End If
    Select Case sIndPag
       Case "0"
@@ -6270,17 +6484,17 @@ End If
    ' vPag: Valor do pagamento declarado pelo emitente - tag <vPag> dentro de <pag/detPag>
    Compras_XML!PagvPag = 0
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/vPag").Length > 0 Then
-      Compras_XML!PagvPag = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/vPag").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!PagvPag = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/vPag").Item(0).Text, ".", ",", UM_A_UM))
    End If
 
-   Select Case Int(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/tpImp").item(0).Text)
+   Select Case Int(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/tpImp").Item(0).Text)
       Case 1
           Compras_XML!FormatoImpressaoDANFE = "1 - Retrato"
       Case 2
           Compras_XML!FormatoImpressaoDANFE = "2 - Paisagem"
    End Select
    
-   Select Case Int(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/tpEmis").item(0).Text)
+   Select Case Int(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/tpEmis").Item(0).Text)
       Case 1
           Compras_XML!FormatoEmissaoNFe = "1 - Normal"
       Case 2
@@ -6294,142 +6508,142 @@ End If
    End Select
    
    'idDest: Identificador de Local de destino - 1=Op Interna, 2=Op Interestadual, 3=Op c/ Exterior - tag <idDest> em ide
-   Compras_XML!IdentificadorDestino = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/idDest").item(0).Text
-   Compras_XML!CodigoNatureza = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/idDest").item(0).Text
+   Compras_XML!IdentificadorDestino = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/idDest").Item(0).Text
+   Compras_XML!CodigoNatureza = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/idDest").Item(0).Text
    'indPres: Indicador de Presenca do Comprador - 0=Nao se aplica, 1=Op presencial, 2=Nao presencial Internet etc - tag <indPres> em ide
-   Compras_XML!IndicadorPresencaComprador = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/indPres").item(0).Text
+   Compras_XML!IndicadorPresencaComprador = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/indPres").Item(0).Text
    'indIEDest: Indicador da IE do Destinatario - 1=Contribuinte ICMS, 2=Contribuinte isento, 9=Nao contribuinte - tag <indIEDest> em dest
-   Compras_XML!IndicadorIEDestinatario = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/dest/indIEDest").item(0).Text
+   Compras_XML!IndicadorIEDestinatario = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/dest/indIEDest").Item(0).Text
    'finNFe: Finalidade de emissao - 1=Normal, 2=Complementar, 3=Ajuste, 4=Devolucao/Retorno - tag <finNFe> em ide
-   Compras_XML!FinalidadeEmissaoNFe = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/finNFe").item(0).Text
+   Compras_XML!FinalidadeEmissaoNFe = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/finNFe").Item(0).Text
    
-   Compras_XML!modFrete = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/transp/modFrete").item(0).Text
+   Compras_XML!modFrete = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/transp/modFrete").Item(0).Text
    
    If Int(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/infAdic/infCpl").Length) > 0 Then
-      Compras_XML!InformacoesAdicionais = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/infAdic/infCpl").item(0).Text, 100)
+      Compras_XML!InformacoesAdicionais = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/infAdic/infCpl").Item(0).Text, 100)
    End If
    
-   Compras_XML!BaseICMS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vBC").item(0).Text, ".", ",", UM_A_UM))         'vBC:        Base de calculo do ICMS
-   Compras_XML!ValorICMS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vICMS").item(0).Text, ".", ",", UM_A_UM))       'vICMS:      Valor total do ICMS
-   Compras_XML!ValorIsento = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vICMSDeson").item(0).Text, ".", ",", UM_A_UM)) 'vICMSDeson: ICMS desonerado
-   Compras_XML!ValorFCP = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCP").item(0).Text, ".", ",", UM_A_UM))         'vFCP:       FCP sobre ICMS normal
-   Compras_XML!BaseICMSST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vBCST").item(0).Text, ".", ",", UM_A_UM))      'vBCST:      Base de calculo do ICMS ST
-   Compras_XML!ValorICMSST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vST").item(0).Text, ".", ",", UM_A_UM))       'vST:        Valor total do ICMS ST
-   Compras_XML!ValorFCPST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCPST").item(0).Text, ".", ",", UM_A_UM))     'vFCPST:     FCP retido por ST
-   Compras_XML!ValorFCPSTRet = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCPSTRet").item(0).Text, ".", ",", UM_A_UM)) 'vFCPSTRet: FCP retido anteriormente por ST
-   Compras_XML!ValorProdutos = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vProd").item(0).Text, ".", ",", UM_A_UM))   'vProd:      Valor total dos produtos
-   Compras_XML!ValorFrete = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFrete").item(0).Text, ".", ",", UM_A_UM))     'vFrete:     Valor total do frete
-   Compras_XML!ValorSeguro = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vSeg").item(0).Text, ".", ",", UM_A_UM))      'vSeg:       Valor total do seguro
-   Compras_XML!ValorDesconto = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vDesc").item(0).Text, ".", ",", UM_A_UM))   'vDesc:      Valor total do desconto
-   Compras_XML!ValorImportacao = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vII").item(0).Text, ".", ",", UM_A_UM))   'vII:        Valor total do Imposto de Importacao
-   Compras_XML!ValorIPI = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vIPI").item(0).Text, ".", ",", UM_A_UM))         'vIPI:       Valor total do IPI
-   Compras_XML!ValorIPIDevol = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vIPIDevol").item(0).Text, ".", ",", UM_A_UM)) 'vIPIDevol: Valor total do IPI devolvido
-   Compras_XML!ValorPIS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vPIS").item(0).Text, ".", ",", UM_A_UM))         'vPIS:       Valor total do PIS
-   Compras_XML!ValorCOFINS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vCOFINS").item(0).Text, ".", ",", UM_A_UM))   'vCOFINS:    Valor total do COFINS
-   Compras_XML!ValorOutrasDespesas = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vOutro").item(0).Text, ".", ",", UM_A_UM)) 'vOutro:  Outras despesas acessorias
-   Compras_XML!ValorNota = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vNF").item(0).Text, ".", ",", UM_A_UM))         'vNF:        Valor total da NF-e
+   Compras_XML!BaseICMS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vBC").Item(0).Text, ".", ",", UM_A_UM))         'vBC:        Base de calculo do ICMS
+   Compras_XML!ValorICMS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vICMS").Item(0).Text, ".", ",", UM_A_UM))       'vICMS:      Valor total do ICMS
+   Compras_XML!ValorIsento = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vICMSDeson").Item(0).Text, ".", ",", UM_A_UM)) 'vICMSDeson: ICMS desonerado
+   Compras_XML!ValorFCP = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCP").Item(0).Text, ".", ",", UM_A_UM))         'vFCP:       FCP sobre ICMS normal
+   Compras_XML!BaseICMSST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vBCST").Item(0).Text, ".", ",", UM_A_UM))      'vBCST:      Base de calculo do ICMS ST
+   Compras_XML!ValorICMSST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vST").Item(0).Text, ".", ",", UM_A_UM))       'vST:        Valor total do ICMS ST
+   Compras_XML!ValorFCPST = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCPST").Item(0).Text, ".", ",", UM_A_UM))     'vFCPST:     FCP retido por ST
+   Compras_XML!ValorFCPSTRet = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFCPSTRet").Item(0).Text, ".", ",", UM_A_UM)) 'vFCPSTRet: FCP retido anteriormente por ST
+   Compras_XML!ValorProdutos = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vProd").Item(0).Text, ".", ",", UM_A_UM))   'vProd:      Valor total dos produtos
+   Compras_XML!ValorFrete = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vFrete").Item(0).Text, ".", ",", UM_A_UM))     'vFrete:     Valor total do frete
+   Compras_XML!ValorSeguro = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vSeg").Item(0).Text, ".", ",", UM_A_UM))      'vSeg:       Valor total do seguro
+   Compras_XML!ValorDesconto = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vDesc").Item(0).Text, ".", ",", UM_A_UM))   'vDesc:      Valor total do desconto
+   Compras_XML!ValorImportacao = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vII").Item(0).Text, ".", ",", UM_A_UM))   'vII:        Valor total do Imposto de Importacao
+   Compras_XML!ValorIPI = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vIPI").Item(0).Text, ".", ",", UM_A_UM))         'vIPI:       Valor total do IPI
+   Compras_XML!ValorIPIDevol = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vIPIDevol").Item(0).Text, ".", ",", UM_A_UM)) 'vIPIDevol: Valor total do IPI devolvido
+   Compras_XML!ValorPIS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vPIS").Item(0).Text, ".", ",", UM_A_UM))         'vPIS:       Valor total do PIS
+   Compras_XML!ValorCOFINS = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vCOFINS").Item(0).Text, ".", ",", UM_A_UM))   'vCOFINS:    Valor total do COFINS
+   Compras_XML!ValorOutrasDespesas = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vOutro").Item(0).Text, ".", ",", UM_A_UM)) 'vOutro:  Outras despesas acessorias
+   Compras_XML!ValorNota = CDbl(Substitui(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/total/ICMSTot/vNF").Item(0).Text, ".", ",", UM_A_UM))         'vNF:        Valor total da NF-e
 
    '--- ICMS DIFAL - Diferencial de Aliquota (EC 87/2015 / NT 2015/003 - operacoes B2C interestaduais - tags opcionais) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vFCPUFDest").Length > 0 Then
-      Compras_XML!vFCPUFDest = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vFCPUFDest").item(0).Text, ".", ",", UM_A_UM))    'vFCPUFDest: FCP p/ UF de destino
-      Compras_XML!vICMSUFDest = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSUFDest").item(0).Text, ".", ",", UM_A_UM))  'vICMSUFDest: ICMS p/ UF de destino
-      Compras_XML!vICMSUFRemet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSUFRemet").item(0).Text, ".", ",", UM_A_UM)) 'vICMSUFRemet: ICMS p/ UF de origem
+      Compras_XML!vFCPUFDest = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vFCPUFDest").Item(0).Text, ".", ",", UM_A_UM))    'vFCPUFDest: FCP p/ UF de destino
+      Compras_XML!vICMSUFDest = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSUFDest").Item(0).Text, ".", ",", UM_A_UM))  'vICMSUFDest: ICMS p/ UF de destino
+      Compras_XML!vICMSUFRemet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSUFRemet").Item(0).Text, ".", ",", UM_A_UM)) 'vICMSUFRemet: ICMS p/ UF de origem
    End If
 
    '--- ICMS Monofasico (NF-e 4.00+ NT 2021/004 - combustiveis e monofasicos - tags opcionais) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMono").Length > 0 Then
-      Compras_XML!qBCMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMono").item(0).Text, ".", ",", UM_A_UM))          'qBCMono:     Qtde BC ICMS Monofasico
-      Compras_XML!vICMSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMono").item(0).Text, ".", ",", UM_A_UM))      'vICMSMono:   Valor ICMS Monofasico
+      Compras_XML!qBCMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMono").Item(0).Text, ".", ",", UM_A_UM))          'qBCMono:     Qtde BC ICMS Monofasico
+      Compras_XML!vICMSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMono").Item(0).Text, ".", ",", UM_A_UM))      'vICMSMono:   Valor ICMS Monofasico
    End If
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoReten").Length > 0 Then
-      Compras_XML!qBCMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoReten").item(0).Text, ".", ",", UM_A_UM))      'qBCMonoReten:  Qtde BC Mono retido por ST
-      Compras_XML!vICMSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMonoReten").item(0).Text, ".", ",", UM_A_UM))  'vICMSMonoReten:Valor Mono retido por ST
+      Compras_XML!qBCMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoReten").Item(0).Text, ".", ",", UM_A_UM))      'qBCMonoReten:  Qtde BC Mono retido por ST
+      Compras_XML!vICMSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMonoReten").Item(0).Text, ".", ",", UM_A_UM))  'vICMSMonoReten:Valor Mono retido por ST
    End If
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoRet").Length > 0 Then
-      Compras_XML!qBCMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoRet").item(0).Text, ".", ",", UM_A_UM))      'qBCMonoRet:  Qtde BC Mono retido anteriormente
-      Compras_XML!vICMSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMonoRet").item(0).Text, ".", ",", UM_A_UM))  'vICMSMonoRet:Valor Mono retido anteriormente
+      Compras_XML!qBCMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/qBCMonoRet").Item(0).Text, ".", ",", UM_A_UM))      'qBCMonoRet:  Qtde BC Mono retido anteriormente
+      Compras_XML!vICMSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vICMSMonoRet").Item(0).Text, ".", ",", UM_A_UM))  'vICMSMonoRet:Valor Mono retido anteriormente
    End If
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vTotTrib").Length > 0 Then
-      Compras_XML!TotTributos = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vTotTrib").item(0).Text, ".", ",", UM_A_UM))      'vTotTrib:    Total aprox. tributos da NF-e (IBPT)
+      Compras_XML!TotTributos = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ICMSTot/vTotTrib").Item(0).Text, ".", ",", UM_A_UM))      'vTotTrib:    Total aprox. tributos da NF-e (IBPT)
    End If
 
-   Compras_XML!NumeroProtocolo = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/nProt").item(0).Text
+   Compras_XML!NumeroProtocolo = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/nProt").Item(0).Text
    'dhRecbto: Data e hora do recebimento/processamento da NF-e na SEFAZ - tag <dhRecbto> em infProt
-   Compras_XML!DataHoraRecebimento = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/dhRecbto").item(0).Text
-   Compras_XML!DataHoraProcotolo = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/dhRecbto").item(0).Text
+   Compras_XML!DataHoraRecebimento = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/dhRecbto").Item(0).Text
+   Compras_XML!DataHoraProcotolo = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/dhRecbto").Item(0).Text
    Compras_XML!enviada = 1
    'Compras_XML!ImportadoXML = True
 
    '--- Campos de identificacao adicionais ---
 
    'indFinal: Indicador de operacao com Consumidor Final - 0=Normal, 1=Consumidor Final - tag <indFinal> em ide
-   Compras_XML!ConsumidorFinal = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/indFinal").item(0).Text
+   Compras_XML!ConsumidorFinal = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/indFinal").Item(0).Text
 
    'IM: Inscricao Municipal do emitente - tag <IM> em emit (opcional)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IM").Length > 0 Then
-      Compras_XML!InscricaoMunicipal = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IM").item(0).Text
+      Compras_XML!InscricaoMunicipal = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IM").Item(0).Text
    End If
 
    'SUFRAMA: Codigo SUFRAMA do emitente - tag <SUFRAMA> em emit (apenas para Zona Franca de Manaus)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/SUFRAMA").Length > 0 Then
-      Compras_XML!Suframa = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/SUFRAMA").item(0).Text
+      Compras_XML!Suframa = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/SUFRAMA").Item(0).Text
    End If
 
    'cPais/xPais: Codigo e nome do pais do endereco do emitente - tags <cPais> e <xPais> em enderEmit (opcional)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cPais").Length > 0 Then
-      Compras_XML!CodigoPais = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cPais").item(0).Text
-      Compras_XML!Pais = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xPais").item(0).Text
+      Compras_XML!CodigoPais = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cPais").Item(0).Text
+      Compras_XML!Pais = XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xPais").Item(0).Text
    End If
 
    'email: Email do destinatario - tag <email> em dest (opcional)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/dest/email").Length > 0 Then
-      Compras_XML!email = XMLDOC.selectNodes("nfeProc/NFe/infNFe/dest/email").item(0).Text
+      Compras_XML!email = XMLDOC.selectNodes("nfeProc/NFe/infNFe/dest/email").Item(0).Text
    End If
 
    'infAdFisco: Informacoes adicionais de interesse do Fisco - tag <infAdFisco> em infAdic (opcional)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/infAdic/infAdFisco").Length > 0 Then
-      Compras_XML!InformacoesComplementares = Left(XMLDOC.selectNodes("nfeProc/NFe/infNFe/infAdic/infAdFisco").item(0).Text, 100)
+      Compras_XML!InformacoesComplementares = Left(XMLDOC.selectNodes("nfeProc/NFe/infNFe/infAdic/infAdFisco").Item(0).Text, 100)
    End If
 
    'dhCont/xJust: Data/hora e justificativa de entrada em contingencia - tags <dhCont> e <xJust> em ide (apenas em contingencia)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/dhCont").Length > 0 Then
-      Compras_XML!ContingenciaDataHora = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/dhCont").item(0).Text
-      Compras_XML!ContingenciaJustificativa = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/xJust").item(0).Text
+      Compras_XML!ContingenciaDataHora = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/dhCont").Item(0).Text
+      Compras_XML!ContingenciaJustificativa = XMLDOC.selectNodes("nfeProc/NFe/infNFe/ide/xJust").Item(0).Text
    End If
 
    'UFEmbar/xLocEmbar: UF e local de embarque - tags <UFEmbar> e <xLocEmbar> em exporta (apenas exportacao)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/exporta").Length > 0 Then
-      Compras_XML!UFEmbarque = XMLDOC.selectNodes("nfeProc/NFe/infNFe/exporta/UFEmbar").item(0).Text
-      Compras_XML!LocEmbarque = XMLDOC.selectNodes("nfeProc/NFe/infNFe/exporta/xLocEmbar").item(0).Text
+      Compras_XML!UFEmbarque = XMLDOC.selectNodes("nfeProc/NFe/infNFe/exporta/UFEmbar").Item(0).Text
+      Compras_XML!LocEmbarque = XMLDOC.selectNodes("nfeProc/NFe/infNFe/exporta/xLocEmbar").Item(0).Text
    End If
 
    '--- Totais ISSQNtot (presentes apenas em NF-e com servicos sujeitos ao ISS) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot").Length > 0 Then
       'vServ: Valor total dos servicos sob nao incidencia ou nao tributados pelo ICMS - tag <vServ>
-      Compras_XML!ValorServico = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vServ").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorServico = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vServ").Item(0).Text, ".", ",", UM_A_UM))
       'vBC: Base de Calculo do ISS - tag <vBC>
-      Compras_XML!ValorBCISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBC").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorBCISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBC").Item(0).Text, ".", ",", UM_A_UM))
       'vISS: Valor Total do ISS - tag <vISS>
-      Compras_XML!ValorISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vISS").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vISS").Item(0).Text, ".", ",", UM_A_UM))
       'vPIS: Valor do PIS sobre servicos - tag <vPIS>
-      Compras_XML!ValorPISISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vPIS").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorPISISS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vPIS").Item(0).Text, ".", ",", UM_A_UM))
       'vCOFINS: Valor do COFINS sobre servicos - tag <vCOFINS>
-      Compras_XML!ValorPISCOFINS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vCOFINS").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorPISCOFINS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vCOFINS").Item(0).Text, ".", ",", UM_A_UM))
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetPIS").Length > 0 Then
          'vRetPIS: Valor do PIS Retido - tag <vRetPIS>
-         Compras_XML!ValorRetidoPIS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetPIS").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorRetidoPIS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetPIS").Item(0).Text, ".", ",", UM_A_UM))
          'vRetCOFINS: Valor do COFINS Retido - tag <vRetCOFINS>
-         Compras_XML!ValorRetidoCOFINS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetCOFINS").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorRetidoCOFINS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetCOFINS").Item(0).Text, ".", ",", UM_A_UM))
          'vRetCSLL: Valor da CSLL Retida - tag <vRetCSLL>
-         Compras_XML!ValorRetidoCSLL = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetCSLL").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorRetidoCSLL = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetCSLL").Item(0).Text, ".", ",", UM_A_UM))
          'vBCIRRF: Base de Calculo do IRRF - tag <vBCIRRF>
-         Compras_XML!ValorBCIRRF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBCIRRF").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorBCIRRF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBCIRRF").Item(0).Text, ".", ",", UM_A_UM))
          'vIRRF: Valor do IRRF Retido - tag <vIRRF>
-         Compras_XML!ValorIRRF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vIRRF").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorIRRF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vIRRF").Item(0).Text, ".", ",", UM_A_UM))
          'vBCRetPrev: Base de Calculo da Retencao da Previdencia Social - tag <vBCRetPrev>
-         Compras_XML!ValorRetidoBCPrev = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBCRetPrev").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorRetidoBCPrev = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vBCRetPrev").Item(0).Text, ".", ",", UM_A_UM))
          'vRetPrev: Valor da Retencao da Previdencia Social - tag <vRetPrev>
-         Compras_XML!ValorRetidoPrev = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetPrev").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!ValorRetidoPrev = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISSQNtot/vRetPrev").Item(0).Text, ".", ",", UM_A_UM))
       End If
    End If
 
@@ -6438,9 +6652,9 @@ End If
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot").Length > 0 Then
       ' Base de calculo: <vBCIBSCBS> (NT 2024+) ou <vBC> (schema anterior)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBCIBSCBS").Length > 0 Then
-         Compras_XML!TotIBSCBSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBCIBSCBS").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSCBSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBCIBSCBS").Item(0).Text, ".", ",", UM_A_UM))
       ElseIf XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBC").Length > 0 Then
-         Compras_XML!TotIBSCBSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBC").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSCBSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vBC").Item(0).Text, ".", ",", UM_A_UM))
       End If
       ' Grupo IBS: <gIBS> (NT 2024+) ou <gIBSTot> (schema anterior)
       Dim sIBSPfx As String
@@ -6452,30 +6666,30 @@ End If
       End If
       If sIBSPfx <> "" Then
          ' IBS UF
-         Compras_XML!TotIBSUFvDif = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vDif").item(0).Text, ".", ",", UM_A_UM))
-         Compras_XML!TotIBSUFvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSUFvDif = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vDif").Item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSUFvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
          ' Valor IBS UF: <vIBSUF> (NT 2024+) ou <vIBS> (schema anterior)
          If XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBSUF").Length > 0 Then
-            Compras_XML!TotIBSUFvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBSUF").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSUFvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBSUF").Item(0).Text, ".", ",", UM_A_UM))
          ElseIf XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBS").Length > 0 Then
-            Compras_XML!TotIBSUFvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBS").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSUFvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSUF/vIBS").Item(0).Text, ".", ",", UM_A_UM))
          End If
          ' IBS Municipal
-         Compras_XML!TotIBSMunvDif = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vDif").item(0).Text, ".", ",", UM_A_UM))
-         Compras_XML!TotIBSMunvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSMunvDif = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vDif").Item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSMunvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
          ' Valor IBS Mun: <vIBSMun> (NT 2024+) ou <vIBS> (schema anterior)
          If XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBSMun").Length > 0 Then
-            Compras_XML!TotIBSMunvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBSMun").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSMunvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBSMun").Item(0).Text, ".", ",", UM_A_UM))
          ElseIf XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBS").Length > 0 Then
-            Compras_XML!TotIBSMunvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBS").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSMunvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/gIBSMun/vIBS").Item(0).Text, ".", ",", UM_A_UM))
          End If
          ' Total IBS (UF + Municipal)
-         Compras_XML!TotIBSvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vIBS").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotIBSvIBS = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vIBS").Item(0).Text, ".", ",", UM_A_UM))
          If XMLDOC.selectNodes(sIBSPfx & "/vCredPres").Length > 0 Then
-            Compras_XML!TotIBSvCredPres = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vCredPres").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSvCredPres = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vCredPres").Item(0).Text, ".", ",", UM_A_UM))
          End If
          If XMLDOC.selectNodes(sIBSPfx & "/vCredPresCondSus").Length > 0 Then
-            Compras_XML!TotIBSvCredPresCondSus = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vCredPresCondSus").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotIBSvCredPresCondSus = CDbl(Substitui(XMLDOC.selectNodes(sIBSPfx & "/vCredPresCondSus").Item(0).Text, ".", ",", UM_A_UM))
          End If
       End If
       ' Grupo CBS: <gCBS> (NT 2024+) ou <gCBSTot> (schema anterior)
@@ -6487,43 +6701,43 @@ End If
          sCBSPfx = "nfeProc/NFe/infNFe/total/IBSCBSTot/gCBSTot"
       End If
       If sCBSPfx <> "" Then
-         Compras_XML!TotCBSvDif = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vDif").item(0).Text, ".", ",", UM_A_UM))
-         Compras_XML!TotCBSvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
-         Compras_XML!TotCBSvCBS = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCBS").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotCBSvDif = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vDif").Item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotCBSvDevTrib = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!TotCBSvCBS = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCBS").Item(0).Text, ".", ",", UM_A_UM))
          If XMLDOC.selectNodes(sCBSPfx & "/vCredPres").Length > 0 Then
-            Compras_XML!TotCBSvCredPres = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCredPres").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotCBSvCredPres = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCredPres").Item(0).Text, ".", ",", UM_A_UM))
          End If
          If XMLDOC.selectNodes(sCBSPfx & "/vCredPresCondSus").Length > 0 Then
-            Compras_XML!TotCBSvCredPresCondSus = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCredPresCondSus").item(0).Text, ".", ",", UM_A_UM))
+            Compras_XML!TotCBSvCredPresCondSus = CDbl(Substitui(XMLDOC.selectNodes(sCBSPfx & "/vCredPresCondSus").Item(0).Text, ".", ",", UM_A_UM))
          End If
       End If
       ' vNFTot: Valor total da NF-e incluindo IBS+CBS - dentro de IBSCBSTot (schema anterior)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vNFTot").Length > 0 Then
-         Compras_XML!vNFTot = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vNFTot").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!vNFTot = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/vNFTot").Item(0).Text, ".", ",", UM_A_UM))
       End If
    End If
    ' vNFTot: Valor total da NF-e incluindo IBS+CBS - filho direto de <total> (NT 2024+)
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/vNFTot").Length > 0 Then
-      Compras_XML!vNFTot = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/vNFTot").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!vNFTot = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/vNFTot").Item(0).Text, ".", ",", UM_A_UM))
    End If
    '--- ISTot - Total do Imposto Seletivo (NT 2025.002 - W31-W33) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISTot").Length > 0 Then
-      Compras_XML!TotISvIS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISTot/vIS").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotISvIS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/ISTot/vIS").Item(0).Text, ".", ",", UM_A_UM))
    End If
    '--- IBSCBSTot/gMono - Totais tributacao monofasica IBS/CBS (NT 2025.002 - W57-W59d) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono").Length > 0 Then
-      Compras_XML!TotIBSMonovIBSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMono").item(0).Text, ".", ",", UM_A_UM))
-      Compras_XML!TotIBSMonovCBSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMono").item(0).Text, ".", ",", UM_A_UM))
-      Compras_XML!TotIBSMonovIBSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMonoReten").item(0).Text, ".", ",", UM_A_UM))
-      Compras_XML!TotIBSMonovCBSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMonoReten").item(0).Text, ".", ",", UM_A_UM))
-      Compras_XML!TotIBSMonovIBSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMonoRet").item(0).Text, ".", ",", UM_A_UM))
-      Compras_XML!TotIBSMonovCBSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMonoRet").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovIBSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMono").Item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovCBSMono = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMono").Item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovIBSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMonoReten").Item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovCBSMonoReten = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMonoReten").Item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovIBSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vIBSMonoRet").Item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TotIBSMonovCBSMonoRet = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/total/IBSCBSTot/gMono/vCBSMonoRet").Item(0).Text, ".", ",", UM_A_UM))
    End If
 
    '--- Modalidade do Frete (transp/modFrete - sempre presente) ---
    Compras_XML!TranspModFrete = 9
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/modFrete").Length > 0 Then
-      Compras_XML!TranspModFrete = CInt(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/modFrete").item(0).Text)
+      Compras_XML!TranspModFrete = CInt(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/modFrete").Item(0).Text)
    End If
 
    '--- Transportadora (transp/transporta - presente quando ha transportadora identificada) ---
@@ -6531,110 +6745,110 @@ End If
       'Codigo interno da transportadora cadastrada (ou recem-cadastrada) na tabela Transportadora
       Compras_XML!TranspCodigo = Codigo_transportadora
       'xNome: Razao Social ou Nome do transportador - tag <xNome>
-      Compras_XML!TranspNome = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xNome").item(0).Text)
+      Compras_XML!TranspNome = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xNome").Item(0).Text)
       'IE: Inscricao Estadual do transportador - tag <IE>
-      Compras_XML!TranspInscricaoEstadual = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").item(0).Text
+      Compras_XML!TranspInscricaoEstadual = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/IE").Item(0).Text
       'xEnder: Endereco completo do transportador - tag <xEnder>
-      Compras_XML!TranspEndereco = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").item(0).Text)
+      Compras_XML!TranspEndereco = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xEnder").Item(0).Text)
       'xMun: Municipio do transportador - tag <xMun>
-      Compras_XML!TranspMunicipio = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").item(0).Text)
+      Compras_XML!TranspMunicipio = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/xMun").Item(0).Text)
       'UF: Sigla da UF do transportador - tag <UF>
-      Compras_XML!TranspUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").item(0).Text
+      Compras_XML!TranspUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/UF").Item(0).Text
       'CNPJ ou CPF do transportador (mutuamente exclusivos)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").Length > 0 Then
-         Compras_XML!TranspCNPJ_CPF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").item(0).Text
+         Compras_XML!TranspCNPJ_CPF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CNPJ").Item(0).Text
       ElseIf XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").Length > 0 Then
-         Compras_XML!TranspCNPJ_CPF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").item(0).Text
+         Compras_XML!TranspCNPJ_CPF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/transporta/CPF").Item(0).Text
       End If
    End If
 
    '--- Retencao ICMS do Transporte (transp/retTransp - presente quando ha retencao de ICMS pelo transportador) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp").Length > 0 Then
       'vServ: Valor do Servico de Transporte - tag <vServ>
-      Compras_XML!TranspValorServico = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vServ").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TranspValorServico = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vServ").Item(0).Text, ".", ",", UM_A_UM))
       'vBCRet: BC da Retencao do ICMS Transporte - tag <vBCRet>
-      Compras_XML!TranspBCRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vBCRet").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TranspBCRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vBCRet").Item(0).Text, ".", ",", UM_A_UM))
       'pICMSRet: Aliquota da Retencao do ICMS Transporte - tag <pICMSRet>
-      Compras_XML!TranspAliquotaRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/pICMSRet").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TranspAliquotaRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/pICMSRet").Item(0).Text, ".", ",", UM_A_UM))
       'vICMSRet: Valor da Retencao do ICMS Transporte - tag <vICMSRet>
-      Compras_XML!TranspValorRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vICMSRet").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!TranspValorRetencaoICMS = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/vICMSRet").Item(0).Text, ".", ",", UM_A_UM))
       'CFOP: CFOP da prestacao do servico de transporte - tag <CFOP>
-      Compras_XML!TranspCFOP = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/CFOP").item(0).Text
+      Compras_XML!TranspCFOP = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/CFOP").Item(0).Text
       'cMunFG: Municipio de ocorrencia do fato gerador do ICMS do transporte - tag <cMunFG>
-      Compras_XML!TranspcMunFG = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/cMunFG").item(0).Text
+      Compras_XML!TranspcMunFG = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/retTransp/cMunFG").Item(0).Text
    End If
 
    '--- Veiculo Transportador (transp/veicTransp - opcional) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp").Length > 0 Then
       'placa: Placa do veiculo - tag <placa>
-      Compras_XML!TranspPlaca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/placa").item(0).Text
+      Compras_XML!TranspPlaca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/placa").Item(0).Text
       'UF: UF de licenciamento do veiculo - tag <UF>
-      Compras_XML!TranspPlacaUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/UF").item(0).Text
+      Compras_XML!TranspPlacaUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/UF").Item(0).Text
       'RNTC: Registro Nacional de Transportador de Carga - tag <RNTC> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/RNTC").Length > 0 Then
-         Compras_XML!TranspRNTC = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/RNTC").item(0).Text
+         Compras_XML!TranspRNTC = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/veicTransp/RNTC").Item(0).Text
       End If
    End If
 
    '--- Reboque (transp/reboque - opcional) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque").Length > 0 Then
-      Compras_XML!TranspReboquePlaca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/placa").item(0).Text
-      Compras_XML!TranspReboquePlacaUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/UF").item(0).Text
+      Compras_XML!TranspReboquePlaca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/placa").Item(0).Text
+      Compras_XML!TranspReboquePlacaUF = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/UF").Item(0).Text
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/RNTC").Length > 0 Then
-         Compras_XML!TranspReboqueRNTC = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/RNTC").item(0).Text
+         Compras_XML!TranspReboqueRNTC = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/reboque/RNTC").Item(0).Text
       End If
    End If
 
    '--- Volumes (transp/vol - opcional, pode haver multiplos; registra apenas o primeiro) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol").Length > 0 Then
       'qVol: Quantidade de Volumes - tag <qVol> (obrigatoria)
-      Compras_XML!VolumeQuantidade = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/qVol").item(0).Text
+      Compras_XML!VolumeQuantidade = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/qVol").Item(0).Text
       'esp: Especie dos Volumes - tag <esp> (obrigatoria)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/esp").Length > 0 Then
-         Compras_XML!VolumeEspecie = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/esp").item(0).Text
+         Compras_XML!VolumeEspecie = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/esp").Item(0).Text
       End If
       'marca: Marca dos Volumes - tag <marca> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/marca").Length > 0 Then
-         Compras_XML!VolumeMarca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/marca").item(0).Text
+         Compras_XML!VolumeMarca = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/marca").Item(0).Text
       End If
       'nVol: Numeracao dos Volumes - tag <nVol> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/nVol").Length > 0 Then
-         Compras_XML!VolumeNumeracao = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/nVol").item(0).Text
+         Compras_XML!VolumeNumeracao = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/nVol").Item(0).Text
       End If
       'pesoL: Peso Liquido em kg - tag <pesoL> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoL").Length > 0 Then
-         Compras_XML!VolumePesoLiquido = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoL").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!VolumePesoLiquido = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoL").Item(0).Text, ".", ",", UM_A_UM))
       End If
       'pesoB: Peso Bruto em kg - tag <pesoB> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoB").Length > 0 Then
-         Compras_XML!VolumePesoBruto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoB").item(0).Text, ".", ",", UM_A_UM))
+         Compras_XML!VolumePesoBruto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/pesoB").Item(0).Text, ".", ",", UM_A_UM))
       End If
       'nLacre: Numero dos lacres dos volumes - tag <nLacre> (opcional)
       If XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/lacres/nLacre").Length > 0 Then
-         Compras_XML!lacres = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/lacres/nLacre").item(0).Text
+         Compras_XML!lacres = XMLDOC.selectNodes("nfeProc/NFe/infNFe/transp/vol/lacres/nLacre").Item(0).Text
       End If
    End If
 
    '--- Fatura (cobr/fat - opcional) ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat").Length > 0 Then
       'nFat: Numero da fatura - tag <nFat>
-      Compras_XML!NumeroFatura = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/nFat").item(0).Text
+      Compras_XML!NumeroFatura = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/nFat").Item(0).Text
       'vOrig: Valor original da fatura - tag <vOrig>
-      Compras_XML!ValorOriginalFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vOrig").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorOriginalFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vOrig").Item(0).Text, ".", ",", UM_A_UM))
       'vDesc: Valor do desconto da fatura - tag <vDesc>
-      Compras_XML!ValorDescontoFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vDesc").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorDescontoFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vDesc").Item(0).Text, ".", ",", UM_A_UM))
       'vLiq: Valor liquido da fatura (vOrig - vDesc) - tag <vLiq>
-      Compras_XML!ValorLiquidoFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vLiq").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorLiquidoFatura = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/fat/vLiq").Item(0).Text, ".", ",", UM_A_UM))
    End If
 
    '--- Primeira duplicata registrada na entrada; demais parcelas vao para ContasPagar ---
    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Length > 0 Then
       'nDup: Numero da duplicata - tag <nDup>
-      Compras_XML!NumeroDuplicata = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(0).selectNodes("nDup").item(0).Text
+      Compras_XML!NumeroDuplicata = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(0).selectNodes("nDup").Item(0).Text
       'dVenc: Data de vencimento da duplicata - tag <dVenc>
-      Compras_XML!VencimentoDuplicata = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(0).selectNodes("dVenc").item(0).Text
+      Compras_XML!VencimentoDuplicata = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(0).selectNodes("dVenc").Item(0).Text
       'vDup: Valor da duplicata - tag <vDup>
-      Compras_XML!ValorDuplicata = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(0).selectNodes("vDup").item(0).Text, ".", ",", UM_A_UM))
+      Compras_XML!ValorDuplicata = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(0).selectNodes("vDup").Item(0).Text, ".", ",", UM_A_UM))
    End If
 
    Compras_XML.Update
@@ -6651,6 +6865,12 @@ End If
           RsOpen Compras_Itens_XML, "SELECT TOP 1 * FROM EntradaEstoqueItens"
           RsOpen Produtos, "SELECT TOP 1 * FROM Produtos"
        End If
+
+       ' Acumuladores totais ICMS60 (ST retido anteriormente) para cabecalho
+       Dim dTotalBCSTRet As Double
+       Dim dTotalICMSSTRet As Double
+       Dim dTotalICMSSubstituto As Double
+       dTotalBCSTRet = 0: dTotalICMSSTRet = 0: dTotalICMSSubstituto = 0
 
        For i = 0 To qtdProd - 1 'Varrendo todos os itens
         
@@ -6682,7 +6902,7 @@ End If
 
            'Detecta qual subgrupo ICMS existe no item atual
            Dim oICMS As Object
-           Set oICMS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ICMS").item(0)
+           Set oICMS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ICMS").Item(0)
 
            If Not oICMS Is Nothing Then
               If oICMS.selectNodes("ICMS00").Length > 0 Then subgrupoICMS = "ICMS00"
@@ -6713,11 +6933,11 @@ End If
                  'vBC:   Valor da base de calculo do ICMS
                  'pICMS: Aliquota do ICMS (%)
                  'vICMS: Valor do ICMS
-                 csticms = oICMS.selectNodes("ICMS00/orig").item(0).Text & oICMS.selectNodes("ICMS00/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS00/modBC").item(0).Text)
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS00/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS00/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS00/vICMS").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS00/orig").Item(0).Text & oICMS.selectNodes("ICMS00/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS00/modBC").Item(0).Text)
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS00/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS00/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS00/vICMS").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMS10"
                  'Tributacao com ST - CST 10
@@ -6735,19 +6955,19 @@ End If
                  'vBCFCPST: Base de calculo do FCP retido por ST
                  'pFCPST:   Percentual do FCP retido por ST
                  'vFCPST:   Valor do FCP retido por ST
-                 csticms = oICMS.selectNodes("ICMS10/orig").item(0).Text & oICMS.selectNodes("ICMS10/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS10/modBC").item(0).Text)
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS10/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS10/vICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSmodBCST = CInt(oICMS.selectNodes("ICMS10/modBCST").item(0).Text)
-                 ICMSpRedBCST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pRedBCST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBCST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSpICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pICMSST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vICMSST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS10/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBCFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS10/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS10/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vFCPST").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS10/orig").Item(0).Text & oICMS.selectNodes("ICMS10/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS10/modBC").Item(0).Text)
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS10/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS10/vICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSmodBCST = CInt(oICMS.selectNodes("ICMS10/modBCST").Item(0).Text)
+                 ICMSpRedBCST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pRedBCST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBCST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSpICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pICMSST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vICMSST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS10/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vBCFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS10/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/pFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS10/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS10/vFCPST").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMS20"
                  'Reducao de base de calculo - CST 20
@@ -6758,12 +6978,12 @@ End If
                  'vBC:    Base de calculo reduzida do ICMS
                  'pICMS:  Aliquota do ICMS
                  'vICMS:  Valor do ICMS
-                 csticms = oICMS.selectNodes("ICMS20/orig").item(0).Text & oICMS.selectNodes("ICMS20/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS20/modBC").item(0).Text)
-                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS20/pRedBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS20/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS20/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS20/vICMS").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS20/orig").Item(0).Text & oICMS.selectNodes("ICMS20/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS20/modBC").Item(0).Text)
+                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS20/pRedBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS20/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS20/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS20/vICMS").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMS40"
                  'Isencao, nao-tributado ou suspensao - CST 40
@@ -6771,9 +6991,9 @@ End If
                  'CST:        Codigo de Situacao Tributaria (40=Isento, 41=Nao-Tributado, 50=Suspensao)
                  'vICMSDeson: Valor do ICMS desonerado (opcional)
                  'motDesICMS: Motivo da desoneracao (opcional - codigo numerico)
-                 csticms = oICMS.selectNodes("ICMS40/orig").item(0).Text & oICMS.selectNodes("ICMS40/CST").item(0).Text
-                 If oICMS.selectNodes("ICMS40/vICMSDeson").Length > 0 Then ICMSvICMSDeson = CDbl(Substitui(oICMS.selectNodes("ICMS40/vICMSDeson").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS40/motDesICMS").Length > 0 Then ICMSmotDesICMS = oICMS.selectNodes("ICMS40/motDesICMS").item(0).Text
+                 csticms = oICMS.selectNodes("ICMS40/orig").Item(0).Text & oICMS.selectNodes("ICMS40/CST").Item(0).Text
+                 If oICMS.selectNodes("ICMS40/vICMSDeson").Length > 0 Then ICMSvICMSDeson = CDbl(Substitui(oICMS.selectNodes("ICMS40/vICMSDeson").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS40/motDesICMS").Length > 0 Then ICMSmotDesICMS = oICMS.selectNodes("ICMS40/motDesICMS").Item(0).Text
 
               Case "ICMS41"
                  'Nao-tributado - CST 41
@@ -6781,9 +7001,9 @@ End If
                  'CST:        Codigo de Situacao Tributaria
                  'vICMSDeson: Valor do ICMS desonerado (opcional)
                  'motDesICMS: Motivo da desoneracao (opcional)
-                 csticms = oICMS.selectNodes("ICMS41/orig").item(0).Text & oICMS.selectNodes("ICMS41/CST").item(0).Text
-                 If oICMS.selectNodes("ICMS41/vICMSDeson").Length > 0 Then ICMSvICMSDeson = CDbl(Substitui(oICMS.selectNodes("ICMS41/vICMSDeson").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS41/motDesICMS").Length > 0 Then ICMSmotDesICMS = oICMS.selectNodes("ICMS41/motDesICMS").item(0).Text
+                 csticms = oICMS.selectNodes("ICMS41/orig").Item(0).Text & oICMS.selectNodes("ICMS41/CST").Item(0).Text
+                 If oICMS.selectNodes("ICMS41/vICMSDeson").Length > 0 Then ICMSvICMSDeson = CDbl(Substitui(oICMS.selectNodes("ICMS41/vICMSDeson").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS41/motDesICMS").Length > 0 Then ICMSmotDesICMS = oICMS.selectNodes("ICMS41/motDesICMS").Item(0).Text
 
               Case "ICMS51"
                  'Diferimento - CST 51
@@ -6796,14 +7016,14 @@ End If
                  'vICMSOp: Valor do ICMS da operacao (antes do diferimento)
                  'pDif:    Percentual do diferimento
                  'vICMS:   Valor do ICMS efetivamente devido (apos diferimento)
-                 csticms = oICMS.selectNodes("ICMS51/orig").item(0).Text & oICMS.selectNodes("ICMS51/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS51/modBC").item(0).Text)
-                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS51/pRedBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS51/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS51/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSvICMSOp = CDbl(Substitui(oICMS.selectNodes("ICMS51/vICMSOp").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSpDif = CDbl(Substitui(oICMS.selectNodes("ICMS51/pDif").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS51/vICMS").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS51/orig").Item(0).Text & oICMS.selectNodes("ICMS51/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS51/modBC").Item(0).Text)
+                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS51/pRedBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS51/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS51/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSvICMSOp = CDbl(Substitui(oICMS.selectNodes("ICMS51/vICMSOp").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSpDif = CDbl(Substitui(oICMS.selectNodes("ICMS51/pDif").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS51/vICMS").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMS60"
                  'ICMS cobrado por ST retido anteriormente - CST 60
@@ -6816,28 +7036,32 @@ End If
                  'vBCFCPSTRet:    Base de calculo do FCP ST retido (opcional)
                  'pFCPSTRet:      Percentual do FCP ST retido (opcional)
                  'vFCPSTRet:      Valor do FCP ST retido (opcional)
-                 csticms = oICMS.selectNodes("ICMS60/orig").item(0).Text & oICMS.selectNodes("ICMS60/CST").item(0).Text
+                 csticms = oICMS.selectNodes("ICMS60/orig").Item(0).Text & oICMS.selectNodes("ICMS60/CST").Item(0).Text
                  If oICMS.selectNodes("ICMS60/vBCSTRet").Length > 0 Then
-                    ICMSvBCSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vBCSTRet").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSvBCSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vBCSTRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/pST").Length > 0 Then
-                    ICMSpST = CDbl(Substitui(oICMS.selectNodes("ICMS60/pST").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSpST = CDbl(Substitui(oICMS.selectNodes("ICMS60/pST").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/vICMSSubstituto").Length > 0 Then
-                    ICMSvICMSSubstituto = CDbl(Substitui(oICMS.selectNodes("ICMS60/vICMSSubstituto").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSvICMSSubstituto = CDbl(Substitui(oICMS.selectNodes("ICMS60/vICMSSubstituto").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/vICMSSTRet").Length > 0 Then
-                    ICMSvICMSSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vICMSSTRet").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSvICMSSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vICMSSTRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/vBCFCPSTRet").Length > 0 Then
-                    ICMSvBCFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vBCFCPSTRet").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSvBCFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vBCFCPSTRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/pFCPSTRet").Length > 0 Then
-                    ICMSpFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/pFCPSTRet").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSpFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/pFCPSTRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oICMS.selectNodes("ICMS60/vFCPSTRet").Length > 0 Then
-                    ICMSvFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vFCPSTRet").item(0).Text, ".", ",", UM_A_UM))
+                    ICMSvFCPSTRet = CDbl(Substitui(oICMS.selectNodes("ICMS60/vFCPSTRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
+                 ' Acumula para total no cabecalho
+                 dTotalBCSTRet = dTotalBCSTRet + ICMSvBCSTRet
+                 dTotalICMSSTRet = dTotalICMSSTRet + ICMSvICMSSTRet
+                 dTotalICMSSubstituto = dTotalICMSSubstituto + ICMSvICMSSubstituto
 
               Case "ICMS70"
                  'Reducao de BC e cobranca de ICMS por ST - CST 70
@@ -6854,20 +7078,20 @@ End If
                  'pICMSST: Aliquota do ICMS ST
                  'vICMSST: Valor do ICMS ST
                  'vBCFCPST/pFCPST/vFCPST: FCP ST (opcional)
-                 csticms = oICMS.selectNodes("ICMS70/orig").item(0).Text & oICMS.selectNodes("ICMS70/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS70/modBC").item(0).Text)
-                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS70/pRedBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS70/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS70/vICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSmodBCST = CInt(oICMS.selectNodes("ICMS70/modBCST").item(0).Text)
-                 ICMSpMVAST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pMVAST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBCST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSpICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pICMSST").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vICMSST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS70/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBCFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS70/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS70/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vFCPST").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS70/orig").Item(0).Text & oICMS.selectNodes("ICMS70/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS70/modBC").Item(0).Text)
+                 ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS70/pRedBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS70/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS70/vICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSmodBCST = CInt(oICMS.selectNodes("ICMS70/modBCST").Item(0).Text)
+                 ICMSpMVAST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pMVAST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBCST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSpICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pICMSST").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vICMSST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS70/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vBCFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS70/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/pFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS70/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS70/vFCPST").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMS90"
                  'Outros - CST 90 (regime normal, situacoes nao enquadradas)
@@ -6878,25 +7102,25 @@ End If
                  'pICMS:   Aliquota do ICMS
                  'vICMS:   Valor do ICMS
                  'pRedBC/pMVAST/vBCST/vICMSST/vBCFCPST/pFCPST/vFCPST: opcionais (ST se houver)
-                 csticms = oICMS.selectNodes("ICMS90/orig").item(0).Text & oICMS.selectNodes("ICMS90/CST").item(0).Text
-                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS90/modBC").item(0).Text)
-                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS90/pICMS").item(0).Text, ".", ",", UM_A_UM))
-                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS90/vICMS").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/pRedBC").Length > 0 Then ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS90/pRedBC").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/pMVAST").Length > 0 Then ICMSpMVAST = CDbl(Substitui(oICMS.selectNodes("ICMS90/pMVAST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/vBCST").Length > 0 Then ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBCST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/vICMSST").Length > 0 Then ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vICMSST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBCFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/pFCPST").item(0).Text, ".", ",", UM_A_UM))
-                 If oICMS.selectNodes("ICMS90/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vFCPST").item(0).Text, ".", ",", UM_A_UM))
+                 csticms = oICMS.selectNodes("ICMS90/orig").Item(0).Text & oICMS.selectNodes("ICMS90/CST").Item(0).Text
+                 ICMSmodBC = CInt(oICMS.selectNodes("ICMS90/modBC").Item(0).Text)
+                 ICMSBase = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSAliquota = CDbl(Substitui(oICMS.selectNodes("ICMS90/pICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 ICMSValor = CDbl(Substitui(oICMS.selectNodes("ICMS90/vICMS").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/pRedBC").Length > 0 Then ICMSpRedBC = CDbl(Substitui(oICMS.selectNodes("ICMS90/pRedBC").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/pMVAST").Length > 0 Then ICMSpMVAST = CDbl(Substitui(oICMS.selectNodes("ICMS90/pMVAST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/vBCST").Length > 0 Then ICMSvBCST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBCST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/vICMSST").Length > 0 Then ICMSvICMSST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vICMSST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/vBCFCPST").Length > 0 Then ICMSvBCFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vBCFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/pFCPST").Length > 0 Then ICMSpFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/pFCPST").Item(0).Text, ".", ",", UM_A_UM))
+                 If oICMS.selectNodes("ICMS90/vFCPST").Length > 0 Then ICMSvFCPST = CDbl(Substitui(oICMS.selectNodes("ICMS90/vFCPST").Item(0).Text, ".", ",", UM_A_UM))
 
               Case "ICMSSN101", "ICMSSN102", "ICMSSN201", "ICMSSN202", "ICMSSN500", "ICMSSN900"
                  'Simples Nacional - usa CSOSN no lugar de CST
                  'orig:  Origem da mercadoria
                  'CSOSN: Codigo de Situacao da Operacao no Simples Nacional
                  Dim sSN As String: sSN = subgrupoICMS
-                 csticms = oICMS.selectNodes(sSN & "/orig").item(0).Text & oICMS.selectNodes(sSN & "/CSOSN").item(0).Text
+                 csticms = oICMS.selectNodes(sSN & "/orig").Item(0).Text & oICMS.selectNodes(sSN & "/CSOSN").Item(0).Text
 
            End Select
 
@@ -6908,11 +7132,11 @@ End If
            IPIcEnq = "": cstipi = "": IPIvBC = 0: IPIpIPI = 0: IPIvIPI = 0
 
            Dim oIPI As Object
-           Set oIPI = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/IPI").item(0)
+           Set oIPI = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/IPI").Item(0)
 
            If Not oIPI Is Nothing Then
               'cEnq: Codigo de enquadramento legal do IPI (ex: 999 para nao tributados)
-              IPIcEnq = oIPI.selectNodes("cEnq").item(0).Text
+              IPIcEnq = oIPI.selectNodes("cEnq").Item(0).Text
 
               If oIPI.selectNodes("IPITrib").Length > 0 Then
                  'Subgrupo IPITrib: produto tributado pelo IPI
@@ -6920,15 +7144,15 @@ End If
                  'vBC:  Base de calculo do IPI
                  'pIPI: Aliquota do IPI (%)
                  'vIPI: Valor do IPI
-                 cstipi = oIPI.selectNodes("IPITrib/CST").item(0).Text
-                 IPIvBC = CDbl(Substitui(oIPI.selectNodes("IPITrib/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 IPIpIPI = CDbl(Substitui(oIPI.selectNodes("IPITrib/pIPI").item(0).Text, ".", ",", UM_A_UM))
-                 IPIvIPI = CDbl(Substitui(oIPI.selectNodes("IPITrib/vIPI").item(0).Text, ".", ",", UM_A_UM))
+                 cstipi = oIPI.selectNodes("IPITrib/CST").Item(0).Text
+                 IPIvBC = CDbl(Substitui(oIPI.selectNodes("IPITrib/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 IPIpIPI = CDbl(Substitui(oIPI.selectNodes("IPITrib/pIPI").Item(0).Text, ".", ",", UM_A_UM))
+                 IPIvIPI = CDbl(Substitui(oIPI.selectNodes("IPITrib/vIPI").Item(0).Text, ".", ",", UM_A_UM))
               ElseIf oIPI.selectNodes("IPINT").Length > 0 Then
                  'Subgrupo IPINT: produto nao tributado pelo IPI
                  'CST:  Codigo de Situacao Tributaria (01=Entrada tributada com aliq zero, 02=Entrada isenta, etc.)
                  'vBC/pIPI/vIPI: zerados pois nao ha tributacao
-                 cstipi = oIPI.selectNodes("IPINT/CST").item(0).Text
+                 cstipi = oIPI.selectNodes("IPINT/CST").Item(0).Text
                  IPIvBC = 0
                  IPIpIPI = 0
                  IPIvIPI = 0
@@ -6944,7 +7168,7 @@ End If
            PISqBCProd = 0: PISvAliqProd = 0
 
            Dim oPIS As Object
-           Set oPIS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/PIS").item(0)
+           Set oPIS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/PIS").Item(0)
 
            If Not oPIS Is Nothing Then
 
@@ -6954,10 +7178,10 @@ End If
                  'vBC:  Base de calculo do PIS
                  'pPIS: Aliquota do PIS (%)
                  'vPIS: Valor do PIS
-                 PISCST = oPIS.selectNodes("PISAliq/CST").item(0).Text
-                 PISvBC = CDbl(Substitui(oPIS.selectNodes("PISAliq/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 PISpPIS = CDbl(Substitui(oPIS.selectNodes("PISAliq/pPIS").item(0).Text, ".", ",", UM_A_UM))
-                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISAliq/vPIS").item(0).Text, ".", ",", UM_A_UM))
+                 PISCST = oPIS.selectNodes("PISAliq/CST").Item(0).Text
+                 PISvBC = CDbl(Substitui(oPIS.selectNodes("PISAliq/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 PISpPIS = CDbl(Substitui(oPIS.selectNodes("PISAliq/pPIS").Item(0).Text, ".", ",", UM_A_UM))
+                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISAliq/vPIS").Item(0).Text, ".", ",", UM_A_UM))
 
               ElseIf oPIS.selectNodes("PISQtde").Length > 0 Then
                  'Subgrupo PISQtde: CST 03 - PIS com aliquota por unidade de produto
@@ -6965,17 +7189,17 @@ End If
                  'qBCProd:   Quantidade vendida (unidades de medida)
                  'vAliqProd: Aliquota do PIS em reais por unidade de produto
                  'vPIS:      Valor do PIS (qBCProd x vAliqProd)
-                 PISCST = oPIS.selectNodes("PISQtde/CST").item(0).Text
-                 PISqBCProd = CDbl(Substitui(oPIS.selectNodes("PISQtde/qBCProd").item(0).Text, ".", ",", UM_A_UM))
-                 PISvAliqProd = CDbl(Substitui(oPIS.selectNodes("PISQtde/vAliqProd").item(0).Text, ".", ",", UM_A_UM))
-                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISQtde/vPIS").item(0).Text, ".", ",", UM_A_UM))
+                 PISCST = oPIS.selectNodes("PISQtde/CST").Item(0).Text
+                 PISqBCProd = CDbl(Substitui(oPIS.selectNodes("PISQtde/qBCProd").Item(0).Text, ".", ",", UM_A_UM))
+                 PISvAliqProd = CDbl(Substitui(oPIS.selectNodes("PISQtde/vAliqProd").Item(0).Text, ".", ",", UM_A_UM))
+                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISQtde/vPIS").Item(0).Text, ".", ",", UM_A_UM))
 
               ElseIf oPIS.selectNodes("PISNT").Length > 0 Then
                  'Subgrupo PISNT: CST 04 a 09 - PIS nao tributado
                  'CST: 04=Op. isenta, 05=Op. imune, 06=Op. c/ suspensao, 07=Op. sem incidencia,
                  '     08=Op. sem incidencia (exportacao), 09=Op. sem incidencia (outros)
                  'vBC/pPIS/vPIS: zerados pois nao ha tributacao
-                 PISCST = oPIS.selectNodes("PISNT/CST").item(0).Text
+                 PISCST = oPIS.selectNodes("PISNT/CST").Item(0).Text
 
               ElseIf oPIS.selectNodes("PISOutr").Length > 0 Then
                  'Subgrupo PISOutr: CST 99 - outras operacoes
@@ -6983,10 +7207,10 @@ End If
                  'vBC:  Base de calculo do PIS
                  'pPIS: Aliquota do PIS (%)
                  'vPIS: Valor do PIS
-                 PISCST = oPIS.selectNodes("PISOutr/CST").item(0).Text
-                 PISvBC = CDbl(Substitui(oPIS.selectNodes("PISOutr/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 PISpPIS = CDbl(Substitui(oPIS.selectNodes("PISOutr/pPIS").item(0).Text, ".", ",", UM_A_UM))
-                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISOutr/vPIS").item(0).Text, ".", ",", UM_A_UM))
+                 PISCST = oPIS.selectNodes("PISOutr/CST").Item(0).Text
+                 PISvBC = CDbl(Substitui(oPIS.selectNodes("PISOutr/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 PISpPIS = CDbl(Substitui(oPIS.selectNodes("PISOutr/pPIS").Item(0).Text, ".", ",", UM_A_UM))
+                 PISvPIS = CDbl(Substitui(oPIS.selectNodes("PISOutr/vPIS").Item(0).Text, ".", ",", UM_A_UM))
               End If
            End If
 
@@ -6999,7 +7223,7 @@ End If
            COFINSqBCProd = 0: COFINSvAliqProd = 0
 
            Dim oCOFINS As Object
-           Set oCOFINS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/COFINS").item(0)
+           Set oCOFINS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/COFINS").Item(0)
 
            If Not oCOFINS Is Nothing Then
 
@@ -7009,10 +7233,10 @@ End If
                  'vBC:     Base de calculo do COFINS
                  'pCOFINS: Aliquota do COFINS (%)
                  'vCOFINS: Valor do COFINS
-                 COFINSCST = oCOFINS.selectNodes("COFINSAliq/CST").item(0).Text
-                 COFINSvBC = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSpCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/pCOFINS").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/vCOFINS").item(0).Text, ".", ",", UM_A_UM))
+                 COFINSCST = oCOFINS.selectNodes("COFINSAliq/CST").Item(0).Text
+                 COFINSvBC = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSpCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/pCOFINS").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSAliq/vCOFINS").Item(0).Text, ".", ",", UM_A_UM))
 
               ElseIf oCOFINS.selectNodes("COFINSQtde").Length > 0 Then
                  'Subgrupo COFINSQtde: CST 03 - COFINS com aliquota por unidade de produto
@@ -7020,17 +7244,17 @@ End If
                  'qBCProd:   Quantidade vendida (unidades de medida)
                  'vAliqProd: Aliquota do COFINS em reais por unidade de produto
                  'vCOFINS:   Valor do COFINS (qBCProd x vAliqProd)
-                 COFINSCST = oCOFINS.selectNodes("COFINSQtde/CST").item(0).Text
-                 COFINSqBCProd = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/qBCProd").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSvAliqProd = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/vAliqProd").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/vCOFINS").item(0).Text, ".", ",", UM_A_UM))
+                 COFINSCST = oCOFINS.selectNodes("COFINSQtde/CST").Item(0).Text
+                 COFINSqBCProd = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/qBCProd").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSvAliqProd = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/vAliqProd").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSQtde/vCOFINS").Item(0).Text, ".", ",", UM_A_UM))
 
               ElseIf oCOFINS.selectNodes("COFINSNT").Length > 0 Then
                  'Subgrupo COFINSNT: CST 04 a 09 - COFINS nao tributado
                  'CST: 04=Op. isenta, 05=Op. imune, 06=Op. c/ suspensao, 07=Op. sem incidencia,
                  '     08=Op. sem incidencia (exportacao), 09=Op. sem incidencia (outros)
                  'vBC/pCOFINS/vCOFINS: zerados pois nao ha tributacao
-                 COFINSCST = oCOFINS.selectNodes("COFINSNT/CST").item(0).Text
+                 COFINSCST = oCOFINS.selectNodes("COFINSNT/CST").Item(0).Text
 
               ElseIf oCOFINS.selectNodes("COFINSOutr").Length > 0 Then
                  'Subgrupo COFINSOutr: CST 99 - outras operacoes
@@ -7038,10 +7262,10 @@ End If
                  'vBC:     Base de calculo do COFINS
                  'pCOFINS: Aliquota do COFINS (%)
                  'vCOFINS: Valor do COFINS
-                 COFINSCST = oCOFINS.selectNodes("COFINSOutr/CST").item(0).Text
-                 COFINSvBC = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSpCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/pCOFINS").item(0).Text, ".", ",", UM_A_UM))
-                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/vCOFINS").item(0).Text, ".", ",", UM_A_UM))
+                 COFINSCST = oCOFINS.selectNodes("COFINSOutr/CST").Item(0).Text
+                 COFINSvBC = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSpCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/pCOFINS").Item(0).Text, ".", ",", UM_A_UM))
+                 COFINSvCOFINS = CDbl(Substitui(oCOFINS.selectNodes("COFINSOutr/vCOFINS").Item(0).Text, ".", ",", UM_A_UM))
               End If
            End If
            
@@ -7053,13 +7277,13 @@ End If
           '   3. Produtos.EAN por cEAN                        (EAN da embalagem = EAN interno)
           '   4. Produtos.EAN por cEANTrib                    (EAN da unidade tributavel = EAN interno)
           '==============================================================
-          cEAN = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cEAN").item(0).Text
-          xCProd = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cProd").item(0).Text
-          xVUnCom = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vUnCom").item(0).Text, ".", ",", UM_A_UM))
+          cEAN = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEAN").Item(0).Text
+          xCProd = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cProd").Item(0).Text
+          xVUnCom = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vUnCom").Item(0).Text, ".", ",", UM_A_UM))
 
           Dim cEANTrib As String
-          If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cEANTrib").Length > 0 Then
-             cEANTrib = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cEANTrib").item(0).Text
+          If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEANTrib").Length > 0 Then
+             cEANTrib = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEANTrib").Item(0).Text
           Else
              cEANTrib = ""
           End If
@@ -7067,14 +7291,25 @@ End If
           'qCom e qTrib: usados para calcular fracionamento quando cEAN(caixa) != cEANTrib(unidade)
           Dim xQCom  As Double
           Dim xQTrib As Double
-          xQCom = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/qCom").item(0).Text, ".", ",", UM_A_UM))
-          If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/qTrib").Length > 0 Then
-             xQTrib = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/qTrib").item(0).Text, ".", ",", UM_A_UM))
+          Dim xVUnTrib As Double
+          xQCom = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/qCom").Item(0).Text, ".", ",", UM_A_UM))
+          If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/qTrib").Length > 0 Then
+             xQTrib = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/qTrib").Item(0).Text, ".", ",", UM_A_UM))
           Else
              xQTrib = xQCom
           End If
+          If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vUnTrib").Length > 0 Then
+             xVUnTrib = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vUnTrib").Item(0).Text, ".", ",", UM_A_UM))
+          Else
+             xVUnTrib = xVUnCom
+          End If
 
-          qtfracao = 1
+          'fracionamento: qTrib/qCom quando cEANTrib diferente de cEAN (fornecedor usa embalagem)
+          If Not Vazio(cEANTrib) And cEANTrib <> cEAN And xQCom > 0 And xQTrib > xQCom Then
+             qtfracao = xQTrib / xQCom
+          Else
+             qtfracao = 1
+          End If
           CodProduto = 0
           Dim bVinculoExiste As Boolean
           bVinculoExiste = False
@@ -7083,10 +7318,10 @@ End If
           sVinNCM = ""
           sVinCEST = ""
           sVinCFOP = "0"
-          Set oDetVin = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
-          If oDetVin.selectNodes("prod/NCM").Length > 0 Then sVinNCM = oDetVin.selectNodes("prod/NCM").item(0).Text
-          If oDetVin.selectNodes("prod/CEST").Length > 0 Then sVinCEST = oDetVin.selectNodes("prod/CEST").item(0).Text
-          If oDetVin.selectNodes("prod/CFOP").Length > 0 Then sVinCFOP = oDetVin.selectNodes("prod/CFOP").item(0).Text
+          Set oDetVin = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i)
+          If oDetVin.selectNodes("prod/NCM").Length > 0 Then sVinNCM = oDetVin.selectNodes("prod/NCM").Item(0).Text
+          If oDetVin.selectNodes("prod/CEST").Length > 0 Then sVinCEST = oDetVin.selectNodes("prod/CEST").Item(0).Text
+          If oDetVin.selectNodes("prod/CFOP").Length > 0 Then sVinCFOP = oDetVin.selectNodes("prod/CFOP").Item(0).Text
           Set oDetVin = Nothing
 
           '--- Busca 1: VinculoXMLProduto por IDFornecedor + cProd ---
@@ -7111,34 +7346,42 @@ End If
              TbVinculo.Close
           End If
 
-          '--- Busca 3: Produtos.EAN por cEAN (EAN da embalagem comercial) ---
-          If CodProduto = 0 And Not Vazio(cEAN) Then
-             CodProduto = SQLExecutaRetorno("SELECT Codigo FROM Produtos WHERE EAN = '" & cEAN & "'", "Codigo", 0)
+          '--- Busca 3: Produtos.EAN por cEANTrib (vinculo pela unidade interna) ---
+          '   So vincula automaticamente se cEANTrib for diferente de cEAN.
+          '   Se cEANTrib = cEAN o fornecedor nao informou unidade separada: aguarda vinculo manual.
+          If CodProduto = 0 And Not Vazio(cEANTrib) And cEANTrib <> cEAN Then
+             CodProduto = SQLExecutaRetorno("SELECT Codigo FROM Produtos WHERE EAN = '" & cEANTrib & "'", "Codigo", 0)
           End If
 
-          '--- Busca 4: Produtos.EAN por cEANTrib ---
-          If CodProduto = 0 And Not Vazio(cEANTrib) Then
-             CodProduto = SQLExecutaRetorno("SELECT Codigo FROM Produtos WHERE EAN = '" & cEANTrib & "'", "Codigo", 0)
-             If CodProduto > 0 And cEANTrib <> cEAN And xQCom > 0 And xQTrib > xQCom Then
-                'cEANTrib diferente de cEAN: fornecedor esta enviando embalagem (caixa)
-                'fracionamento = quantas unidades tributaveis ha por unidade comercial
-                qtfracao = xQTrib / xQCom
-             End If
+          '--- Busca 4: Produtos.EAN / Produtos.EANEmbalagem por cEAN ou cEANTrib ---
+          '   Fallback para quando cEAN = cEANTrib (produto sem embalagem separada)
+          '   e nenhuma busca anterior localizou o produto.
+          If CodProduto = 0 And Not Vazio(cEAN) And cEAN <> "SEM GTIN" Then
+             CodProduto = SQLExecutaRetorno( _
+                 "SELECT TOP 1 Codigo FROM Produtos " & _
+                 "WHERE EAN = '" & cEAN & "' OR EANEmbalagem = '" & cEAN & "'", "Codigo", 0)
+          End If
+          If CodProduto = 0 And Not Vazio(cEANTrib) And cEANTrib <> "SEM GTIN" And cEANTrib <> cEAN Then
+             CodProduto = SQLExecutaRetorno( _
+                 "SELECT TOP 1 Codigo FROM Produtos " & _
+                 "WHERE EAN = '" & cEANTrib & "' OR EANEmbalagem = '" & cEANTrib & "'", "Codigo", 0)
           End If
 
           '--- Upsert VinculoXMLProduto: todos os produtos da XML sao registrados ---
-          Dim sVinxProd As String, sVinuCom As String, sVinEANProduto As String
+          Dim sVinxProd As String, sVinuCom As String, sVinEANProduto As String, sVinUnidMedida As String
           Dim sVinSql As String
           Dim oDetVin2 As Object
           sVinxProd = ""
           sVinuCom = ""
           sVinEANProduto = ""
-          Set oDetVin2 = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i)
-          If oDetVin2.selectNodes("prod/xProd").Length > 0 Then sVinxProd = oDetVin2.selectNodes("prod/xProd").item(0).Text
-          If oDetVin2.selectNodes("prod/uCom").Length > 0 Then sVinuCom = oDetVin2.selectNodes("prod/uCom").item(0).Text
+          Set oDetVin2 = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i)
+          If oDetVin2.selectNodes("prod/xProd").Length > 0 Then sVinxProd = oDetVin2.selectNodes("prod/xProd").Item(0).Text
+          If oDetVin2.selectNodes("prod/uCom").Length > 0 Then sVinuCom = oDetVin2.selectNodes("prod/uCom").Item(0).Text
           Set oDetVin2 = Nothing
+          sVinUnidMedida = ""
           If CodProduto > 0 Then
              sVinEANProduto = SQLExecutaRetorno("SELECT ISNULL(EAN,'') r FROM Produtos WHERE Codigo = " & CodProduto, "r", "")
+             sVinUnidMedida = SQLExecutaRetorno("SELECT ISNULL(UNID_MEDIDA,'') r FROM Produtos WHERE Codigo = " & CodProduto, "r", "")
           End If
           If bVinculoExiste Then
              '--- Registro existe: atualiza dados fiscais; vincula produto se ainda nao estava vinculado ---
@@ -7157,32 +7400,43 @@ End If
                        "COFINSCST = '" & COFINSCST & "', " & _
                        "COFINSpCOFINS = " & FSQL(COFINSpCOFINS) & ", " & _
                        "CEST = '" & sVinCEST & "', " & _
-                       "CustoUnitario = " & FSQL(xVUnCom / qtfracao) & ", " & _
+                       "QuantidadeComercial = " & FSQL(xQCom) & ", " & _
+                       "ValorUnitarioComercializacao = " & FSQL(xVUnCom) & ", " & _
+                       "CustoUnitario = " & FSQL(xVUnTrib) & ", " & _
                        "DataAtualizacao = GETDATE(), "
              sVinSql = sVinSql & _
                        "IDProduto = CASE WHEN IDProduto = 0 THEN " & CodProduto & " ELSE IDProduto END, " & _
                        "EANProduto = CASE WHEN IDProduto = 0 THEN '" & sVinEANProduto & "' ELSE EANProduto END, " & _
+                       "UNID_MEDIDA = CASE WHEN IDProduto = 0 THEN '" & sVinUnidMedida & "' ELSE UNID_MEDIDA END, " & _
                        "Fracionamento = CASE WHEN IDProduto = 0 THEN " & FSQL(qtfracao) & " ELSE Fracionamento END " & _
                        "WHERE IDFornecedor = " & Codigo_fornecedor & " AND cProd = '" & Replace(xCProd, "'", "''") & "'"
              SQLExecuta sVinSql
           Else
              '--- Registro nao existe: insere todos os dados (IDProduto pode ser 0 - vinculo manual depois) ---
              sVinSql = "INSERT INTO VinculoXMLProduto (IDFornecedor,cProd,EANEmbalagem,xProd,uCom," & _
+                       "QuantidadeComercial,ValorUnitarioComercializacao,UNID_MEDIDA," & _
                        "NCM,CFOP,CST,pICMS,IPICST,IPIpIPI,PISCST,PISpPIS,COFINSCST,COFINSpCOFINS,CEST," & _
                        "IDProduto,EANProduto,Fracionamento,CustoUnitario,DataAtualizacao) VALUES (" & _
                        Codigo_fornecedor & ",'" & Replace(xCProd, "'", "''") & "','" & cEAN & "',"
              sVinSql = sVinSql & _
                        "'" & Replace(sVinxProd, "'", "''") & "','" & sVinuCom & "'," & _
+                       FSQL(xQCom) & "," & FSQL(xVUnCom) & ",'" & sVinUnidMedida & "'," & _
                        "'" & sVinNCM & "'," & sVinCFOP & ",'" & Replace(csticms, "'", "''") & "'," & _
                        FSQL(ICMSAliquota) & ",'" & cstipi & "'," & FSQL(IPIpIPI) & ",'" & PISCST & "',"
              sVinSql = sVinSql & _
                        FSQL(PISpPIS) & ",'" & COFINSCST & "'," & FSQL(COFINSpCOFINS) & ",'" & sVinCEST & "'," & _
                        CodProduto & ",'" & sVinEANProduto & "'," & FSQL(qtfracao) & "," & _
-                       FSQL(xVUnCom / qtfracao) & ",GETDATE())"
+                       FSQL(xVUnTrib) & ",GETDATE())"
              SQLExecuta sVinSql
           End If
+
+          '--- Atualiza EANEmbalagem e Fracionamento em Produtos quando ha vinculo ---
+          If CodProduto > 0 And Not Vazio(cEAN) Then
+             SQLExecuta "UPDATE Produtos SET EANEmbalagem = '" & cEAN & "', " & _
+                        "Fracionamento = " & FSQL(qtfracao) & " WHERE Codigo = " & CodProduto
+          End If
     
-           xCfop = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/CFOP").item(0).Text
+           xCfop = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/CFOP").Item(0).Text
           ''If CodProduto > 0 Then
           ''   'PTab Produtos, "IDProduto", CodProduto
           ''    xCfop = VerificaCFOPEntrada(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/dest/enderDest/UF").Item(0).Text), UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text), csticms, Produtos!CfopEnt)
@@ -7196,32 +7450,32 @@ End If
            Compras_Itens_XML.AddNew
            Compras_Itens_XML!CodigoNota = Compra
            'Compras_Itens_XML!Ite_documento = Compra
-           Compras_Itens_XML!item = SQLExecutaRetorno("SELECT ISNULL(MAX(Item),0) r FROM EntradaEstoqueItens WHERE CodigoNota = " & Compra, "r", 0) + 1
+           Compras_Itens_XML!Item = SQLExecutaRetorno("SELECT ISNULL(MAX(Item),0) r FROM EntradaEstoqueItens WHERE CodigoNota = " & Compra, "r", 0) + 1
            Compras_Itens_XML!CodigoProduto = CodProduto
-           Compras_Itens_XML!Referencia = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cProd").item(0).Text
+           Compras_Itens_XML!Referencia = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cProd").Item(0).Text
            Compras_Itens_XML!Genero = Codigo_fornecedor
            'Compras_itens_xml!Barras = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEAN").Item(0).Text
-           Compras_Itens_XML!NomeProduto = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/xProd").item(0).Text)          'xProd:    Descricao do produto ou servico <xProd>
-           Compras_Itens_XML!NCM = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/NCM").item(0).Text                              'NCM:      Codigo NCM (Nomenclatura Comum do Mercosul) <NCM>
-           Compras_Itens_XML!CEST = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/CEST").item(0).Text                            'CEST:     Codigo Especificador da Substituicao Tributaria <CEST>
-           Compras_Itens_XML!indEscala = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/indEscala").item(0).Text                  'indEscala:Indicador de Producao em Escala Relevante: S=Sim, N=Nao <indEscala>
+           Compras_Itens_XML!NomeProduto = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/xProd").Item(0).Text)          'xProd:    Descricao do produto ou servico <xProd>
+           Compras_Itens_XML!NCM = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/NCM").Item(0).Text                              'NCM:      Codigo NCM (Nomenclatura Comum do Mercosul) <NCM>
+           Compras_Itens_XML!CEST = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/CEST").Item(0).Text                            'CEST:     Codigo Especificador da Substituicao Tributaria <CEST>
+           Compras_Itens_XML!indEscala = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/indEscala").Item(0).Text                  'indEscala:Indicador de Producao em Escala Relevante: S=Sim, N=Nao <indEscala>
            'Compras_itens_xml!Ex_ipi = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/EXTIPI").Item(0).Text
            Compras_Itens_XML!CFOP = xCfop                                                                                                                  'CFOP:     Codigo Fiscal de Operacoes e Prestacoes <CFOP>
-           Compras_Itens_XML!UnidadeComercial = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/uCom").item(0).Text                 'uCom:     Unidade comercial do produto (ex: UN, CX, KG) <uCom>
-           Compras_Itens_XML!QuantidadeComercial = (CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/qCom").item(0).Text, ".", ",", UM_A_UM)) * qtfracao)          'qCom: Quantidade comercial <qCom>
-           Compras_Itens_XML!ValorUnitarioComercializacao = (CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vUnCom").item(0).Text, ".", ",", UM_A_UM)) / qtfracao) 'vUnCom: Valor unitario de comercializacao <vUnCom>
-           Compras_Itens_XML!ValorTotalBruto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vProd").item(0).Text, ".", ",", UM_A_UM))                           'vProd: Valor total bruto dos produtos/servicos <vProd>
-           Compras_Itens_XML!indTot = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/indTot").item(0).Text                        'indTot:   Indica se o item compoe o valor total da NF-e: 0=Nao compoe, 1=Compoe <indTot>
-           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/nFCI").Length > 0 Then                                               'nFCI:     Numero da FCI - Ficha de Conteudo de Importacao (opcional, apenas para importados com ST) <nFCI>
-              Compras_Itens_XML!nFCI = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/nFCI").item(0).Text
+           Compras_Itens_XML!UnidadeComercial = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/uCom").Item(0).Text                 'uCom:     Unidade comercial do produto (ex: UN, CX, KG) <uCom>
+           Compras_Itens_XML!QuantidadeComercial = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/qCom").Item(0).Text, ".", ",", UM_A_UM))          'qCom: Quantidade comercial <qCom>
+           Compras_Itens_XML!ValorUnitarioComercializacao = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vUnCom").Item(0).Text, ".", ",", UM_A_UM)) 'vUnCom: Valor unitario de comercializacao <vUnCom>
+           Compras_Itens_XML!ValorTotalBruto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vProd").Item(0).Text, ".", ",", UM_A_UM))                           'vProd: Valor total bruto dos produtos/servicos <vProd>
+           Compras_Itens_XML!indTot = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/indTot").Item(0).Text                        'indTot:   Indica se o item compoe o valor total da NF-e: 0=Nao compoe, 1=Compoe <indTot>
+           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/nFCI").Length > 0 Then                                               'nFCI:     Numero da FCI - Ficha de Conteudo de Importacao (opcional, apenas para importados com ST) <nFCI>
+              Compras_Itens_XML!nFCI = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/nFCI").Item(0).Text
            Else
               Compras_Itens_XML!nFCI = ""
            End If
            'Compras_Itens_XML!Ite_frete = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vFrete").Item(0).Text, ".", ",", UM_A_UM))
            'Compras_itens_xml!Vlr_seguro = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vSeg").Item(0).Text
            ''Compras_Itens_XML!ValorDesconto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vDesc").Item(0).Text, ".", ",", UM_A_UM))
-           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vOutro").Length > 0 Then  'vOutro: Valor de outras despesas acessorias do item <vOutro> (opcional)
-              Compras_Itens_XML!vOutro = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vOutro").item(0).Text, ".", ",", UM_A_UM))
+           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vOutro").Length > 0 Then  'vOutro: Valor de outras despesas acessorias do item <vOutro> (opcional)
+              Compras_Itens_XML!vOutro = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vOutro").Item(0).Text, ".", ",", UM_A_UM))
            Else
               Compras_Itens_XML!vOutro = 0
            End If
@@ -7296,35 +7550,35 @@ End If
            '==============================================================
            ' GRAVACAO - Dados do Produto (campos adicionais)
            '==============================================================
-           Compras_Itens_XML!EANTrib = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/cEANTrib").item(0).Text                                                                           'cEANTrib:  GTIN (EAN) da unidade tributavel <cEANTrib>
-           Compras_Itens_XML!UnidadeTributavel = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/uTrib").item(0).Text                                                                    'uTrib:     Unidade tributavel (ex: CX, UN, KG) <uTrib>
-           Compras_Itens_XML!QuantidadeTributavel = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/qTrib").item(0).Text, ".", ",", UM_A_UM))                             'qTrib:     Quantidade na unidade tributavel <qTrib>
-           Compras_Itens_XML!ValorUnitarioTributario = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vUnTrib").item(0).Text, ".", ",", UM_A_UM))                        'vUnTrib:   Valor unitario de tributacao <vUnTrib>
-           Compras_Itens_XML!ValorFrete = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vFrete").item(0).Text, ".", ",", UM_A_UM))                                      'vFrete:    Valor do frete rateado no item <vFrete>
-           Compras_Itens_XML!ValorSeguro = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vSeg").item(0).Text, ".", ",", UM_A_UM))                                       'vSeg:      Valor do seguro rateado no item <vSeg>
-           Compras_Itens_XML!ValorDesconto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vDesc").item(0).Text, ".", ",", UM_A_UM))                                    'vDesc:     Valor do desconto concedido no item <vDesc>
-           Compras_Itens_XML!Desconto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("prod/vDesc").item(0).Text, ".", ",", UM_A_UM))                                         'vDesc:     Mesmo valor de ValorDesconto - na NF-e o desconto e sempre em valor fixo
+           Compras_Itens_XML!EANTrib = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEANTrib").Item(0).Text                                                                           'cEANTrib:  GTIN (EAN) da unidade tributavel <cEANTrib>
+           Compras_Itens_XML!UnidadeTributavel = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/uTrib").Item(0).Text                                                                    'uTrib:     Unidade tributavel (ex: CX, UN, KG) <uTrib>
+           Compras_Itens_XML!QuantidadeTributavel = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/qTrib").Item(0).Text, ".", ",", UM_A_UM))                             'qTrib:     Quantidade na unidade tributavel <qTrib>
+           Compras_Itens_XML!ValorUnitarioTributario = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vUnTrib").Item(0).Text, ".", ",", UM_A_UM))                        'vUnTrib:   Valor unitario de tributacao <vUnTrib>
+           Compras_Itens_XML!ValorFrete = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vFrete").Item(0).Text, ".", ",", UM_A_UM))                                      'vFrete:    Valor do frete rateado no item <vFrete>
+           Compras_Itens_XML!ValorSeguro = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vSeg").Item(0).Text, ".", ",", UM_A_UM))                                       'vSeg:      Valor do seguro rateado no item <vSeg>
+           Compras_Itens_XML!ValorDesconto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vDesc").Item(0).Text, ".", ",", UM_A_UM))                                    'vDesc:     Valor do desconto concedido no item <vDesc>
+           Compras_Itens_XML!Desconto = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/vDesc").Item(0).Text, ".", ",", UM_A_UM))                                         'vDesc:     Mesmo valor de ValorDesconto - na NF-e o desconto e sempre em valor fixo
            Compras_Itens_XML!TipoDesconto = 1                                                                                                                                                                      'TipoDesconto: 1 = desconto em valor fixo (padrao NF-e, tag <vDesc> sempre em reais)
-           Compras_Itens_XML!InformacoesAdicionaisProduto = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("infAdProd").item(0).Text                                                          'infAdProd: Informacoes adicionais do produto (texto livre) <infAdProd>
-           Compras_Itens_XML!ValorTributos = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/vTotTrib").item(0).Text, ".", ",", UM_A_UM))                              'vTotTrib:  Valor aproximado total dos tributos (IBPT) <vTotTrib>
-           Compras_Itens_XML!ItemXML = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).Attributes.getNamedItem("nItem").Text                                                                               'nItem:     Numero do item no XML da NF-e (atributo do elemento <det>)
+           Compras_Itens_XML!InformacoesAdicionaisProduto = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("infAdProd").Item(0).Text                                                          'infAdProd: Informacoes adicionais do produto (texto livre) <infAdProd>
+           Compras_Itens_XML!ValorTributos = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/vTotTrib").Item(0).Text, ".", ",", UM_A_UM))                              'vTotTrib:  Valor aproximado total dos tributos (IBPT) <vTotTrib>
+           Compras_Itens_XML!ItemXML = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).Attributes.getNamedItem("nItem").Text                                                                               'nItem:     Numero do item no XML da NF-e (atributo do elemento <det>)
 
            '==============================================================
            ' GRAVACAO - Imposto de Importacao (II)
            '==============================================================
-           Compras_Itens_XML!IIvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/II/vBC").item(0).Text, ".", ",", UM_A_UM))           'vBC:     Base de calculo do Imposto de Importacao <vBC>
-           Compras_Itens_XML!IIvDespAdu = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/II/vDespAdu").item(0).Text, ".", ",", UM_A_UM)) 'vDespAdu:Valor das despesas aduaneiras <vDespAdu>
-           Compras_Itens_XML!IIvII = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/II/vII").item(0).Text, ".", ",", UM_A_UM))           'vII:     Valor do Imposto de Importacao <vII>
-           Compras_Itens_XML!IIvIOF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/II/vIOF").item(0).Text, ".", ",", UM_A_UM))         'vIOF:    Valor do IOF (apenas para importacao financiada) <vIOF>
+           Compras_Itens_XML!IIvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/II/vBC").Item(0).Text, ".", ",", UM_A_UM))           'vBC:     Base de calculo do Imposto de Importacao <vBC>
+           Compras_Itens_XML!IIvDespAdu = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/II/vDespAdu").Item(0).Text, ".", ",", UM_A_UM)) 'vDespAdu:Valor das despesas aduaneiras <vDespAdu>
+           Compras_Itens_XML!IIvII = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/II/vII").Item(0).Text, ".", ",", UM_A_UM))           'vII:     Valor do Imposto de Importacao <vII>
+           Compras_Itens_XML!IIvIOF = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/II/vIOF").Item(0).Text, ".", ",", UM_A_UM))         'vIOF:    Valor do IOF (apenas para importacao financiada) <vIOF>
 
            '==============================================================
            ' GRAVACAO - ISSQN (Imposto Sobre Servicos - notas de servico)
            '==============================================================
-           Compras_Itens_XML!ISSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ISSQN/vBC").item(0).Text, ".", ",", UM_A_UM))             'vBC:       Base de calculo do ISSQN <vBC>
-           Compras_Itens_XML!ISSvAliq = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ISSQN/vAliq").item(0).Text, ".", ",", UM_A_UM))         'vAliq:     Aliquota do ISSQN <vAliq>
-           Compras_Itens_XML!ISSvISSQN = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ISSQN/vISSQN").item(0).Text, ".", ",", UM_A_UM))       'vISSQN:    Valor do ISSQN <vISSQN>
-           Compras_Itens_XML!ISScMunFG = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ISSQN/cMunFG").item(0).Text                                            'cMunFG:    Codigo do municipio de ocorrencia do fato gerador do ISSQN <cMunFG>
-           Compras_Itens_XML!ISScListServ = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/ISSQN/cListServ").item(0).Text                                      'cListServ: Codigo do servico conforme lista do ISSQN <cListServ>
+           Compras_Itens_XML!ISSvBC = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ISSQN/vBC").Item(0).Text, ".", ",", UM_A_UM))             'vBC:       Base de calculo do ISSQN <vBC>
+           Compras_Itens_XML!ISSvAliq = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ISSQN/vAliq").Item(0).Text, ".", ",", UM_A_UM))         'vAliq:     Aliquota do ISSQN <vAliq>
+           Compras_Itens_XML!ISSvISSQN = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ISSQN/vISSQN").Item(0).Text, ".", ",", UM_A_UM))       'vISSQN:    Valor do ISSQN <vISSQN>
+           Compras_Itens_XML!ISScMunFG = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ISSQN/cMunFG").Item(0).Text                                            'cMunFG:    Codigo do municipio de ocorrencia do fato gerador do ISSQN <cMunFG>
+           Compras_Itens_XML!ISScListServ = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/ISSQN/cListServ").Item(0).Text                                      'cListServ: Codigo do servico conforme lista do ISSQN <cListServ>
            Compras_Itens_XML!EAN = cEAN
 
            '==============================================================
@@ -7373,80 +7627,80 @@ End If
            Compras_Itens_XML!IBSCBSMonovTotIBSMonoItem = 0
            Compras_Itens_XML!IBSCBSMonovTotCBSMonoItem = 0
            Dim oIBSCBS As Object
-           Set oIBSCBS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/IBSCBS").item(0)
+           Set oIBSCBS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/IBSCBS").Item(0)
            If Not oIBSCBS Is Nothing Then
-              Compras_Itens_XML!IBSCBSCST = oIBSCBS.selectNodes("CST").item(0).Text
+              Compras_Itens_XML!IBSCBSCST = oIBSCBS.selectNodes("CST").Item(0).Text
               If oIBSCBS.selectNodes("cClassTrib").Length > 0 Then
-                 Compras_Itens_XML!IBSCBScClassTrib = oIBSCBS.selectNodes("cClassTrib").item(0).Text
+                 Compras_Itens_XML!IBSCBScClassTrib = oIBSCBS.selectNodes("cClassTrib").Item(0).Text
               End If
               If oIBSCBS.selectNodes("gIBSCBS").Length > 0 Then
-                 Compras_Itens_XML!IBSCBSvBC = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/vBC").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!IBSUFpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/pIBSUF").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!IBSUFvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/vIBSUF").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSCBSvBC = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/vBC").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSUFpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/pIBSUF").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSUFvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/vIBSUF").Item(0).Text, ".", ",", UM_A_UM))
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDif").Length > 0 Then
-                    Compras_Itens_XML!IBSUFpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDif/pDif").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSUFvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDif/vDif").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSUFpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDif/pDif").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSUFvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDif/vDif").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDevTrib").Length > 0 Then
-                    Compras_Itens_XML!IBSUFvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDevTrib/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSUFvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gDevTrib/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gRed").Length > 0 Then
-                    Compras_Itens_XML!IBSUFpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gRed/pRedAliq").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSUFpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gRed/pAliqEfet").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSUFpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gRed/pRedAliq").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSUFpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSUF/gRed/pAliqEfet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
-                 Compras_Itens_XML!IBSMunpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/pIBSMun").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!IBSMunvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/vIBSMun").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSMunpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/pIBSMun").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSMunvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/vIBSMun").Item(0).Text, ".", ",", UM_A_UM))
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDif").Length > 0 Then
-                    Compras_Itens_XML!IBSMunpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDif/pDif").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSMunvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDif/vDif").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSMunpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDif/pDif").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSMunvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDif/vDif").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDevTrib").Length > 0 Then
-                    Compras_Itens_XML!IBSMunvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDevTrib/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSMunvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gDevTrib/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gRed").Length > 0 Then
-                    Compras_Itens_XML!IBSMunpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gRed/pRedAliq").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSMunpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gRed/pAliqEfet").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSMunpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gRed/pRedAliq").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSMunpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gIBSMun/gRed/pAliqEfet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
-                 Compras_Itens_XML!IBSvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/vIBS").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!CBSpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/pCBS").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!CBSvCBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/vCBS").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSvIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/vIBS").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!CBSpAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/pCBS").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!CBSvCBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/vCBS").Item(0).Text, ".", ",", UM_A_UM))
                  If oIBSCBS.selectNodes("gIBSCBS/gCBS/gDif").Length > 0 Then
-                    Compras_Itens_XML!CBSpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDif/pDif").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!CBSvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDif/vDif").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!CBSpDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDif/pDif").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!CBSvDif = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDif/vDif").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gCBS/gDevTrib").Length > 0 Then
-                    Compras_Itens_XML!CBSvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDevTrib/vDevTrib").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!CBSvDevTrib = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gDevTrib/vDevTrib").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBS/gCBS/gRed").Length > 0 Then
-                    Compras_Itens_XML!CBSpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gRed/pRedAliq").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!CBSpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gRed/pAliqEfet").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!CBSpRedAliq = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gRed/pRedAliq").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!CBSpAliqEfet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBS/gCBS/gRed/pAliqEfet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
               End If
               ' IBSCBS Monofasico (gIBSCBSMono) - combustiveis e monofasicos (NT 2025.002 UB84-105)
               If oIBSCBS.selectNodes("gIBSCBSMono").Length > 0 Then
                  If oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao").Length > 0 Then
-                    Compras_Itens_XML!IBSCBSMonoqBCMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/qBCMono").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/adRemIBS").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemCBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/adRemCBS").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovIBSMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/vIBSMono").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovCBSMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/vCBSMono").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoqBCMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/qBCMono").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemIBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/adRemIBS").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemCBS = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/adRemCBS").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovIBSMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/vIBSMono").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovCBSMono = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoPadrao/vCBSMono").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten").Length > 0 Then
-                    Compras_Itens_XML!IBSCBSMonoqBCMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/qBCMonoReten").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemIBSReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/adRemIBSReten").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovIBSMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/vIBSMonoReten").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemCBSReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/adRemCBSReten").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovCBSMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/vCBSMonoReten").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoqBCMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/qBCMonoReten").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemIBSReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/adRemIBSReten").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovIBSMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/vIBSMonoReten").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemCBSReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/adRemCBSReten").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovCBSMonoReten = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoReten/vCBSMonoReten").Item(0).Text, ".", ",", UM_A_UM))
                  End If
                  If oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet").Length > 0 Then
-                    Compras_Itens_XML!IBSCBSMonoqBCMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/qBCMonoRet").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemIBSRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/adRemIBSRet").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovIBSMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/vIBSMonoRet").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonoadRemCBSRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/adRemCBSRet").item(0).Text, ".", ",", UM_A_UM))
-                    Compras_Itens_XML!IBSCBSMonovCBSMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/vCBSMonoRet").item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoqBCMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/qBCMonoRet").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemIBSRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/adRemIBSRet").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovIBSMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/vIBSMonoRet").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonoadRemCBSRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/adRemCBSRet").Item(0).Text, ".", ",", UM_A_UM))
+                    Compras_Itens_XML!IBSCBSMonovCBSMonoRet = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/gMonoRet/vCBSMonoRet").Item(0).Text, ".", ",", UM_A_UM))
                  End If
-                 Compras_Itens_XML!IBSCBSMonovTotIBSMonoItem = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/vTotIBSMonoItem").item(0).Text, ".", ",", UM_A_UM))
-                 Compras_Itens_XML!IBSCBSMonovTotCBSMonoItem = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/vTotCBSMonoItem").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSCBSMonovTotIBSMonoItem = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/vTotIBSMonoItem").Item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!IBSCBSMonovTotCBSMonoItem = CDbl(Substitui(oIBSCBS.selectNodes("gIBSCBSMono/vTotCBSMonoItem").Item(0).Text, ".", ",", UM_A_UM))
               End If
            End If
            Set oIBSCBS = Nothing
@@ -7460,20 +7714,20 @@ End If
            Compras_Itens_XML!ISpIS = 0
            Compras_Itens_XML!ISvIS = 0
            Dim oIS As Object
-           Set oIS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("imposto/IS").item(0)
+           Set oIS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/IS").Item(0)
            If Not oIS Is Nothing Then
-              Compras_Itens_XML!ISCST = oIS.selectNodes("CSTIS").item(0).Text
+              Compras_Itens_XML!ISCST = oIS.selectNodes("CSTIS").Item(0).Text
               If oIS.selectNodes("cClassTribIS").Length > 0 Then
-                 Compras_Itens_XML!IScClassTrib = oIS.selectNodes("cClassTribIS").item(0).Text
+                 Compras_Itens_XML!IScClassTrib = oIS.selectNodes("cClassTribIS").Item(0).Text
               End If
               If oIS.selectNodes("vBCIS").Length > 0 Then
-                 Compras_Itens_XML!ISvBCIS = CDbl(Substitui(oIS.selectNodes("vBCIS").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!ISvBCIS = CDbl(Substitui(oIS.selectNodes("vBCIS").Item(0).Text, ".", ",", UM_A_UM))
               End If
               If oIS.selectNodes("pIS").Length > 0 Then
-                 Compras_Itens_XML!ISpIS = CDbl(Substitui(oIS.selectNodes("pIS").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!ISpIS = CDbl(Substitui(oIS.selectNodes("pIS").Item(0).Text, ".", ",", UM_A_UM))
               End If
               If oIS.selectNodes("vIS").Length > 0 Then
-                 Compras_Itens_XML!ISvIS = CDbl(Substitui(oIS.selectNodes("vIS").item(0).Text, ".", ",", UM_A_UM))
+                 Compras_Itens_XML!ISvIS = CDbl(Substitui(oIS.selectNodes("vIS").Item(0).Text, ".", ",", UM_A_UM))
               End If
            End If
            Set oIS = Nothing
@@ -7482,8 +7736,8 @@ End If
            ' GRAVACAO - vItem (valor total liquido do item)
            '==============================================================
            Compras_Itens_XML!vItem = 0
-           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("vItem").Length > 0 Then
-              Compras_Itens_XML!vItem = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").item(i).selectNodes("vItem").item(0).Text, ".", ",", UM_A_UM))
+           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("vItem").Length > 0 Then
+              Compras_Itens_XML!vItem = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("vItem").Item(0).Text, ".", ",", UM_A_UM))
            End If
 
            If CodProduto = 0 Then
@@ -7499,6 +7753,12 @@ End If
            Compras_Itens_XML.Update
    
     Next i
+    ' Gravar totais ICMS60 no cabecalho da entrada
+    dbData.Execute "UPDATE EntradaEstoque SET " & _
+        "vBCSTRetTotal = " & Replace(Format(dTotalBCSTRet, "0.00"), ",", ".") & ", " & _
+        "vICMSSTRetTotal = " & Replace(Format(dTotalICMSSTRet, "0.00"), ",", ".") & ", " & _
+        "vICMSSubstitutoTotal = " & Replace(Format(dTotalICMSSubstituto, "0.00"), ",", ".") & _
+        " WHERE CodigoNota = " & Compra
     '------------- FIM DA IMPORTAaaO DOS ITENS ------------------
 
     '------------- VINCULACAO DE PRODUTOS NAO IDENTIFICADOS ---------
@@ -7527,7 +7787,7 @@ End If
     Dim sFormaPag As String
     sFormaPag = "OUTROS"
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/tPag").Length > 0 Then
-       Select Case Trim(XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/tPag").item(0).Text)
+       Select Case Trim(XMLDOC.selectNodes("nfeProc/NFe/infNFe/pag/detPag/tPag").Item(0).Text)
           Case "01": sFormaPag = "DINHEIRO"
           Case "02": sFormaPag = "CHEQUE"
           Case "03": sFormaPag = "CARTAO CREDITO"
@@ -7559,14 +7819,14 @@ End If
 
     If qtdDup > 0 And bPagPrazo Then
        'Nome do fornecedor: limitado a 40 chars (tamanho da coluna FAVORECIDO em a_pagar)
-       sFavorecido = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text), 40), "'", "''")
+       sFavorecido = Replace(Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").Item(0).Text), 40), "'", "''")
        For i = 0 To qtdDup - 1
           'nDup: Numero da duplicata - tag <nDup>
-          sDupNum = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(i).selectNodes("nDup").item(0).Text
+          sDupNum = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(i).selectNodes("nDup").Item(0).Text
           'dVenc: Data de vencimento da duplicata - tag <dVenc>
-          sDupVenc = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(i).selectNodes("dVenc").item(0).Text
+          sDupVenc = XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(i).selectNodes("dVenc").Item(0).Text
           'vDup: Valor da duplicata - tag <vDup>
-          vDupValor = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").item(i).selectNodes("vDup").item(0).Text, ".", ",", UM_A_UM))
+          vDupValor = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/cobr/dup").Item(i).selectNodes("vDup").Item(0).Text, ".", ",", UM_A_UM))
 
           str_sql = "INSERT INTO a_pagar " & _
                     "(CODIGO, CADASTRO, VENCIMENTO, STATUS, DESCRICAO, FAVORECIDO, SETOR, TIPO, DATA_PGTO, FORMA, FONTE, VALOR_UND, HAVERES, QUANT, TOTAL, REF) " & _
@@ -7630,18 +7890,18 @@ Dim varCEPform As String
 Dim varCODIBGEform As Integer
 
 varCodFornecedor = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM fornecedor", "r", 0) + 1
-varRAZAOForn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text), 35)
-varFantasiaFor = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").item(0).Text), 35)
+varRAZAOForn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").Item(0).Text), 35)
+varFantasiaFor = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").Item(0).Text), 35)
 If tipoEmp = 0 Then varCNPJforn = CPF
 If tipoEmp = 1 Then varCNPJforn = CNPJ
-varIEforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").item(0).Text
-varENDERECOforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").item(0).Text), 40) & ", " & Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text), 8)
-varBairroforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").item(0).Text), 20)
-varCidadeforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text), 20)
-varEstadoforn = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
-varCEPform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text
-varNUMforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text
-varCODIBGEform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").item(0).Text
+varIEforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").Item(0).Text
+varENDERECOforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").Item(0).Text), 40) & ", " & Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text), 8)
+varBairroforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").Item(0).Text), 20)
+varCidadeforn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").Item(0).Text), 20)
+varEstadoforn = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text)
+varCEPform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").Item(0).Text
+varNUMforn = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text
+varCODIBGEform = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/cMun").Item(0).Text
 
 
 'Comando de inclusao
@@ -7671,16 +7931,16 @@ dbData.Execute (sSQL)
    Codigo_fornecedor = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM fornecedor", "r", 0) + 1
    
    Fornecedores!Codigo = Codigo_fornecedor
-   Fornecedores!Razao = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text), 35)
-   Fornecedores!Fantasia = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").item(0).Text), 35)
+   Fornecedores!Razao = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").Item(0).Text), 35)
+   Fornecedores!Fantasia = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xFant").Item(0).Text), 35)
    If tipoEmp = 0 Then Fornecedores!CNPJ = CPF
    If tipoEmp = 1 Then Fornecedores!CNPJ = CNPJ
-   Fornecedores!IE = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").item(0).Text
-   Fornecedores!Endereco = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").item(0).Text), 40) & ", " & Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").item(0).Text), 8)
-   Fornecedores!bairro = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").item(0).Text), 20)
-   Fornecedores!Cidade = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text), 20)
-   Fornecedores!Estado = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
-   Fornecedores!CEP = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text
+   Fornecedores!IE = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/IE").Item(0).Text
+   Fornecedores!Endereco = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xLgr").Item(0).Text), 40) & ", " & Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/nro").Item(0).Text), 8)
+   Fornecedores!bairro = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xBairro").Item(0).Text), 20)
+   Fornecedores!Cidade = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").Item(0).Text), 20)
+   Fornecedores!Estado = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").Item(0).Text)
+   Fornecedores!CEP = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").Item(0).Text
    Fornecedores.Update
 
 End Function
@@ -7847,6 +8107,119 @@ Else
    txtQuantFinal.Text = txtQuantBruto.Text
    txtCusto.Text = Format(Val(Replace(txtValorBruto.Text, ",", ".")), "##,##0.00")
 End If
+End Sub
+
+
+Private Sub Menu_Ajuda_Adicionar_Click()
+url = "https://www.youtube.com/watch?v=AXeWQvyTLxU&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
+End Sub
+
+Private Sub Menu_Ajuda_BaixarXML1_Click()
+url = "https://www.youtube.com/watch?v=A48N8kGpt9U&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+End Sub
+
+Private Sub Menu_Ajuda_Cadastro_Click()
+url = "https://www.youtube.com/watch?v=9mybCczNsbw&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
+End Sub
+
+Private Sub Menu_Ajuda_ConsultaNota_Click()
+url = "https://www.youtube.com/watch?v=wb86FSpnGsU&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
+End Sub
+
+Private Sub Menu_Ajuda_LerXML_Click()
+url = "https://www.youtube.com/watch?v=t5wuxSzL9yc&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
+End Sub
+
+
+Private Sub Menu_Ajuda_Remover_Click()
+url = "https://www.youtube.com/watch?v=xGiJX3LR8BY&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
+End Sub
+
+Private Sub Menu_Ajuda_Vincular_Click()
+url = "https://www.youtube.com/watch?v=ZqqxJ31Yx24&rel=0&mute=1&autoplay=1"
+
+chromePath = "C:\Program Files\Google\Chrome\Application\chrome.exe"
+If Not Existe(chromePath) Then
+   chromePath = "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"
+End If
+
+If Existe(chromePath) Then
+   Shell Chr(34) & chromePath & Chr(34) & " --app=" & Chr(34) & url & Chr(34) & " --start-fullscreen", vbNormalFocus
+Else
+   ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, conSwNormal
+End If
+
 End Sub
 
 
@@ -8073,7 +8446,6 @@ Dim totalRegistros As Long
     
     'Text19 = Format(0, "##,##0.00")
     'Text16 = Format(0, "##,##0.00")
-    txtValorFrete = Format(0, "##,##0.00")
     Text22 = Format(0, "##,##0.00")
     Text21 = Format(0, "##,##0.00")
     'Text17 = Format(0, "@")
@@ -8112,9 +8484,9 @@ If txtValor.Text = "0" Or txtValor.Text = "0,00" Then Exit Sub
 If txtDesc.Text = "" Then txtDesc.Text = Format(0, ocMONEY)
 
 If txtDesc.Text <> "0,00" Then
-    txtSubtotal.Text = Format(varTotalComdesc, ocMONEY)
+    txtSubTotal.Text = Format(varTotalComdesc, ocMONEY)
 Else
-    txtSubtotal.Text = Format(varTotalSemDesc, ocMONEY)
+    txtSubTotal.Text = Format(varTotalSemDesc, ocMONEY)
 End If
 End Sub
 
@@ -8193,6 +8565,11 @@ Else
 End If
 
 
+If varMargemAP < 0 Then
+   MsgBox "Margem negativa indica venda abaixo do custo." & vbCrLf & "A margem foi zerada.", vbExclamation, "Aviso"
+   varMargemAP = 0
+End If
+
 txtMargemAP.Text = FormatNumber(varMargemAP, 2) & "%"
 
 CalcularPrecos
@@ -8244,6 +8621,11 @@ If Right(txtMargemAV.Text, 1) = "%" Then
    varMargemAV = Left$(txtMargemAV.Text, Len(txtMargemAV.Text) - 1)
 Else
     varMargemAV = txtMargemAV.Text
+End If
+
+If varMargemAV < 0 Then
+   MsgBox "Margem negativa indica venda abaixo do custo." & vbCrLf & "A margem foi zerada.", vbExclamation, "Aviso"
+   varMargemAV = 0
 End If
 
 txtMargemAV.Text = FormatNumber(varMargemAV, 2) & "%"
@@ -8299,6 +8681,11 @@ Else
     varMargemVP = txtMargemVP.Text
 End If
 
+If varMargemVP < 0 Then
+   MsgBox "Margem negativa indica venda abaixo do custo." & vbCrLf & "A margem foi zerada.", vbExclamation, "Aviso"
+   varMargemVP = 0
+End If
+
 txtMargemVP.Text = FormatNumber(varMargemVP, 2) & "%"
 
 CalcularPrecos
@@ -8345,6 +8732,11 @@ Dim varMargemVV As Currency
 
 If txtMargemVV.Text = "" Then txtMargemVV.Text = 0
 varMargemVV = txtMargemVV.Text
+
+If varMargemVV < 0 Then
+   MsgBox "Margem negativa indica venda abaixo do custo." & vbCrLf & "A margem foi zerada.", vbExclamation, "Aviso"
+   varMargemVV = 0
+End If
 
 txtMargemVV.Text = FormatNumber(varMargemVV, 2) & "%"
 If txtMargemVP.Text = "" Then txtMargemVP.Text = txtMargemVV.Text
@@ -8428,10 +8820,21 @@ Dim c As Currency
 
 a = txtCusto.Text
 B = txtValorAP.Text
-c = ((B - a) / a) * 100
+
+If B < a Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = a
+   txtValorAP.Text = Format(a, ocMONEY)
+End If
+
+If a > 0 Then
+   c = ((B - a) / a) * 100
+Else
+   c = 0
+End If
 
 txtMargemAP.Text = FormatNumber(c, 2) & "%"
-txtValorAP.Text = Format(txtValorAP.Text, ocMONEY)
+txtValorAP.Text = Format(B, ocMONEY)
 End Sub
 
 
@@ -8454,10 +8857,21 @@ Dim c As Currency
 
 a = txtCusto.Text
 B = txtValorAV.Text
-c = ((B - a) / a) * 100
+
+If B < a Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = a
+   txtValorAV.Text = Format(a, ocMONEY)
+End If
+
+If a > 0 Then
+   c = ((B - a) / a) * 100
+Else
+   c = 0
+End If
 
 txtMargemAV.Text = FormatNumber(c, 2) & "%"
-txtValorAV.Text = Format(txtValorAV.Text, ocMONEY)
+txtValorAV.Text = Format(B, ocMONEY)
 End Sub
 
 
@@ -8791,10 +9205,21 @@ Dim c As Currency
 
 a = txtCusto.Text
 B = txtValorVP.Text
-c = ((B - a) / a) * 100
+
+If B < a Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = a
+   txtValorVP.Text = Format(a, ocMONEY)
+End If
+
+If a > 0 Then
+   c = ((B - a) / a) * 100
+Else
+   c = 0
+End If
 
 txtMargemVP.Text = FormatNumber(c, 2) & "%"
-txtValorVP.Text = Format(txtValorVP.Text, ocMONEY)
+txtValorVP.Text = Format(B, ocMONEY)
 End Sub
 
 
@@ -8817,10 +9242,117 @@ Dim c As Currency
 
 a = txtCusto.Text
 B = txtValorVV.Text
-c = ((B - a) / a) * 100
+
+If B < a Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = a
+   txtValorVV.Text = Format(a, ocMONEY)
+End If
+
+If a > 0 Then
+   c = ((B - a) / a) * 100
+Else
+   c = 0
+End If
 
 txtMargemVV.Text = FormatNumber(c, 2) & "%"
-txtValorVV.Text = Format(txtValorVV.Text, ocMONEY)
+txtValorVV.Text = Format(B, ocMONEY)
 End Sub
 
+Private Sub grdTotHeader(g As MSFlexGrid, sTitle As String)
+   g.rows = g.rows + 1
+   Dim r As Long
+   r = g.rows - 1
+   g.TextMatrix(r, 0) = ""
+   g.TextMatrix(r, 1) = sTitle
+   g.TextMatrix(r, 2) = ""
+   g.Row = r: g.Col = 0: g.CellBackColor = &HC0C0C0
+   g.Row = r: g.Col = 1: g.CellBackColor = &HC0C0C0: g.CellFontBold = True
+   g.Row = r: g.Col = 2: g.CellBackColor = &HC0C0C0
+End Sub
+
+Private Sub grdTotAdd(g As MSFlexGrid, sSec As String, sDesc As String, sVal As String)
+   g.rows = g.rows + 1
+   Dim r As Long
+   r = g.rows - 1
+   g.TextMatrix(r, 0) = sSec
+   g.TextMatrix(r, 1) = sDesc
+   g.TextMatrix(r, 2) = sVal
+   g.Row = r: g.Col = 2: g.CellAlignment = flexAlignRightCenter
+End Sub
+
+Private Sub grdTotTotal(g As MSFlexGrid, sDesc As String, sVal As String)
+   g.rows = g.rows + 1
+   Dim r As Long
+   r = g.rows - 1
+   g.TextMatrix(r, 0) = "TOTAL"
+   g.TextMatrix(r, 1) = sDesc
+   g.TextMatrix(r, 2) = sVal
+   Dim c As Integer
+   For c = 0 To 2
+      g.Row = r: g.Col = c
+      g.CellFontBold = True
+      g.CellBackColor = &HFFFFC0
+   Next c
+   g.Row = r: g.Col = 2: g.CellAlignment = flexAlignRightCenter
+End Sub
+
+Private Sub CarregarTotaisNota(TbEnt As ADODB.Recordset)
+   If TbEnt Is Nothing Then Exit Sub
+   Dim f As String
+   f = "##,##0.00"
+   With grdTotaisNota
+      .Redraw = False
+      .FixedRows = 0
+      .rows = 1
+      .Cols = 3
+      .FixedCols = 0
+      .ColWidth(0) = 1500
+      .ColWidth(1) = 3000
+      .ColWidth(2) = 1500
+      .TextMatrix(0, 0) = "Secao"
+      .TextMatrix(0, 1) = "Descricao"
+      .TextMatrix(0, 2) = "Valor"
+   End With
+   Call grdTotHeader(grdTotaisNota, "ICMS")
+   Call grdTotAdd(grdTotaisNota, "ICMS", "Base de Calc. ICMS (vBC)", Format(TbEnt("BaseICMS"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS", "Valor do ICMS", Format(TbEnt("ValorICMS"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS", "Valor do FCP", Format(TbEnt("ValorFCP"), f))
+   Call grdTotHeader(grdTotaisNota, "ICMS-ST")
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "Base de Calc. ICMS-ST", Format(TbEnt("BaseICMSST"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "Valor do ICMS-ST", Format(TbEnt("ValorICMSST"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "Valor do FCP-ST", Format(TbEnt("ValorFCPST"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "Valor FCP-ST Retido", Format(TbEnt("ValorFCPSTRet"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "Base ICMS-ST Retido (Total)", Format(TbEnt("vBCSTRetTotal"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "ICMS-ST Retido (Total)", Format(TbEnt("vICMSSTRetTotal"), f))
+   Call grdTotAdd(grdTotaisNota, "ICMS-ST", "ICMS Substituto (Total)", Format(TbEnt("vICMSSubstitutoTotal"), f))
+   Call grdTotHeader(grdTotaisNota, "Produtos e Servicos")
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Total dos Produtos", Format(TbEnt("ValorProdutos"), f))
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Valor do Frete", Format(TbEnt("ValorFrete"), f))
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Valor do Seguro", Format(TbEnt("ValorSeguro"), f))
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Valor do Desconto", Format(TbEnt("ValorDesconto"), f))
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Outras Despesas", Format(TbEnt("ValorOutrasDespesas"), f))
+   Call grdTotAdd(grdTotaisNota, "Produtos", "Valor do II (Importacao)", Format(TbEnt("ValorImportacao"), f))
+   Call grdTotHeader(grdTotaisNota, "IPI / PIS / COFINS")
+   Call grdTotAdd(grdTotaisNota, "IPI", "Valor do IPI", Format(TbEnt("ValorIPI"), f))
+   Call grdTotAdd(grdTotaisNota, "IPI", "Valor IPI Devolvido", Format(TbEnt("ValorIPIDevol"), f))
+   Call grdTotAdd(grdTotaisNota, "PIS", "Valor do PIS", Format(TbEnt("ValorPIS"), f))
+   Call grdTotAdd(grdTotaisNota, "COFINS", "Valor do COFINS", Format(TbEnt("ValorCOFINS"), f))
+   Call grdTotHeader(grdTotaisNota, "DIFAL")
+   Call grdTotAdd(grdTotaisNota, "DIFAL", "FCP UF Destinataria", Format(TbEnt("vFCPUFDest"), f))
+   Call grdTotAdd(grdTotaisNota, "DIFAL", "ICMS UF Destinataria", Format(TbEnt("vICMSUFDest"), f))
+   Call grdTotAdd(grdTotaisNota, "DIFAL", "ICMS UF Remetente", Format(TbEnt("vICMSUFRemet"), f))
+   Call grdTotTotal(grdTotaisNota, "VALOR TOTAL DA NOTA", Format(TbEnt("ValorNota"), f))
+   Call grdTotHeader(grdTotaisNota, "IBS / CBS (Reforma Tributaria)")
+   Call grdTotAdd(grdTotaisNota, "IBS/CBS", "Base de Calc. IBS/CBS (vBC)", Format(TbEnt("TotIBSCBSvBC"), f))
+   Call grdTotAdd(grdTotaisNota, "IBS", "IBS Estado (UF)", Format(TbEnt("TotIBSUFvIBS"), f))
+   Call grdTotAdd(grdTotaisNota, "IBS", "IBS Municipio", Format(TbEnt("TotIBSMunvIBS"), f))
+   Call grdTotAdd(grdTotaisNota, "IBS", "Total IBS", Format(TbEnt("TotIBSvIBS"), f))
+   Call grdTotAdd(grdTotaisNota, "IBS", "Credito Presumido IBS", Format(TbEnt("TotIBSvCredPres"), f))
+   Call grdTotAdd(grdTotaisNota, "CBS", "Total CBS", Format(TbEnt("TotCBSvCBS"), f))
+   Call grdTotAdd(grdTotaisNota, "CBS", "Credito Presumido CBS", Format(TbEnt("TotCBSvCredPres"), f))
+   Call grdTotAdd(grdTotaisNota, "IBS/CBS", "Valor NF com IBS/CBS (vNFTot)", Format(TbEnt("vNFTot"), f))
+   grdTotaisNota.FixedRows = 1
+   grdTotaisNota.Redraw = True
+End Sub
 

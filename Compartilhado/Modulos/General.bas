@@ -190,12 +190,12 @@ LerConfiguracao
 'Sistema_Financeiro.Show
 'OS_Recapadora.Show
 'Produtos_Cadastro.Show
-NFe_Completa.Show
+'NFe_Completa.Show
 'Tela_Principal.Show
 'Notas_Adesivas.Show
 'Sistema_Financeiro.Show
 'Inventario_Cadastro.Show
-'Entrada_Estoque.Show
+Entrada_Estoque.Show
 'Senha.Show
 End Sub
 

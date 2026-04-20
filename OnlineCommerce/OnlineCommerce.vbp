@@ -145,6 +145,7 @@ Form=Forms\frmVinculoProdutoXML.frm
 Form=Forms\Inventario_Detalhamento.frm
 Form=Forms\REL_Comissoes.frm
 Form=Forms\frmCadProdXML.frm
+Form=Forms\frmModoVenda.frm
 Form=..\Compartilhado\Forms\REL_Cons_Venda_ProdAgrupado.frm
 Class=cStringBuilder; ..\Compartilhado\Classes\cStringBuilder.cls
 Form=..\Compartilhado\Forms\REL_Caixa_Sangria.frm

@@ -376,7 +376,7 @@ End If
         infAdiProd = Trim(infAdiProd)
         
         iRetorno = sistNFe.GerarItens(i, NFeItens!CodigoProduto, RemoveAcento(NFeItens!NomeProduto), Produtos!NCM, "", "", IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), _
-                                      NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, (NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
+                                      NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
                                       NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", 0, "", "", "", "", "", 1, infAdiProd, 0, "", 0, mensagemAlerta, mensagemErro)
 
 'ESSE PONTO DO DEPOSITO DE GÁS
@@ -443,8 +443,18 @@ End If
 'FIM DO PONTO DO DEPOSITO DE GAS
         
         '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
+        Dim sCSOSNCheck As String
+        sCSOSNCheck = Right(Format(NFeItens!CST, "@"), 3)
+        Dim dblPCredSN As Double
+        dblPCredSN = 0
         vCredICMSSN = 0
-        If Parametros!pCreditoICMSSimplesNacional > 0 Then vCredICMSSN = Round(NFeItens!ValorTotalBruto * (Parametros!pCreditoICMSSimplesNacional / 100), 2)
+        If Left(Parametros!CRT, 1) < 3 And (sCSOSNCheck = "101" Or sCSOSNCheck = "201") Then
+            dblPCredSN = CDbl(Parametros!pCreditoICMSSimplesNacional)
+            vCredICMSSN = IIf(IsNull(NFeItens!vCredICMSSN), 0, CDbl(NFeItens!vCredICMSSN))
+            If vCredICMSSN = 0 And dblPCredSN > 0 Then ' fallback para notas antigas
+                vCredICMSSN = Round(NFeItens!ValorTotalBruto * (dblPCredSN / 100), 2)
+            End If
+        End If
         Dim ICMSCST As String
         If Left(Parametros!CRT, 1) < 3 Then
            ICMSCST = NFeItens!CST
@@ -458,7 +468,7 @@ End If
         If NFeItens!TipoProduto <> "Combustível" Then
             'acrescentei um zero antes da mensagemAlerta: NFeItens!vBC, 0, 0, mensagemAlerta,
            iRetorno = sistNFe.GerarItensImpostoEstadual(NFeItens!ValorTributos, "0", ICMSCST, IIf(Vazio(NFeItens!modBC), 3, Left$(NFeItens!modBC, 1)), NFeItens!vBC, NFeItens!pICMS, NFeItens!vICMS, NFeItens!pRedBC, 0, 0, 0, _
-                                                        IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, Parametros!pCreditoICMSSimplesNacional, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
+                                                        IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, dblPCredSN, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
         
            If Left(Parametros!CRT, 1) = 3 Then
               vBCCBSIBS = NFeItens!ValorTotalBruto

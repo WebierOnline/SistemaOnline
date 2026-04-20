@@ -19,23 +19,23 @@ Begin VB.Form Empresa_Cadastro
    Begin VB.Frame frmBancario 
       Caption         =   "Dados Bancário"
       Height          =   1395
-      Left            =   4560
-      TabIndex        =   92
-      Top             =   3540
-      Width           =   6975
+      Left            =   4620
+      TabIndex        =   96
+      Top             =   4080
+      Width           =   6915
       Begin VB.TextBox txtPix 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1020
-         TabIndex        =   35
+         TabIndex        =   39
          Top             =   960
-         Width           =   5835
+         Width           =   5775
       End
       Begin VB.ComboBox cboTipo 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   540
-         TabIndex        =   33
+         TabIndex        =   37
          Top             =   600
          Width           =   1335
       End
@@ -43,7 +43,7 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   3180
-         TabIndex        =   31
+         TabIndex        =   35
          Top             =   240
          Width           =   975
       End
@@ -51,23 +51,23 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   2880
-         TabIndex        =   34
+         TabIndex        =   38
          Top             =   600
-         Width           =   3975
+         Width           =   3915
       End
       Begin VB.TextBox txtConta 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   4800
-         TabIndex        =   32
+         TabIndex        =   36
          Top             =   240
-         Width           =   2055
+         Width           =   1995
       End
       Begin VB.TextBox txtBanco 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   660
-         TabIndex        =   30
+         TabIndex        =   34
          Top             =   240
          Width           =   1695
       End
@@ -77,7 +77,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Chave Pix"
          Height          =   195
          Left            =   120
-         TabIndex        =   98
+         TabIndex        =   102
          Top             =   1005
          Width           =   720
       End
@@ -87,7 +87,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Tipo"
          Height          =   195
          Left            =   120
-         TabIndex        =   97
+         TabIndex        =   101
          Top             =   645
          Width           =   315
       End
@@ -97,7 +97,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Agência:"
          Height          =   195
          Left            =   2460
-         TabIndex        =   96
+         TabIndex        =   100
          Top             =   285
          Width           =   630
       End
@@ -107,7 +107,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Favorecido"
          Height          =   195
          Left            =   1980
-         TabIndex        =   95
+         TabIndex        =   99
          Top             =   645
          Width           =   795
       End
@@ -117,7 +117,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Conta: "
          Height          =   195
          Left            =   4260
-         TabIndex        =   94
+         TabIndex        =   98
          Top             =   285
          Width           =   510
       End
@@ -127,7 +127,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Banco"
          Height          =   195
          Left            =   120
-         TabIndex        =   93
+         TabIndex        =   97
          Top             =   285
          Width           =   465
       End
@@ -143,17 +143,17 @@ Begin VB.Form Empresa_Cadastro
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2835
-      Left            =   4560
-      TabIndex        =   72
-      Top             =   4980
+      Height          =   2175
+      Left            =   4620
+      TabIndex        =   76
+      Top             =   5580
       Width           =   6915
       Begin VB.TextBox txtCodDesbloqueio 
          Height          =   315
          Left            =   1500
          MaxLength       =   6
-         TabIndex        =   78
-         Top             =   2460
+         TabIndex        =   82
+         Top             =   1740
          Width           =   1155
       End
       Begin VB.CheckBox chkProximo 
@@ -163,7 +163,7 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H80000008&
          Height          =   195
          Left            =   2100
-         TabIndex        =   77
+         TabIndex        =   81
          Top             =   300
          Width           =   855
       End
@@ -171,18 +171,18 @@ Begin VB.Form Empresa_Cadastro
          Height          =   315
          Left            =   1080
          MaxLength       =   6
-         TabIndex        =   73
+         TabIndex        =   77
          Top             =   240
          Width           =   915
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
-         Height          =   1815
+         Height          =   1095
          Left            =   120
-         TabIndex        =   75
+         TabIndex        =   79
          Top             =   600
          Width           =   6675
          _ExtentX        =   11774
-         _ExtentY        =   3201
+         _ExtentY        =   1931
          _Version        =   393216
          ScrollBars      =   2
          SelectionMode   =   1
@@ -191,7 +191,7 @@ Begin VB.Form Empresa_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdGerarPagamentos 
          Height          =   315
          Left            =   3060
-         TabIndex        =   76
+         TabIndex        =   80
          Top             =   240
          Width           =   1395
          _ExtentX        =   2461
@@ -229,8 +229,8 @@ Begin VB.Form Empresa_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdDesbroquear 
          Height          =   315
          Left            =   3900
-         TabIndex        =   80
-         Top             =   2460
+         TabIndex        =   84
+         Top             =   1740
          Width           =   1395
          _ExtentX        =   2461
          _ExtentY        =   556
@@ -267,8 +267,8 @@ Begin VB.Form Empresa_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdDesbTemp 
          Height          =   315
          Left            =   5340
-         TabIndex        =   83
-         Top             =   2460
+         TabIndex        =   87
+         Top             =   1740
          Width           =   1395
          _ExtentX        =   2461
          _ExtentY        =   556
@@ -308,8 +308,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Cód. Desbroqueio:"
          Height          =   195
          Left            =   120
-         TabIndex        =   79
-         Top             =   2520
+         TabIndex        =   83
+         Top             =   1800
          Width           =   1320
       End
       Begin VB.Label Label16 
@@ -318,7 +318,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Dia de Pgto:"
          Height          =   195
          Left            =   120
-         TabIndex        =   74
+         TabIndex        =   78
          Top             =   285
          Width           =   885
       End
@@ -331,7 +331,7 @@ Begin VB.Form Empresa_Cadastro
       Left            =   60
       ScaleHeight     =   885
       ScaleWidth      =   11385
-      TabIndex        =   69
+      TabIndex        =   73
       Top             =   60
       Width           =   11415
       Begin VB.TextBox txtCodPedido 
@@ -351,7 +351,7 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H00000080&
          Height          =   330
          Left            =   8940
-         TabIndex        =   70
+         TabIndex        =   74
          TabStop         =   0   'False
          Top             =   120
          Width           =   855
@@ -382,7 +382,7 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1320
-         TabIndex        =   71
+         TabIndex        =   75
          Top             =   240
          Width           =   1380
       End
@@ -398,20 +398,50 @@ Begin VB.Form Empresa_Cadastro
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   2415
-      Left            =   4560
-      TabIndex        =   54
+      Height          =   2955
+      Left            =   4620
+      TabIndex        =   58
       Top             =   1080
       Width           =   6915
+      Begin VB.ComboBox cboDIFAL 
+         Appearance      =   0  'Flat
+         Enabled         =   0   'False
+         Height          =   315
+         Left            =   1440
+         TabIndex        =   30
+         Top             =   2160
+         Width           =   735
+      End
+      Begin VB.CheckBox chkOffline 
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         Caption         =   "Offline NFCe"
+         ForeColor       =   &H80000008&
+         Height          =   195
+         Left            =   2280
+         TabIndex        =   31
+         Top             =   2640
+         Width           =   1275
+      End
+      Begin VB.TextBox txtRegime 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         Height          =   315
+         Left            =   4920
+         MaxLength       =   1
+         TabIndex        =   19
+         Top             =   360
+         Width           =   375
+      End
       Begin VB.CheckBox chkContigenciaNFCe 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
          Caption         =   "Contigência NFCe"
          ForeColor       =   &H80000008&
          Height          =   195
-         Left            =   5220
-         TabIndex        =   29
-         Top             =   2160
+         Left            =   5160
+         TabIndex        =   33
+         Top             =   2640
          Width           =   1635
       End
       Begin VB.CheckBox chkContigenciaNFe 
@@ -420,16 +450,16 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Contigência NFe"
          ForeColor       =   &H80000008&
          Height          =   195
-         Left            =   3660
-         TabIndex        =   28
-         Top             =   2160
+         Left            =   3600
+         TabIndex        =   32
+         Top             =   2640
          Width           =   1575
       End
       Begin VB.ComboBox cboPerfil 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   6060
-         TabIndex        =   27
+         TabIndex        =   28
          Top             =   1800
          Width           =   735
       End
@@ -437,9 +467,10 @@ Begin VB.Form Empresa_Cadastro
          Alignment       =   1  'Right Justify
          Appearance      =   0  'Flat
          Height          =   315
-         Left            =   6300
-         TabIndex        =   81
-         Top             =   360
+         Left            =   900
+         TabIndex        =   85
+         Top             =   2580
+         Visible         =   0   'False
          Width           =   495
       End
       Begin VB.CommandButton cmdGerarLicenca 
@@ -447,7 +478,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "..."
          Height          =   315
          Left            =   6480
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   1440
          Width           =   315
       End
@@ -456,7 +487,7 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   3000
-         TabIndex        =   16
+         TabIndex        =   17
          Top             =   360
          Width           =   375
       End
@@ -464,16 +495,18 @@ Begin VB.Form Empresa_Cadastro
          Alignment       =   1  'Right Justify
          Appearance      =   0  'Flat
          Height          =   315
-         Left            =   5040
-         TabIndex        =   17
-         Top             =   360
+         Left            =   3660
+         TabIndex        =   29
+         TabStop         =   0   'False
+         Top             =   2160
+         Visible         =   0   'False
          Width           =   495
       End
       Begin VB.TextBox txtNFCeCSC 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   2400
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   1800
          Width           =   3135
       End
@@ -482,7 +515,7 @@ Begin VB.Form Empresa_Cadastro
          Height          =   315
          Left            =   1080
          MaxLength       =   6
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   1800
          Width           =   855
       End
@@ -490,7 +523,7 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1080
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   1440
          Width           =   5355
       End
@@ -499,7 +532,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "..."
          Height          =   315
          Left            =   6480
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   1080
          Width           =   315
       End
@@ -507,7 +540,7 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1080
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   1080
          Width           =   5355
       End
@@ -516,7 +549,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "..."
          Height          =   315
          Left            =   6480
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   720
          Width           =   315
       End
@@ -524,7 +557,7 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1080
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   720
          Width           =   5355
       End
@@ -543,19 +576,50 @@ Begin VB.Form Empresa_Cadastro
          Height          =   315
          Left            =   1080
          MaxLength       =   7
-         TabIndex        =   15
+         TabIndex        =   16
          Top             =   360
          Width           =   1035
+      End
+      Begin VB.Label lblREGIME 
+         Alignment       =   1  'Right Justify
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "REGIME"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   210
+         Left            =   6300
+         TabIndex        =   104
+         Top             =   480
+         Width           =   555
+      End
+      Begin VB.Label lblDifal 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "IPI Compõe Difal"
+         Enabled         =   0   'False
+         Height          =   195
+         Left            =   120
+         TabIndex        =   103
+         Top             =   2205
+         Width           =   1185
       End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "CRT"
+         Caption         =   "Regime"
          Height          =   195
-         Left            =   0
-         TabIndex        =   91
-         Top             =   0
-         Width           =   330
+         Left            =   4320
+         TabIndex        =   95
+         Top             =   405
+         Width           =   540
       End
       Begin VB.Label lblCRTNome 
          Alignment       =   1  'Right Justify
@@ -573,8 +637,8 @@ Begin VB.Form Empresa_Cadastro
          EndProperty
          Height          =   210
          Left            =   6540
-         TabIndex        =   90
-         Top             =   120
+         TabIndex        =   94
+         Top             =   300
          Width           =   300
       End
       Begin VB.Label Label13 
@@ -583,7 +647,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Perfil"
          Height          =   195
          Left            =   5640
-         TabIndex        =   86
+         TabIndex        =   90
          Top             =   1845
          Width           =   345
       End
@@ -592,9 +656,10 @@ Begin VB.Form Empresa_Cadastro
          BackStyle       =   0  'Transparent
          Caption         =   "% Aliq UF"
          Height          =   195
-         Left            =   5580
-         TabIndex        =   82
-         Top             =   400
+         Left            =   60
+         TabIndex        =   86
+         Top             =   2640
+         Visible         =   0   'False
          Width           =   675
       End
       Begin VB.Label lblAmbienteStatus 
@@ -603,7 +668,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Ambiente"
          Height          =   195
          Left            =   2220
-         TabIndex        =   64
+         TabIndex        =   68
          Top             =   530
          Width           =   660
       End
@@ -613,19 +678,20 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Ambiente:"
          Height          =   195
          Left            =   2220
-         TabIndex        =   63
+         TabIndex        =   67
          Top             =   350
          Width           =   705
       End
       Begin VB.Label lblAliqSN 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "% Aliq SN"
+         Caption         =   "% Cred. ICMS SN"
          Height          =   195
-         Left            =   4320
-         TabIndex        =   62
-         Top             =   400
-         Width           =   690
+         Left            =   2340
+         TabIndex        =   66
+         Top             =   2220
+         Visible         =   0   'False
+         Width           =   1245
       End
       Begin VB.Label lblCSC 
          AutoSize        =   -1  'True
@@ -633,7 +699,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "CSC"
          Height          =   195
          Left            =   2040
-         TabIndex        =   61
+         TabIndex        =   65
          Top             =   1845
          Width           =   315
       End
@@ -643,7 +709,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "ID Token"
          Height          =   195
          Left            =   120
-         TabIndex        =   60
+         TabIndex        =   64
          Top             =   1845
          Width           =   675
       End
@@ -653,7 +719,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Licença DLL"
          Height          =   195
          Left            =   120
-         TabIndex        =   59
+         TabIndex        =   63
          Top             =   1485
          Width           =   915
       End
@@ -663,7 +729,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Cert. Digital"
          Height          =   195
          Left            =   120
-         TabIndex        =   58
+         TabIndex        =   62
          Top             =   1125
          Width           =   810
       End
@@ -673,7 +739,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Dir. XML"
          Height          =   195
          Left            =   120
-         TabIndex        =   57
+         TabIndex        =   61
          Top             =   765
          Width           =   615
       End
@@ -683,7 +749,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "CRT"
          Height          =   195
          Left            =   3480
-         TabIndex        =   56
+         TabIndex        =   60
          Top             =   400
          Width           =   330
       End
@@ -693,7 +759,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Código IBGE"
          Height          =   195
          Left            =   120
-         TabIndex        =   55
+         TabIndex        =   59
          Top             =   400
          Width           =   915
       End
@@ -708,7 +774,7 @@ Begin VB.Form Empresa_Cadastro
    Begin ChamaleonBtn.chameleonButton cmdSalvar 
       Height          =   375
       Left            =   60
-      TabIndex        =   36
+      TabIndex        =   40
       Top             =   7380
       Width           =   1215
       _ExtentX        =   2143
@@ -747,13 +813,22 @@ Begin VB.Form Empresa_Cadastro
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       ForeColor       =   &H80000008&
-      Height          =   6195
+      Height          =   6255
       Left            =   60
-      ScaleHeight     =   6165
+      ScaleHeight     =   6225
       ScaleWidth      =   4425
-      TabIndex        =   40
+      TabIndex        =   44
       Top             =   1080
       Width           =   4455
+      Begin VB.TextBox txtIEMunicipal 
+         Appearance      =   0  'Flat
+         Height          =   285
+         Left            =   1335
+         MaxLength       =   40
+         TabIndex        =   4
+         Top             =   1440
+         Width           =   1635
+      End
       Begin VB.TextBox txtFantasia 
          Appearance      =   0  'Flat
          Height          =   285
@@ -770,7 +845,7 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H80000008&
          Height          =   195
          Left            =   2520
-         TabIndex        =   89
+         TabIndex        =   93
          Top             =   30
          Value           =   -1  'True
          Width           =   915
@@ -782,14 +857,14 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H80000008&
          Height          =   195
          Left            =   3480
-         TabIndex        =   88
+         TabIndex        =   92
          Top             =   30
          Width           =   795
       End
       Begin ChamaleonBtn.chameleonButton cmdCopiar 
          Height          =   285
          Left            =   3180
-         TabIndex        =   84
+         TabIndex        =   88
          Top             =   840
          Width           =   255
          _ExtentX        =   450
@@ -827,7 +902,7 @@ Begin VB.Form Empresa_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdConsultarIE 
          Height          =   285
          Left            =   2940
-         TabIndex        =   85
+         TabIndex        =   89
          Top             =   1140
          Width           =   255
          _ExtentX        =   450
@@ -866,8 +941,8 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   345
          Left            =   2100
-         TabIndex        =   68
-         Top             =   2340
+         TabIndex        =   72
+         Top             =   2640
          Visible         =   0   'False
          Width           =   435
       End
@@ -875,8 +950,8 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   345
          Left            =   3840
-         TabIndex        =   67
-         Top             =   2340
+         TabIndex        =   71
+         Top             =   2640
          Visible         =   0   'False
          Width           =   435
       End
@@ -884,16 +959,16 @@ Begin VB.Form Empresa_Cadastro
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1320
-         TabIndex        =   8
-         Top             =   2670
+         TabIndex        =   9
+         Top             =   2970
          Width           =   2955
       End
       Begin VB.ComboBox cboEstado 
          Appearance      =   0  'Flat
          Height          =   315
          Left            =   1320
-         TabIndex        =   7
-         Top             =   2340
+         TabIndex        =   8
+         Top             =   2640
          Width           =   795
       End
       Begin VB.TextBox txtNum 
@@ -901,16 +976,16 @@ Begin VB.Form Empresa_Cadastro
          Height          =   285
          Left            =   1320
          MaxLength       =   40
-         TabIndex        =   5
-         Top             =   1740
+         TabIndex        =   6
+         Top             =   2040
          Width           =   675
       End
       Begin VB.TextBox txtBairro 
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1320
-         TabIndex        =   6
-         Top             =   2040
+         TabIndex        =   7
+         Top             =   2340
          Width           =   2895
       End
       Begin VB.TextBox txtCaminho 
@@ -918,8 +993,8 @@ Begin VB.Form Empresa_Cadastro
          Height          =   285
          Left            =   1320
          MaxLength       =   200
-         TabIndex        =   13
-         Top             =   4200
+         TabIndex        =   14
+         Top             =   4500
          Width           =   2895
       End
       Begin VB.PictureBox picLogo 
@@ -930,9 +1005,9 @@ Begin VB.Form Empresa_Cadastro
          Left            =   1320
          ScaleHeight     =   1065
          ScaleWidth      =   2865
-         TabIndex        =   14
+         TabIndex        =   15
          TabStop         =   0   'False
-         Top             =   4560
+         Top             =   4800
          Width           =   2895
       End
       Begin VB.TextBox txtEmail 
@@ -940,8 +1015,8 @@ Begin VB.Form Empresa_Cadastro
          Height          =   285
          Left            =   1320
          MaxLength       =   40
-         TabIndex        =   12
-         Top             =   3900
+         TabIndex        =   13
+         Top             =   4200
          Width           =   2895
       End
       Begin VB.TextBox txtIE 
@@ -958,8 +1033,8 @@ Begin VB.Form Empresa_Cadastro
          Height          =   285
          Left            =   1320
          MaxLength       =   40
-         TabIndex        =   4
-         Top             =   1440
+         TabIndex        =   5
+         Top             =   1740
          Width           =   2895
       End
       Begin VB.TextBox txtRazao 
@@ -974,8 +1049,8 @@ Begin VB.Form Empresa_Cadastro
       Begin MSMask.MaskEdBox mskCep 
          Height          =   285
          Left            =   1320
-         TabIndex        =   11
-         Top             =   3600
+         TabIndex        =   12
+         Top             =   3900
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   503
@@ -998,8 +1073,8 @@ Begin VB.Form Empresa_Cadastro
       Begin MSMask.MaskEdBox mskTelefone 
          Height          =   285
          Left            =   1320
-         TabIndex        =   9
-         Top             =   3000
+         TabIndex        =   10
+         Top             =   3300
          Width           =   1575
          _ExtentX        =   2778
          _ExtentY        =   503
@@ -1010,8 +1085,8 @@ Begin VB.Form Empresa_Cadastro
       Begin MSMask.MaskEdBox mskCelular 
          Height          =   285
          Left            =   1320
-         TabIndex        =   10
-         Top             =   3300
+         TabIndex        =   11
+         Top             =   3600
          Width           =   1575
          _ExtentX        =   2778
          _ExtentY        =   503
@@ -1022,7 +1097,7 @@ Begin VB.Form Empresa_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdSped 
          Height          =   285
          Left            =   3420
-         TabIndex        =   87
+         TabIndex        =   91
          Top             =   840
          Width           =   255
          _ExtentX        =   450
@@ -1057,14 +1132,24 @@ Begin VB.Form Empresa_Cadastro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin VB.Label Label22 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Insc. Municipal:"
+         Height          =   195
+         Left            =   180
+         TabIndex        =   105
+         Top             =   1440
+         Width           =   1110
+      End
       Begin VB.Label Label14 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Num.:"
          Height          =   195
          Left            =   840
-         TabIndex        =   66
-         Top             =   1740
+         TabIndex        =   70
+         Top             =   2040
          Width           =   420
       End
       Begin VB.Label lblBairro 
@@ -1073,8 +1158,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Bairro:"
          Height          =   195
          Left            =   780
-         TabIndex        =   65
-         Top             =   2040
+         TabIndex        =   69
+         Top             =   2340
          Width           =   450
       End
       Begin VB.Label Label12 
@@ -1083,8 +1168,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Celular:"
          Height          =   195
          Left            =   720
-         TabIndex        =   53
-         Top             =   3300
+         TabIndex        =   57
+         Top             =   3600
          Width           =   525
       End
       Begin VB.Label lblProcurar 
@@ -1102,8 +1187,8 @@ Begin VB.Form Empresa_Cadastro
          ForeColor       =   &H00404040&
          Height          =   210
          Left            =   3120
-         TabIndex        =   37
-         Top             =   5700
+         TabIndex        =   41
+         Top             =   5940
          Width           =   1095
       End
       Begin VB.Label Label11 
@@ -1112,8 +1197,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Logomarca:"
          Height          =   285
          Left            =   420
-         TabIndex        =   51
-         Top             =   4200
+         TabIndex        =   55
+         Top             =   4500
          Width           =   840
       End
       Begin VB.Label Label10 
@@ -1122,8 +1207,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Cep:"
          Height          =   285
          Left            =   900
-         TabIndex        =   50
-         Top             =   3600
+         TabIndex        =   54
+         Top             =   3900
          Width           =   330
       End
       Begin VB.Label Label9 
@@ -1132,8 +1217,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "E-mail:"
          Height          =   285
          Left            =   780
-         TabIndex        =   49
-         Top             =   3900
+         TabIndex        =   53
+         Top             =   4200
          Width           =   465
       End
       Begin VB.Label Label8 
@@ -1142,8 +1227,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Estado:"
          Height          =   285
          Left            =   720
-         TabIndex        =   48
-         Top             =   2340
+         TabIndex        =   52
+         Top             =   2640
          Width           =   540
       End
       Begin VB.Label Label7 
@@ -1152,8 +1237,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Fixo:"
          Height          =   195
          Left            =   900
-         TabIndex        =   47
-         Top             =   3000
+         TabIndex        =   51
+         Top             =   3300
          Width           =   330
       End
       Begin VB.Label Label6 
@@ -1162,8 +1247,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Endereço:"
          Height          =   285
          Left            =   540
-         TabIndex        =   46
-         Top             =   1440
+         TabIndex        =   50
+         Top             =   1740
          Width           =   735
       End
       Begin VB.Label Label4 
@@ -1172,8 +1257,8 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Cidade:"
          Height          =   285
          Left            =   705
-         TabIndex        =   45
-         Top             =   2670
+         TabIndex        =   49
+         Top             =   2970
          Width           =   540
       End
       Begin VB.Label lblCNPJ 
@@ -1183,7 +1268,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "CNPJ:"
          Height          =   285
          Left            =   825
-         TabIndex        =   44
+         TabIndex        =   48
          Top             =   840
          Width           =   450
       End
@@ -1193,7 +1278,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Insc. Estadual:"
          Height          =   195
          Left            =   225
-         TabIndex        =   43
+         TabIndex        =   47
          Top             =   1140
          Width           =   1050
       End
@@ -1204,7 +1289,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Razão:"
          Height          =   285
          Left            =   765
-         TabIndex        =   42
+         TabIndex        =   46
          Top             =   540
          Width           =   510
       End
@@ -1214,7 +1299,7 @@ Begin VB.Form Empresa_Cadastro
          Caption         =   "Fantasia:"
          Height          =   285
          Left            =   630
-         TabIndex        =   41
+         TabIndex        =   45
          Top             =   240
          Width           =   645
       End
@@ -1222,7 +1307,7 @@ Begin VB.Form Empresa_Cadastro
    Begin ChamaleonBtn.chameleonButton cmdAlterar 
       Height          =   375
       Left            =   1320
-      TabIndex        =   38
+      TabIndex        =   42
       Top             =   7380
       Width           =   1215
       _ExtentX        =   2143
@@ -1260,7 +1345,7 @@ Begin VB.Form Empresa_Cadastro
    Begin ChamaleonBtn.chameleonButton cmdExcluir 
       Height          =   375
       Left            =   2580
-      TabIndex        =   39
+      TabIndex        =   43
       Top             =   7380
       Width           =   1215
       _ExtentX        =   2143
@@ -1299,7 +1384,7 @@ Begin VB.Form Empresa_Cadastro
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   52
+      TabIndex        =   56
       Top             =   7830
       Width           =   11610
       _ExtentX        =   20479
@@ -1318,7 +1403,7 @@ Begin VB.Form Empresa_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12:36"
+            TextSave        =   "18:29"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1402,7 +1487,13 @@ Private Function Inserir_Pagamentos() As Boolean
 End Function
 
 Private Function Inserir_Dados() As Boolean
-Dim sSQL As String
+Dim sSQL As String, bOpt As Boolean
+
+If cboDIFAL.Text = "SIM" Then
+    bOpt = True
+ElseIf cboDIFAL.Text = "NÃO" Then
+    bOpt = False
+End If
 
 If txtCodigoIBGE.Text = "" Then txtCodigoIBGE.Text = 0
 If txtCRT.Text = "" Then txtCRT.Text = 0
@@ -1411,13 +1502,14 @@ If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
 
 'Comando de inclusão
 sSQL = "INSERT INTO empresa (" & _
-   "fantasia, razao, cnpj, ie, endereco, cidade, estado, telefone, celular, cep, email, caminho, CodigoIBGE, CRT, DiretorioXML, CertificadoDigital, NFCeIDToken, NFCeCSC, LicencaDLL, BAIRRO, AmbienteNF, pCreditoICMSSimplesNacional, numero, Perfil, pAliqUF, UltimoNSU, ContigenciaNFe, ContigenciaNFCe, Banco, Agencia, Conta, Tipo, Favorecido, Pix) VALUES ('" & _
+   "fantasia, razao, cnpj, ie, endereco, cidade, estado, telefone, celular, cep, email, caminho, CodigoIBGE, CRT, DiretorioXML, CertificadoDigital, NFCeIDToken, NFCeCSC, LicencaDLL, BAIRRO, AmbienteNF, pCreditoICMSSimplesNacional, numero, Perfil, pAliqUF, UltimoNSU, ContigenciaNFe, ContigenciaNFCe, Banco, Agencia, Conta, Tipo, Favorecido, Pix, WhatsAppApiKey, IPICompoeDIFAL, VencimentoCert, RegimeTributario, NFCeOffline, IEMunicipal ) VALUES ('" & _
    txtFantasia.Text & "', '" & txtRazao.Text & "', '" & mskCNPJ.Text & "', '" & txtIE.Text & "', '" & _
    txtEndereco.Text & "', '" & cboCidade.Text & "', '" & cboEstado.Text & "', '" & mskTelefone.Text & "', '" & mskCelular.Text & "','" & _
-   mskCEP.Text & "', '" & txtEmail.Text & "', '" & txtCaminho.Text & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & txtDiretorioXML.Text & "', '" & txtCertificadoDigital.Text & "', '" & LPad(txtNFCeIDToken.Text, 6, "0") & "', '" & txtNFCeCSC.Text & "', '" & txtLicencaDLL.Text & "', '" & txtBairro.Text & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & cboPerfil.Text & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & txtBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipo.Text & "', '" & txtFavorecido.Text & "', '" & txtPix.Text & "')"
+   mskCep.Text & "', '" & txtEmail.Text & "', '" & txtCaminho.Text & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & txtDiretorioXML.Text & "', '" & txtCertificadoDigital.Text & "', '" & LPad(txtNFCeIDToken.Text, 6, "0") & "', '" & txtNFCeCSC.Text & "', '" & txtLicencaDLL.Text & "', '" & txtBairro.Text & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & cboPerfil.Text & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & txtBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipo.Text & "', '" & txtFavorecido.Text & "', '" & txtPix.Text & "', 0, '" & Abs(bOpt) & "', null, " & txtRegime.Text & ", " & Abs(chkOffline.Value) & ", '" & txtIEMunicipal.Text & "' )"
 
 'Retorna o resultado da atualização
 Inserir_Dados = dbData.Execute(sSQL)
+
 End Function
 
 Private Function Atualizar_Dados() As Boolean
@@ -1427,12 +1519,19 @@ Private Function Atualizar_Dados() As Boolean
    'Não se deve comparar se o campo está vazio ou não, pois dessa forma não
    'haverá atualização quando for necessário apagar alguma informação
    
-   Dim sSQL As String
+   Dim sSQL As String, bOpt As Boolean
+
+    If cboDIFAL.Text = "SIM" Then
+        bOpt = True
+    ElseIf cboDIFAL.Text = "NÃO" Then
+        bOpt = False
+    End If
    
    If txtCodigoIBGE.Text = "" Then txtCodigoIBGE.Text = 0
    If txtCRT.Text = "" Then txtCRT.Text = 0
    If txtAmbienteNF.Text = "" Then txtAmbienteNF.Text = 2
    If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
+   If txtCRT.Text = "1" Or txtCRT.Text = "2" Then txtRegime.Text = "1" Else txtRegime.Text = 3
    
    'Comando de atualização
    sSQL = "UPDATE empresa SET " & _
@@ -1446,7 +1545,7 @@ Private Function Atualizar_Dados() As Boolean
       "estado = '" & cboEstado.Text & "', " & _
       "telefone = '" & mskTelefone.Text & "', " & _
       "celular = '" & mskCelular.Text & "', " & _
-      "cep = '" & mskCEP.Text & "', " & _
+      "cep = '" & mskCep.Text & "', " & _
       "email = '" & txtEmail.Text & "', " & _
       "caminho = '" & txtCaminho.Text & "', " & _
       "CodigoIBGE = " & txtCodigoIBGE.Text & ", " & _
@@ -1459,25 +1558,38 @@ Private Function Atualizar_Dados() As Boolean
       "AmbienteNF = " & txtAmbienteNF.Text & ", " & _
       "pCreditoICMSSimplesNacional = " & FSQL(txtpICMSSN.Text, 2) & ", pAliqUF = " & FSQL(txtAliqUF.Text, 2) & ", " & _
       "Numero = " & txtNum.Text & ", ContigenciaNFe = " & Abs(chkContigenciaNFe.Value) & ", ContigenciaNFCe = " & Abs(chkContigenciaNFCe.Value) & ", Perfil = '" & cboPerfil.Text & "', Banco = '" & txtBanco.Text & "', Agencia = '" & txtAgencia.Text & "', Conta = '" & txtConta.Text & "', Tipo = '" & cboTipo.Text & "', Favorecido = '" & txtFavorecido.Text & "' , " & _
-      "Pix = '" & txtPix.Text & "'"
+      "Pix = '" & txtPix.Text & "',  IPICompoeDIFAL = '" & Abs(bOpt) & "', RegimeTributario = " & txtRegime.Text & ", NFCeOffline = " & Abs(chkOffline.Value) & ", IEMunicipal = '" & txtIEMunicipal.Text & "'"
       
    'Retorna o resultado da atualização
    Atualizar_Dados = dbData.Execute(sSQL)
 End Function
 
+Private Function REGIME(sREGIME As Integer) As String
+Select Case sREGIME
+    Case 1
+        REGIME$ = "Simples Nacional"
+    Case 2
+        REGIME$ = "Simples Nacional - Excesso de Sublimite"
+    Case 3
+        REGIME$ = "Lucro Presumido"
+    Case 4
+        REGIME$ = "Lucro Real"
+    Case 5
+        REGIME$ = "Lucro Arbitrado"
+End Select
+End Function
 Private Function CRT(sCRT As Integer) As String
 Select Case sCRT
     Case 1
         CRT$ = "Simples Nacional"
     Case 2
-        CRT$ = "Simples Nacional, excesso sublimite de receita bruta"
+        CRT$ = "Simples Nacional"
     Case 3
         CRT$ = "Regime Normal"
     Case 4
         CRT$ = "Microempreendedor Individual (MEI)"
 End Select
 End Function
-
 Private Sub Limpar_Objetos()
 txtFantasia.Text = ""
 txtRazao.Text = ""
@@ -1492,8 +1604,8 @@ mskTelefone.Mask = ""
 mskTelefone.Text = ""
 mskCelular.Mask = ""
 mskCelular.Text = ""
-mskCEP.Mask = ""
-mskCEP.Text = ""
+mskCep.Mask = ""
+mskCep.Text = ""
 txtEmail.Text = ""
 txtCaminho.Text = ""
 txtCodigoIBGE.Text = ""
@@ -1504,8 +1616,11 @@ txtNFCeIDToken.Text = ""
 txtNFCeCSC.Text = ""
 txtLicencaDLL.Text = ""
 txtAmbienteNF.Text = ""
-txtpICMSSN.Text = ""
+txtpICMSSN.Text = "1,11"
 cboPerfil.Text = ""
+txtRegime.Text = ""
+cboDIFAL.Text = "NÃO"
+chkOffline.Value = False
 chkContigenciaNFe.Value = False
 chkContigenciaNFCe.Value = False
 End Sub
@@ -1518,13 +1633,14 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       txtRazao.Text = rTabela("razao")
       mskCNPJ.Text = rTabela("cnpj")
       txtIE.Text = ValidateNull(rTabela("ie"))
+      txtIEMunicipal.Text = ValidateNull(rTabela("IEMunicipal"))
       txtEndereco.Text = rTabela("endereco")
       txtBairro.Text = rTabela("bairro")
       cboCidade.Text = rTabela("cidade")
       cboEstado.Text = rTabela("estado")
       mskTelefone.Text = ValidateNull(rTabela("telefone"))
       mskCelular.Text = ValidateNull(rTabela("celular"))
-      mskCEP.Text = rTabela("cep")
+      mskCep.Text = rTabela("cep")
       txtEmail.Text = ValidateNull(rTabela("email"))
       txtCaminho.Text = ValidateNull(rTabela("caminho"))
       txtCodigoIBGE.Text = rTabela("CodigoIBGE")
@@ -1540,6 +1656,7 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       txtNum.Text = rTabela("Numero")
       cboPerfil.Text = rTabela("Perfil")
       nroReg = rTabela.RecordCount
+      chkOffline = Abs(rTabela("NFCeOffline"))
       chkContigenciaNFe = Abs(rTabela("ContigenciaNFe"))
       chkContigenciaNFCe = Abs(rTabela("ContigenciaNFCe"))
       txtBanco.Text = ValidateNull(rTabela("Banco"))
@@ -1548,7 +1665,20 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       cboTipo.Text = ValidateNull(rTabela("Tipo"))
       txtFavorecido.Text = ValidateNull(rTabela("Favorecido"))
       txtPix.Text = ValidateNull(rTabela("Pix"))
-      'mskContabil.Text = ValidateNull(rTabela("cnpjcontabil"))
+    txtRegime = ValidateNull(rTabela("RegimeTributario"))
+    cboDIFAL.Text = IIf(ValidateNull(rTabela("IPICompoeDIFAL")) = 1, "SIM", "NÃO")
+    If txtCRT.Text = 1 Or txtCRT.Text = 2 Then
+        lblAliqSN.Visible = True
+        txtpICMSSN.Visible = True
+        lblDifal.Enabled = False
+        cboDIFAL.Enabled = False
+    Else
+        lblAliqSN.Visible = False
+        txtpICMSSN.Visible = False
+        cboDIFAL.Enabled = True
+        lblDifal.Enabled = True
+    End If
+
    Else
       nroReg = 0
    End If
@@ -1713,6 +1843,14 @@ TrataErro:
 End Sub
 
 
+Private Sub cboDIFAL_GotFocus()
+cboDIFAL.Clear
+cboDIFAL.AddItem "NÃO"
+cboDIFAL.AddItem "SIM"
+moCombo.AttachTo cboDIFAL
+End Sub
+
+
 Private Sub cboEstado_Click()
 cboEstado_LostFocus
 End Sub
@@ -1785,6 +1923,12 @@ End Sub
 Private Sub cmdAlterar_Click()
 If txtFantasia.Text = "" Or txtRazao.Text = "" Or cboCidade.Text = "" Then Exit Sub
 
+If Not ValidarRegimeCRT() Then
+    txtRegime.SetFocus
+    Exit Sub
+End If
+
+
 'Faz a atualização de forma direta e verifica se houve algum erro
 If Not Atualizar_Dados Then
    ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
@@ -1795,6 +1939,54 @@ Limpar_Objetos
 Form_Load
 End Sub
 
+Private Sub txtRegime_KeyPress(KeyAscii As Integer)
+On Error GoTo erro
+    If KeyAscii = 8 Then
+    ElseIf KeyAscii < Asc("0") Or KeyAscii > Asc("9") Then
+        KeyAscii = 0
+    End If
+    Exit Sub
+erro:
+    MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Aviso do Sistema": Exit Sub
+End Sub
+
+Private Sub txtRegime_Validate(Cancel As Boolean)
+    Dim nCRT As Integer
+    Dim nRegime As Integer
+    
+    ' Garante que estamos lidando com números para evitar erro de tipo
+    nCRT = Val(txtCRT.Text)
+    nRegime = Val(txtRegime.Text)
+    
+    ' Se o campo estiver vazio, não valida agora (deixa para o botão salvar)
+    If txtRegime.Text = "" Then Exit Sub
+
+    Select Case nCRT
+        Case 1 ' Simples Nacional
+            If nRegime <> 1 Then
+                MsgBox "Erro: Para CRT 1, o Regime deve ser 1 (Simples Nacional).", vbCritical, "Validação Fiscal"
+                Cancel = True ' Prende o foco no campo txtRegime
+            End If
+            
+        Case 2 ' Simples Nacional - Excesso
+            If nRegime <> 2 Then
+                MsgBox "Erro: Para CRT 2, o Regime deve ser 2 (Excesso de Sublimite).", vbCritical, "Validação Fiscal"
+                Cancel = True
+            End If
+            
+        Case 3 ' Regime Normal
+            ' Verifica se o regime não pertence ao grupo do Regime Normal (3, 4 ou 5)
+            If nRegime < 3 Or nRegime > 5 Then
+                MsgBox "Erro: Para CRT 3, o Regime deve ser 3 (Presumido), 4 (Real) ou 5 (Arbitrado).", vbCritical, "Validação Fiscal"
+                Cancel = True
+            End If
+            
+        Case Else
+            MsgBox "Por favor, preencha primeiro um CRT válido (1, 2 ou 3).", vbExclamation
+            txtCRT.SetFocus
+            Cancel = True
+    End Select
+End Sub
 Private Sub cmdCertificadoDigital_Click()
 Dim cStat As Integer, NFeMotivo As String, nomeCertificado As String, NroSerie As String, CNPJ As String, InicioValidade As String, FimValidade As String
 Dim sistCertificado As snfe.CertDigital
@@ -2139,6 +2331,11 @@ Private Sub cmdSalvar_Click()
 If txtFantasia.Text = "" Or txtRazao.Text = "" Or cboCidade.Text = "" Then Exit Sub
 If txtAliqUF.Text = "" Then txtAliqUF.Text = "12"
 
+If Not ValidarRegimeCRT() Then
+    txtRegime.SetFocus
+    Exit Sub
+End If
+
 'Faz a inserção de forma direta e verifica se houve algum erro
 If Not Inserir_Dados Then
    ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
@@ -2149,6 +2346,41 @@ Limpar_Objetos
 Form_Load
 End Sub
 
+Private Function ValidarRegimeCRT() As Boolean
+    Dim nCRT As Integer
+    Dim nRegime As Integer
+    
+    ' Converte os valores dos campos para Inteiro
+    nCRT = Val(txtCRT.Text)
+    nRegime = Val(txtRegime.Text)
+    
+    ValidarRegimeCRT = True ' Começa como verdadeiro
+    
+    Select Case nCRT
+        Case 1 ' Simples Nacional
+            If nRegime <> 1 Then
+                MsgBox "Inconsistência: Para CRT 1, o Regime deve ser 1 (Simples Nacional).", vbCritical, "Erro Fiscal"
+                ValidarRegimeCRT = False
+            End If
+            
+        Case 2 ' Simples Nacional - Excesso de Sublimite
+            If nRegime <> 2 Then
+                MsgBox "Inconsistência: Para CRT 2, o Regime deve ser 2 (Excesso de Sublimite).", vbCritical, "Erro Fiscal"
+                ValidarRegimeCRT = False
+            End If
+            
+        Case 3 ' Regime Normal
+            ' Verifica se o regime não é um dos permitidos para o CRT 3
+            If nRegime < 3 Or nRegime > 5 Then
+                MsgBox "Inconsistência: Para CRT 3, o Regime deve ser 3 (Presumido), 4 (Real) ou 5 (Arbitrado).", vbCritical, "Erro Fiscal"
+                ValidarRegimeCRT = False
+            End If
+            
+        Case Else
+            MsgBox "CRT Inválido! Use 1, 2 ou 3.", vbExclamation, "Aviso"
+            ValidarRegimeCRT = False
+    End Select
+End Function
 Private Sub cmdSped_Click()
 txtFantasia.Text = UCase(txtFantasia.Text)
 txtRazao.Text = UCase(txtRazao.Text)
@@ -2243,13 +2475,13 @@ End If
 End Sub
 
 Private Sub mskCep_KeyPress(KeyAscii As Integer)
-   mskCEP.Mask = "##.###-###"
+   mskCep.Mask = "##.###-###"
 End Sub
 
 Private Sub mskCep_LostFocus()
-   If mskCEP.Text = "__.___-___" Then
-      mskCEP.Mask = ""
-      mskCEP.Text = ""
+   If mskCep.Text = "__.___-___" Then
+      mskCep.Mask = ""
+      mskCep.Text = ""
    End If
 End Sub
 
@@ -2369,9 +2601,9 @@ erro:
 End Sub
 
 Private Sub txtCRT_Change()
-    If Not Vazio(txtCRT.Text) Then
-       lblCRTNome.Caption = CRT(txtCRT.Text)
-    End If
+If Not Vazio(txtCRT.Text) Then
+   lblCRTNome.Caption = CRT(txtCRT.Text)
+End If
 End Sub
 
 Private Sub txtCRT_KeyPress(KeyAscii As Integer)
@@ -2382,11 +2614,26 @@ On Error GoTo erro
     End If
     Exit Sub
 erro:
-    MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "EkklesiaSoft": Exit Sub
+    MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Aviso do Sistema": Exit Sub
 End Sub
 
 Private Sub txtCRT_LostFocus()
-    lblCRTNome.Caption = CRT(txtCRT.Text)
+lblCRTNome.Caption = CRT(txtCRT.Text)
+If txtCRT.Text = 1 Or txtCRT.Text = 2 Then
+    lblAliqSN.Visible = True
+    txtpICMSSN.Visible = True
+    cboDIFAL.Text = "NÃO"
+    lblDifal.Enabled = False
+    cboDIFAL.Enabled = False
+    txtRegime.Text = "1"
+Else
+    lblAliqSN.Visible = False
+    txtpICMSSN.Visible = False
+    cboDIFAL.Text = "NÃO"
+    cboDIFAL.Enabled = True
+    lblDifal.Enabled = True
+    txtRegime.Text = "3"
+End If
 End Sub
 
 Private Sub txtEmail_KeyPress(KeyAscii As Integer)
@@ -2452,6 +2699,18 @@ End Sub
 
 Private Sub txtRazao_LostFocus()
 txtFantasia.Text = TirarEspaco(txtFantasia.Text)
+End Sub
+
+
+Private Sub txtRegime_Change()
+txtRegime_LostFocus
+End Sub
+
+Private Sub txtRegime_LostFocus()
+If Not Vazio(txtRegime.Text) Then
+   lblREGIME.Caption = REGIME(txtRegime.Text)
+End If
+
 End Sub
 
 
