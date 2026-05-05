@@ -120,7 +120,9 @@ Dim NFe As New ADODB.Recordset, NFeItens As New ADODB.Recordset, NFeParcelas As 
 Dim NFeMedicamentos As New ADODB.Recordset, NFeArmamento As New ADODB.Recordset, NFeCombustivel As New ADODB.Recordset, NFeVeiculos As New ADODB.Recordset
 Dim n As Integer, i As Long, destIE As String
 Dim vBCCBSIBS As Double, pIBSUF As Double, vIBSUF As Double, pIBSMun As Double, vIBSMun As Double, vIBS As Double, pCBS As Double, vCBS As Double
+Dim vBCIS As Double, pIS As Double, vIS As Double
 Dim TotvBCCBSIBS As Double, TotvIBSUF As Double, TotvIBSMun As Double, TotvIBS As Double, TotvCBS As Double
+Dim TotvBCIS As Double, TotvIS As Double
 Dim vsXML As String, XMLAuxiliar As String, XMLAuxiliarParcelas As String
 Dim msgErro As String, qterro As Long, Prod_DetEspecifico As String
 Dim vlTrib As Double, vCredICMSSN As Double
@@ -352,6 +354,8 @@ End If
     TotvIBSMun = 0
     TotvIBS = 0
     TotvCBS = 0
+    TotvBCIS = 0
+    TotvIS = 0
 
     For i = 1 To n
         vsSQL = "SELECT * FROM produtos WHERE CODIGO = " & NFeItens!CodigoProduto
@@ -470,32 +474,48 @@ End If
            iRetorno = sistNFe.GerarItensImpostoEstadual(NFeItens!ValorTributos, "0", ICMSCST, IIf(Vazio(NFeItens!modBC), 3, Left$(NFeItens!modBC, 1)), NFeItens!vBC, NFeItens!pICMS, NFeItens!vICMS, NFeItens!pRedBC, 0, 0, 0, _
                                                         IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, dblPCredSN, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
         
-           If Left(Parametros!CRT, 1) = 3 Then
-              vBCCBSIBS = NFeItens!ValorTotalBruto
-              pIBSUF = 0.1
-              vIBSUF = Round(NFeItens!ValorTotalBruto * (0.1 / 100), 2)
-              pIBSMun = 0
-              vIBSMun = 0
-              vIBS = vIBSUF + vIBSMun
-              pCBS = 0.9
-              vCBS = Round(NFeItens!ValorTotalBruto * (0.9 / 100), 2)
-              iRetorno = sistNFe.GerarItensImpostoIBSCBS("000", "000001", vBCCBSIBS, pIBSUF, 0, 0, 0, 0, 0, vIBSUF, pIBSMun, 0, 0, 0, 0, 0, vIBSMun, vIBS, pCBS, 0, 0, 0, 0, 0, vCBS, mensagemAlerta, mensagemErro)
+                      ' IBS/CBS: todos os regimes
+           vBCCBSIBS = IIf(IsNull(NFeItens!vBCCBSIBS), 0, CDbl(NFeItens!vBCCBSIBS))
+           pIBSUF = IIf(IsNull(NFeItens!IBSUFpAliq), 0, CDbl(NFeItens!IBSUFpAliq))
+           vIBSUF = IIf(IsNull(NFeItens!vIBSUF), 0, CDbl(NFeItens!vIBSUF))
+           pIBSMun = IIf(IsNull(NFeItens!IBSMunpAliq), 0, CDbl(NFeItens!IBSMunpAliq))
+           vIBSMun = IIf(IsNull(NFeItens!vIBSMun), 0, CDbl(NFeItens!vIBSMun))
+           vIBS = vIBSUF + vIBSMun
+           pCBS = IIf(IsNull(NFeItens!CBSpAliq), 0, CDbl(NFeItens!CBSpAliq))
+           vCBS = IIf(IsNull(NFeItens!vCBS), 0, CDbl(NFeItens!vCBS))
+           If vBCCBSIBS > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIBSCBS(IIf(IsNull(NFeItens!IBSCBSCST), "000", NFeItens!IBSCBSCST), "000001", vBCCBSIBS, pIBSUF, 0, 0, 0, 0, 0, vIBSUF, pIBSMun, 0, 0, 0, 0, 0, vIBSMun, vIBS, pCBS, 0, 0, 0, 0, 0, vCBS, mensagemAlerta, mensagemErro)
+           End If
+           ' IS (Imposto Seletivo)
+           vBCIS = IIf(IsNull(NFeItens!vBCIS), 0, CDbl(NFeItens!vBCIS))
+           pIS = IIf(IsNull(NFeItens!ISpAliq), 0, CDbl(NFeItens!ISpAliq))
+           vIS = IIf(IsNull(NFeItens!vIS), 0, CDbl(NFeItens!vIS))
+           If vBCIS > 0 And vIS > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!ISCST), "000", NFeItens!ISCST), 0, vBCIS, pIS, 0, "", 0, vIS, mensagemAlerta, mensagemErro)
            End If
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
            
            'iRetorno = sistNFe.GerarItensObservacao("CST61", "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
            
-           If Left(Parametros!CRT, 1) = 3 Then
-              vBCCBSIBS = NFeItens!ValorTotalBruto
-              pIBSUF = 0.1
-              vIBSUF = Round(NFeItens!ValorTotalBruto * (0.1 / 100), 2)
-              pIBSMun = 0
-              vIBSMun = 0
-              vIBS = vIBSUF
-              pCBS = 0.9
-              vCBS = Round(NFeItens!ValorTotalBruto * (0.9 / 100), 2)
-              iRetorno = sistNFe.GerarItensImpostoIBSCBS("000", "000001", vBCCBSIBS, pIBSUF, 0, 0, 0, 0, 0, vIBSUF, pIBSMun, 0, 0, 0, 0, 0, vIBSMun, vIBS, pCBS, 0, 0, 0, 0, 0, vCBS, mensagemAlerta, mensagemErro)
+                      ' IBS/CBS: todos os regimes
+           vBCCBSIBS = IIf(IsNull(NFeItens!vBCCBSIBS), 0, CDbl(NFeItens!vBCCBSIBS))
+           pIBSUF = IIf(IsNull(NFeItens!IBSUFpAliq), 0, CDbl(NFeItens!IBSUFpAliq))
+           vIBSUF = IIf(IsNull(NFeItens!vIBSUF), 0, CDbl(NFeItens!vIBSUF))
+           pIBSMun = IIf(IsNull(NFeItens!IBSMunpAliq), 0, CDbl(NFeItens!IBSMunpAliq))
+           vIBSMun = IIf(IsNull(NFeItens!vIBSMun), 0, CDbl(NFeItens!vIBSMun))
+           vIBS = vIBSUF + vIBSMun
+           pCBS = IIf(IsNull(NFeItens!CBSpAliq), 0, CDbl(NFeItens!CBSpAliq))
+           vCBS = IIf(IsNull(NFeItens!vCBS), 0, CDbl(NFeItens!vCBS))
+           If vBCCBSIBS > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIBSCBS(IIf(IsNull(NFeItens!IBSCBSCST), "000", NFeItens!IBSCBSCST), "000001", vBCCBSIBS, pIBSUF, 0, 0, 0, 0, 0, vIBSUF, pIBSMun, 0, 0, 0, 0, 0, vIBSMun, vIBS, pCBS, 0, 0, 0, 0, 0, vCBS, mensagemAlerta, mensagemErro)
+           End If
+           ' IS (Imposto Seletivo)
+           vBCIS = IIf(IsNull(NFeItens!vBCIS), 0, CDbl(NFeItens!vBCIS))
+           pIS = IIf(IsNull(NFeItens!ISpAliq), 0, CDbl(NFeItens!ISpAliq))
+           vIS = IIf(IsNull(NFeItens!vIS), 0, CDbl(NFeItens!vIS))
+           If vBCIS > 0 And vIS > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!ISCST), "000", NFeItens!ISCST), 0, vBCIS, pIS, 0, "", 0, vIS, mensagemAlerta, mensagemErro)
            End If
         End If
         
@@ -504,6 +524,8 @@ End If
         TotvIBSMun = TotvIBSMun + vIBSMun
         TotvIBS = TotvIBS + vIBS
         TotvCBS = TotvCBS + vCBS
+        TotvBCIS = TotvBCIS + vBCIS
+        TotvIS = TotvIS + vIS
         
         iRetorno = sistNFe.GerarItensImpostoFederal(IIf(Vazio(NFeItens!COFINSCST) Or IsNull(NFeItens!COFINSCST), "99", NFeItens!COFINSCST), NFeItens!COFINSvBC, NFeItens!COFINSpCOFINS, NFeItens!COFINSvCOFINS, 0, 0, _
                                                     IIf(Vazio(NFeItens!PISCST) Or IsNull(NFeItens!PISCST), "99", NFeItens!PISCST), NFeItens!PISvBC, NFeItens!PISpPIS, NFeItens!PISvPIS, 0, 0, _
@@ -529,9 +551,12 @@ End If
     iRetorno = sistNFe.GerarTotalProdutos(NFe!BaseICMS, NFe!ValorICMS, NFe!BaseICMSST, NFe!ValorICMSST, NFe!ValorCOFINS, NFe!ValorPIS, NFe!ValorIPI, NFe!ValorDesconto, NFe!ValorSeguro, NFe!ValorFrete, NFe!ValorOutrasDespesas, 0, 0, 0, NFe!vFCPUFDest, 0, NFe!vICMSUFDest, NFe!vICMSUFRemet, _
                                           NFe!ValorImportacao, 0, NFe!ValorProdutos, NFe!ValorNota, vlTrib, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
 
-    If Left(Parametros!CRT, 1) = 3 Then
-       iRetorno = sistNFe.GerarTotalIBSCBS(0, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, (TotvBCCBSIBS + TotvIBS + TotvCBS), mensagemAlerta, mensagemErro)
+    If TotvBCCBSIBS > 0 Then
+       iRetorno = sistNFe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, (TotvBCCBSIBS + TotvIBS + TotvCBS), mensagemAlerta, mensagemErro)
     End If
+'    If TotvIS > 0 Then
+'       iRetorno = sistNFe.GerarTotalIS(TotvBCIS, TotvIS, mensagemAlerta, mensagemErro)
+'    End If
     
     '============dados do transportador
     xCNPJ = ""

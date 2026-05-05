@@ -1,0 +1,5 @@
+ALTER TABLE Cidade ADD [IBSUFpAliq]  DECIMAL(10,2) DEFAULT 0 NULL;
+ALTER TABLE Cidade ADD [IBSMunpAliq] DECIMAL(10,2) DEFAULT 0 NULL;
+GO
+PRINT 'Colunas IBSUFpAliq e IBSMunpAliq adicionadas.';
+GO
