@@ -56,6 +56,7 @@ Form=..\Compartilhado\Forms\REL_ReciboRetirada.frm
 Form=..\Compartilhado\Forms\Calendario.frm
 Form=..\Compartilhado\Forms\REL_Receber_Consulta.frm
 Form=..\Compartilhado\Forms\Produtos_Cadastro.frm
+Form=..\Compartilhado\Forms\frmBuscarNCM.frm
 Form=..\Compartilhado\Forms\REL_Prod_Cad_Imp.frm
 Form=..\Compartilhado\Forms\REL_Produtos.frm
 Form=..\Compartilhado\Forms\Produtos_ValorEstimado.frm

@@ -243,6 +243,23 @@ Begin VB.Form frmISClassTrib
          Top             =   1280
          Width           =   1035
       End
+      Begin VB.ComboBox cboISCSTEdit 
+         Height          =   315
+         Left            =   5520
+         Style           =   2  'Dropdown List
+         TabIndex        =   16
+         Top             =   630
+         Width           =   1800
+      End
+      Begin VB.Label lblISCSTEdit 
+         AutoSize        =   -1  'True
+         Caption         =   "CST IS:"
+         Height          =   195
+         Left            =   4860
+         TabIndex        =   17
+         Top             =   636
+         Width           =   555
+      End
    End
 End
 Attribute VB_Name = "frmISClassTrib"
@@ -258,6 +275,16 @@ Dim bNovo As Boolean
 ' ============================================================
 ' ESTADO DOS BOTÕES
 ' ============================================================
+Private Sub SelecionarISCST(sCSTVal As String)
+    Dim i As Integer
+    For i = 0 To cboISCSTEdit.ListCount - 1
+        If Left(cboISCSTEdit.List(i), 2) = sCSTVal Then
+            cboISCSTEdit.ListIndex = i: Exit Sub
+        End If
+    Next i
+    cboISCSTEdit.ListIndex = -1
+End Sub
+
 Private Sub DefinirEstado(sEstado As String)
     Select Case sEstado
         Case "inicial"
@@ -305,7 +332,7 @@ End Sub
 ' ============================================================
 Private Sub Form_Load()
     With lstRegistros
-        .Cols = 8
+        .Cols = 9
         .ColWidth(0) = 0
         .ColWidth(1) = 1020
         .ColWidth(2) = 4500
@@ -314,6 +341,7 @@ Private Sub Form_Load()
         .ColWidth(5) = 1200
         .ColWidth(6) = 1500
         .ColWidth(7) = 1500
+        .ColWidth(8) = 0
         .Row = 0: .Col = 0: .Text = "Id"
         .Row = 0: .Col = 1: .Text = "Cód. IS"
         .Row = 0: .Col = 2: .Text = "Descrição"
@@ -329,6 +357,9 @@ Private Sub Form_Load()
     cboTipo.AddItem "1 - Ad Valorem (%)"
     cboTipo.AddItem "2 - Ad Rem (R$/unid)"
     cboTipo.AddItem "3 - Misto (% + R$/unid)"
+    cboISCSTEdit.AddItem "00 - Incidência na Origem"
+    cboISCSTEdit.AddItem "01 - Saída Tributada"
+    cboISCSTEdit.AddItem "99 - Outras Operações"
     txtFiltroData.Text = Format(Date, "dd/mm/yyyy")
     DefinirEstado "inicial"
     CarregarRegistros
@@ -340,7 +371,7 @@ End Sub
 Private Sub CarregarRegistros()
     Dim rRs As ADODB.Recordset
     Dim sql As String, filtro As String, r As Long
-    sql = "SELECT Id, cClassTrib_IS, Descricao, tipo_calculo_is, ISpAliq, ISvUnid, dIniVig, dFimVig FROM tbISClassTrib"
+    sql = "SELECT Id, cClassTrib_IS, Descricao, tipo_calculo_is, ISpAliq, ISvUnid, dIniVig, dFimVig, ISNULL(ISCST,'01') AS ISCST FROM tbISClassTrib"
     If Trim(txtFiltroCod.Text) <> "" Then
         filtro = filtro & " AND cClassTrib_IS LIKE '%" & Trim(txtFiltroCod.Text) & "%'"
     End If
@@ -362,6 +393,7 @@ Private Sub CarregarRegistros()
         lstRegistros.Row = r: lstRegistros.Col = 5: lstRegistros.Text = IIf(IsNull(rRs("ISvUnid")), "", Format(rRs("ISvUnid"), "0.00"))
         lstRegistros.Row = r: lstRegistros.Col = 6: lstRegistros.Text = IIf(IsNull(rRs("dIniVig")), "", Format(rRs("dIniVig"), "dd/mm/yyyy"))
         lstRegistros.Row = r: lstRegistros.Col = 7: lstRegistros.Text = IIf(IsNull(rRs("dFimVig")), "", Format(rRs("dFimVig"), "dd/mm/yyyy"))
+        lstRegistros.Row = r: lstRegistros.Col = 8: lstRegistros.Text = rRs("ISCST")
         rRs.MoveNext
     Loop
     If rRs.State <> 0 Then rRs.Close
@@ -391,6 +423,7 @@ Private Sub lstRegistros_Click()
     txtISvUnid.Text = lstRegistros.TextMatrix(lstRegistros.Row, 5)
     txtDIni.Text = lstRegistros.TextMatrix(lstRegistros.Row, 6)
     txtDFim.Text = lstRegistros.TextMatrix(lstRegistros.Row, 7)
+    SelecionarISCST lstRegistros.TextMatrix(lstRegistros.Row, 8)
     DefinirEstado "selecionado"
     AtualizarCampos
 End Sub
@@ -409,6 +442,7 @@ End Sub
 Private Sub cmdSalvar_Click()
     Dim sCod As String, sDesc As String, iTipo As Integer
     Dim sAliq As String, sUnid As String, sDIni As String, sDFim As String
+    Dim sISCST As String
     sCod = Trim(txtCod.Text)
     sDesc = Trim(txtDescricao.Text)
     If cboTipo.ListIndex < 0 Then MsgBox "Selecione o tipo.", vbExclamation: Exit Sub
@@ -417,6 +451,7 @@ Private Sub cmdSalvar_Click()
     sUnid = Replace(Trim(txtISvUnid.Text), ",", ".")
     sDIni = Trim(txtDIni.Text)
     sDFim = Trim(txtDFim.Text)
+    sISCST = IIf(cboISCSTEdit.ListIndex >= 0, Left(cboISCSTEdit.Text, 2), "01")
     If sCod = "" Or sDesc = "" Or sDIni = "" Then
         MsgBox "Código, Descrição e Vig. Ini são obrigatórios.", vbExclamation: Exit Sub
     End If
@@ -428,10 +463,10 @@ Private Sub cmdSalvar_Click()
     On Error GoTo ErrS
     If bNovo Then
         sql = "INSERT INTO tbISClassTrib " & _
-              "(cClassTrib_IS, Descricao, tipo_calculo_is, ISpAliq, ISvUnid, dIniVig, dFimVig) " & _
+              "(cClassTrib_IS, Descricao, tipo_calculo_is, ISpAliq, ISvUnid, dIniVig, dFimVig, ISCST) " & _
               "VALUES ('" & sCod & "','" & Replace(sDesc, "'", "''") & "'," & _
               iTipo & "," & sAliqSQL & "," & sUnidSQL & "," & _
-              "CONVERT(date,'" & sDIni & "',103)," & sDFimSQL & ")"
+              "CONVERT(date,'" & sDIni & "',103)," & sDFimSQL & ",'" & sISCST & "')"
     Else
         sql = "UPDATE tbISClassTrib SET " & _
               "cClassTrib_IS='" & sCod & "'," & _
@@ -440,7 +475,8 @@ Private Sub cmdSalvar_Click()
               "ISpAliq=" & sAliqSQL & "," & _
               "ISvUnid=" & sUnidSQL & "," & _
               "dIniVig=CONVERT(date,'" & sDIni & "',103)," & _
-              "dFimVig=" & sDFimSQL & " WHERE Id=" & iId
+              "dFimVig=" & sDFimSQL & "," & _
+              "ISCST='" & sISCST & "' WHERE Id=" & iId
     End If
     vgDb.Execute sql
     MsgBox "Salvo.", vbInformation
@@ -487,6 +523,7 @@ Private Sub LimparCampos()
     txtISvUnid.Text = ""
     txtDIni.Text = ""
     txtDFim.Text = ""
+    cboISCSTEdit.ListIndex = -1
 End Sub
 
 Private Sub cmdFiltrar_Click()

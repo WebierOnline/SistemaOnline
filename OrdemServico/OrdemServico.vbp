@@ -54,6 +54,7 @@ Form=..\Compartilhado\Forms\REL_OS_Consulta.frm
 Form=..\Compartilhado\Forms\REL_OS_Entrada.frm
 Form=..\Compartilhado\Forms\REL_OS_PedidoVista_Grande.frm
 Form=..\Compartilhado\Forms\Produtos_Cadastro.frm
+Form=..\Compartilhado\Forms\frmBuscarNCM.frm
 Form=..\Compartilhado\Forms\REL_OS_PedidoPrazo.frm
 Form=..\Compartilhado\Forms\REL_Pedido_Orcamento.frm
 Form=..\Compartilhado\Forms\REL_OS_PedidoPrazo_Grande.frm
