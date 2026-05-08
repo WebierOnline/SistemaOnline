@@ -728,6 +728,9 @@ Private Sub cmdSalvarEstado_Click()
     End If
     On Error GoTo ErrE
     vgDb.Execute sql
+    If CDate(sDIni) <= Date And (sDFim = "" Or CDate(sDFim) >= Date) Then
+        vgDb.Execute "UPDATE Cidade SET IBSUFpAliq=" & sAliq & " WHERE UF='" & sUF & "'"
+    End If
     MsgBox "Salvo.", vbInformation
     bNovoEstado = False: CarregarIBSEstado
     Exit Sub
@@ -754,7 +757,17 @@ Private Sub cmdAplicarTodosUF_Click()
     Dim sDFimSQL As String
     sDFimSQL = IIf(sDFim = "", "NULL", "CONVERT(date,'" & sDFim & "',103)")
     On Error GoTo ErrAUF
-    vgDb.Execute "INSERT INTO IBS_Estado (IdEstado, UF, IBSUFpAliq, dIniVig, dFimVig) SELECT DISTINCT IdEstado, UF, " & sAliq & ", CONVERT(date,'" & sDIni & "',103), " & sDFimSQL & " FROM Cidade WHERE IdEstado IS NOT NULL"
+    Dim sMergeUF As String
+    sMergeUF = "MERGE IBS_Estado AS T " & _
+               "USING (SELECT DISTINCT IdEstado, UF FROM Cidade WHERE IdEstado IS NOT NULL) AS S " & _
+               "ON T.IdEstado=S.IdEstado AND T.dIniVig=CONVERT(date,'" & sDIni & "',103) " & _
+               "WHEN MATCHED THEN UPDATE SET T.UF=S.UF,T.IBSUFpAliq=" & sAliq & ",T.dFimVig=" & sDFimSQL & " " & _
+               "WHEN NOT MATCHED THEN INSERT (IdEstado,UF,IBSUFpAliq,dIniVig,dFimVig) " & _
+               "VALUES (S.IdEstado,S.UF," & sAliq & ",CONVERT(date,'" & sDIni & "',103)," & sDFimSQL & ");"
+    vgDb.Execute sMergeUF
+    If CDate(sDIni) <= Date And (sDFim = "" Or CDate(sDFim) >= Date) Then
+        vgDb.Execute "UPDATE Cidade SET IBSUFpAliq=" & sAliq
+    End If
     MsgBox "Al" & Chr(237) & "quotas criadas para todos os estados.", vbInformation
     CarregarIBSEstado
     Exit Sub
@@ -781,8 +794,8 @@ Private Sub CarregarIBSMunicipio()
     lstMunicipio.rows = 1
     RsOpen rRs, sql
     Do While Not rRs.EOF
-        r = lstMunicipio.rows - 1
         lstMunicipio.AddItem ""
+        r = lstMunicipio.rows - 1
         lstMunicipio.Row = r: lstMunicipio.Col = 0: lstMunicipio.Text = rRs("UF")
         lstMunicipio.Row = r: lstMunicipio.Col = 1: lstMunicipio.Text = rRs("CodigoMunicipio")
         lstMunicipio.Row = r: lstMunicipio.Col = 2: lstMunicipio.Text = rRs("Nome")
@@ -844,6 +857,9 @@ Private Sub cmdSalvarMun_Click()
     End If
     On Error GoTo ErrM
     vgDb.Execute sql
+    If CDate(sDIni) <= Date And (sDFim = "" Or CDate(sDFim) >= Date) Then
+        vgDb.Execute "UPDATE Cidade SET IBSMunpAliq=" & sAliq & " WHERE CAST(CodigoMunicipio AS NVARCHAR(7))='" & sCod & "'"
+    End If
     MsgBox "Salvo.", vbInformation
     bNovoMun = False: CarregarIBSMunicipio
     Exit Sub
@@ -877,7 +893,21 @@ Private Sub cmdAplicarTodosMun_Click()
     Dim sDFimSQL As String
     sDFimSQL = IIf(sDFim = "", "NULL", "CONVERT(date,'" & sDFim & "',103)")
     On Error GoTo ErrAM
-    vgDb.Execute "INSERT INTO IBS_Municipio (CodigoMunicipio, IBSMunpAliq, dIniVig, dFimVig) SELECT DISTINCT CAST(CodigoMunicipio AS NVARCHAR(7))," & sAliq & ",CONVERT(date,'" & sDIni & "',103)," & sDFimSQL & " FROM Cidade" & filtroWhere
+    Dim sMergeMun As String
+    sMergeMun = "MERGE IBS_Municipio AS T " & _
+                "USING (SELECT DISTINCT CAST(CodigoMunicipio AS NVARCHAR(7)) AS Cod FROM Cidade" & filtroWhere & ") AS S " & _
+                "ON T.CodigoMunicipio=S.Cod AND T.dIniVig=CONVERT(date,'" & sDIni & "',103) " & _
+                "WHEN MATCHED THEN UPDATE SET T.IBSMunpAliq=" & sAliq & ",T.dFimVig=" & sDFimSQL & " " & _
+                "WHEN NOT MATCHED THEN INSERT (CodigoMunicipio,IBSMunpAliq,dIniVig,dFimVig) " & _
+                "VALUES (S.Cod," & sAliq & ",CONVERT(date,'" & sDIni & "',103)," & sDFimSQL & ");"
+    vgDb.Execute sMergeMun
+    If CDate(sDIni) <= Date And (sDFim = "" Or CDate(sDFim) >= Date) Then
+        If filtroWhere <> "" Then
+            vgDb.Execute "UPDATE Cidade SET IBSMunpAliq=" & sAliq & " WHERE UF='" & cboFiltroUFMun.Text & "'"
+        Else
+            vgDb.Execute "UPDATE Cidade SET IBSMunpAliq=" & sAliq
+        End If
+    End If
     MsgBox "Al" & Chr(237) & "quotas criadas.", vbInformation: CarregarIBSMunicipio
     Exit Sub
 ErrAM: MsgBox "Erro: " & Err.Description, vbCritical

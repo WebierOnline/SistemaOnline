@@ -20,7 +20,25 @@
       "Bash(/tmp/final_report.txt:*)",
       "Bash(sort -t= -k2 -n)",
       "Bash(git add *)",
-      "Bash(git commit *)"
+      "Bash(git commit *)",
+      "Bash(git push *)",
+      "Bash(sed -n '5020,5040p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '5530,5560p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '3920,3940p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '7319,7380p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '4010,4030p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '5075,5090p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '6726,6760p' \"C:/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm\")",
+      "Bash(sed -n '270,290p' /c/Projeto/OnlineCommerce/Forms/frmIBS_Aliquotas.frm)",
+      "Bash(sed -n '760,810p' /c/Projeto/OnlineCommerce/Forms/frmIBS_Aliquotas.frm)",
+      "Bash(sed -n '5175,5185p' /c/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm)",
+      "Bash(sed -n '8710,8740p' /c/Projeto/Compartilhado/Forms/Produtos_Cadastro.frm)",
+      "Bash(Get-Content \"C:\\\\Projeto\\\\Compartilhado\\\\Forms\\\\Produtos_Cadastro.frm\" -TotalCount 500)",
+      "Bash(Select-String -Pattern \"cboIBSCBSCST_Click|cboIBSCBSClasse_Click|AtualizarReforma|LimparObjetos_Produtos|lblIBSCBSCST|lblISCST|lblISCSTClass\" -Context 0,20)",
+      "Bash(Select-Object -First 200)",
+      "Bash(Move-Item *)",
+      "PowerShell(Move-Item *)",
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\criar_frmISClassTrib.py\")"
     ]
   }
 }

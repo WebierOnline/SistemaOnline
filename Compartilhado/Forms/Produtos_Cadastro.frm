@@ -101,7 +101,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "14:43"
+            TextSave        =   "21:00"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -186,41 +186,41 @@ Begin VB.Form Produtos_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Produtos_Cadastro.frx":7DC1
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label25"
-      Tab(1).Control(1)=   "cmdDesativar"
-      Tab(1).Control(2)=   "cmdApagar"
-      Tab(1).Control(3)=   "cmdEditar"
-      Tab(1).Control(4)=   "ccmdDuplicar"
-      Tab(1).Control(5)=   "cmdExibir"
-      Tab(1).Control(6)=   "cmdImprimir"
+      Tab(1).Control(0)=   "Frame6"
+      Tab(1).Control(1)=   "frmFiltro"
+      Tab(1).Control(2)=   "frmSituacao"
+      Tab(1).Control(3)=   "frmFiltroComum"
+      Tab(1).Control(4)=   "frmVenda"
+      Tab(1).Control(5)=   "frmCriterios"
+      Tab(1).Control(6)=   "frmOrdemComum"
       Tab(1).Control(7)=   "Grid"
-      Tab(1).Control(8)=   "frmOrdemComum"
-      Tab(1).Control(9)=   "frmCriterios"
-      Tab(1).Control(10)=   "frmVenda"
-      Tab(1).Control(11)=   "frmFiltroComum"
-      Tab(1).Control(12)=   "frmSituacao"
-      Tab(1).Control(13)=   "frmFiltro"
-      Tab(1).Control(14)=   "Frame6"
+      Tab(1).Control(8)=   "cmdImprimir"
+      Tab(1).Control(9)=   "cmdExibir"
+      Tab(1).Control(10)=   "ccmdDuplicar"
+      Tab(1).Control(11)=   "cmdEditar"
+      Tab(1).Control(12)=   "cmdApagar"
+      Tab(1).Control(13)=   "cmdDesativar"
+      Tab(1).Control(14)=   "Label25"
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "QUANTIDADES"
       TabPicture(2)   =   "Produtos_Cadastro.frx":7DDD
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label28"
-      Tab(2).Control(1)=   "Label27"
-      Tab(2).Control(2)=   "lblQuantRemocao"
-      Tab(2).Control(3)=   "lblQuantAdicao"
+      Tab(2).Control(0)=   "Frame5(0)"
+      Tab(2).Control(1)=   "Grid_Quant"
+      Tab(2).Control(2)=   "Label40"
+      Tab(2).Control(3)=   "lblEstoqueHoje"
       Tab(2).Control(4)=   "lblNomeProduto1"
-      Tab(2).Control(5)=   "lblEstoqueHoje"
-      Tab(2).Control(6)=   "Label40"
-      Tab(2).Control(7)=   "Grid_Quant"
-      Tab(2).Control(8)=   "Frame5(0)"
+      Tab(2).Control(5)=   "lblQuantAdicao"
+      Tab(2).Control(6)=   "lblQuantRemocao"
+      Tab(2).Control(7)=   "Label27"
+      Tab(2).Control(8)=   "Label28"
       Tab(2).ControlCount=   9
       TabCaption(3)   =   "PREÇOS"
       TabPicture(3)   =   "Produtos_Cadastro.frx":7DF9
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame5(1)"
+      Tab(3).Control(0)=   "lblNomeProduto2"
       Tab(3).Control(1)=   "GridPrecos"
-      Tab(3).Control(2)=   "lblNomeProduto2"
+      Tab(3).Control(2)=   "Frame5(1)"
       Tab(3).ControlCount=   3
       Begin TabDlg.SSTab SSTab2 
          Height          =   2655
@@ -4121,14 +4121,17 @@ Private Sub PreencheIBSCBS()
     cboISCST.AddItem "01 - Saída Tributada (Comércio/Varejo)"
     cboISCST.AddItem "99 - Outras Operações"
 
-    ' Imposto Seletivo - Classificação
-    cboISClasse.AddItem "900001 - Vinhos, Espumantes e Cachaças"
-    cboISClasse.AddItem "900002 - Cervejas e Chopes"
-    cboISClasse.AddItem "900003 - Uísque, Gin, Vodka (Destilados)"
-    cboISClasse.AddItem "900010 - Refrigerantes e Sucos com Açúcar"
-    cboISClasse.AddItem "900011 - Energéticos e Bebidas Esportivas"
-    cboISClasse.AddItem "900020 - Veículos (Automóveis poluentes)"
-    cboISClasse.AddItem "900040 - Cigarros e fumo"
+    ' Imposto Seletivo - Classificação (tbISClassTrib vigentes hoje)
+    Dim rIS As ADODB.Recordset
+    cboISClasse.Clear
+    RsOpen rIS, "SELECT cClassTrib_IS, Descricao FROM tbISClassTrib " _
+        & "WHERE GETDATE() BETWEEN dIniVig AND ISNULL(dFimVig,'9999-12-31') " _
+        & "ORDER BY cClassTrib_IS"
+    Do While Not rIS.EOF
+        cboISClasse.AddItem rIS("cClassTrib_IS") & " - " & rIS("Descricao")
+        rIS.MoveNext
+    Loop
+    If rIS.State <> 0 Then rIS.Close
 End Sub
 
 Private Sub PreencherClasseTrib(ByVal sCST As String)
@@ -8705,6 +8708,36 @@ Private Sub BuscarDescricaoNCM()
     End If
 End Sub
 
+Private Sub PreencherReformaDoNCM()
+    Dim rNCM As ADODB.Recordset
+    Dim sClassIBS As String
+    Dim sClassIS As String
+    Dim iTipoIS As Integer
+    If Len(Trim(txtNCM.Text)) <> 8 Then Exit Sub
+    RsOpen rNCM, "SELECT cClassTrib_IBS, cClassTrib_IS, tipo_calculo_is FROM tbNCM WHERE NCM='" & Trim(txtNCM.Text) & "'"
+    If rNCM.EOF Then
+        If rNCM.State <> 0 Then rNCM.Close
+        Exit Sub
+    End If
+    sClassIBS = ""
+    If Not IsNull(rNCM("cClassTrib_IBS")) Then sClassIBS = Trim(CStr(rNCM("cClassTrib_IBS")))
+    sClassIS = ""
+    If Not IsNull(rNCM("cClassTrib_IS")) Then sClassIS = Trim(CStr(rNCM("cClassTrib_IS")))
+    iTipoIS = 0
+    If Not IsNull(rNCM("tipo_calculo_is")) Then iTipoIS = CInt(rNCM("tipo_calculo_is"))
+    If rNCM.State <> 0 Then rNCM.Close
+    ' IBS/CBS: CST pelos 3 primeiros chars, classe pelo codigo completo
+    If Len(sClassIBS) >= 3 Then
+        SelecionarNoCombo cboIBSCBSCST, Left(sClassIBS, 3), True
+        If Len(sClassIBS) = 6 Then SelecionarNoCombo cboIBSCBSClasse, sClassIBS
+    End If
+    ' IS: se tem classe e tipo de calculo, marca CST 01 e seleciona classe
+    If Len(sClassIS) = 6 And iTipoIS > 0 Then
+        SelecionarNoCombo cboISCST, "01", True
+        SelecionarNoCombo cboISClasse, sClassIS, True
+    End If
+End Sub
+
 Private Sub txtNCM_GotFocus()
 txtNCM.SelStart = 0
 txtNCM.SelLength = Len(txtNCM)
@@ -8734,6 +8767,7 @@ If txtNCM.Text <> "" Then
     End If
 End If
 BuscarDescricaoNCM
+If vTipoEdicao = "Novo" Then PreencherReformaDoNCM
 End Sub
 
 Private Sub txtOBS_LostFocus()
