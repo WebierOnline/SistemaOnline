@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.ocx"
+Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.Ocx"
 Begin VB.Form REL_Produtos 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Consulta de Pagamento"
@@ -41,10 +41,11 @@ Begin VB.Form REL_Produtos
          Left            =   9600
          TabIndex        =   5
          Top             =   0
-         Width           =   615
-         _ExtentX        =   1085
+         Width           =   795
+         _ExtentX        =   1402
          _ExtentY        =   344
          Campo           =   "CUSTO"
+         Formato         =   "##,##0.00"
          Caption         =   ""
          Alignment       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -59,7 +60,7 @@ Begin VB.Form REL_Produtos
       End
       Begin ReportX.ReportField ReportField3 
          Height          =   195
-         Left            =   10260
+         Left            =   10440
          TabIndex        =   6
          Top             =   0
          Width           =   795
@@ -84,8 +85,8 @@ Begin VB.Form REL_Produtos
          Left            =   1380
          TabIndex        =   11
          Top             =   0
-         Width           =   5295
-         _ExtentX        =   9340
+         Width           =   5115
+         _ExtentX        =   9022
          _ExtentY        =   370
          Campo           =   "var_desc"
          Caption         =   "FORNECEDOR"
@@ -123,7 +124,7 @@ Begin VB.Form REL_Produtos
       End
       Begin ReportX.ReportField ReportField7 
          Height          =   195
-         Left            =   6720
+         Left            =   6540
          TabIndex        =   15
          Top             =   0
          Width           =   1275
@@ -143,7 +144,7 @@ Begin VB.Form REL_Produtos
       End
       Begin ReportX.ReportField ReportField2 
          Height          =   195
-         Left            =   8040
+         Left            =   7860
          TabIndex        =   27
          Top             =   0
          Width           =   855
@@ -163,14 +164,15 @@ Begin VB.Form REL_Produtos
       End
       Begin ReportX.ReportField ReportField8 
          Height          =   195
-         Left            =   8940
+         Left            =   8760
          TabIndex        =   28
          Top             =   0
-         Width           =   615
-         _ExtentX        =   1085
+         Width           =   795
+         _ExtentX        =   1402
          _ExtentY        =   344
          Campo           =   "var_Quant"
          Caption         =   ""
+         Alignment       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -365,7 +367,7 @@ Begin VB.Form REL_Produtos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   10380
+         Left            =   10560
          TabIndex        =   12
          Top             =   1980
          Width           =   645
@@ -437,7 +439,7 @@ Begin VB.Form REL_Produtos
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   9540
+         Left            =   9720
          TabIndex        =   0
          Top             =   1980
          Width           =   645

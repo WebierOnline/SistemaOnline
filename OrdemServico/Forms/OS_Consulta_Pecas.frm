@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form OS_Consulta_Pecas 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   0  'None
@@ -13,6 +13,17 @@ Begin VB.Form OS_Consulta_Pecas
    ScaleWidth      =   14325
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CheckBox chkCompartibilidade 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      Caption         =   "Compartibilidade"
+      ForeColor       =   &H80000008&
+      Height          =   195
+      Left            =   12720
+      TabIndex        =   8
+      Top             =   180
+      Width           =   1515
+   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       BackColor       =   &H00C0FFFF&
@@ -76,7 +87,7 @@ Begin VB.Form OS_Consulta_Pecas
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   450
-      Left            =   60
+      Left            =   120
       TabIndex        =   0
       Top             =   480
       Width           =   14175
@@ -143,6 +154,11 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim VERIFICAR_QUANTIDADE As Boolean
 
+Private Sub chkCompartibilidade_Click()
+' Chama a rotina de busca para atualizar o Grid com a nova formatação
+Call txtDescricao_Change
+End Sub
+
 Private Sub Form_Activate()
    txtDescricao.Text = ""
    txtDescricao.SetFocus
@@ -151,7 +167,8 @@ End Sub
 Private Sub Mostrar_Grid()
 sSQL = "SELECT top(200) produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc, produtos.fabricante AS var_fab, " & _
    "produtos.prateleira AS var_prat, produtos.unid_medida AS var_med, produtos.quant_estoque AS var_quant, " & _
-   "(SELECT TOP 1 Produtos_Precos.VALOR_VV FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS venda " & _
+   "(SELECT TOP 1 Produtos_Precos.VALOR_VV FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS venda, " & _
+   "(SELECT TOP 1 Produtos_Precos.CUSTO FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS custo " & _
    "FROM produtos " & _
    "WHERE (produtos.ativo = 1) ORDER BY produtos.descricao;"
    
@@ -179,6 +196,7 @@ If KeyCode = 13 Then
       OS_Recapadora.txtCodPeca.Text = Grid.TextMatrix(Grid.Row, 1)
       OS_Recapadora.cboPecas.Text = Grid.TextMatrix(Grid.Row, 3)
       OS_Recapadora.txtValorPeca.Text = Grid.TextMatrix(Grid.Row, 9)
+      OS_Recapadora.txtCustoPeca.Text = Grid.TextMatrix(Grid.Row, 10)
       OS_Recapadora.txtQuantPeca.Text = "1"
       Unload Me
       On Local Error Resume Next
@@ -238,12 +256,13 @@ Private Sub optDesc_Click()
 End Sub
 
 Private Sub txtDescricao_Change()
-'If Len(txtDescricao.Text) > 3 Then
+
     sSQL = "SELECT  produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc, produtos.FABRICANTE AS var_fab, " & _
        "produtos.prateleira AS var_prat, produtos.unid_medida AS var_med, produtos.quant_estoque AS var_quant, " & _
-       "(SELECT TOP 1 Produtos_Precos.VALOR_VV FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS venda " & _
+       "(SELECT TOP 1 Produtos_Precos.VALOR_VV FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS venda, " & _
+       "(SELECT TOP 1 Produtos_Precos.CUSTO FROM Produtos_Precos Where produtos_precos.COD_PRODUTO = produtos.codigo order by CODIGO desc) AS custo " & _
        "FROM produtos "
-       
+
        If optCodigo.Value = True Then
           sSQL = sSQL & "WHERE (produtos.codigo LIKE '" & txtDescricao & "%') AND (produtos.ativo = 1) ORDER BY produtos.descricao;"
           
@@ -251,17 +270,20 @@ Private Sub txtDescricao_Change()
           sSQL = sSQL & "WHERE (produtos.cod_barra LIKE '" & txtDescricao & "%') AND (produtos.ativo = 1) ORDER BY produtos.descricao;"
           
        ElseIf optDesc.Value = True Then
-          sSQL = sSQL & "WHERE (produtos.descricao LIKE '" & txtDescricao & "%') AND (produtos.ativo = 1) ORDER BY produtos.descricao;"
+        If Len(Trim(txtDescricao.Text)) > 3 Then
+           sSQL = sSQL & "WHERE (produtos.descricao LIKE '%" & txtDescricao.Text & "%') AND (produtos.ativo = 1) ORDER BY produtos.descricao;"
+        End If
        ElseIf optReferencia.Value = True Then
           sSQL = sSQL & "WHERE (produtos.REF LIKE '" & txtDescricao & "%') AND (produtos.ativo = 1) ORDER BY produtos.descricao;"
        End If
        Set r = dbData.OpenRecordset(sSQL)
        
        Formatar_Grid r
-       
-       If r.State <> 0 Then r.Close
-       Set r = Nothing
-'End If
+    If r.State <> 0 Then r.Close
+    Set r = Nothing
+
+
+
 End Sub
 
 Private Sub txtDescricao_KeyPress(KeyAscii As Integer)
@@ -286,29 +308,47 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    With Grid
       '.Enabled = False
       .Clear
-      .Cols = 10
-      .rows = 2
+      .Cols = 11
+      .Rows = 2
       
       .ColWidth(0) = 0
       
+      Dim larguraBase As Long
+      
+      ' Define a largura total disponível para Descrição + Compatibilidade
+      ' Se Código ou Cód.Barra aparecerem, eles "roubam" espaço dessa base
+      larguraBase = 9800
+
       If optCodigo.Value = True Then
          .ColWidth(1) = 1450
          .ColWidth(2) = 0
+         larguraBase = larguraBase - 1450
       ElseIf optCodBarra.Value = True Then
          .ColWidth(1) = 0
          .ColWidth(2) = 1450
-      ElseIf optDesc.Value = True Then
+         larguraBase = larguraBase - 1450
+      Else
          .ColWidth(1) = 0
          .ColWidth(2) = 0
       End If
+
+      .ColWidth(4) = 1400 ' Fabricante fixo
+
+      ' Agora divide o que sobrou (larguraBase) entre Descrição e Compatibilidade
+      If chkCompartibilidade.Value = 1 Then
+         .ColWidth(5) = 5000
+         .ColWidth(3) = larguraBase - 5000
+      Else
+         .ColWidth(5) = 0
+         .ColWidth(3) = larguraBase
+      End If
+
       
-      .ColWidth(3) = 3300
-      .ColWidth(4) = 1400
-      .ColWidth(5) = 5000
       .ColWidth(6) = 0
       .ColWidth(7) = 600
       .ColWidth(8) = 800
       .ColWidth(9) = 1000
+      .ColWidth(10) = 0
       
       .TextMatrix(0, 1) = "CÓDIGO"
       .TextMatrix(0, 2) = "CÓD.BARRA"
@@ -319,6 +359,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .TextMatrix(0, 7) = "LOC."
       .TextMatrix(0, 8) = "ESTOQ."
       .TextMatrix(0, 9) = "PREÇO"
+      .TextMatrix(0, 10) = "CUSTO"
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -341,37 +382,39 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
             'ALINHAMENTO
             .ColAlignment(2) = 1
             
-            .TextMatrix(.rows - 1, 1) = rTabela("var_cod")
-            .TextMatrix(.rows - 1, 2) = rTabela("var_codbarra")
-            .TextMatrix(.rows - 1, 3) = rTabela("var_desc")
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("var_fab"))
+            .TextMatrix(.Rows - 1, 1) = rTabela("var_cod")
+            .TextMatrix(.Rows - 1, 2) = rTabela("var_codbarra")
+            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc")
+            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("var_fab"))
             
-            .TextMatrix(.rows - 1, 6) = rTabela("var_med")
-            .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_prat"))
-            .TextMatrix(.rows - 1, 8) = rTabela("var_quant")
-            .TextMatrix(.rows - 1, 9) = Format$(rTabela("venda"), ocMONEY)
+            .TextMatrix(.Rows - 1, 6) = rTabela("var_med")
+            .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("var_prat"))
+            .TextMatrix(.Rows - 1, 8) = rTabela("var_quant")
+            .TextMatrix(.Rows - 1, 9) = Format$(rTabela("venda"), ocMONEY)
+            .TextMatrix(.Rows - 1, 10) = Format$(rTabela("custo"), ocMONEY)
             
-            'sSQL = "SELECT modelo, ano FROM produtos_comp WHERE (cod_produto = " & .TextMatrix(.Rows - 1, 1) & ");"
-            'Set r2 = dbData.OpenRecordset(sSQL)
+            If chkCompartibilidade.Value = 1 Then
+                sSQL = "SELECT modelo, ano FROM produtos_comp WHERE (cod_produto = " & rTabela("var_cod") & ");"
+                Set r2 = dbData.OpenRecordset(sSQL)
+                var_Comp = ""
+                Do While Not r2.EOF
+                   var_Comp = var_Comp & r2("modelo") & "(" & r2("ano") & "), "
+                   r2.MoveNext
+                Loop
+                If Len(var_Comp) > 0 Then var_Comp = Left(var_Comp, Len(var_Comp) - 2) ' Limpa a última vírgula
+                .TextMatrix(.Rows - 1, 5) = var_Comp
+                If r2.State <> 0 Then r2.Close
+                Set r2 = Nothing
+            End If
             
-            'Do While Not r2.EOF
-            '   var_Comp = var_Comp & r2("modelo") & "(" & r2("ano") & "), "
-            '   r2.MoveNext
-            'Loop
-            
-            'If r2.State <> 0 Then r2.Close
-            'Set r2 = Nothing
-            
-            ''var_COMP = Mid(var_COMP, 1, Len(var_COMP) - 1) 'Tirar a virgula apos o ultimo
-            '.TextMatrix(.Rows - 1, 5) = var_Comp
             var_Comp = ""
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
       .Redraw = True
       '.Enabled = True
    End With

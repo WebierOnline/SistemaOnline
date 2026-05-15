@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "18:30"
+            TextSave        =   "08:57"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -113,7 +113,6 @@ Begin VB.Form Configuracao_Geral
       _ExtentY        =   15796
       _Version        =   393216
       Tabs            =   5
-      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   520
       TabMaxWidth     =   2999
@@ -128,16 +127,21 @@ Begin VB.Form Configuracao_Geral
       EndProperty
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame9"
-      Tab(0).Control(1)=   "FraConfiguracao"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "cmdSalvarGeral"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "FrameBackup"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Frame1"
-      Tab(0).Control(3)=   "FrameBackup"
-      Tab(0).Control(4)=   "cmdSalvarGeral"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "FraConfiguracao"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "Frame9"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
@@ -146,56 +150,56 @@ Begin VB.Form Configuracao_Geral
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame13"
-      Tab(2).Control(1)=   "Frame6"
-      Tab(2).Control(2)=   "Frame3"
-      Tab(2).Control(3)=   "cmdSalvarBalanca"
+      Tab(2).Control(0)=   "cmdSalvarBalanca"
+      Tab(2).Control(1)=   "Frame3"
+      Tab(2).Control(2)=   "Frame6"
+      Tab(2).Control(3)=   "Frame13"
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cboDeclararRecebedor"
-      Tab(3).Control(1)=   "txtFormaParcelasImpressao"
-      Tab(3).Control(2)=   "cboFormaParcelasImpressao"
-      Tab(3).Control(3)=   "cboINIImpNormal"
-      Tab(3).Control(4)=   "Frame7"
-      Tab(3).Control(5)=   "Frame8"
+      Tab(3).Control(0)=   "Label48"
+      Tab(3).Control(1)=   "Label14"
+      Tab(3).Control(2)=   "Label49"
+      Tab(3).Control(3)=   "Label61"
+      Tab(3).Control(4)=   "cmdSalvarImpressao"
+      Tab(3).Control(5)=   "Frame2"
       Tab(3).Control(6)=   "Frame17"
-      Tab(3).Control(7)=   "Frame2"
-      Tab(3).Control(8)=   "cmdSalvarImpressao"
-      Tab(3).Control(9)=   "Label61"
-      Tab(3).Control(10)=   "Label49"
-      Tab(3).Control(11)=   "Label14"
-      Tab(3).Control(12)=   "Label48"
+      Tab(3).Control(7)=   "Frame8"
+      Tab(3).Control(8)=   "Frame7"
+      Tab(3).Control(9)=   "cboINIImpNormal"
+      Tab(3).Control(10)=   "cboFormaParcelasImpressao"
+      Tab(3).Control(11)=   "txtFormaParcelasImpressao"
+      Tab(3).Control(12)=   "cboDeclararRecebedor"
       Tab(3).ControlCount=   13
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "chameleonButton1"
-      Tab(4).Control(1)=   "txtCodDesbloqueioTemp"
-      Tab(4).Control(2)=   "txtCodDesbloqueio"
-      Tab(4).Control(3)=   "txtFantasia"
-      Tab(4).Control(4)=   "cboAno"
-      Tab(4).Control(5)=   "cboMes"
-      Tab(4).Control(6)=   "txtRazao"
-      Tab(4).Control(7)=   "Grid"
-      Tab(4).Control(8)=   "mskCPF"
-      Tab(4).Control(9)=   "cmdAdicionar"
-      Tab(4).Control(10)=   "cmdMostrarSenha"
-      Tab(4).Control(11)=   "cmdPrepara"
+      Tab(4).Control(0)=   "Label53"
+      Tab(4).Control(1)=   "Label54"
+      Tab(4).Control(2)=   "Label56"
+      Tab(4).Control(3)=   "Label57"
+      Tab(4).Control(4)=   "Label58"
+      Tab(4).Control(5)=   "Label59"
+      Tab(4).Control(6)=   "Label60"
+      Tab(4).Control(7)=   "cmdDesmarcarTodos"
+      Tab(4).Control(8)=   "cmdDesmarcar"
+      Tab(4).Control(9)=   "cmdMarcar"
+      Tab(4).Control(10)=   "cmdLocalizar"
+      Tab(4).Control(11)=   "cmdNovo"
       Tab(4).Control(12)=   "cmdPrepara2"
-      Tab(4).Control(13)=   "cmdNovo"
-      Tab(4).Control(14)=   "cmdLocalizar"
-      Tab(4).Control(15)=   "cmdMarcar"
-      Tab(4).Control(16)=   "cmdDesmarcar"
-      Tab(4).Control(17)=   "cmdDesmarcarTodos"
-      Tab(4).Control(18)=   "Label60"
-      Tab(4).Control(19)=   "Label59"
-      Tab(4).Control(20)=   "Label58"
-      Tab(4).Control(21)=   "Label57"
-      Tab(4).Control(22)=   "Label56"
-      Tab(4).Control(23)=   "Label54"
-      Tab(4).Control(24)=   "Label53"
+      Tab(4).Control(13)=   "cmdPrepara"
+      Tab(4).Control(14)=   "cmdMostrarSenha"
+      Tab(4).Control(15)=   "cmdAdicionar"
+      Tab(4).Control(16)=   "mskCPF"
+      Tab(4).Control(17)=   "Grid"
+      Tab(4).Control(18)=   "txtRazao"
+      Tab(4).Control(19)=   "cboMes"
+      Tab(4).Control(20)=   "cboAno"
+      Tab(4).Control(21)=   "txtFantasia"
+      Tab(4).Control(22)=   "txtCodDesbloqueio"
+      Tab(4).Control(23)=   "txtCodDesbloqueioTemp"
+      Tab(4).Control(24)=   "chameleonButton1"
       Tab(4).ControlCount=   25
       Begin VB.Frame Frame13 
          Caption         =   "Cashback"
@@ -337,7 +341,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
          Height          =   1335
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   182
          Top             =   4080
          Width           =   8655
@@ -652,7 +656,7 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2055
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   116
          Top             =   6840
          Width           =   8535
@@ -952,7 +956,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FraConfiguracao 
          Caption         =   "Balança e Peso"
          Height          =   1515
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   110
          Top             =   6660
          Width           =   8655
@@ -1088,7 +1092,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
          Height          =   3615
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   80
          Top             =   480
          Width           =   8655
@@ -1332,7 +1336,7 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6435
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   55
          Top             =   360
          Width           =   8535
@@ -2104,7 +2108,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
          Height          =   1155
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   12
          Top             =   5460
          Width           =   8655
@@ -2218,7 +2222,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   79
          Top             =   8220
          Width           =   2175
@@ -4021,7 +4025,7 @@ Private Sub Mostrar_Tipo_Empresa()
    
    txtTipoCadastroProduto.Text = oCfg.Value
    If txtTipoCadastroProduto.Text = 1 Then
-      cboTipoEmpresa.Text = "Varejo"
+      cboTipoEmpresa.Text = "Supermercado"
    ElseIf txtTipoCadastroProduto.Text = 2 Then
       cboTipoEmpresa.Text = "Farmacia"
    ElseIf txtTipoCadastroProduto.Text = 3 Then
@@ -4031,15 +4035,15 @@ Private Sub Mostrar_Tipo_Empresa()
    ElseIf txtTipoCadastroProduto.Text = 5 Then
       cboTipoEmpresa.Text = "Autopeça/Motopeça"
    ElseIf txtTipoCadastroProduto.Text = 6 Then
-      cboTipoEmpresa.Text = "Academia"
+      cboTipoEmpresa.Text = "Material de Construção"
    ElseIf txtTipoCadastroProduto.Text = 7 Then
-      cboTipoEmpresa.Text = "Escola"
+      cboTipoEmpresa.Text = "Distribuidor Bebida"
    ElseIf txtTipoCadastroProduto.Text = 8 Then
-      cboTipoEmpresa.Text = "Consultorio"
+      cboTipoEmpresa.Text = "Diversos"
    Else
       Exit Sub
    End If
-   
+
    Set oCfg = Nothing
 End Sub
 Private Sub MostrarIdentMaquina()
@@ -5127,22 +5131,22 @@ Private Sub cboTipoEmpresa_GotFocus()
 Dim var_Texto As String
 var_Texto = cboTipoEmpresa.Text
    cboTipoEmpresa.Clear
-   cboTipoEmpresa.AddItem "Varejo"
-   cboTipoEmpresa.AddItem "Farmacia"
+   cboTipoEmpresa.AddItem "Supermercado"
+   cboTipoEmpresa.AddItem "Farmácia"
    cboTipoEmpresa.AddItem "Restaurante/Lanchonete"
    cboTipoEmpresa.AddItem "Sapataria/Vestuário"
    cboTipoEmpresa.AddItem "Autopeça/Motopeça"
-   cboTipoEmpresa.AddItem "Academia"
-   cboTipoEmpresa.AddItem "Escola"
-   cboTipoEmpresa.AddItem "Consultorio"
+   cboTipoEmpresa.AddItem "Material de Construção"
+   cboTipoEmpresa.AddItem "Distribuidor Bebida"
+   cboTipoEmpresa.AddItem "Diversos"
 cboTipoEmpresa.Text = var_Texto
 End Sub
 
 
 Private Sub cboTipoEmpresa_Validate(Cancel As Boolean)
-If cboTipoEmpresa.Text = "Varejo" Then
+If cboTipoEmpresa.Text = "Supermercado" Then
    txtTipoCadastroProduto.Text = "1"
-ElseIf cboTipoEmpresa.Text = "Farmacia" Then
+ElseIf cboTipoEmpresa.Text = "Farmácia" Then
    txtTipoCadastroProduto.Text = "2"
 ElseIf cboTipoEmpresa.Text = "Restaurante/Lanchonete" Then
    txtTipoCadastroProduto.Text = "3"
@@ -5150,11 +5154,11 @@ ElseIf cboTipoEmpresa.Text = "Sapataria/Vestuário" Then
    txtTipoCadastroProduto.Text = "4"
 ElseIf cboTipoEmpresa.Text = "Autopeça/Motopeça" Then
    txtTipoCadastroProduto.Text = "5"
-ElseIf cboTipoEmpresa.Text = "Academia" Then
+ElseIf cboTipoEmpresa.Text = "Material de Construção" Then
    txtTipoCadastroProduto.Text = "6"
-ElseIf cboTipoEmpresa.Text = "Escola" Then
+ElseIf cboTipoEmpresa.Text = "Distribuidor Bebida" Then
    txtTipoCadastroProduto.Text = "7"
-ElseIf cboTipoEmpresa.Text = "Consultorio" Then
+ElseIf cboTipoEmpresa.Text = "Diversos" Then
    txtTipoCadastroProduto.Text = "8"
 Else
    txtTipoCadastroProduto.Text = "1"

@@ -94,11 +94,11 @@ Begin VB.Form Parcelas
       TabCaption(0)   =   "À PAGAR"
       TabPicture(0)   =   "Parcelas.frx":D7CE
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame2"
-      Tab(0).Control(1)=   "Picture2"
+      Tab(0).Control(0)=   "frmParcela"
+      Tab(0).Control(1)=   "txtCodParc"
       Tab(0).Control(2)=   "frmPagamento"
-      Tab(0).Control(3)=   "txtCodParc"
-      Tab(0).Control(4)=   "frmParcela"
+      Tab(0).Control(3)=   "Picture2"
+      Tab(0).Control(4)=   "Frame2"
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "HAVER"
       TabPicture(1)   =   "Parcelas.frx":D7EA
@@ -2733,7 +2733,7 @@ Begin VB.Form Parcelas
       End
       Begin VB.Image imgDesmarcadaPAGAS 
          Height          =   195
-         Left            =   1620
+         Left            =   1560
          Picture         =   "Parcelas.frx":1A3D7
          Top             =   4920
          Visible         =   0   'False
@@ -2810,7 +2810,7 @@ Begin VB.Form Parcelas
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "18:19"
+            TextSave        =   "21:13"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3105,7 +3105,7 @@ With REL_Recibo
 
       var_Parc = ""
       
-      With Grid_Parcelas
+      With grid_Parcelas
          For f = 1 To .rows - 1
             .Col = 0
             .Row = f
@@ -3516,7 +3516,7 @@ End Sub
 Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
    Dim i As Integer
    
-   With Grid_Parcelas
+   With grid_Parcelas
       .Clear
       .Cols = 11
       .rows = 2
@@ -3595,15 +3595,15 @@ Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
       .rows = .rows - 1
    End With
    
-   lblSubtotal.Caption = Format(SomaGrid(Grid_Parcelas, 7), ocMONEY)
-   lblHaver.Caption = Format(SomaGrid(Grid_Parcelas, 8), ocMONEY)
-   lblTotal.Caption = Format(SomaGrid(Grid_Parcelas, 9), ocMONEY)
+   lblSubtotal.Caption = Format(SomaGrid(grid_Parcelas, 7), ocMONEY)
+   lblHaver.Caption = Format(SomaGrid(grid_Parcelas, 8), ocMONEY)
+   lblTotal.Caption = Format(SomaGrid(grid_Parcelas, 9), ocMONEY)
 End Sub
 
 Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
    Dim i As Integer, j As Integer
    
-   With Grid_Parcelas
+   With grid_Parcelas
       .Visible = False
       .Redraw = False
       
@@ -3748,21 +3748,21 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       
       'Grid_Parcelas.ColWidth(0) = 400
       'Grid_Parcelas.Rows = 11
-      Grid_Parcelas.Col = 0
+      grid_Parcelas.Col = 0
       
       For i = 1 To .rows - 1
-         Grid_Parcelas.Row = i
-         Set Grid_Parcelas.CellPicture = imgDesmarcada
-         Grid_Parcelas.CellPictureAlignment = 4
+         grid_Parcelas.Row = i
+         Set grid_Parcelas.CellPicture = imgDesmarcada
+         grid_Parcelas.CellPictureAlignment = 4
       Next
       
       .Visible = True
       .Redraw = True
    End With
    
-   lblSubtotal.Caption = Format(SomaGrid(Grid_Parcelas, 9), ocMONEY)
-   lblHaver.Caption = Format(SomaGrid(Grid_Parcelas, 10), ocMONEY)
-   lblTotal.Caption = Format(SomaGrid(Grid_Parcelas, 11), ocMONEY)
+   lblSubtotal.Caption = Format(SomaGrid(grid_Parcelas, 9), ocMONEY)
+   lblHaver.Caption = Format(SomaGrid(grid_Parcelas, 10), ocMONEY)
+   lblTotal.Caption = Format(SomaGrid(grid_Parcelas, 11), ocMONEY)
 End Sub
 
 Private Sub Calcular_Dias()
@@ -3843,7 +3843,7 @@ End Sub
 Private Sub LimparGrid_Parcelas()
    Dim i As Integer
    
-   With Grid_Parcelas
+   With grid_Parcelas
       .Visible = False
       .Redraw = False
       
@@ -3943,21 +3943,21 @@ Private Sub LimparGrid_Parcelas()
       
       'Grid_Parcelas.ColWidth(0) = 400
       'Grid_Parcelas.Rows = 11
-      Grid_Parcelas.Col = 0
+      grid_Parcelas.Col = 0
       
       For i = 1 To .rows - 1
-         Grid_Parcelas.Row = i
-         Set Grid_Parcelas.CellPicture = imgDesmarcada
-         Grid_Parcelas.CellPictureAlignment = 4
+         grid_Parcelas.Row = i
+         Set grid_Parcelas.CellPicture = imgDesmarcada
+         grid_Parcelas.CellPictureAlignment = 4
       Next
       
       .Visible = True
       .Redraw = True
    End With
    
-   lblSubtotal.Caption = Format(SomaGrid(Grid_Parcelas, 9), ocMONEY)
-   lblHaver.Caption = Format(SomaGrid(Grid_Parcelas, 10), ocMONEY)
-   lblTotal.Caption = Format(SomaGrid(Grid_Parcelas, 11), ocMONEY)
+   lblSubtotal.Caption = Format(SomaGrid(grid_Parcelas, 9), ocMONEY)
+   lblHaver.Caption = Format(SomaGrid(grid_Parcelas, 10), ocMONEY)
+   lblTotal.Caption = Format(SomaGrid(grid_Parcelas, 11), ocMONEY)
 End Sub
 
 Private Sub LimparGridHaverPagas()
@@ -4080,17 +4080,17 @@ Dim vWhere As String
  'indice
  If optPgto.Value = True Then
     INDICE = "parcelas.pagamento "
-    vWhere = " AND (Month(parcelas.pagamento) = " & cboMES.ListIndex + 1 & ") And (Year(parcelas.pagamento) = " & cboAno & ") "
+    vWhere = " AND (Month(parcelas.pagamento) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.pagamento) = " & cboAno & ") "
  ElseIf optVenc.Value = True Then
     INDICE = "parcelas.data "
-    vWhere = " AND (Month(parcelas.data) = " & cboMES.ListIndex + 1 & ") And (Year(parcelas.data) = " & cboAno & ") "
+    vWhere = " AND (Month(parcelas.data) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.data) = " & cboAno & ") "
  ElseIf optTodas.Value = True Then
     INDICE = "parcelas.pagamento "
     vWhere = " "
  End If
 
 If txtCodCliente.Text = "" Then Exit Sub
-If cboMES.Text = "" Then cboMES.Text = Format(Date, "mmmm")
+If cboMes.Text = "" Then cboMes.Text = Format(Date, "mmmm")
 If cboAno.Text = "" Then cboAno.Text = Year(Date)
 
 sSQL = "SELECT parcelas.CODIGO AS cod, ISNULL(parcelas.CODCAIXA, 0) AS varCodCaixaParc, ISNULL(parcelas.CAIXA, 'CAIXA01') AS varCaixaParc, pedidos.TIPO_PEDIDO AS campo00, parcelas.COD_PEDIDO AS campo01, parcelas.NUMERO AS campo02, parcelas.DATA AS campo03,pedidos.PAGAMENTO AS campo05, parcelas.PAGAMENTO AS campo06, parcelas.STATUS, pedidos.COD_PEDIDO, pedidos.COD_CLIENTE, parcelas.VALOR AS campo04, ISNULL(parcelas.JUROS, 0) AS var_juros, parcelas.VALOR + ISNULL(parcelas.JUROS, 0) AS SubTotal, ISNULL(parcelas.DESCONTO, 0) AS varDesc, parcelas.VALOR_FINAL AS vValorFinal, " & _
@@ -4202,9 +4202,9 @@ Set r = Nothing
 
 lblQuantParc.Caption = Format(totalRegistros, "00")
 
-cmdMarcarCheck.Enabled = Grid_Parcelas.rows > 1
+cmdMarcarCheck.Enabled = grid_Parcelas.rows > 1
 
-If Grid_Parcelas.rows > 1 Then
+If grid_Parcelas.rows > 1 Then
     cmdQuitarAutomatico.Visible = True
 Else
     cmdQuitarAutomatico.Visible = False
@@ -4322,7 +4322,7 @@ HAVER = 0
 Total = 0
 varContarSelecionadas = 0
 
-With Grid_Parcelas
+With grid_Parcelas
     If .TextMatrix(.Row, 9) = "" Then Exit Sub
    For i = 1 To .rows - 1
       .Col = 0
@@ -4376,22 +4376,22 @@ cboMes_LostFocus
 End Sub
 
 Private Sub cboMes_GotFocus()
-cboMES.Clear
+cboMes.Clear
 
-cboMES.AddItem "Janeiro"
-cboMES.AddItem "Fevereiro"
-cboMES.AddItem "Março"
-cboMES.AddItem "Abril"
-cboMES.AddItem "Maio"
-cboMES.AddItem "Junho"
-cboMES.AddItem "Julho"
-cboMES.AddItem "Agosto"
-cboMES.AddItem "Setembro"
-cboMES.AddItem "Outubro"
-cboMES.AddItem "Novembro"
-cboMES.AddItem "Dezembro"
+cboMes.AddItem "Janeiro"
+cboMes.AddItem "Fevereiro"
+cboMes.AddItem "Março"
+cboMes.AddItem "Abril"
+cboMes.AddItem "Maio"
+cboMes.AddItem "Junho"
+cboMes.AddItem "Julho"
+cboMes.AddItem "Agosto"
+cboMes.AddItem "Setembro"
+cboMes.AddItem "Outubro"
+cboMes.AddItem "Novembro"
+cboMes.AddItem "Dezembro"
 
-moCombo.AttachTo cboMES
+moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cboCliente_Change()
@@ -4567,12 +4567,12 @@ Dim varValorHaver As Currency
 
 Dim f As Integer
 
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-        varValorParc = Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 11)
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+        varValorParc = grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11)
    End If
 Next
 
@@ -4723,12 +4723,12 @@ lblPgto.Caption = "Vencimento"
 frmPagamento.Caption = "Vencimento"
 cboCliente.Locked = True
 
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-      vCodParc = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 1))
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+      vCodParc = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 1))
    End If
 Next
 End Sub
@@ -4761,11 +4761,11 @@ Dim i As Integer
 If cmdQuitarTodas.Visible = True Then
     cmdQuitarTodas.Visible = False
 
-    Grid_Parcelas.Col = 0
+    grid_Parcelas.Col = 0
    
-    For i = 1 To Grid_Parcelas.rows - 1
-      Grid_Parcelas.Row = i
-        Set Grid_Parcelas.CellPicture = imgDesmarcada
+    For i = 1 To grid_Parcelas.rows - 1
+      grid_Parcelas.Row = i
+        Set grid_Parcelas.CellPicture = imgDesmarcada
     Next
     Somar_Parcelas_Selecionadas
 ElseIf cmdSalvarAutomatico.Visible = True Then
@@ -4779,11 +4779,11 @@ ElseIf cmdSalvarAutomatico.Visible = True Then
 End If
 
 
-Grid_Parcelas.Col = 0
+grid_Parcelas.Col = 0
 
-For i = 1 To Grid_Parcelas.rows - 1
-  Grid_Parcelas.Row = i
-    Set Grid_Parcelas.CellPicture = imgDesmarcada
+For i = 1 To grid_Parcelas.rows - 1
+  grid_Parcelas.Row = i
+    Set grid_Parcelas.CellPicture = imgDesmarcada
 Next
 Somar_Parcelas_Selecionadas
 cmdMarcarCheck.Caption = "MARCAR TODAS"
@@ -4801,17 +4801,17 @@ Private Sub cmdHabilitarHaver_Click()
 frmHaver.Enabled = True
 mskDataHaver.Text = Format(Date, "dd/mm/yy")
 
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-      txtCodParc.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 1))
-      txtOrigem.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 2))
-      txtCodPedido.Text = Format((Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 3)), "000000")
-      txtNumParcela.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 4))
-      mskData.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 5))
-      txtValor.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 6))
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+      txtCodParc.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 1))
+      txtOrigem.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 2))
+      txtCodPedido.Text = Format((grid_Parcelas.TextMatrix(grid_Parcelas.Row, 3)), "000000")
+      txtNumParcela.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 4))
+      mskData.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 5))
+      txtValor.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 6))
       MostrarGrid_Haver
    End If
 Next
@@ -4866,17 +4866,17 @@ End Sub
 
 
 Private Sub cmdMostrarHaveres_Click()
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-      txtCodParc.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 1))
-      txtOrigem.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 2))
-      txtCodPedido.Text = Format((Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 3)), "000000")
-      txtNumParcela.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 4))
-      mskData.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 5))
-      txtValor.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 6))
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+      txtCodParc.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 1))
+      txtOrigem.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 2))
+      txtCodPedido.Text = Format((grid_Parcelas.TextMatrix(grid_Parcelas.Row, 3)), "000000")
+      txtNumParcela.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 4))
+      mskData.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 5))
+      txtValor.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 6))
       MostrarGrid_Haver
    End If
 Next
@@ -4916,19 +4916,19 @@ cboForma.SetFocus
 End Sub
 
 Private Sub cmdQuitaruma_Click()
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-      txtCodParc.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 1))
-      txtOrigem.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 2))
-      txtCodPedido.Text = Format((Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 3)), "000000")
-      txtNumParcela.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 4))
-      mskData.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 5))
-      txtValor.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 6))
-      txtItem.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 12))
-      txtTJuros.Text = (Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 8))
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+      txtCodParc.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 1))
+      txtOrigem.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 2))
+      txtCodPedido.Text = Format((grid_Parcelas.TextMatrix(grid_Parcelas.Row, 3)), "000000")
+      txtNumParcela.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 4))
+      mskData.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 5))
+      txtValor.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 6))
+      txtItem.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 12))
+      txtTJuros.Text = (grid_Parcelas.TextMatrix(grid_Parcelas.Row, 8))
       
       mskPagamento.Text = Format(Date, "dd/mm/yy")
       Mostrar_Juros
@@ -5977,7 +5977,7 @@ Private Sub Imprimir_ReciboCupom()
     
              var_Parc = ""
              
-             With Grid_Parcelas
+             With grid_Parcelas
                 For y = 1 To .rows - 1
                    .Col = 0
                    .Row = y
@@ -6117,12 +6117,12 @@ End Sub
 Private Sub cmdMostrarProdutos_Click()
 Dim f As Integer
 
-For f = 0 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = f
-   Grid_Parcelas.Col = 0
+For f = 0 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = f
+   grid_Parcelas.Col = 0
    
-   If Grid_Parcelas.CellPicture = ImgMarcada Then
-      Parcelas_Consulta_Produtos.loadPedidos Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 3), Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 2)
+   If grid_Parcelas.CellPicture = ImgMarcada Then
+      Parcelas_Consulta_Produtos.loadPedidos grid_Parcelas.TextMatrix(grid_Parcelas.Row, 3), grid_Parcelas.TextMatrix(grid_Parcelas.Row, 2)
       Parcelas_Consulta_Produtos.Show 1
    End If
 Next
@@ -6193,7 +6193,7 @@ End If
 Verificar_Caixa_Baixa
 If CAIXA_FECHADO_BAIXA = True Then Exit Sub
 
-With Grid_Parcelas
+With grid_Parcelas
    For f = 1 To .rows - 1
       .Col = 0
       .Row = f
@@ -6532,21 +6532,21 @@ varSobra = 0
 Dim i As Integer
 
 Dim vValorPrimeiraLinha As Currency
-vValorPrimeiraLinha = Grid_Parcelas.TextMatrix(1, 11)
+vValorPrimeiraLinha = grid_Parcelas.TextMatrix(1, 11)
 
 If varValorParaAbater < vValorPrimeiraLinha Then
     varSobra = varValorParaAbater
 Else
-    With Grid_Parcelas
+    With grid_Parcelas
         For i = 1 To .rows - 1
             .Col = 0
             .Row = i
             
             If varSomaParcelasSelecionas < varValorParaAbater Then
-                varSomaFutura = varSomaParcelasSelecionas + Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 11)
+                varSomaFutura = varSomaParcelasSelecionas + grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11)
                 If varSomaFutura < varValorParaAbater Then
-                    varSomaParcelasSelecionas = varSomaParcelasSelecionas + Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 11)
-                    Set Grid_Parcelas.CellPicture = ImgMarcada
+                    varSomaParcelasSelecionas = varSomaParcelasSelecionas + grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11)
+                    Set grid_Parcelas.CellPicture = ImgMarcada
                     varSobra = varValorParaAbater - varSomaParcelasSelecionas
                 End If
             End If
@@ -6566,14 +6566,14 @@ varFormaPgtoHaver = cboForma.Text
 Dim varLinhaMarcada As Boolean
 varLinhaMarcada = False
 
-With Grid_Parcelas
+With grid_Parcelas
     For i = 1 To .rows - 1
         .Col = 0
         .Row = i
         
         If varLinhaMarcada = False Then
-            If varSobra < Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 11) Then
-                Set Grid_Parcelas.CellPicture = ImgMarcada
+            If varSobra < grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11) Then
+                Set grid_Parcelas.CellPicture = ImgMarcada
                 varLinhaMarcada = True
                 cmdHabilitarHaver_Click
                 cboFormaHaver.Text = varFormaPgtoHaver
@@ -6633,7 +6633,7 @@ varPgtoAutomatico = False
 vQuitarUma = True
 vClienteEncontrado = False
 
-cboMES.Text = Format(Date, "mmmm")
+cboMes.Text = Format(Date, "mmmm")
 cboAno.Text = Year(Date)
 
 'colocar o nome da maquina na barra de status
@@ -6800,14 +6800,14 @@ Sub AcaoGrid()
 Dim i As Integer
 Dim var_Contador As Integer
 
-Grid_Parcelas.Col = 0
+grid_Parcelas.Col = 0
 
-For i = 1 To Grid_Parcelas.rows - 1
-   Grid_Parcelas.Row = i
-   If OP = MarcarTodos Then Set Grid_Parcelas.CellPicture = ImgMarcada
-   If OP = DesmarcarTodos Then Set Grid_Parcelas.CellPicture = imgDesmarcada
+For i = 1 To grid_Parcelas.rows - 1
+   grid_Parcelas.Row = i
+   If OP = MarcarTodos Then Set grid_Parcelas.CellPicture = ImgMarcada
+   If OP = DesmarcarTodos Then Set grid_Parcelas.CellPicture = imgDesmarcada
    If OP = contar Then
-      If Grid_Parcelas.CellPicture = ImgMarcada Then var_Contador = var_Contador + 1
+      If grid_Parcelas.CellPicture = ImgMarcada Then var_Contador = var_Contador + 1
    End If
 Next
 
@@ -6820,7 +6820,7 @@ If var_Contador = 1 Then
    cmdMostrarProdutos.Enabled = True
    cmdMostrarHaveres.Enabled = True
    cmdReativar.Enabled = True
-   If Grid_Parcelas.TextMatrix(Grid_Parcelas.Row, 9) <> "" Then
+   If grid_Parcelas.TextMatrix(grid_Parcelas.Row, 9) <> "" Then
     cmdQuitarUma.Visible = True
     cmdHabilitarHaver.Visible = True
     cmdAlterarVenc.Visible = True
@@ -7123,12 +7123,12 @@ End Sub
 
 Private Sub Grid_Parcelas_Click()
 'marcar a parcela
-If Grid_Parcelas.Col <> 0 Then Exit Sub
+If grid_Parcelas.Col <> 0 Then Exit Sub
 
-If Grid_Parcelas.CellPicture = imgDesmarcada Then
-   Set Grid_Parcelas.CellPicture = ImgMarcada
+If grid_Parcelas.CellPicture = imgDesmarcada Then
+   Set grid_Parcelas.CellPicture = ImgMarcada
 Else
-   Set Grid_Parcelas.CellPicture = imgDesmarcada
+   Set grid_Parcelas.CellPicture = imgDesmarcada
 End If
 
 OP = contar

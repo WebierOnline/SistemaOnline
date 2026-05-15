@@ -166,6 +166,7 @@ Form=..\Compartilhado\Forms\REL_ReciboRetirada.frm
 Form=Forms\frmImportarIBPT.frm
 Form=Forms\frmNCM_Cadastro.frm
 Form=Forms\frmISClassTrib.frm
+Form=..\Compartilhado\Forms\Tags_Cadastro.frm
 IconForm="Tela_Principal"
 Startup="Sub Main"
 HelpFile=""

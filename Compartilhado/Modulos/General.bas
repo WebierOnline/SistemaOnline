@@ -196,6 +196,7 @@ Tela_Principal.Show
 'Sistema_Financeiro.Show
 'Inventario_Cadastro.Show
 'Entrada_Estoque.Show
+'Vendas_Consulta_Lucro.Show
 'Senha.Show
 End Sub
 

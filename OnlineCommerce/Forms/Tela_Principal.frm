@@ -368,8 +368,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2B8D4
-         PICN            =   "Tela_Principal.frx":2B8F0
+         MICON           =   "Tela_Principal.frx":2683F
+         PICN            =   "Tela_Principal.frx":2685B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -408,8 +408,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2C4E4
-         PICN            =   "Tela_Principal.frx":2C500
+         MICON           =   "Tela_Principal.frx":2744F
+         PICN            =   "Tela_Principal.frx":2746B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -448,8 +448,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2D230
-         PICN            =   "Tela_Principal.frx":2D24C
+         MICON           =   "Tela_Principal.frx":2819B
+         PICN            =   "Tela_Principal.frx":281B7
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -488,8 +488,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2DE9E
-         PICN            =   "Tela_Principal.frx":2DEBA
+         MICON           =   "Tela_Principal.frx":28E09
+         PICN            =   "Tela_Principal.frx":28E25
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -528,8 +528,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2E2B4
-         PICN            =   "Tela_Principal.frx":2E2D0
+         MICON           =   "Tela_Principal.frx":2921F
+         PICN            =   "Tela_Principal.frx":2923B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -568,8 +568,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2EF63
-         PICN            =   "Tela_Principal.frx":2EF7F
+         MICON           =   "Tela_Principal.frx":29ECE
+         PICN            =   "Tela_Principal.frx":29EEA
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -608,8 +608,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2FADB
-         PICN            =   "Tela_Principal.frx":2FAF7
+         MICON           =   "Tela_Principal.frx":2AA46
+         PICN            =   "Tela_Principal.frx":2AA62
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -648,8 +648,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":304C8
-         PICN            =   "Tela_Principal.frx":304E4
+         MICON           =   "Tela_Principal.frx":2B433
+         PICN            =   "Tela_Principal.frx":2B44F
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "22:00"
+            TextSave        =   "20:21"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -815,10 +815,16 @@ Begin VB.MDIForm Tela_Principal
          Caption         =   "&Transportadora"
       End
    End
-   Begin VB.Menu Menu_Prod 
+   Begin VB.Menu Menu_PROD 
       Caption         =   "&Produtos"
       Begin VB.Menu Menu_PROD_Cadastro 
          Caption         =   "&Cadastro"
+      End
+      Begin VB.Menu Menu_PROD_Categoria 
+         Caption         =   "Categorias"
+      End
+      Begin VB.Menu Menu_PROD_Tags 
+         Caption         =   "Tags"
       End
       Begin VB.Menu Menu_PROD_Saida 
          Caption         =   "&Retirada do Estoque Justificada"
@@ -889,7 +895,7 @@ Begin VB.MDIForm Tela_Principal
          Caption         =   "Controle de Aluguel"
       End
    End
-   Begin VB.Menu Menu_Fiscal 
+   Begin VB.Menu Menu_FISCAL 
       Caption         =   "F&iscal"
       Begin VB.Menu Menu_FAT_NFeCompeta 
          Caption         =   "N&Fe"
@@ -912,6 +918,24 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_FAT_Linha2 
          Caption         =   "-"
+      End
+      Begin VB.Menu Menu_FISCAL_Reforma 
+         Caption         =   "Reforma Tributária"
+         Begin VB.Menu Menu_FISCAL_Reforma_IBSCBS 
+            Caption         =   "IBS/CBS CST"
+         End
+         Begin VB.Menu Menu_FISCAL_Reforma_IBSAliq 
+            Caption         =   "IBS Aliquotas"
+         End
+         Begin VB.Menu Menu_FISCAL_Reforma_ISAliq 
+            Caption         =   "IS Aliquotas"
+         End
+         Begin VB.Menu Menu_FISCAL_Reforma_NCM 
+            Caption         =   "NCM e Aliquotas"
+         End
+         Begin VB.Menu Menu_FISCAL_Reforma_IBPT 
+            Caption         =   "Tabela IBPT"
+         End
       End
       Begin VB.Menu Menu_FAT_Inventario 
          Caption         =   "Inventário"
@@ -973,8 +997,11 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_CONS_VendasRecebiveis 
          Caption         =   "Vendas por &Recebíveis"
       End
+      Begin VB.Menu Menu_Fin_traco5 
+         Caption         =   "-"
+      End
       Begin VB.Menu Menu_CONS_VendasLucro 
-         Caption         =   "Vendas por &Lucro Estimado"
+         Caption         =   "&Lucro por Produtos Agrupados"
       End
       Begin VB.Menu menuseparar11 
          Caption         =   "-"
@@ -1086,7 +1113,7 @@ Dim varTipoEmpresa As String
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
       
       Menu_CAD_Clientes.Caption = "Clientes"
-      Menu_Prod.Visible = True
+      Menu_PROD.Visible = True
       Menu_CONS_Vendas.Visible = True
       Menu_PROD_BuscaRapida.Visible = True
       Menu_IMP_Produtos.Visible = True
@@ -1127,7 +1154,7 @@ Dim varTipoEmpresa As String
       cmdCadClientes.ToolTipText = "Cadastro de Alunos"
    
       Menu_CAD_Clientes.Caption = "Alunos"
-      Menu_Prod.Visible = False
+      Menu_PROD.Visible = False
       Menu_CONS_Vendas.Visible = False
       Menu_PROD_BuscaRapida.Visible = False
       Menu_IMP_Produtos.Visible = False
@@ -1161,7 +1188,7 @@ Dim varTipoEmpresa As String
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
 
       Menu_CAD_Clientes.Caption = "Alunos"
-      Menu_Prod.Visible = False
+      Menu_PROD.Visible = False
       Menu_CONS_Vendas.Visible = False
       Menu_PROD_BuscaRapida.Visible = False
       Menu_IMP_Produtos.Visible = False
@@ -1708,6 +1735,26 @@ Public Sub Menu_Fin_Suprimentos_Click()
 Caixa_Suprimento.Show 1
 End Sub
 
+Private Sub Menu_FISCAL_Reforma_IBPT_Click()
+frmImportarIBPT.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_IBSAliq_Click()
+frmIBS_Aliquotas.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_IBSCBS_Click()
+frmIBSCBS_Cadastro.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_ISAliq_Click()
+frmISClassTrib.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_NCM_Click()
+frmNCM_Cadastro.Show 1
+End Sub
+
 Private Sub Menu_IMP_Aniversariantes_Click()
    Aniversariantes.Show 1
 End Sub
@@ -1810,6 +1857,10 @@ Private Sub Menu_Prod_Cashback_Click()
 Produtos_Cashback.Show 1
 End Sub
 
+Private Sub Menu_PROD_Categoria_Click()
+Categorias_Cadastro.Show 1
+End Sub
+
 Private Sub Menu_PROD_Compra_Click()
    Produtos_Comprar.Show 1
 End Sub
@@ -1830,6 +1881,10 @@ Private Sub Menu_PROD_Simples_Click()
 Produtos_Estoque_Simples.Hide
 Produtos_Estoque_Simples.lblCodUsuario.Caption = vCodFunc
 Produtos_Estoque_Simples.Show 1
+End Sub
+
+Private Sub Menu_PROD_Tags_Click()
+Tags_Cadastro.Show 1
 End Sub
 
 Private Sub MENU_SERV_Acessorios_Click()

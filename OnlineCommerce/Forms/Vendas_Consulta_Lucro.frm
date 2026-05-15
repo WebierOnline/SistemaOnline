@@ -1,11 +1,11 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Vendas_Consulta_Lucro 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "CONSULTA DE VENDAS"
+   Caption         =   "CONSULTA DE LUCRO"
    ClientHeight    =   10575
    ClientLeft      =   45
    ClientTop       =   330
@@ -422,7 +422,7 @@ Begin VB.Form Vendas_Consulta_Lucro
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "CONSULTA DE VENDAS POR LUCRO ESTIMADO"
+         Caption         =   "CONSULTA DE LUCRO POR PRODUTO AGRUPADOS"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   15.75
@@ -437,7 +437,7 @@ Begin VB.Form Vendas_Consulta_Lucro
          Left            =   1440
          TabIndex        =   1
          Top             =   240
-         Width           =   7275
+         Width           =   7920
       End
       Begin VB.Image Image1 
          Height          =   825
@@ -470,7 +470,7 @@ Begin VB.Form Vendas_Consulta_Lucro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20:36"
+            TextSave        =   "07:51"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1221,6 +1221,7 @@ cboCriterioSec.Clear
 cboCriterioSec.AddItem "TODOS"
 cboCriterioSec.AddItem "DESCRIÇÃO"
 cboCriterioSec.AddItem "CÓD. BARRA"
+cboCriterioSec.AddItem "CÓDIGO"
 cboCriterioSec.AddItem "FABRICANTE"
 moCombo.AttachTo cboCriterioSec
 End Sub
@@ -1244,6 +1245,12 @@ ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Or cboCriterioSec.Text = "FABRICANTE" T
     txtCodBarra.Visible = False
 ElseIf cboCriterioSec.Text = "CÓD. BARRA" Then
     lblDescricao.Caption = "Cód. Barra"
+    lblDescricao.Visible = True
+    cboDescricao.Visible = False
+    txtCodBarra.Visible = True
+    txtCodBarra.Text = ""
+ElseIf cboCriterioSec.Text = "CÓDIGO" Then
+    lblDescricao.Caption = "Código do produto"
     lblDescricao.Visible = True
     cboDescricao.Visible = False
     txtCodBarra.Visible = True
@@ -1298,7 +1305,9 @@ Private Sub cboIndice_GotFocus()
 cboIndice.Clear
 cboIndice.AddItem "PRODUTO"
 cboIndice.AddItem "QUANT."
-cboIndice.AddItem "TOTAL"
+cboIndice.AddItem "VENDA"
+cboIndice.AddItem "LUCRO"
+cboIndice.AddItem "MARGEM"
 moCombo.AttachTo cboIndice
 End Sub
 
@@ -1519,8 +1528,12 @@ If cboIndice.Text = "QUANT." Then
    INDICE = "vSomaQuant "
 ElseIf cboIndice.Text = "PRODUTO" Then
    INDICE = "produtos.descricao "
-ElseIf cboIndice.Text = "TOTAL" Then
+ElseIf cboIndice.Text = "VENDA" Then
    INDICE = "vSomaTOTAL "
+ElseIf cboIndice.Text = "LUCRO" Then
+   INDICE = "vSomaLUCRO "
+ElseIf cboIndice.Text = "MARGEM" Then
+   INDICE = "vSomaMARGEM "
 Else
    INDICE = "produtos.descricao "
 End If
@@ -1541,6 +1554,8 @@ ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
     vCriterioSec = "AND produtos.DESCRICAO = '" & cboDescricao.Text & "'"
 ElseIf cboCriterioSec.Text = "CÓD. BARRA" Then
     vCriterioSec = "AND produtos.COD_BARRA = '" & txtCodBarra.Text & "'"
+ElseIf cboCriterioSec.Text = "CÓDIGO" Then
+    vCriterioSec = "AND produtos.CODIGO = " & txtCodBarra.Text & ""
 ElseIf cboCriterioSec.Text = "FABRICANTE" Then
     vCriterioSec = "AND produtos.FABRICANTE = '" & cboDescricao.Text & "'"
 End If

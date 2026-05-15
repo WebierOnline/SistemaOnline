@@ -114,7 +114,6 @@ Begin VB.Form Clientes_Cadastro
       _ExtentX        =   22728
       _ExtentY        =   12938
       _Version        =   393216
-      Tab             =   2
       TabHeight       =   520
       TabMaxWidth     =   3528
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -128,17 +127,27 @@ Begin VB.Form Clientes_Cadastro
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Clientes_Cadastro.frx":372D
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame1"
-      Tab(0).Control(1)=   "Frame2"
-      Tab(0).Control(2)=   "cmdCancelar"
-      Tab(0).Control(3)=   "cmdAlterar"
-      Tab(0).Control(4)=   "cmdExcluir"
-      Tab(0).Control(5)=   "cmdSalvar"
-      Tab(0).Control(6)=   "cmdNovo"
-      Tab(0).Control(7)=   "cmdSair"
-      Tab(0).Control(8)=   "cmdConsultarCNPJ"
-      Tab(0).Control(9)=   "cmdConsultarIE"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "cmdConsultarIE"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "cmdConsultarCNPJ"
+      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).Control(2)=   "cmdSair"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "cmdNovo"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "cmdSalvar"
+      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(5)=   "cmdExcluir"
+      Tab(0).Control(5).Enabled=   0   'False
+      Tab(0).Control(6)=   "cmdAlterar"
+      Tab(0).Control(6).Enabled=   0   'False
+      Tab(0).Control(7)=   "cmdCancelar"
+      Tab(0).Control(7).Enabled=   0   'False
+      Tab(0).Control(8)=   "Frame2"
+      Tab(0).Control(8).Enabled=   0   'False
+      Tab(0).Control(9)=   "Frame1"
+      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).ControlCount=   10
       TabCaption(1)   =   "HISTÓRICO"
       TabPicture(1)   =   "Clientes_Cadastro.frx":3749
@@ -153,25 +162,16 @@ Begin VB.Form Clientes_Cadastro
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Clientes_Cadastro.frx":3765
-      Tab(2).ControlEnabled=   -1  'True
-      Tab(2).Control(0)=   "Label25"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Label26"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "lblQuant"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdImprimir"
-      Tab(2).Control(3).Enabled=   0   'False
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "Frame5"
+      Tab(2).Control(1)=   "Grid_Consulta"
+      Tab(2).Control(2)=   "Frame4"
+      Tab(2).Control(3)=   "Frame3"
       Tab(2).Control(4)=   "cmdExibir"
-      Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "Frame3"
-      Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "Frame4"
-      Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "Grid_Consulta"
-      Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "Frame5"
-      Tab(2).Control(8).Enabled=   0   'False
+      Tab(2).Control(5)=   "cmdImprimir"
+      Tab(2).Control(6)=   "lblQuant"
+      Tab(2).Control(7)=   "Label26"
+      Tab(2).Control(8)=   "Label25"
       Tab(2).ControlCount=   9
       Begin VB.Frame Frame5 
          Caption         =   "Tipo"
@@ -186,7 +186,7 @@ Begin VB.Form Clientes_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   735
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   76
          Top             =   4920
          Width           =   1455
@@ -228,7 +228,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_Consulta 
          Height          =   4215
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   73
          Top             =   420
          Width           =   12615
@@ -252,7 +252,7 @@ Begin VB.Form Clientes_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   855
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   65
          Top             =   5700
          Width           =   1455
@@ -322,7 +322,7 @@ Begin VB.Form Clientes_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1635
-         Left            =   1620
+         Left            =   -73380
          TabIndex        =   61
          Top             =   4920
          Width           =   11115
@@ -464,7 +464,7 @@ Begin VB.Form Clientes_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5595
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   43
          Top             =   1620
          Width           =   10335
@@ -998,7 +998,7 @@ Begin VB.Form Clientes_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   38
          Top             =   480
          Width           =   10335
@@ -1118,7 +1118,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   555
-         Left            =   9240
+         Left            =   -65760
          TabIndex        =   35
          Top             =   6600
          Width           =   1695
@@ -1157,7 +1157,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   555
-         Left            =   10980
+         Left            =   -64020
          TabIndex        =   36
          Top             =   6600
          Width           =   1695
@@ -1209,7 +1209,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   85
          Top             =   1860
          Width           =   2175
@@ -1248,7 +1248,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   86
          Top             =   2520
          Width           =   2175
@@ -1287,7 +1287,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   87
          Top             =   3180
          Width           =   2175
@@ -1326,7 +1326,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   88
          Top             =   1200
          Width           =   2175
@@ -1365,7 +1365,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -1404,7 +1404,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   95
          Top             =   3840
          Width           =   2175
@@ -1595,7 +1595,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdConsultarCNPJ 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   102
          Top             =   4980
          Width           =   2175
@@ -1633,7 +1633,7 @@ Begin VB.Form Clientes_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdConsultarIE 
          Height          =   615
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   103
          Top             =   5640
          Width           =   2175
@@ -1725,7 +1725,7 @@ Begin VB.Form Clientes_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   11760
+         Left            =   -63240
          TabIndex        =   64
          Top             =   4680
          Width           =   225
@@ -1735,7 +1735,7 @@ Begin VB.Form Clientes_Cadastro
          BackStyle       =   0  'Transparent
          Caption         =   "Registros"
          Height          =   195
-         Left            =   12060
+         Left            =   -62940
          TabIndex        =   63
          Top             =   4680
          Width           =   660
@@ -1745,7 +1745,7 @@ Begin VB.Form Clientes_Cadastro
          Caption         =   "Dê um duplo-clique para ver mais informações"
          ForeColor       =   &H00008000&
          Height          =   195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   62
          Top             =   4680
          Width           =   3255
@@ -1774,7 +1774,7 @@ Begin VB.Form Clientes_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "07:29"
+            TextSave        =   "21:09"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2724,7 +2724,7 @@ Unload REL_Clientes_Historico
 Me.Show 1
 End Sub
 
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Label32.ForeColor = vbBlack
 Label32.Font.Bold = False
 End Sub
@@ -2749,7 +2749,7 @@ End Sub
 
 
 
-Private Sub Label32_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
+Private Sub Label32_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
 Label32.ForeColor = vbRed
 Label32.Font.Bold = True
 End Sub
@@ -3197,7 +3197,7 @@ End Sub
 
 'Acrescentado o paramento rTabela para passa a consulta realizada
 Private Sub FormatarGrid_Historico(rTabela As Recordset)
-   Dim i As Integer, x As Integer
+   Dim i As Integer, X As Integer
    
    With Grid_Historico
       .Clear
@@ -3226,8 +3226,8 @@ Private Sub FormatarGrid_Historico(rTabela As Recordset)
       .TextMatrix(0, 9) = "VENDA"
       
       'colocar os cabeçalho em negrito
-      For x = 0 To .Cols - 1
-         .Col = x
+      For X = 0 To .Cols - 1
+         .Col = X
          .Row = 0
          .CellFontBold = True
       Next
@@ -3293,7 +3293,7 @@ End Function
 
 'Acrescentado o paramento rTabela para passa a consulta realizada
 Private Sub FormatarGrid_Consulta(rTabela As Recordset)
-Dim i As Integer, x As Integer
+Dim i As Integer, X As Integer
 
 With Grid_Consulta
    .Enabled = False
@@ -3314,8 +3314,8 @@ With Grid_Consulta
    .ColWidth(10) = 950
    .ColWidth(9) = 1300
    
-   For x = 0 To .Cols - 1
-      .Col = x
+   For X = 0 To .Cols - 1
+      .Col = X
       .Row = 0
       .CellFontBold = True
    Next

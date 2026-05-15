@@ -1,12 +1,12 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Contador_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "FORNECEDORES"
+   Caption         =   "CONTABILIDADE"
    ClientHeight    =   5475
    ClientLeft      =   -870
    ClientTop       =   435
@@ -60,9 +60,9 @@ Begin VB.Form Contador_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Contador_Cadastro.frx":23EE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdImprimir"
+      Tab(1).Control(0)=   "Grid"
       Tab(1).Control(1)=   "Picture1"
-      Tab(1).Control(2)=   "Grid"
+      Tab(1).Control(2)=   "cmdImprimir"
       Tab(1).ControlCount=   3
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   435
@@ -763,7 +763,7 @@ Begin VB.Form Contador_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:55"
+            TextSave        =   "08:36"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
