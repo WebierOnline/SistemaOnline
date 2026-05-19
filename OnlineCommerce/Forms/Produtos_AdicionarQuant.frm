@@ -117,6 +117,44 @@ Begin VB.Form Produtos_AdicionarQuant
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdExato 
+         Height          =   315
+         Left            =   5700
+         TabIndex        =   20
+         Top             =   360
+         Width           =   1635
+         _ExtentX        =   2884
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "Exato"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Produtos_AdicionarQuant.frx":240A
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -178,13 +216,23 @@ Begin VB.Form Produtos_AdicionarQuant
       End
       Begin VB.TextBox txtQuant 
          Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   315
          Left            =   9960
          Locked          =   -1  'True
          TabIndex        =   5
          TabStop         =   0   'False
          Top             =   480
-         Width           =   1095
+         Width           =   1395
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
@@ -261,7 +309,7 @@ Begin VB.Form Produtos_AdicionarQuant
       Begin VB.Image Image1 
          Height          =   645
          Left            =   300
-         Picture         =   "Produtos_AdicionarQuant.frx":240A
+         Picture         =   "Produtos_AdicionarQuant.frx":2426
          Top             =   0
          Width           =   735
       End
@@ -304,15 +352,15 @@ Begin VB.Form Produtos_AdicionarQuant
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   16060
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:14"
+            TextSave        =   "19:19"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -358,8 +406,8 @@ Begin VB.Form Produtos_AdicionarQuant
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Produtos_AdicionarQuant.frx":877A
-      PICN            =   "Produtos_AdicionarQuant.frx":8796
+      MICON           =   "Produtos_AdicionarQuant.frx":8796
+      PICN            =   "Produtos_AdicionarQuant.frx":87B2
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -387,6 +435,21 @@ Private Sub cmdAdicionar_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim AutoNumeracao As Long
+Dim dNova As Double
+Dim dAtual As Double
+
+If Len(Trim(txtQuantNova.Text)) = 0 Or Not IsNumeric(txtQuantNova.Text) Then
+   MsgBox "Digite uma quantidade v·lida.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dNova = Val(Replace(Replace(txtQuantNova.Text, ".", ""), ",", "."))
+If dNova <= 0 Then
+   MsgBox "A quantidade deve ser maior que zero.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dAtual = Val(Replace(Replace(txtQuant.Text, ".", ""), ",", "."))
 
 'AUTONUMERA«√O
 sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM Produtos_Quant;"
@@ -399,11 +462,11 @@ Set r = Nothing
 If ShowMsg("Deseja adicionar mais itens no produto: " & txtDescricao.Text & " ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
 sSQL = "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
-   AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & Replace(CDbl(txtQuantNova.Text), ",", ".") & ", 'ADI«√O', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CDbl(txtQuant.Text), ",", ".") & ");"
+   AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & Replace(CDbl(txtQuantNova.Text), ",", ".") & ", 'ADI«√O', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CStr(dAtual + dNova), ",", ".") & ");"
 dbData.Execute sSQL
 
 'Atualiza o estoque do produto
-dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(txtQuantNova.Text, ",", ".") & " WHERE (codigo = " & txtCodProduto.Text & ");"
+dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CStr(dNova), ",", ".") & " WHERE (codigo = " & txtCodProduto.Text & ");"
 
 cmdSair_Click
 End Sub
@@ -416,8 +479,28 @@ Private Sub cmdRemover_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim AutoNumeracao As Long
+Dim dNova As Double
+Dim dAtual As Double
 
-'AUTONUMERA«√O
+If Len(Trim(txtQuantNova.Text)) = 0 Or Not IsNumeric(txtQuantNova.Text) Then
+   MsgBox "Digite uma quantidade v·lida.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dNova = Val(Replace(Replace(txtQuantNova.Text, ".", ""), ",", "."))
+If dNova <= 0 Then
+   MsgBox "A quantidade deve ser maior que zero.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dAtual = Val(Replace(Replace(txtQuant.Text, ".", ""), ",", "."))
+If dNova > dAtual Then
+   MsgBox "Quantidade a remover (" & txtQuantNova.Text & ") È maior que o estoque atual (" & txtQuant.Text & ").", vbExclamation, "Estoque insuficiente"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+
+'AUTONUMERAÁ√O
 sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM Produtos_Quant;"
 Set r = dbData.OpenRecordset(sSQL)
 
@@ -429,11 +512,64 @@ If ShowMsg("Deseja remover mais itens no produto: " & txtDescricao.Text & " ?", 
 
 
 sSQL = "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
-   AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & Replace(CDbl(txtQuantNova.Text), ",", ".") & ", 'REMO«√O', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CDbl(txtQuant.Text), ",", ".") & ");"
+   AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & Replace(CDbl(txtQuantNova.Text), ",", ".") & ", 'REMO«√O', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CStr(dAtual - dNova), ",", ".") & ");"
 dbData.Execute sSQL
 
 'Atualiza o estoque do produto
-dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(txtQuantNova.Text, ",", ".") & " WHERE (codigo = " & txtCodProduto.Text & ");"
+dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CStr(dNova), ",", ".") & " WHERE (codigo = " & txtCodProduto.Text & ");"
+
+cmdSair_Click
+End Sub
+
+Private Sub cmdExato_Click()
+Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim AutoNumeracao As Long
+Dim dExato As Double
+Dim dAtual As Double
+Dim dDiff As Double
+Dim sTipo As String
+
+If Len(Trim(txtQuantNova.Text)) = 0 Or Not IsNumeric(txtQuantNova.Text) Then
+   MsgBox "Digite uma quantidade v·lida.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dExato = Val(Replace(Replace(txtQuantNova.Text, ".", ""), ",", "."))
+If dExato < 0 Then
+   MsgBox "A quantidade n„o pode ser negativa.", vbExclamation, "Quantidade inv·lida"
+   txtQuantNova.SetFocus
+   Exit Sub
+End If
+dAtual = Val(Replace(Replace(txtQuant.Text, ".", ""), ",", "."))
+dDiff = dExato - dAtual
+
+If dDiff = 0 Then
+   MsgBox "O estoque j· est· em " & txtQuantNova.Text & ". Nenhuma alteraÁ„o necess·ria.", vbInformation, "Exato"
+   Exit Sub
+End If
+
+If dDiff > 0 Then
+   sTipo = "ADI«√O"
+Else
+   sTipo = "REMO«√O"
+End If
+
+If ShowMsg("Deseja ajustar o estoque de " & txtDescricao.Text & " para " & txtQuantNova.Text & " unidade(s)?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+
+'AUTONUMERA«√O
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM Produtos_Quant;"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then AutoNumeracao = r("cod_itens") + 1
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+sSQL = "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
+   AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & Replace(CStr(Abs(dDiff)), ",", ".") & ", '" & sTipo & "', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CStr(dExato), ",", ".") & ");"
+dbData.Execute sSQL
+
+'Ajusta o estoque para o valor exato
+dbData.Execute "UPDATE produtos SET quant_estoque = " & Replace(CStr(dExato), ",", ".") & " WHERE (codigo = " & txtCodProduto.Text & ");"
 
 cmdSair_Click
 End Sub
