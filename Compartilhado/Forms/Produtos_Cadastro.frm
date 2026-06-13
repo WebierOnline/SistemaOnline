@@ -26,7 +26,7 @@ Begin VB.Form Produtos_Cadastro
       Left            =   60
       ScaleHeight     =   480
       ScaleWidth      =   14265
-      TabIndex        =   67
+      TabIndex        =   71
       Top             =   60
       Width           =   14295
       Begin VB.TextBox txtCodigo 
@@ -43,7 +43,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          Height          =   315
          Left            =   13020
-         TabIndex        =   70
+         TabIndex        =   74
          TabStop         =   0   'False
          Top             =   85
          Width           =   1155
@@ -73,7 +73,7 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1320
-         TabIndex        =   68
+         TabIndex        =   72
          Top             =   85
          Width           =   1770
       End
@@ -82,7 +82,7 @@ Begin VB.Form Produtos_Cadastro
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   69
+      TabIndex        =   73
       Top             =   9900
       Width           =   14430
       _ExtentX        =   25453
@@ -101,7 +101,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "07:43"
+            TextSave        =   "09:48"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -122,13 +122,14 @@ Begin VB.Form Produtos_Cadastro
    Begin TabDlg.SSTab SSTab1 
       Height          =   9315
       Left            =   60
-      TabIndex        =   71
+      TabIndex        =   75
       Top             =   600
       Width           =   14295
       _ExtentX        =   25215
       _ExtentY        =   16431
       _Version        =   393216
       Tabs            =   4
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabMaxWidth     =   3175
@@ -143,108 +144,106 @@ Begin VB.Form Produtos_Cadastro
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Produtos_Cadastro.frx":2B2D
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "Line1"
-      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label15"
-      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Label58(0)"
-      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Label58(1)"
-      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "frmComp"
-      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).Control(5)=   "cmdSair"
-      Tab(0).Control(5).Enabled=   0   'False
       Tab(0).Control(6)=   "cmdNovo"
-      Tab(0).Control(6).Enabled=   0   'False
       Tab(0).Control(7)=   "cmdSalvar"
-      Tab(0).Control(7).Enabled=   0   'False
       Tab(0).Control(8)=   "cmdExcluir"
-      Tab(0).Control(8).Enabled=   0   'False
       Tab(0).Control(9)=   "cmdAlterar"
-      Tab(0).Control(9).Enabled=   0   'False
       Tab(0).Control(10)=   "cmdCancelar"
-      Tab(0).Control(10).Enabled=   0   'False
       Tab(0).Control(11)=   "txtUltCompra"
       Tab(0).Control(11).Enabled=   0   'False
       Tab(0).Control(12)=   "frmPrecos"
-      Tab(0).Control(12).Enabled=   0   'False
       Tab(0).Control(13)=   "frmDados"
-      Tab(0).Control(13).Enabled=   0   'False
       Tab(0).Control(14)=   "txtTam"
-      Tab(0).Control(14).Enabled=   0   'False
       Tab(0).Control(15)=   "frmReferencia"
-      Tab(0).Control(15).Enabled=   0   'False
       Tab(0).Control(16)=   "frmGas"
-      Tab(0).Control(16).Enabled=   0   'False
       Tab(0).Control(17)=   "frmFracionado"
-      Tab(0).Control(17).Enabled=   0   'False
       Tab(0).Control(18)=   "SSTab2"
-      Tab(0).Control(18).Enabled=   0   'False
       Tab(0).ControlCount=   19
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Produtos_Cadastro.frx":2B49
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Label25"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdDesativar"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdApagar"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "cmdEditar"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "ccmdDuplicar"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "cmdExibir"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "cmdImprimir"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "Grid"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "frmOrdemComum"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "frmCriterios"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "frmVenda"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "frmFiltroComum"
+      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "frmSituacao"
+      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).Control(13)=   "frmFiltro"
+      Tab(1).Control(13).Enabled=   0   'False
       Tab(1).Control(14)=   "Frame6"
+      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "QUANTIDADES"
       TabPicture(2)   =   "Produtos_Cadastro.frx":2B65
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label28"
-      Tab(2).Control(1)=   "Label27"
-      Tab(2).Control(2)=   "lblQuantRemocao"
-      Tab(2).Control(3)=   "lblQuantAdicao"
+      Tab(2).Control(0)=   "Frame5(0)"
+      Tab(2).Control(1)=   "Grid_Quant"
+      Tab(2).Control(2)=   "Label40"
+      Tab(2).Control(3)=   "lblEstoqueHoje"
       Tab(2).Control(4)=   "lblNomeProduto1"
-      Tab(2).Control(5)=   "lblEstoqueHoje"
-      Tab(2).Control(6)=   "Label40"
-      Tab(2).Control(7)=   "Grid_Quant"
-      Tab(2).Control(8)=   "Frame5(0)"
+      Tab(2).Control(5)=   "lblQuantAdicao"
+      Tab(2).Control(6)=   "lblQuantRemocao"
+      Tab(2).Control(7)=   "Label27"
+      Tab(2).Control(8)=   "Label28"
       Tab(2).ControlCount=   9
       TabCaption(3)   =   "PREÇOS"
       TabPicture(3)   =   "Produtos_Cadastro.frx":2B81
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame5(1)"
+      Tab(3).Control(0)=   "lblNomeProduto2"
       Tab(3).Control(1)=   "GridPrecos"
-      Tab(3).Control(2)=   "lblNomeProduto2"
+      Tab(3).Control(2)=   "Frame5(1)"
       Tab(3).ControlCount=   3
       Begin TabDlg.SSTab SSTab2 
          Height          =   2775
-         Left            =   120
-         TabIndex        =   211
+         Left            =   -74880
+         TabIndex        =   215
          Top             =   3840
          Width           =   11775
          _ExtentX        =   20770
          _ExtentY        =   4895
          _Version        =   393216
          Tabs            =   2
+         Tab             =   1
          TabsPerRow      =   2
          TabHeight       =   520
          TabMaxWidth     =   3528
          TabCaption(0)   =   "Principais"
          TabPicture(0)   =   "Produtos_Cadastro.frx":2B9D
-         Tab(0).ControlEnabled=   -1  'True
+         Tab(0).ControlEnabled=   0   'False
          Tab(0).Control(0)=   "frmFiscal"
-         Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Reforma Tributária"
          TabPicture(1)   =   "Produtos_Cadastro.frx":2BB9
-         Tab(1).ControlEnabled=   0   'False
+         Tab(1).ControlEnabled=   -1  'True
          Tab(1).Control(0)=   "Frame7"
+         Tab(1).Control(0).Enabled=   0   'False
          Tab(1).ControlCount=   1
          Begin VB.Frame Frame7 
             Caption         =   "IBS e CBS"
@@ -258,15 +257,22 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2115
-            Left            =   -74880
-            TabIndex        =   234
+            Left            =   120
+            TabIndex        =   238
             Top             =   420
             Width           =   11535
-            Begin VB.ComboBox cboTipoIS 
+            Begin VB.TextBox txtISFatorConv 
                Height          =   315
                Left            =   2940
+               TabIndex        =   50
+               Top             =   1140
+               Width           =   975
+            End
+            Begin VB.ComboBox cboTipoIS 
+               Height          =   315
+               Left            =   3960
                Style           =   2  'Dropdown List
-               TabIndex        =   248
+               TabIndex        =   51
                Top             =   1140
                Width           =   960
             End
@@ -275,7 +281,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   315
                Left            =   1800
                Style           =   2  'Dropdown List
-               TabIndex        =   244
+               TabIndex        =   47
                Top             =   540
                Width           =   1275
             End
@@ -284,7 +290,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   315
                Left            =   1800
                Style           =   2  'Dropdown List
-               TabIndex        =   243
+               TabIndex        =   49
                Top             =   1140
                Width           =   1095
             End
@@ -293,7 +299,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   315
                Left            =   120
                Style           =   2  'Dropdown List
-               TabIndex        =   50
+               TabIndex        =   48
                Top             =   1140
                Width           =   1635
             End
@@ -305,6 +311,25 @@ Begin VB.Form Produtos_Cadastro
                TabIndex        =   46
                Top             =   540
                Width           =   1635
+            End
+            Begin VB.Label Label60 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Fator Conv."
+               BeginProperty Font 
+                  Name            =   "Arial Narrow"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   225
+               Left            =   2940
+               TabIndex        =   252
+               Top             =   900
+               Width           =   750
             End
             Begin VB.Label lblISCSTClass 
                AutoSize        =   -1  'True
@@ -319,8 +344,8 @@ Begin VB.Form Produtos_Cadastro
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   225
-               Left            =   3900
-               TabIndex        =   47
+               Left            =   4920
+               TabIndex        =   52
                Top             =   1260
                Width           =   765
             End
@@ -338,7 +363,7 @@ Begin VB.Form Produtos_Cadastro
                EndProperty
                Height          =   225
                Left            =   3120
-               TabIndex        =   48
+               TabIndex        =   53
                Top             =   660
                Width           =   990
             End
@@ -355,8 +380,8 @@ Begin VB.Form Produtos_Cadastro
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   225
-               Left            =   3900
-               TabIndex        =   49
+               Left            =   4920
+               TabIndex        =   54
                Top             =   1080
                Width           =   450
             End
@@ -374,7 +399,7 @@ Begin VB.Form Produtos_Cadastro
                EndProperty
                Height          =   225
                Left            =   3120
-               TabIndex        =   51
+               TabIndex        =   55
                Top             =   480
                Width           =   600
             End
@@ -394,7 +419,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   225
                Index           =   8
                Left            =   1800
-               TabIndex        =   246
+               TabIndex        =   248
                Top             =   900
                Width           =   630
             End
@@ -414,7 +439,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   225
                Index           =   7
                Left            =   1800
-               TabIndex        =   245
+               TabIndex        =   247
                Top             =   300
                Width           =   1050
             End
@@ -432,7 +457,7 @@ Begin VB.Form Produtos_Cadastro
                EndProperty
                Height          =   225
                Left            =   180
-               TabIndex        =   242
+               TabIndex        =   246
                Top             =   1680
                Width           =   1200
             End
@@ -452,7 +477,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   225
                Index           =   0
                Left            =   180
-               TabIndex        =   237
+               TabIndex        =   241
                Top             =   1440
                Width           =   5505
             End
@@ -472,7 +497,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   225
                Index           =   4
                Left            =   120
-               TabIndex        =   236
+               TabIndex        =   240
                Top             =   900
                Width           =   450
             End
@@ -492,7 +517,7 @@ Begin VB.Form Produtos_Cadastro
                Height          =   225
                Index           =   1
                Left            =   120
-               TabIndex        =   235
+               TabIndex        =   239
                Top             =   300
                Width           =   870
             End
@@ -509,15 +534,15 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2355
-            Left            =   60
-            TabIndex        =   212
+            Left            =   -74940
+            TabIndex        =   216
             Top             =   360
             Width           =   11595
             Begin VB.Frame frmPrincipal 
                Caption         =   "Saída"
                Height          =   915
                Left            =   120
-               TabIndex        =   232
+               TabIndex        =   236
                Top             =   300
                Width           =   1815
                Begin ChamaleonBtn.chameleonButton cmdBuscarNCM 
@@ -573,7 +598,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "NCM"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   233
+                  TabIndex        =   237
                   Top             =   240
                   Width           =   360
                End
@@ -582,7 +607,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "ICMS"
                Height          =   915
                Left            =   1980
-               TabIndex        =   227
+               TabIndex        =   231
                Top             =   300
                Width           =   4515
                Begin VB.ComboBox cboCFOP 
@@ -633,7 +658,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "CFOP"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   249
+                  TabIndex        =   250
                   Top             =   240
                   Width           =   420
                End
@@ -643,7 +668,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "ICMS %"
                   Height          =   195
                   Left            =   1980
-                  TabIndex        =   231
+                  TabIndex        =   235
                   Top             =   240
                   Width           =   555
                End
@@ -653,7 +678,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "ICMS CST"
                   Height          =   195
                   Left            =   1080
-                  TabIndex        =   230
+                  TabIndex        =   234
                   Top             =   240
                   Width           =   750
                End
@@ -663,7 +688,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "Red. BC %"
                   Height          =   195
                   Left            =   2700
-                  TabIndex        =   229
+                  TabIndex        =   233
                   Top             =   240
                   Width           =   765
                End
@@ -673,7 +698,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "Mob BC"
                   Height          =   195
                   Left            =   3600
-                  TabIndex        =   228
+                  TabIndex        =   232
                   Top             =   240
                   Width           =   570
                End
@@ -682,7 +707,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "PIS e COFINS"
                Height          =   915
                Left            =   6540
-               TabIndex        =   222
+               TabIndex        =   226
                Top             =   300
                Width           =   3435
                Begin VB.TextBox txtCofinsAliquota 
@@ -719,7 +744,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "COFINS %"
                   Height          =   195
                   Left            =   2460
-                  TabIndex        =   226
+                  TabIndex        =   230
                   Top             =   240
                   Width           =   750
                End
@@ -729,7 +754,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "PIS %"
                   Height          =   195
                   Left            =   840
-                  TabIndex        =   225
+                  TabIndex        =   229
                   Top             =   240
                   Width           =   420
                End
@@ -739,7 +764,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "PIS CST"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   224
+                  TabIndex        =   228
                   Top             =   240
                   Width           =   615
                End
@@ -749,7 +774,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "COFINS CST"
                   Height          =   195
                   Left            =   1440
-                  TabIndex        =   223
+                  TabIndex        =   227
                   Top             =   240
                   Width           =   945
                End
@@ -758,7 +783,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "IPI"
                Height          =   915
                Left            =   10020
-               TabIndex        =   219
+               TabIndex        =   223
                Top             =   300
                Width           =   1455
                Begin VB.TextBox txtIPIAliquota 
@@ -782,7 +807,7 @@ Begin VB.Form Produtos_Cadastro
                   Height          =   195
                   Index           =   0
                   Left            =   780
-                  TabIndex        =   221
+                  TabIndex        =   225
                   Top             =   240
                   Width           =   360
                End
@@ -792,7 +817,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "IPI CST"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   220
+                  TabIndex        =   224
                   Top             =   240
                   Width           =   555
                End
@@ -801,7 +826,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "ICMSST"
                Height          =   855
                Left            =   60
-               TabIndex        =   213
+               TabIndex        =   217
                Top             =   1440
                Width           =   6015
                Begin VB.TextBox txtSTAliq 
@@ -847,7 +872,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "Alíquota ST"
                   Height          =   195
                   Left            =   2220
-                  TabIndex        =   218
+                  TabIndex        =   222
                   Top             =   240
                   Width           =   855
                End
@@ -857,7 +882,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "MVA %"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   217
+                  TabIndex        =   221
                   Top             =   240
                   Width           =   510
                End
@@ -867,7 +892,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "Red. BC ST %"
                   Height          =   195
                   Left            =   1020
-                  TabIndex        =   216
+                  TabIndex        =   220
                   Top             =   240
                   Width           =   1020
                End
@@ -877,7 +902,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "CEST"
                   Height          =   195
                   Left            =   4500
-                  TabIndex        =   215
+                  TabIndex        =   219
                   Top             =   240
                   Width           =   420
                End
@@ -887,7 +912,7 @@ Begin VB.Form Produtos_Cadastro
                   Caption         =   "Mob BC ST"
                   Height          =   195
                   Left            =   3300
-                  TabIndex        =   214
+                  TabIndex        =   218
                   Top             =   240
                   Width           =   825
                End
@@ -985,7 +1010,7 @@ Begin VB.Form Produtos_Cadastro
                ForeColor       =   &H00000080&
                Height          =   225
                Left            =   120
-               TabIndex        =   247
+               TabIndex        =   249
                Top             =   1200
                Width           =   225
             End
@@ -1003,8 +1028,8 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   2520
-         TabIndex        =   202
+         Left            =   -72480
+         TabIndex        =   206
          Top             =   5160
          Visible         =   0   'False
          Width           =   11535
@@ -1012,7 +1037,7 @@ Begin VB.Form Produtos_Cadastro
             BackColor       =   &H00C0FFC0&
             Height          =   315
             Left            =   1140
-            TabIndex        =   63
+            TabIndex        =   67
             Top             =   540
             Width           =   6615
          End
@@ -1021,7 +1046,7 @@ Begin VB.Form Produtos_Cadastro
             Height          =   315
             Left            =   120
             Locked          =   -1  'True
-            TabIndex        =   62
+            TabIndex        =   66
             TabStop         =   0   'False
             Top             =   540
             Width           =   975
@@ -1031,7 +1056,7 @@ Begin VB.Form Produtos_Cadastro
             BackColor       =   &H00C0FFC0&
             Height          =   315
             Left            =   7800
-            TabIndex        =   64
+            TabIndex        =   68
             Top             =   540
             Width           =   1695
          End
@@ -1041,7 +1066,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Cód. Prod."
             Height          =   195
             Left            =   120
-            TabIndex        =   205
+            TabIndex        =   209
             Top             =   300
             Width           =   750
          End
@@ -1051,7 +1076,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Quant. por Embalagem"
             Height          =   195
             Left            =   7800
-            TabIndex        =   204
+            TabIndex        =   208
             Top             =   300
             Width           =   1620
          End
@@ -1061,7 +1086,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Descrição do Produto"
             Height          =   195
             Left            =   1140
-            TabIndex        =   203
+            TabIndex        =   207
             Top             =   300
             Width           =   1545
          End
@@ -1078,8 +1103,8 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   120
-         TabIndex        =   189
+         Left            =   -74880
+         TabIndex        =   193
          Top             =   7020
          Visible         =   0   'False
          Width           =   11775
@@ -1087,7 +1112,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   10620
-            TabIndex        =   61
+            TabIndex        =   65
             Top             =   540
             Width           =   795
          End
@@ -1096,7 +1121,7 @@ Begin VB.Form Produtos_Cadastro
             Height          =   315
             Left            =   1140
             MaxLength       =   8
-            TabIndex        =   55
+            TabIndex        =   59
             Top             =   540
             Width           =   3975
          End
@@ -1104,7 +1129,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   5160
-            TabIndex        =   56
+            TabIndex        =   60
             Top             =   540
             Width           =   975
          End
@@ -1112,7 +1137,7 @@ Begin VB.Form Produtos_Cadastro
             BackColor       =   &H00C0FFFF&
             Height          =   315
             Left            =   120
-            TabIndex        =   54
+            TabIndex        =   58
             Top             =   540
             Width           =   975
          End
@@ -1120,7 +1145,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   8280
-            TabIndex        =   59
+            TabIndex        =   63
             Top             =   540
             Width           =   1035
          End
@@ -1128,7 +1153,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   6180
-            TabIndex        =   57
+            TabIndex        =   61
             Top             =   540
             Width           =   975
          End
@@ -1136,7 +1161,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   7200
-            TabIndex        =   58
+            TabIndex        =   62
             Top             =   540
             Width           =   1035
          End
@@ -1144,7 +1169,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   9360
-            TabIndex        =   60
+            TabIndex        =   64
             Top             =   540
             Width           =   1215
          End
@@ -1154,7 +1179,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "CODIF"
             Height          =   195
             Left            =   10620
-            TabIndex        =   197
+            TabIndex        =   201
             Top             =   300
             Width           =   480
          End
@@ -1164,7 +1189,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Descrição ANP"
             Height          =   195
             Left            =   1140
-            TabIndex        =   196
+            TabIndex        =   200
             Top             =   300
             Width           =   1095
          End
@@ -1174,7 +1199,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "GLP (%)"
             Height          =   195
             Left            =   5160
-            TabIndex        =   195
+            TabIndex        =   199
             Top             =   300
             Width           =   570
          End
@@ -1184,7 +1209,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Cód. ANP"
             Height          =   195
             Left            =   120
-            TabIndex        =   194
+            TabIndex        =   198
             Top             =   300
             Width           =   705
          End
@@ -1194,7 +1219,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Gás Mix (%)"
             Height          =   195
             Left            =   8280
-            TabIndex        =   193
+            TabIndex        =   197
             Top             =   300
             Width           =   825
          End
@@ -1204,7 +1229,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Gás Nat. (%)"
             Height          =   195
             Left            =   6180
-            TabIndex        =   192
+            TabIndex        =   196
             Top             =   300
             Width           =   885
          End
@@ -1214,7 +1239,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Gás Import.(%)"
             Height          =   195
             Left            =   7200
-            TabIndex        =   191
+            TabIndex        =   195
             Top             =   300
             Width           =   1020
          End
@@ -1224,7 +1249,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Valor de Partida"
             Height          =   195
             Left            =   9360
-            TabIndex        =   190
+            TabIndex        =   194
             Top             =   300
             Width           =   1125
          End
@@ -1241,16 +1266,16 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -73140
-         TabIndex        =   181
+         Left            =   1860
+         TabIndex        =   185
          Top             =   6900
          Width           =   1275
          Begin VB.OptionButton optTodosPreco 
             Caption         =   "Todos"
             Height          =   195
             Left            =   120
-            TabIndex        =   184
-            Top             =   720
+            TabIndex        =   188
+            Top             =   540
             Value           =   -1  'True
             Width           =   975
          End
@@ -1258,16 +1283,16 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Com Preço"
             Height          =   195
             Left            =   120
-            TabIndex        =   183
-            Top             =   240
+            TabIndex        =   187
+            Top             =   180
             Width           =   1095
          End
          Begin VB.OptionButton optSemPreco 
             Caption         =   "Sem Preço"
             Height          =   195
             Left            =   120
-            TabIndex        =   182
-            Top             =   480
+            TabIndex        =   186
+            Top             =   360
             Width           =   1095
          End
       End
@@ -1283,14 +1308,14 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2235
-         Left            =   7380
-         TabIndex        =   172
+         Left            =   -67620
+         TabIndex        =   176
          Top             =   7020
          Width           =   4455
          Begin VB.TextBox txtReferencia 
             Height          =   315
             Left            =   60
-            TabIndex        =   178
+            TabIndex        =   182
             Top             =   480
             Width           =   2175
          End
@@ -1298,7 +1323,7 @@ Begin VB.Form Produtos_Cadastro
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   1920
-            TabIndex        =   173
+            TabIndex        =   177
             Top             =   180
             Visible         =   0   'False
             Width           =   675
@@ -1306,7 +1331,7 @@ Begin VB.Form Produtos_Cadastro
          Begin MSFlexGridLib.MSFlexGrid Grid_Referencia 
             Height          =   1035
             Left            =   60
-            TabIndex        =   174
+            TabIndex        =   178
             Top             =   840
             Width           =   2115
             _ExtentX        =   3731
@@ -1319,7 +1344,7 @@ Begin VB.Form Produtos_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdRemoverReferencia 
             Height          =   315
             Left            =   2220
-            TabIndex        =   175
+            TabIndex        =   179
             Top             =   1860
             Width           =   975
             _ExtentX        =   1720
@@ -1357,7 +1382,7 @@ Begin VB.Form Produtos_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdAdicionarReferencia 
             Height          =   315
             Left            =   2280
-            TabIndex        =   176
+            TabIndex        =   180
             Top             =   480
             Width           =   915
             _ExtentX        =   1614
@@ -1395,7 +1420,7 @@ Begin VB.Form Produtos_Cadastro
          Begin MSFlexGridLib.MSFlexGrid Grid_Referencia_Desc 
             Height          =   1035
             Left            =   2220
-            TabIndex        =   179
+            TabIndex        =   183
             Top             =   840
             Width           =   2115
             _ExtentX        =   3731
@@ -1409,7 +1434,7 @@ Begin VB.Form Produtos_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdDescReferencia 
             Height          =   315
             Left            =   3240
-            TabIndex        =   180
+            TabIndex        =   184
             Top             =   1860
             Width           =   1095
             _ExtentX        =   1931
@@ -1450,16 +1475,16 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Referência"
             Height          =   195
             Left            =   60
-            TabIndex        =   177
+            TabIndex        =   181
             Top             =   240
             Width           =   780
          End
       End
       Begin VB.TextBox txtTam 
          Height          =   315
-         Left            =   12600
+         Left            =   -62400
          MaxLength       =   20
-         TabIndex        =   161
+         TabIndex        =   165
          Top             =   4320
          Visible         =   0   'False
          Width           =   1215
@@ -1476,15 +1501,15 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -74880
-         TabIndex        =   152
+         Left            =   120
+         TabIndex        =   156
          Top             =   6900
          Width           =   1695
          Begin VB.OptionButton optMostrarTodos 
             Caption         =   "Todos"
             Height          =   195
             Left            =   120
-            TabIndex        =   156
+            TabIndex        =   160
             Top             =   720
             Width           =   1095
          End
@@ -1492,7 +1517,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Zerados"
             Height          =   195
             Left            =   120
-            TabIndex        =   155
+            TabIndex        =   159
             Top             =   360
             Width           =   1095
          End
@@ -1500,7 +1525,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Negativos"
             Height          =   195
             Left            =   120
-            TabIndex        =   154
+            TabIndex        =   158
             Top             =   540
             Width           =   1155
          End
@@ -1508,7 +1533,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Com quantidade"
             Height          =   195
             Left            =   120
-            TabIndex        =   153
+            TabIndex        =   157
             Top             =   180
             Value           =   -1  'True
             Width           =   1455
@@ -1526,24 +1551,32 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -71820
-         TabIndex        =   147
+         Left            =   3180
+         TabIndex        =   151
          Top             =   6900
          Width           =   1455
+         Begin VB.OptionButton optSitTodos 
+            Caption         =   "Todos"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   253
+            Top             =   540
+            Width           =   975
+         End
          Begin VB.OptionButton optDesabilitados 
             Caption         =   "Desabilitados"
             Height          =   195
             Left            =   120
-            TabIndex        =   149
-            Top             =   480
+            TabIndex        =   153
+            Top             =   360
             Width           =   1275
          End
          Begin VB.OptionButton optHabilitado 
             Caption         =   "Habilitados"
             Height          =   195
             Left            =   120
-            TabIndex        =   148
-            Top             =   240
+            TabIndex        =   152
+            Top             =   180
             Value           =   -1  'True
             Width           =   1095
          End
@@ -1561,8 +1594,8 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   -69660
-         TabIndex        =   133
+         Left            =   5340
+         TabIndex        =   137
          Top             =   7920
          Visible         =   0   'False
          Width           =   5715
@@ -1570,7 +1603,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Palavra"
             Height          =   195
             Left            =   3180
-            TabIndex        =   188
+            TabIndex        =   192
             Top             =   240
             Width           =   915
          End
@@ -1578,7 +1611,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Palavras Duplas"
             Height          =   195
             Left            =   4140
-            TabIndex        =   187
+            TabIndex        =   191
             Top             =   240
             Width           =   1515
          End
@@ -1586,7 +1619,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Iniciais"
             Height          =   195
             Left            =   2340
-            TabIndex        =   186
+            TabIndex        =   190
             Top             =   240
             Width           =   795
          End
@@ -1594,7 +1627,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Completo"
             Height          =   195
             Left            =   1320
-            TabIndex        =   185
+            TabIndex        =   189
             Top             =   240
             Value           =   -1  'True
             Width           =   975
@@ -1602,7 +1635,7 @@ Begin VB.Form Produtos_Cadastro
          Begin VB.ComboBox cboConsProduto 
             Height          =   315
             Left            =   120
-            TabIndex        =   134
+            TabIndex        =   138
             Top             =   480
             Visible         =   0   'False
             Width           =   5475
@@ -1611,7 +1644,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Nome"
             Height          =   195
             Left            =   120
-            TabIndex        =   135
+            TabIndex        =   139
             Top             =   240
             Visible         =   0   'False
             Width           =   1515
@@ -1630,14 +1663,14 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   975
-         Left            =   -70320
-         TabIndex        =   125
+         Left            =   4680
+         TabIndex        =   129
          Top             =   6900
          Width           =   9315
          Begin ChamaleonBtn.chameleonButton cmd 
             Height          =   675
             Left            =   7800
-            TabIndex        =   201
+            TabIndex        =   205
             Top             =   180
             Width           =   1395
             _ExtentX        =   2461
@@ -1689,7 +1722,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   3600
-            TabIndex        =   151
+            TabIndex        =   155
             Top             =   240
             Width           =   1080
          End
@@ -1711,7 +1744,7 @@ Begin VB.Form Produtos_Cadastro
             ForeColor       =   &H000000C0&
             Height          =   255
             Left            =   4860
-            TabIndex        =   150
+            TabIndex        =   154
             Top             =   240
             Width           =   1545
          End
@@ -1731,7 +1764,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   100
-            TabIndex        =   131
+            TabIndex        =   135
             Top             =   480
             Width           =   1710
          End
@@ -1753,7 +1786,7 @@ Begin VB.Form Produtos_Cadastro
             ForeColor       =   &H00000000&
             Height          =   255
             Left            =   1920
-            TabIndex        =   130
+            TabIndex        =   134
             Top             =   480
             Width           =   1425
          End
@@ -1775,7 +1808,7 @@ Begin VB.Form Produtos_Cadastro
             ForeColor       =   &H000000C0&
             Height          =   255
             Left            =   4860
-            TabIndex        =   129
+            TabIndex        =   133
             Top             =   480
             Width           =   1545
          End
@@ -1795,7 +1828,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   3600
-            TabIndex        =   128
+            TabIndex        =   132
             Top             =   480
             Width           =   1140
          End
@@ -1817,7 +1850,7 @@ Begin VB.Form Produtos_Cadastro
             ForeColor       =   &H00000000&
             Height          =   255
             Left            =   1920
-            TabIndex        =   127
+            TabIndex        =   131
             Top             =   240
             Width           =   1425
          End
@@ -1837,7 +1870,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   100
-            TabIndex        =   126
+            TabIndex        =   130
             Top             =   240
             Width           =   1380
          End
@@ -1854,8 +1887,8 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1875
-         Left            =   120
-         TabIndex        =   105
+         Left            =   -74880
+         TabIndex        =   109
          Top             =   420
          Width           =   11775
          Begin VB.ComboBox cboTAGs 
@@ -1897,7 +1930,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   2700
-            TabIndex        =   210
+            TabIndex        =   214
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1335
@@ -1915,7 +1948,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   7320
-            TabIndex        =   200
+            TabIndex        =   204
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1515
@@ -1933,7 +1966,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   8880
-            TabIndex        =   199
+            TabIndex        =   203
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1275
@@ -1951,7 +1984,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   5880
-            TabIndex        =   198
+            TabIndex        =   202
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1395
@@ -1976,7 +2009,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   120
-            TabIndex        =   160
+            TabIndex        =   164
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1275
@@ -1994,7 +2027,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   10200
-            TabIndex        =   157
+            TabIndex        =   161
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1515
@@ -2055,7 +2088,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   195
             Left            =   1440
-            TabIndex        =   106
+            TabIndex        =   110
             TabStop         =   0   'False
             Top             =   1560
             Width           =   1215
@@ -2144,7 +2177,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Tags"
             Height          =   195
             Left            =   2700
-            TabIndex        =   250
+            TabIndex        =   251
             Top             =   900
             Width           =   360
          End
@@ -2156,7 +2189,7 @@ Begin VB.Form Produtos_Cadastro
             Height          =   195
             Index           =   2
             Left            =   8100
-            TabIndex        =   241
+            TabIndex        =   245
             Top             =   900
             Width           =   495
          End
@@ -2168,7 +2201,7 @@ Begin VB.Form Produtos_Cadastro
             Height          =   195
             Index           =   0
             Left            =   6660
-            TabIndex        =   240
+            TabIndex        =   244
             Top             =   900
             Width           =   840
          End
@@ -2178,7 +2211,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Ref."
             Height          =   195
             Left            =   7200
-            TabIndex        =   163
+            TabIndex        =   167
             Top             =   120
             Width           =   300
          End
@@ -2188,7 +2221,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Categoria"
             Height          =   195
             Left            =   120
-            TabIndex        =   116
+            TabIndex        =   120
             Top             =   900
             Width           =   675
          End
@@ -2198,7 +2231,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Descrição"
             Height          =   195
             Left            =   3180
-            TabIndex        =   115
+            TabIndex        =   119
             Top             =   240
             Width           =   720
          End
@@ -2208,7 +2241,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Unid."
             Height          =   195
             Left            =   10980
-            TabIndex        =   114
+            TabIndex        =   118
             Top             =   240
             Width           =   375
          End
@@ -2218,7 +2251,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Fabricante"
             Height          =   195
             Left            =   8880
-            TabIndex        =   113
+            TabIndex        =   117
             Top             =   240
             Width           =   750
          End
@@ -2228,7 +2261,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Cód. de Venda"
             Height          =   195
             Left            =   120
-            TabIndex        =   112
+            TabIndex        =   116
             Top             =   240
             Width           =   1065
          End
@@ -2238,7 +2271,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Informações Adicionais"
             Height          =   195
             Left            =   8760
-            TabIndex        =   111
+            TabIndex        =   115
             Top             =   900
             Width           =   1635
          End
@@ -2248,7 +2281,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Qtde. Atual"
             Height          =   195
             Left            =   5280
-            TabIndex        =   110
+            TabIndex        =   114
             Top             =   900
             Width           =   795
          End
@@ -2260,7 +2293,7 @@ Begin VB.Form Produtos_Cadastro
             Height          =   195
             Index           =   1
             Left            =   1740
-            TabIndex        =   109
+            TabIndex        =   113
             Top             =   240
             Width           =   1275
          End
@@ -2270,7 +2303,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Qtde. Min."
             Height          =   195
             Left            =   4380
-            TabIndex        =   108
+            TabIndex        =   112
             Top             =   900
             Width           =   735
          End
@@ -2280,7 +2313,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Local"
             Height          =   195
             Left            =   6120
-            TabIndex        =   107
+            TabIndex        =   111
             Top             =   900
             Width           =   390
          End
@@ -2297,8 +2330,8 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   120
-         TabIndex        =   89
+         Left            =   -74880
+         TabIndex        =   93
          Top             =   2400
          Width           =   11775
          Begin VB.Frame Frame1 
@@ -2314,7 +2347,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   915
             Left            =   1800
-            TabIndex        =   101
+            TabIndex        =   105
             Top             =   180
             Width           =   2415
             Begin VB.TextBox txtMargemVV 
@@ -2387,7 +2420,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Margem %"
                Height          =   195
                Left            =   180
-               TabIndex        =   103
+               TabIndex        =   107
                Top             =   240
                Width           =   735
             End
@@ -2397,7 +2430,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Valor"
                Height          =   195
                Left            =   1140
-               TabIndex        =   102
+               TabIndex        =   106
                Top             =   240
                Width           =   360
             End
@@ -2415,7 +2448,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   915
             Left            =   4260
-            TabIndex        =   98
+            TabIndex        =   102
             Top             =   180
             Width           =   2175
             Begin VB.TextBox txtValorVP 
@@ -2449,7 +2482,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Valor"
                Height          =   195
                Left            =   1140
-               TabIndex        =   100
+               TabIndex        =   104
                Top             =   240
                Width           =   360
             End
@@ -2459,7 +2492,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Margem %"
                Height          =   195
                Left            =   180
-               TabIndex        =   99
+               TabIndex        =   103
                Top             =   240
                Width           =   735
             End
@@ -2477,7 +2510,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   915
             Left            =   6480
-            TabIndex        =   95
+            TabIndex        =   99
             Top             =   180
             Width           =   2175
             Begin VB.TextBox txtMargemAV 
@@ -2511,7 +2544,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Margem %"
                Height          =   195
                Left            =   180
-               TabIndex        =   97
+               TabIndex        =   101
                Top             =   240
                Width           =   735
             End
@@ -2521,7 +2554,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Valor"
                Height          =   195
                Left            =   1140
-               TabIndex        =   96
+               TabIndex        =   100
                Top             =   240
                Width           =   360
             End
@@ -2539,7 +2572,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   915
             Left            =   8700
-            TabIndex        =   92
+            TabIndex        =   96
             Top             =   180
             Width           =   2175
             Begin VB.TextBox txtValorAP 
@@ -2573,7 +2606,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Valor"
                Height          =   195
                Left            =   1140
-               TabIndex        =   94
+               TabIndex        =   98
                Top             =   240
                Width           =   360
             End
@@ -2583,7 +2616,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Margem %"
                Height          =   195
                Left            =   180
-               TabIndex        =   93
+               TabIndex        =   97
                Top             =   240
                Width           =   735
             End
@@ -2601,7 +2634,7 @@ Begin VB.Form Produtos_Cadastro
             EndProperty
             Height          =   915
             Left            =   60
-            TabIndex        =   90
+            TabIndex        =   94
             Top             =   180
             Width           =   1695
             Begin VB.TextBox txtCusto 
@@ -2618,7 +2651,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Último Vlr Custo"
                Height          =   195
                Left            =   120
-               TabIndex        =   91
+               TabIndex        =   95
                Top             =   240
                Width           =   1110
             End
@@ -2639,7 +2672,7 @@ Begin VB.Form Produtos_Cadastro
             ForeColor       =   &H000000FF&
             Height          =   315
             Left            =   1920
-            TabIndex        =   104
+            TabIndex        =   108
             Top             =   1080
             Visible         =   0   'False
             Width           =   3960
@@ -2660,28 +2693,28 @@ Begin VB.Form Produtos_Cadastro
          Height          =   675
          Index           =   0
          Left            =   -74880
-         TabIndex        =   84
+         TabIndex        =   88
          Top             =   7920
          Width           =   13875
          Begin VB.ComboBox cboAnoCons 
             Height          =   315
             Left            =   3480
             Sorted          =   -1  'True
-            TabIndex        =   86
+            TabIndex        =   90
             Top             =   240
             Width           =   1335
          End
          Begin VB.ComboBox cboMes 
             Height          =   315
             Left            =   1740
-            TabIndex        =   85
+            TabIndex        =   89
             Top             =   240
             Width           =   1695
          End
          Begin ChamaleonBtn.chameleonButton cmdExibirQuant 
             Height          =   315
             Left            =   4980
-            TabIndex        =   87
+            TabIndex        =   91
             Top             =   240
             Width           =   1935
             _ExtentX        =   3413
@@ -2723,7 +2756,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "E&scolha o mês/ano:"
             Height          =   195
             Left            =   180
-            TabIndex        =   88
+            TabIndex        =   92
             Top             =   300
             Width           =   1425
          End
@@ -2742,28 +2775,28 @@ Begin VB.Form Produtos_Cadastro
          Height          =   675
          Index           =   1
          Left            =   -74880
-         TabIndex        =   79
+         TabIndex        =   83
          Top             =   7920
          Width           =   13875
          Begin VB.ComboBox cboAnoPreco 
             Height          =   315
             Left            =   3480
             Sorted          =   -1  'True
-            TabIndex        =   81
+            TabIndex        =   85
             Top             =   240
             Width           =   1335
          End
          Begin VB.ComboBox cboMesPreco 
             Height          =   315
             Left            =   1680
-            TabIndex        =   80
+            TabIndex        =   84
             Top             =   240
             Width           =   1755
          End
          Begin ChamaleonBtn.chameleonButton cmdExibirPreco 
             Height          =   315
             Left            =   4980
-            TabIndex        =   82
+            TabIndex        =   86
             Top             =   240
             Width           =   1935
             _ExtentX        =   3413
@@ -2805,7 +2838,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "E&scolha o mês/ano:"
             Height          =   195
             Left            =   180
-            TabIndex        =   83
+            TabIndex        =   87
             Top             =   300
             Width           =   1425
          End
@@ -2813,9 +2846,9 @@ Begin VB.Form Produtos_Cadastro
       Begin VB.TextBox txtUltCompra 
          Enabled         =   0   'False
          Height          =   315
-         Left            =   12600
+         Left            =   -62400
          Locked          =   -1  'True
-         TabIndex        =   78
+         TabIndex        =   82
          TabStop         =   0   'False
          Top             =   4680
          Visible         =   0   'False
@@ -2834,14 +2867,14 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   -74940
-         TabIndex        =   75
+         Left            =   60
+         TabIndex        =   79
          Top             =   7920
          Width           =   2055
          Begin VB.ComboBox cboCriterios 
             Height          =   315
             Left            =   120
-            TabIndex        =   76
+            TabIndex        =   80
             Top             =   480
             Width           =   1815
          End
@@ -2849,7 +2882,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Escolha:"
             Height          =   195
             Left            =   120
-            TabIndex        =   77
+            TabIndex        =   81
             Top             =   240
             Visible         =   0   'False
             Width           =   795
@@ -2869,21 +2902,21 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   -72840
-         TabIndex        =   72
+         Left            =   2160
+         TabIndex        =   76
          Top             =   7920
          Width           =   3135
          Begin VB.ComboBox cboOrdem2 
             Height          =   315
             Left            =   1920
-            TabIndex        =   158
+            TabIndex        =   162
             Top             =   480
             Width           =   1155
          End
          Begin VB.ComboBox cboOrdem 
             Height          =   315
             Left            =   120
-            TabIndex        =   73
+            TabIndex        =   77
             Top             =   480
             Width           =   1755
          End
@@ -2891,7 +2924,7 @@ Begin VB.Form Produtos_Cadastro
             Caption         =   "Escolha:"
             Height          =   195
             Left            =   120
-            TabIndex        =   74
+            TabIndex        =   78
             Top             =   240
             Visible         =   0   'False
             Width           =   795
@@ -2901,7 +2934,7 @@ Begin VB.Form Produtos_Cadastro
       Begin MSFlexGridLib.MSFlexGrid Grid_Quant 
          Height          =   6315
          Left            =   -74880
-         TabIndex        =   132
+         TabIndex        =   136
          Top             =   840
          Width           =   13875
          _ExtentX        =   24474
@@ -2916,8 +2949,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   6015
-         Left            =   -74880
-         TabIndex        =   136
+         Left            =   120
+         TabIndex        =   140
          Top             =   420
          Width           =   13875
          _ExtentX        =   24474
@@ -2929,7 +2962,7 @@ Begin VB.Form Produtos_Cadastro
       Begin MSFlexGridLib.MSFlexGrid GridPrecos 
          Height          =   6915
          Left            =   -74880
-         TabIndex        =   137
+         TabIndex        =   141
          Top             =   840
          Width           =   13875
          _ExtentX        =   24474
@@ -2944,8 +2977,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   12000
-         TabIndex        =   53
+         Left            =   -63000
+         TabIndex        =   57
          Top             =   1860
          Width           =   2175
          _ExtentX        =   3836
@@ -2983,8 +3016,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   12000
-         TabIndex        =   65
+         Left            =   -63000
+         TabIndex        =   69
          Top             =   2520
          Visible         =   0   'False
          Width           =   2175
@@ -3023,8 +3056,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   12000
-         TabIndex        =   66
+         Left            =   -63000
+         TabIndex        =   70
          Top             =   3180
          Visible         =   0   'False
          Width           =   2175
@@ -3063,8 +3096,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   12000
-         TabIndex        =   52
+         Left            =   -63000
+         TabIndex        =   56
          Top             =   1200
          Width           =   2175
          _ExtentX        =   3836
@@ -3102,7 +3135,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   12000
+         Left            =   -63000
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -3141,8 +3174,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   12000
-         TabIndex        =   138
+         Left            =   -63000
+         TabIndex        =   142
          Top             =   8580
          Width           =   2175
          _ExtentX        =   3836
@@ -3180,8 +3213,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   855
-         Left            =   -62460
-         TabIndex        =   139
+         Left            =   12540
+         TabIndex        =   143
          Top             =   7980
          Width           =   1395
          _ExtentX        =   2461
@@ -3219,8 +3252,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   855
-         Left            =   -63900
-         TabIndex        =   140
+         Left            =   11100
+         TabIndex        =   144
          Top             =   7980
          Width           =   1395
          _ExtentX        =   2461
@@ -3258,8 +3291,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton ccmdDuplicar 
          Height          =   315
-         Left            =   -70560
-         TabIndex        =   206
+         Left            =   4440
+         TabIndex        =   210
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
@@ -3296,8 +3329,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   -74880
-         TabIndex        =   207
+         Left            =   120
+         TabIndex        =   211
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
@@ -3334,8 +3367,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdApagar 
          Height          =   315
-         Left            =   -73440
-         TabIndex        =   208
+         Left            =   1560
+         TabIndex        =   212
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
@@ -3372,8 +3405,8 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdDesativar 
          Height          =   315
-         Left            =   -72000
-         TabIndex        =   209
+         Left            =   3000
+         TabIndex        =   213
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
@@ -3421,8 +3454,8 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2235
-         Left            =   120
-         TabIndex        =   117
+         Left            =   -74880
+         TabIndex        =   121
          Top             =   7020
          Width           =   5955
          Begin VB.PictureBox Picture15 
@@ -3433,13 +3466,13 @@ Begin VB.Form Produtos_Cadastro
             Left            =   60
             ScaleHeight     =   1905
             ScaleWidth      =   2145
-            TabIndex        =   118
+            TabIndex        =   122
             Top             =   240
             Width           =   2175
             Begin VB.ComboBox cboFab 
                Height          =   315
                Left            =   60
-               TabIndex        =   165
+               TabIndex        =   169
                Top             =   300
                Width           =   1995
             End
@@ -3447,7 +3480,7 @@ Begin VB.Form Produtos_Cadastro
                Appearance      =   0  'Flat
                Height          =   225
                Left            =   1380
-               TabIndex        =   164
+               TabIndex        =   168
                Top             =   120
                Visible         =   0   'False
                Width           =   675
@@ -3456,7 +3489,7 @@ Begin VB.Form Produtos_Cadastro
                Appearance      =   0  'Flat
                Height          =   225
                Left            =   1380
-               TabIndex        =   119
+               TabIndex        =   123
                Top             =   660
                Visible         =   0   'False
                Width           =   675
@@ -3464,21 +3497,21 @@ Begin VB.Form Produtos_Cadastro
             Begin VB.ComboBox cboModelo 
                Height          =   315
                Left            =   60
-               TabIndex        =   167
+               TabIndex        =   171
                Top             =   900
                Width           =   1695
             End
             Begin VB.ComboBox cboAno 
                Height          =   315
                Left            =   60
-               TabIndex        =   169
+               TabIndex        =   173
                Top             =   1500
                Width           =   1155
             End
             Begin ChamaleonBtn.chameleonButton cmdAddModelo 
                Height          =   315
                Left            =   1755
-               TabIndex        =   168
+               TabIndex        =   172
                ToolTipText     =   "Salvar um novo modelo."
                Top             =   900
                Width           =   315
@@ -3520,7 +3553,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Fabricante"
                Height          =   195
                Left            =   60
-               TabIndex        =   166
+               TabIndex        =   170
                Top             =   60
                Width           =   750
             End
@@ -3530,7 +3563,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Modelo"
                Height          =   195
                Left            =   60
-               TabIndex        =   121
+               TabIndex        =   125
                Top             =   660
                Width           =   525
             End
@@ -3540,7 +3573,7 @@ Begin VB.Form Produtos_Cadastro
                Caption         =   "Ano"
                Height          =   195
                Left            =   60
-               TabIndex        =   120
+               TabIndex        =   124
                Top             =   1260
                Width           =   285
             End
@@ -3548,7 +3581,7 @@ Begin VB.Form Produtos_Cadastro
          Begin MSFlexGridLib.MSFlexGrid Grid_Comp 
             Height          =   1575
             Left            =   2280
-            TabIndex        =   122
+            TabIndex        =   126
             Top             =   240
             Width           =   3555
             _ExtentX        =   6271
@@ -3561,7 +3594,7 @@ Begin VB.Form Produtos_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdRemoverComp 
             Height          =   315
             Left            =   4560
-            TabIndex        =   123
+            TabIndex        =   127
             Top             =   1860
             Width           =   1275
             _ExtentX        =   2249
@@ -3599,7 +3632,7 @@ Begin VB.Form Produtos_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdAdicionarComp 
             Height          =   315
             Left            =   3180
-            TabIndex        =   124
+            TabIndex        =   128
             Top             =   1860
             Width           =   1335
             _ExtentX        =   2355
@@ -3650,8 +3683,8 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H00004080&
          Height          =   225
          Index           =   1
-         Left            =   120
-         TabIndex        =   239
+         Left            =   -74880
+         TabIndex        =   243
          Top             =   6780
          Width           =   8535
       End
@@ -3670,8 +3703,8 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H00004080&
          Height          =   225
          Index           =   0
-         Left            =   120
-         TabIndex        =   238
+         Left            =   -74880
+         TabIndex        =   242
          Top             =   6600
          Width           =   7860
       End
@@ -3680,7 +3713,7 @@ Begin VB.Form Produtos_Cadastro
          Caption         =   "ESTOQUE DESSE PRODUTO HOJE:"
          Height          =   195
          Left            =   -74880
-         TabIndex        =   171
+         TabIndex        =   175
          Top             =   7200
          Width           =   2730
       End
@@ -3698,7 +3731,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          Height          =   195
          Left            =   -72060
-         TabIndex        =   170
+         TabIndex        =   174
          Top             =   7200
          Width           =   225
       End
@@ -3707,8 +3740,8 @@ Begin VB.Form Produtos_Cadastro
          BackStyle       =   0  'Transparent
          Caption         =   "Tam."
          Height          =   195
-         Left            =   12840
-         TabIndex        =   162
+         Left            =   -62160
+         TabIndex        =   166
          Top             =   4080
          Visible         =   0   'False
          Width           =   360
@@ -3727,15 +3760,15 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H00008000&
          Height          =   195
-         Left            =   -67320
-         TabIndex        =   159
+         Left            =   7680
+         TabIndex        =   163
          Top             =   60
          Width           =   4035
          WordWrap        =   -1  'True
       End
       Begin VB.Line Line1 
-         X1              =   11940
-         X2              =   11940
+         X1              =   -63060
+         X2              =   -63060
          Y1              =   420
          Y2              =   8580
       End
@@ -3757,7 +3790,7 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H000000FF&
          Height          =   315
          Left            =   -74880
-         TabIndex        =   146
+         TabIndex        =   150
          Top             =   420
          Width           =   13875
       End
@@ -3779,7 +3812,7 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H000000FF&
          Height          =   315
          Left            =   -74880
-         TabIndex        =   145
+         TabIndex        =   149
          Top             =   420
          Width           =   13875
       End
@@ -3798,7 +3831,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          Height          =   195
          Left            =   -61260
-         TabIndex        =   144
+         TabIndex        =   148
          Top             =   7200
          Width           =   225
       End
@@ -3817,7 +3850,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          Height          =   195
          Left            =   -61260
-         TabIndex        =   143
+         TabIndex        =   147
          Top             =   7440
          Width           =   225
       End
@@ -3826,7 +3859,7 @@ Begin VB.Form Produtos_Cadastro
          Caption         =   "ADIÇÃO:"
          Height          =   195
          Left            =   -62280
-         TabIndex        =   142
+         TabIndex        =   146
          Top             =   7200
          Width           =   645
       End
@@ -3835,7 +3868,7 @@ Begin VB.Form Produtos_Cadastro
          Caption         =   "REMOÇÃO:"
          Height          =   195
          Left            =   -62460
-         TabIndex        =   141
+         TabIndex        =   145
          Top             =   7440
          Width           =   855
       End
@@ -3865,6 +3898,9 @@ Dim var_CRT As Integer
 Dim var_Regime As Integer
 Public var_AliqInterna As Double    'buscar aliquota do estado para calcular icms
 Dim var_UF_Empresa As String
+Dim gCBSpAliq As Double
+Dim gIBSUFpAliq As Double
+Dim gIBSMunpAliq As Double
 
 'abrir site para consultar ncm
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
@@ -3969,6 +4005,8 @@ Private Sub cboISCST_Click()
         Case "00"
             lblISCST.Caption = "Incidência na Origem (Indústria/Importador)"
             cboISClasse.Enabled = True
+            cboISClasse.ListIndex = -1
+            lblISCSTClass.Caption = ""
         Case "01"
             lblISCST.Caption = "Saída Tributada (Comércio/Varejo)"
             cboISClasse.Enabled = True
@@ -3996,6 +4034,19 @@ End Sub
 
 Private Sub AplicarModoIS()
     AplicarModoIBSCBS
+    Dim iTipo As Integer
+    iTipo = Val(Left(cboTipoIS.Text & "0", 1))
+    If iTipo = 2 Or iTipo = 3 Then
+        txtISFatorConv.Enabled = True
+        If Trim(txtISFatorConv.Text) = "" Then txtISFatorConv.Text = "1,0000"
+    Else
+        txtISFatorConv.Enabled = False
+        txtISFatorConv.Text = ""
+    End If
+End Sub
+
+Private Sub cboTipoIS_Click()
+    AplicarModoIS
 End Sub
 
 Private Sub AplicarModoIBSCBS()
@@ -4763,6 +4814,16 @@ Dim x As Integer
             VarTotalGrid = .TextMatrix(.rows - 1, 10) * .TextMatrix(.rows - 1, 7)
             .TextMatrix(.rows - 1, 11) = Format(VarTotalGrid, ocMONEY)
             .TextMatrix(.rows - 1, 12) = ValidateNull(rTabela("vAtivo"))
+            .Row = .rows - 1
+            .Col = 0
+            .ColSel = .Cols - 1
+            .FillStyle = 1
+            If .TextMatrix(.rows - 1, 12) = "DESATIVO" Then
+                .CellForeColor = RGB(139, 0, 0)
+            Else
+                .CellForeColor = vbBlack
+            End If
+            .FillStyle = 0
             
             rTabela.MoveNext
             .rows = .rows + 1
@@ -4947,9 +5008,20 @@ Private Sub MostrarDados_Produto()
     ' Combos da Reforma (Busca os 2 primeiros caracteres do CST)
     SelecionarNoCombo cboIBSCBSCST, Left(ValidateNull(r("IBSCBSCST")) & "   ", 3), True
     SelecionarNoCombo cboIBSCBSClasse, ValidateNull(r("cClassTrib"))
-    SelecionarNoCombo cboISCST, ValidateNull(r("ISCST")), True
+    Dim sISCSTLoad As String
+    sISCSTLoad = Trim(ValidateNull(r("ISCST")))
+    If sISCSTLoad = "" Then sISCSTLoad = "99"
+    SelecionarNoCombo cboISCST, sISCSTLoad, True
     SelecionarNoCombo cboISClasse, ValidateNull(r("cClassTrib_IS")), True
     If Not IsNull(r("tipo_calculo_is")) Then SelecionarNoCombo cboTipoIS, CStr(r("tipo_calculo_is")), True
+    Dim dFatorIS As Double
+    dFatorIS = CDbl(ValidateNull(r("fator_conversao_IS")))
+    If dFatorIS = 0 Then
+        txtISFatorConv.Text = "1,0000"
+    Else
+        txtISFatorConv.Text = Format(dFatorIS, "##,##0.0000")
+    End If
+    AplicarModoIS
 
     ' Combos de Texto Simples
     cboFabricante.Text = ValidateNull(r("fabricante"))
@@ -5040,6 +5112,8 @@ cboIBSCBSCST.ListIndex = 0
 SelecionarNoCombo cboISCST, "99", True
 cboISClasse.ListIndex = -1
 cboTipoIS.ListIndex = -1
+txtISFatorConv.Text = "1,0000"
+txtISFatorConv.Enabled = False
 'cboCFOP.Text = ""
 'cboCST.Text = ""
 txtCEST.Text = "0"
@@ -5275,11 +5349,18 @@ Private Sub cboConsProduto_GotFocus()
 End Sub
 
 Private Sub cboConsProduto_KeyPress(KeyAscii As Integer)
-KeyAscii = Asc(UCase(Chr(KeyAscii)))
+If cboCriterios.Text = "CÓD. BARRA" Or cboCriterios.Text = "NCM" Then
+    If KeyAscii <> 8 And (KeyAscii < 48 Or KeyAscii > 57) Then
+        KeyAscii = 0
+    End If
+Else
+    KeyAscii = Asc(UCase(Chr(KeyAscii)))
+End If
 End Sub
 
 Private Sub cboConsProduto_LostFocus()
 If cboCriterios.Text = "CÓD. BARRA" Then
+    cboConsProduto.Text = Replace(Replace(Trim(cboConsProduto.Text), Chr(160), ""), " ", "")
     If Len(cboConsProduto) < 13 And cboConsProduto.Text <> "" Then
         If Len(cboConsProduto) < 6 Then
             cboConsProduto.Text = Format(cboConsProduto.Text, "00000")
@@ -5287,6 +5368,15 @@ If cboCriterios.Text = "CÓD. BARRA" Then
             cboConsProduto.Text = cboConsProduto.Text
         End If
     End If
+ElseIf cboCriterios.Text = "NCM" Then
+    Dim sLFncm As String, iLFncm As Integer
+    sLFncm = ""
+    For iLFncm = 1 To Len(cboConsProduto.Text)
+        If Mid(cboConsProduto.Text, iLFncm, 1) >= "0" And Mid(cboConsProduto.Text, iLFncm, 1) <= "9" Then
+            sLFncm = sLFncm & Mid(cboConsProduto.Text, iLFncm, 1)
+        End If
+    Next iLFncm
+    cboConsProduto.Text = sLFncm
 End If
 End Sub
 
@@ -5367,6 +5457,7 @@ ElseIf cboCriterios.Text = "DESCRIÇÃO" Then
     optPorIniciais.Visible = True
     optPorPalavra.Visible = True
     optPalavrasDuplas.Visible = True
+    optPorPalavra.Value = True
    cboConsProduto.SetFocus
 ElseIf cboCriterios.Text = "FABRICANTE" Then
     cboConsProduto.Visible = True
@@ -5390,6 +5481,11 @@ ElseIf cboCriterios.Text = "NCM" Then
     optPorPalavra.Visible = False
     optPalavrasDuplas.Visible = False
     cboConsProduto.SetFocus
+End If
+If cboCriterios.Text = "TODOS" Then
+    optHabilitado.Value = True
+Else
+    optSitTodos.Value = True
 End If
 End Sub
 
@@ -5437,6 +5533,50 @@ Loop
 cboFabricante.Text = vTextoAntes
 
 moCombo.AttachTo cboFabricante
+End Sub
+
+Private Sub txtEANCaixa_LostFocus()
+    Dim s As String
+    s = Replace(txtEANCaixa.Text, " ", "")
+    If s = "" Then
+        txtEANCaixa.Text = "SEM GTIN"
+        Exit Sub
+    End If
+    If s = "SEM GTIN" Then Exit Sub
+    txtEANCaixa.Text = s
+    If Len(s) = 8 Or Len(s) = 13 Then
+        Dim i As Integer, soma As Long, w As Integer
+        soma = 0
+        For i = 1 To Len(s) - 1
+            If Len(s) = 13 Then
+                If i Mod 2 = 1 Then w = 1 Else w = 3
+            Else
+                If i Mod 2 = 1 Then w = 3 Else w = 1
+            End If
+            soma = soma + Val(Mid(s, i, 1)) * w
+        Next i
+        If (10 - (soma Mod 10)) Mod 10 <> Val(Right(s, 1)) Then
+            ShowMsg "EAN inválido: dígito verificador incorreto.", vbExclamation
+            txtEANCaixa.SetFocus
+        End If
+    End If
+End Sub
+
+Private Sub txtISFatorConv_LostFocus()
+    Dim sFator As String
+    sFator = Trim(txtISFatorConv.Text)
+    If sFator = "" Then
+        txtISFatorConv.Text = "1,0000"
+    Else
+        txtISFatorConv.Text = Format(Val(Replace(Replace(sFator, ".", ""), ",", ".")), "##,##0.0000")
+    End If
+End Sub
+
+Private Sub cboTAGs_Change()
+    Dim iPos As Integer
+    iPos = cboTAGs.SelStart
+    cboTAGs.Text = UCase(cboTAGs.Text)
+    cboTAGs.SelStart = iPos
 End Sub
 
 
@@ -6286,13 +6426,13 @@ End If
 'Comando de inclusão
 sSQL = "INSERT INTO produtos (" & _
    "codigo, ativo, destaque, USOCONSUMO, COMBUSTIVEL, MATERIAPRIMA, IMOBILIZADO, FRACIONADO, cod_barra, ean, descricao, fabricante, unid_medida, " & _
-   "categoria, PRATELEIRA, quant_min, INF_ADICIONA, quant_estoque, ref, tamanho, ICMSCST, ICMSAliq, PISCST, COFINSCST, IPICST, NCM, CEST, CFOP, Alterado, PedirPeso, IPIALIQ, COFINSALIQ, PISALIQ, pRedBc, CODPROD_FRACAO, QUANT_FRACAO, modBC, modBCST, pMVAST, pRedBCST, pICMSST, IBSCBSCST, cClassTrib, ISCST, cClassTrib_IS, tipo_calculo_is, TAGS, EANEmbalagem, Fracionamento) VALUES (" & _
+   "categoria, PRATELEIRA, quant_min, INF_ADICIONA, quant_estoque, ref, tamanho, ICMSCST, ICMSAliq, PISCST, COFINSCST, IPICST, NCM, CEST, CFOP, Alterado, PedirPeso, IPIALIQ, COFINSALIQ, PISALIQ, pRedBc, CODPROD_FRACAO, QUANT_FRACAO, modBC, modBCST, pMVAST, pRedBCST, pICMSST, IBSCBSCST, cClassTrib, ISCST, cClassTrib_IS, tipo_calculo_is, fator_conversao_IS, TAGS, EANEmbalagem, Fracionamento) VALUES (" & _
    txtCodigo.Text & ", 1, " & Abs(chkDestaque.Value) & ", " & Abs(chkUsoConsumo.Value) & ", " & Abs(chkCombustivel.Value) & ", " & Abs(chkMateriaPrima.Value) & ", " & Abs(ckkImobilizado.Value) & ", " & Abs(chkFracionado.Value) & ", '" & _
    txtCodBarra.Text & "', '" & txtEAN.Text & "', '" & txtDescricao.Text & "', '" & cboFabricante.Text & "', '" & cboUnidMedida.Text & "', '" & _
    cboCategoria.Text & "', '" & txtPrateleira.Text & "', " & Replace(CDbl(txtQuantMin.Text), ",", ".") & ", '" & _
    txtObs.Text & "', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", '" & txtRef.Text & "', '" & txtTam.Text & "', '" & IIf((cboCST.Text = ""), 0, cboCST.Text) & "', " & Replace(CDbl(txtICMSAliquota.Text), ",", ".") & ", '" & txtPISCST.Text & "', '" & _
    txtCOFINSCST.Text & "', '" & txtIPICST.Text & "', '" & IIf((txtNCM.Text = ""), 0, txtNCM.Text) & "', '" & txtCEST.Text & "', '" & IIf((cboCFOP.Text = ""), 0, cboCFOP.Text) & "', 0, " & Abs(chkPedirPeso.Value) & ", " & Replace(CDbl(txtIPIAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtCofinsAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtPisAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCAliquota.Text), ",", ".") & ", " & IIf((chkFracionado.Value = Checked), txtCodProdFracionado.Text, 0) & ", " & Replace(CDbl(IIf((chkFracionado.Value = Checked), txtQuantFracionado.Text, 0)), ",", ".") & ", " & _
-   vModBC & " , " & vModBCST & ", " & Replace(CDbl(txtMVA.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCST.Text), ",", ".") & ", " & Replace(CDbl(txtSTAliq.Text), ",", ".") & ", '" & Left(cboIBSCBSCST.Text, 3) & "', " & IIf(cboIBSCBSClasse.ListIndex >= 0, "'" & Trim(cboIBSCBSClasse.Text) & "'", "NULL") & ", '" & Left(cboISCST.Text, 2) & "', " & IIf(cboISClasse.ListIndex >= 0, "'" & Left(cboISClasse.Text, 6) & "'", "NULL") & ", " & IIf(cboTipoIS.ListIndex >= 0, Val(Left(cboTipoIS.Text, 1)), "NULL") & ", " & IIf(Trim(cboTAGs.Text) = "", "NULL", "'" & Replace(Trim(cboTAGs.Text), "'", "''") & "'") & ", '" & txtEANCaixa.Text & "', " & Replace(CDbl(txtFracao.Text), ",", ".") & ");"
+   vModBC & " , " & vModBCST & ", " & Replace(CDbl(txtMVA.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCST.Text), ",", ".") & ", " & Replace(CDbl(txtSTAliq.Text), ",", ".") & ", '" & Left(cboIBSCBSCST.Text, 3) & "', " & IIf(cboIBSCBSClasse.ListIndex >= 0, "'" & Trim(cboIBSCBSClasse.Text) & "'", "NULL") & ", '" & Left(cboISCST.Text, 2) & "', " & IIf(cboISClasse.ListIndex >= 0, "'" & Left(cboISClasse.Text, 6) & "'", "NULL") & ", " & IIf(cboTipoIS.ListIndex >= 0, Val(Left(cboTipoIS.Text, 1)), "NULL") & ", " & Replace(CStr(CDbl(IIf(Trim(txtISFatorConv.Text) = "", "0", txtISFatorConv.Text))), ",", ".") & ", " & IIf(Trim(cboTAGs.Text) = "", "NULL", "'" & Replace(Trim(cboTAGs.Text), "'", "''") & "'") & ", '" & txtEANCaixa.Text & "', " & Replace(CDbl(txtFracao.Text), ",", ".") & ");"
 'Debug.Print sSQL
 'Retorna o resultado da inclusão
 Inserir_Dados = dbData.Execute(sSQL)
@@ -6426,6 +6566,7 @@ Private Function Atualizar_Dados() As Boolean
     sSQL = sSQL & "ISCST = '" & Left(cboISCST.Text, 2) & "', "
     sSQL = sSQL & "cClassTrib_IS = " & IIf(cboISClasse.ListIndex >= 0, "'" & Left(cboISClasse.Text, 6) & "'", "NULL") & ", "
     sSQL = sSQL & "tipo_calculo_is = " & IIf(cboTipoIS.ListIndex >= 0, Val(Left(cboTipoIS.Text, 1)), "NULL") & ", "
+    sSQL = sSQL & "fator_conversao_IS = " & Replace(CStr(CDbl(IIf(Trim(txtISFatorConv.Text) = "", "0", txtISFatorConv.Text))), ",", ".") & ", "
     sSQL = sSQL & "TAGS = " & IIf(Trim(cboTAGs.Text) = "", "NULL", "'" & Replace(Trim(cboTAGs.Text), "'", "''") & "'")
 
     ' --- Condição Final ---
@@ -7006,11 +7147,15 @@ Set cCfg = Nothing
 
 Dim varProdutoHabilitado As String
 
-If cboCriterios.Text = "TODOS" Then
+If cboCriterios.Text = "TODOS" Or cboCriterios.Text = "DESCRIÇÃO" Or _
+   cboCriterios.Text = "CÓD. BARRA" Or cboCriterios.Text = "CATEGORIA" Or _
+   cboCriterios.Text = "REFERÊNCIA" Then
     If optDesabilitados.Value = True Then
         varProdutoHabilitado = "produtos.ativo = 0 and "
     ElseIf optHabilitado.Value = True Then
         varProdutoHabilitado = "produtos.ativo = 1 and "
+    Else
+        varProdutoHabilitado = "produtos.codigo > 1 and "
     End If
 Else
         varProdutoHabilitado = "produtos.codigo > 1 and "
@@ -7244,7 +7389,21 @@ End If
       "WHERE " & varProdutoHabilitado & " " & varTipoMostrar & " " & vUltimoValorVenda & "  and "
     End If
 
+   Dim sConsProd As String
+   sConsProd = Replace(Replace(Trim(cboConsProduto.Text), Chr(160), ""), " ", "")
+   If cboCriterios.Text = "NCM" Then
+       Dim sNCMfilt As String, iNCMfilt As Integer
+       sNCMfilt = ""
+       For iNCMfilt = 1 To Len(sConsProd)
+           If Mid(sConsProd, iNCMfilt, 1) >= "0" And Mid(sConsProd, iNCMfilt, 1) <= "9" Then
+               sNCMfilt = sNCMfilt & Mid(sConsProd, iNCMfilt, 1)
+           End If
+       Next iNCMfilt
+       sConsProd = sNCMfilt
+   End If
+
    If cboCriterios.Text = "CÓD. BARRA" Then
+        'cboConsProduto = Replace(cboConsProduto.Text, " ", "")
         If Len(cboConsProduto) < 13 And cboConsProduto.Text <> "" Then
             If Len(cboConsProduto) < 6 Then
                 cboConsProduto.Text = Format(cboConsProduto.Text, "00000")
@@ -7252,7 +7411,7 @@ End If
                 cboConsProduto.Text = cboConsProduto.Text
             End If
         End If
-      sSQL = sSQL & "(produtos.cod_barra = '" & cboConsProduto.Text & "') AND (produtos.codigo <> 1) ORDER BY " & INDICE
+      sSQL = sSQL & "(produtos.cod_barra = '" & sConsProd & "') AND (produtos.codigo <> 1) ORDER BY " & INDICE
       Set r = dbData.OpenRecordset(sSQL)
       FormatarGrid_Produtos r
       If r.State <> 0 Then r.Close
@@ -7301,7 +7460,7 @@ End If
       Set r = Nothing
       
    ElseIf cboCriterios.Text = "NCM" Then
-      sSQL = sSQL & "(produtos.NCM = '" & cboConsProduto.Text & "') AND (produtos.codigo <> 1) ORDER BY " & INDICE
+      sSQL = sSQL & "(produtos.NCM = '" & sConsProd & "') AND (produtos.codigo <> 1) ORDER BY " & INDICE
       Set r = dbData.OpenRecordset(sSQL)
 
       FormatarGrid_Produtos r
@@ -7656,6 +7815,11 @@ ElseIf optDesabilitados.Value = True Then
 Else
     cmdDesativar.Caption = "Desativar"
 End If
+End Sub
+
+Private Sub optSitTodos_Click()
+cmdExibir_Click
+cmdDesativar.Caption = "Desativar"
 End Sub
 
 

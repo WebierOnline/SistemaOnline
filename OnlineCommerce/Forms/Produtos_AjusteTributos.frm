@@ -695,15 +695,15 @@ Begin VB.Form Produtos_AjusteTributos
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   25215
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "17:37"
+            TextSave        =   "19:19"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1786,6 +1786,10 @@ cboEdicaoColetiva.Visible = False
 cmdEdicaoColetiva.Visible = False
 lblEdicaoColetiva.Visible = False
 cmdAtualizar.Visible = True
+End Sub
+
+Private Sub StatusBar1_PanelClick(ByVal Panel As MSComctlLib.Panel)
+
 End Sub
 
 Private Sub txtEdicaoColetiva_LostFocus()

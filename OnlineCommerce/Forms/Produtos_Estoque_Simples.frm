@@ -863,7 +863,7 @@ Begin VB.Form Produtos_Estoque_Simples
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:19"
+            TextSave        =   "14:53"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1

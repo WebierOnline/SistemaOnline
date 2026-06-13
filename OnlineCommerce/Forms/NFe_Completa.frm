@@ -30,89 +30,89 @@ Begin VB.Form NFe_Completa
       _ExtentX        =   29448
       _ExtentY        =   15266
       _Version        =   393216
-      Tab             =   2
+      Tab             =   1
       TabHeight       =   520
       TabMaxWidth     =   5292
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "NFe_Completa.frx":0000
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "cmdSalvar"
+      Tab(0).Control(0)=   "cmdCancelar"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "cmdNovo"
+      Tab(0).Control(1)=   "frmNota"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "Tab_Produtos"
+      Tab(0).Control(2)=   "frmDestinatario"
       Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Tab_Totais"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "frmDestinatario"
+      Tab(0).Control(4)=   "Tab_Produtos"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "frmNota"
+      Tab(0).Control(5)=   "cmdNovo"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cmdCancelar"
+      Tab(0).Control(6)=   "cmdSalvar"
       Tab(0).Control(6).Enabled=   0   'False
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdEnviarPDF"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "cmdEnviarXML"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdEnviarXML"
+      Tab(1).Control(1)=   "cmdEspelho"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdEspelho"
+      Tab(1).Control(2)=   "cmdEditar"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "cmdEditar"
+      Tab(1).Control(3)=   "cmdCartaCorrecao"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "cmdCartaCorrecao"
+      Tab(1).Control(4)=   "cmdInutilizar"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmdInutilizar"
+      Tab(1).Control(5)=   "cmdDuplicar"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cmdDuplicar"
+      Tab(1).Control(6)=   "cmdConsultar"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cmdConsultar"
+      Tab(1).Control(7)=   "cmdCancelarNota"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "cmdCancelarNota"
+      Tab(1).Control(8)=   "cmdTransmitir"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "cmdTransmitir"
+      Tab(1).Control(9)=   "cmdImprimir"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "cmdImprimir"
+      Tab(1).Control(10)=   "cmdCopiarChave"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "cmdCopiarChave"
+      Tab(1).Control(11)=   "GridNotas"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "GridNotas"
+      Tab(1).Control(12)=   "Frame4"
       Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "Frame4"
+      Tab(1).Control(13)=   "lvwTotais"
       Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "Frame2"
+      Tab(1).Control(14)=   "picAguarde"
       Tab(1).Control(14).Enabled=   0   'False
-      Tab(1).Control(15)=   "picAguarde"
+      Tab(1).Control(15)=   "frmCorreção"
       Tab(1).Control(15).Enabled=   0   'False
-      Tab(1).Control(16)=   "frmCorreção"
+      Tab(1).Control(16)=   "txtCodObservacao"
       Tab(1).Control(16).Enabled=   0   'False
-      Tab(1).Control(17)=   "txtCodObservacao"
-      Tab(1).Control(17).Enabled=   0   'False
-      Tab(1).ControlCount=   18
+      Tab(1).ControlCount=   17
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
-      Tab(2).ControlEnabled=   -1  'True
-      Tab(2).Control(0)=   "lblQuantPedidos"
+      Tab(2).ControlEnabled=   0   'False
+      Tab(2).Control(0)=   "picAguarde2"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "ImgMarcada"
+      Tab(2).Control(1)=   "frmFiltrosPedidos"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "imgDesmarcada"
+      Tab(2).Control(2)=   "GridPedidos"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(3)=   "cmdConverterNFe"
       Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "ImgMarcadaTODAS"
+      Tab(2).Control(4)=   "lblCodFabrica(9)"
       Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "cmdConverterNFe"
+      Tab(2).Control(5)=   "ImgMarcadaTODAS"
       Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "GridPedidos"
+      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
       Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "frmFiltrosPedidos"
+      Tab(2).Control(7)=   "imgDesmarcada"
       Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "picAguarde2"
+      Tab(2).Control(8)=   "ImgMarcada"
       Tab(2).Control(8).Enabled=   0   'False
-      Tab(2).ControlCount=   9
+      Tab(2).Control(9)=   "lblQuantPedidos"
+      Tab(2).Control(9).Enabled=   0   'False
+      Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
          Left            =   -60300
@@ -158,20 +158,20 @@ Begin VB.Form NFe_Completa
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1095
-         Left            =   6780
+         Left            =   -68220
          Picture         =   "NFe_Completa.frx":1E02
          ScaleHeight     =   1095
          ScaleWidth      =   2895
-         TabIndex        =   227
+         TabIndex        =   226
          Top             =   3300
          Visible         =   0   'False
          Width           =   2895
       End
       Begin VB.TextBox txtCodObservacao 
          Height          =   315
-         Left            =   -66120
+         Left            =   8880
          MaxLength       =   50
-         TabIndex        =   221
+         TabIndex        =   220
          TabStop         =   0   'False
          Top             =   6900
          Visible         =   0   'False
@@ -190,22 +190,22 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3975
-         Left            =   -73620
-         TabIndex        =   210
+         Left            =   1380
+         TabIndex        =   209
          Top             =   1380
          Visible         =   0   'False
          Width           =   12615
          Begin VB.TextBox txtCorrecao 
             Height          =   375
             Left            =   180
-            TabIndex        =   211
+            TabIndex        =   210
             Top             =   540
             Width           =   12255
          End
          Begin ChamaleonBtn.chameleonButton cmdCCeImprimir 
             Height          =   375
             Left            =   3600
-            TabIndex        =   212
+            TabIndex        =   211
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -243,7 +243,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeSalvar 
             Height          =   375
             Left            =   180
-            TabIndex        =   213
+            TabIndex        =   212
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -281,7 +281,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeExcluir 
             Height          =   375
             Left            =   2460
-            TabIndex        =   214
+            TabIndex        =   213
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -319,7 +319,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeTransmitir 
             Height          =   375
             Left            =   1320
-            TabIndex        =   215
+            TabIndex        =   214
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -357,7 +357,7 @@ Begin VB.Form NFe_Completa
          Begin MSFlexGridLib.MSFlexGrid Grid_Correcao 
             Height          =   2415
             Left            =   180
-            TabIndex        =   216
+            TabIndex        =   215
             Top             =   1380
             Width           =   12255
             _ExtentX        =   21616
@@ -370,7 +370,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdFecharCCe 
             Height          =   375
             Left            =   11460
-            TabIndex        =   218
+            TabIndex        =   217
             Top             =   960
             Width           =   975
             _ExtentX        =   1720
@@ -411,7 +411,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Correção"
             Height          =   195
             Left            =   180
-            TabIndex        =   217
+            TabIndex        =   216
             Top             =   300
             Width           =   645
          End
@@ -422,260 +422,36 @@ Begin VB.Form NFe_Completa
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1095
-         Left            =   -68100
+         Left            =   6900
          Picture         =   "NFe_Completa.frx":2EC6
          ScaleHeight     =   1095
          ScaleWidth      =   2895
-         TabIndex        =   209
+         TabIndex        =   208
          Top             =   3000
          Visible         =   0   'False
          Width           =   2895
       End
-      Begin VB.Frame Frame2 
-         Caption         =   "Totais"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
+      Begin MSComctlLib.ListView lvwTotais 
          Height          =   1155
-         Left            =   -61920
-         TabIndex        =   195
+         Left            =   13080
+         TabIndex        =   194
          Top             =   6360
          Width           =   3435
-         Begin VB.Label lblQuantInutilizada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   1410
-            TabIndex        =   207
-            Top             =   900
-            Width           =   525
-         End
-         Begin VB.Label lblTotalInutilizada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2010
-            TabIndex        =   206
-            Top             =   900
-            Width           =   1245
-         End
-         Begin VB.Label Label68 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Inutilizadas:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   330
-            TabIndex        =   205
-            Top             =   900
-            Width           =   1035
-         End
-         Begin VB.Label lblQuantEnviada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   1410
-            TabIndex        =   204
-            Top             =   180
-            Width           =   525
-         End
-         Begin VB.Label lblTotalEnviada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2010
-            TabIndex        =   203
-            Top             =   180
-            Width           =   1245
-         End
-         Begin VB.Label lblTotalNaoEnviada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2010
-            TabIndex        =   202
-            Top             =   420
-            Width           =   1245
-         End
-         Begin VB.Label lblQuantNaoEnviada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   1410
-            TabIndex        =   201
-            Top             =   420
-            Width           =   525
-         End
-         Begin VB.Label lblQuantCancelada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   1410
-            TabIndex        =   200
-            Top             =   660
-            Width           =   525
-         End
-         Begin VB.Label lblTotalCancelada 
-            Alignment       =   1  'Right Justify
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "00"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2010
-            TabIndex        =   199
-            Top             =   660
-            Width           =   1245
-         End
-         Begin VB.Label Label47 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Enviadas:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   480
-            TabIndex        =   198
-            Top             =   180
-            Width           =   855
-         End
-         Begin VB.Label Label66 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Não Enviadas:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
-            TabIndex        =   197
-            Top             =   420
-            Width           =   1245
-         End
-         Begin VB.Label Label72 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Canceladas:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   330
-            TabIndex        =   196
-            Top             =   660
-            Width           =   1065
-         End
+         _ExtentX        =   6059
+         _ExtentY        =   2037
+         View            =   3
+         LabelEdit       =   1
+         LabelWrap       =   -1  'True
+         HideSelection   =   -1  'True
+         FullRowSelect   =   -1  'True
+         GridLines       =   -1  'True
+         HideColumnHeaders=   -1  'True
+         _Version        =   393217
+         ForeColor       =   -2147483640
+         BackColor       =   -2147483643
+         BorderStyle     =   1
+         Appearance      =   0
+         NumItems        =   0
       End
       Begin VB.Frame frmFiltrosPedidos 
          Caption         =   "Filtros"
@@ -688,10 +464,10 @@ Begin VB.Form NFe_Completa
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   1155
-         Left            =   120
+         Height          =   1035
+         Left            =   -74880
          TabIndex        =   154
-         Top             =   7440
+         Top             =   7500
          Width           =   16395
          Begin VB.Frame Frame9 
             Caption         =   "Filtrar por:"
@@ -704,7 +480,7 @@ Begin VB.Form NFe_Completa
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   735
+            Height          =   675
             Left            =   180
             TabIndex        =   171
             Top             =   240
@@ -713,7 +489,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   960
                TabIndex        =   172
-               Top             =   300
+               Top             =   240
                Width           =   2715
             End
             Begin VB.Label Label64 
@@ -723,7 +499,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Left            =   180
                TabIndex        =   173
-               Top             =   360
+               Top             =   300
                Width           =   660
             End
          End
@@ -738,75 +514,23 @@ Begin VB.Form NFe_Completa
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   735
+            Height          =   675
             Left            =   4320
             TabIndex        =   155
             Top             =   240
-            Width           =   5535
-            Begin VB.ComboBox cboAnoPedidos 
+            Width           =   11895
+            Begin ChamaleonBtn.chameleonButton cmdCalPed1 
                Height          =   315
-               Left            =   2340
-               Sorted          =   -1  'True
-               TabIndex        =   160
+               Left            =   7800
+               TabIndex        =   195
+               TabStop         =   0   'False
+               Tag             =   "Calendario"
                Top             =   240
-               Visible         =   0   'False
-               Width           =   1155
-            End
-            Begin VB.ComboBox cboMesPedidos 
-               Height          =   315
-               Left            =   540
-               TabIndex        =   159
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   1335
-            End
-            Begin VB.ComboBox cboClientePedidos 
-               Height          =   315
-               Left            =   720
-               TabIndex        =   158
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   3885
-            End
-            Begin VB.TextBox txtCodClientePedidos 
-               Height          =   315
-               Left            =   4680
-               TabIndex        =   157
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   495
-            End
-            Begin VB.TextBox txtConCodPedido 
-               Height          =   315
-               Left            =   1020
-               TabIndex        =   156
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   1875
-            End
-            Begin MSMask.MaskEdBox mskFinalPedidos 
-               Height          =   315
-               Left            =   2640
-               TabIndex        =   161
-               Top             =   260
-               Visible         =   0   'False
-               Width           =   990
-               _ExtentX        =   1746
-               _ExtentY        =   556
-               _Version        =   393216
-               Format          =   "dd/mm/yy"
-               PromptChar      =   "_"
-            End
-            Begin ChamaleonBtn.chameleonButton cmdCalPedidos2 
-               Height          =   315
-               Left            =   3660
-               TabIndex        =   162
-               Top             =   260
                Visible         =   0   'False
                Width           =   315
                _ExtentX        =   556
                _ExtentY        =   556
-               BTYPE           =   3
+               BTYPE           =   8
                TX              =   ""
                ENAB            =   -1  'True
                BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -820,14 +544,15 @@ Begin VB.Form NFe_Completa
                EndProperty
                COLTYPE         =   1
                FOCUSR          =   -1  'True
-               BCOL            =   13160660
-               BCOLO           =   13160660
+               BCOL            =   15790320
+               BCOLO           =   15790320
                FCOL            =   0
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
                MICON           =   "NFe_Completa.frx":3EFE
                PICN            =   "NFe_Completa.frx":3F1A
+               PICH            =   "NFe_Completa.frx":626D
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -837,29 +562,18 @@ Begin VB.Form NFe_Completa
                CHECK           =   0   'False
                VALUE           =   0   'False
             End
-            Begin MSMask.MaskEdBox mskInicialPedidos 
+            Begin ChamaleonBtn.chameleonButton cmdCalPed2 
                Height          =   315
-               Left            =   720
-               TabIndex        =   163
-               Top             =   260
-               Visible         =   0   'False
-               Width           =   990
-               _ExtentX        =   1746
-               _ExtentY        =   556
-               _Version        =   393216
-               Format          =   "dd/mm/yy"
-               PromptChar      =   "_"
-            End
-            Begin ChamaleonBtn.chameleonButton cmdCalPedidos1 
-               Height          =   315
-               Left            =   1740
-               TabIndex        =   164
-               Top             =   260
+               Left            =   9660
+               TabIndex        =   196
+               TabStop         =   0   'False
+               Tag             =   "Calendario"
+               Top             =   240
                Visible         =   0   'False
                Width           =   315
                _ExtentX        =   556
                _ExtentY        =   556
-               BTYPE           =   3
+               BTYPE           =   8
                TX              =   ""
                ENAB            =   -1  'True
                BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -873,14 +587,78 @@ Begin VB.Form NFe_Completa
                EndProperty
                COLTYPE         =   1
                FOCUSR          =   -1  'True
-               BCOL            =   13160660
-               BCOLO           =   13160660
+               BCOL            =   15790320
+               BCOLO           =   15790320
                FCOL            =   0
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":62FC
-               PICN            =   "NFe_Completa.frx":6318
+               MICON           =   "NFe_Completa.frx":85C0
+               PICN            =   "NFe_Completa.frx":85DC
+               PICH            =   "NFe_Completa.frx":A92F
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin VB.ComboBox cboAnoPedidos 
+               Height          =   315
+               Left            =   8580
+               Sorted          =   -1  'True
+               TabIndex        =   160
+               Top             =   240
+               Visible         =   0   'False
+               Width           =   1335
+            End
+            Begin VB.ComboBox cboMesPedidos 
+               Height          =   315
+               Left            =   6720
+               TabIndex        =   159
+               Top             =   240
+               Visible         =   0   'False
+               Width           =   1335
+            End
+            Begin VB.ComboBox cboClientePedidos 
+               Height          =   315
+               Left            =   1140
+               TabIndex        =   158
+               Top             =   240
+               Visible         =   0   'False
+               Width           =   4785
+            End
+            Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
+               Height          =   315
+               Left            =   10020
+               TabIndex        =   197
+               Top             =   240
+               Width           =   1035
+               _ExtentX        =   1826
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "&Exibir"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   12632256
+               BCOLO           =   12632256
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "NFe_Completa.frx":CC82
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -893,108 +671,36 @@ Begin VB.Form NFe_Completa
             Begin VB.Label lblAnoPedidos 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Ano:"
+               Caption         =   "Final:"
                Height          =   195
-               Left            =   1980
+               Left            =   8160
                TabIndex        =   170
-               Top             =   240
+               Top             =   300
                Visible         =   0   'False
-               Width           =   330
+               Width           =   375
             End
             Begin VB.Label lblMesPedidos 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Mês:"
+               Caption         =   "Inicial:"
                Height          =   195
-               Left            =   120
+               Left            =   6180
                TabIndex        =   169
-               Top             =   240
+               Top             =   300
                Visible         =   0   'False
-               Width           =   345
+               Width           =   450
             End
             Begin VB.Label lblClientePedidos 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
-               Caption         =   "Cliente:"
+               Caption         =   "Cód. Pedido:"
                Height          =   195
                Left            =   120
                TabIndex        =   168
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   525
-            End
-            Begin VB.Label lblInicialPedidos 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Inicial:"
-               Height          =   195
-               Left            =   180
-               TabIndex        =   167
-               Top             =   260
-               Visible         =   0   'False
-               Width           =   450
-            End
-            Begin VB.Label lblFinalPedidos 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Final:"
-               Height          =   195
-               Left            =   2220
-               TabIndex        =   166
-               Top             =   260
-               Visible         =   0   'False
-               Width           =   375
-            End
-            Begin VB.Label lblConsCodPedido 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Cód. Pedido:"
-               Height          =   195
-               Left            =   60
-               TabIndex        =   165
-               Top             =   240
+               Top             =   300
                Visible         =   0   'False
                Width           =   915
             End
-         End
-         Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
-            Height          =   495
-            Left            =   9960
-            TabIndex        =   174
-            Top             =   360
-            Width           =   1455
-            _ExtentX        =   2566
-            _ExtentY        =   873
-            BTYPE           =   3
-            TX              =   "&Exibir"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   12632256
-            BCOLO           =   12632256
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "NFe_Completa.frx":86FA
-            PICN            =   "NFe_Completa.frx":8716
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
          End
       End
       Begin VB.Frame Frame4 
@@ -1009,7 +715,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   140
          Top             =   7440
          Width           =   16455
@@ -1048,6 +754,48 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdConNotaCal1 
                Height          =   315
                Left            =   1920
+               TabIndex        =   179
+               Tag             =   "Calendario"
+               Top             =   240
+               Visible         =   0   'False
+               Width           =   315
+               _ExtentX        =   556
+               _ExtentY        =   556
+               BTYPE           =   8
+               TX              =   ""
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   15790320
+               BCOLO           =   15790320
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "NFe_Completa.frx":CC9E
+               PICN            =   "NFe_Completa.frx":CCBA
+               PICH            =   "NFe_Completa.frx":F00D
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin ChamaleonBtn.chameleonButton cmdConNotaCal2 
+               Height          =   315
+               Left            =   3300
                TabIndex        =   180
                Tag             =   "Calendario"
                Top             =   240
@@ -1075,51 +823,9 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":8FF0
-               PICN            =   "NFe_Completa.frx":900C
-               PICH            =   "NFe_Completa.frx":B35F
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin ChamaleonBtn.chameleonButton cmdConNotaCal2 
-               Height          =   315
-               Left            =   3300
-               TabIndex        =   181
-               Tag             =   "Calendario"
-               Top             =   240
-               Visible         =   0   'False
-               Width           =   315
-               _ExtentX        =   556
-               _ExtentY        =   556
-               BTYPE           =   8
-               TX              =   ""
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   15790320
-               BCOLO           =   15790320
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "NFe_Completa.frx":D6B2
-               PICN            =   "NFe_Completa.frx":D6CE
-               PICH            =   "NFe_Completa.frx":FA21
+               MICON           =   "NFe_Completa.frx":11360
+               PICN            =   "NFe_Completa.frx":1137C
+               PICH            =   "NFe_Completa.frx":136CF
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1245,8 +951,8 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":11D74
-            PICN            =   "NFe_Completa.frx":11D90
+            MICON           =   "NFe_Completa.frx":15A22
+            PICN            =   "NFe_Completa.frx":15A3E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1259,7 +965,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdImprimirConsulta 
             Height          =   495
             Left            =   11340
-            TabIndex        =   182
+            TabIndex        =   181
             Top             =   420
             Width           =   1515
             _ExtentX        =   2672
@@ -1284,8 +990,8 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":1266A
-            PICN            =   "NFe_Completa.frx":12686
+            MICON           =   "NFe_Completa.frx":16318
+            PICN            =   "NFe_Completa.frx":16334
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1351,7 +1057,7 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":14418
+            MICON           =   "NFe_Completa.frx":180C6
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1363,9 +1069,9 @@ Begin VB.Form NFe_Completa
          End
          Begin VB.ComboBox cboFinalidade 
             Height          =   315
-            ItemData        =   "NFe_Completa.frx":14434
+            ItemData        =   "NFe_Completa.frx":180E2
             Left            =   2940
-            List            =   "NFe_Completa.frx":14436
+            List            =   "NFe_Completa.frx":180E4
             TabIndex        =   9
             Top             =   540
             Width           =   1755
@@ -1439,9 +1145,9 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":14438
-            PICN            =   "NFe_Completa.frx":14454
-            PICH            =   "NFe_Completa.frx":167A7
+            MICON           =   "NFe_Completa.frx":180E6
+            PICN            =   "NFe_Completa.frx":18102
+            PICH            =   "NFe_Completa.frx":1A455
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1481,9 +1187,9 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":18AFA
-            PICN            =   "NFe_Completa.frx":18B16
-            PICH            =   "NFe_Completa.frx":1AE69
+            MICON           =   "NFe_Completa.frx":1C7A8
+            PICN            =   "NFe_Completa.frx":1C7C4
+            PICH            =   "NFe_Completa.frx":1EB17
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1533,7 +1239,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   12
             Left            =   13680
-            TabIndex        =   244
+            TabIndex        =   243
             Top             =   300
             Width           =   345
          End
@@ -1544,7 +1250,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   11
             Left            =   12360
-            TabIndex        =   243
+            TabIndex        =   242
             Top             =   300
             Width           =   660
          End
@@ -1555,7 +1261,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   10
             Left            =   11040
-            TabIndex        =   242
+            TabIndex        =   241
             Top             =   300
             Width           =   840
          End
@@ -1566,7 +1272,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   9
             Left            =   6660
-            TabIndex        =   241
+            TabIndex        =   240
             Top             =   300
             Width           =   1620
          End
@@ -1577,7 +1283,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   8
             Left            =   4740
-            TabIndex        =   240
+            TabIndex        =   239
             Top             =   300
             Width           =   540
          End
@@ -1588,7 +1294,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   7
             Left            =   2940
-            TabIndex        =   239
+            TabIndex        =   238
             Top             =   300
             Width           =   1575
          End
@@ -1599,7 +1305,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   6
             Left            =   1560
-            TabIndex        =   238
+            TabIndex        =   237
             Top             =   300
             Width           =   930
          End
@@ -1610,7 +1316,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   5
             Left            =   840
-            TabIndex        =   237
+            TabIndex        =   236
             Top             =   300
             Width           =   360
          End
@@ -1621,7 +1327,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   4
             Left            =   120
-            TabIndex        =   236
+            TabIndex        =   235
             Top             =   300
             Width           =   630
          End
@@ -1712,7 +1418,7 @@ Begin VB.Form NFe_Completa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "NFe_Completa.frx":1D1BC
+            MICON           =   "NFe_Completa.frx":20E6A
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1729,7 +1435,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   3
             Left            =   10680
-            TabIndex        =   235
+            TabIndex        =   234
             Top             =   240
             Width           =   1200
          End
@@ -1740,7 +1446,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   2
             Left            =   8100
-            TabIndex        =   234
+            TabIndex        =   233
             Top             =   240
             Width           =   1425
          End
@@ -1751,7 +1457,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   1
             Left            =   2220
-            TabIndex        =   233
+            TabIndex        =   232
             Top             =   240
             Width           =   1485
          End
@@ -1781,7 +1487,7 @@ Begin VB.Form NFe_Completa
          TabHeight       =   520
          TabMaxWidth     =   3528
          TabCaption(0)   =   "Totais da Nota"
-         TabPicture(0)   =   "NFe_Completa.frx":1D1D8
+         TabPicture(0)   =   "NFe_Completa.frx":20E86
          Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "Label21"
          Tab(0).Control(0).Enabled=   0   'False
@@ -1849,15 +1555,15 @@ Begin VB.Form NFe_Completa
          Tab(0).Control(31).Enabled=   0   'False
          Tab(0).ControlCount=   32
          TabCaption(1)   =   "Outros Tributos"
-         TabPicture(1)   =   "NFe_Completa.frx":1D1F4
+         TabPicture(1)   =   "NFe_Completa.frx":20EA2
          Tab(1).ControlEnabled=   0   'False
          Tab(1).ControlCount=   0
          TabCaption(2)   =   "Retenção de Tributos"
-         TabPicture(2)   =   "NFe_Completa.frx":1D210
+         TabPicture(2)   =   "NFe_Completa.frx":20EBE
          Tab(2).ControlEnabled=   0   'False
          Tab(2).ControlCount=   0
          TabCaption(3)   =   "Interestadual"
-         TabPicture(3)   =   "NFe_Completa.frx":1D22C
+         TabPicture(3)   =   "NFe_Completa.frx":20EDA
          Tab(3).ControlEnabled=   0   'False
          Tab(3).ControlCount=   0
          Begin VB.TextBox txtValorIS 
@@ -1866,7 +1572,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   7980
             MaxLength       =   50
-            TabIndex        =   267
+            TabIndex        =   156
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1877,7 +1583,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   6120
             MaxLength       =   50
-            TabIndex        =   264
+            TabIndex        =   157
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1888,7 +1594,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   7035
             MaxLength       =   50
-            TabIndex        =   263
+            TabIndex        =   161
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1899,7 +1605,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   4260
             MaxLength       =   50
-            TabIndex        =   252
+            TabIndex        =   198
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1910,7 +1616,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   5175
             MaxLength       =   50
-            TabIndex        =   251
+            TabIndex        =   250
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -2044,7 +1750,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total IS"
             Height          =   195
             Left            =   7980
-            TabIndex        =   268
+            TabIndex        =   162
             Top             =   360
             Width           =   555
          End
@@ -2054,7 +1760,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base IBS"
             Height          =   195
             Left            =   6120
-            TabIndex        =   266
+            TabIndex        =   163
             Top             =   360
             Width           =   660
          End
@@ -2064,7 +1770,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total IBS"
             Height          =   195
             Left            =   7035
-            TabIndex        =   265
+            TabIndex        =   164
             Top             =   360
             Width           =   660
          End
@@ -2074,7 +1780,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base CBS"
             Height          =   195
             Left            =   4260
-            TabIndex        =   254
+            TabIndex        =   199
             Top             =   360
             Width           =   720
          End
@@ -2084,7 +1790,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total CBS"
             Height          =   195
             Left            =   5175
-            TabIndex        =   253
+            TabIndex        =   200
             Top             =   360
             Width           =   720
          End
@@ -2213,51 +1919,47 @@ Begin VB.Form NFe_Completa
          TabHeight       =   467
          TabMaxWidth     =   3351
          TabCaption(0)   =   "Produtos"
-         TabPicture(0)   =   "NFe_Completa.frx":1D248
+         TabPicture(0)   =   "NFe_Completa.frx":20EF6
          Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "frmItens"
          Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Transporte"
-         TabPicture(1)   =   "NFe_Completa.frx":1D264
+         TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Label71"
-         Tab(1).Control(0).Enabled=   0   'False
+         Tab(1).Control(0)=   "cboModFrete"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(1).Enabled=   0   'False
-         Tab(1).Control(2)=   "cboModFrete"
-         Tab(1).Control(2).Enabled=   0   'False
+         Tab(1).Control(2)=   "Label71"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
-         TabPicture(2)   =   "NFe_Completa.frx":1D280
+         TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Label15"
-         Tab(2).Control(1)=   "Label67"
-         Tab(2).Control(2)=   "cboIndicadorPagamento"
-         Tab(2).Control(3)=   "frmFatura"
-         Tab(2).Control(4)=   "frmDuplicata"
-         Tab(2).Control(5)=   "cboFormaPgto"
+         Tab(2).Control(0)=   "cboFormaPgto"
+         Tab(2).Control(1)=   "frmDuplicata"
+         Tab(2).Control(2)=   "frmFatura"
+         Tab(2).Control(3)=   "cboIndicadorPagamento"
+         Tab(2).Control(4)=   "Label67"
+         Tab(2).Control(5)=   "Label15"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
-         TabPicture(3)   =   "NFe_Completa.frx":1D29C
+         TabPicture(3)   =   "NFe_Completa.frx":20F4A
          Tab(3).ControlEnabled=   0   'False
          Tab(3).Control(0)=   "Tab_Info"
          Tab(3).ControlCount=   1
          TabCaption(4)   =   "DANFe"
-         TabPicture(4)   =   "NFe_Completa.frx":1D2B8
+         TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboFormatoDANFe"
-         Tab(4).Control(1)=   "cboTipoEmissao"
+         Tab(4).Control(0)=   "cboTipoEmissao"
+         Tab(4).Control(1)=   "cboFormatoDANFe"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
-         TabPicture(5)   =   "NFe_Completa.frx":1D2D4
+         TabPicture(5)   =   "NFe_Completa.frx":20F82
          Tab(5).ControlEnabled=   0   'False
          Tab(5).ControlCount=   0
          TabCaption(6)   =   "Devolução"
-         TabPicture(6)   =   "NFe_Completa.frx":1D2F0
+         TabPicture(6)   =   "NFe_Completa.frx":20F9E
          Tab(6).ControlEnabled=   0   'False
          Tab(6).Control(0)=   "frmDevolucao"
-         Tab(6).Control(0).Enabled=   0   'False
          Tab(6).ControlCount=   1
          Begin VB.Frame frmDevolucao 
             Caption         =   "Devolução"
@@ -2272,13 +1974,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   915
             Left            =   -74880
-            TabIndex        =   183
+            TabIndex        =   182
             Top             =   360
             Width           =   14295
             Begin VB.TextBox txtChaveReferenciada 
                Height          =   315
                Left            =   120
-               TabIndex        =   184
+               TabIndex        =   183
                Top             =   480
                Width           =   13695
             End
@@ -2288,7 +1990,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Chave de Acesso - Nota de entrada"
                Height          =   195
                Left            =   120
-               TabIndex        =   185
+               TabIndex        =   184
                Top             =   240
                Width           =   2550
             End
@@ -2296,7 +1998,7 @@ Begin VB.Form NFe_Completa
          Begin VB.ComboBox cboFormaPgto 
             Height          =   315
             Left            =   -71640
-            TabIndex        =   178
+            TabIndex        =   177
             Top             =   660
             Width           =   3135
          End
@@ -2394,9 +2096,9 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":1D30C
-               PICN            =   "NFe_Completa.frx":1D328
-               PICH            =   "NFe_Completa.frx":1F67B
+               MICON           =   "NFe_Completa.frx":20FBA
+               PICN            =   "NFe_Completa.frx":20FD6
+               PICH            =   "NFe_Completa.frx":23329
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2420,7 +2122,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdCriarDuplicata 
                Height          =   315
                Left            =   7980
-               TabIndex        =   228
+               TabIndex        =   227
                Top             =   480
                Width           =   1335
                _ExtentX        =   2355
@@ -2445,7 +2147,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":219CE
+               MICON           =   "NFe_Completa.frx":2567C
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2458,7 +2160,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdRemoverDuplicatas 
                Height          =   315
                Left            =   9360
-               TabIndex        =   229
+               TabIndex        =   228
                Top             =   480
                Width           =   1455
                _ExtentX        =   2566
@@ -2483,7 +2185,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":219EA
+               MICON           =   "NFe_Completa.frx":25698
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2496,7 +2198,7 @@ Begin VB.Form NFe_Completa
             Begin MSFlexGridLib.MSFlexGrid Grid_Duplicata 
                Height          =   1875
                Left            =   120
-               TabIndex        =   230
+               TabIndex        =   229
                Top             =   900
                Width           =   10695
                _ExtentX        =   18865
@@ -2719,7 +2421,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Reforma"
                Height          =   195
                Left            =   13440
-               TabIndex        =   250
+               TabIndex        =   249
                Top             =   4200
                Width           =   915
             End
@@ -2727,7 +2429,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Outros"
                Height          =   195
                Left            =   12480
-               TabIndex        =   249
+               TabIndex        =   248
                Top             =   4200
                Width           =   915
             End
@@ -2735,7 +2437,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Seguro"
                Height          =   195
                Left            =   11520
-               TabIndex        =   248
+               TabIndex        =   247
                Top             =   4200
                Width           =   915
             End
@@ -2743,7 +2445,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "RedBC"
                Height          =   195
                Left            =   10440
-               TabIndex        =   247
+               TabIndex        =   246
                Top             =   4200
                Width           =   915
             End
@@ -2751,7 +2453,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "ICMSST"
                Height          =   195
                Left            =   9480
-               TabIndex        =   246
+               TabIndex        =   245
                Top             =   4200
                Width           =   915
             End
@@ -2759,7 +2461,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "IPI"
                Height          =   195
                Left            =   8880
-               TabIndex        =   245
+               TabIndex        =   244
                Top             =   4200
                Width           =   615
             End
@@ -2918,7 +2620,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A06
+               MICON           =   "NFe_Completa.frx":256B4
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2956,7 +2658,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A22
+               MICON           =   "NFe_Completa.frx":256D0
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2994,7 +2696,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A3E
+               MICON           =   "NFe_Completa.frx":256EC
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3032,7 +2734,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A5A
+               MICON           =   "NFe_Completa.frx":25708
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3070,7 +2772,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A76
+               MICON           =   "NFe_Completa.frx":25724
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3108,7 +2810,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21A92
+               MICON           =   "NFe_Completa.frx":25740
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3146,7 +2848,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21AAE
+               MICON           =   "NFe_Completa.frx":2575C
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3163,7 +2865,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   8
                Left            =   12660
-               TabIndex        =   262
+               TabIndex        =   165
                Top             =   240
                Width           =   645
             End
@@ -3174,7 +2876,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   7
                Left            =   11640
-               TabIndex        =   261
+               TabIndex        =   166
                Top             =   240
                Width           =   690
             End
@@ -3185,7 +2887,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   6
                Left            =   10800
-               TabIndex        =   260
+               TabIndex        =   167
                Top             =   240
                Width           =   465
             End
@@ -3196,7 +2898,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   5
                Left            =   9900
-               TabIndex        =   259
+               TabIndex        =   201
                Top             =   240
                Width           =   510
             End
@@ -3207,7 +2909,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   4
                Left            =   9120
-               TabIndex        =   258
+               TabIndex        =   202
                Top             =   240
                Width           =   360
             End
@@ -3218,7 +2920,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   3
                Left            =   8280
-               TabIndex        =   257
+               TabIndex        =   203
                Top             =   240
                Width           =   345
             End
@@ -3229,7 +2931,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   2
                Left            =   7260
-               TabIndex        =   256
+               TabIndex        =   204
                Top             =   240
                Width           =   360
             End
@@ -3240,7 +2942,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   1
                Left            =   1800
-               TabIndex        =   255
+               TabIndex        =   205
                Top             =   240
                Width           =   720
             End
@@ -3281,17 +2983,17 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             TabCaption(0)   =   "Informações Complementares"
-            TabPicture(0)   =   "NFe_Completa.frx":21ACA
+            TabPicture(0)   =   "NFe_Completa.frx":25778
             Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "cmdRemoverOBS"
-            Tab(0).Control(1)=   "cmdAdicionarOBS"
+            Tab(0).Control(0)=   "txtCodOBS"
+            Tab(0).Control(0).Enabled=   0   'False
+            Tab(0).Control(1)=   "cboObservacao"
             Tab(0).Control(2)=   "txtInfComple"
-            Tab(0).Control(3)=   "cboObservacao"
-            Tab(0).Control(4)=   "txtCodOBS"
-            Tab(0).Control(4).Enabled=   0   'False
+            Tab(0).Control(3)=   "cmdAdicionarOBS"
+            Tab(0).Control(4)=   "cmdRemoverOBS"
             Tab(0).ControlCount=   5
             TabCaption(1)   =   "Informações Adicionais"
-            TabPicture(1)   =   "NFe_Completa.frx":21AE6
+            TabPicture(1)   =   "NFe_Completa.frx":25794
             Tab(1).ControlEnabled=   -1  'True
             Tab(1).Control(0)=   "txtInfAdicionais"
             Tab(1).Control(0).Enabled=   0   'False
@@ -3302,7 +3004,7 @@ Begin VB.Form NFe_Completa
                Height          =   285
                Left            =   -65040
                Locked          =   -1  'True
-               TabIndex        =   225
+               TabIndex        =   224
                TabStop         =   0   'False
                Top             =   300
                Visible         =   0   'False
@@ -3311,7 +3013,7 @@ Begin VB.Form NFe_Completa
             Begin VB.ComboBox cboObservacao 
                Height          =   315
                Left            =   -74880
-               TabIndex        =   222
+               TabIndex        =   221
                Top             =   480
                Width           =   10515
             End
@@ -3334,7 +3036,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdAdicionarOBS 
                Height          =   315
                Left            =   -64320
-               TabIndex        =   223
+               TabIndex        =   222
                Top             =   480
                Width           =   1155
                _ExtentX        =   2037
@@ -3359,7 +3061,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21B02
+               MICON           =   "NFe_Completa.frx":257B0
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3372,7 +3074,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdRemoverOBS 
                Height          =   315
                Left            =   -63120
-               TabIndex        =   224
+               TabIndex        =   223
                Top             =   480
                Width           =   1155
                _ExtentX        =   2037
@@ -3397,7 +3099,7 @@ Begin VB.Form NFe_Completa
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "NFe_Completa.frx":21B1E
+               MICON           =   "NFe_Completa.frx":257CC
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3432,19 +3134,15 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             TabCaption(0)   =   "Transportadora"
-            TabPicture(0)   =   "NFe_Completa.frx":21B3A
+            TabPicture(0)   =   "NFe_Completa.frx":257E8
             Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "Label7"
-            Tab(0).Control(0).Enabled=   0   'False
-            Tab(0).Control(1)=   "txtCodTransporte"
-            Tab(0).Control(1).Enabled=   0   'False
-            Tab(0).Control(2)=   "Frame6"
-            Tab(0).Control(2).Enabled=   0   'False
-            Tab(0).Control(3)=   "cboTransporte"
-            Tab(0).Control(3).Enabled=   0   'False
+            Tab(0).Control(0)=   "cboTransporte"
+            Tab(0).Control(1)=   "Frame6"
+            Tab(0).Control(2)=   "txtCodTransporte"
+            Tab(0).Control(3)=   "Label7"
             Tab(0).ControlCount=   4
             TabCaption(1)   =   "Volumes"
-            TabPicture(1)   =   "NFe_Completa.frx":21B56
+            TabPicture(1)   =   "NFe_Completa.frx":25804
             Tab(1).ControlEnabled=   -1  'True
             Tab(1).Control(0)=   "Label13"
             Tab(1).Control(0).Enabled=   0   'False
@@ -3472,12 +3170,12 @@ Begin VB.Form NFe_Completa
             Tab(1).Control(11).Enabled=   0   'False
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
-            TabPicture(2)   =   "NFe_Completa.frx":21B72
+            TabPicture(2)   =   "NFe_Completa.frx":25820
             Tab(2).ControlEnabled=   0   'False
             Tab(2).Control(0)=   "Frame1"
             Tab(2).ControlCount=   1
             TabCaption(3)   =   "Retenção do ICMS"
-            TabPicture(3)   =   "NFe_Completa.frx":21B8E
+            TabPicture(3)   =   "NFe_Completa.frx":2583C
             Tab(3).ControlEnabled=   0   'False
             Tab(3).ControlCount=   0
             Begin VB.ComboBox cboTransporte 
@@ -3736,7 +3434,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Indicador de Pagamento:"
             Height          =   195
             Left            =   -74820
-            TabIndex        =   187
+            TabIndex        =   186
             Top             =   420
             Width           =   1785
          End
@@ -3746,7 +3444,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Forma de Pagamento:"
             Height          =   195
             Left            =   -71640
-            TabIndex        =   179
+            TabIndex        =   178
             Top             =   420
             Width           =   1560
          End
@@ -3756,7 +3454,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Tipo de Frete"
             Height          =   195
             Left            =   -74880
-            TabIndex        =   177
+            TabIndex        =   176
             Top             =   360
             Width           =   945
          End
@@ -3839,8 +3537,8 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":21BAA
-         PICN            =   "NFe_Completa.frx":21BC6
+         MICON           =   "NFe_Completa.frx":25858
+         PICN            =   "NFe_Completa.frx":25874
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3878,8 +3576,8 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":23958
-         PICN            =   "NFe_Completa.frx":23974
+         MICON           =   "NFe_Completa.frx":27606
+         PICN            =   "NFe_Completa.frx":27622
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3891,7 +3589,7 @@ Begin VB.Form NFe_Completa
       End
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   5940
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   153
          Top             =   420
          Width           =   16395
@@ -3904,8 +3602,8 @@ Begin VB.Form NFe_Completa
       End
       Begin MSFlexGridLib.MSFlexGrid GridPedidos 
          Height          =   6615
-         Left            =   120
-         TabIndex        =   175
+         Left            =   -74880
+         TabIndex        =   174
          Top             =   420
          Width           =   16395
          _ExtentX        =   28919
@@ -3917,8 +3615,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
          Height          =   315
-         Left            =   -65400
-         TabIndex        =   186
+         Left            =   9600
+         TabIndex        =   185
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
@@ -3943,7 +3641,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25706
+         MICON           =   "NFe_Completa.frx":293B4
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3955,8 +3653,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   315
-         Left            =   -69300
-         TabIndex        =   188
+         Left            =   5700
+         TabIndex        =   187
          Top             =   6420
          Width           =   855
          _ExtentX        =   1508
@@ -3981,7 +3679,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25722
+         MICON           =   "NFe_Completa.frx":293D0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3993,8 +3691,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdTransmitir 
          Height          =   315
-         Left            =   -73800
-         TabIndex        =   189
+         Left            =   1200
+         TabIndex        =   188
          Top             =   6420
          Width           =   1035
          _ExtentX        =   1826
@@ -4019,7 +3717,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":2573E
+         MICON           =   "NFe_Completa.frx":293EC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4031,8 +3729,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
          Height          =   315
-         Left            =   -72720
-         TabIndex        =   190
+         Left            =   2280
+         TabIndex        =   189
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
@@ -4057,7 +3755,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":2575A
+         MICON           =   "NFe_Completa.frx":29408
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4069,8 +3767,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdConsultar 
          Height          =   315
-         Left            =   -71520
-         TabIndex        =   191
+         Left            =   3480
+         TabIndex        =   190
          Top             =   6420
          Width           =   975
          _ExtentX        =   1720
@@ -4095,7 +3793,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25776
+         MICON           =   "NFe_Completa.frx":29424
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4107,8 +3805,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdDuplicar 
          Height          =   315
-         Left            =   -68400
-         TabIndex        =   192
+         Left            =   6600
+         TabIndex        =   191
          Top             =   6420
          Width           =   915
          _ExtentX        =   1614
@@ -4133,7 +3831,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25792
+         MICON           =   "NFe_Completa.frx":29440
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4145,8 +3843,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdInutilizar 
          Height          =   315
-         Left            =   -70500
-         TabIndex        =   193
+         Left            =   4500
+         TabIndex        =   192
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
@@ -4171,7 +3869,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":257AE
+         MICON           =   "NFe_Completa.frx":2945C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4183,8 +3881,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCartaCorrecao 
          Height          =   315
-         Left            =   -66600
-         TabIndex        =   194
+         Left            =   8400
+         TabIndex        =   193
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
@@ -4209,7 +3907,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":257CA
+         MICON           =   "NFe_Completa.frx":29478
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4221,8 +3919,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   -74880
-         TabIndex        =   208
+         Left            =   120
+         TabIndex        =   207
          Top             =   6420
          Width           =   1035
          _ExtentX        =   1826
@@ -4247,7 +3945,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":257E6
+         MICON           =   "NFe_Completa.frx":29494
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4259,8 +3957,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEspelho 
          Height          =   315
-         Left            =   -67440
-         TabIndex        =   220
+         Left            =   7560
+         TabIndex        =   219
          Top             =   6420
          Width           =   795
          _ExtentX        =   1402
@@ -4285,7 +3983,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25802
+         MICON           =   "NFe_Completa.frx":294B0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4297,10 +3995,10 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdConverterNFe 
          Height          =   315
-         Left            =   120
-         TabIndex        =   226
+         Left            =   -60120
+         TabIndex        =   225
          TabStop         =   0   'False
-         Top             =   7080
+         Top             =   7140
          Width           =   1635
          _ExtentX        =   2884
          _ExtentY        =   556
@@ -4324,7 +4022,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":2581E
+         MICON           =   "NFe_Completa.frx":294CC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4336,8 +4034,8 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEnviarXML 
          Height          =   315
-         Left            =   -64200
-         TabIndex        =   231
+         Left            =   10800
+         TabIndex        =   230
          Top             =   6420
          Width           =   1095
          _ExtentX        =   1931
@@ -4362,7 +4060,7 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":2583A
+         MICON           =   "NFe_Completa.frx":294E8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4371,73 +4069,46 @@ Begin VB.Form NFe_Completa
          HAND            =   0   'False
          CHECK           =   0   'False
          VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdEnviarPDF 
-         Height          =   315
-         Left            =   -63060
-         TabIndex        =   232
-         Top             =   6420
-         Width           =   1095
-         _ExtentX        =   1931
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Enviar PDF"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25856
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
+      End      Begin VB.Label lblCodFabrica 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Todos"
+         Height          =   195
+         Index           =   9
+         Left            =   -74580
+         TabIndex        =   206
+         Top             =   7140
+         Visible         =   0   'False
+         Width           =   450
       End
       Begin VB.Image ImgMarcadaTODAS 
          Height          =   195
-         Left            =   4380
-         Picture         =   "NFe_Completa.frx":25872
+         Left            =   -74760
+         Picture         =   "NFe_Completa.frx":29520
          Top             =   7140
          Visible         =   0   'False
          Width           =   195
       End
       Begin VB.Image imgDesmarcadaTODAS 
          Height          =   195
-         Left            =   4500
-         Picture         =   "NFe_Completa.frx":27C71
-         Top             =   7320
+         Left            =   -74880
+         Picture         =   "NFe_Completa.frx":2B91F
+         Top             =   7140
          Visible         =   0   'False
          Width           =   195
       End
       Begin VB.Image imgDesmarcada 
          Height          =   195
-         Left            =   8100
-         Picture         =   "NFe_Completa.frx":29FED
+         Left            =   -66900
+         Picture         =   "NFe_Completa.frx":2DC9B
          Top             =   7200
          Visible         =   0   'False
          Width           =   195
       End
       Begin VB.Image ImgMarcada 
          Height          =   195
-         Left            =   7860
-         Picture         =   "NFe_Completa.frx":2C369
+         Left            =   -67140
+         Picture         =   "NFe_Completa.frx":30017
          Top             =   7200
          Visible         =   0   'False
          Width           =   195
@@ -4456,8 +4127,8 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   16260
-         TabIndex        =   176
+         Left            =   -58740
+         TabIndex        =   175
          Top             =   7140
          Width           =   225
       End
@@ -4515,14 +4186,14 @@ Begin VB.Form NFe_Completa
          ForeColor       =   &H80000008&
          Height          =   240
          Left            =   13320
-         TabIndex        =   219
+         TabIndex        =   218
          Top             =   240
          Width           =   585
       End
       Begin VB.Image Image1 
          Height          =   750
          Left            =   540
-         Picture         =   "NFe_Completa.frx":2E768
+         Picture         =   "NFe_Completa.frx":32416
          Top             =   0
          Width           =   750
       End
@@ -4578,7 +4249,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "14:53"
+            TextSave        =   "16:31"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4603,6 +4274,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private moCombo As cComboHelper
+Private bNFAgrupada As Boolean
 Public TbNotas As New ADODB.Recordset
 Public TbConsulta As New ADODB.Recordset
 Public TbNotaPedido As New ADODB.Recordset
@@ -4758,6 +4430,7 @@ Dim sUpd         As String
 Dim dblPIBSUF    As Double, dblPIBSMun As Double
 Dim dblPCBS      As Double, dblPIS As Double
 Dim curBCCBSIBS2 As Currency
+Dim curDesconto2 As Currency
 Dim curVIBSUF2   As Currency, curVIBSMun2 As Currency, curVCBS2 As Currency
 Dim curBCIS2     As Currency, curVIS2 As Currency
 
@@ -4771,7 +4444,7 @@ sSQL = "SELECT ITEM, " & _
        "PISCST, PISpPIS, " & _
        "COFINSCST, cofinspcofins, " & _
        "pMVAST, pICMSST, pRedBCST, " & _
-       "IBS_UFpAliq, IBS_MunpAliq, CBS_pAliq, IS_pAliq " & _
+       "IBS_UFpAliq, IBS_MunpAliq, CBS_pAliq, IS_pAliq, IBS_pRed, CBS_pRed, ValorDesconto " & _
        "FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 RsOpen rItens, sSQL
 
@@ -4876,7 +4549,9 @@ Do While Not rItens.EOF
     Dim dblPRedIBS2 As Double, dblPRedCBS2 As Double
     dblPRedIBS2 = CDbl(IIf(IsNull(rItens("IBS_pRed")), 0, rItens("IBS_pRed")))
     dblPRedCBS2 = CDbl(IIf(IsNull(rItens("CBS_pRed")), 0, rItens("CBS_pRed")))
-    curBCCBSIBS2 = vValProd
+    curDesconto2 = CCur(IIf(IsNull(rItens("ValorDesconto")), 0, rItens("ValorDesconto")))
+    curBCCBSIBS2 = vValProd - curDesconto2
+    If curBCCBSIBS2 < 0 Then curBCCBSIBS2 = 0
     curVIBSUF2 = CCur(Format(curBCCBSIBS2 * dblPIBSUF / 100 * (1 - dblPRedIBS2 / 100), "0.00"))
     curVIBSMun2 = CCur(Format(curBCCBSIBS2 * dblPIBSMun / 100 * (1 - dblPRedIBS2 / 100), "0.00"))
     curVCBS2 = CCur(Format(curBCCBSIBS2 * dblPCBS / 100 * (1 - dblPRedCBS2 / 100), "0.00"))
@@ -5160,6 +4835,8 @@ End If
 
 'Dim IdNFProd As Long
 IdNFProd = GridNotas.TextMatrix(GridNotas.Row, 1)
+Dim vTipoDestCorrec As String
+vTipoDestCorrec = GridNotas.TextMatrix(GridNotas.Row, 13)
 
 'consultar o cpf/cnpj na nota
 sSQL = "SELECT CodigoNota, CodigoCorrentista, IdentificadorDestino FROM NotaFiscal WHERE CodigoNota  = " & IdNFProd
@@ -5268,7 +4945,7 @@ End If
 dbData.Execute "UPDATE cliente SET CPF = '" & vCPF & "' WHERE CODIGO  = " & vCodCliente
 'FIM validação do cpf/cnpj do cliente
 
-If vCPF = "" Then Exit Sub
+If vCPF = "" And vTipoDestCorrec <> "FORNECEDOR" Then Exit Sub
 
 If Not rCliente.EOF Then
     If rCliente!Tipo = "FÍSICA" And rCliente!TipoContribuinte = "1" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!" & Chr(13) & "Verifique o TIPO DE PESSOA e o TIPO DE CONTRIBUINTE no cadastro desse cliente!", vbCritical, "Online Commerce":  Exit Sub
@@ -5330,7 +5007,9 @@ If vEmpresaForaEstado = True Then
         vCodProdConsulta = rNotaFiscalItens!CodigoProduto
          If vCRTEmpresa = 1 Then     'empresa simples nacional
             If rNotaFiscalItens!CFOP <> Empty Then
-                If rNotaFiscalItens!CFOP = "5102" Then
+                If rNotaFiscalItens!CFOP = "5101" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6101', CST = '102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "5102" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6102', CST = '102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
                 ElseIf rNotaFiscalItens!CFOP = "5405" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6403', CST = '500' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
@@ -5340,8 +5019,12 @@ If vEmpresaForaEstado = True Then
             End If
         Else                        'empresa lucro presumido ou lucro real
             If rNotaFiscalItens!CFOP <> Empty Then
-                If rNotaFiscalItens!CFOP = "5102" Then
+                If rNotaFiscalItens!CFOP = "5101" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6101' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "5102" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "5403" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6403' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
                 ElseIf rNotaFiscalItens!CFOP = "5405" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '6403', CST= '060', pICMS = '0.00' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
                 End If
@@ -5357,7 +5040,9 @@ Else
         vCodProdConsulta = rNotaFiscalItens!CodigoProduto
          If vCRTEmpresa = 1 Then     'empresa simples nacional
             If rNotaFiscalItens!CFOP <> Empty Then
-                If rNotaFiscalItens!CFOP = "6102" Then
+                If rNotaFiscalItens!CFOP = "6101" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5101', CST = '102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "6102" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5102', CST = '102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
                 ElseIf rNotaFiscalItens!CFOP = "6405" Or rNotaFiscalItens!CFOP = "6403" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5403', CST = '500' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
@@ -5367,9 +5052,13 @@ Else
             End If
         Else                        'empresa lucro presumido ou lucro real
             If rNotaFiscalItens!CFOP <> Empty Then
-                If rNotaFiscalItens!CFOP = "6102" Then
+                If rNotaFiscalItens!CFOP = "6101" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5101' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "6102" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5102' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
-                ElseIf rNotaFiscalItens!CFOP = "5405" Or rNotaFiscalItens!CFOP = "6403" Then
+                ElseIf rNotaFiscalItens!CFOP = "6403" Then
+                    dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5403' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
+                ElseIf rNotaFiscalItens!CFOP = "5405" Or rNotaFiscalItens!CFOP = "6405" Then
                     dbData.Execute "UPDATE NotaFiscalItens SET CFOP = '5403', CST= '060', pICMS = '0.00' WHERE CodigoProduto  = " & vCodProdConsulta & " And CodigoNota = " & IdNFProd
                 End If
             Else
@@ -5433,7 +5122,7 @@ cboTipoDest.Text = ""
 cboCliente.Text = ""
 cboTipoContribuinte.Text = ""
 cboConsumidorFinal.Text = ""
-txtAliqUFDest.Text = ""
+'txtAliqUFDest.Text = ""
 End Sub
 
 Private Sub LimparObjetosNota()
@@ -5607,7 +5296,7 @@ If txtCodNota.Text = "" Then Exit Sub
 
 ' Todos os totais vem dos itens
 sSQL = "SELECT " & _
-       "ISNULL(SUM(ValorTotalBruto), 0) AS ValorProdutos, " & _
+       "ISNULL(SUM(QuantidadeComercial * ValorUnitarioComercializacao), 0) AS ValorProdutos, " & _
        "ISNULL(SUM(ValorFrete),   0) AS ValorFrete,   " & _
        "ISNULL(SUM(ValorSeguro),  0) AS ValorSeguro,  " & _
        "ISNULL(SUM(ValorOutros),  0) AS ValorOutros,  " & _
@@ -5713,7 +5402,7 @@ SQLExecuta sSQL
 txtNumFatura.Text = txtCodNota.Text
 txtSubtotalFatura.Text = FormatNumber(varProdutos, 2)
 txtDescFatura.Text = FormatNumber(varDesconto, 2)
-txtTotalFatura.Text = FormatNumber(varNota, 2)
+txtTotalFatura.Text = FormatNumber(varProdutos - varDesconto, 2)
 txtNumDup.Text = txtCodNota.Text
 txtTotalDup.Text = FormatNumber(varNota, 2)
 txtNumParcDup.Text = "1"
@@ -6186,7 +5875,7 @@ Private Sub ExibirUltimasNfe()
 Dim totalRegistros As Long
 
 RsOpen TbConsulta, "SELECT top 25 CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota,  " & _
-                    "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) AS Status " & _
+                    "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 AND Inutilizada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Inutilizada = 1 THEN 'Inutilizada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) END) AS Status " & _
                     "FROM NotaFiscal order by NumeroNota desc"
 
 If TbConsulta.RecordCount > 0 Then totalRegistros = TbConsulta.RecordCount
@@ -6214,8 +5903,8 @@ With GridNotas
    Next
 End With
 
-lblQuantEnviada.Caption = Format(contar, "000")
-lblTotalEnviada.Caption = Format(soma, ocMONEY)
+Dim nEnv As Long, tEnv As Currency
+nEnv = contar: tEnv = soma
 
 'Somar as vendas
 soma = 0
@@ -6231,8 +5920,8 @@ With GridNotas
    Next
 End With
 
-lblQuantCancelada.Caption = Format(contar, "000")
-lblTotalCancelada.Caption = Format(soma, ocMONEY)
+Dim nCan As Long, tCan As Currency
+nCan = contar: tCan = soma
 
 'Somar as vendas
 soma = 0
@@ -6248,12 +5937,73 @@ With GridNotas
    Next
 End With
 
-lblQuantNaoEnviada.Caption = Format(contar, "000")
-lblTotalNaoEnviada.Caption = Format(soma, ocMONEY)
+Dim nNao As Long, tNao As Currency
+nNao = contar: tNao = soma
+
+'Somar as vendas
+soma = 0
+contar = 0
+With GridNotas
+   For i = 1 To .rows - 1
+      If .TextMatrix(i, 7) = "Inutilizada" Then
+        'If .TextMatrix(i, 15) <> "SIM" Then
+            contar = contar + 1
+            soma = soma + CCur(.TextMatrix(i, 6))
+        'End If
+      End If
+   Next
+End With
+
+Dim nInu As Long, tInu As Currency
+nInu = contar: tInu = soma
+
+Dim oLI As Object
+With lvwTotais
+    .ListItems.Clear
+    Set oLI = .ListItems.Add(, , "Enviadas")
+    oLI.SubItems(1) = Format(nEnv, "000")
+    oLI.SubItems(2) = Format(tEnv, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Não Enviadas")
+    oLI.SubItems(1) = Format(nNao, "000")
+    oLI.SubItems(2) = Format(tNao, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Canceladas")
+    oLI.SubItems(1) = Format(nCan, "000")
+    oLI.SubItems(2) = Format(tCan, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Inutilizadas")
+    oLI.SubItems(1) = Format(nInu, "000")
+    oLI.SubItems(2) = Format(tInu, ocMONEY)
+End With
 
 
 Exit Sub
 Resume
+End Sub
+
+Private Sub AdicionarPedidoNaNota()
+Dim VarCodNota As Integer
+VarCodNota = CInt(txtCodNota.Text)
+
+Dim sSQL2 As String
+sSQL2 = "INSERT INTO NotaFiscalItens ( " & _
+    "CodigoProduto, EAN, NomeProduto, CFOP, NCM, CST, " & _
+    "UnidadeComercial, ValorUnitarioComercializacao, ValorTotalBruto, " & _
+    "tipodesconto, desconto, Valordesconto, QuantidadeComercial, " & _
+    "pICMS, vBC, vICMS, item, CodigoNota, TipoProduto, Cod_Pedido, Item_pedido " & _
+    ") " & _
+    "SELECT pi.cod_produto, p.EAN, p.descricao, p.cfop, p.ncm, p.icmscst, " & _
+    "p.unid_medida, pi.preco, pi.Subtotal, 1, pi.desconto, pi.desconto, " & _
+    "pi.quantidade, 0, pi.Subtotal, 0, " & _
+    "(SELECT ISNULL(MAX(item), 0) FROM NotaFiscalItens WHERE CodigoNota = " & VarCodNota & ") + pi.item, " & _
+    VarCodNota & ", " & _
+    "(CASE p.combustivel WHEN 1 THEN 'Combustível' ELSE '' END), " & _
+    txtCodPedido.Text & ", pi.item " & _
+    "FROM produtos p " & _
+    "INNER JOIN pedidos_itens pi ON p.codigo = pi.cod_produto " & _
+    "INNER JOIN pedidos ped ON pi.cod_pedido = ped.cod_pedido " & _
+    "WHERE pi.COD_PEDIDO = " & txtCodPedido.Text
+dbData.Execute sSQL2
+
+Exibir_Itens
 End Sub
 
 Private Sub GravarPedido()
@@ -6502,6 +6252,8 @@ If txtCodNota.Text = "" Then Exit Sub
     seq = SQLExecutaRetorno(sSQL, "r", 0) + 1
     Tb("CodigoNota") = Format(txtCodNota.Text, "@")
     Tb("Item") = seq
+    Tb("Cod_Pedido") = 0
+    Tb("Item_pedido") = 0
     Tb("CodigoProduto") = Format(txtCodProduto, "@")
     Tb("NomeProduto") = UCase(Format(cboDescricao, "@"))
     Tb("InformacoesAdicionaisProduto") = UCase(Format(vInfAdd, "@"))
@@ -7023,7 +6775,7 @@ On Error GoTo erro
     TbNotas("NumeroFatura") = Format(txtNumNota, "@")
     TbNotas("ValorOriginalFatura") = IIf(IsNull(Format(txtTotaldosProdutos, "@")) Or Vazio(Format(txtTotaldosProdutos, "@")), 0, CDbl(FormatNumber(txtTotaldosProdutos, 2)))
     TbNotas("ValorDescontoFatura") = IIf(IsNull(Format(txtValorDesconto, "@")) Or Vazio(Format(txtValorDesconto, "@")), 0, CDbl(Format(txtValorDesconto, "##0.00")))
-    TbNotas("ValorLiquidoFatura") = IIf(IsNull(Format(txtTotaldaNota, "@")) Or Vazio(Format(txtTotaldaNota, "@")), 0, CDbl(FormatNumber(txtTotaldaNota, 2)))
+    TbNotas("ValorLiquidoFatura") = IIf(IsNull(Format(txtTotalFatura, "@")) Or Vazio(Format(txtTotalFatura, "@")), 0, CDbl(FormatNumber(txtTotalFatura, 2)))
 
     TbNotas("InscricaoEstadual") = 0
     TbNotas("Suframa") = 0
@@ -7411,7 +7163,7 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
             .TextMatrix(.rows - 1, 6) = rTabela("NCM")
             .TextMatrix(.rows - 1, 7) = rTabela("CFOP")
             .TextMatrix(.rows - 1, 8) = rTabela("CST")
-            .TextMatrix(.rows - 1, 9) = rTabela("IBSCBS_CST")
+            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("IBSCBS_CST"))
             .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("IBS_vIBS"), 2)
             .TextMatrix(.rows - 1, 11) = FormatNumber(rTabela("CBS_vCBS"), 2)
             .TextMatrix(.rows - 1, 12) = FormatNumber(rTabela("IS_vIS"), 2)
@@ -7693,9 +7445,9 @@ sSQL = "INSERT INTO NotaFiscalItens ( " & _
         "vBC, " & _
         "vICMS,  " & _
         "item, " & _
-        "CodigoNota, TipoProduto " & _
+        "CodigoNota, TipoProduto, Cod_Pedido, Item_pedido " & _
         " ) " & _
-        "SELECT pedidos_itens.cod_produto, produtos.EAN, produtos.descricao, produtos.cfop, produtos.ncm, produtos.icmscst, produtos.unid_medida, pedidos_itens.preco, pedidos_itens.Subtotal, 1, pedidos_itens.desconto, pedidos_itens.desconto, pedidos_itens.quantidade, 0, (pedidos_itens.Subtotal) as varVBC, 0, pedidos_itens.item, " & VarCodNota & ", (CASE produtos.combustivel WHEN 1 THEN 'Combustível' ELSE '' END) " & _
+        "SELECT pedidos_itens.cod_produto, produtos.EAN, produtos.descricao, produtos.cfop, produtos.ncm, produtos.icmscst, produtos.unid_medida, pedidos_itens.preco, pedidos_itens.Subtotal, 1, pedidos_itens.desconto, pedidos_itens.desconto, pedidos_itens.quantidade, 0, (pedidos_itens.Subtotal) as varVBC, 0, pedidos_itens.item, " & VarCodNota & ", (CASE produtos.combustivel WHEN 1 THEN 'Combustível' ELSE '' END), " & txtCodPedido.Text & ", pedidos_itens.item " & _
         "FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
         "WHERE pedidos_itens.COD_PEDIDO = " & txtCodPedido.Text & ";"
 'Debug.Print sSQL
@@ -7961,15 +7713,7 @@ EncontroErroNFCe = False
     End If
     
      'CFOP..........
-     If rNFCeItens!CFOP <> Empty Or rNFCeItens!CFOP = "0" Then
-         If Len(rNFCeItens!CFOP) > 4 Or Len(rNFCeItens!CFOP) < 4 Then
-             EncontroErroNFCe = True
-         Else
-             EncontroErroNFCe = False
-         End If
-     Else
-         EncontroErroNFCe = False
-     End If
+     EncontroErroNFCe = (Len(IIf(IsNull(rNFCeItens!CFOP), "", CStr(rNFCeItens!CFOP))) <> 4)
      
      If EncontroErroNFCe = True Then 'GoTo Continuar
         If MsgBox("Produto com CFOP incorreto ou inválido! " & Chr(13) & " Produto: '" & rNFCeItens!NomeProduto & "' " & Chr(13) & " Deseja corrigir esse produto?", vbQuestion + vbYesNo, "Erro") = vbYes Then
@@ -8045,15 +7789,7 @@ EncontroErroNFCe = False
     End If
      
      'NCM..........
-     If rNFCeItens!NCM <> Empty Or rNFCeItens!NCM = "0" Or rNFCeItens!NCM = "" Then
-         If Len(rNFCeItens!NCM) > 8 Or Len(rNFCeItens!NCM) < 8 Then
-             EncontroErroNFCe = True
-         Else
-             EncontroErroNFCe = False
-         End If
-     Else
-         EncontroErroNFCe = False
-     End If
+     EncontroErroNFCe = (Len(IIf(IsNull(rNFCeItens!NCM), "", CStr(rNFCeItens!NCM))) <> 8)
      
      If EncontroErroNFCe = True Then 'GoTo Continuar
         If MsgBox("Produto com NCM incorreto ou inválido! " & Chr(13) & " Produto: '" & rNFCeItens!NomeProduto & "' " & Chr(13) & " Deseja corrigir esse produto?", vbQuestion + vbYesNo, "Erro") = vbYes Then
@@ -8064,7 +7800,6 @@ EncontroErroNFCe = False
             Exit Sub
         End If
     End If
-     'End If
      
      'UNIDADE DE MEDIDA..........
      If rNFCeItens!UnidadeComercial <> Empty Then
@@ -8086,6 +7821,20 @@ EncontroErroNFCe = False
             Exit Sub
         End If
     End If
+ 
+     'QUANTIDADE
+     If CDbl(IIf(IsNull(rNFCeItens!QuantidadeComercial), 0, rNFCeItens!QuantidadeComercial)) <= 0 Then
+         MsgBox "Produto '" & rNFCeItens!NomeProduto & "' com quantidade zero ou negativa!", vbExclamation, "Erro"
+         vPossuiErro = True
+         GoTo Continuar
+     End If
+     
+     'VALOR UNITÁRIO
+     If CDbl(IIf(IsNull(rNFCeItens!ValorUnitarioComercializacao), 0, rNFCeItens!ValorUnitarioComercializacao)) <= 0 Then
+         MsgBox "Produto '" & rNFCeItens!NomeProduto & "' com valor unitário zero ou negativo!", vbExclamation, "Erro"
+         vPossuiErro = True
+         GoTo Continuar
+     End If
  
  rNFCeItens.MoveNext
  Next
@@ -8132,6 +7881,7 @@ End Sub
 
 
 Private Sub cboClientePedidos_GotFocus()
+If cboIndicePedidos.Text = "PEDIDO" Then Exit Sub
 Dim r As ADODB.Recordset
 'Dim itemAtual As String
 'Dim codAtual As String
@@ -8160,11 +7910,6 @@ End Sub
 
 Private Sub cboClientePedidos_LostFocus()
 On Error GoTo TrataErro
-
-If cboClientePedidos.Text = "" Then txtCodClientePedidos.Text = "": Exit Sub
-If cboClientePedidos.ListIndex = -1 Then txtCodClientePedidos.Text = "": Exit Sub
-
-txtCodClientePedidos = cboClientePedidos.ItemData(cboClientePedidos.ListIndex)
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
@@ -8564,27 +8309,14 @@ End Sub
 
 Private Sub cboIndicePedidos_Click()
 'Oculta tudo
-lblConsCodPedido.Visible = False
-txtConCodPedido.Visible = False
-txtCodClientePedidos.Visible = False
-mskInicialPedidos.Visible = False
-mskFinalPedidos.Visible = False
-cmdCalPedidos1.Visible = False
-cmdCalPedidos2.Visible = False
-lblInicialPedidos.Visible = False
-lblFinalPedidos.Visible = False
 lblClientePedidos.Visible = False
 cboClientePedidos.Visible = False
 lblMesPedidos.Visible = False
 cboMesPedidos.Visible = False
 lblAnoPedidos.Visible = False
 cboAnoPedidos.Visible = False
-'Reposiciona controles de data para posição simples
-lblMesPedidos.Left = 120
-cboMesPedidos.Left = 540: cboMesPedidos.Width = 1335
-lblAnoPedidos.Left = 1980
-cboAnoPedidos.Left = 2340: cboAnoPedidos.Width = 1155
-cboClientePedidos.Width = 3885
+cmdCalPed1.Visible = False
+cmdCalPed2.Visible = False
 
 Select Case cboIndicePedidos.Text
     Case "PEDIDO"
@@ -8592,11 +8324,18 @@ Select Case cboIndicePedidos.Text
         cboClientePedidos.Clear
         lblClientePedidos.Visible = True
         cboClientePedidos.Visible = True
+        cboClientePedidos.Left = 1140
+        cboClientePedidos.Width = 4785
+        cmdExibirPedidos.Left = 6060
+        
 
     Case "CLIENTE"
         lblClientePedidos.Caption = "Cliente:"
         lblClientePedidos.Visible = True
         cboClientePedidos.Visible = True
+        cboClientePedidos.Left = 1140
+        cboClientePedidos.Width = 4785
+        cmdExibirPedidos.Left = 6060
 
     Case "DATAS"
         lblMesPedidos.Caption = "Inicial:"
@@ -8607,6 +8346,15 @@ Select Case cboIndicePedidos.Text
         cboMesPedidos.Visible = True
         lblAnoPedidos.Visible = True
         cboAnoPedidos.Visible = True
+        lblMesPedidos.Left = 120
+        cboMesPedidos.Left = 660
+        cmdCalPed1.Left = 1740
+        lblAnoPedidos.Left = 2100
+        cboAnoPedidos.Left = 2520
+        cmdCalPed2.Left = 3600
+        cmdExibirPedidos.Left = 3960
+        cmdCalPed1.Visible = True
+        cmdCalPed2.Visible = True
 
     Case "MENSAL"
         lblMesPedidos.Caption = "Mês:"
@@ -8615,16 +8363,20 @@ Select Case cboIndicePedidos.Text
         cboMesPedidos.Visible = True
         lblAnoPedidos.Visible = True
         cboAnoPedidos.Visible = True
+        lblMesPedidos.Left = 120
+        cboMesPedidos.Left = 660
+        cmdCalPed1.Left = 1740
+        lblAnoPedidos.Left = 2100
+        cboAnoPedidos.Left = 2520
+        cmdCalPed2.Left = 3600
+        cmdExibirPedidos.Left = 3960
+        cboMesPedidos.Text = ""
+        cboAnoPedidos.Text = ""
 
     Case "CLIENTE + DATAS"
         lblClientePedidos.Caption = "Cliente:"
-        cboClientePedidos.Width = 1500
         lblMesPedidos.Caption = "Inicial:"
-        lblMesPedidos.Left = 2340
-        cboMesPedidos.Left = 2640: cboMesPedidos.Width = 900
         lblAnoPedidos.Caption = "Final:"
-        lblAnoPedidos.Left = 3600
-        cboAnoPedidos.Left = 3960: cboAnoPedidos.Width = 1200
         cboMesPedidos.Clear
         cboAnoPedidos.Clear
         lblClientePedidos.Visible = True
@@ -8633,22 +8385,35 @@ Select Case cboIndicePedidos.Text
         cboMesPedidos.Visible = True
         lblAnoPedidos.Visible = True
         cboAnoPedidos.Visible = True
+        lblMesPedidos.Left = 6180
+        cboMesPedidos.Left = 6720
+        cmdCalPed1.Left = 7800
+        lblAnoPedidos.Left = 8160
+        cboAnoPedidos.Left = 8580
+        cmdCalPed2.Left = 9660
+        cmdExibirPedidos.Left = 10020
+        cmdCalPed1.Visible = True
+        cmdCalPed2.Visible = True
 
     Case "CLIENTE + MENSAL"
         lblClientePedidos.Caption = "Cliente:"
-        cboClientePedidos.Width = 1500
         lblMesPedidos.Caption = "Mês:"
-        lblMesPedidos.Left = 2340
-        cboMesPedidos.Left = 2640: cboMesPedidos.Width = 900
         lblAnoPedidos.Caption = "Ano:"
-        lblAnoPedidos.Left = 3600
-        cboAnoPedidos.Left = 3960: cboAnoPedidos.Width = 1200
         lblClientePedidos.Visible = True
         cboClientePedidos.Visible = True
         lblMesPedidos.Visible = True
         cboMesPedidos.Visible = True
         lblAnoPedidos.Visible = True
         cboAnoPedidos.Visible = True
+        lblMesPedidos.Left = 6180
+        cboMesPedidos.Left = 6720
+        cmdCalPed1.Left = 7800
+        lblAnoPedidos.Left = 8160
+        cboAnoPedidos.Left = 8580
+        cmdCalPed2.Left = 9660
+        cmdExibirPedidos.Left = 10020
+        cboMesPedidos.Text = ""
+        cboAnoPedidos.Text = ""
 
 End Select
 End Sub
@@ -9045,45 +8810,7 @@ mskInicioDup = Format(varData, "dd/mm/yy")   'Exibe a data no campo
 'Calcular_Prazo
 End Sub
 
-Private Sub cmdCalPedidos1_Click()
-Dim varData As Variant
-Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variável
-
-Set fCal = New Calendario      'Cria o form de calendário
-fCal.Show vbModal
-
-varData = fCal.DateSelected    'Recupera a data selecionada
-
-Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrói a variável
-
-If Not IsDate(varData) Then Exit Sub   'Valida a data
-If varData = 0 Then Exit Sub
-
-mskInicialPedidos = Format(varData, "dd/mm/yy")   'Exibe a data no campo
-End Sub
-
-Private Sub cmdCalPedidos2_Click()
-Dim varData As Variant
-Dim fCal As Calendario
-
-varData = Empty                    'Inicializa a variável
-
-Set fCal = New Calendario      'Cria o form de calendário
-fCal.Show vbModal
-
-varData = fCal.DateSelected    'Recupera a data selecionada
-
-Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrói a variável
-
-If Not IsDate(varData) Then Exit Sub   'Valida a data
-If varData = 0 Then Exit Sub
-
-mskFinalPedidos = Format(varData, "dd/mm/yy")   'Exibe a data no campo
-End Sub
 
 
 Private Sub cmdCancelarNota_Click()
@@ -9106,6 +8833,8 @@ vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
           "Justificativa = '" & Justificativa & "' " & _
           "WHERE CodigoNota = " & Val(vCodNota)
     vgDb.Execute sql
+    vgDb.Execute "UPDATE NotaFiscal SET Cod_Pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
+    vgDb.Execute "UPDATE NotaFiscalItens SET Cod_Pedido = 0, Item_pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
     'RsOpen TbNotas, "SELECT CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota,  " & _
                     "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) AS Status " & _
                     "FROM NotaFiscal WHERE CodigoNota = " & Val(vCodNota)
@@ -9963,37 +9692,107 @@ If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then MsgBox "Existe uma 
 
 Dim nMarcados As Integer, i As Integer
 For i = 1 To GridPedidos.rows - 1
-    If GridPedidos.TextMatrix(i, 0) = "1" And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
+    If GridPedidos.RowData(i) = 1 And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
         nMarcados = nMarcados + 1
     End If
 Next i
 
 If nMarcados = 0 Then MsgBox "Marque ao menos um pedido ainda não convertido.", vbInformation, "Online Commerce": Exit Sub
-If ShowMsg("Deseja converter " & nMarcados & " pedido(s) em Nota Fiscal?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+
+Dim bUnirEmUmaNota As Boolean
+bUnirEmUmaNota = False
+
+If nMarcados = 1 Then
+    If ShowMsg("Deseja converter 1 pedido em Nota Fiscal?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+Else
+    Dim fOpc As New frmOpcaoConversao
+    fOpc.lblPergunta.Caption = "Converter " & nMarcados & " pedido(s) selecionado(s):"
+    fOpc.Show vbModal
+    Dim iResultado As Integer
+    iResultado = fOpc.RESULTADO
+    Unload fOpc
+    Set fOpc = Nothing
+    If iResultado = 0 Then Exit Sub
+    bUnirEmUmaNota = (iResultado = 2)
+End If
 
 picAguarde2.Visible = True
 
-For i = 1 To GridPedidos.rows - 1
-    If GridPedidos.TextMatrix(i, 0) = "1" And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
-        txtCodPedido.Text = GridPedidos.TextMatrix(i, 1)
-        vTipoEdicaoNFe = "Edicao"
-        GravarPedido
-        AtualizarTotaisNota
-        txtInfComple.Text = "NFe referente a venda Nº " & txtCodPedido.Text
+If bUnirEmUmaNota Then
+    Dim bPrimeiro As Boolean
+    Dim sPedidosLista As String
+    Dim sInfAdd As String
+    bPrimeiro = True
+    sPedidosLista = ""
+    For i = 1 To GridPedidos.rows - 1
+        If GridPedidos.RowData(i) = 1 And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
+            txtCodPedido.Text = GridPedidos.TextMatrix(i, 1)
+            If bPrimeiro Then
+                vTipoEdicaoNFe = "Edicao"
+                GravarPedido
+                dbData.Execute "UPDATE NotaFiscal SET Cod_Pedido = 0 WHERE CodigoNota = " & Val(txtCodNota.Text)
+                bPrimeiro = False
+                sPedidosLista = Format(CLng(txtCodPedido.Text), "0000")
+            Else
+                AdicionarPedidoNaNota
+                sPedidosLista = sPedidosLista & ", " & Format(CLng(txtCodPedido.Text), "0000")
+            End If
+        End If
+    Next i
+    AtualizarTotaisNota
+    sInfAdd = Trim(txtInfComple.Text)
+    If Len(sInfAdd) > 0 Then
+        sInfAdd = sInfAdd & " / PEDIDO: " & sPedidosLista
+    Else
+        sInfAdd = "PEDIDO: " & sPedidosLista
     End If
-Next i
+    SQLExecuta "UPDATE NotaFiscal SET InformacoesAdicionais = '" & Replace(sInfAdd, "'", "''") & "' WHERE CodigoNota = " & Val(txtCodNota.Text)
+    txtInfComple.Text = sInfAdd
+Else
+    Dim sInfAdd2 As String
+    For i = 1 To GridPedidos.rows - 1
+        If GridPedidos.RowData(i) = 1 And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
+            txtCodPedido.Text = GridPedidos.TextMatrix(i, 1)
+            vTipoEdicaoNFe = "Edicao"
+            GravarPedido
+            AtualizarTotaisNota
+            sInfAdd2 = Trim(txtInfComple.Text)
+            If Len(sInfAdd2) > 0 Then
+                sInfAdd2 = sInfAdd2 & " / PEDIDO: " & Format(CLng(txtCodPedido.Text), "0000")
+            Else
+                sInfAdd2 = "PEDIDO: " & Format(CLng(txtCodPedido.Text), "0000")
+            End If
+            SQLExecuta "UPDATE NotaFiscal SET InformacoesAdicionais = '" & Replace(sInfAdd2, "'", "''") & "' WHERE CodigoNota = " & Val(txtCodNota.Text)
+            txtInfComple.Text = sInfAdd2
+        End If
+    Next i
+End If
 
-vTipoEdicaoNFe = ""
-cmdNovo.Enabled = True
-cmdSalvar.Enabled = False
-cmdCancelar.Enabled = False
-frmNota.Enabled = False
-frmDestinatario.Enabled = False
-frmItens.Enabled = False
-Tab_Totais.Enabled = False
-Tab_Produtos.Enabled = False
-cmdExibirPedidos_Click
 picAguarde2.Visible = False
+cmdExibirPedidos_Click
+
+If nMarcados = 1 Or bUnirEmUmaNota Then
+    cmdNovo.Enabled = False
+    cmdSalvar.Enabled = True
+    cmdCancelar.Enabled = True
+    frmNota.Enabled = True
+    frmDestinatario.Enabled = True
+    frmItens.Enabled = True
+    Tab_Totais.Enabled = True
+    Tab_Produtos.Enabled = True
+    cmdRecalcular_Click
+    Frm_NF.Tab = 0
+Else
+    vTipoEdicaoNFe = ""
+    cmdNovo.Enabled = True
+    cmdSalvar.Enabled = False
+    cmdCancelar.Enabled = False
+    frmNota.Enabled = False
+    frmDestinatario.Enabled = False
+    frmItens.Enabled = False
+    Tab_Totais.Enabled = False
+    Tab_Produtos.Enabled = False
+End If
 End Sub
 
 Private Sub cmdCopiarChave_Click()
@@ -10057,176 +9856,70 @@ End Sub
 Private Sub cmdDuplicar_Click()
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
 
-'pegar o codigo da NFe Original
-Dim varCodNotaOrigem As Integer
-Dim varNumNotaOrigem As Integer
-
-vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
-vTipoEdicaoNFe = "Edicao"
-varCodNotaOrigem = vCodNota
-varNumNotaOrigem = (GridNotas.TextMatrix(GridNotas.Row, 2))
-
-'On Error GoTo ErrLoad
+Dim varCodNotaOrigem As Long
+varCodNotaOrigem = CLng(GridNotas.TextMatrix(GridNotas.Row, 1))
 
 'autonumeração
-Dim ConsultaSQL As String
 Dim tbNota As ADODB.Recordset
+Set tbNota = dbData.OpenRecordset("SELECT ISNULL(MAX(numeronota), 0) AS Maior_nota FROM NotaFiscal")
 
-ConsultaSQL = "SELECT ISNULL(MAX(numeronota), 0) AS Maior_nota FROM NotaFiscal"
-Set tbNota = dbData.OpenRecordset(ConsultaSQL)
-      
-'preecher objetos do form
-Dim totalRegistros As Long
-RsOpen TbNotas, "SELECT CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota, serienf,  " & _
-                "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) AS Status " & _
-                "FROM NotaFiscal"
-                
-If TbNotas.RecordCount > 0 Then totalRegistros = TbNotas.RecordCount
+LimparObjetosNota
+LimparObjetosDestinatario
+LimparObjetosProduto
+LimparObjetosNotaTotais
+LimparObjestosNotaOutros
+LimparGridItensNota
 
-    LimparObjetosNota
-    LimparObjetosDestinatario
-    LimparObjetosProduto
-    LimparObjetosNotaTotais
-    LimparObjestosNotaOutros
-    LimparGridItensNota
-    
-    txtCodPedido.Text = 0
-    
-    If TbNotas.EOF And TbNotas.BOF Then
-        txtNumNota.Text = tbNota("Maior_nota") + 1
-        txtCodNota.Text = "1"
-        txtSerie.Text = "1"
-    Else
-        TbNotas.MoveLast
-        txtNumNota.Text = tbNota("Maior_nota") + 1
-        txtCodNota.Text = TbNotas("CodigoNota") + 1
-        txtSerie.Text = TbNotas("serienf")
-    End If
-    
-    'preencher os objetos
-    cboIndicadorPagamento.Text = "0 - Pagamento à vista"
-    cboFormatoDANFe.Text = "1 - Retrato"
-    cboTipoEmissao.Text = "1 - Normal"
-    
-    cboTipoNota.Text = "1 - SAÍDA"
-    cboTipoContribuinte.Text = "9 - NÃO CONTRIBUINTE"
-    cboConsumidorFinal.Text = "1 - SIM"
-    
-    cboModFrete.Text = ""
-    
-    txtValorFrete.Text = "0,00"
-    txtValorOutrasDespesas.Text = "0,00"
-    txtVolPesoBruto.Text = "0,00"
-    txtVolPesoLiquido.Text = "0,00"
-    txtValorSeguro.Text = "0,00"
-    txtBaseICMSST.Text = "0,00"
-    txtBaseICMS.Text = "0,00"
-    txtValorICMS.Text = "0,00"
-    txtBaseICMSST.Text = "0,00"
-    txtValorICMSST.Text = "0,00"
-    txtValorIPI.Text = "0,00"
-    txtValorDesconto.Text = "0,00"
-    
-    cboCliente = "CONSUMIDOR"
-    txtCodCliente = "1"
+'calcular novo número e código da nota
+RsOpen TbNotas, "SELECT * FROM NotaFiscal"
+Dim novoNumNota As Long, novoCodNota As Long
+If TbNotas.EOF And TbNotas.BOF Then
+    novoNumNota = tbNota("Maior_nota") + 1
+    novoCodNota = 1
+Else
+    TbNotas.MoveLast
+    novoNumNota = tbNota("Maior_nota") + 1
+    novoCodNota = TbNotas("CodigoNota") + 1
+End If
 
-    cboDestOperacao.Text = "1 - Operação Interna"
-    'txtInfAdicionais = Format(rTabela("InformacoesAdicionais"), "@")
-    cboNatureza = "5102"
-    txtNatureza = "VENDA DE MERCADORIA ADQUIRIDA OU RECEBIDA DE TERCEIROS"
-    cboFinalidade = "1 - NFe NORMAL"
-    cboTipoDest = "CLIENTE"
-    mskEmissao = Format(Date, "dd/mm/yyyy")
-    mskSaida = Format(Date, "dd/mm/yyyy")
-    mskHora = Format(Time(), "HH:MM:ss")
-    
-    txtVolPesoBruto = Format(0, "@")
-    txtVolPesoLiquido = Format(0, "@")
-    'txtPlacaUF = Format(0, "@")
-    cboModFrete = "9 - SEM FRETE"
-    'txtCodTransporte = Format(0, "@")
-    'cboTransporte = Format(0, "@")
-    'txtPlaca = Format(0, "@")
-    'txtVolQuant = Format(0, "@")
-    'txtVolEspecie = Format(0, "@")
-    'txtVolMarca = Format(0, "@")
-    'txtVolNumeracao = Format(0, "@")
-    'txtCodObservacao = Format(0, "@")
-    
-    txtValorSeguro = Format(0, "##,##0.00")
-    txtValorOutrasDespesas = Format(0, "##,##0.00")
-    txtValorFrete = Format(0, "##,##0.00")
-    txtBaseICMS = Format(0, "##,##0.00")
-    txtBaseICMSST = Format(0, "##,##0.00")
-    txtValorIPI = Format(0, "##,##0.00")
-    txtValorICMS = Format(0, "##,##0.00")
-    txtValorICMSST = Format(0, "##,##0.00")
-    txtValorDesconto = Format(0, "##,##0.00")
-    
-    'transmissão
-    'Text30 = Format(0, "@")
-    'Text31 = Format(0, "@")
-    'Text32 = Format(0, "@")
-    cboIndicadorPagamento.Text = "0 - Pagamento à vista"
-    cboFormatoDANFe.Text = "1 - Retrato"
-    cboTipoEmissao.Text = "1 - Normal"
-    
-    txtInfComple.Text = "EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS."
-    txtCodPedido.Text = 0
+'carregar todos os dados da nota original no form
+vTipoEdicaoNFe = "Edicao"
+RsOpen TbNotas, "SELECT * FROM NotaFiscal WHERE CodigoNota = " & varCodNotaOrigem
+Load_Controls
 
-    LimparObjetosProduto
-    
-    'salva nota
-    RsOpen TbNotas, "SELECT * FROM NotaFiscal"
-    
-    TbNotas.AddNew
+'sobrescrever apenas número, código e hora (datas são forçadas para hoje em LerDadosInserir)
+txtNumNota.Text = novoNumNota
+txtCodNota.Text = novoCodNota
+mskHora = Format(Time(), "HH:MM:ss")
 
-    
-'preecher os itens==========================================================
+'abrir recordset vazio para AddNew do cabeçalho
+RsOpen TbNotas, "SELECT * FROM NotaFiscal"
+TbNotas.AddNew
 
-Dim tblItensPedido As ADODB.Recordset
+'copiar itens com TODAS as colunas (exceto PK CodigoItem) via INFORMATION_SCHEMA
+Dim rCols As ADODB.Recordset
+RsOpen rCols, "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS " & _
+              "WHERE TABLE_NAME = 'NotaFiscalItens' AND COLUMN_NAME NOT IN ('CodigoItem', 'CodigoNota') " & _
+              "ORDER BY ORDINAL_POSITION"
+Dim colList As String
+colList = ""
+Do While Not rCols.EOF
+    colList = colList & "[" & rCols!COLUMN_NAME & "], "
+    rCols.MoveNext
+Loop
+If Len(colList) > 2 Then colList = Left(colList, Len(colList) - 2)
 
-'Atualiza a base de dados (funcionando)
-Dim VarCodNota As Integer
-VarCodNota = CInt(txtCodNota.Text)
-
-sSQL = "INSERT INTO NotaFiscalItens ( " & _
-        "CodigoProduto, " & _
-        "EAN, " & _
-        "NomeProduto, " & _
-        "CFOP, " & _
-        "NCM, " & _
-        "CST, " & _
-        "UnidadeComercial, " & _
-        "ValorUnitarioComercializacao, " & _
-        "ValorTotalBruto, " & _
-        "tipodesconto, " & _
-        "desconto, " & _
-        "Valordesconto, " & _
-        "QuantidadeComercial, " & _
-        "pICMS, " & _
-        "vBC, " & _
-        "vICMS,  " & _
-        "item, " & _
-        "CodigoNota " & _
-        " ) " & _
-        "SELECT CodigoProduto, EAN, NomeProduto, CFOP, NCM, CST, UnidadeComercial, ValorUnitarioComercializacao, ValorTotalBruto, tipodesconto, desconto, Valordesconto, QuantidadeComercial, pICMS, vBC, vICMS, item, " & VarCodNota & " " & _
-        "FROM NotaFiscalItens " & _
-        "WHERE CodigoNota = " & varCodNotaOrigem & ";"
+sSQL = "INSERT INTO NotaFiscalItens (CodigoNota, " & colList & ") " & _
+       "SELECT " & novoCodNota & ", " & colList & " " & _
+       "FROM NotaFiscalItens WHERE CodigoNota = " & varCodNotaOrigem
 dbData.Execute sSQL
 
-'preencher o grid dos itens com o pedido
 Exibir_Itens
 AtualizarTotaisNota
 
-
-'finalizar o salvamento da nfe
 LerDadosInserir
 TbNotas.Update
-'SomarProdutosNota
 
-'PreencherGridNotas
-    
 cmdNovo.Enabled = False
 cmdSalvar.Enabled = True
 cmdCancelar.Enabled = True
@@ -10240,16 +9933,8 @@ cmdDuplicar.Enabled = False
 Frm_NF.Tab = 0
 Tab_Produtos.Tab = 0
 Tab_Totais.Tab = 0
-    
+
 Call cmdRecalcular_Click
-
-Exit Sub
-Resume
-
-'ErrLoad:
-'    MsgBox Err.Description, vbCritical
-'    Err.Clear
-'    Set TbNotas = Nothing
 
 End Sub
 
@@ -10306,18 +9991,14 @@ End If
 Verificar_Duplicatas
 End Sub
 
-
-Private Sub cmdEnviarPDF_Click()
+Private Sub cmdEnviarXML_Click()
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
-Dim vChave As String
-Dim vDataProt As Date, dhDataProt As String
+Dim vChave As String, dhDataProt As String, vDataProt As Date
 vChave = GridNotas.TextMatrix(GridNotas.Row, 8)
 dhDataProt = GridNotas.TextMatrix(GridNotas.Row, 11)
-vDataProt = Format(Left(dhDataProt, 10), "yyyy/mm/dd")
+If Len(dhDataProt) >= 10 Then vDataProt = CDate(Left(dhDataProt, 10))
 
-Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
-
-'parte de encontrar o arquivo
+Dim emailDestino As String
 sSQL = "SELECT DiretorioXML, fantasia FROM Empresa"
 Set rEmpresa = dbData.OpenRecordset(sSQL)
 
@@ -10325,29 +10006,38 @@ On Error GoTo deuErro
 Dim sistNFe As snfe.Util
 Set sistNFe = New snfe.Util
 
-dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM empresa", "DiretorioXML", App.path)
+dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM empresa", "DiretorioXML", App.Path)
 xCaminhoXML = dirXML & "\nfe\arquivos\procNFe\" & Format(vDataProt, "yyyymm") & "\" & vChave & "-procNFe.xml"
 xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\NFe" & vChave & ".pdf"
 
 If Not Existe(xCaminhoXML) Then consultaNFe vChave, True
-
-If Not Existe(xCaminhoXML) Then Exit Sub
-
-'criar o arquivo
-iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, xCancelada, True, "", True, False, False, False, True)
-
-If Not Existe(xCaminhoPDF) Then MsgBox "Não existe o arquivo XML dessa venda nesse computador!", vbInformation, "Aviso do Sistema": Exit Sub
-
-'envio do arquivo
-emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
-
-If Not Vazio(emailDestino) Then
-    'Call EnviaEmailPDF(emailDestino, xCaminhoXML)
-    Call EnviaEmailPDF(emailDestino, xCaminhoPDF)
-    DoEvents
+If Not Existe(xCaminhoXML) Then
+    Set sistNFe = Nothing
+    MsgBox "Não foi encontrado o arquivo XML desta NF-e!", vbExclamation, "Aviso"
+    Exit Sub
 End If
 
+If Not Existe(xCaminhoPDF) Then
+    iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+    Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, xCancelada, True, "", True, False, False, False, True)
+End If
+
+On Error GoTo 0
+Set sistNFe = Nothing
+
+emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
+If Vazio(emailDestino) Then Exit Sub
+If InStr(1, emailDestino, "@") = 0 Then
+    MsgBox "E-mail inválido! O endereço não contém '@'.", vbExclamation, "Aviso"
+    Exit Sub
+End If
+
+If Existe(xCaminhoPDF) Then
+    Call EnviaEmailXMLPDF(emailDestino, xCaminhoXML, xCaminhoPDF)
+Else
+    Call EnviaEmail(emailDestino, xCaminhoXML)
+End If
+DoEvents
 Exit Sub
 
 deuErro:
@@ -10358,46 +10048,7 @@ deuErro:
        MsgBox Err.Description, vbInformation
     End If
     Err.Clear
-End Sub
-
-Private Sub cmdEnviarXML_Click()
-If GridNotas.rows <= 1 Then
-    MsgBox "Não existe nenhum pedido selecionado!", vbInformation, "Aviso do Sistema"
-    Exit Sub
-End If
-
-Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
-
-'parte de encontrar o arquivo
-sSQL = "SELECT DiretorioXML, fantasia FROM Empresa"
-Set rEmpresa = dbData.OpenRecordset(sSQL)
-
-If Not rEmpresa.EOF Then
-    dirXML = IIf(Right(rEmpresa!DiretorioXML, 1) = "\", rEmpresa!DiretorioXML, rEmpresa!DiretorioXML & "\")
-End If
-
-IdNFProd = Val(GridNotas.TextMatrix(GridNotas.Row, 1))
-
-sSQL = "SELECT ChaveDEAcesso, DataEmissao FROM NotaFiscal WHERE CodigoNota = " & IdNFProd
-NFeChaveAcesso = SQLExecutaRetorno(sSQL, "ChaveDEAcesso", "")
-NFeDataHoraEnvio = SQLExecutaRetorno(sSQL, "DataEmissao", "")
-
-xCaminhoXML = dirXML & "nfe\arquivos\procNFe\" & NFeChaveAcesso & "-procNFe.xml"
-anoEmes = dirXML & "nfe\arquivos\procNFe\" & Format(NFeDataHoraEnvio, "yyyymm") & "\"
-
-If Not Existe(anoEmes) Then MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema": Exit Sub
-
-If Not Existe(xCaminhoXML) Then xCaminhoXML = anoEmes & NFeChaveAcesso & "-procNFe.xml"
-'verifica se o arquivo existe
-If Not Existe(xCaminhoXML) Then MsgBox "Não existe o arquivo XML dessa venda nesse computador!", vbInformation, "Aviso do Sistema": Exit Sub
-
-'envio do arquivo
-emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
-
-If Not Vazio(emailDestino) Then
-   Call EnviaEmail(emailDestino, xCaminhoXML)
-   DoEvents
-End If
+    Set sistNFe = Nothing
 End Sub
 Private Sub EnviaEmailPDF(EmailPara As String, Anexo1 As String)
 Dim emailDest As String, pathAnexo() As String, NomeRemetente As String, corpoEmail As String, emailCC() As String
@@ -10445,6 +10096,58 @@ deuErro:
     Err.Clear
     Set sistNFe = Nothing
 End Sub
+
+Private Sub EnviaEmailXMLPDF(EmailPara As String, Anexo1 As String, Anexo2 As String)
+Dim emailDest As String, pathAnexo() As String, NomeRemetente As String, corpoEmail As String, emailCC() As String
+Dim sistNFe As snfe.Util
+
+On Error GoTo deuErro
+
+Set sistNFe = New snfe.Util
+
+emailDest = EmailPara
+
+ReDim emailCC(0)
+emailCC(0) = EmailPara
+
+If Vazio(emailDest) Then Exit Sub
+
+iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+
+If Not Vazio(Anexo2) And Existe(Anexo2) Then
+    ReDim pathAnexo(1)
+    pathAnexo(0) = Anexo1
+    pathAnexo(1) = Anexo2
+Else
+    ReDim pathAnexo(0)
+    pathAnexo(0) = Anexo1
+End If
+
+NomeRemetente = SQLExecutaRetorno("SELECT Fantasia FROM empresa", "Fantasia", rEmpresa!Fantasia)
+corpoEmail = "Seguem em anexo os arquivos XML e PDF da NFe emitida. " & _
+             "<br><br>" & _
+             "Atenciosamente, " & _
+             "<br><br>" & _
+             "#nome_emitente#"
+corpoEmail = Substitui(corpoEmail, "#nome_emitente#", SQLExecutaRetorno("SELECT RAZAO FROM empresa", "RAZAO"), SO_UM)
+
+If (emailDest <> Empty) Then
+   Screen.MousePointer = vbHourglass
+   iRetorno = sistNFe.EmailEnviar(emailDest, "Arquivo XML e PDF referente a NFe emitida ", corpoEmail, pathAnexo, emailCC)
+   Screen.MousePointer = vbDefault
+End If
+
+If iRetorno Then MsgBox "Email enviado com sucesso!", vbInformation + vbOKOnly, "EMAIL OK!"
+
+Set sistNFe = Nothing
+
+Exit Sub
+deuErro:
+    MsgBox Err.Description, vbCritical + vbOKOnly, "ERRO: Envio Email"
+    Err.Clear
+    Set sistNFe = Nothing
+End Sub
+
 Private Sub EnviaEmail(EmailPara As String, Anexo1 As String)
 Dim emailDest As String, pathAnexo() As String, NomeRemetente As String, corpoEmail As String, emailCC() As String
 Dim temParcelas As Boolean
@@ -10663,8 +10366,8 @@ With GridNotas
    Next
 End With
 
-lblQuantEnviada.Caption = Format(contar, "000")
-lblTotalEnviada.Caption = Format(soma, ocMONEY)
+Dim nEnv As Long, tEnv As Currency
+nEnv = contar: tEnv = soma
 
 'Somar as vendas
 soma = 0
@@ -10680,8 +10383,8 @@ With GridNotas
    Next
 End With
 
-lblQuantCancelada.Caption = Format(contar, "000")
-lblTotalCancelada.Caption = Format(soma, ocMONEY)
+Dim nCan As Long, tCan As Currency
+nCan = contar: tCan = soma
 
 'Somar as vendas
 soma = 0
@@ -10697,8 +10400,8 @@ With GridNotas
    Next
 End With
 
-lblQuantInutilizada.Caption = Format(contar, "000")
-lblTotalInutilizada.Caption = Format(soma, ocMONEY)
+Dim nInu As Long, tInu As Currency
+nInu = contar: tInu = soma
 'Somar as vendas
 soma = 0
 contar = 0
@@ -10713,8 +10416,22 @@ With GridNotas
    Next
 End With
 
-lblQuantNaoEnviada.Caption = Format(contar, "000")
-lblTotalNaoEnviada.Caption = Format(soma, ocMONEY)
+Dim oLI As Object
+With lvwTotais
+    .ListItems.Clear
+    Set oLI = .ListItems.Add(, , "Enviadas")
+    oLI.SubItems(1) = Format(nEnv, "000")
+    oLI.SubItems(2) = Format(tEnv, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Não Enviadas")
+    oLI.SubItems(1) = Format(contar, "000")
+    oLI.SubItems(2) = Format(soma, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Canceladas")
+    oLI.SubItems(1) = Format(nCan, "000")
+    oLI.SubItems(2) = Format(tCan, ocMONEY)
+    Set oLI = .ListItems.Add(, , "Inutilizadas")
+    oLI.SubItems(1) = Format(nInu, "000")
+    oLI.SubItems(2) = Format(tInu, ocMONEY)
+End With
 
 cmdEditar.Caption = "Editar"
 cmdEditar.Enabled = False
@@ -10728,7 +10445,6 @@ cmdDuplicar.Enabled = False
 cmdCartaCorrecao.Enabled = False
 cmdCopiarChave.Enabled = False
 cmdEnviarXML.Enabled = False
-cmdEnviarPDF.Enabled = False
 cmdEspelho.Enabled = False
 
 Exit Sub
@@ -10750,58 +10466,58 @@ Select Case cboIndicePedidos.Text
 
     Case "PEDIDO"
         If cboClientePedidos.Text = "" Then Exit Sub
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
                "WHERE pedidos.cod_pedido = " & Val(cboClientePedidos.Text) & " AND (TIPO_PEDIDO <> 'ORÇAMENTO');"
 
     Case "CLIENTE"
-        If cboClientePedidos.Text = "" Then Exit Sub
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
-               "WHERE cliente.codigo = " & Val(cboClientePedidos.Text) & " AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
+        If cboClientePedidos.ListIndex = -1 Then Exit Sub
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
+               "WHERE cliente.codigo = " & cboClientePedidos.ItemData(cboClientePedidos.ListIndex) & " AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
 
     Case "DATAS"
         If Not IsDate(cboMesPedidos.Text) Or Not IsDate(cboAnoPedidos.Text) Then
             MsgBox "Informe datas válidas nos campos Inicial e Final.", vbInformation, "Online Commerce"
             Exit Sub
         End If
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
                "WHERE (pedidos.data_compra >= CONVERT(DATETIME,'" & Format(CDate(cboMesPedidos.Text), ocDATA) & "',103)) " & _
                "AND (pedidos.data_compra <= CONVERT(DATETIME,'" & Format(CDate(cboAnoPedidos.Text), ocDATA) & "',103)) " & _
                "AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
 
     Case "MENSAL"
         If cboMesPedidos.Text = "" Or cboAnoPedidos.Text = "" Then Exit Sub
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
                "WHERE (MONTH(pedidos.data_compra) = " & cboMesPedidos.ListIndex + 1 & ") AND (YEAR(pedidos.data_compra) = " & cboAnoPedidos.Text & ") " & _
                "AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
 
     Case "CLIENTE + DATAS"
-        If cboClientePedidos.Text = "" Then Exit Sub
+        If cboClientePedidos.ListIndex = -1 Then Exit Sub
         If Not IsDate(cboMesPedidos.Text) Or Not IsDate(cboAnoPedidos.Text) Then
             MsgBox "Informe datas válidas nos campos Inicial e Final.", vbInformation, "Online Commerce"
             Exit Sub
         End If
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
-               "WHERE cliente.codigo = " & Val(cboClientePedidos.Text) & " " & _
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
+               "WHERE cliente.codigo = " & cboClientePedidos.ItemData(cboClientePedidos.ListIndex) & " " & _
                "AND (pedidos.data_compra >= CONVERT(DATETIME,'" & Format(CDate(cboMesPedidos.Text), ocDATA) & "',103)) " & _
                "AND (pedidos.data_compra <= CONVERT(DATETIME,'" & Format(CDate(cboAnoPedidos.Text), ocDATA) & "',103)) " & _
                "AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
 
     Case "CLIENTE + MENSAL"
-        If cboClientePedidos.Text = "" Or cboMesPedidos.Text = "" Or cboAnoPedidos.Text = "" Then Exit Sub
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido " & _
-               "WHERE cliente.codigo = " & Val(cboClientePedidos.Text) & " " & _
+        If cboClientePedidos.ListIndex = -1 Or cboMesPedidos.Text = "" Or cboAnoPedidos.Text = "" Then Exit Sub
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
+               "WHERE cliente.codigo = " & cboClientePedidos.ItemData(cboClientePedidos.ListIndex) & " " & _
                "AND (MONTH(pedidos.data_compra) = " & cboMesPedidos.ListIndex + 1 & ") AND (YEAR(pedidos.data_compra) = " & cboAnoPedidos.Text & ") " & _
                "AND (TIPO_PEDIDO <> 'ORÇAMENTO') ORDER BY pedidos.cod_pedido;"
 
     Case Else
-        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN NotaFiscal.cod_pedido = pedidos.cod_pedido THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
-               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente LEFT JOIN NotaFiscal ON NotaFiscal.cod_pedido = pedidos.cod_pedido WHERE pedidos.cod_pedido = '0';"
+        sSQL = "SELECT cliente.codigo, pedidos.cod_cliente, cliente.nome as var_Nome, pedidos.tipo_pagamento AS var_tipoPGTO, pedidos.cod_pedido AS var_codped, pedidos.data_compra as var_DTCompra, pedidos.total AS var_total, (CASE WHEN EXISTS(SELECT 1 FROM NotaFiscalItens WHERE Cod_Pedido = pedidos.cod_pedido AND Cod_Pedido > 0) THEN 'SIM' ELSE 'NÃO' END) AS Status " & _
+               "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente WHERE pedidos.cod_pedido = '0';"
 
 End Select
    
@@ -10838,8 +10554,8 @@ Me.Hide
 Set r = dbData.OpenRecordset(printSQL)
 
 Set REL_NFe_Consulta.Relatorio.Recordset = r
-REL_NFe_Consulta.dfQuant.Caption = lblQuantEnviada.Caption
-REL_NFe_Consulta.dfBruto.Caption = lblTotalEnviada.Caption
+REL_NFe_Consulta.dfQuant.Caption = lvwTotais.ListItems(1).SubItems(1)
+REL_NFe_Consulta.dfBruto.Caption = lvwTotais.ListItems(1).SubItems(2)
 
 If cboFiltroNota.Text = "MENSAL" Then
    REL_NFe_Consulta.dfTipo.Caption = "Tipo: Mês = " & cboConNotaMes.Text & "/" & cboConNotaAno.Text
@@ -10902,6 +10618,8 @@ If IdNFProd > 0 Then
       vgDb.Execute sSQL
       sSQL = "UPDATE NotaFiscal SET Enviada = 1, Inutilizada = 1 WHERE CodigoNota = " & IdNFProd
       vgDb.Execute sSQL
+      vgDb.Execute "UPDATE NotaFiscal SET Cod_Pedido = 0 WHERE CodigoNota = " & IdNFProd
+      vgDb.Execute "UPDATE NotaFiscalItens SET Cod_Pedido = 0, Item_pedido = 0 WHERE CodigoNota = " & IdNFProd
       MsgBox CStr(cStat) & " - " & NFeMotivo, vbInformation + vbOKOnly, "INUTILIZAÇÃO"
    Else
       MsgBox CStr(cStat) & " - " & NFeMotivo, vbCritical + vbOKOnly, "ERRO - INUTILIZAÇÃO"
@@ -11229,6 +10947,10 @@ vPossuiErro = False
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
 If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then MsgBox "Existem um NFe em aberto, Salve-a ou Cancele-a!", vbExclamation, "Online Commerce": Frm_NF.Tab = 0: Exit Sub
 
+Dim vStatusNF As String
+vStatusNF = GridNotas.TextMatrix(GridNotas.Row, 7)
+If vStatusNF = "Enviada" Or vStatusNF = "Cancelada" Or vStatusNF = "Inutilizada" Then MsgBox "Esta nota já foi " & vStatusNF & "!", vbExclamation, "Online Commerce": Exit Sub
+
 'verificar erros
 If vPossuiErro = False Then VerificarDestinatarioEnviar Else Exit Sub
 If vPossuiErro = False Then VerificarProdutosEnviar Else Exit Sub
@@ -11263,33 +10985,44 @@ If vPossuiErro = False Then
 Call cmdExibirConNotas_Click
 End If
 End Sub
-Private Sub GridPedidos_Click()
-Dim iRow As Integer
-iRow = GridPedidos.Row
-If iRow < 1 Then Exit Sub
-If GridPedidos.Col <> 0 Then Exit Sub
-If GridPedidos.TextMatrix(iRow, 0) = "1" Then
-    GridPedidos.TextMatrix(iRow, 0) = ""
-    GridPedidos.Row = iRow: GridPedidos.Col = 0
-    Set GridPedidos.CellPicture = imgDesmarcada.Picture
-    GridPedidos.CellPictureAlignment = 4
-Else
-    GridPedidos.TextMatrix(iRow, 0) = "1"
-    GridPedidos.Row = iRow: GridPedidos.Col = 0
-    Set GridPedidos.CellPicture = ImgMarcada.Picture
-    GridPedidos.CellPictureAlignment = 4
-End If
+Private Sub GridPedidos_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+If x > GridPedidos.ColWidth(0) Then Exit Sub
+
+Dim iRow As Long, yPos As Single
+yPos = GridPedidos.RowHeight(0)
+If y < yPos Then Exit Sub
+For iRow = 1 To GridPedidos.rows - 1
+    yPos = yPos + GridPedidos.RowHeight(iRow)
+    If y < yPos Then
+        If GridPedidos.TextMatrix(iRow, 2) = "SIM" Then Exit Sub
+        If GridPedidos.RowData(iRow) = 1 Then
+            GridPedidos.RowData(iRow) = 0
+            GridPedidos.Row = iRow: GridPedidos.Col = 0
+            Set GridPedidos.CellPicture = imgDesmarcada.Picture
+            GridPedidos.CellPictureAlignment = 4
+        Else
+            GridPedidos.RowData(iRow) = 1
+            GridPedidos.Row = iRow: GridPedidos.Col = 0
+            Set GridPedidos.CellPicture = ImgMarcada.Picture
+            GridPedidos.CellPictureAlignment = 4
+        End If
+        Exit Sub
+    End If
+Next iRow
 End Sub
 
 Private Sub imgDesmarcadaTODAS_Click()
 Dim i As Integer
 imgDesmarcadaTODAS.Visible = False
 ImgMarcadaTODAS.Visible = True
-For i = 1 To GridPedidos.Rows - 1
-    GridPedidos.TextMatrix(i, 0) = "1"
-    GridPedidos.Row = i: GridPedidos.Col = 0
-    Set GridPedidos.CellPicture = ImgMarcada.Picture
-    GridPedidos.CellPictureAlignment = 4
+lblCodFabrica(9).Visible = True
+For i = 1 To GridPedidos.rows - 1
+    If GridPedidos.TextMatrix(i, 2) <> "SIM" Then
+        GridPedidos.RowData(i) = 1
+        GridPedidos.Row = i: GridPedidos.Col = 0
+        Set GridPedidos.CellPicture = ImgMarcada.Picture
+        GridPedidos.CellPictureAlignment = 4
+    End If
 Next i
 End Sub
 
@@ -11297,12 +11030,43 @@ Private Sub ImgMarcadaTODAS_Click()
 Dim i As Integer
 ImgMarcadaTODAS.Visible = False
 imgDesmarcadaTODAS.Visible = True
-For i = 1 To GridPedidos.Rows - 1
-    GridPedidos.TextMatrix(i, 0) = ""
-    GridPedidos.Row = i: GridPedidos.Col = 0
-    Set GridPedidos.CellPicture = imgDesmarcada.Picture
-    GridPedidos.CellPictureAlignment = 4
+lblCodFabrica(9).Visible = True
+For i = 1 To GridPedidos.rows - 1
+    If GridPedidos.TextMatrix(i, 2) <> "SIM" Then
+        GridPedidos.RowData(i) = 0
+        GridPedidos.Row = i: GridPedidos.Col = 0
+        Set GridPedidos.CellPicture = imgDesmarcada.Picture
+        GridPedidos.CellPictureAlignment = 4
+    End If
 Next i
+End Sub
+
+Private Sub cmdCalPed1_Click()
+Dim varData As Variant
+Dim fCal As Calendario
+varData = Empty
+Set fCal = New Calendario
+fCal.Show vbModal
+varData = fCal.DateSelected
+Unload fCal
+Set fCal = Nothing
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+cboMesPedidos.Text = Format(varData, "dd/mm/yy")
+End Sub
+
+Private Sub cmdCalPed2_Click()
+Dim varData As Variant
+Dim fCal As Calendario
+varData = Empty
+Set fCal = New Calendario
+fCal.Show vbModal
+varData = fCal.DateSelected
+Unload fCal
+Set fCal = Nothing
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+cboAnoPedidos.Text = Format(varData, "dd/mm/yy")
 End Sub
 
 Private Sub FormatarGridPedidos(rTabela As ADODB.Recordset)
@@ -11361,11 +11125,26 @@ Private Sub FormatarGridPedidos(rTabela As ADODB.Recordset)
          .Col = 5
          .CellForeColor = &HC0&
          .CellFontBold = True
+         .Col = 2
+         If .TextMatrix(i, 2) = "SIM" Then
+             .CellForeColor = RGB(139, 0, 0)
+         Else
+             .CellForeColor = vbBlack
+         End If
       Next
       
       .rows = .rows - 1
       .Redraw = True
    End With
+   
+   If GridPedidos.rows > 1 Then
+       imgDesmarcadaTODAS.Visible = True
+       ImgMarcadaTODAS.Visible = False
+   Else
+       imgDesmarcadaTODAS.Visible = False
+       ImgMarcadaTODAS.Visible = False
+   End If
+   lblCodFabrica(9).Visible = imgDesmarcadaTODAS.Visible Or ImgMarcadaTODAS.Visible
    
 '   lblValor.Caption = Format(SomaGrid(GridPedidos, 5), ocMONEY)
 End Sub
@@ -11409,7 +11188,6 @@ If GridNotas.TextMatrix(i, 7) = "Enviada" Then
     cmdCartaCorrecao.Enabled = True
     cmdCopiarChave.Enabled = True
     cmdEnviarXML.Enabled = True
-    cmdEnviarPDF.Enabled = True
     cmdEspelho.Enabled = False
 ElseIf GridNotas.TextMatrix(i, 7) = "Em Digitação" Then
     cmdEditar.Enabled = True
@@ -11424,7 +11202,6 @@ ElseIf GridNotas.TextMatrix(i, 7) = "Em Digitação" Then
     cmdCartaCorrecao.Enabled = False
     cmdCopiarChave.Enabled = False
     cmdEnviarXML.Enabled = False
-    cmdEnviarPDF.Enabled = False
     cmdEspelho.Enabled = True
     If Len(GridNotas.TextMatrix(i, 8)) = 44 Then cmdConsultar.Enabled = True
 ElseIf GridNotas.TextMatrix(i, 7) = "Cancelada" Then
@@ -11440,7 +11217,6 @@ ElseIf GridNotas.TextMatrix(i, 7) = "Cancelada" Then
     cmdCartaCorrecao.Enabled = False
     cmdCopiarChave.Enabled = True
     cmdEnviarXML.Enabled = True
-    cmdEnviarPDF.Enabled = True
     cmdEspelho.Enabled = False
 ElseIf GridNotas.TextMatrix(i, 7) = "Inutilizada" Then
     cmdEditar.Enabled = True
@@ -11455,7 +11231,6 @@ ElseIf GridNotas.TextMatrix(i, 7) = "Inutilizada" Then
     cmdCartaCorrecao.Enabled = False
     cmdCopiarChave.Enabled = False
     cmdEnviarXML.Enabled = False
-    cmdEnviarPDF.Enabled = False
     cmdEspelho.Enabled = False
 ElseIf GridNotas.TextMatrix(i, 7) = "Em Processamento" Then
     cmdEditar.Enabled = False
@@ -11470,7 +11245,6 @@ ElseIf GridNotas.TextMatrix(i, 7) = "Em Processamento" Then
     cmdCartaCorrecao.Enabled = False
     cmdCopiarChave.Enabled = True
     cmdEnviarXML.Enabled = False
-    cmdEnviarPDF.Enabled = False
     cmdEspelho.Enabled = False
 End If
 End Sub
@@ -11884,6 +11658,11 @@ If KeyCode = 27 Then Unload Me
 End Sub
 Private Sub Form_Load()
 Set moCombo = New cComboHelper
+With lvwTotais.ColumnHeaders
+    .Add , , "Status", 1320
+    .Add , , "Qtd", 510
+    .Add , , "Valor", 1440
+End With
 Frm_NF.Tab = 0
 Tab_Produtos.Tab = 0
 Tab_Totais.Tab = 0
@@ -11989,7 +11768,7 @@ Private Sub Label26_Click()
 End Sub
 
 Private Sub lblCodFabrica_Click(index As Integer)
-chkCodBarra.Value = 1
+'chkCodBarra.Value = 1
 'chkCodBarra_Click
 End Sub
 
@@ -12006,55 +11785,13 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    SomaGrid = Valor
 End Function
 
-Private Sub mskFinalPedidos_GotFocus()
-SelectControl mskFinalPedidos
-End Sub
-
-Private Sub mskFinalPedidos_KeyPress(KeyAscii As Integer)
-mskFinalPedidos.Mask = "##/##/##"
-End Sub
 
 
-Private Sub mskFinalPedidos_LostFocus()
-If mskFinalPedidos.Text = "" Or mskFinalPedidos.Text = "__/__/__" Then
-   mskFinalPedidos.Mask = ""
-   mskFinalPedidos.Text = ""
-   Exit Sub
-Else
-   If IsDate(mskFinalPedidos.Text) Then
-      'cmdLocalizar.SetFocus
-   Else
-      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-      mskFinalPedidos.SetFocus
-      SelectControl mskFinalPedidos
-   End If
-End If
-End Sub
-
-Private Sub mskInicialPedidos_GotFocus()
-SelectControl mskInicialPedidos
-End Sub
-
-Private Sub mskInicialPedidos_KeyPress(KeyAscii As Integer)
-mskInicialPedidos.Mask = "##/##/##"
-End Sub
 
 
-Private Sub mskInicialPedidos_LostFocus()
-If mskInicialPedidos.Text = "" Or mskInicialPedidos.Text = "__/__/__" Then
-   mskInicialPedidos.Mask = ""
-   mskInicialPedidos.Text = ""
-   Exit Sub
-Else
-   If IsDate(mskInicialPedidos.Text) Then
-      'cmdLocalizar.SetFocus
-   Else
-      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-      mskInicialPedidos.SetFocus
-      SelectControl mskInicialPedidos
-   End If
-End If
-End Sub
+
+
+
 
 
 

@@ -168,6 +168,7 @@ Begin VB.Form Produtos_AjustoPreco
                EndProperty
                Height          =   315
                Left            =   1080
+               Locked          =   -1  'True
                TabIndex        =   53
                TabStop         =   0   'False
                Top             =   480
@@ -225,6 +226,7 @@ Begin VB.Form Produtos_AjustoPreco
                EndProperty
                Height          =   315
                Left            =   1080
+               Locked          =   -1  'True
                TabIndex        =   49
                TabStop         =   0   'False
                Top             =   480
@@ -306,6 +308,7 @@ Begin VB.Form Produtos_AjustoPreco
                EndProperty
                Height          =   315
                Left            =   1080
+               Locked          =   -1  'True
                TabIndex        =   43
                TabStop         =   0   'False
                Top             =   480
@@ -363,6 +366,7 @@ Begin VB.Form Produtos_AjustoPreco
                EndProperty
                Height          =   315
                Left            =   1080
+               Locked          =   -1  'True
                TabIndex        =   39
                TabStop         =   0   'False
                Top             =   480
@@ -1152,7 +1156,7 @@ Dim varMargemAP As Currency
 If txtMargemAP.Text = "" Then txtMargemAP.Text = 0
 varMargemAP = txtMargemAP.Text
 
-txtMargemAP.Text = FormatNumber(varMargemAP, 4) & "%"
+txtMargemAP.Text = FormatNumber(varMargemAP, 2) & "%"
 
 CalcularPrecos
 lblAviso.Visible = False
@@ -1199,7 +1203,7 @@ Dim varMargemAV As Currency
 If txtMargemAV.Text = "" Then txtMargemAV.Text = 0
 varMargemAV = txtMargemAV.Text
 
-txtMargemAV.Text = FormatNumber(varMargemAV, 4) & "%"
+txtMargemAV.Text = FormatNumber(varMargemAV, 2) & "%"
 
 CalcularPrecos
 lblAviso.Visible = False
@@ -1246,7 +1250,7 @@ Dim varMargemVP As Currency
 If txtMargemVP.Text = "" Then txtMargemVP.Text = 0
 varMargemVP = txtMargemVP.Text
 
-txtMargemVP.Text = FormatNumber(varMargemVP, 4) & "%"
+txtMargemVP.Text = FormatNumber(varMargemVP, 2) & "%"
 
 CalcularPrecos
 lblAviso.Visible = False
@@ -1292,7 +1296,7 @@ Dim varMargemVV As Currency
 If txtMargemVV.Text = "" Then txtMargemVV.Text = 0
 varMargemVV = txtMargemVV.Text
 
-txtMargemVV.Text = FormatNumber(varMargemVV, 4) & "%"
+txtMargemVV.Text = FormatNumber(varMargemVV, 2) & "%"
 If txtMargemVP.Text = "" Then txtMargemVP.Text = txtMargemVV.Text
 If txtMargemAV.Text = "" Then txtMargemAV.Text = txtMargemVV.Text
 If txtMargemAP.Text = "" Then txtMargemAP.Text = txtMargemVV.Text
@@ -1355,7 +1359,7 @@ a = txtCusto.Text
 B = txtValorAP.Text
 c = ((B - a) / a) * 100
 
-txtMargemAP.Text = FormatNumber(c, 4) & "%"
+txtMargemAP.Text = FormatNumber(c, 2) & "%"
 End Sub
 
 
@@ -1379,7 +1383,7 @@ a = txtCusto.Text
 B = txtValorAV.Text
 c = ((B - a) / a) * 100
 
-txtMargemAV.Text = FormatNumber(c, 4) & "%"
+txtMargemAV.Text = FormatNumber(c, 2) & "%"
 End Sub
 
 
@@ -1403,7 +1407,7 @@ a = txtCusto.Text
 B = txtValorVP.Text
 c = ((B - a) / a) * 100
 
-txtMargemVP.Text = FormatNumber(c, 4) & "%"
+txtMargemVP.Text = FormatNumber(c, 2) & "%"
 End Sub
 
 
@@ -1427,7 +1431,7 @@ a = txtCusto.Text
 B = txtValorVV.Text
 c = ((B - a) / a) * 100
 
-txtMargemVV.Text = FormatNumber(c, 4) & "%"
+txtMargemVV.Text = FormatNumber(c, 2) & "%"
 End Sub
 
 

@@ -38,7 +38,8 @@
       "Bash(Select-Object -First 200)",
       "Bash(Move-Item *)",
       "PowerShell(Move-Item *)",
-      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\criar_frmISClassTrib.py\")"
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\criar_frmISClassTrib.py\")",
+      "Bash(git *)"
     ]
   }
 }
