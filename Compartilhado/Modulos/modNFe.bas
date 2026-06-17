@@ -507,8 +507,9 @@ End If
            vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
            dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
            dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
-           If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!UnidadeTributavel), "", NFeItens!UnidadeTributavel), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+           If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
+           If vIS > 0 And dISqUnid > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(dISqUnid > 0, IIf(IsNull(NFeItens!UnidadeTributavel), "", NFeItens!UnidadeTributavel), ""), dISqUnid, vIS, mensagemAlerta, mensagemErro)
            End If
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
@@ -545,8 +546,9 @@ End If
            vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
            dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
            dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
-           If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!UnidadeTributavel), "", NFeItens!UnidadeTributavel), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+           If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
+           If vIS > 0 And dISqUnid > 0 Then
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(dISqUnid > 0, IIf(IsNull(NFeItens!UnidadeTributavel), "", NFeItens!UnidadeTributavel), ""), dISqUnid, vIS, mensagemAlerta, mensagemErro)
            End If
         End If
         
@@ -556,7 +558,7 @@ End If
         TotvIBS = TotvIBS + vIBS
         TotvCBS = TotvCBS + vCBS
         TotvBCIS = TotvBCIS + vBCIS
-        TotvIS = TotvIS + vIS
+        If dISqUnid > 0 Then TotvIS = TotvIS + vIS
         
         iRetorno = sistNFe.GerarItensImpostoFederal(IIf(Vazio(NFeItens!COFINSCST) Or IsNull(NFeItens!COFINSCST), "99", NFeItens!COFINSCST), NFeItens!COFINSvBC, NFeItens!COFINSpCOFINS, NFeItens!COFINSvCOFINS, 0, 0, _
                                                     IIf(Vazio(NFeItens!PISCST) Or IsNull(NFeItens!PISCST), "99", NFeItens!PISCST), NFeItens!PISvBC, NFeItens!PISpPIS, NFeItens!PISvPIS, 0, 0, _
@@ -583,7 +585,7 @@ End If
                                           NFe!ValorImportacao, 0, NFe!ValorProdutos, NFe!ValorNota, vlTrib, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
 
     If TotvBCCBSIBS > 0 Then
-       iRetorno = sistNFe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, (NFe!ValorProdutos - NFe!ValorDesconto + TotvIBS + TotvCBS), mensagemAlerta, mensagemErro)
+       iRetorno = sistNFe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, NFe!ValorNota, mensagemAlerta, mensagemErro)
     End If
 '    If TotvIS > 0 Then
 '       iRetorno = sistNFe.GerarTotalIS(TotvBCIS, TotvIS, mensagemAlerta, mensagemErro)

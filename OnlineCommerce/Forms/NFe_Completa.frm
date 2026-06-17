@@ -4433,6 +4433,8 @@ Dim curBCCBSIBS2 As Currency
 Dim curDesconto2 As Currency
 Dim curVIBSUF2   As Currency, curVIBSMun2 As Currency, curVCBS2 As Currency
 Dim curBCIS2     As Currency, curVIS2 As Currency
+Dim iTipoIS2     As Integer
+Dim curISqUnid2  As Currency, curISvUnid2 As Currency
 
 bSimples = (vRegimeTributario = 1 Or vRegimeTributario = 2 Or vRegimeTributario = 5)
 bDevolucao = (Left(cboFinalidade.Text, 1) = "4")
@@ -4444,7 +4446,8 @@ sSQL = "SELECT ITEM, " & _
        "PISCST, PISpPIS, " & _
        "COFINSCST, cofinspcofins, " & _
        "pMVAST, pICMSST, pRedBCST, " & _
-       "IBS_UFpAliq, IBS_MunpAliq, CBS_pAliq, IS_pAliq, IBS_pRed, CBS_pRed, ValorDesconto " & _
+       "IBS_UFpAliq, IBS_MunpAliq, CBS_pAliq, IS_pAliq, IBS_pRed, CBS_pRed, ValorDesconto, " & _
+       "IS_tipo_calculo, IS_qUnid, IS_vUnid " & _
        "FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 RsOpen rItens, sSQL
 
@@ -4555,8 +4558,23 @@ Do While Not rItens.EOF
     curVIBSUF2 = CCur(Format(curBCCBSIBS2 * dblPIBSUF / 100 * (1 - dblPRedIBS2 / 100), "0.00"))
     curVIBSMun2 = CCur(Format(curBCCBSIBS2 * dblPIBSMun / 100 * (1 - dblPRedIBS2 / 100), "0.00"))
     curVCBS2 = CCur(Format(curBCCBSIBS2 * dblPCBS / 100 * (1 - dblPRedCBS2 / 100), "0.00"))
-    curBCIS2 = vValProd
-    curVIS2 = CCur(Format(curBCIS2 * dblPIS / 100, "0.00"))
+    iTipoIS2 = IIf(IsNull(rItens("IS_tipo_calculo")), 0, CInt(rItens("IS_tipo_calculo")))
+    curISqUnid2 = CCur(IIf(IsNull(rItens("IS_qUnid")), 0, rItens("IS_qUnid")))
+    curISvUnid2 = CCur(IIf(IsNull(rItens("IS_vUnid")), 0, rItens("IS_vUnid")))
+    Select Case iTipoIS2
+        Case 1
+            curBCIS2 = vValProd
+            curVIS2 = CCur(Format(curBCIS2 * dblPIS / 100, "0.00"))
+        Case 2
+            curBCIS2 = 0
+            curVIS2 = CCur(Format(curISqUnid2 * curISvUnid2, "0.00"))
+        Case 3
+            curBCIS2 = vValProd
+            curVIS2 = CCur(Format(curBCIS2 * dblPIS / 100, "0.00")) + CCur(Format(curISqUnid2 * curISvUnid2, "0.00"))
+        Case Else
+            curBCIS2 = 0
+            curVIS2 = 0
+    End Select
 
     ' Credito Simples Nacional (CSOSN 101/201)
     If bSimples And Not bDevolucao And (sCST = "101" Or sCST = "201") Then
@@ -5317,7 +5335,7 @@ sSQL = "SELECT " & _
        "ISNULL(SUM(IBS_vIBS),    0) AS vIBS,          " & _
        "ISNULL(SUM(CBS_vCBS),    0) AS vCBS,          " & _
        "ISNULL(SUM(IS_vBC),      0) AS vBCIS,         " & _
-       "ISNULL(SUM(IS_vIS),      0) AS vIS            " & _
+       "ISNULL(SUM(CASE WHEN ISNULL(IS_qUnid,0) > 0 THEN ISNULL(IS_vIS,0) ELSE 0 END), 0) AS vIS " & _
        "FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
 Set rTotais = dbData.OpenRecordset(sSQL)
 
@@ -5704,6 +5722,23 @@ Else
 End If
 End Sub
 Private Sub AtualizarValorICMS()
+Dim bSimplesAtuICMS As Boolean
+If vRegimeTributario > 0 Then
+    bSimplesAtuICMS = (vRegimeTributario = 1 Or vRegimeTributario = 2 Or vRegimeTributario = 5)
+Else
+    Dim sTmpReg As String
+    sTmpReg = SQLExecutaRetorno("SELECT RegimeTributario FROM Empresa", "RegimeTributario")
+    Dim iTmpReg As Integer
+    iTmpReg = IIf(sTmpReg = "", 0, CInt(sTmpReg))
+    bSimplesAtuICMS = (iTmpReg = 1 Or iTmpReg = 2 Or iTmpReg = 5)
+End If
+If bSimplesAtuICMS Then
+    SQLExecuta "UPDATE NotaFiscalItens SET vBC = 0, vICMS = 0 WHERE CodigoNota = " & Val(txtCodNota.Text)
+    SQLExecuta "UPDATE NotaFiscal SET ValorICMS = 0, BaseICMS = 0 WHERE CodigoNota = " & Val(txtCodNota.Text)
+    txtValorICMS.Text = Format(0, ocMONEY)
+    txtBaseICMS.Text = Format(0, ocMONEY)
+    Exit Sub
+End If
 sSQL = "SELECT pRedBC as AliqRedBC FROM NotaFiscalItens WHERE (pRedBC <> '0.0000') AND CodigoNota = " & Val(txtCodNota.Text)
 Set r = dbData.OpenRecordset(sSQL)
 
