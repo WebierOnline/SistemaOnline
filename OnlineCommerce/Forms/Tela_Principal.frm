@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20:21"
+            TextSave        =   "21:15"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1122,8 +1122,8 @@ Dim varTipoEmpresa As String
       cmdLogon.Left = 10
       cmdCadClientes.Visible = True
       cmdCadClientes.Left = 780
-      cmdCadProdutos.Visible = True
-      cmdCadProdutos.Left = 1560
+      cmdCADProdutos.Visible = True
+      cmdCADProdutos.Left = 1560
       cmdConsulta.Visible = True
       cmdConsulta.Left = 2340
       cmdVendasConsRapida.Visible = True
@@ -1178,7 +1178,7 @@ Dim varTipoEmpresa As String
       'cmdConsultaOS.Visible = True
       'cmdConsultaOS.Left = 10920
 
-      cmdCadProdutos.Visible = False
+      cmdCADProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
@@ -1221,13 +1221,13 @@ Dim varTipoEmpresa As String
       'cmdConsultaOS.Visible = True
       'cmdConsultaOS.Left = 10920
 
-      cmdCadProdutos.Visible = False
+      cmdCADProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
 
       
-      cmdCadProdutos.Visible = False
+      cmdCADProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
