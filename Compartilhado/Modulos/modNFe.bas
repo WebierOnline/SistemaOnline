@@ -236,7 +236,13 @@ Screen.MousePointer = vbHourglass
 
     dhEmi = Format(NFe!DataEmissao, "yyyy/mm/dd")
 
-    iRetorno = sistNFe.GeraIdentificacao(NFe!cCodigoNota, NFe!NaturezaOperacao, 55, NFe!SerieNF, NFe!NumeroNota, Format(NFe!DataEmissao, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC, Format(NFe!DataSaida, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC, NFe!TipoDocumento, 0, NFe!IdentificadorDestino, Parametros!CodigoIBGE, 1, Left(NFe!FormatoEmissaoNFe, 1), Left(NFe!FinalidadeEmissaoNFe, 1), indFinal, 1, Left$("ONLINE COMMERCE - v." & CStr(App.Major) & "." & CStr(App.Minor) & "." & CStr(App.Revision), 20), dhContingencia, justContingencia, 0, 0, "", "", mensagemAlerta, mensagemErro)
+    Dim lCMunFGIBS As Long
+    lCMunFGIBS = 0
+    If Val(NFe!IdentificadorDestino) = 2 Then
+        lCMunFGIBS = IIf(IsNull(Destinatario!CodigoIBGE), 0, CLng(Val(Destinatario!CodigoIBGE)))
+    End If
+
+    iRetorno = sistNFe.GeraIdentificacao(NFe!cCodigoNota, NFe!NaturezaOperacao, 55, NFe!SerieNF, NFe!NumeroNota, Format(NFe!DataEmissao, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC, Format(NFe!DataSaida, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC, NFe!TipoDocumento, 0, NFe!IdentificadorDestino, Parametros!CodigoIBGE, 1, Left(NFe!FormatoEmissaoNFe, 1), Left(NFe!FinalidadeEmissaoNFe, 1), indFinal, 1, Left$("ONLINE COMMERCE - v." & CStr(App.Major) & "." & CStr(App.Minor) & "." & CStr(App.Revision), 20), dhContingencia, justContingencia, 0, lCMunFGIBS, "", "", mensagemAlerta, mensagemErro)
    
     If NFe!ChavedeAcessoAdicional <> "" Then
        iRetorno = sistNFe.GerarNotasReferenciadas("NFe", NFe!ChavedeAcessoAdicional, 0, "", "", "", "", "", "", mensagemAlerta, mensagemErro)
@@ -509,7 +515,7 @@ End If
            dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
            If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
            If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(dISqUnid > 0, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), ""), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
            End If
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
@@ -548,7 +554,7 @@ End If
            dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
            If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
            If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(dISqUnid > 0, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), ""), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
            End If
         End If
         

@@ -39,7 +39,13 @@
       "Bash(Move-Item *)",
       "PowerShell(Move-Item *)",
       "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\criar_frmISClassTrib.py\")",
-      "Bash(git *)"
+      "Bash(git *)",
+      "Bash(Get-ChildItem \"C:\\\\Projeto\\\\OnlineCommerce\\\\NFE\\\\Sistema\\\\\" | Select-Object Name, Length *)",
+      "Bash(where ildasm *)",
+      "Bash(where ilspycmd *)",
+      "Bash(where dotnet *)",
+      "Read(//c/Program Files \\(x86\\)/Microsoft SDKs/Windows\" 2>/dev/**)",
+      "Bash(pip install *)"
     ]
   }
 }

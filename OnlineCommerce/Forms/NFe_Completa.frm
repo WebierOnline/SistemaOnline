@@ -6640,9 +6640,8 @@ If txtCodNota.Text = "" Then Exit Sub
     Dim curISvUnid As Currency
     curISvUnid = CCur(IIf(vISvUnid = "", 0, Val(Replace(Replace(vISvUnid, ".", ""), ",", "."))))
     
-    ' Ad Valorem e sem IS: qUnid e vUnid nao se aplicam (zerar para evitar rejeicao SEFAZ)
+    ' Schema exige qTrib > 0 sempre; apenas vUnid nao se aplica em ad valorem / sem IS
     If iTipoIS = 0 Or iTipoIS = 1 Then
-        curISqUnid = 0
         curISvUnid = 0
     End If
     
@@ -11689,6 +11688,7 @@ Select Case iCol
         GridNotasItens.TextMatrix(iRow, 10) = sNewClassTrib
         GridNotasItens.TextMatrix(iRow, 13) = FormatNumber(curIBSvIBS, 2)
         GridNotasItens.TextMatrix(iRow, 14) = FormatNumber(curCBSvCBS, 2)
+        dbData.Execute "UPDATE produtos SET IBSCBSCST = '" & Replace(sVal, "'", "''") & "', cClassTrib = '" & Replace(sNewClassTrib, "'", "''") & "' WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
 
     Case 10 ' cClassTrib (CLASS IBS)
         sVal = UCase(Trim(sVal))
@@ -11732,6 +11732,7 @@ Select Case iCol
         GridNotasItens.TextMatrix(iRow, iCol) = sVal
         GridNotasItens.TextMatrix(iRow, 13) = FormatNumber(curIBSvIBS, 2)
         GridNotasItens.TextMatrix(iRow, 14) = FormatNumber(curCBSvCBS, 2)
+        dbData.Execute "UPDATE produtos SET cClassTrib = '" & Replace(sVal, "'", "''") & "' WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
 
     Case 11 ' CST IS
         sVal = Trim(sVal)
@@ -11746,10 +11747,12 @@ Select Case iCol
             GridNotasItens.TextMatrix(iRow, 11) = sVal
             GridNotasItens.TextMatrix(iRow, 12) = ""
             GridNotasItens.TextMatrix(iRow, 15) = FormatNumber(0, 2)
+            dbData.Execute "UPDATE produtos SET ISCST = '" & Replace(sVal, "'", "''") & "', cClassTrib_IS = NULL, tipo_calculo_is = 1 WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
         Else
             ' CST = 01: apenas atualiza IS_CST, mantém CLASS IS
             dbData.Execute "UPDATE NotaFiscalItens SET IS_CST = '01' WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
             GridNotasItens.TextMatrix(iRow, 11) = "01"
+            dbData.Execute "UPDATE produtos SET ISCST = '01' WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
         End If
 
     Case 12 ' cClassTrib_IS (CLASS IS)
@@ -11765,6 +11768,7 @@ Select Case iCol
             dbData.Execute "UPDATE NotaFiscalItens SET cClassTrib_IS = NULL, IS_tipo_calculo = 1, IS_vBC = 0, IS_pAliq = 0, IS_qUnid = 0, IS_vUnid = 0, IS_vIS = 0, uTrib_IS = NULL WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND ITEM = " & Val(sItem)
             GridNotasItens.TextMatrix(iRow, iCol) = ""
             GridNotasItens.TextMatrix(iRow, 15) = FormatNumber(0, 2)
+            dbData.Execute "UPDATE produtos SET cClassTrib_IS = NULL, tipo_calculo_is = 1 WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
         Else
             ' Validar existência em tbISClassTrib
             sChkCST = SQLExecutaRetorno("SELECT TOP 1 cClassTrib_IS FROM tbISClassTrib WHERE cClassTrib_IS = '" & Replace(sVal, "'", "''") & "'", "cClassTrib_IS", "")
@@ -11812,6 +11816,7 @@ Select Case iCol
             GridNotasItens.TextMatrix(iRow, 11) = sISCST2
             GridNotasItens.TextMatrix(iRow, 12) = sVal
             GridNotasItens.TextMatrix(iRow, 15) = FormatNumber(curISvIS2, 2)
+            dbData.Execute "UPDATE produtos SET ISCST = '" & Replace(sISCST2, "'", "''") & "', cClassTrib_IS = '" & Replace(sVal, "'", "''") & "', tipo_calculo_is = " & iTipoIS2 & " WHERE codigo = " & Val(GridNotasItens.TextMatrix(iRow, 3))
         End If
 
     Case 24 ' %ICMS
