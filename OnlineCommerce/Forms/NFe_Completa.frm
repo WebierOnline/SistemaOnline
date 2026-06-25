@@ -24,7 +24,7 @@ Begin VB.Form NFe_Completa
    Begin TabDlg.SSTab Frm_NF 
       Height          =   8655
       Left            =   60
-      TabIndex        =   70
+      TabIndex        =   68
       Top             =   840
       Width           =   16695
       _ExtentX        =   29448
@@ -91,26 +91,16 @@ Begin VB.Form NFe_Completa
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblQuantPedidos"
-      Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "ImgMarcada"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "imgDesmarcada"
-      Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
-      Tab(2).Control(3).Enabled=   0   'False
-      Tab(2).Control(4)=   "ImgMarcadaTODAS"
-      Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "lblCodFabrica(9)"
-      Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "cmdConverterNFe"
-      Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "GridPedidos"
-      Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "frmFiltrosPedidos"
-      Tab(2).Control(8).Enabled=   0   'False
-      Tab(2).Control(9)=   "picAguarde2"
-      Tab(2).Control(9).Enabled=   0   'False
+      Tab(2).Control(0)=   "picAguarde2"
+      Tab(2).Control(1)=   "frmFiltrosPedidos"
+      Tab(2).Control(2)=   "GridPedidos"
+      Tab(2).Control(3)=   "cmdConverterNFe"
+      Tab(2).Control(4)=   "lblCodFabrica(9)"
+      Tab(2).Control(5)=   "ImgMarcadaTODAS"
+      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(7)=   "imgDesmarcada"
+      Tab(2).Control(8)=   "ImgMarcada"
+      Tab(2).Control(9)=   "lblQuantPedidos"
       Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
@@ -161,7 +151,7 @@ Begin VB.Form NFe_Completa
          Picture         =   "NFe_Completa.frx":1E02
          ScaleHeight     =   1095
          ScaleWidth      =   2895
-         TabIndex        =   226
+         TabIndex        =   219
          Top             =   3300
          Visible         =   0   'False
          Width           =   2895
@@ -170,7 +160,7 @@ Begin VB.Form NFe_Completa
          Height          =   315
          Left            =   -66120
          MaxLength       =   50
-         TabIndex        =   220
+         TabIndex        =   217
          TabStop         =   0   'False
          Top             =   6900
          Visible         =   0   'False
@@ -190,21 +180,21 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   3975
          Left            =   -73620
-         TabIndex        =   209
+         TabIndex        =   206
          Top             =   1380
          Visible         =   0   'False
          Width           =   12615
          Begin VB.TextBox txtCorrecao 
             Height          =   375
             Left            =   180
-            TabIndex        =   210
+            TabIndex        =   207
             Top             =   540
             Width           =   12255
          End
          Begin ChamaleonBtn.chameleonButton cmdCCeImprimir 
             Height          =   375
             Left            =   3600
-            TabIndex        =   211
+            TabIndex        =   208
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -242,7 +232,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeSalvar 
             Height          =   375
             Left            =   180
-            TabIndex        =   212
+            TabIndex        =   209
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -280,7 +270,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeExcluir 
             Height          =   375
             Left            =   2460
-            TabIndex        =   213
+            TabIndex        =   210
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -318,7 +308,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdCCeTransmitir 
             Height          =   375
             Left            =   1320
-            TabIndex        =   214
+            TabIndex        =   211
             Top             =   960
             Width           =   1095
             _ExtentX        =   1931
@@ -356,7 +346,7 @@ Begin VB.Form NFe_Completa
          Begin MSFlexGridLib.MSFlexGrid Grid_Correcao 
             Height          =   2415
             Left            =   180
-            TabIndex        =   215
+            TabIndex        =   212
             Top             =   1380
             Width           =   12255
             _ExtentX        =   21616
@@ -369,7 +359,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdFecharCCe 
             Height          =   375
             Left            =   11460
-            TabIndex        =   217
+            TabIndex        =   214
             Top             =   960
             Width           =   975
             _ExtentX        =   1720
@@ -410,7 +400,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Correção"
             Height          =   195
             Left            =   180
-            TabIndex        =   216
+            TabIndex        =   213
             Top             =   300
             Width           =   645
          End
@@ -425,7 +415,7 @@ Begin VB.Form NFe_Completa
          Picture         =   "NFe_Completa.frx":2EC6
          ScaleHeight     =   1095
          ScaleWidth      =   2895
-         TabIndex        =   208
+         TabIndex        =   205
          Top             =   3000
          Visible         =   0   'False
          Width           =   2895
@@ -433,7 +423,7 @@ Begin VB.Form NFe_Completa
       Begin MSComctlLib.ListView lvwTotais 
          Height          =   1155
          Left            =   -61920
-         TabIndex        =   194
+         TabIndex        =   191
          Top             =   6360
          Width           =   3435
          _ExtentX        =   6059
@@ -465,7 +455,7 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   1035
          Left            =   -74880
-         TabIndex        =   154
+         TabIndex        =   151
          Top             =   7500
          Width           =   16395
          Begin VB.Frame Frame9 
@@ -481,13 +471,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   675
             Left            =   180
-            TabIndex        =   171
+            TabIndex        =   168
             Top             =   240
             Width           =   4035
             Begin VB.ComboBox cboIndicePedidos 
                Height          =   315
                Left            =   960
-               TabIndex        =   172
+               TabIndex        =   169
                Top             =   240
                Width           =   2715
             End
@@ -497,7 +487,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Escolher:"
                Height          =   195
                Left            =   180
-               TabIndex        =   173
+               TabIndex        =   170
                Top             =   300
                Width           =   660
             End
@@ -515,13 +505,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   675
             Left            =   4320
-            TabIndex        =   155
+            TabIndex        =   152
             Top             =   240
             Width           =   11895
             Begin ChamaleonBtn.chameleonButton cmdCalPed1 
                Height          =   315
                Left            =   7800
-               TabIndex        =   195
+               TabIndex        =   192
                TabStop         =   0   'False
                Tag             =   "Calendario"
                Top             =   240
@@ -564,7 +554,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdCalPed2 
                Height          =   315
                Left            =   9660
-               TabIndex        =   196
+               TabIndex        =   193
                TabStop         =   0   'False
                Tag             =   "Calendario"
                Top             =   240
@@ -608,7 +598,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   8580
                Sorted          =   -1  'True
-               TabIndex        =   160
+               TabIndex        =   157
                Top             =   240
                Visible         =   0   'False
                Width           =   1335
@@ -616,7 +606,7 @@ Begin VB.Form NFe_Completa
             Begin VB.ComboBox cboMesPedidos 
                Height          =   315
                Left            =   6720
-               TabIndex        =   159
+               TabIndex        =   156
                Top             =   240
                Visible         =   0   'False
                Width           =   1335
@@ -624,7 +614,7 @@ Begin VB.Form NFe_Completa
             Begin VB.ComboBox cboClientePedidos 
                Height          =   315
                Left            =   1140
-               TabIndex        =   158
+               TabIndex        =   155
                Top             =   240
                Visible         =   0   'False
                Width           =   4785
@@ -632,7 +622,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
                Height          =   315
                Left            =   10020
-               TabIndex        =   197
+               TabIndex        =   194
                Top             =   240
                Width           =   1035
                _ExtentX        =   1826
@@ -673,7 +663,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Final:"
                Height          =   195
                Left            =   8160
-               TabIndex        =   170
+               TabIndex        =   167
                Top             =   300
                Visible         =   0   'False
                Width           =   375
@@ -684,7 +674,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Inicial:"
                Height          =   195
                Left            =   6180
-               TabIndex        =   169
+               TabIndex        =   166
                Top             =   300
                Visible         =   0   'False
                Width           =   450
@@ -695,7 +685,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Cód. Pedido:"
                Height          =   195
                Left            =   120
-               TabIndex        =   168
+               TabIndex        =   165
                Top             =   300
                Visible         =   0   'False
                Width           =   915
@@ -715,7 +705,7 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   975
          Left            =   -74940
-         TabIndex        =   140
+         TabIndex        =   137
          Top             =   7440
          Width           =   16455
          Begin VB.Frame Frame7 
@@ -731,13 +721,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   675
             Left            =   4140
-            TabIndex        =   144
+            TabIndex        =   141
             Top             =   240
             Width           =   5535
             Begin VB.ComboBox cboConNotaMes 
                Height          =   315
                Left            =   960
-               TabIndex        =   145
+               TabIndex        =   142
                Top             =   240
                Visible         =   0   'False
                Width           =   1455
@@ -745,7 +735,7 @@ Begin VB.Form NFe_Completa
             Begin VB.ComboBox cboConNotaAno 
                Height          =   315
                Left            =   2460
-               TabIndex        =   146
+               TabIndex        =   143
                Top             =   240
                Visible         =   0   'False
                Width           =   1215
@@ -753,7 +743,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdConNotaCal1 
                Height          =   315
                Left            =   1920
-               TabIndex        =   179
+               TabIndex        =   176
                Tag             =   "Calendario"
                Top             =   240
                Visible         =   0   'False
@@ -795,7 +785,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdConNotaCal2 
                Height          =   315
                Left            =   3300
-               TabIndex        =   180
+               TabIndex        =   177
                Tag             =   "Calendario"
                Top             =   240
                Visible         =   0   'False
@@ -838,14 +828,14 @@ Begin VB.Form NFe_Completa
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   5040
-               TabIndex        =   148
+               TabIndex        =   145
                Top             =   60
                Width           =   495
             End
             Begin VB.ComboBox cboConNotaCliente 
                Height          =   315
                Left            =   1080
-               TabIndex        =   147
+               TabIndex        =   144
                Top             =   240
                Visible         =   0   'False
                Width           =   4305
@@ -853,7 +843,7 @@ Begin VB.Form NFe_Completa
             Begin MSMask.MaskEdBox mskConNotaFinal 
                Height          =   315
                Left            =   2340
-               TabIndex        =   149
+               TabIndex        =   146
                Top             =   240
                Visible         =   0   'False
                Width           =   990
@@ -866,7 +856,7 @@ Begin VB.Form NFe_Completa
             Begin MSMask.MaskEdBox mskConNotaInicial 
                Height          =   315
                Left            =   960
-               TabIndex        =   150
+               TabIndex        =   147
                Top             =   240
                Visible         =   0   'False
                Width           =   990
@@ -882,7 +872,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Ano:"
                Height          =   195
                Left            =   180
-               TabIndex        =   151
+               TabIndex        =   148
                Top             =   300
                Visible         =   0   'False
                Width           =   330
@@ -901,13 +891,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   675
             Left            =   60
-            TabIndex        =   141
+            TabIndex        =   138
             Top             =   240
             Width           =   4035
             Begin VB.ComboBox cboFiltroNota 
                Height          =   315
                Left            =   960
-               TabIndex        =   142
+               TabIndex        =   139
                Top             =   240
                Width           =   2715
             End
@@ -917,7 +907,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Escolher:"
                Height          =   195
                Left            =   180
-               TabIndex        =   143
+               TabIndex        =   140
                Top             =   300
                Width           =   660
             End
@@ -925,7 +915,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdExibirConNotas 
             Height          =   495
             Left            =   9780
-            TabIndex        =   152
+            TabIndex        =   149
             Top             =   420
             Width           =   1515
             _ExtentX        =   2672
@@ -964,7 +954,7 @@ Begin VB.Form NFe_Completa
          Begin ChamaleonBtn.chameleonButton cmdImprimirConsulta 
             Height          =   495
             Left            =   11340
-            TabIndex        =   181
+            TabIndex        =   178
             Top             =   420
             Width           =   1515
             _ExtentX        =   2672
@@ -1014,7 +1004,7 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   1035
          Left            =   120
-         TabIndex        =   139
+         TabIndex        =   136
          Top             =   1260
          Width           =   14535
          Begin VB.TextBox txtSerie 
@@ -1238,7 +1228,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   12
             Left            =   13680
-            TabIndex        =   243
+            TabIndex        =   236
             Top             =   300
             Width           =   345
          End
@@ -1249,7 +1239,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   11
             Left            =   12360
-            TabIndex        =   242
+            TabIndex        =   235
             Top             =   300
             Width           =   660
          End
@@ -1260,7 +1250,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   10
             Left            =   11040
-            TabIndex        =   241
+            TabIndex        =   234
             Top             =   300
             Width           =   840
          End
@@ -1271,7 +1261,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   9
             Left            =   6660
-            TabIndex        =   240
+            TabIndex        =   233
             Top             =   300
             Width           =   1620
          End
@@ -1282,7 +1272,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   8
             Left            =   4740
-            TabIndex        =   239
+            TabIndex        =   232
             Top             =   300
             Width           =   540
          End
@@ -1293,7 +1283,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   7
             Left            =   2940
-            TabIndex        =   238
+            TabIndex        =   231
             Top             =   300
             Width           =   1575
          End
@@ -1304,7 +1294,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   6
             Left            =   1560
-            TabIndex        =   237
+            TabIndex        =   230
             Top             =   300
             Width           =   930
          End
@@ -1315,7 +1305,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   5
             Left            =   840
-            TabIndex        =   236
+            TabIndex        =   229
             Top             =   300
             Width           =   360
          End
@@ -1326,7 +1316,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   4
             Left            =   120
-            TabIndex        =   235
+            TabIndex        =   228
             Top             =   300
             Width           =   630
          End
@@ -1344,7 +1334,7 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   915
          Left            =   120
-         TabIndex        =   71
+         TabIndex        =   69
          Top             =   360
          Width           =   14535
          Begin VB.ComboBox cboTipoDest 
@@ -1374,7 +1364,7 @@ Begin VB.Form NFe_Completa
             Height          =   285
             Left            =   7020
             Locked          =   -1  'True
-            TabIndex        =   72
+            TabIndex        =   70
             TabStop         =   0   'False
             Top             =   180
             Visible         =   0   'False
@@ -1434,7 +1424,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   3
             Left            =   10680
-            TabIndex        =   234
+            TabIndex        =   227
             Top             =   240
             Width           =   1200
          End
@@ -1445,7 +1435,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   2
             Left            =   8100
-            TabIndex        =   233
+            TabIndex        =   226
             Top             =   240
             Width           =   1425
          End
@@ -1456,7 +1446,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   1
             Left            =   2220
-            TabIndex        =   232
+            TabIndex        =   225
             Top             =   240
             Width           =   1485
          End
@@ -1467,7 +1457,7 @@ Begin VB.Form NFe_Completa
             Height          =   195
             Index           =   0
             Left            =   120
-            TabIndex        =   73
+            TabIndex        =   71
             Top             =   240
             Width           =   1425
          End
@@ -1475,7 +1465,7 @@ Begin VB.Form NFe_Completa
       Begin TabDlg.SSTab Tab_Totais 
          Height          =   1095
          Left            =   120
-         TabIndex        =   74
+         TabIndex        =   72
          Top             =   7380
          Width           =   16455
          _ExtentX        =   29025
@@ -1571,7 +1561,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   7980
             MaxLength       =   50
-            TabIndex        =   156
+            TabIndex        =   153
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1582,7 +1572,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   6120
             MaxLength       =   50
-            TabIndex        =   157
+            TabIndex        =   154
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1593,7 +1583,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   7035
             MaxLength       =   50
-            TabIndex        =   161
+            TabIndex        =   158
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1604,7 +1594,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   4260
             MaxLength       =   50
-            TabIndex        =   198
+            TabIndex        =   195
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1615,7 +1605,7 @@ Begin VB.Form NFe_Completa
             Height          =   315
             Left            =   5175
             MaxLength       =   50
-            TabIndex        =   231
+            TabIndex        =   224
             TabStop         =   0   'False
             Top             =   600
             Width           =   915
@@ -1749,7 +1739,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total IS"
             Height          =   195
             Left            =   7980
-            TabIndex        =   162
+            TabIndex        =   159
             Top             =   360
             Width           =   555
          End
@@ -1759,7 +1749,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base IBS"
             Height          =   195
             Left            =   6120
-            TabIndex        =   163
+            TabIndex        =   160
             Top             =   360
             Width           =   660
          End
@@ -1769,7 +1759,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total IBS"
             Height          =   195
             Left            =   7035
-            TabIndex        =   164
+            TabIndex        =   161
             Top             =   360
             Width           =   660
          End
@@ -1779,7 +1769,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base CBS"
             Height          =   195
             Left            =   4260
-            TabIndex        =   199
+            TabIndex        =   196
             Top             =   360
             Width           =   720
          End
@@ -1789,7 +1779,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total CBS"
             Height          =   195
             Left            =   5175
-            TabIndex        =   200
+            TabIndex        =   197
             Top             =   360
             Width           =   720
          End
@@ -1799,7 +1789,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total Produtos"
             Height          =   195
             Left            =   8940
-            TabIndex        =   85
+            TabIndex        =   83
             Top             =   360
             Width           =   1035
          End
@@ -1809,7 +1799,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total da Nota"
             Height          =   195
             Left            =   14100
-            TabIndex        =   84
+            TabIndex        =   82
             Top             =   360
             Width           =   975
          End
@@ -1819,7 +1809,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Desconto"
             Height          =   195
             Left            =   11520
-            TabIndex        =   83
+            TabIndex        =   81
             Top             =   360
             Width           =   690
          End
@@ -1829,7 +1819,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "IPI"
             Height          =   195
             Left            =   13380
-            TabIndex        =   82
+            TabIndex        =   80
             Top             =   360
             Width           =   195
          End
@@ -1839,7 +1829,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total ICMS ST"
             Height          =   195
             Left            =   3120
-            TabIndex        =   81
+            TabIndex        =   79
             Top             =   360
             Width           =   1050
          End
@@ -1849,7 +1839,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Total ICMS"
             Height          =   195
             Left            =   1020
-            TabIndex        =   80
+            TabIndex        =   78
             Top             =   360
             Width           =   795
          End
@@ -1859,7 +1849,7 @@ Begin VB.Form NFe_Completa
             Caption         =   " Frete"
             Height          =   195
             Left            =   10080
-            TabIndex        =   79
+            TabIndex        =   77
             Top             =   360
             Width           =   405
          End
@@ -1869,7 +1859,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Outras Desp."
             Height          =   195
             Left            =   12360
-            TabIndex        =   78
+            TabIndex        =   76
             Top             =   360
             Width           =   930
          End
@@ -1879,7 +1869,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Seguro"
             Height          =   195
             Left            =   10800
-            TabIndex        =   77
+            TabIndex        =   75
             Top             =   360
             Width           =   510
          End
@@ -1889,7 +1879,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base ICMS ST"
             Height          =   195
             Left            =   1980
-            TabIndex        =   76
+            TabIndex        =   74
             Top             =   360
             Width           =   1050
          End
@@ -1899,7 +1889,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Base ICMS"
             Height          =   195
             Left            =   105
-            TabIndex        =   75
+            TabIndex        =   73
             Top             =   360
             Width           =   795
          End
@@ -1907,49 +1897,59 @@ Begin VB.Form NFe_Completa
       Begin TabDlg.SSTab Tab_Produtos 
          Height          =   4995
          Left            =   120
-         TabIndex        =   86
+         TabIndex        =   84
          Top             =   2340
          Width           =   16485
          _ExtentX        =   29078
          _ExtentY        =   8811
          _Version        =   393216
          Tabs            =   7
+         Tab             =   3
          TabsPerRow      =   7
          TabHeight       =   467
          TabMaxWidth     =   3351
          TabCaption(0)   =   "Produtos"
          TabPicture(0)   =   "NFe_Completa.frx":20EF6
-         Tab(0).ControlEnabled=   -1  'True
+         Tab(0).ControlEnabled=   0   'False
          Tab(0).Control(0)=   "frmItens"
          Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Label71"
+         Tab(1).Control(0)=   "cboModFrete"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(2)=   "cboModFrete"
+         Tab(1).Control(2)=   "Label71"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Label15"
-         Tab(2).Control(1)=   "Label67"
-         Tab(2).Control(2)=   "cboIndicadorPagamento"
-         Tab(2).Control(3)=   "frmFatura"
-         Tab(2).Control(4)=   "frmDuplicata"
-         Tab(2).Control(5)=   "cboFormaPgto"
+         Tab(2).Control(0)=   "cboFormaPgto"
+         Tab(2).Control(1)=   "frmDuplicata"
+         Tab(2).Control(2)=   "frmFatura"
+         Tab(2).Control(3)=   "cboIndicadorPagamento"
+         Tab(2).Control(4)=   "Label67"
+         Tab(2).Control(5)=   "Label15"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":20F4A
-         Tab(3).ControlEnabled=   0   'False
-         Tab(3).Control(0)=   "Tab_Info"
-         Tab(3).ControlCount=   1
+         Tab(3).ControlEnabled=   -1  'True
+         Tab(3).Control(0)=   "lblCodFabrica(10)"
+         Tab(3).Control(0).Enabled=   0   'False
+         Tab(3).Control(1)=   "lblCodFabrica(11)"
+         Tab(3).Control(1).Enabled=   0   'False
+         Tab(3).Control(2)=   "txtInfAdicionais"
+         Tab(3).Control(2).Enabled=   0   'False
+         Tab(3).Control(3)=   "txtInfComple"
+         Tab(3).Control(3).Enabled=   0   'False
+         Tab(3).Control(4)=   "chkDadosBancarios"
+         Tab(3).Control(4).Enabled=   0   'False
+         Tab(3).ControlCount=   5
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboFormatoDANFe"
-         Tab(4).Control(1)=   "cboTipoEmissao"
+         Tab(4).Control(0)=   "cboTipoEmissao"
+         Tab(4).Control(1)=   "cboFormatoDANFe"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
          TabPicture(5)   =   "NFe_Completa.frx":20F82
@@ -1960,6 +1960,30 @@ Begin VB.Form NFe_Completa
          Tab(6).ControlEnabled=   0   'False
          Tab(6).Control(0)=   "frmDevolucao"
          Tab(6).ControlCount=   1
+         Begin VB.CheckBox chkDadosBancarios 
+            Caption         =   "Dados Bancários"
+            Height          =   195
+            Left            =   14820
+            TabIndex        =   248
+            Top             =   420
+            Width           =   1515
+         End
+         Begin VB.TextBox txtInfComple 
+            Height          =   2685
+            Left            =   120
+            MultiLine       =   -1  'True
+            TabIndex        =   245
+            Top             =   660
+            Width           =   16260
+         End
+         Begin VB.TextBox txtInfAdicionais 
+            Height          =   1185
+            Left            =   120
+            MultiLine       =   -1  'True
+            TabIndex        =   244
+            Top             =   3660
+            Width           =   16260
+         End
          Begin VB.Frame frmDevolucao 
             Caption         =   "Devolução"
             BeginProperty Font 
@@ -1973,13 +1997,13 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   915
             Left            =   -74880
-            TabIndex        =   182
+            TabIndex        =   179
             Top             =   360
             Width           =   14295
             Begin VB.TextBox txtChaveReferenciada 
                Height          =   315
                Left            =   120
-               TabIndex        =   183
+               TabIndex        =   180
                Top             =   480
                Width           =   13695
             End
@@ -1989,7 +2013,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Chave de Acesso - Nota de entrada"
                Height          =   195
                Left            =   120
-               TabIndex        =   184
+               TabIndex        =   181
                Top             =   240
                Width           =   2550
             End
@@ -1997,7 +2021,7 @@ Begin VB.Form NFe_Completa
          Begin VB.ComboBox cboFormaPgto 
             Height          =   315
             Left            =   -71640
-            TabIndex        =   177
+            TabIndex        =   174
             Top             =   660
             Width           =   3135
          End
@@ -2014,7 +2038,7 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   2895
             Left            =   -74880
-            TabIndex        =   96
+            TabIndex        =   94
             Top             =   1980
             Visible         =   0   'False
             Width           =   14235
@@ -2069,7 +2093,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdCalDuplic 
                Height          =   315
                Left            =   6240
-               TabIndex        =   97
+               TabIndex        =   95
                Tag             =   "Calendario"
                Top             =   480
                Width           =   315
@@ -2121,7 +2145,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdCriarDuplicata 
                Height          =   315
                Left            =   7980
-               TabIndex        =   227
+               TabIndex        =   220
                Top             =   480
                Width           =   1335
                _ExtentX        =   2355
@@ -2159,7 +2183,7 @@ Begin VB.Form NFe_Completa
             Begin ChamaleonBtn.chameleonButton cmdRemoverDuplicatas 
                Height          =   315
                Left            =   9360
-               TabIndex        =   228
+               TabIndex        =   221
                Top             =   480
                Width           =   1455
                _ExtentX        =   2566
@@ -2197,7 +2221,7 @@ Begin VB.Form NFe_Completa
             Begin MSFlexGridLib.MSFlexGrid Grid_Duplicata 
                Height          =   1875
                Left            =   120
-               TabIndex        =   229
+               TabIndex        =   222
                Top             =   900
                Width           =   10695
                _ExtentX        =   18865
@@ -2220,7 +2244,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Inicio:"
                Height          =   195
                Left            =   5280
-               TabIndex        =   103
+               TabIndex        =   101
                Top             =   240
                Width           =   420
             End
@@ -2230,7 +2254,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Intervalo"
                Height          =   195
                Left            =   4500
-               TabIndex        =   102
+               TabIndex        =   100
                Top             =   240
                Width           =   615
             End
@@ -2240,7 +2264,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Valor da Parcela"
                Height          =   195
                Left            =   6555
-               TabIndex        =   101
+               TabIndex        =   99
                Top             =   240
                Width           =   1170
             End
@@ -2250,7 +2274,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Total"
                Height          =   195
                Left            =   1755
-               TabIndex        =   100
+               TabIndex        =   98
                Top             =   240
                Width           =   360
             End
@@ -2260,7 +2284,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Quant. Parc."
                Height          =   195
                Left            =   3375
-               TabIndex        =   99
+               TabIndex        =   97
                Top             =   240
                Width           =   900
             End
@@ -2270,7 +2294,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Número/Doc."
                Height          =   195
                Left            =   120
-               TabIndex        =   98
+               TabIndex        =   96
                Top             =   240
                Width           =   975
             End
@@ -2288,7 +2312,7 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   915
             Left            =   -74880
-            TabIndex        =   91
+            TabIndex        =   89
             Top             =   1020
             Width           =   14235
             Begin VB.TextBox txtNumFatura 
@@ -2337,7 +2361,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Número"
                Height          =   195
                Left            =   120
-               TabIndex        =   95
+               TabIndex        =   93
                Top             =   240
                Width           =   555
             End
@@ -2347,7 +2371,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Desconto"
                Height          =   195
                Left            =   3375
-               TabIndex        =   94
+               TabIndex        =   92
                Top             =   240
                Width           =   690
             End
@@ -2357,7 +2381,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "SubTotal"
                Height          =   195
                Left            =   1755
-               TabIndex        =   93
+               TabIndex        =   91
                Top             =   240
                Width           =   645
             End
@@ -2367,7 +2391,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Total"
                Height          =   195
                Left            =   4995
-               TabIndex        =   92
+               TabIndex        =   90
                Top             =   240
                Width           =   360
             End
@@ -2375,14 +2399,14 @@ Begin VB.Form NFe_Completa
          Begin VB.ComboBox cboTipoEmissao 
             Height          =   315
             Left            =   -73020
-            TabIndex        =   64
+            TabIndex        =   62
             Top             =   720
             Width           =   2595
          End
          Begin VB.ComboBox cboFormatoDANFe 
             Height          =   315
             Left            =   -74880
-            TabIndex        =   63
+            TabIndex        =   61
             Top             =   720
             Width           =   1875
          End
@@ -2412,15 +2436,15 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             Height          =   4575
-            Left            =   120
-            TabIndex        =   87
+            Left            =   -74880
+            TabIndex        =   85
             Top             =   360
             Width           =   16275
             Begin VB.CheckBox chkReformaIS 
                Caption         =   "IS"
                Height          =   195
                Left            =   14460
-               TabIndex        =   250
+               TabIndex        =   243
                Top             =   4200
                Width           =   495
             End
@@ -2428,7 +2452,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "CBS/IBS"
                Height          =   195
                Left            =   13440
-               TabIndex        =   249
+               TabIndex        =   242
                Top             =   4200
                Width           =   975
             End
@@ -2436,7 +2460,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Outros"
                Height          =   195
                Left            =   12480
-               TabIndex        =   248
+               TabIndex        =   241
                Top             =   4200
                Width           =   915
             End
@@ -2444,7 +2468,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Seguro"
                Height          =   195
                Left            =   11520
-               TabIndex        =   247
+               TabIndex        =   240
                Top             =   4200
                Width           =   915
             End
@@ -2452,7 +2476,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "RedBC"
                Height          =   195
                Left            =   10440
-               TabIndex        =   246
+               TabIndex        =   239
                Top             =   4200
                Width           =   915
             End
@@ -2460,7 +2484,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "ICMSST"
                Height          =   195
                Left            =   9480
-               TabIndex        =   245
+               TabIndex        =   238
                Top             =   4200
                Width           =   915
             End
@@ -2468,34 +2492,40 @@ Begin VB.Form NFe_Completa
                Caption         =   "IPI"
                Height          =   195
                Left            =   8880
-               TabIndex        =   244
+               TabIndex        =   237
                Top             =   4200
                Width           =   615
             End
             Begin VB.TextBox txtFrete 
                Alignment       =   1  'Right Justify
+               BackColor       =   &H00E0E0E0&
                Height          =   315
                Left            =   9120
                MaxLength       =   10
                TabIndex        =   23
+               TabStop         =   0   'False
                Top             =   480
                Width           =   825
             End
             Begin VB.TextBox txtSeguro 
                Alignment       =   1  'Right Justify
+               BackColor       =   &H00E0E0E0&
                Height          =   315
                Left            =   9960
                MaxLength       =   10
                TabIndex        =   24
+               TabStop         =   0   'False
                Top             =   480
                Width           =   825
             End
             Begin VB.TextBox txtOutrosItem 
                Alignment       =   1  'Right Justify
+               BackColor       =   &H00E0E0E0&
                Height          =   315
                Left            =   10800
                MaxLength       =   10
                TabIndex        =   25
+               TabStop         =   0   'False
                Top             =   480
                Width           =   825
             End
@@ -2517,7 +2547,7 @@ Begin VB.Form NFe_Completa
                Appearance      =   0  'Flat
                Height          =   285
                Left            =   6420
-               TabIndex        =   89
+               TabIndex        =   87
                Top             =   240
                Visible         =   0   'False
                Width           =   735
@@ -2574,7 +2604,7 @@ Begin VB.Form NFe_Completa
                BorderStyle     =   0  'None
                Height          =   330
                Left            =   5040
-               TabIndex        =   88
+               TabIndex        =   86
                Top             =   1800
                Visible         =   0   'False
                Width           =   810
@@ -2872,7 +2902,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   8
                Left            =   12660
-               TabIndex        =   165
+               TabIndex        =   162
                Top             =   240
                Width           =   645
             End
@@ -2883,7 +2913,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   7
                Left            =   11640
-               TabIndex        =   166
+               TabIndex        =   163
                Top             =   240
                Width           =   690
             End
@@ -2894,7 +2924,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   6
                Left            =   10800
-               TabIndex        =   167
+               TabIndex        =   164
                Top             =   240
                Width           =   465
             End
@@ -2905,7 +2935,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   5
                Left            =   9900
-               TabIndex        =   201
+               TabIndex        =   198
                Top             =   240
                Width           =   510
             End
@@ -2916,7 +2946,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   4
                Left            =   9120
-               TabIndex        =   202
+               TabIndex        =   199
                Top             =   240
                Width           =   360
             End
@@ -2927,7 +2957,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   3
                Left            =   8280
-               TabIndex        =   203
+               TabIndex        =   200
                Top             =   240
                Width           =   345
             End
@@ -2938,7 +2968,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   2
                Left            =   7260
-               TabIndex        =   204
+               TabIndex        =   201
                Top             =   240
                Width           =   360
             End
@@ -2949,7 +2979,7 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   1
                Left            =   1800
-               TabIndex        =   205
+               TabIndex        =   202
                Top             =   240
                Width           =   720
             End
@@ -2960,167 +2990,15 @@ Begin VB.Form NFe_Completa
                Height          =   195
                Index           =   0
                Left            =   120
-               TabIndex        =   90
+               TabIndex        =   88
                Top             =   240
                Width           =   975
-            End
-         End
-         Begin TabDlg.SSTab Tab_Info 
-            Height          =   4515
-            Left            =   -74880
-            TabIndex        =   104
-            Top             =   360
-            Width           =   14175
-            _ExtentX        =   25003
-            _ExtentY        =   7964
-            _Version        =   393216
-            Tabs            =   2
-            Tab             =   1
-            TabsPerRow      =   2
-            TabHeight       =   520
-            TabMaxWidth     =   5292
-            ForeColor       =   16711680
-            BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "Arial"
-               Size            =   6.75
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            TabCaption(0)   =   "Informações Complementares"
-            TabPicture(0)   =   "NFe_Completa.frx":25778
-            Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "cmdRemoverOBS"
-            Tab(0).Control(1)=   "cmdAdicionarOBS"
-            Tab(0).Control(2)=   "txtInfComple"
-            Tab(0).Control(3)=   "cboObservacao"
-            Tab(0).Control(4)=   "txtCodOBS"
-            Tab(0).Control(4).Enabled=   0   'False
-            Tab(0).ControlCount=   5
-            TabCaption(1)   =   "Informações Adicionais"
-            TabPicture(1)   =   "NFe_Completa.frx":25794
-            Tab(1).ControlEnabled=   -1  'True
-            Tab(1).Control(0)=   "txtInfAdicionais"
-            Tab(1).Control(0).Enabled=   0   'False
-            Tab(1).ControlCount=   1
-            Begin VB.TextBox txtCodOBS 
-               Appearance      =   0  'Flat
-               BackColor       =   &H00C0FFFF&
-               Height          =   285
-               Left            =   -65040
-               Locked          =   -1  'True
-               TabIndex        =   224
-               TabStop         =   0   'False
-               Top             =   300
-               Visible         =   0   'False
-               Width           =   645
-            End
-            Begin VB.ComboBox cboObservacao 
-               Height          =   315
-               Left            =   -74880
-               TabIndex        =   221
-               Top             =   480
-               Width           =   10515
-            End
-            Begin VB.TextBox txtInfAdicionais 
-               Height          =   4005
-               Left            =   120
-               MultiLine       =   -1  'True
-               TabIndex        =   62
-               Top             =   420
-               Width           =   13920
-            End
-            Begin VB.TextBox txtInfComple 
-               Height          =   3585
-               Left            =   -74880
-               MultiLine       =   -1  'True
-               TabIndex        =   61
-               Top             =   840
-               Width           =   13920
-            End
-            Begin ChamaleonBtn.chameleonButton cmdAdicionarOBS 
-               Height          =   315
-               Left            =   -64320
-               TabIndex        =   222
-               Top             =   480
-               Width           =   1155
-               _ExtentX        =   2037
-               _ExtentY        =   556
-               BTYPE           =   3
-               TX              =   "Adicionar"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   12632256
-               BCOLO           =   12632256
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "NFe_Completa.frx":257B0
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin ChamaleonBtn.chameleonButton cmdRemoverOBS 
-               Height          =   315
-               Left            =   -63120
-               TabIndex        =   223
-               Top             =   480
-               Width           =   1155
-               _ExtentX        =   2037
-               _ExtentY        =   556
-               BTYPE           =   3
-               TX              =   "Remover"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   12632256
-               BCOLO           =   12632256
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "NFe_Completa.frx":257CC
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
             End
          End
          Begin TabDlg.SSTab Tab_transp 
             Height          =   2295
             Left            =   -74940
-            TabIndex        =   105
+            TabIndex        =   102
             Top             =   1140
             Width           =   12615
             _ExtentX        =   22251
@@ -3141,15 +3019,15 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             TabCaption(0)   =   "Transportadora"
-            TabPicture(0)   =   "NFe_Completa.frx":257E8
+            TabPicture(0)   =   "NFe_Completa.frx":25778
             Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "Label7"
-            Tab(0).Control(1)=   "txtCodTransporte"
-            Tab(0).Control(2)=   "Frame6"
-            Tab(0).Control(3)=   "cboTransporte"
+            Tab(0).Control(0)=   "cboTransporte"
+            Tab(0).Control(1)=   "Frame6"
+            Tab(0).Control(2)=   "txtCodTransporte"
+            Tab(0).Control(3)=   "Label7"
             Tab(0).ControlCount=   4
             TabCaption(1)   =   "Volumes"
-            TabPicture(1)   =   "NFe_Completa.frx":25804
+            TabPicture(1)   =   "NFe_Completa.frx":25794
             Tab(1).ControlEnabled=   -1  'True
             Tab(1).Control(0)=   "Label13"
             Tab(1).Control(0).Enabled=   0   'False
@@ -3177,18 +3055,18 @@ Begin VB.Form NFe_Completa
             Tab(1).Control(11).Enabled=   0   'False
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
-            TabPicture(2)   =   "NFe_Completa.frx":25820
+            TabPicture(2)   =   "NFe_Completa.frx":257B0
             Tab(2).ControlEnabled=   0   'False
             Tab(2).Control(0)=   "Frame1"
             Tab(2).ControlCount=   1
             TabCaption(3)   =   "Retenção do ICMS"
-            TabPicture(3)   =   "NFe_Completa.frx":2583C
+            TabPicture(3)   =   "NFe_Completa.frx":257CC
             Tab(3).ControlEnabled=   0   'False
             Tab(3).ControlCount=   0
             Begin VB.ComboBox cboTransporte 
                Height          =   315
                Left            =   -74880
-               TabIndex        =   107
+               TabIndex        =   104
                Top             =   660
                Width           =   7695
             End
@@ -3196,14 +3074,14 @@ Begin VB.Form NFe_Completa
                Caption         =   "Identificação"
                Height          =   1095
                Left            =   -74880
-               TabIndex        =   121
+               TabIndex        =   118
                Top             =   420
                Width           =   12375
                Begin VB.TextBox txtPlacaReboque 
                   Height          =   315
                   Left            =   180
                   MaxLength       =   8
-                  TabIndex        =   124
+                  TabIndex        =   121
                   Top             =   600
                   Width           =   1245
                End
@@ -3211,7 +3089,7 @@ Begin VB.Form NFe_Completa
                   Height          =   315
                   Left            =   1500
                   MaxLength       =   2
-                  TabIndex        =   123
+                  TabIndex        =   120
                   Top             =   600
                   Width           =   465
                End
@@ -3219,7 +3097,7 @@ Begin VB.Form NFe_Completa
                   Height          =   315
                   Left            =   2040
                   MaxLength       =   2
-                  TabIndex        =   122
+                  TabIndex        =   119
                   Top             =   600
                   Width           =   7305
                End
@@ -3229,7 +3107,7 @@ Begin VB.Form NFe_Completa
                   Caption         =   "Placa"
                   Height          =   195
                   Left            =   180
-                  TabIndex        =   126
+                  TabIndex        =   123
                   Top             =   360
                   Width           =   405
                End
@@ -3239,7 +3117,7 @@ Begin VB.Form NFe_Completa
                   Caption         =   "UF"
                   Height          =   195
                   Left            =   1500
-                  TabIndex        =   125
+                  TabIndex        =   122
                   Top             =   360
                   Width           =   210
                End
@@ -3248,7 +3126,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   4980
                MaxLength       =   50
-               TabIndex        =   120
+               TabIndex        =   117
                Top             =   780
                Width           =   1545
             End
@@ -3256,7 +3134,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   120
                MaxLength       =   50
-               TabIndex        =   119
+               TabIndex        =   116
                Top             =   780
                Width           =   825
             End
@@ -3264,7 +3142,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   960
                MaxLength       =   50
-               TabIndex        =   118
+               TabIndex        =   115
                Top             =   780
                Width           =   1245
             End
@@ -3272,7 +3150,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   2220
                MaxLength       =   50
-               TabIndex        =   117
+               TabIndex        =   114
                Top             =   780
                Width           =   1665
             End
@@ -3280,7 +3158,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   3900
                MaxLength       =   50
-               TabIndex        =   116
+               TabIndex        =   113
                Top             =   780
                Width           =   1065
             End
@@ -3288,7 +3166,7 @@ Begin VB.Form NFe_Completa
                Height          =   315
                Left            =   6540
                MaxLength       =   50
-               TabIndex        =   115
+               TabIndex        =   112
                Top             =   780
                Width           =   1545
             End
@@ -3296,14 +3174,14 @@ Begin VB.Form NFe_Completa
                Caption         =   "Veículo"
                Height          =   1095
                Left            =   -74880
-               TabIndex        =   108
+               TabIndex        =   105
                Top             =   1080
                Width           =   12375
                Begin VB.TextBox txtTransRNTC 
                   Height          =   315
                   Left            =   2040
                   MaxLength       =   2
-                  TabIndex        =   111
+                  TabIndex        =   108
                   Top             =   600
                   Width           =   7305
                End
@@ -3311,7 +3189,7 @@ Begin VB.Form NFe_Completa
                   Height          =   315
                   Left            =   1500
                   MaxLength       =   2
-                  TabIndex        =   110
+                  TabIndex        =   107
                   Top             =   600
                   Width           =   465
                End
@@ -3319,7 +3197,7 @@ Begin VB.Form NFe_Completa
                   Height          =   315
                   Left            =   180
                   MaxLength       =   8
-                  TabIndex        =   109
+                  TabIndex        =   106
                   Top             =   600
                   Width           =   1245
                End
@@ -3329,7 +3207,7 @@ Begin VB.Form NFe_Completa
                   Caption         =   "RNTC"
                   Height          =   195
                   Left            =   2040
-                  TabIndex        =   114
+                  TabIndex        =   111
                   Top             =   360
                   Width           =   450
                End
@@ -3339,7 +3217,7 @@ Begin VB.Form NFe_Completa
                   Caption         =   "UF"
                   Height          =   195
                   Left            =   1500
-                  TabIndex        =   113
+                  TabIndex        =   110
                   Top             =   360
                   Width           =   210
                End
@@ -3349,7 +3227,7 @@ Begin VB.Form NFe_Completa
                   Caption         =   "Placa"
                   Height          =   195
                   Left            =   180
-                  TabIndex        =   112
+                  TabIndex        =   109
                   Top             =   360
                   Width           =   405
                End
@@ -3359,7 +3237,7 @@ Begin VB.Form NFe_Completa
                Height          =   285
                Left            =   -67800
                MaxLength       =   50
-               TabIndex        =   106
+               TabIndex        =   103
                Top             =   360
                Visible         =   0   'False
                Width           =   600
@@ -3370,7 +3248,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Espécie"
                Height          =   195
                Left            =   960
-               TabIndex        =   133
+               TabIndex        =   130
                Top             =   540
                Width           =   570
             End
@@ -3380,7 +3258,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Peso liquido"
                Height          =   195
                Left            =   6540
-               TabIndex        =   132
+               TabIndex        =   129
                Top             =   540
                Width           =   855
             End
@@ -3390,7 +3268,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Peso bruto"
                Height          =   195
                Left            =   4980
-               TabIndex        =   131
+               TabIndex        =   128
                Top             =   540
                Width           =   765
             End
@@ -3400,7 +3278,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Qtde Vol."
                Height          =   195
                Left            =   120
-               TabIndex        =   130
+               TabIndex        =   127
                Top             =   540
                Width           =   660
             End
@@ -3410,7 +3288,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Marca"
                Height          =   195
                Left            =   2220
-               TabIndex        =   129
+               TabIndex        =   126
                Top             =   540
                Width           =   450
             End
@@ -3420,7 +3298,7 @@ Begin VB.Form NFe_Completa
                Caption         =   "Numeração"
                Height          =   195
                Left            =   3900
-               TabIndex        =   128
+               TabIndex        =   125
                Top             =   540
                Width           =   825
             End
@@ -3430,10 +3308,41 @@ Begin VB.Form NFe_Completa
                Caption         =   "Transportadora"
                Height          =   195
                Left            =   -74880
-               TabIndex        =   127
+               TabIndex        =   124
                Top             =   420
                Width           =   1080
             End
+         End
+         Begin VB.Label lblCodFabrica 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Informações Adicionais"
+            Height          =   195
+            Index           =   11
+            Left            =   120
+            TabIndex        =   247
+            Top             =   3420
+            Width           =   1635
+         End
+         Begin VB.Label lblCodFabrica 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Informações Complementares"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Index           =   10
+            Left            =   120
+            TabIndex        =   246
+            Top             =   420
+            Width           =   2475
          End
          Begin VB.Label Label67 
             AutoSize        =   -1  'True
@@ -3441,7 +3350,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Indicador de Pagamento:"
             Height          =   195
             Left            =   -74820
-            TabIndex        =   186
+            TabIndex        =   183
             Top             =   420
             Width           =   1785
          End
@@ -3451,7 +3360,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Forma de Pagamento:"
             Height          =   195
             Left            =   -71640
-            TabIndex        =   178
+            TabIndex        =   175
             Top             =   420
             Width           =   1560
          End
@@ -3461,7 +3370,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Tipo de Frete"
             Height          =   195
             Left            =   -74880
-            TabIndex        =   176
+            TabIndex        =   173
             Top             =   360
             Width           =   945
          End
@@ -3471,7 +3380,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Chave"
             Height          =   195
             Left            =   -74760
-            TabIndex        =   138
+            TabIndex        =   135
             Top             =   480
             Width           =   465
          End
@@ -3481,7 +3390,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Formato Impressão DANFE"
             Height          =   195
             Left            =   -74880
-            TabIndex        =   137
+            TabIndex        =   134
             Top             =   480
             Width           =   1920
          End
@@ -3491,7 +3400,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Tipo de Emissão NFe"
             Height          =   195
             Left            =   -72420
-            TabIndex        =   136
+            TabIndex        =   133
             Top             =   480
             Width           =   1515
          End
@@ -3501,7 +3410,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Indicador Forma Pagto"
             Height          =   195
             Left            =   -74820
-            TabIndex        =   135
+            TabIndex        =   132
             Top             =   420
             Width           =   1605
          End
@@ -3511,7 +3420,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Modalidade do Frete"
             Height          =   195
             Left            =   -74880
-            TabIndex        =   134
+            TabIndex        =   131
             Top             =   420
             Width           =   1455
          End
@@ -3544,8 +3453,8 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":25858
-         PICN            =   "NFe_Completa.frx":25874
+         MICON           =   "NFe_Completa.frx":257E8
+         PICN            =   "NFe_Completa.frx":25804
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3583,8 +3492,8 @@ Begin VB.Form NFe_Completa
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "NFe_Completa.frx":27606
-         PICN            =   "NFe_Completa.frx":27622
+         MICON           =   "NFe_Completa.frx":27596
+         PICN            =   "NFe_Completa.frx":275B2
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3597,7 +3506,7 @@ Begin VB.Form NFe_Completa
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   5940
          Left            =   -74880
-         TabIndex        =   153
+         TabIndex        =   150
          Top             =   420
          Width           =   16395
          _ExtentX        =   28919
@@ -3610,7 +3519,7 @@ Begin VB.Form NFe_Completa
       Begin MSFlexGridLib.MSFlexGrid GridPedidos 
          Height          =   6615
          Left            =   -74880
-         TabIndex        =   174
+         TabIndex        =   171
          Top             =   420
          Width           =   16395
          _ExtentX        =   28919
@@ -3623,13 +3532,165 @@ Begin VB.Form NFe_Completa
       Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
          Height          =   315
          Left            =   -65400
-         TabIndex        =   185
+         TabIndex        =   182
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Copiar Chave"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "NFe_Completa.frx":29344
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdImprimir 
+         Height          =   315
+         Left            =   -69300
+         TabIndex        =   184
+         Top             =   6420
+         Width           =   855
+         _ExtentX        =   1508
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "&DANFe"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "NFe_Completa.frx":29360
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdTransmitir 
+         Height          =   315
+         Left            =   -73800
+         TabIndex        =   185
+         Top             =   6420
+         Width           =   1035
+         _ExtentX        =   1826
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "&Transmitir"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "NFe_Completa.frx":2937C
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
+         Height          =   315
+         Left            =   -72720
+         TabIndex        =   186
+         Top             =   6420
+         Width           =   1155
+         _ExtentX        =   2037
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "&Cancelar NFe"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "NFe_Completa.frx":29398
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdConsultar 
+         Height          =   315
+         Left            =   -71520
+         TabIndex        =   187
+         Top             =   6420
+         Width           =   975
+         _ExtentX        =   1720
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "&Consultar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3658,16 +3719,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdImprimir 
+      Begin ChamaleonBtn.chameleonButton cmdDuplicar 
          Height          =   315
-         Left            =   -69300
-         TabIndex        =   187
+         Left            =   -68400
+         TabIndex        =   188
          Top             =   6420
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   915
+         _ExtentX        =   1614
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "&DANFe"
+         TX              =   "&Duplicar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3696,16 +3757,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdTransmitir 
+      Begin ChamaleonBtn.chameleonButton cmdInutilizar 
          Height          =   315
-         Left            =   -73800
-         TabIndex        =   188
+         Left            =   -70500
+         TabIndex        =   189
          Top             =   6420
-         Width           =   1035
-         _ExtentX        =   1826
+         Width           =   1155
+         _ExtentX        =   2037
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "&Transmitir"
+         TX              =   "Inutilizar NFe"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3734,16 +3795,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
+      Begin ChamaleonBtn.chameleonButton cmdCartaCorrecao 
          Height          =   315
-         Left            =   -72720
-         TabIndex        =   189
+         Left            =   -66600
+         TabIndex        =   190
          Top             =   6420
          Width           =   1155
          _ExtentX        =   2037
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "&Cancelar NFe"
+         TX              =   "Carta Correção"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3772,16 +3833,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdConsultar 
+      Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   -71520
-         TabIndex        =   190
+         Left            =   -74880
+         TabIndex        =   204
          Top             =   6420
-         Width           =   975
-         _ExtentX        =   1720
+         Width           =   1035
+         _ExtentX        =   1826
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "&Consultar"
+         TX              =   "Editar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3810,16 +3871,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdDuplicar 
+      Begin ChamaleonBtn.chameleonButton cmdEspelho 
          Height          =   315
-         Left            =   -68400
-         TabIndex        =   191
+         Left            =   -67440
+         TabIndex        =   216
          Top             =   6420
-         Width           =   915
-         _ExtentX        =   1614
+         Width           =   795
+         _ExtentX        =   1402
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "&Duplicar"
+         TX              =   "Espelho"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3848,16 +3909,17 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdInutilizar 
+      Begin ChamaleonBtn.chameleonButton cmdConverterNFe 
          Height          =   315
-         Left            =   -70500
-         TabIndex        =   192
-         Top             =   6420
-         Width           =   1155
-         _ExtentX        =   2037
+         Left            =   -60120
+         TabIndex        =   218
+         TabStop         =   0   'False
+         Top             =   7140
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Inutilizar NFe"
+         TX              =   "Converter NFe"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3886,16 +3948,16 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdCartaCorrecao 
+      Begin ChamaleonBtn.chameleonButton cmdEnviarXML 
          Height          =   315
-         Left            =   -66600
-         TabIndex        =   193
+         Left            =   -64200
+         TabIndex        =   223
          Top             =   6420
-         Width           =   1155
-         _ExtentX        =   2037
+         Width           =   1095
+         _ExtentX        =   1931
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Carta Correção"
+         TX              =   "Enviar XML"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3924,159 +3986,6 @@ Begin VB.Form NFe_Completa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdEditar 
-         Height          =   315
-         Left            =   -74880
-         TabIndex        =   207
-         Top             =   6420
-         Width           =   1035
-         _ExtentX        =   1826
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Editar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "NFe_Completa.frx":29494
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdEspelho 
-         Height          =   315
-         Left            =   -67440
-         TabIndex        =   219
-         Top             =   6420
-         Width           =   795
-         _ExtentX        =   1402
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Espelho"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "NFe_Completa.frx":294B0
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdConverterNFe 
-         Height          =   315
-         Left            =   -60120
-         TabIndex        =   225
-         TabStop         =   0   'False
-         Top             =   7140
-         Width           =   1635
-         _ExtentX        =   2884
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Converter NFe"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "NFe_Completa.frx":294CC
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdEnviarXML 
-         Height          =   315
-         Left            =   -64200
-         TabIndex        =   230
-         Top             =   6420
-         Width           =   1095
-         _ExtentX        =   1931
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Enviar XML"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "NFe_Completa.frx":294E8
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
       Begin VB.Label lblCodFabrica 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -4084,7 +3993,7 @@ Begin VB.Form NFe_Completa
          Height          =   195
          Index           =   9
          Left            =   -74580
-         TabIndex        =   206
+         TabIndex        =   203
          Top             =   7140
          Visible         =   0   'False
          Width           =   450
@@ -4092,7 +4001,7 @@ Begin VB.Form NFe_Completa
       Begin VB.Image ImgMarcadaTODAS 
          Height          =   195
          Left            =   -74760
-         Picture         =   "NFe_Completa.frx":29504
+         Picture         =   "NFe_Completa.frx":29494
          Top             =   7140
          Visible         =   0   'False
          Width           =   195
@@ -4100,7 +4009,7 @@ Begin VB.Form NFe_Completa
       Begin VB.Image imgDesmarcadaTODAS 
          Height          =   195
          Left            =   -74880
-         Picture         =   "NFe_Completa.frx":2B903
+         Picture         =   "NFe_Completa.frx":2B893
          Top             =   7140
          Visible         =   0   'False
          Width           =   195
@@ -4108,7 +4017,7 @@ Begin VB.Form NFe_Completa
       Begin VB.Image imgDesmarcada 
          Height          =   195
          Left            =   -66900
-         Picture         =   "NFe_Completa.frx":2DC7F
+         Picture         =   "NFe_Completa.frx":2DC0F
          Top             =   7200
          Visible         =   0   'False
          Width           =   195
@@ -4116,7 +4025,7 @@ Begin VB.Form NFe_Completa
       Begin VB.Image ImgMarcada 
          Height          =   195
          Left            =   -67140
-         Picture         =   "NFe_Completa.frx":2FFFB
+         Picture         =   "NFe_Completa.frx":2FF8B
          Top             =   7200
          Visible         =   0   'False
          Width           =   195
@@ -4136,7 +4045,7 @@ Begin VB.Form NFe_Completa
          EndProperty
          Height          =   195
          Left            =   -58740
-         TabIndex        =   175
+         TabIndex        =   172
          Top             =   7140
          Width           =   225
       End
@@ -4149,7 +4058,7 @@ Begin VB.Form NFe_Completa
       Left            =   60
       ScaleHeight     =   765
       ScaleWidth      =   16665
-      TabIndex        =   66
+      TabIndex        =   64
       Top             =   30
       Width           =   16695
       Begin VB.TextBox txtCodPedido 
@@ -4157,7 +4066,7 @@ Begin VB.Form NFe_Completa
          Enabled         =   0   'False
          Height          =   285
          Left            =   15300
-         TabIndex        =   68
+         TabIndex        =   66
          TabStop         =   0   'False
          ToolTipText     =   "Cód do Pedido"
          Top             =   240
@@ -4169,7 +4078,7 @@ Begin VB.Form NFe_Completa
          Height          =   285
          Left            =   14040
          Locked          =   -1  'True
-         TabIndex        =   67
+         TabIndex        =   65
          TabStop         =   0   'False
          ToolTipText     =   "Cód da Nota"
          Top             =   240
@@ -4194,14 +4103,14 @@ Begin VB.Form NFe_Completa
          ForeColor       =   &H80000008&
          Height          =   240
          Left            =   13320
-         TabIndex        =   218
+         TabIndex        =   215
          Top             =   240
          Width           =   585
       End
       Begin VB.Image Image1 
          Height          =   750
          Left            =   540
-         Picture         =   "NFe_Completa.frx":323FA
+         Picture         =   "NFe_Completa.frx":3238A
          Top             =   0
          Width           =   750
       End
@@ -4224,7 +4133,7 @@ Begin VB.Form NFe_Completa
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1500
-         TabIndex        =   69
+         TabIndex        =   67
          Top             =   180
          Width           =   4140
       End
@@ -4233,7 +4142,7 @@ Begin VB.Form NFe_Completa
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   65
+      TabIndex        =   63
       Top             =   9525
       Width           =   16815
       _ExtentX        =   29660
@@ -4257,7 +4166,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "12:31"
+            TextSave        =   "07:41"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -5142,12 +5051,13 @@ txtInfAdicionais.Text = ""
 cboFormatoDANFe.Text = ""
 cboTipoEmissao.Text = ""
 txtChaveReferenciada.Text = ""
+chkDadosBancarios.Value = 0
 End Sub
 
 Private Sub LimparObjetosDestinatario()
-txtCodCliente.Text = ""
+TxtCodCliente.Text = ""
 cboTipoDest.Text = ""
-cboCliente.Text = ""
+CboCliente.Text = ""
 cboTipoContribuinte.Text = ""
 cboConsumidorFinal.Text = ""
 'txtAliqUFDest.Text = ""
@@ -5458,7 +5368,42 @@ Private Sub AtualizarInfCompleCredSN()
     Else
         txtInfComple.Text = sBaseSimples
     End If
+    If chkDadosBancarios.Value = 1 Then
+        Dim sBnk As String
+        sBnk = GetDadosBancariosStr()
+        If Len(sBnk) > 0 Then
+            If Len(Trim(txtInfComple.Text)) > 0 Then
+                txtInfComple.Text = txtInfComple.Text & vbCrLf & sBnk
+            Else
+                txtInfComple.Text = sBnk
+            End If
+        End If
+    End If
 End Sub
+
+Private Function GetDadosBancariosStr() As String
+    Dim rBnk As ADODB.Recordset, sResult As String, sPrt As String
+    RsOpen rBnk, "SELECT Banco, Agencia, Conta, Tipo, Favorecido, Pix FROM Empresa"
+    If Not rBnk.EOF Then
+        sResult = ""
+        sPrt = Trim(IIf(IsNull(rBnk("Banco")), "", rBnk("Banco")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Banco: " & sPrt
+        sPrt = Trim(IIf(IsNull(rBnk("Agencia")), "", rBnk("Agencia")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Agencia: " & sPrt
+        sPrt = Trim(IIf(IsNull(rBnk("Conta")), "", rBnk("Conta")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Conta: " & sPrt
+        sPrt = Trim(IIf(IsNull(rBnk("Tipo")), "", rBnk("Tipo")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Tipo: " & sPrt
+        sPrt = Trim(IIf(IsNull(rBnk("Favorecido")), "", rBnk("Favorecido")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Favorecido: " & sPrt
+        sPrt = Trim(IIf(IsNull(rBnk("Pix")), "", rBnk("Pix")))
+        If Len(sPrt) > 0 Then sResult = sResult & IIf(Len(sResult) > 0, ", ", "") & "Chave Pix: " & sPrt
+    End If
+    rBnk.Close
+    Set rBnk = Nothing
+    If Len(sResult) > 0 Then sResult = " / DADOS BANCÁRIO: " & sResult
+    GetDadosBancariosStr = sResult
+End Function
 
 Private Sub CalcularICMSInterNota()
 If txtCodNota.Text = "" Then Exit Sub
@@ -6070,7 +6015,7 @@ If Not r.BOF Then Mostrar_Pedido r
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-If txtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": txtCodCliente.SetFocus: Exit Sub
+If TxtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": TxtCodCliente.SetFocus: Exit Sub
 If cboModFrete.Text = "" Then MsgBox "o campo Modalidade do frete é obrigatório.", vbCritical, "Online Commerce": cboModFrete.SetFocus: Exit Sub
 If cboDestOperacao.Text = "" Then MsgBox "O campo código CFOP é obrigatório.", vbCritical, "Online Commerce": cboDestOperacao.SetFocus: Exit Sub
 'If txtCodObservacao.Text = "" Then MsgBox "O campo mensagem é obrigatório.", vbCritical, "Online Commerce": txtCodObservacao.SetFocus: Exit Sub
@@ -6132,8 +6077,8 @@ Private Sub LerDadosInserir()
     TbNotas("NumeroNota") = Format(txtNumNota, "@")
     TbNotas("cCodigoNota") = IIf(TbNotas("cCodigoNota") = 0, GeraCodigoNota, TbNotas("cCodigoNota"))
 
-    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(txtCodCliente, "@")) Or Vazio(Format(txtCodCliente, "@")), 0, Format(txtCodCliente, "@"))
-    TbNotas("RazaoSocial") = Format(cboCliente, "@")
+    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(TxtCodCliente, "@")) Or Vazio(Format(TxtCodCliente, "@")), 0, Format(TxtCodCliente, "@"))
+    TbNotas("RazaoSocial") = Format(CboCliente, "@")
     TbNotas("IndicadorFormaPagamento") = Format(cboIndicadorPagamento.Text, "@")
     TbNotas("FormatoImpressaoDANFE") = Format(cboFormatoDANFe.Text, "@")
     TbNotas("FormatoEmissaoNFe") = Format(cboTipoEmissao.Text, "@")
@@ -6756,8 +6701,8 @@ On Error GoTo erro
     TbNotas("FormaPagamento") = IIf(IsNull(Format(cboFormaPgto, "@")) Or Vazio(Format(cboFormaPgto, "@")), "01 = Dinheiro", Format(cboFormaPgto, "@"))
     'TbNotas("FormaPagamento") = Format(cboFormaPgto.Text, "@")
     
-    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(txtCodCliente, "@")) Or Vazio(Format(txtCodCliente, "@")), 0, Format(txtCodCliente, "@"))
-    TbNotas("RazaoSocial") = Format(cboCliente, "@")
+    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(TxtCodCliente, "@")) Or Vazio(Format(TxtCodCliente, "@")), 0, Format(TxtCodCliente, "@"))
+    TbNotas("RazaoSocial") = Format(CboCliente, "@")
     
     'cboFormaPgto
     TbNotas("FormatoImpressaoDANFE") = Format(cboFormatoDANFe.Text, "@")
@@ -6850,8 +6795,8 @@ End Sub
 Public Sub Load_Controls()
 'On Error GoTo erro
     cboTipoDest = Format(TbNotas("TipoCliente"), "@")
-    txtCodCliente = Format(TbNotas("CodigoCorrentista"), "@")
-    cboCliente = Format(TbNotas("RazaoSocial"), "@")
+    TxtCodCliente = Format(TbNotas("CodigoCorrentista"), "@")
+    CboCliente = Format(TbNotas("RazaoSocial"), "@")
     
     If TbNotas("CodigoNatureza") = 1 Then
         cboDestOperacao.Text = "1 - Operação Interna"
@@ -7406,6 +7351,39 @@ End Sub
 
 Sub chkOutros_Click()
     AplicarVisibilidadeGridItens
+End Sub
+
+Private Sub chkDadosBancarios_Click()
+    Static sBancoAdicionado As String
+    Dim sBanco As String, sTmp As String, iPos As Integer
+    If chkDadosBancarios.Value = 1 Then
+        sBanco = GetDadosBancariosStr()
+        If Len(sBanco) > 0 Then
+            sBancoAdicionado = sBanco
+            If Len(Trim(txtInfComple.Text)) > 0 Then
+                txtInfComple.Text = txtInfComple.Text & vbCrLf & sBanco
+            Else
+                txtInfComple.Text = sBanco
+            End If
+        End If
+    Else
+        If Len(sBancoAdicionado) > 0 Then
+            sTmp = txtInfComple.Text
+            iPos = InStr(sTmp, sBancoAdicionado)
+            If iPos > 0 Then
+                If iPos >= 3 Then
+                    If Mid(sTmp, iPos - 2, 2) = vbCrLf Then
+                        txtInfComple.Text = Trim(Left(sTmp, iPos - 3))
+                    Else
+                        txtInfComple.Text = ""
+                    End If
+                Else
+                    txtInfComple.Text = ""
+                End If
+            End If
+            sBancoAdicionado = ""
+        End If
+    End If
 End Sub
 
 Private Sub cboFinalidade_Change()
@@ -8583,33 +8561,7 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Sub cboObservacao_GotFocus()
-sSQL = "SELECT CodigoObservacao, Observacao FROM ObservacoesNFe;"
-Set r = dbData.OpenRecordset(sSQL)
-    
-Do While Not r.EOF
-   cboObservacao.AddItem r("Observacao")
-   cboObservacao.ItemData(cboObservacao.NewIndex) = r("CodigoObservacao")
-   r.MoveNext
-Loop
 
-If r.State <> 0 Then r.Close
-Set r = Nothing
-End Sub
-
-
-Private Sub cboObservacao_LostFocus()
-On Error GoTo TrataErro
-
-If cboObservacao.Text = "" Then txtCodOBS.Text = "": Exit Sub
-
-If cboObservacao.ListIndex = -1 Then txtCodOBS.Text = "": Exit Sub
-
-txtCodOBS = cboObservacao.ItemData(cboObservacao.ListIndex)
-
-TrataErro:
-   If Err.Number = 381 Then Exit Sub
-End Sub
 
 
 Private Sub cboTipoContribuinte_GotFocus()
@@ -8670,7 +8622,7 @@ Dim vTotal As Double
 If txtCodNota.Text = "" Then Exit Sub
 If txtCodProduto.Text = "" Then Exit Sub
 If txtSubTotal.Text = "" Then Exit Sub
-If txtCodCliente.Text = "" Then MsgBox "Selecione um cliente/fornecedor antes de adicionar itens.", vbExclamation, "Online Commerce": Exit Sub
+If TxtCodCliente.Text = "" Then MsgBox "Selecione um cliente/fornecedor antes de adicionar itens.", vbExclamation, "Online Commerce": Exit Sub
 VerificarDestinatarioEnviar
 If vPossuiErro Then Exit Sub
 If Len(vNCM) < 8 Then ShowMsg "NCM INCORRETO!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbExclamation
@@ -8813,6 +8765,10 @@ sSQL = "UPDATE setor SET setor = '" & cboSetor.Text & "' WHERE (cod_setor = " & 
 Atualizar_Dados = dbData.Execute(sSQL)
 End Function
 
+Private Sub cmdAdicionarOBS_Click()
+
+End Sub
+
 Private Sub cmdCal1_Click()
 Dim varData As Variant
 Dim fCal As Calendario
@@ -8893,12 +8849,12 @@ vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
                  "FROM NotaFiscal WHERE CodigoNota = " & Val(vCodNota)
  iRetorno = CancelaNFe(TbNotas("ChavedeAcesso"), TbNotas("NumeroProtocolo"), Justificativa, True)
  If iRetorno Then
-    sql = "UPDATE NotaFiscal SET " & _
+    SQL = "UPDATE NotaFiscal SET " & _
           "Cancelada = 1, " & _
           "CanceladaProtocolo = " & NFeNumeroProtocolo & ", " & _
           "Justificativa = '" & Justificativa & "' " & _
           "WHERE CodigoNota = " & Val(vCodNota)
-    vgDb.Execute sql
+    vgDb.Execute SQL
     vgDb.Execute "UPDATE NotaFiscal SET Cod_Pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
     vgDb.Execute "UPDATE NotaFiscalItens SET Cod_Pedido = 0, Item_pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
     'RsOpen TbNotas, "SELECT CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota,  " & _
@@ -8915,17 +8871,17 @@ Dim r As ADODB.Recordset
 Dim itemAtual As String
 Dim codAtual As String
 
-itemAtual = cboCliente.Text
-codAtual = txtCodCliente.Text
-cboCliente.Clear
+itemAtual = CboCliente.Text
+codAtual = TxtCodCliente.Text
+CboCliente.Clear
 
 If cboTipoDest.Text = "FORNECEDOR" Then
     sSQL = "SELECT DISTINCT RAZAO, codigo FROM FORNECEDOR ORDER BY razao;"
     Set r = dbData.OpenRecordset(sSQL)
     
     Do While Not r.EOF
-       cboCliente.AddItem r("RAZAO")
-       cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
+       CboCliente.AddItem r("RAZAO")
+       CboCliente.ItemData(CboCliente.NewIndex) = r("codigo")
        r.MoveNext
     Loop
 Else
@@ -8933,8 +8889,8 @@ Else
     Set r = dbData.OpenRecordset(sSQL)
     
     Do While Not r.EOF
-       cboCliente.AddItem r("nome")
-       cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
+       CboCliente.AddItem r("nome")
+       CboCliente.ItemData(CboCliente.NewIndex) = r("codigo")
        r.MoveNext
     Loop
 End If
@@ -8942,21 +8898,21 @@ End If
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-cboCliente.Text = itemAtual
-txtCodCliente.Text = codAtual
-SelectControl cboCliente
-moCombo.AttachTo cboCliente
+CboCliente.Text = itemAtual
+TxtCodCliente.Text = codAtual
+SelectControl CboCliente
+moCombo.AttachTo CboCliente
 End Sub
 Private Sub CboCliente_LostFocus()
 On Error GoTo TrataErro
 
-If cboCliente.Text = "" Then txtCodCliente.Text = "": Exit Sub
+If CboCliente.Text = "" Then TxtCodCliente.Text = "": Exit Sub
 
 'If cmdAlterar.Enabled = False Then
-If cboCliente.ListIndex = -1 Then txtCodCliente.Text = "": Exit Sub
+If CboCliente.ListIndex = -1 Then TxtCodCliente.Text = "": Exit Sub
 'End If
 
-txtCodCliente = cboCliente.ItemData(cboCliente.ListIndex)
+TxtCodCliente = CboCliente.ItemData(CboCliente.ListIndex)
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
@@ -9131,11 +9087,11 @@ Set r = dbData.OpenRecordset(sSQL)
      ' IBS: aliquotas da cidade do destinatario
      vIBSUFpAliq = "0,00"
      vIBSMunpAliq = "0,00"
-     If Val(txtCodCliente.Text) > 0 Then
+     If Val(TxtCodCliente.Text) > 0 Then
         Dim rCli As ADODB.Recordset
         Dim lCodIBGE As Long
         lCodIBGE = 0
-        RsOpen rCli, "SELECT CodigoIBGE FROM cliente WHERE CODIGO = " & Val(txtCodCliente.Text)
+        RsOpen rCli, "SELECT CodigoIBGE FROM cliente WHERE CODIGO = " & Val(TxtCodCliente.Text)
         If Not rCli.BOF Then lCodIBGE = CLng(ValidateNull(rCli("CodigoIBGE")))
         If rCli.State <> 0 Then rCli.Close
         Set rCli = Nothing
@@ -9655,33 +9611,33 @@ End If
 ''Load_Controls
 ''FormatarGridNotas TbNotas
 If cStat = 100 Or cStat = 150 Then
-      sql = "UPDATE NotaFiscal SET " & _
+      SQL = "UPDATE NotaFiscal SET " & _
             "Enviada = 1, " & _
             "EmProcessamento = 0, " & _
             "NumeroProtocolo = " & NFeNumeroProtocolo & ", " & _
             "DataHoraProcotolo = '" & NFeDataHora & "' " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute sql
+      vgDb.Execute SQL
       'SQL = "INSERT INTO NotaFiscalRecibos (CodigoNota, NumeroProtocolo, DataHora) Values " & _
       '      "(" & Val(txtCodNota.Text) & ", " & NFeNumeroProtocolo & ", '" & NFeDataHora & "')"
       'vgDb.Execute SQL
    ElseIf cStat = 101 Then
-      sql = "UPDATE NotaFiscal SET " & _
+      SQL = "UPDATE NotaFiscal SET " & _
             "Cancelada = 1, " & _
             "CanceladaProtocolo = " & NFeNumeroProtocolo & " " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute sql
+      vgDb.Execute SQL
    ElseIf cStat = 110 Then
-      sql = "UPDATE NotaFiscal SET " & _
+      SQL = "UPDATE NotaFiscal SET " & _
             "Denegada = 1, " & _
             "NumeroProtocolo = " & NFeNumeroProtocolo & " " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute sql
+      vgDb.Execute SQL
    Else
-      sql = "UPDATE NotaFiscal SET " & _
+      SQL = "UPDATE NotaFiscal SET " & _
             "Enviada = 0 " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute sql
+      vgDb.Execute SQL
    End If
    
    If Not Vazio(NFeChaveAcesso) Then
@@ -9700,12 +9656,12 @@ ShellExecute hwnd, "open", "http://www.buscacest.com.br/?utf8=" + Chr(95) + "&nc
 End Sub
 
 Private Sub cmdConsultarCliente_Click()
-If txtCodCliente.Text = "" Then MsgBox "Escolha um cliente!", vbInformation, "Aviso do Sistema": Exit Sub
+If TxtCodCliente.Text = "" Then MsgBox "Escolha um cliente!", vbInformation, "Aviso do Sistema": Exit Sub
 Dim varCodCliente As String
-varCodCliente = txtCodCliente.Text
+varCodCliente = TxtCodCliente.Text
 
 If cboTipoDest.Text = "CLIENTE" Then
-    If ShowMsg("Deseja atualizar o cliente " & cboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
+    If ShowMsg("Deseja atualizar o cliente " & CboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Clientes_Cadastro
         Clientes_Cadastro.SSTab1.Tab = 0
         Clientes_Cadastro.cmdNovo.Enabled = False
@@ -9715,7 +9671,7 @@ If cboTipoDest.Text = "CLIENTE" Then
         Clientes_Cadastro.Show 1
     End If
 ElseIf cboTipoDest.Text = "FORNECEDOR" Then
-    If ShowMsg("Deseja atualizar o fornecedor " & cboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
+    If ShowMsg("Deseja atualizar o fornecedor " & CboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Fornecedor_Cadastro
         Fornecedor_Cadastro.SSTab1.Tab = 0
         Fornecedor_Cadastro.cmdNovo.Enabled = False
@@ -10888,15 +10844,19 @@ Exit Sub
 End Sub
 
 
+Private Sub cmdRemoverOBS_Click()
+
+End Sub
+
 Private Sub cmdSalvar_Click()
 flag = False
 
 'On Error GoTo Err_Grava
-If txtCodCliente.Text = "1" Then MsgBox "NÃO É PERMITIDO FAZER NFE PARA ESSE CLIENTE." & Chr(13) & "Selecione outro cliente!", vbInformation, "Aviso do Sistema": cboCliente.SetFocus: Exit Sub
+If TxtCodCliente.Text = "1" Then MsgBox "NÃO É PERMITIDO FAZER NFE PARA ESSE CLIENTE." & Chr(13) & "Selecione outro cliente!", vbInformation, "Aviso do Sistema": CboCliente.SetFocus: Exit Sub
 If mskHora.Text = "" Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskHora.SetFocus: Exit Sub
 If Not IsDate(mskEmissao) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskEmissao.SetFocus: Exit Sub
 If Not IsDate(mskSaida) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskSaida.SetFocus: Exit Sub
-If txtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": cboCliente.SetFocus: Exit Sub
+If TxtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": CboCliente.SetFocus: Exit Sub
 If cboModFrete.Text = "" Then MsgBox "o campo Modalidade do frete é obrigatório.", vbCritical, "Online Commerce": cboModFrete.SetFocus: Exit Sub
 If cboDestOperacao.Text = "" Then MsgBox "O campo Destino é obrigatório.", vbCritical, "Online Commerce": cboDestOperacao.SetFocus: Exit Sub
 'If txtCodObservacao.Text = "" Then MsgBox "O campo mensagem é obrigatório.", vbCritical, "Online Commerce": txtCodObservacao.SetFocus: Exit Sub
@@ -10988,7 +10948,11 @@ vDataProt = Format(Left(dhDataProt, 10), "yyyy/mm/dd")
      
      If Not Existe(xCaminhoXML) Then consultaNFe vChave, True
      
-     If Not Existe(xCaminhoXML) Then Exit Sub
+     If Not Existe(xCaminhoXML) Then
+         MsgBox "Essa nota fiscal foi gerada em outro computador!" & vbCrLf & _
+                "Você somente conseguirá gerar a impressão no computador que foi gerado a nota fiscal", vbExclamation, "Aviso do Sistema"
+         Exit Sub
+     End If
      
      iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
      Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, xCancelada, False, "", True, False, False, False, True)
@@ -11034,10 +10998,10 @@ If vPossuiErro = False Then
     picAguarde.Visible = True
     iRetorno = TransmitirNFe(Val(vCodNota), Val(vSerieNota), True)
     If iRetorno Then
-       sql = "UPDATE NotaFiscal SET " & _
+       SQL = "UPDATE NotaFiscal SET " & _
              "Enviada = 1 " & _
              "WHERE CodigoNota = " & Val(vCodNota)
-       vgDb.Execute sql
+       vgDb.Execute SQL
        'RsOpen TbNotas, "SELECT *,  " & _
                        "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) AS Status " & _
                        "FROM NotaFiscal WHERE CodigoNota = " & Val(vCodNota)
@@ -11411,7 +11375,7 @@ Private Sub TxtCodCliente_Change()
 Dim TbClientes As New ADODB.Recordset
 Dim TbEmpresa As New ADODB.Recordset
 
-If txtCodCliente.Text = "" Then
+If TxtCodCliente.Text = "" Then
     'txtCliEndereco.Text = ""
     'txtCliNum.Text = ""
     'txtCliBairro.Text = ""
@@ -11423,9 +11387,9 @@ If txtCodCliente.Text = "" Then
     'Exit Sub
 Else
     If cboTipoDest.Text = "FORNECEDOR" Then
-        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM fornecedor WHERE codigo = " & Val(txtCodCliente.Text)
+        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM fornecedor WHERE codigo = " & Val(TxtCodCliente.Text)
     Else
-        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM cliente WHERE codigo = " & Val(txtCodCliente.Text)
+        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM cliente WHERE codigo = " & Val(TxtCodCliente.Text)
     End If
     
     
@@ -11472,6 +11436,10 @@ Else
         'txtCliIE.Text = ValidateNull(TbClientes("ie"))
     End If
 End If
+End Sub
+
+Private Sub txtCodOBS_Change()
+
 End Sub
 
 Private Sub txtCodTransporte_Change()
@@ -12315,8 +12283,8 @@ Dim totalRegistros As Long
         txtSerie.Text = TbNotaPedido("SerieNF")
     End If
 
-    txtCodCliente = Format(rTabela("COD_CLIENTE"), "@")
-    cboCliente = Format(rTabela("varnome"), "@")
+    TxtCodCliente = Format(rTabela("COD_CLIENTE"), "@")
+    CboCliente = Format(rTabela("varnome"), "@")
 
     cboDestOperacao.Text = "1 - Operação Interna"
     'txtInfAdicionais = Format(rTabela("InformacoesAdicionais"), "@")
@@ -12746,15 +12714,15 @@ Private Sub txtCodCliente_KeyDown(KeyCode As Integer, Shift As Integer)
 Dim TbClientes As New ADODB.Recordset
 On Error GoTo erro
 If KeyCode = 13 Then
-    If txtCodCliente.Text = "" Then
-        txtCodCliente.SetFocus
+    If TxtCodCliente.Text = "" Then
+        TxtCodCliente.SetFocus
         Exit Sub
     End If
-    RsOpen TbClientes, "SELECT * FROM cliente WHERE codigo = " & Val(txtCodCliente.Text)
+    RsOpen TbClientes, "SELECT * FROM cliente WHERE codigo = " & Val(TxtCodCliente.Text)
     If TbClientes.EOF And TbClientes.BOF Then
         MsgBox "Código do cliente não foi localizado no sistema. Verifique.", vbCritical, "Online Commerce": Exit Sub
     Else
-        cboCliente.Text = TbClientes("nome")
+        CboCliente.Text = TbClientes("nome")
         txtCliEndereco.Text = TbClientes("nome")
         txtCliNum.Text = TbClientes("nome")
         txtCliBairro.Text = TbClientes("nome")
@@ -12763,7 +12731,7 @@ If KeyCode = 13 Then
         txtCliCPF.Text = TbClientes("nome")
         txtCliIE.Text = TbClientes("nome")
         
-        cboCliente.SetFocus
+        CboCliente.SetFocus
     End If
 End If
 Exit Sub
