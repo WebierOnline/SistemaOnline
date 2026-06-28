@@ -800,6 +800,81 @@ DoEvents
 picAguarde.Visible = False
 End Sub
 
+Private Sub FormatarGrid_Servicos(rTabela As ADODB.Recordset)
+   Dim i As Integer
+picAguarde.Visible = True
+DoEvents
+   With Grid
+      .Clear
+      .Cols = 11
+      .rows = 2
+      
+      .ColWidth(0) = 0
+      .ColWidth(1) = 750
+      .ColWidth(2) = 900
+      .ColWidth(3) = 0
+      .ColWidth(4) = 5400
+      .ColWidth(5) = 800
+      .ColWidth(6) = 800
+      .ColWidth(7) = 800
+      .ColWidth(8) = 700
+      .ColWidth(9) = 800
+      .ColWidth(10) = 0
+      
+      .TextMatrix(0, 1) = "OS"
+      .TextMatrix(0, 2) = "DATA"
+      .TextMatrix(0, 3) = ""
+      .TextMatrix(0, 4) = "DESCRIÇÃO"
+      .TextMatrix(0, 5) = "VALOR"
+      .TextMatrix(0, 6) = "QTDE"
+      .TextMatrix(0, 7) = "="
+      .TextMatrix(0, 8) = "DESC."
+      .TextMatrix(0, 9) = "TOTAL"
+      .TextMatrix(0, 10) = ""
+      
+      .Redraw = False
+      
+      For i = 0 To .Cols - 1
+         .Col = i
+         .Row = 0
+         .CellFontBold = True
+      Next
+      
+      .ColAlignment(1) = 1
+      
+      For i = 0 To .Cols - 1
+         .Row = 0
+         .Col = i
+         .CellAlignment = flexAlignCenterCenter
+      Next
+      
+      If Not rTabela Is Nothing Then
+         Do While Not rTabela.EOF
+            .TextMatrix(.rows - 1, 1) = Format(rTabela("varCodPed"), "000000")
+            .TextMatrix(.rows - 1, 2) = Format(rTabela("varData"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 3) = ""
+            .TextMatrix(.rows - 1, 4) = rTabela("varNome")
+            .TextMatrix(.rows - 1, 5) = Format(rTabela("varValor"), ocMONEY)
+            .TextMatrix(.rows - 1, 6) = rTabela("varQuant")
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("varSubtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = Format(rTabela("varDesc"), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("varTotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = "0"
+            
+            rTabela.MoveNext
+            .rows = .rows + 1
+         Loop
+      End If
+      
+      .rows = .rows - 1
+      .Redraw = True
+   End With
+   
+   lblQtda.Caption = SomaGrid(Grid, 6)
+   lblTotal.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
+picAguarde.Visible = False
+End Sub
+
 Private Sub FormatarGrid_ProdDetalhado(rTabela As ADODB.Recordset)
    Dim i As Integer
 
@@ -1168,6 +1243,30 @@ ElseIf cboCriterioPrinc.Text = "DATA" Then
     cboMes.Visible = False
     lblAno.Visible = False
     cboAno.Visible = False
+ElseIf cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
+    lblInicio.Visible = False
+    mskInicio.Visible = False
+    lblFim.Visible = False
+    mskFim.Visible = False
+    lblAte.Visible = False
+    cmdCalendario1.Visible = False
+    cmdCalendario2.Visible = False
+    lblMes.Visible = True
+    cboMes.Visible = True
+    lblAno.Visible = True
+    cboAno.Visible = True
+ElseIf cboCriterioPrinc.Text = "ESPECIFICO" Then
+    lblInicio.Visible = False
+    mskInicio.Visible = False
+    lblFim.Visible = False
+    mskFim.Visible = False
+    lblAte.Visible = False
+    cmdCalendario1.Visible = False
+    cmdCalendario2.Visible = False
+    lblMes.Visible = False
+    cboMes.Visible = False
+    lblAno.Visible = False
+    cboAno.Visible = False
 End If
 
 If cboCriterioSec.Text = "DESCRIÇÃO" Or cboCriterioSec.Text = "REFERÊNCIA" Or cboCriterioSec.Text = "FABRICANTE" Then
@@ -1201,11 +1300,15 @@ End Sub
 Private Sub cboCriterioSec_GotFocus()
 cboCriterioSec.Clear
 
-cboCriterioSec.AddItem "DESCRIÇÃO"
-cboCriterioSec.AddItem "CÓD. BARRA"
-cboCriterioSec.AddItem "REFERÊNCIA"
-cboCriterioSec.AddItem "FABRICANTE"
-cboCriterioSec.AddItem "CATEGORIA"
+If cboTipo.Text = "POR SERVIÇOS" Then
+   cboCriterioSec.AddItem "DESCRIÇÃO"
+Else
+   cboCriterioSec.AddItem "DESCRIÇÃO"
+   cboCriterioSec.AddItem "CÓD. BARRA"
+   cboCriterioSec.AddItem "REFERÊNCIA"
+   cboCriterioSec.AddItem "FABRICANTE"
+   cboCriterioSec.AddItem "CATEGORIA"
+End If
 
 moCombo.AttachTo cboCriterioSec
 End Sub
@@ -1240,6 +1343,19 @@ Private Sub cboDescricao_GotFocus()
    
    cboDescricao.Clear
    
+If cboTipo.Text = "POR SERVIÇOS" Then
+   sSQL = "SELECT DISTINCT descricao FROM OS_Servicos_Auto ORDER BY descricao;"
+   Set r = dbData.OpenRecordset(sSQL)
+   Do While Not r.EOF
+      cboDescricao.AddItem r("descricao")
+      r.MoveNext
+   Loop
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+   moCombo.AttachTo cboDescricao
+   Exit Sub
+End If
+
 If cboCriterioSec.Text = "DESCRIÇÃO" Then
    sSQL = "SELECT DISTINCT descricao, codigo FROM produtos ORDER BY descricao;"
    Set r = dbData.OpenRecordset(sSQL)
@@ -1498,6 +1614,19 @@ If cboTipo.Text = "POR PRODUTOS" Then
       INDICE = "produtos.descricao ;"
    End If
 End If
+If cboTipo.Text = "POR SERVIÇOS" Then
+   If cboIndice.Text = "QUANT." Then
+      INDICE = "s.quantidade ;"
+   ElseIf cboIndice.Text = "PRODUTO" Then
+      INDICE = "s.descricao ;"
+   ElseIf cboIndice.Text = "DATA" Then
+      INDICE = "s.data ;"
+   ElseIf cboIndice.Text = "PEDIDO" Then
+      INDICE = "s.cod_os ;"
+   Else
+      INDICE = "s.descricao ;"
+   End If
+End If
 
 sSQL = "SELECT pedidos_itens.codigo, pedidos_itens.data as varData, pedidos_itens.cod_pedido as varCodPed, pedidos_itens.cod_produto as varCodProd, produtos.descricao as varNome, produtos.fabricante as varFab, produtos.tamanho as varTam, produtos.REF as varRef, pedidos_itens.preco as varValor, pedidos_itens.quantidade as varQuant, pedidos_itens.SUBTOTAL as varSubtotal, pedidos_itens.Desconto as varDesc, pedidos_itens.Total as varTotal, ISNULL(OS.COD_OS, 0) AS var_CodOS " & _
         "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo LEFT OUTER JOIN OS ON pedidos.COD_PEDIDO = OS.COD_PEDIDO " & _
@@ -1628,20 +1757,45 @@ If cboTipo.Text = "POR PRODUTOS" Then
 
         
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
-         'TODOS
-         If cboCriterioPrinc.Text = "TODOS" And cboCriterioSec.Text = "" Then
-            sSQL = "SELECT os_servicos.cod_produto, os_servicos.descricao as var_desc, SUM(os_servicos.quantidade) AS var_qtde, preco, SUM(preco * quantidade) AS var_total " & _
-               "FROM produtos LEFT JOIN os_servicos ON produtos.codigo = os_servicos.cod_produto " & _
-               "LEFT JOIN pedidos ON os_servicos.cod_pedido = pedidos.cod_pedido " & _
-               "WHERE (pedidos.tipo_pedido = 'BALCAO' or pedidos.tipo_pedido = 'OFICINA')  " & _
-               "GROUP BY os_servicos.cod_produto, produtos.descricao, produtos.tamanho, produtos.fabricante, produtos.ref, os_servicos.preco ORDER BY " & INDICE
-         End If
+   Dim sBase As String
+   sBase = "SELECT s.codigo, OS.COD_OS AS varCodPed, s.data AS varData, s.descricao AS varNome, " & _
+           "s.preco AS varValor, s.quantidade AS varQuant, s.subtotal AS varSubtotal, " & _
+           "s.desconto AS varDesc, s.total AS varTotal, 0 AS var_CodOS " & _
+           "FROM OS_Servicos_Auto s INNER JOIN OS ON s.cod_os = OS.COD_OS "
+
+   If cboCriterioPrinc.Text = "TODOS" Then
+      If cboCriterioSec.Text = "DESCRIÇÃO" Then
+         If cboDescricao.Text = "" Then Exit Sub
+         sSQL = sBase & "WHERE s.descricao = '" & cboDescricao.Text & "' ORDER BY " & INDICE
+      Else
+         sSQL = sBase & "ORDER BY " & INDICE
+      End If
+   ElseIf cboCriterioPrinc.Text = "MENSAL" Then
+      If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+      If cboCriterioSec.Text = "DESCRIÇÃO" Then
+         If cboDescricao.Text = "" Then Exit Sub
+         sSQL = sBase & "WHERE s.descricao = '" & cboDescricao.Text & "' AND MONTH(s.data) = " & cboMes.ListIndex + 1 & " AND YEAR(s.data) = " & cboAno & " ORDER BY " & INDICE
+      Else
+         sSQL = sBase & "WHERE MONTH(s.data) = " & cboMes.ListIndex + 1 & " AND YEAR(s.data) = " & cboAno & " ORDER BY " & INDICE
+      End If
+   ElseIf cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
+      If cboDescricao.Text = "" Then Exit Sub
+      If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+      sSQL = sBase & "WHERE s.descricao = '" & cboDescricao.Text & "' AND MONTH(s.data) = " & cboMes.ListIndex + 1 & " AND YEAR(s.data) = " & cboAno & " ORDER BY " & INDICE
+   ElseIf cboCriterioPrinc.Text = "ESPECIFICO" Then
+      If cboDescricao.Text = "" Then Exit Sub
+      sSQL = sBase & "WHERE s.descricao = '" & cboDescricao.Text & "' ORDER BY " & INDICE
+   End If
 End If
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 'MsgBox r.RecordCount
 
-FormatarGrid_ProdDetalhado r
+If cboTipo.Text = "POR SERVIÇOS" Then
+   FormatarGrid_Servicos r
+Else
+   FormatarGrid_ProdDetalhado r
+End If
 'FormatarGrid_Produtos r
 printSQL = sSQL
 
