@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.ocx"
+Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.Ocx"
 Begin VB.Form REL_Cons_Venda_Prod 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Impressão de Contas à Pagar"
@@ -704,7 +704,7 @@ Begin VB.Form REL_Cons_Venda_Prod
          Alignment       =   2  'Center
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "RELATÓRIO DE VENDAS POR PRODUTO"
+         Caption         =   "RELATÓRIO POR PRODUTO E SERVIÇO"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   14.25
@@ -715,10 +715,10 @@ Begin VB.Form REL_Cons_Venda_Prod
             Strikethrough   =   0   'False
          EndProperty
          Height          =   330
-         Left            =   2775
+         Left            =   2835
          TabIndex        =   1
          Top             =   1500
-         Width           =   5640
+         Width           =   5520
       End
    End
    Begin ReportX.ReportField ReportField42 
