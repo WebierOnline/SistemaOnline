@@ -1846,7 +1846,7 @@ If cboTipo.Text = "POR PRODUTOS" Then
    ElseIf cboIndice.Text = "PRODUTO" Then
       INDICE = "produtos.descricao ;"
    ElseIf cboIndice.Text = "DATA" Then
-      INDICE = "pedidos_itens.data ;"
+      INDICE = "pedidos.DATA_COMPRA ;"
    ElseIf cboIndice.Text = "PEDIDO" Then
       INDICE = "pedidos_itens.cod_pedido ;"
    Else
@@ -1867,9 +1867,9 @@ If cboTipo.Text = "POR SERVIÇOS" Then
    End If
 End If
 
-sSQL = "SELECT pedidos_itens.codigo, pedidos_itens.data as varData, pedidos_itens.cod_pedido as varCodPed, pedidos_itens.cod_produto as varCodProd, produtos.descricao as varNome, produtos.fabricante as varFab, produtos.tamanho as varTam, produtos.REF as varRef, pedidos_itens.preco as varValor, pedidos_itens.quantidade as varQuant, pedidos_itens.SUBTOTAL as varSubtotal, pedidos_itens.Desconto as varDesc, pedidos_itens.Total as varTotal, ISNULL(OS.COD_OS, 0) AS var_CodOS, produtos.COD_BARRA as varCodBarra " & _
-        "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo LEFT OUTER JOIN OS ON pedidos.COD_PEDIDO = OS.COD_PEDIDO " & _
-        "WHERE pedidos_itens.cancelado = 0 AND pedidos.tipo_pedido <> 'ORÇAMENTO'"
+sSQL = "SELECT pedidos_itens.codigo, pedidos.DATA_COMPRA as varData, pedidos_itens.cod_pedido as varCodPed, pedidos_itens.cod_produto as varCodProd, produtos.descricao as varNome, produtos.fabricante as varFab, produtos.tamanho as varTam, produtos.REF as varRef, pedidos_itens.preco as varValor, pedidos_itens.quantidade as varQuant, pedidos_itens.SUBTOTAL as varSubtotal, pedidos_itens.Desconto as varDesc, pedidos_itens.Total as varTotal, ISNULL((SELECT TOP 1 COD_OS FROM OS WHERE OS.COD_PEDIDO = pedidos.COD_PEDIDO), 0) AS var_CodOS, produtos.COD_BARRA as varCodBarra " & _
+        "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo " & _
+        "WHERE pedidos.CANCELADO = 0 AND pedidos.tipo_pedido <> 'ORÇAMENTO' AND pedidos.tipo_pagamento IN ('À Vista', 'À prazo')"
    
 If cboTipo.Text = "POR PRODUTOS" Then
 
@@ -1903,104 +1903,119 @@ If cboTipo.Text = "POR PRODUTOS" Then
              ElseIf cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "MENSAL" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
                 
              ElseIf cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "MENSAL" Then
                 If txtCodBarra.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "REFERÊNCIA" And cboCriterioPrinc.Text = "MENSAL" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "FABRICANTE" And cboCriterioPrinc.Text = "MENSAL" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "CATEGORIA" And cboCriterioPrinc.Text = "MENSAL" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
+                       "ORDER BY " & INDICE
+            'TODOS/MENSAL
+             ElseIf cboCriterioSec.Text = "TODOS" And cboCriterioPrinc.Text = "MENSAL" Then
+                If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+                sSQL = sSQL & " and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
             'PERÍODO
              ElseIf cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                 
              ElseIf cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If txtCodBarra.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "REFERÊNCIA" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "FABRICANTE" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "CATEGORIA" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                       "ORDER BY " & INDICE
+            'TODOS/PERÍODO
+             ElseIf cboCriterioSec.Text = "TODOS" And cboCriterioPrinc.Text = "PERÍODO" Then
+                If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
+                sSQL = sSQL & " and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
 
             'DATA
              ElseIf cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "DATA" Then
                 If txtCodProduto.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.CODIGO = " & txtCodProduto.Text & " and (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.CODIGO = " & txtCodProduto.Text & " and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                 
              ElseIf cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "DATA" Then
                 If txtCodBarra.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.cod_barra = '" & txtCodBarra.Text & "' and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "REFERÊNCIA" And cboCriterioPrinc.Text = "DATA" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.REF = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "FABRICANTE" And cboCriterioPrinc.Text = "DATA" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.FABRICANTE = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "CATEGORIA" And cboCriterioPrinc.Text = "DATA" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.CATEGORIA = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
+                       "ORDER BY " & INDICE
+            'TODOS/DATA
+             ElseIf cboCriterioSec.Text = "TODOS" And cboCriterioPrinc.Text = "DATA" Then
+                If Not IsDate(mskInicio.Text) Then Exit Sub
+                sSQL = sSQL & " and (pedidos.DATA_COMPRA = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
             'PRODUTO/MENSAL
              ElseIf cboCriterioPrinc.Text = "PRODUTO/MENSAL" Then
                 If txtCodProduto.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
             'PRODUTO/PERÍODO
              ElseIf cboCriterioPrinc.Text = "PRODUTO/PERÍODO" Then
                 If txtCodProduto.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " and (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
             End If
             
@@ -2012,15 +2027,15 @@ ElseIf cboTipo.Text = "POR SERVIÇOS" Then
    sBase = "SELECT s.codigo, OS.COD_OS AS varCodPed, OS.DATA_TERMINO AS varData, s.descricao AS varNome, " & _
            "s.preco AS varValor, s.quantidade AS varQuant, s.subtotal AS varSubtotal, " & _
            "s.desconto AS varDesc, s.total AS varTotal, ISNULL(OS.COD_PEDIDO, 0) AS var_CodOS, s.cod_servico AS varCodServ " & _
-           "FROM OS_Servicos_Auto s INNER JOIN OS ON s.cod_os = OS.COD_OS "
+           "FROM OS_Servicos_Auto s INNER JOIN OS ON s.cod_os = OS.COD_OS WHERE OS.STATUS_OS = 1 "
 
    If cboCriterioPrinc.Text = "TODOS" Then
       If cboCriterioSec.Text = "DESCRIÇÃO" Then
          If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE OS.COD_OS = " & Val(txtCodBarra.Text) & " ORDER BY " & INDICE
+         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " ORDER BY " & INDICE
       Else
          sSQL = sBase & "ORDER BY " & INDICE
       End If
@@ -2028,41 +2043,41 @@ ElseIf cboTipo.Text = "POR SERVIÇOS" Then
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
       If cboCriterioSec.Text = "DESCRIÇÃO" Then
          If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE OS.COD_OS = " & Val(txtCodBarra.Text) & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
       Else
-         sSQL = sBase & "WHERE MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
       If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
       If cboCriterioSec.Text = "DESCRIÇÃO" Then
          If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
-         sSQL = sBase & "WHERE OS.COD_OS = " & Val(txtCodBarra.Text) & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       Else
-         sSQL = sBase & "WHERE (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS/MENSAL" Then
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
       If txtCodProduto.Text <> "" Then
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
       Else
-         sSQL = sBase & "WHERE MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS/PERÍODO" Then
       If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
       If txtCodProduto.Text <> "" Then
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       Else
-         sSQL = sBase & "WHERE (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS" Then
       If txtCodProduto.Text <> "" Then
-         sSQL = sBase & "WHERE s.cod_servico = " & txtCodProduto.Text & " ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " ORDER BY " & INDICE
       Else
          sSQL = sBase & "ORDER BY " & INDICE
       End If
