@@ -1,0 +1,27 @@
+- O objeto cboISCST é preencido com as seguintes opções?
+    cboISCST.AddItem "00 - Incidência na Origem (Indústria/Importador)"
+    cboISCST.AddItem "01 - Saída Tributada (Comércio/Varejo)"
+    cboISCST.AddItem "99 - Outras Operações"
+- Quando produto tiver que se cobrado o IS, deve se auto selecionar a opção 01, quando não for para ser cobrado, deve auto selecionar 99.
+-Vamos preencher o cboISClasse com os seguintes dados
+Se o Produto for...,Escolha o cClassTrib IS,Tipo de Cálculo
+Cervejas e Chopes,900002,Geralmente Ad Valorem (%)
+"Vinhos, Espumantes e Cachaças",900001,Ad Valorem (%)
+"Uísque, Gin, Vodka (Destilados)",900003,Ad Valorem (%)
+Refrigerantes e Sucos com Açúcar,900010,Ad Rem (R$ por Litro)
+Energéticos e Bebidas Esportivas,900011,Ad Rem (R$ por Litro)
+Cigarros e fumo,900040,Misto (Ad Valorem + Ad Rem)
+Veículos (Automóveis poluintes),900020,Ad Valorem (%)
+
+-Dever ficar, exemplo: "900002 - Cervejas e Chopes"
+obs: essa parte de Ad Rem ou Ad Valorem não precisa ter ma descrição. porem quando for Ad Valorem os objetos txtISpIS, lblISpIS devem ficar habilitados e txtISvIS, lblISvIS desabilitados. Quando for Ad Rem os objetos txtISpIS, lblISpIS devem ficar desabilitados e txtISvIS, lblISvIS habilitados. se tem os 2, ficam os 2 habilados
+-Quando eu escolher uma opção em cboISCST ele deve colocar a descrição no label lblISCST
+-Quando eu escolher uma opção em cboISClasse ele deve colocar a descrição no label lblISCSTClass
+-Quando eu clicar no botão Novo(cmdNovo) o cboISCST deve escolher o "99 - Outras Operações"
+-Regras de preenchimentos baseada na escolha do cboISCST(caso eu esteja cadastrando um novo produto):
+* se for selecionado "00" deve-se preencher o cboISClasse e os campos txtISpIS = "0,00", txtISvIS= "0,00" 
+* se for selecionado "01" deve-se preencher o cboISClasse e os campos txtISpIS = "0,00", txtISvIS= "0,00" 
+se for selecionado "99" não se deve preencher o cboISClasse e os campos txtISpIS = "0,00", txtISvIS= "0,00 e cboISClasse = "0"" 
+-Toda vez que eu escolher um categoria ou classificação fiscal que deve deve ser cobrado o IS, sempre escolher a opção "01" em cboISCST 
+
+

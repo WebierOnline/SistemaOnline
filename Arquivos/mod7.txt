@@ -1,0 +1,23 @@
+Dar uma olhada no arquivo C:\Projeto\TabelaIBPT.csv
+Nele possui um tabela de ncm e seus impostos que são atualizadas varias ao ano.
+Aqui está o que cada coluna representa:
+codigo (A): É o código NCM (Nomenclatura Comum do Mercosul) para produtos ou NBS para serviços. É a sua chave de busca principal. obs: 8 digitos.
+ex (B): Exceção da TIPI. Geralmente é 0. Só terá valor se o produto tiver uma alíquota diferenciada dentro do mesmo NCM. obs: as celulas vazia represente que tem que ter o zero como preenchimento.
+tipo (C): Indica se é Produto (0) ou Serviço (1).
+descricao (D): Descrição simplificada do NCM.
+nacionalfederal (E): Alíquota do imposto Federal para produtos produzidos no Brasil (em %).
+importadosfederal (F): Alíquota do imposto Federal para produtos importados (em %).
+estadual (G): Alíquota do imposto Estadual (ICMS).
+municipal (H): Alíquota do imposto Municipal (ISS), usada geralmente para serviços.
+vigenciainicio (I) e vigenciafim (J): Período em que esses valores são válidos. Atenção: Seu sistema deve alertar o cliente quando a vigenciafim estiver próxima, pois ele precisará atualizar a tabela/token.
+chave (K): Um código de controle do IBPT para identificar a versão da tabela.
+versao (L): A versão atual do arquivo (na imagem é a 26.1.G). É obrigatório imprimir essa versão nas observações do cupom fiscal.
+fonte (M): A origem dos dados (IBPT/empresometro.com.br). Também deve ser impressa no cupom.
+Alem desses campos, preciso acrescentar os seguinte campos campos: 
+cClassTrib_IBS	Varchar(6)	Reforma: Ex: 000001 (Padrão) ou 400001 (Zero).
+cClassTrib_IS	Varchar(6)	Reforma: Ex: 900010 (Açucaradas) ou vazio.
+tipo_calculo_is	Integer	0 = Não tem, 1 = Ad Valorem (%), 2 = Ad Rem (R$).
+preciso criar uma tabela para no meu banco de dados chamado TabelaIBPT com esses campos.
+Depois preciso criar um form onde tenha um botão que eu posso localizar e ler esse arquivo .csv
+Ao ler o arquivo ele vai preencher toda a tabela TabelaIBPT com os dados do arquivo.
+Caso a tabela esteja já preenchida, verificar a versao da tabela .csv e caso a versão que está sendo linda seja mais atual, limpa toda a tabela TabelaIBPT no meu banco de dados e acrescenta o novos registros

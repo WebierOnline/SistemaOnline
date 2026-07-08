@@ -149,59 +149,59 @@ Begin VB.Form Funcionario_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1455
-            Left            =   7140
+            Left            =   6240
             TabIndex        =   163
             Top             =   240
-            Width           =   2295
-            Begin VB.TextBox Text12 
+            Width           =   2055
+            Begin VB.TextBox txtComServAlvo3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   169
                TabStop         =   0   'False
                Top             =   1020
                Width           =   975
             End
-            Begin VB.TextBox Text11 
+            Begin VB.TextBox txtComServ3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   168
                TabStop         =   0   'False
                Top             =   1020
                Width           =   435
             End
-            Begin VB.TextBox Text10 
+            Begin VB.TextBox txtComServAlvo2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   167
                TabStop         =   0   'False
                Top             =   660
                Width           =   975
             End
-            Begin VB.TextBox Text9 
+            Begin VB.TextBox txtComServ2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   166
                TabStop         =   0   'False
                Top             =   660
                Width           =   435
             End
-            Begin VB.TextBox Text8 
+            Begin VB.TextBox txtComServAlvo1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   165
                TabStop         =   0   'False
                Top             =   300
                Width           =   975
             End
-            Begin VB.TextBox txtComServicos1 
+            Begin VB.TextBox txtComServ1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   164
                TabStop         =   0   'False
                Top             =   300
@@ -211,55 +211,55 @@ Begin VB.Form Funcionario_Cadastro
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   175
                Top             =   1080
                Width           =   120
             End
             Begin VB.Label Label71 
                AutoSize        =   -1  'True
-               Caption         =   "Depois:"
+               Caption         =   ">"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   174
                Top             =   1080
-               Width           =   540
+               Width           =   90
             End
             Begin VB.Label Label70 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   173
                Top             =   720
                Width           =   120
             End
             Begin VB.Label Label69 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   172
                Top             =   720
-               Width           =   285
+               Width           =   90
             End
             Begin VB.Label Label68 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   171
                Top             =   360
                Width           =   120
             End
             Begin VB.Label Label67 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<="
                Height          =   195
                Left            =   60
                TabIndex        =   170
                Top             =   360
-               Width           =   285
+               Width           =   180
             End
          End
          Begin VB.Frame Frame7 
@@ -274,59 +274,59 @@ Begin VB.Form Funcionario_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1455
-            Left            =   4800
+            Left            =   4200
             TabIndex        =   150
             Top             =   240
-            Width           =   2295
-            Begin VB.TextBox Text6 
+            Width           =   1995
+            Begin VB.TextBox txtComAPAlvo3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   156
                TabStop         =   0   'False
                Top             =   1020
                Width           =   975
             End
-            Begin VB.TextBox Text5 
+            Begin VB.TextBox txtComAP3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   155
                TabStop         =   0   'False
                Top             =   1020
                Width           =   435
             End
-            Begin VB.TextBox Text4 
+            Begin VB.TextBox txtComAPAlvo2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   154
                TabStop         =   0   'False
                Top             =   660
                Width           =   975
             End
-            Begin VB.TextBox Text3 
+            Begin VB.TextBox txtComAP2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   153
                TabStop         =   0   'False
                Top             =   660
                Width           =   435
             End
-            Begin VB.TextBox Text2 
+            Begin VB.TextBox txtComAPAlvo1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   152
                TabStop         =   0   'False
                Top             =   300
                Width           =   975
             End
-            Begin VB.TextBox txtComPrazo1 
+            Begin VB.TextBox txtComAP1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   151
                TabStop         =   0   'False
                Top             =   300
@@ -336,55 +336,55 @@ Begin VB.Form Funcionario_Cadastro
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   162
                Top             =   1080
                Width           =   120
             End
             Begin VB.Label Label65 
                AutoSize        =   -1  'True
-               Caption         =   "Depois:"
+               Caption         =   ">"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   161
                Top             =   1080
-               Width           =   540
+               Width           =   90
             End
             Begin VB.Label Label64 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   160
                Top             =   720
                Width           =   120
             End
             Begin VB.Label Label63 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   159
                Top             =   720
-               Width           =   285
+               Width           =   90
             End
             Begin VB.Label Label62 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   158
                Top             =   360
                Width           =   120
             End
             Begin VB.Label Label61 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<="
                Height          =   195
                Left            =   60
                TabIndex        =   157
                Top             =   360
-               Width           =   285
+               Width           =   180
             End
          End
          Begin VB.Frame Frame6 
@@ -399,14 +399,14 @@ Begin VB.Form Funcionario_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1455
-            Left            =   2460
+            Left            =   2160
             TabIndex        =   137
             Top             =   240
-            Width           =   2295
+            Width           =   1995
             Begin VB.TextBox txtComRecebidos1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   143
                TabStop         =   0   'False
                Top             =   300
@@ -415,7 +415,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComRECAlvo1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   142
                TabStop         =   0   'False
                Top             =   300
@@ -424,7 +424,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComRecebidos2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   141
                TabStop         =   0   'False
                Top             =   660
@@ -433,7 +433,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComRECAlvo2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   140
                TabStop         =   0   'False
                Top             =   660
@@ -442,7 +442,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComRecebidos3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   139
                TabStop         =   0   'False
                Top             =   1020
@@ -451,7 +451,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComRECAlvo3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   138
                TabStop         =   0   'False
                Top             =   1020
@@ -459,54 +459,54 @@ Begin VB.Form Funcionario_Cadastro
             End
             Begin VB.Label Label60 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<="
                Height          =   195
                Left            =   60
                TabIndex        =   149
                Top             =   360
-               Width           =   285
+               Width           =   180
             End
             Begin VB.Label Label59 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   148
                Top             =   360
                Width           =   120
             End
             Begin VB.Label Label58 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   147
                Top             =   720
-               Width           =   285
+               Width           =   90
             End
             Begin VB.Label Label57 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   146
                Top             =   720
                Width           =   120
             End
             Begin VB.Label Label56 
                AutoSize        =   -1  'True
-               Caption         =   "Depois:"
+               Caption         =   ">"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   145
                Top             =   1080
-               Width           =   540
+               Width           =   90
             End
             Begin VB.Label Label49 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   144
                Top             =   1080
                Width           =   120
@@ -527,11 +527,11 @@ Begin VB.Form Funcionario_Cadastro
             Left            =   120
             TabIndex        =   124
             Top             =   240
-            Width           =   2295
+            Width           =   1995
             Begin VB.TextBox txtComVistaAlvo3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   134
                TabStop         =   0   'False
                Top             =   1020
@@ -540,7 +540,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComVista3 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   133
                TabStop         =   0   'False
                Top             =   1020
@@ -549,7 +549,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComVistaAlvo2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   130
                TabStop         =   0   'False
                Top             =   660
@@ -558,7 +558,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComVista2 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   129
                TabStop         =   0   'False
                Top             =   660
@@ -567,7 +567,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComVistaAlvo1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   660
+               Left            =   300
                TabIndex        =   126
                TabStop         =   0   'False
                Top             =   300
@@ -576,7 +576,7 @@ Begin VB.Form Funcionario_Cadastro
             Begin VB.TextBox txtComVista1 
                Alignment       =   1  'Right Justify
                Height          =   315
-               Left            =   1680
+               Left            =   1320
                TabIndex        =   125
                TabStop         =   0   'False
                Top             =   300
@@ -586,55 +586,55 @@ Begin VB.Form Funcionario_Cadastro
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   136
                Top             =   1080
                Width           =   120
             End
             Begin VB.Label Label54 
                AutoSize        =   -1  'True
-               Caption         =   "Depois:"
+               Caption         =   ">"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   135
                Top             =   1080
-               Width           =   540
+               Width           =   90
             End
             Begin VB.Label Label53 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   132
                Top             =   720
                Width           =   120
             End
             Begin VB.Label Label52 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<"
                Height          =   195
-               Left            =   60
+               Left            =   120
                TabIndex        =   131
                Top             =   720
-               Width           =   285
+               Width           =   90
             End
             Begin VB.Label Label51 
                AutoSize        =   -1  'True
                Caption         =   "%"
                Height          =   195
-               Left            =   2100
+               Left            =   1780
                TabIndex        =   128
                Top             =   360
                Width           =   120
             End
             Begin VB.Label Label33 
                AutoSize        =   -1  'True
-               Caption         =   "Até:"
+               Caption         =   "<="
                Height          =   195
                Left            =   60
                TabIndex        =   127
                Top             =   360
-               Width           =   285
+               Width           =   180
             End
          End
       End
@@ -1777,7 +1777,7 @@ Begin VB.Form Funcionario_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "22:41"
+            TextSave        =   "12:20"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2116,10 +2116,10 @@ Private Function Inserir_Dados() As Boolean
       "mae, filho_nasc1, filho_nasc2, filho_nasc3, filho_nasc4, filho_idade1, filho_idade2, filho_idade3, filho_idade4, " & _
       "filho_nome1, filho_nome2, filho_nome3, filho_nome4, data_admissao, setor, cargo, salario, forma_pgto, descanco, " & _
       "inicio, intervalo, termino, cpf, rg, rg_orgao, ct, ct_serie, titulo, titulo_zona, pis, banco, agencia, conta, " & _
-      "tipo_conta, ativo, Comissao_Avista1, Comissao_Avista2, Comissao_Avista3, Valor_Comissao1, Valor_Comissao2, Valor_Comissao3, Comissao_Recebido1, Comissao_Recebido2, Comissao_Recebido3, Valor_ComissaoRec1, Valor_ComissaoRec2, Valor_ComissaoRec3, Comissao_Prazo1, Comissao_Servico1) VALUES ("
+      "tipo_conta, ativo, Comissao_Avista1, Comissao_Avista2, Comissao_Avista3, Valor_ComissaoAV1, Valor_ComissaoAV2, Valor_ComissaoAV3, Comissao_Recebido1, Comissao_Recebido2, Comissao_Recebido3, Valor_ComissaoRec1, Valor_ComissaoRec2, Valor_ComissaoRec3, Comissao_Prazo1, Comissao_Prazo2, Comissao_Prazo3, Valor_ComissaoAP1, Valor_ComissaoAP2, Valor_ComissaoAP3, Comissao_Servico1, Comissao_Servico2, Comissao_Servico3, Valor_ComissaoServ1, Valor_ComissaoServ2, Valor_ComissaoServ3) VALUES ("
    
    sSQL = sSQL & _
-      txtCodigo.Text & ", " & IIf((txtCadastro.Text = ""), "Null", "CONVERT(DATETIME, '" & Format$(txtCadastro.Text, ocDATA) & "', 103)") & ", '" & txtNome.Text & "', '" & txtSobreNome.Text & "', '" & _
+      txtCodigo.Text & ", " & IIf((txtCadastro.Text = ""), "Null", "CONVERT(DATETIME, '" & Format$(txtCadastro.Text, ocDATA) & "', 103)") & ", '" & txtNome.Text & "', '" & txtSobrenome.Text & "', '" & _
       txtApelido.Text & "', '" & txtEndereco.Text & "', '" & txtBairro.Text & "', '" & txtReferencia.Text & "', '" & mskCEP.Text & "', '" & _
       mskTelefone.Text & "', '" & mskCelular.Text & "', '" & txtEmail.Text & "', '" & cboCidade.Text & "', '" & cboEstado.Text & "', '" & _
       cboSexo.Text & "', " & vNasc(0) & ", " & vIdade(0) & ", '" & cboEscolaridade.Text & "', '" & _
@@ -2129,7 +2129,10 @@ Private Function Inserir_Dados() As Boolean
       Format$(mskAdmissao.Text, ocDATA_EUA) & "', '" & cboSetor.Text & "', '" & txtCargo.Text & "', " & Replace(CCur(mskSalario.Text), ",", ".") & ", '" & _
       cboFormaPgto.Text & "', '" & cboDescanco.Text & "', " & vData(1) & ", '" & mskIntervalo.Text & "', " & vData(2) & ", '" & mskCPF.Text & "', '" & _
       txtRG.Text & "', '" & txtRGorgao.Text & "', '" & txtCT.Text & "', '" & txtCTserie.Text & "', '" & txtTitulo.Text & "', '" & txtTitulozona.Text & "', '" & _
-      txtPIS.Text & "', '" & cboBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipoConta.Text & "', " & Abs(chkInativo.Value) & ", " & Replace(CDbl(txtComVista1.Text), ",", ".") & ",  " & Replace(CDbl(txtComVista2.Text), ",", ".") & ",  " & Replace(CDbl(txtComVista3.Text), ",", ".") & ", " & Replace(CDbl(txtComVistaAlvo1.Text), ",", ".") & ",  " & Replace(CDbl(txtComVistaAlvo2.Text), ",", ".") & ",  " & Replace(CDbl(txtComVistaAlvo3.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos1.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos2.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos3.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo1.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo2.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo3.Text), ",", ".") & ", " & Replace(CDbl(txtComPrazo1.Text), ",", ".") & ", " & Replace(CDbl(txtComServicos1.Text), ",", ".") & ");"
+      txtPIS.Text & "', '" & cboBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipoConta.Text & "', " & Abs(chkInativo.Value) & ", " & Replace(CDbl(txtComVista1.Text), ",", ".") & ",  " & Replace(CDbl(txtComVista2.Text), ",", ".") & ",  " & Replace(CDbl(txtComVista3.Text), ",", ".") & ", " & Replace(CDbl(txtComVistaAlvo1.Text), ",", ".") & ",  " & Replace(CDbl(txtComVistaAlvo2.Text), ",", ".") & ",  " & Replace(CDbl(txtComVistaAlvo3.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos1.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos2.Text), ",", ".") & ", " & Replace(CDbl(txtComRecebidos3.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo1.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo2.Text), ",", ".") & ", " & Replace(CDbl(txtComRECAlvo3.Text), ",", ".") & ", " & Replace(CDbl(txtComAP1.Text), ",", ".") & ", " & Replace(CDbl(txtComAP2.Text), ",", ".") & ", " & Replace(CDbl(txtComAP3.Text), ",", ".") & ", " & _
+      Replace(CDbl(txtComAPAlvo1.Text), ",", ".") & ", " & Replace(CDbl(txtComAPAlvo2.Text), ",", ".") & ", " & Replace(CDbl(txtComAPAlvo3.Text), ",", ".") & ", " & _
+      Replace(CDbl(txtComServ1.Text), ",", ".") & ", " & Replace(CDbl(txtComServ2.Text), ",", ".") & ", " & Replace(CDbl(txtComServ3.Text), ",", ".") & ", " & _
+      Replace(CDbl(txtComServAlvo1.Text), ",", ".") & ", " & Replace(CDbl(txtComServAlvo2.Text), ",", ".") & ", " & Replace(CDbl(txtComServAlvo3.Text), ",", ".") & ");"
 
    'Retorna o resultado da inclusão
    Inserir_Dados = dbData.Execute(sSQL)
@@ -2157,7 +2160,7 @@ Private Function Atualizar_Dados() As Boolean
    sSQL = "UPDATE funcionario SET " & _
       "data_cadastro = CONVERT(DATETIME, '" & Format$(txtCadastro.Text, ocDATA) & "', 103), " & _
       "nome = '" & txtNome.Text & "', " & _
-      "sobrenome = '" & txtSobreNome.Text & "', " & _
+      "sobrenome = '" & txtSobrenome.Text & "', " & _
       "apelido = '" & txtApelido.Text & "', " & _
       "endereco = '" & txtEndereco.Text & "', " & _
       "bairro = '" & txtBairro.Text & "', " & _
@@ -2188,8 +2191,11 @@ Private Function Atualizar_Dados() As Boolean
       "setor = '" & cboSetor.Text & "', " & _
       "cargo = '" & txtCargo.Text & "', " & _
       "salario = " & Replace(CCur(mskSalario.Text), ",", ".") & ", " & _
-      "Comissao_Avista1 = " & Replace(CDbl(txtComVista1.Text), ",", ".") & ", Comissao_Avista2 = " & Replace(CDbl(txtComVista2.Text), ",", ".") & ", Comissao_Avista3 = " & Replace(CDbl(txtComVista3.Text), ",", ".") & ", Comissao_Prazo1 = " & Replace(CDbl(txtComPrazo1.Text), ",", ".") & ", Comissao_Servico1 = " & Replace(CDbl(txtComServicos1.Text), ",", ".") & ", " & _
-      "Valor_Comissao1 = " & Replace(CDbl(txtComVistaAlvo1.Text), ",", ".") & ", Valor_Comissao2 = " & Replace(CDbl(txtComVistaAlvo2.Text), ",", ".") & ", Valor_Comissao3 = " & Replace(CDbl(txtComVistaAlvo3.Text), ",", ".") & ", " & _
+      "Comissao_Avista1 = " & Replace(CDbl(txtComVista1.Text), ",", ".") & ", Comissao_Avista2 = " & Replace(CDbl(txtComVista2.Text), ",", ".") & ", Comissao_Avista3 = " & Replace(CDbl(txtComVista3.Text), ",", ".") & ", Comissao_Prazo1 = " & Replace(CDbl(txtComAP1.Text), ",", ".") & ", Comissao_Prazo2 = " & Replace(CDbl(txtComAP2.Text), ",", ".") & ", Comissao_Prazo3 = " & Replace(CDbl(txtComAP3.Text), ",", ".") & ", " & _
+      "Valor_ComissaoAP1 = " & Replace(CDbl(txtComAPAlvo1.Text), ",", ".") & ", Valor_ComissaoAP2 = " & Replace(CDbl(txtComAPAlvo2.Text), ",", ".") & ", Valor_ComissaoAP3 = " & Replace(CDbl(txtComAPAlvo3.Text), ",", ".") & ", " & _
+      "Comissao_Servico1 = " & Replace(CDbl(txtComServ1.Text), ",", ".") & ", Comissao_Servico2 = " & Replace(CDbl(txtComServ2.Text), ",", ".") & ", Comissao_Servico3 = " & Replace(CDbl(txtComServ3.Text), ",", ".") & ", " & _
+      "Valor_ComissaoServ1 = " & Replace(CDbl(txtComServAlvo1.Text), ",", ".") & ", Valor_ComissaoServ2 = " & Replace(CDbl(txtComServAlvo2.Text), ",", ".") & ", Valor_ComissaoServ3 = " & Replace(CDbl(txtComServAlvo3.Text), ",", ".") & ", " & _
+      "Valor_ComissaoAV1 = " & Replace(CDbl(txtComVistaAlvo1.Text), ",", ".") & ", Valor_ComissaoAV2 = " & Replace(CDbl(txtComVistaAlvo2.Text), ",", ".") & ", Valor_ComissaoAV3 = " & Replace(CDbl(txtComVistaAlvo3.Text), ",", ".") & ", " & _
       "Comissao_Recebido1 = " & Replace(CDbl(txtComRecebidos1.Text), ",", ".") & ", Comissao_Recebido2 = " & Replace(CDbl(txtComRecebidos2.Text), ",", ".") & ", Comissao_Recebido3 = " & Replace(CDbl(txtComRecebidos3.Text), ",", ".") & ", " & _
       "Valor_ComissaoRec1 = " & Replace(CDbl(txtComRECAlvo1.Text), ",", ".") & ", Valor_ComissaoRec2 = " & Replace(CDbl(txtComRECAlvo2.Text), ",", ".") & ", Valor_ComissaoRec3 = " & Replace(CDbl(txtComRECAlvo3.Text), ",", ".") & ", " & _
       "descanco = '" & cboDescanco.Text & "', forma_pgto = '" & cboFormaPgto.Text & "', " & _
@@ -2230,7 +2236,7 @@ SSTab1.Tab = 0
 txtCadastro.Text = ""
 If cmdAlterar.Enabled = False Then txtCodigo.Text = ""
 txtNome.Text = ""
-txtSobreNome.Text = ""
+txtSobrenome.Text = ""
 txtApelido.Text = ""
 txtEndereco.Text = ""
 txtBairro.Text = ""
@@ -2308,8 +2314,18 @@ txtComRecebidos3.Text = Format(0, ocMONEY)
 txtComRECAlvo1.Text = Format(0, ocMONEY)
 txtComRECAlvo2.Text = Format(0, ocMONEY)
 txtComRECAlvo3.Text = Format(0, ocMONEY)
-txtComPrazo1.Text = Format(0, ocMONEY)
-txtComServicos1.Text = Format(0, ocMONEY)
+txtComAP1.Text = Format(0, ocMONEY)
+txtComAP2.Text = Format(0, ocMONEY)
+txtComAP3.Text = Format(0, ocMONEY)
+txtComAPAlvo1.Text = Format(0, ocMONEY)
+txtComAPAlvo2.Text = Format(0, ocMONEY)
+txtComAPAlvo3.Text = Format(0, ocMONEY)
+txtComServ1.Text = Format(0, ocMONEY)
+txtComServ2.Text = Format(0, ocMONEY)
+txtComServ3.Text = Format(0, ocMONEY)
+txtComServAlvo1.Text = Format(0, ocMONEY)
+txtComServAlvo2.Text = Format(0, ocMONEY)
+txtComServAlvo3.Text = Format(0, ocMONEY)
 
 If cmdAlterar.Enabled = False Then chkInativo.Value = 0
 End Sub
@@ -2321,7 +2337,7 @@ If Not rTabela Is Nothing Then
 txtCodigo.Text = ValidateNull(rTabela("codigo"))
 txtCadastro.Text = ValidateNull(rTabela("data_cadastro"))
 txtNome.Text = ValidateNull(rTabela("nome"))
-txtSobreNome.Text = ValidateNull(rTabela("sobrenome"))
+txtSobrenome.Text = ValidateNull(rTabela("sobrenome"))
 txtApelido.Text = ValidateNull(rTabela("apelido"))
 txtEndereco.Text = ValidateNull(rTabela("endereco"))
 txtBairro.Text = ValidateNull(rTabela("bairro"))
@@ -2377,9 +2393,9 @@ cboTipoConta.Text = ValidateNull(rTabela("tipo_conta"))
 txtComVista1.Text = Format(ValidateNull(rTabela("Comissao_Avista1")), ocMONEY)
 txtComVista2.Text = Format(ValidateNull(rTabela("Comissao_Avista2")), ocMONEY)
 txtComVista3.Text = Format(ValidateNull(rTabela("Comissao_Avista3")), ocMONEY)
-txtComVistaAlvo1.Text = Format(ValidateNull(rTabela("Valor_Comissao1")), ocMONEY)
-txtComVistaAlvo2.Text = Format(ValidateNull(rTabela("Valor_Comissao2")), ocMONEY)
-txtComVistaAlvo3.Text = Format(ValidateNull(rTabela("Valor_Comissao3")), ocMONEY)
+txtComVistaAlvo1.Text = Format(ValidateNull(rTabela("Valor_ComissaoAV1")), ocMONEY)
+txtComVistaAlvo2.Text = Format(ValidateNull(rTabela("Valor_ComissaoAV2")), ocMONEY)
+txtComVistaAlvo3.Text = Format(ValidateNull(rTabela("Valor_ComissaoAV3")), ocMONEY)
 
 txtComRecebidos1.Text = Format(ValidateNull(rTabela("Comissao_Recebido1")), ocMONEY)
 txtComRecebidos2.Text = Format(ValidateNull(rTabela("Comissao_Recebido2")), ocMONEY)
@@ -2388,9 +2404,19 @@ txtComRECAlvo1.Text = Format(ValidateNull(rTabela("Valor_ComissaoRec1")), ocMONE
 txtComRECAlvo2.Text = Format(ValidateNull(rTabela("Valor_ComissaoRec2")), ocMONEY)
 txtComRECAlvo3.Text = Format(ValidateNull(rTabela("Valor_ComissaoRec3")), ocMONEY)
 
-txtComPrazo1.Text = Format(ValidateNull(rTabela("Comissao_Prazo1")), ocMONEY)
+txtComAP1.Text = Format(ValidateNull(rTabela("Comissao_Prazo1")), ocMONEY)
+txtComAP2.Text = Format(ValidateNull(rTabela("Comissao_Prazo2")), ocMONEY)
+txtComAP3.Text = Format(ValidateNull(rTabela("Comissao_Prazo3")), ocMONEY)
+txtComAPAlvo1.Text = Format(ValidateNull(rTabela("Valor_ComissaoAP1")), ocMONEY)
+txtComAPAlvo2.Text = Format(ValidateNull(rTabela("Valor_ComissaoAP2")), ocMONEY)
+txtComAPAlvo3.Text = Format(ValidateNull(rTabela("Valor_ComissaoAP3")), ocMONEY)
 
-txtComServicos1.Text = Format(ValidateNull(rTabela("Comissao_Servico1")), ocMONEY)
+txtComServ1.Text = Format(ValidateNull(rTabela("Comissao_Servico1")), ocMONEY)
+txtComServ2.Text = Format(ValidateNull(rTabela("Comissao_Servico2")), ocMONEY)
+txtComServ3.Text = Format(ValidateNull(rTabela("Comissao_Servico3")), ocMONEY)
+txtComServAlvo1.Text = Format(ValidateNull(rTabela("Valor_ComissaoServ1")), ocMONEY)
+txtComServAlvo2.Text = Format(ValidateNull(rTabela("Valor_ComissaoServ2")), ocMONEY)
+txtComServAlvo3.Text = Format(ValidateNull(rTabela("Valor_ComissaoServ3")), ocMONEY)
 
 'If IsNull(rTabela("estornar")) = False Then
 '    If Abs(CInt(rTabela("estornar"))) = 1 Then
@@ -2985,7 +3011,7 @@ End Sub
 Private Sub cmdSalvar_Click()
    'On Error GoTo TrataErro
    
-   If txtNome.Text = "" Or txtSobreNome.Text = "" Then Exit Sub
+   If txtNome.Text = "" Or txtSobrenome.Text = "" Then Exit Sub
    
    If txtCargo.Text = "" Then
       ShowMsg "O campo CARGO não pode está vazio!", vbExclamation
@@ -3263,11 +3289,56 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Sub txtComPrazo1_LostFocus()
-If txtComPrazo1.Text = "" Then
-   txtComPrazo1.Text = Format(0, ocMONEY)
+Private Sub txtComAP1_LostFocus()
+If txtComAP1.Text = "" Then
+   txtComAP1.Text = Format(0, ocMONEY)
 Else
-   txtComPrazo1.Text = Format(txtComPrazo1, ocMONEY)
+   txtComAP1.Text = Format(txtComAP1, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComAP2_LostFocus()
+If txtComAP2.Text = "" Then
+   txtComAP2.Text = Format(0, ocMONEY)
+Else
+   txtComAP2.Text = Format(txtComAP2, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComAP3_LostFocus()
+If txtComAP3.Text = "" Then
+   txtComAP3.Text = Format(0, ocMONEY)
+Else
+   txtComAP3.Text = Format(txtComAP3, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComAPAlvo1_LostFocus()
+If txtComAPAlvo1.Text = "" Then
+   txtComAPAlvo1.Text = Format(0, ocMONEY)
+Else
+   txtComAPAlvo1.Text = Format(txtComAPAlvo1, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComAPAlvo2_LostFocus()
+If txtComAPAlvo2.Text = "" Then
+   txtComAPAlvo2.Text = Format(0, ocMONEY)
+Else
+   txtComAPAlvo2.Text = Format(txtComAPAlvo2, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComAPAlvo3_LostFocus()
+If txtComAPAlvo3.Text = "" Then
+   txtComAPAlvo3.Text = Format(0, ocMONEY)
+Else
+   txtComAPAlvo3.Text = Format(txtComAPAlvo3, ocMONEY)
 End If
 End Sub
 
@@ -3326,11 +3397,56 @@ End If
 End Sub
 
 
-Private Sub txtComServicos1_LostFocus()
-If txtComServicos1.Text = "" Then
-   txtComServicos1.Text = Format(0, ocMONEY)
+Private Sub txtComServ1_LostFocus()
+If txtComServ1.Text = "" Then
+   txtComServ1.Text = Format(0, ocMONEY)
 Else
-   txtComServicos1.Text = Format(txtComServicos1, ocMONEY)
+   txtComServ1.Text = Format(txtComServ1, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComServ2_LostFocus()
+If txtComServ2.Text = "" Then
+   txtComServ2.Text = Format(0, ocMONEY)
+Else
+   txtComServ2.Text = Format(txtComServ2, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComServ3_LostFocus()
+If txtComServ3.Text = "" Then
+   txtComServ3.Text = Format(0, ocMONEY)
+Else
+   txtComServ3.Text = Format(txtComServ3, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComServAlvo1_LostFocus()
+If txtComServAlvo1.Text = "" Then
+   txtComServAlvo1.Text = Format(0, ocMONEY)
+Else
+   txtComServAlvo1.Text = Format(txtComServAlvo1, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComServAlvo2_LostFocus()
+If txtComServAlvo2.Text = "" Then
+   txtComServAlvo2.Text = Format(0, ocMONEY)
+Else
+   txtComServAlvo2.Text = Format(txtComServAlvo2, ocMONEY)
+End If
+End Sub
+
+
+Private Sub txtComServAlvo3_LostFocus()
+If txtComServAlvo3.Text = "" Then
+   txtComServAlvo3.Text = Format(0, ocMONEY)
+Else
+   txtComServAlvo3.Text = Format(txtComServAlvo3, ocMONEY)
 End If
 End Sub
 
@@ -3448,7 +3564,7 @@ Private Sub txtSobreNome_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub txtSobreNome_LostFocus()
-txtSobreNome.Text = UCase(txtSobreNome.Text)
+txtSobrenome.Text = UCase(txtSobrenome.Text)
 End Sub
 
 

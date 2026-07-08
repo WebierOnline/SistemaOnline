@@ -1,0 +1,5 @@
+cboCriterioPrinc.Text = "PRODUTO/MENSAL" Then
+                If txtCodProduto.Text = "" Then Exit Sub
+                If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " and (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") " & _
+                       "ORDER

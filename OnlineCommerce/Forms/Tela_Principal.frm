@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:15"
+            TextSave        =   "12:21"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -900,9 +900,6 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_FAT_NFeCompeta 
          Caption         =   "N&Fe"
       End
-      Begin VB.Menu Menu_FAT_NFeOBS 
-         Caption         =   "NFe - Observações"
-      End
       Begin VB.Menu Menu_FAT_Linha4 
          Caption         =   "-"
       End
@@ -936,6 +933,9 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_FISCAL_Reforma_IBPT 
             Caption         =   "Tabela IBPT"
          End
+      End
+      Begin VB.Menu Menu_FAT_Difal 
+         Caption         =   "Difal"
       End
       Begin VB.Menu Menu_FAT_Inventario 
          Caption         =   "Inventário"
@@ -1007,7 +1007,7 @@ Begin VB.MDIForm Tela_Principal
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_VendasPorProdutos 
-         Caption         =   "Vendas Por Produtos"
+         Caption         =   "Vendas Por Produtos e Serviços"
       End
       Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
          Caption         =   "Vendas Por Produtos Agrupados"
@@ -1033,6 +1033,12 @@ Begin VB.MDIForm Tela_Principal
          Enabled         =   0   'False
       End
       Begin VB.Menu menuseparar8 
+         Caption         =   "-"
+      End
+      Begin VB.Menu Menu_CONS_VendasServicos 
+         Caption         =   "Vendas e Serviços"
+      End
+      Begin VB.Menu menuseparar13 
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_EntradavsSaida 
@@ -1654,6 +1660,10 @@ Private Sub Menu_CONS_VendasRecebiveis_Click()
 Vendas_Consulta_PorRecebiveis.Show 1
 End Sub
 
+Private Sub Menu_CONS_VendasServicos_Click()
+VendasServicos_Consulta.Show 1
+End Sub
+
 Private Sub Menu_Diversos_Calculadora_Click()
    On Error GoTo er
    AppActivate "Calculadora", True
@@ -1670,6 +1680,10 @@ End Sub
 
 Private Sub Menu_Entrada_Estoque_Click()
 Entrada_Estoque.Show
+End Sub
+
+Private Sub Menu_FAT_Difal_Click()
+frmDIFAL_Cadastro.Show 1
 End Sub
 
 Private Sub Menu_FAT_Inventario_Click()

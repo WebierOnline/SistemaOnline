@@ -45,7 +45,20 @@
       "Bash(where ilspycmd *)",
       "Bash(where dotnet *)",
       "Read(//c/Program Files \\(x86\\)/Microsoft SDKs/Windows\" 2>/dev/**)",
-      "Bash(pip install *)"
+      "Bash(pip install *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Projeto\\\\Arquivos\" -Recurse | Where-Object { $_.Name -match \"image5[0-9]|image6[0-9]\" } | Select-Object FullName)",
+      "PowerShell(python -c $script)",
+      "PowerShell(python C:\\\\Projeto\\\\scripts\\\\patch_vendas_servicos_v5.py)",
+      "PowerShell(python C:\\\\Projeto\\\\scripts\\\\patch_vendas_servicos_v6.py)",
+      "PowerShell(python C:\\\\Projeto\\\\scripts\\\\patch_vendas_servicos_v7.py)",
+      "PowerShell(python C:\\\\Projeto\\\\scripts\\\\patch_mod22_porprodutos.py)",
+      "PowerShell(python C:\\\\Projeto\\\\scripts\\\\patch_mod22_parcelas.py)",
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_mod22_parcelas_fix.py\")",
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_mod22_parcelas_fix.py\" ; python \"C:\\\\Projeto\\\\scripts\\\\patch_mod22_servicos_fix.py\")",
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_imprimir_filtros.py\")",
+      "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_servicos_criterios.py\")",
+      "Bash(iconv -f cp1252 -t utf-8)",
+      "Bash(sort -t: -k2 -n)"
     ]
   }
 }

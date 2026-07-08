@@ -1,0 +1,1 @@
+regasm /u zapzap.dll /tlb:zapzap.tlb

@@ -1,0 +1,39 @@
+Private Sub cmdExibirPedidos_Click()
+''If cboTipo.Text = "POR PRODUTOS" Then
+''   If Grid.Col = 0 Then Exit Sub
+''   If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
+''      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+''      Vendas_Consulta_Pedidos.loadPedidos Grid.TextMatrix(Grid.Row, 1)
+''      Vendas_Consulta_Pedidos.Show 1
+''   End If
+''End If
+
+'If Grid.Col = 0 Then Exit Sub
+'If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
+'   If Grid.Col = 1 Then
+'      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+'      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 7)
+'      Parcelas_Consulta_Produtos.Show 1
+'   End If
+'End If
+
+
+If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+
+If cboTipo.Text = "POR SERVIÇOS" Then
+   ' col1 = COD_OS, col10 = COD_PEDIDO (gravado pelo FormatarGrid_Servicos)
+   If Not IsNumeric(Grid.TextMatrix(Grid.Row, 10)) Then Exit Sub
+   If CLng(Grid.TextMatrix(Grid.Row, 10)) = 0 Then Exit Sub
+   Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 10)), "OS"
+Else
+   ' POR PRODUTOS: col1 = cod_pedido, col10 = COD_OS (0 = sem OS)
+   If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
+   If Grid.TextMatrix(Grid.Row, 10) <> "0" Then
+      Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "OS"
+   Else
+      Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "VENDA"
+   End If
+End If
+
+Parcelas_Consulta_Produtos.Show 1
+End Sub

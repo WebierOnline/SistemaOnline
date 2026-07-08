@@ -1,0 +1,16 @@
+Preciso entender porque 2 form estao exibindo totais diferente para o mesmo objetivo:
+No form VendasServicos_Consulta consultei todos as vendas feitas no mês de Abril/2026, no form a coluna 'PRODUTOS' exibe o total de produtos daquela venda, a coluna 'SERVIÇOS' exibe o total de serviços daquela venda e a coluna 'SUBTOTAL' exibe a soma das duas colunas... abaixo do grid possui 2 label que exibe a soma da coluna 'PRODUTOS' e outro label exibe a soma da coluna 'SERVIÇOS', que nesse caso é '68.746,13'... olhe a imagem image66
+Já no form Vendas_Consulta_PorProdutos exibe os produtos e serviços feitos separadamente. 
+Consultei todos os serviços feitos no mês de Abril/2026 (obs: tive que mudar o campo de data usado, pq a data do serviço adicionado a uma ordem de serviço é pego no dia que o serviço é adicionado a ordem de serviços, porem a ordem de serviço para ser contabilizada é baseado no campo OS.DATA_TERMINO que deveria ser o mesmo valor do campo pedidos.DATA_COMPRA(quando é fechar a Ordem de Serviços, ele criar a DATA_TERMINO na tabela OS e atualiza a DATA_COMPRA da tabela pedidos, porem a data de adição de cada serviço permanece igual)... veja na imagem image65 que no label TOTAL aparece o total de 69.496,13... ou seja, os 2 form estão exibindo valores diferentes para o que deveria ser uma mesma consulta.
+No TabPed.txt coloquei a consulta e dados exibidos na image66
+No TabServ.txt coloquei a consulta e dados exibidos na image65
+Aproveitei e peguei a estrutura das 3 tabelas envolvidas nesses calculos e coloquei em 3 arquivos com todos os dados na integra.
+TabPedido.txt
+TabOS.txt
+TabServico.txt
+Veja para mim porque os valores não são iguais e qual dos valores está certo.
+
+
+
+image65 = imagem da form de serviços
+image66 = imagem da form vendas

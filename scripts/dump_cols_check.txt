@@ -1,0 +1,1 @@
+'.Cols = 11\n      .rows = 2\n      \n      .ColWidth(0) = 0\n      .ColWidth(1) = 750\n      .ColWidth(2) = 900\n      .ColWidth(3) = 0\n      .ColWidth(4) = 6000\n      .ColWidth(5) = 800\n      .ColWidth(6) = 800\n      .ColWidth(7) = 800\n      .ColWidth(8) = 700\n      .ColWidth(9) = 800\n      .ColWidth(10)'

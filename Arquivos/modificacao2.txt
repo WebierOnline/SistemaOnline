@@ -1,0 +1,22 @@
+minha tabela Produtos possui os seguintes campos:
+CODIGO, COD_BARRA, DESCRICAO, PRATELEIRA, CATEGORIA, QUANT_ESTOQUE, QUANT_MIN, ULT_COMPRA, UNID_MEDIDA, FABRICANTE, INF_ADICIONA, DESTAQUE, ATIVO, REF, TAMANHO, CFOP, ICMSCST, ICMSAliq, PISCST, COFINSCST, IPICST, NCM, CEST, EAN, Alterado, PEDIRPESO, PISAliq, COFINSAliq, IPIAliq, USOCONSUMO, COMBUSTIVEL, MATERIAPRIMA, IMOBILIZADO, ESTOQUE_FISCAL, FRACIONADO, QUANT_FRACAO, CODPROD_FRACAO, pRedBc, pMVAST, pICMSST, pRedBCST, modBC, modBCST, IBSCBSCST, CBSpAliq, IBSUFpAliq, IBSMunpAliq, ISCST, ISpIS, EANEmbalagem, Fracionamento
+Minha tabela NotaFiscal possui os seguintes campos:
+CodigoNota, NumeroNota, SerieNF, cCodigoNota, TipoDocumento, NaturezaOperacao, DataEmissao, DataSaida, HoraSaida, CodigoCorrentista, RazaoSocial, InscricaoEstadual, Suframa, CNPJ_CPF, Logradouro, 
+                         Numero, Complemento, Bairro, CodigoIBGE, Municipio, UF, CEP, CodigoPais, Pais, Telefone, IndicadorFormaPagamento, FormatoImpressaoDANFE, FormatoEmissaoNFe, BaseICMS, ValorICMS, BaseICMSST, ValorICMSST, 
+                         ValorProdutos, ValorFrete, ValorSeguro, TipoDesconto, PercDesconto, ValorDesconto, ValorImportacao, ValorIPI, ValorPIS, ValorCOFINS, ValorOutrasDespesas, ValorIsento, ValorNota, ValorServico, ValorBCISS, ValorISS, 
+                         ValorPISISS, ValorPISCOFINS, ValorRetidoPIS, ValorRetidoCOFINS, ValorRetidoCSLL, ValorBCIRRF, ValorIRRF, ValorRetidoBCPrev, ValorRetidoPrev, ModFrete, TranspCodigo, TranspNome, TranspInscricaoEstadual, 
+                         TranspEndereco, TranspUF, TranspMunicipio, TranspCNPJ_CPF, TranspValorServico, TranspBCRetencaoICMS, TranspAliquotaRetencaoICMS, TranspValorRetencaoICMS, TranspCFOP, TranspcMunFG, TranspPlaca, 
+                         TranspPlacaUF, TranspRNTC, TranspReboquePlaca, TranspReboquePlacaUF, TranspReboqueRNTC, VolumeQuantidade, VolumeEspecie, VolumeMarca, VolumeNumeracao, VolumePesoLiquido, VolumePesoBruto, Lacres, 
+                         NumeroFatura, ValorOriginalFatura, ValorDescontoFatura, ValorLiquidoFatura, NumeroDuplicata, VencimentoDuplicata, ValorDuplicata, InformacoesAdicionais, InformacoesComplementares, UFEmbarque, LocEmbarque, 
+                         ChavedeAcesso, NumeroRecibo, DataHoraRecebimento, NumeroProtocolo, DataHoraProcotolo, Enviada, Cancelada, Justificativa, EmProcessamento, CodigoObservacao, ContingenciaDataHora, ContingenciaJustificativa, Email, 
+                         CodigoVenda, TipoNota, ModeloNF, FinalidadeEmissaoNFe, IdentificadorDestino, ConsumidorFinal, IndicadorPresencaComprador, IndicadorIEDestinatario, InscricaoMunicipal, Origem, ValorFunRural, CanceladaProtocolo, 
+                         CodigoNatureza, Denegada, Cod_Pedido, TipoCliente, ChavedeAcessoAdicional, CFOP, vFCPUFDest, vICMSUFDest, vICMSUFRemet, Inutilizada, FormaPagamento
+minha tabela NotaFiscalItens possui os seguintes campos:
+CodigoNota, Item, CodigoProduto, NomeProduto, InformacoesAdicionaisProduto, EAN, NCM, Genero, CFOP, UnidadeComercial, QuantidadeComercial, ValorUnitarioComercializacao, ValorTotalBruto, EANTrib, UnidadeTributavel, QuantidadeTributavel, ValorUnitarioTributario, ValorFrete, ValorSeguro, TipoDesconto, Desconto, ValorDesconto, CST, modBC, pRedBC, vBC, pICMS, vICMS, modBCST, pMVAST, pRedBCST, vBCST, pICMSST, vICMSST, TipoProduto, IPIclEnq, IPICNPJProd, IPIcSelo, IPIqSelo, IPIcEnq, IPICST, IPIvIPI, IPIvBC, IPIpIPI, IPIvUnid, IPIqUnid, IIvBC, IIvDespAdu, IIvII, IIvIOF, PISCST, PISvBC, PISpPIS, PISvPIS, PISqBCProd, PISvAliqProd, COFINSCST, COFINSvBC, COFINSpCOFINS, COFINSvCOFINS, COFINSqBCProd, COFINSvAliqProd, ISSvBC, ISSvAliq, ISSvISSQN, ISScMunFG, ISScListServ, ValorTributos, Referencia, vBCUFDest, vBCFCPUFDest, pFCPUFDest, pICMSUFDest, pICMSInter, pICMSInterPart, vFCPUFDest, vICMSUFDest, vICMSUFRemet, ValorOutros, pCredSN, vCredICMSSN
+OBS: memorize as 3 tabelas
+No form, quando escolho o produto no objeto cboDescricao ele carrega varias variáveis do produto, usando a rotina Mostrar_Aliquotas_Produto.
+Referente aos imposto de ibs/cbs/is Veja para mim:
+-Quais campos preciso trazer as informações da tabela de produtos
+-Quais campos estão faltando na tabela de NotaFiscal
+-Quais campos estão faltando na tabela de NotaFiscalItens
+-Veja como será possível para os 2 tipos de regimes, transmitir uma NFe com esses novos impostos mencionados anteriormente 

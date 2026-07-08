@@ -1,0 +1,22 @@
+No cboIndicePedidos escolho o tipo de consulta que desejo fazer, ele exibe os objetos para essas consultas, após preencher os objetos, clico no botão cmdExibirPedidos.
+No cboIndicePedidos possuo PEDIDO, CLIENTE, DATAS e MENSAL
+Alterações:
+-exclui o txtCodClientePedidos e usa uma variavel para a função dele
+-exclui o txtConCodPedido e usa o cboClientePedidos para digita o código do pedido
+OBS: cboClientePedidos não pode ser preenchido com nomes dos clientes caso seja escolhido PEDIDO no cboIndicePedidos.
+-Exclui o lblConsCodPedido
+-Caso seja escolhido PEDIDO no cboIndicePedidos o caption do lblClientePedidos deve ser "Cód. Pedido:" e caso seja CLIENTE o caption vai ser "Cliente:"
+-cmdCalPedidos1 e cmdCalPedidos2 abre um form (caledario) e trás um data especifica que escolher e preenche mskInicialPedidos e mskFinalPedidos.
+* desejo excluir os objetos mskInicialPedidos e mskFinalPedidos e os botões de calerios auto-preencher cboMesPedidos e cboAnoPedidos.
+* excluir lblInicialPedidos e lblFinalPedidos
+-Caso seja escolhido DATAS no cboIndicePedidos o caption do lblMesPedidos deve ser "Inicial:"  o caption do lblAnoPedidos deve ser "Final:". 
+OBS: cboMesPedidos e cboAnoPedidos não pode se caso seja escolhido DATAS
+-Caso seja escolhido MENSAL no cboIndicePedidos o caption do lblMesPedidos deve ser "Mês:"  o caption do lblAnoPedidos deve ser "Ano:"
+-Veja quais objetos ficam oculto ou exibidos dependendo do nome escolhido no cboIndicePedidos.
+-Preciso acrescentar em cboIndicePedidos:
+CLIENTE + DATAS
+CLIENTE + MENSAL
+e aparecer os objetos referente as duas consulta e funcionar o filtro com os criterios
+
+
+

@@ -1,0 +1,1 @@
+regasm GoogleDriveUploader.dll /tlb:GoogleDriveUploader.tlb /codebase

@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:57"
+            TextSave        =   "08:04"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -113,6 +113,7 @@ Begin VB.Form Configuracao_Geral
       _ExtentY        =   15796
       _Version        =   393216
       Tabs            =   5
+      Tab             =   2
       TabsPerRow      =   5
       TabHeight       =   520
       TabMaxWidth     =   2999
@@ -127,33 +128,30 @@ Begin VB.Form Configuracao_Geral
       EndProperty
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "cmdSalvarGeral"
-      Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "FrameBackup"
-      Tab(0).Control(1).Enabled=   0   'False
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "Frame9"
+      Tab(0).Control(1)=   "FraConfiguracao"
       Tab(0).Control(2)=   "Frame1"
-      Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "FraConfiguracao"
-      Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "Frame9"
-      Tab(0).Control(4).Enabled=   0   'False
+      Tab(0).Control(3)=   "FrameBackup"
+      Tab(0).Control(4)=   "cmdSalvarGeral"
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
-      Tab(2).ControlEnabled=   0   'False
+      Tab(2).ControlEnabled=   -1  'True
       Tab(2).Control(0)=   "cmdSalvarBalanca"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Frame3"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Frame6"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "Frame13"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
@@ -213,7 +211,7 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1695
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   219
          Top             =   3180
          Width           =   8655
@@ -341,7 +339,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
          Height          =   1335
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   182
          Top             =   4080
          Width           =   8655
@@ -605,7 +603,7 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1335
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   139
          Top             =   1800
          Width           =   8655
@@ -914,7 +912,7 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1335
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   115
          Top             =   420
          Width           =   8655
@@ -956,7 +954,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FraConfiguracao 
          Caption         =   "Balança e Peso"
          Height          =   1515
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   110
          Top             =   6660
          Width           =   8655
@@ -1092,7 +1090,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
          Height          =   3615
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   80
          Top             =   480
          Width           =   8655
@@ -2108,7 +2106,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
          Height          =   1155
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   12
          Top             =   5460
          Width           =   8655
@@ -2222,7 +2220,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
-         Left            =   6600
+         Left            =   -68400
          TabIndex        =   79
          Top             =   8220
          Width           =   2175
@@ -2261,7 +2259,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarBalanca 
          Height          =   615
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   88
          Top             =   7980
          Width           =   2175

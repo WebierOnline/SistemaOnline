@@ -1,0 +1,70 @@
+Perguntei outra IA sobre isso, ela me disse o seguinte?
+PERGUNTEI:
+O motivo é que watch_popup é um formato antigo do YouTube que foi descontinuado. O YouTube faz um redirect automático no servidor?
+RESPOSTA:
+Você está certíssimo. O YouTube desativou o watch_popup há algum tempo e, hoje, qualquer tentativa de usá-lo acaba redirecionando para a página padrão com todos os vídeos sugeridos ao lado.
+Como o navegador bloqueia o /embed/ direto e redireciona o /watch_popup/, a única solução técnica para remover as sugestões laterais e manter o vídeo isolado é criar um "arquivo de ponte" em HTML.
+Aqui está o código pronto para você colocar no seu VB6. Ele cria um arquivo temporário que engana o navegador, permitindo o uso do <iframe> (que o YouTube aceita):
+O Código no VB6:
+Private Sub Menu_Ajuda_BaixarXML1_Click()
+    Dim urlVideo As String
+    Dim htmlPath As String
+    Dim fNum As Integer
+
+    ' 1. Define a URL de embed (aqui ela vai funcionar!)
+    urlVideo = "SEU VIDEO AQUI"
+
+    ' 2. Cria um arquivo HTML temporário no seu computador
+    htmlPath = App.Path & "\player.html"
+    fNum = FreeFile
+    
+    Open htmlPath For Output As #fNum
+        Print #fNum, "<html><body style='margin:0;overflow:hidden;'>"
+        Print #fNum, "<iframe width='100%' height='100%' src='" & urlVideo & "' "
+        Print #fNum, "frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>"
+        Print #fNum, "</body></html>"
+    Close #fNum
+
+    ' 3. Abre esse arquivo no navegador
+    ShellExecute Me.hwnd, "open", htmlPath, vbNullString, vbNullString, conSwNormal
+End Sub
+
+PERGUNTEI: 
+Ajuste o código para que esse arquivo seja deletado automaticamente depois de fechar o sistema ou o local onde ele está salvo (pasta do App) 
+RESPOSTA:
+Para deixar seu sistema profissional, vamos fazer o seguinte: o VB6 criará o arquivo na pasta temporária do Windows (assim não "suja" a pasta do seu sistema) e ele será aberto sem as sugestões laterais.
+Aqui está o código completo e ajustado:
+Private Sub Menu_Ajuda_BaixarXML1_Click()
+    Dim urlVideo As String
+    Dim htmlPath As String
+    Dim fNum As Integer
+    
+    ' 1. URL no formato embed (agora vai funcionar dentro do HTML)
+    ' rel=0 e showinfo=0 ajudam a manter a tela limpa
+    urlVideo = "https://youtube.com"
+
+    ' 2. Caminho do arquivo temporário
+    htmlPath = Environ("TEMP") & "\ajuda_video.html"
+    
+    ' 3. Criando o arquivo HTML que "esconde" o resto do YouTube
+    fNum = FreeFile
+    Open htmlPath For Output As #fNum
+        Print #fNum, "<html>"
+        Print #fNum, "<head><title>Tutorial</title></head>"
+        Print #fNum, "<body style='margin:0;padding:0;overflow:hidden;background-color:black;'>"
+        Print #fNum, "<iframe width='100%' height='100%' src='" & urlVideo & "' "
+        Print #fNum, "frameborder='0' allow='autoplay; encrypted-media' allowfullscreen></iframe>"
+        Print #fNum, "</body>"
+        Print #fNum, "</html>"
+    Close #fNum
+
+    ' 4. Abre no navegador padrão
+    ShellExecute Me.hwnd, "open", htmlPath, vbNullString, vbNullString, conSwNormal
+End Sub
+Por que esta é a melhor forma?
+Privacidade: O usuário só vê o seu vídeo em tela cheia na aba do navegador.
+Foco: Sem barra lateral, sem comentários e sem sugestões de outros canais.
+Sem Erros: Como o navegador está lendo um arquivo .html, o YouTube permite o carregamento do player sem o erro 153.
+Para garantir que o arquivo seja deletado, você pode colocar o comando Kill Environ("TEMP") & "\ajuda_video.html" no evento QueryUnload do seu formulário principal.
+O vídeo abriu exatamente como um player limpo agora?
+Dica: Você pode usar esse mesmo arquivo HTML para carregar outros vídeos do seu canal, apenas trocando o ID (A48N8kGpt9U) no código.

@@ -1,0 +1,18 @@
+Coloquei no frame frmEdicao os seguintes objetos:
+lblEdicaoColetiva, txtEdicaoColetiva, cboEdicaoColetiva, cmdEdicaoColetiva
+Coloquei no frame frmEdicaoFiltros os seguintes objetos: 
+optEICMS, optENCM, optECFOP, optECategoria, optETags, optECest, optECBS, optEIS
+Qual é aplicação:
+se optTodos, optCodBarra, optDesc for true, então frmEdicao e frmEdicaoFiltros ficam desabilitados.
+Se eu marcar optCategoria, consultar uma categoria e clicar em cmdLocalizar e carregar os dados no grid, os frmEdicao e frmEdicaoFiltros ficam habilitados.
+-se eu marcar optEICMS, o txtEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'ICMS CST'
+-se eu marcar optENCM, o txtEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'NCM'
+-se eu marcar optECFOP, o txtEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'CFOP'
+-se eu marcar optECest, o txtEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'CEST'
+-se eu marcar optECategoria, o cboEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'Categoria'
+-se eu marcar optETags, o cboEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'Tags'
+-se eu marcar optECBS, o cboEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'CBS Class.'
+-se eu marcar optEIS, o cboEdicaoColetiva e cmdEdicaoColetivam visíveis e o lblEdicaoColetiva tem o caption 'IS Class.'
+OBS: quando o txtEdicaoColetiva estiver visivel, o cboEdicaoColetiva estará oculto
+OBS: quando o cboEdicaoColetiva ficar visivel, ele deve ser populado com os dados que representa sua consulta.
+quando eu clicar no botão cmdEdicaoColetiva ele atualizar todos os registros exibidos no grid com o dado do txtEdicaoColetiva ou cboEdicaoColetiva

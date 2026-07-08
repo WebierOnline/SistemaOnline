@@ -1,0 +1,62 @@
+Private Sub cboDescricao_GotFocus()
+   Dim sSQL As String
+   Dim r As ADODB.Recordset
+   
+   cboDescricao.Clear
+   
+If cboTipo.Text = "POR SERVIÇOS" Then
+   sSQL = "SELECT SERVICO, CODIGO FROM OS_Servicos ORDER BY SERVICO;"
+   Set r = dbData.OpenRecordset(sSQL)
+   Do While Not r.EOF
+      cboDescricao.AddItem r("SERVICO")
+      cboDescricao.ItemData(cboDescricao.NewIndex) = r("CODIGO")
+      r.MoveNext
+   Loop
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+   moCombo.AttachTo cboDescricao
+   Exit Sub
+End If
+
+If cboCriterioSec.Text = "DESCRIÇÃO" Then
+   sSQL = "SELECT DISTINCT descricao, codigo FROM produtos ORDER BY descricao;"
+   Set r = dbData.OpenRecordset(sSQL)
+   
+   Do While Not r.EOF
+      cboDescricao.AddItem r("descricao")
+      cboDescricao.ItemData(cboDescricao.NewIndex) = r("codigo")
+      r.MoveNext
+   Loop
+ElseIf cboCriterioSec.Text = "REFERÊNCIA" Then
+   sSQL = "SELECT DISTINCT REF FROM produtos ORDER BY REF;"
+   Set r = dbData.OpenRecordset(sSQL)
+   
+   Do While Not r.EOF
+      cboDescricao.AddItem ValidateNull(r("REF"))
+      r.MoveNext
+   Loop
+ElseIf cboCriterioSec.Text = "FABRICANTE" Then
+   sSQL = "SELECT DISTINCT FABRICANTE FROM produtos ORDER BY FABRICANTE;"
+   Set r = dbData.OpenRecordset(sSQL)
+   
+   Do While Not r.EOF
+      cboDescricao.AddItem ValidateNull(r("FABRICANTE"))
+      r.MoveNext
+   Loop
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+   sSQL = "SELECT DISTINCT CATEGORIA FROM produtos ORDER BY CATEGORIA;"
+   Set r = dbData.OpenRecordset(sSQL)
+   
+   Do While Not r.EOF
+      cboDescricao.AddItem ValidateNull(r("CATEGORIA"))
+      r.MoveNext
+   Loop
+Else
+   Exit Sub
+End If
+   
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+   
+   moCombo.AttachTo cboDescricao
+End Sub

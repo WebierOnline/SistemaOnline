@@ -1,0 +1,124 @@
+Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
+Set oCfg = sysConfig("TIPO_OS")
+vTipoOS = oCfg.Value
+Set oCfg = Nothing
+
+Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim r2 As ADODB.Recordset
+Dim totalRegistros As Long
+
+If Tipo = "OFICINA" Then Tipo = "OS"
+'contar a quantidades de produtos na consulta, para saber se vai agrupar com outra tabela
+sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS " & _
+      "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
+      "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+      "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+If totalRegistros >= 1 Then
+    sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS " & _
+          "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
+          "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+          "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+    'Debug.Print sSQL
+    
+    If UCase(Tipo) = "OS" Then  'If UCase(Tipo) = "OS" Then 'mudei e testar nas outras coisas se interfere
+       'If vTipoOS = "Automóveis" Then
+       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+       sSQL = sSQL & " UNION "
+       sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS " & _
+              "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
+       'Debug.Print sSQL
+       Else
+       End If
+    End If
+    
+    If UCase(Tipo) = "RECEBER" Then
+       sSQL = sSQL & " UNION "
+     'sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, ISNULL((quantidade * preco), 0) AS total, codigo, '', '', '' as var_CodOS " & _
+             "FROM pedidos_itens WHERE (cod_pedido = " & Pedido & ")"
+    'sSQL = "SELECT 'RECEBER' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal, pedidos_itens.desconto, '' as var_CodOS " & _
+          "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
+          "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+          "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+    
+    sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
+       "UNION ALL "
+    sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+    
+    
+    End If
+    
+    If UCase(Tipo) = "ALUGUEL" Then
+    'If varTipoConsulta = "ALUGUEL" Then
+       sSQL = sSQL & " UNION "
+     sSQL = sSQL & "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.DESCONTO, Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, '' as var_CodOS " & _
+             "FROM Aluguel_Cadastro_Itens INNER JOIN Aluguel_Cadastro_Equipamento ON Aluguel_Cadastro_Itens.COD_EQUIP = Aluguel_Cadastro_Equipamento.COD_EQUIP INNER JOIN Aluguel_Cadastro ON Aluguel_Cadastro_Itens.COD_LOCACAO = Aluguel_Cadastro.CODIGO WHERE (Aluguel_Cadastro.Cod_Pedido = " & Pedido & ")"
+    End If
+Else
+    If UCase(Tipo) = "OS" Then
+       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+       sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS " & _
+              "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
+       End If
+    End If
+    
+    If UCase(Tipo) = "RECEBER" Then
+        sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
+           "UNION ALL "
+        sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+    End If
+    
+    If UCase(Tipo) = "ALUGUEL" Then
+     sSQL = "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.DESCONTO, Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, '' as var_CodOS " & _
+             "FROM Aluguel_Cadastro_Itens INNER JOIN Aluguel_Cadastro_Equipamento ON Aluguel_Cadastro_Itens.COD_EQUIP = Aluguel_Cadastro_Equipamento.COD_EQUIP INNER JOIN Aluguel_Cadastro ON Aluguel_Cadastro_Itens.COD_LOCACAO = Aluguel_Cadastro.CODIGO WHERE (Aluguel_Cadastro.Cod_Pedido = " & Pedido & ")"
+    End If
+End If
+'Debug.Print sSQL
+    Set r = dbData.OpenRecordset(sSQL)
+
+FormatarGrid_Itens r
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If UCase(Tipo) = "OS" Then
+    sSQL = "SELECT COD_OS " & _
+          "FROM  OS WHERE (COD_PEDIDO = " & Pedido & ")"
+    Set r = dbData.OpenRecordset(sSQL)
+    'Debug.Print sSQL
+    lblOrdem1.Visible = True
+    lblOrdem2.Visible = True
+    If Not r.BOF Then
+        lblOrdem2.Text = Format(ValidateNull(r("COD_OS")), "000000")
+        'lblOrdem2.Text = Format(r("var_CodOS"), "000000")
+    End If
+    If r.State <> 0 Then r.Close
+    Set r = Nothing
+Else
+    lblOrdem1.Visible = False
+    lblOrdem2.Visible = False
+    lblOrdem2.Text = Format(0, "000000")
+End If
+
+Call MostrarParcelas
+Call MostrarFuncionario
+
+'pegar os totais
+sSQL = "SELECT SUBTOTAL,TOTAL, ValorDescReal, ValorAcrescReal FROM pedidos WHERE (cod_pedido = " & Pedido & ");"
+Set r = dbData.OpenRecordset(sSQL)
+
+If Not r.BOF Then
+   lblTotal.Caption = Format(r("subtotal"), ocMONEY)
+   lblTotalGeral.Caption = Format(r("total"), ocMONEY)
+   
+   'If r("tipo_desc") = "R" Then
+      lblTotalDesc.Caption = Format(r("ValorDescReal"), ocMONEY)
+      lblTotalAcresc.Caption = Format(r("ValorAcrescReal"), ocMONEY)
+   'Else
+   '   lblTotalDesc.Caption = FormatNumber(r("valor_desc")) & "%"
+   'End If
+Else
+    lblTotal.Caption = Format(0, ocMONEY)
+    lblTotalGeral.Caption = Format(0, ocMO

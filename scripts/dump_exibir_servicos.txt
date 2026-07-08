@@ -1,0 +1,10 @@
+Private Sub cmdExibirProdutos_Click()
+If Grid.Col = 0 Then Exit Sub
+If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
+   If Grid.Col = 1 Then
+      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 11)
+      Parcelas_Consulta_Produtos.Show 1
+   End If
+End If
+End Sub

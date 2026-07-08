@@ -1,0 +1,10 @@
+tenho uma tabela chamada Categorias com ose seguinte campos: ID_Categoria, Categoria, Tipo_Empresa
+Preciso criar uma tabela chamada
+Cria uma tabela chamada Categorias_Tags com os seguintes campos ID_Tags, Tags, ID_Categoria
+Eles devem se relacionar assim:
+No form cadastro de produtos, o cboCategoria carrega os dados da tabela categoria, no cboTAGs ao ganhar o foco, ele consulta todas as Tags que se relaciona com a categoria  escolhida no cboCategoria.
+Porem se o usuario digitar uma nova tags (nome que não existe na lista)... ao clicar no botão Salvar (cmdSalvar) ele deve tanto armazenar essa nova tags no cadastro do produto(insert ou update), como tambem criar um novo registro essa nova tags na tabela Categorias_Tags relacionando o ID_Tags e ID_Categoria.
+Aproveita e faz um form onde eu permita ver todas as Tags criadas.
+Exibir no grid o nome da tags e categoria que ela pertence.
+Que eu posso filtrar por tags ou por categoria.
+Ao clicar em uma tag no grid eu possa fazer crud

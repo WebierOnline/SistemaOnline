@@ -2,7 +2,7 @@ VERSION 5.00
 Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.Ocx"
 Begin VB.Form REL_Cons_Venda 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "Impressão de Contas à Pagar"
+   Caption         =   "VENDAS E SERVIÇOS"
    ClientHeight    =   4395
    ClientLeft      =   45
    ClientTop       =   330
@@ -273,6 +273,93 @@ Begin VB.Form REL_Cons_Venda
          EndProperty
          Borda           =   15
       End
+      Begin ReportX.ReportField dfProdutos 
+         Height          =   255
+         Left            =   6435
+         TabIndex        =   47
+         Top             =   720
+         Width           =   1935
+         _ExtentX        =   3413
+         _ExtentY        =   450
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfServicos 
+         Height          =   255
+         Left            =   6435
+         TabIndex        =   48
+         Top             =   960
+         Width           =   1935
+         _ExtentX        =   3413
+         _ExtentY        =   450
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin VB.Label Label17 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Produtos:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   225
+         Left            =   5550
+         TabIndex        =   50
+         Top             =   720
+         Width           =   825
+      End
+      Begin VB.Label Label15 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Serviços:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   225
+         Left            =   5580
+         TabIndex        =   49
+         Top             =   960
+         Width           =   795
+      End
       Begin VB.Label Label12 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -474,7 +561,7 @@ Begin VB.Form REL_Cons_Venda
       End
       Begin ReportX.ReportField ReportField4 
          Height          =   195
-         Left            =   7500
+         Left            =   9660
          TabIndex        =   10
          Top             =   0
          Width           =   915
@@ -496,7 +583,7 @@ Begin VB.Form REL_Cons_Venda
       End
       Begin ReportX.ReportField ReportField5 
          Height          =   195
-         Left            =   8520
+         Left            =   10680
          TabIndex        =   11
          Top             =   0
          Width           =   915
@@ -515,7 +602,7 @@ Begin VB.Form REL_Cons_Venda
       End
       Begin ReportX.ReportField ReportField8 
          Height          =   195
-         Left            =   6720
+         Left            =   8880
          TabIndex        =   29
          Top             =   0
          Width           =   735
@@ -537,7 +624,7 @@ Begin VB.Form REL_Cons_Venda
       End
       Begin ReportX.ReportField ReportField11 
          Height          =   195
-         Left            =   5940
+         Left            =   8100
          TabIndex        =   30
          Top             =   0
          Width           =   735
@@ -559,13 +646,58 @@ Begin VB.Form REL_Cons_Venda
       End
       Begin ReportX.ReportField ReportField12 
          Height          =   195
-         Left            =   4920
+         Left            =   7080
          TabIndex        =   31
          Top             =   0
          Width           =   975
          _ExtentX        =   1720
          _ExtentY        =   344
          Campo           =   "SUBTOTAL"
+         Formato         =   "##,##0.00"
+         TipoCampo       =   1
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField7 
+         Height          =   195
+         Left            =   4920
+         TabIndex        =   43
+         Top             =   0
+         Width           =   1095
+         _ExtentX        =   1931
+         _ExtentY        =   344
+         Campo           =   "vProd"
+         Formato         =   "##,##0.00"
+         TipoCampo       =   1
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField9 
+         CausesValidation=   0   'False
+         Height          =   195
+         Left            =   6060
+         TabIndex        =   44
+         Top             =   0
+         Width           =   975
+         _ExtentX        =   1720
+         _ExtentY        =   344
+         Campo           =   "vServ"
          Formato         =   "##,##0.00"
          TipoCampo       =   1
          Alignment       =   1
@@ -673,6 +805,44 @@ Begin VB.Form REL_Cons_Venda
          AlturaLivre     =   -1  'True
          AlinhamentoVertical=   1
       End
+      Begin VB.Label Label14 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "SERVIÇOS"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   6120
+         TabIndex        =   46
+         Top             =   2040
+         Width           =   930
+      End
+      Begin VB.Label Label10 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "PRODUTOS"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   4980
+         TabIndex        =   45
+         Top             =   2040
+         Width           =   1050
+      End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -687,7 +857,7 @@ Begin VB.Form REL_Cons_Venda
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   4920
+         Left            =   7140
          TabIndex        =   34
          Top             =   2040
          Width           =   990
@@ -706,7 +876,7 @@ Begin VB.Form REL_Cons_Venda
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   6120
+         Left            =   8340
          TabIndex        =   33
          Top             =   2040
          Width           =   510
@@ -725,7 +895,7 @@ Begin VB.Form REL_Cons_Venda
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   6840
+         Left            =   9060
          TabIndex        =   32
          Top             =   2040
          Width           =   570
@@ -765,7 +935,7 @@ Begin VB.Form REL_Cons_Venda
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   8520
+         Left            =   10740
          TabIndex        =   6
          Top             =   2040
          Width           =   450
@@ -784,7 +954,7 @@ Begin VB.Form REL_Cons_Venda
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   7800
+         Left            =   10020
          TabIndex        =   5
          Top             =   2040
          Width           =   615

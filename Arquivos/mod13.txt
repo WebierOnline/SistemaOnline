@@ -1,0 +1,57 @@
+Adicionei 4 itens em uma nota fiscal:
+
+SELECT        CodigoNota, CodigoProduto, NomeProduto, UnidadeComercial, QuantidadeComercial, ValorUnitarioComercializacao, ValorTotalBruto, EANTrib, UnidadeTributavel, QuantidadeTributavel, ValorUnitarioTributario, ValorFrete, 
+                         ValorSeguro, TipoDesconto, Desconto, ValorDesconto, IBSCBS_CST, IBS_vBC, IBS_UFpAliq, IBS_MunpAliq, IBS_pRed, IBS_vIBSUF, IBS_vIBSMun, IBS_vIBS, CBS_vBC, CBS_pAliq, CBS_pRed, CBS_vCBS, IS_CST, 
+                         IS_tipo_calculo, IS_vBC, IS_pAliq, IS_qUnid, IS_vUnid, IS_vIS
+FROM            NotaFiscalItens
+WHERE        (CodigoNota = 262)
+
+Os dados ficaram assim:
+
+262	8627	CERVEJA DEVA 269 ML	UN	1,000	3,50	3,50			0,0000	0,0000	0,00	0,00	1	0,00	0,00	000	3,50	0,12	0,02	0,00	0,00	0,00	0,00	3,50	0,90	0,00	0,03	01	1	3,50	20,00	0,2690	0,0000	0,70
+262	8627	CERVEJA DEVA 269 ML	UN	2,000	3,50	7,00			0,0000	0,0000	0,00	0,00	1	0,00	0,00	000	7,00	0,12	0,02	0,00	0,01	0,00	0,01	7,00	0,90	0,00	0,06	01	1	7,00	20,00	0,5380	0,0000	1,40
+262	8627	CERVEJA DEVA 269 ML	UN	1,000	3,50	3,00			0,0000	0,0000	0,00	0,00	1	0,50	0,50	000	2,50	0,12	0,02	0,00	0,00	0,00	0,00	2,50	0,90	0,00	0,02	01	1	2,50	20,00	0,2690	0,0000	0,50
+262	8627	CERVEJA DEVA 269 ML	UN	1,000	3,50	4,50			0,0000	0,0000	1,00	0,00	1	0,00	0,00	000	5,50	0,12	0,02	0,00	0,01	0,00	0,01	5,50	0,90	0,00	0,05	01	1	5,50	20,00	0,2690	0,0000	1,10
+
+Pedi uma IA para verificar se os dados estão corretos, ela me disse o seguinte:
+
+1. A pegadinha do IS_qUnid (Ainda gravando valor)
+No teste anterior, comentei sobre zerar o IS_qUnid quando o tipo de cálculo for 1 (Ad Valorem). Notei que ele continua salvando os valores de litragem (0,2690, 0,5380).
+
+- O motivo do alerta: Se o layout do governo mantiver a validação estrita, o XML será rejeitado se a tag <qUnidIS> for informada junto com uma alíquota percentual.
+- Ação no VB6: Force esse campo para 0 no banco quando IS_tipo_calculo = 1.
+
+2. Arredondamento e Truncamento no IBS (Item 2 e Item 3)
+O seu código de cálculo do IBS está truncando (jogando os centavos fora) em vez de arredondar. Isso vai dar rejeição na soma total da nota fiscal. Veja a matemática:
+- No Item 2 (Base 2,50): * Parcela Estadual (vIBSUF): 2,50 X 0,12% = 0,003 
+Seu sistema gravou 0,00. (Correto)
+- Parcela Municipal (vIBSMun): 2,50 X 0,02% = 0,0005
+Seu sistema gravou 0,00. (Correto)
+-Total do IBS do Item (IBS_vIBS): O sistema gravou 0,00.
+No Item 3 (Base 7,00) - Aqui está o erro crítico: * Parcela Estadual (vIBSUF): 7,00 X 0,12% =  0,0084 . O arredondamento correto de 0,0084 é 0,01. O seu sistema gravou 0,00 (truncou).
+-Parcela Municipal (vIBSMun): 7,00 X 0,02% = 0,0014. O arredondamento correto é 0,00. 
+O seu sistema gravou 0,01 (arredondou para cima incorretamente, deveria ser 0).
+-Total do IBS do Item (IBS_vIBS): O sistema gravou 0,01, mas a soma interna foi de duas parcelas erradas.
+
+3. A regra de soma do IBS (IBS_vIBS)
+Por regra do layout, o campo IBS_vIBS deve ser a soma exata dos campos IBS_vIBSUF + IBS_vIBSMun.
+-No Item 4: O sistema gravou IBS_vIBSUF = 0,01 e IBS_vIBSMun = 0,01. Porém, no campo IBS_vIBS (total), ele gravou 0,00. A soma de 0,01 + 0,01 tinha que dar 0,02. Se mandar o XML assim, o servidor da Receita rejeita na hora por erro de soma de totais.
+
+* Como resolver isso definitivamente no código VB6:
+Para matar esses problemas de centavos e somas, a sua rotina de cálculo do IBS antes do INSERT deve ser exatamente assim:
+
+' --- CÁLCULO DO IBS NO ITEM ---
+' 1. Calcula as parcelas usando Round para garantir o arredondamento de centavos
+Var_IBS_vIBSUF  = Round(Var_IBS_vBC * (Var_IBS_UFpAliq / 100), 2)
+Var_IBS_vIBSMun = Round(Var_IBS_vBC * (Var_IBS_MunpAliq / 100), 2)
+
+' 2. Regra de Ouro: O total do item DEVE ser a soma das duas parcelas arredondadas
+Var_IBS_vIBS = Var_IBS_vIBSUF + Var_IBS_vIBSMun
+
+' --- AJUSTE DO IMPOSTO SELETIVO (EVITAR REJEIÇÃO) ---
+If Var_IS_tipo_calculo = 1 Then
+    Var_IS_qUnid = 0 ' Força zero se for Ad Valorem para não quebrar o XML
+    Var_IS_vUnid = 0
+End If
+
+Fazendo o campo totalizar pela soma das parcelas arredondadas (Passo 2), a sua tabela fica matematicamente perfeita para passar em qualquer validador fiscal! O avanço de uma nota para a outra foi gigante, parabéns.

@@ -1,0 +1,13 @@
+No meu form NFe_Completa ainda se referencia aos nomes antigos dos campos.
+Ajuste o form com essa mudança de nome de campos
+Na rotina Mostrar_Aliquotas_Produto está puxando vários campos da tabelas produtos para preencher variáveis, até ai tudo bem!
+Porem alguns campos não pertencem mais a tabela produtos. Então precisamos fazer cruzamentos.
+Antes, quando os dados vinha da tabela produtos era assim:
+ vCBSpAliq = Format(ValidateNull(r("CBSpAliq")), "##,##0.00")
+ vIBSUFpAliq = Format(ValidateNull(r("IBSUFpAliq")), "##,##0.00")
+ vIBSMunpAliq = Format(ValidateNull(r("IBSMunpAliq")), "##,##0.00")
+Agora deve ser assim:
+Tenho que pegar o código do cliente no objeto TxtCodCliente, ir na tabela cliente (campos: CODIGO e CodigoIBGE) consultar o cliente com aquele código, pegar o CodigoIBGE dele, depois consulta Cidade (campos: CodigoMunicipio  IBSUFpAliq, IBSMunpAliq), consulta qual cidade possui CodigoIBGE = CodigoMunicipio e trazer os dados IBSUFpAliq, IBSMunpAliq e preencher as variáveis vIBSUFpAliq  e vIBSMunpAliq.
+Já essa outra linha: 
+ vCBSpAliq = Format(ValidateNull(r("CBSpAliq")), "##,##0.00")
+ Esse variável deve ser preenchida com o campo CBSpAliq da tabela empresa (obs: somente existe 1 registro nessa tabela)

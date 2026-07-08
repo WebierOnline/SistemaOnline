@@ -1,0 +1,32 @@
+
+No form Produtos_Cadastro veja como é preenchido os objetos:
+txtCBSpAliq, txtIBSUFpAliq, txtIBSMunpAliq, txtCBSpRedAliq, txtIBSUFpRedAliq
+Sendo que agora mudou algumas coisas:
+-O valor do txtCBSpAliq agora vem da tabela empresa
+-O valor do txtIBSUFpAliq e txtIBSMunpAliq agora vem da tabela cidade (sendo que tem que pesquisar a minha cidade na tabela empresa para saber qual aliquota trazer)
+-O valor do txtCBSpRedAliq e txtIBSUFpRedAliq agora vem da tabela TbIBSCBSClassTrib (dependendo da classificação que escolher no cboIBSCBSCST e cboIBSCBSClasse)
+Obs: essa Aliquota de 0,90 e 0,10 é uma aliquota de teste para as empresas testarem no ano de 2026, porem nem todos os produtos vão usar:
+Explicação:
+Embora a alíquota de 1% (0,9% CBS + 0,1% IBS) seja a "padrão" para este ano de teste (2026), a Reforma Tributária já prevê exceções importantes que o seu sistema precisa respeitar desde agora.
+
+Se um produto tem isenção ou redução prevista na lei final (como a Cesta Básica ou Medicamentos), essa redução também se aplica proporcionalmente sobre a alíquota de teste.
+
+Aqui está como você deve configurar a lógica no seu sistema:
+As 3 Regras de Aplicação em 2026:
+-Regime Geral (Alíquota Cheia de Teste): * Aplica-se a quase tudo (eletrônicos, roupas, serviços em geral).
+Cálculo: CBS 0,9% e IBS 0,1%.CST: 000 | cClassTrib: 000001.
+-Produtos com Alíquota Zero (Isenção):Itens da Cesta Básica Nacional, medicamentos específicos e dispositivos para PCD.
+Cálculo: CBS 0,0% e IBS 0,0%.
+Dica: Mesmo sendo zero, o campo deve existir no XML para mostrar que o produto foi classificado corretamente.
+-Produtos com Alíquota Reduzida (60% ou 30%):Se um produto tem redução de 60% (como insumos agropecuários ou serviços de educação), você não aplica 1% cheio. Você aplica a redução sobre o teste.
+Exemplo (Redução de 60%):
+CBS Teste: 0,9% x 0,40 = 0,36%
+IBS Teste: 0,1% x 0,40 = 0,04%
+CST: 200 | cClassTrib: Iniciados em 200
+
+Como tratar isso no banco de dados?
+No seu cadastro de produtos, o ideal é que os campos de classificação defina se o item é "Integral", "Reduzido" ou "Isento". Quando o sistema for calcular, ele olha essa flag:
+
+Se "Integral" = Busca 0,9% e 0,1%.
+Se "Isento" = Grava 0.
+Se "Reduzido" = Faz a conta da redução sobre o valor de teste.

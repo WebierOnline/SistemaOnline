@@ -1,0 +1,32 @@
+Private Sub cmdExibirPedidos_Click()
+''If cboTipo.Text = "POR PRODUTOS" Then
+''   If Grid.Col = 0 Then Exit Sub
+''   If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
+''      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+''      Vendas_Consulta_Pedidos.loadPedidos Grid.TextMatrix(Grid.Row, 1)
+''      Vendas_Consulta_Pedidos.Show 1
+''   End If
+''End If
+
+'If Grid.Col = 0 Then Exit Sub
+'If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
+'   If Grid.Col = 1 Then
+'      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+'      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 7)
+'      Parcelas_Consulta_Produtos.Show 1
+'   End If
+'End If
+
+
+If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then Exit Sub
+If Grid.TextMatrix(Grid.Row, 1) = "" Or Grid.TextMatrix(Grid.Row, 10) = "" Then Exit Sub
+
+If Grid.TextMatrix(Grid.Row, 10) <> "0" Then
+   Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), "OS"
+Else
+   Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 7)
+End If
+
+
+Parcelas_Consulta_Produtos.Show 1
+End Sub

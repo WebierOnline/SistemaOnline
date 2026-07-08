@@ -1,0 +1,38 @@
+No form Vendas_Consulta_PorProdutos no objeto Grid acrescenta:
+- Uma coluna chamada 'CÓD. BARRA' antes da coluna 'DESCRIÇÃO'. No caso de exibição de produtos exibir o campo produtos.COD_BARRA. Acrescente outra coluna depois da ultima coluna, chamada 'CÓD. PRODUTO' para exibir o campo pedidos_itens.COD_PRODUTO
+-Quando for exibir SERVIÇOS, mantem a coluna (cabeçalho), porem preenchimento vazio. Acrescente outra coluna depois da ultima coluna, chamada 'CÓD. PRODUTO' para exibir o campo pedidos_itens.COD_PRODUTO
+No form Parcelas_Consulta_Produtos no objeto Grid acrescenta: 
+- Uma coluna chamada 'CÓD. BARRA' antes da coluna 'DESCRIÇÃO'. No caso de exibição de produtos exibir o campo produtos.COD_BARRA. Acrescente outra coluna depois da ultima coluna, chamada 'CÓD. PRODUTO' para exibir o campo pedidos_itens.COD_PRODUTO
+-Quando for exibir SERVIÇOS, mantem a coluna (cabeçalho), porem preenchimento vazio. Acrescente outra coluna depois da ultima coluna, chamada 'CÓD. PRODUTO' para exibir o campo pedidos_itens.COD_PRODUTO
+
+No form Vendas_Consulta_PorProdutos:
+Quando a consulta for por serviços... no lugar de 'CÓD. BARRA', troque por 'CÓD. SERV.' e exiba o código do serviço (campo: OS_Servicos_Auto.cod_servico). 
+Oculte a coluna 'CÓD. PRODUTO' quando for serviço
+Quando eu clico em cmdExibirPedidos dar o seguinte erro:
+O item não pode ser encontrado na coleção correspondente ao nome ou ao ordinal solicitado.
+Quando debugo, ele seleciona: 'Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "VENDA"' em cmdExibirPedidos_Click
+
+O botão cmdImprimir_Click preenche os objetos rfCons1, rfCons2 e rfCons3 com os tipos de filtos que usei na consulta.
+Porem foram acrescentados novos filtos. Verifica se o cmdImprimir_Click está adaptado para esses novos filtros e criterios
+
+Quando cboCriterioPrinc for "SERVIÇOS", "SERVIÇOS/MENSAL" ou cboCriterioPrinc.AddItem "SERVIÇOS/PERÍODO"... limpa o text do cboDescricao
+No cmdImprimir mude:
+Quando cboTipo.Text = "POR SERVIÇOS", reveja o preenchimento dos rfCons1, rfCons2 e rfCons3
+- Quando o preenchimento for somente 1 dado, deve ser preenchido rfCons1
+- Quando o preenchimento for 2 dados, deve ser preenchido rfCons1 e rfCons2 
+- Quando o preenchimento for 3 dados, deve ser preenchido rfCons1, rfCons2 e rfCons3
+
+No rfCons2 invés de aparecer o cód. do serviço, aparecer a descrição
+No rfCons2 invés de aparecer o cód. do produto, aparecer a descrição
+
+Quando cboTipo.Text = "POR PRODUTOS" em cboCriterioPrinc as opções "PRODUTO/MENSAL" e "PRODUTO/PERÍODO" só apareceram na lista se cboCriterioSec for "TODOS", se não for, elas não aparecem.
+Sempre que eu mudar o cboCriterioSec, o cboCriterioPrinc deve ser limpo o text e deve ser selecionado o item  o index = 0 na lista e o cboDescricao deve ser limpo o text tambem.
+Quando cboTipo.Text = "POR SERVIÇOS" em cboCriterioPrinc as opções "SERVIÇOS/MENSAL" e "SERVIÇOS/PERÍODO" só apareceram na lista se cboCriterioSec for "TODOS", se não for, elas não aparecem.
+Sempre que eu mudar o cboCriterioSec, o cboCriterioPrinc deve ser limpo o text e deve ser selecionado o item  o index = 0 na lista e o cboDescricao deve ser limpo o text tambem.
+Acrescentem em cboCriterioPrinc a opção "PERÍODO" para Serviços.
+   
+cmdExibirParcelas nao exibe as parcelas quando cboTipo.Text = "POR SERVIÇOS"
+
+image62 tudo
+image63 serviços
+image64 Produtos

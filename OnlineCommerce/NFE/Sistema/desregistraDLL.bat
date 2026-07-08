@@ -1,0 +1,1 @@
+regasm /u snfe.dll /tlb:snfe.tlb

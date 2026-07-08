@@ -1,0 +1,10 @@
+1. coloque as image (ImgMarcada e imgDesmarcada )  centralizada no meio da celula que ela está.
+2. cliquei na image imgDesmarcada e ela não virou ImgMarcada 
+3. criei mais 2 imagens chamadas imgDesmarcadaTODAS e ImgMarcadaTODAS
+-Ao carregar a consulta sempre vai ter imgDesmarcadaTODAS (no label lblMarcarTodas fica com caption 'Marcar todos') exibido, e quando clicar nele deve exibir ImgMarcadaTODAS(no label lblMarcarTodas fica com caption 'Desmarcar todos') 
+-Quando ela virar ImgMarcadaTODAS todos os itens do grid devem ter ImgMarcada e vice-versa.
+-ImgMarcadaTODAS e imgDesmarcadaTODAS deve ficar no local onde coloquei.
+4. criei o frame frmAlterarGrupos, ele deve ficar habilitado nos seguintes casos:
+-uma ou mais linhas com ImgMarcada visivel
+-quando estiver com ImgMarcadaTODAS visivel
+-quando consultar por optCategoria, optTags, optNCM, optClassTribCBS, optClassTribIS e clicar em cmdLocalizar e aparecer algo no grid

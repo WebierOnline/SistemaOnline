@@ -1,0 +1,71 @@
+PERGUNTA:
+quais seriam o pis e confins mais indicados para essas categorias:
+ALIMENTOS
+ALIMENTOS (CESTA BÁSICA)
+HORTIFRÚTI
+CARNES
+FRIOS E LATICÍNIOS
+PADARIA E CONFEITARIA
+LIMPEZA
+HIGIENE E PERFUMARIA
+BEBIDAS
+BEBIDAS (ALCOÓLICAS)
+BEBIDAS (AÇUCARADAS)
+CONGELADOS
+LATICÍNIOS
+PET SHOP
+BAZAR E UTILIDADES
+RESPOSTA:
+Para configurar seu sistema de forma eficiente, é importante entender que o PIS/COFINS depende mais da composição do produto e da sua NCM do que apenas da categoria.
+Aqui está um guia prático dos CSTs mais indicados para cada grupo, considerando as regras atuais e de transição:
+1. Alíquota Zero (CST 06)
+Estes itens são desonerados para reduzir o custo final ao consumidor.
+ALIMENTOS (CESTA BÁSICA): Arroz, feijão, massas, farinhas, café e açúcar.
+HORTIFRÚTI: Frutas, legumes e verduras frescas (não processadas).
+CARNES: Carnes frescas, resfriadas ou congeladas (bovina, suína, aves e peixes).
+LATICÍNIOS (Básicos): Leite fluido, leite em pó e manteiga.
+CONGELADOS (Básicos): Carnes e vegetais congelados sem tempero/processamento industrial complexo.
+2. Tributação Monofásica (CST 04)
+Nesta categoria, o imposto é pago integralmente pela indústria. Você, no varejo, não paga PIS/COFINS sobre eles.
+HIGIENE E PERFUMARIA: Shampoos, sabonetes, cremes dentais, desodorantes e perfumes.
+BEBIDAS (Águas e Refrigerantes): Águas minerais, refrigerantes e chás prontos.
+BEBIDAS (AÇUCARADAS): Seguem a regra de bebidas frias (monofásico). Nota: No futuro, estas terão o Imposto Seletivo.
+BEBIDAS (ALCOÓLICAS): Cervejas e chás alcoólicos (vinhos e destilados podem variar conforme o regime, mas a cerveja é tipicamente CST 04).
+3. Tributação Normal (CST 01 ou 05)
+Itens que não possuem benefícios fiscais específicos.
+ALIMENTOS (Processados): Biscoitos recheados, molhos prontos, temperos industriais.
+LIMPEZA: Sabão em pó, detergentes, amaciantes e desinfetantes.
+FRIOS E LATICÍNIOS (Industrializados): Iogurtes, queijos finos, presuntos e salames (embora alguns queijos possam ser 06, a maioria é tributada).
+PADARIA E CONFEITARIA: Bolos decorados, salgados, doces e pães especiais.
+PET SHOP: Rações, brinquedos e acessórios para animais.
+BAZAR E UTILIDADES: Panelas, vassouras, plásticos e utensílios em geral.
+Resumo de Configuração por Categoria
+Categoria	CST PIS/COFINS Provável	Justificativa
+Cesta Básica / Carnes / Hortifrúti	06	Alíquota Zero (Essenciais)
+Higiene / Bebidas Frias	04	Monofásico (Pago na fábrica)
+Limpeza / Bazar / Pet Shop	01 (ou 05)	Tributação Normal
+Padaria / Frios	01	Maioria são produtos processados
+PERGUNTA:
+quais desses cst de pis e cofins tem cobrança de alíquota? qual valor?
+RESPOSTA:
+Para saber quais têm cobrança, precisamos olhar para o CST 01 (Operação Tributável com Alíquota Básica). É nele que o imposto "acontece" de fato no seu dia a dia.
+Os outros que mencionamos (04 e 06) resultam em 0,00 de imposto a pagar para você, varejista.
+Aqui estão os valores para quem é do Simples Nacional (regime que parece ser o do seu sistema pela imagem) e para empresas de outros regimes:
+1. CST 01 (Tributação Normal)
+É usado para Limpeza, Bazar, Pet Shop e Alimentos Processados.
+No Simples Nacional: Você não coloca uma alíquota fixa de PIS/COFINS. O valor é calculado dentro da sua guia mensal (DAS) baseada no seu faturamento acumulado.
+No Lucro Presumido: Geralmente 0,65% para PIS e 3,00% para COFINS.
+No Lucro Real: Geralmente 1,65% para PIS e 7,60% para COFINS (regime não cumulativo).
+2. CST 04 (Monofásico)
+Usado para Higiene, Perfumaria e Bebidas Frias.
+Alíquota: No seu sistema aparecerá como 0,00%.
+Por que? A indústria já pagou uma alíquota muito alta (ex: 10% ou 12%) na saída da fábrica para "quitar" o imposto de toda a cadeia. Se você pagar de novo, estará pagando em duplicidade.
+3. CST 06 (Alíquota Zero)
+Usado para Arroz, Feijão, Carnes e Hortifrúti.
+Alíquota: Fixada por lei em 0,00%.
+Por que? É um benefício social para manter o preço desses itens baixos.
+Resumo de Alíquotas no Sistema
+CST	Alíquota no Cadastro	Quem paga?
+01	Variável (conforme regime)	Você paga na venda.
+04	0,00%	A Fábrica já pagou tudo.
+06	0,00%	Ninguém paga (Governo abriu mão).

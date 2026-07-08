@@ -1,0 +1,444 @@
+VERSION 5.00
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Begin VB.Form frmDIFAL_Cadastro 
+   BorderStyle     =   3  'Fixed Dialog
+   Caption         =   "Cadastro DIFAL - Regras por UF de Destino"
+   ClientHeight    =   7560
+   ClientLeft      =   45
+   ClientTop       =   375
+   ClientWidth     =   14400
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   7560
+   ScaleWidth      =   14400
+   ShowInTaskbar   =   0   'False
+   StartUpPosition =   2  'CenterScreen
+   Begin MSFlexGridLib.MSFlexGrid lstDIFAL 
+      Height          =   4200
+      Left            =   120
+      TabIndex        =   0
+      Top             =   960
+      Width           =   14160
+      _ExtentX        =   24977
+      _ExtentY        =   7408
+      _Version        =   393216
+      Cols            =   9
+      FixedCols       =   0
+   End
+   Begin VB.Frame frmFiltros 
+      Caption         =   "Filtros"
+      Height          =   720
+      Left            =   120
+      TabIndex        =   15
+      Top             =   120
+      Width           =   14160
+      Begin VB.TextBox txtFiltroUF 
+         Height          =   315
+         Left            =   600
+         MaxLength       =   2
+         TabIndex        =   1
+         Top             =   240
+         Width           =   720
+      End
+      Begin VB.CommandButton cmdLocalizar 
+         Caption         =   "Localizar"
+         Height          =   375
+         Left            =   1440
+         TabIndex        =   2
+         Top             =   210
+         Width           =   1200
+      End
+      Begin VB.CommandButton cmdLimpar 
+         Caption         =   "Limpar"
+         Height          =   375
+         Left            =   2760
+         TabIndex        =   3
+         Top             =   210
+         Width           =   1200
+      End
+      Begin VB.Label lblFiltroUF 
+         Caption         =   "UF:"
+         Height          =   252
+         Left            =   120
+         TabIndex        =   16
+         Top             =   270
+         Width           =   480
+      End
+   End
+   Begin VB.Frame frmDados 
+      Caption         =   "Dados"
+      Height          =   2400
+      Left            =   120
+      TabIndex        =   17
+      Top             =   5280
+      Width           =   14160
+      Begin VB.Label lblUF 
+         Caption         =   "UF Destino:"
+         Height          =   252
+         Left            =   120
+         TabIndex        =   18
+         Top             =   240
+         Width           =   960
+      End
+      Begin VB.TextBox txtUF 
+         Height          =   288
+         Left            =   120
+         MaxLength       =   2
+         TabIndex        =   4
+         Top             =   480
+         Width           =   720
+      End
+      Begin VB.Label lblAliqInterna 
+         Caption         =   "Alíq. Interna (%):"
+         Height          =   252
+         Left            =   960
+         TabIndex        =   19
+         Top             =   240
+         Width           =   1680
+      End
+      Begin VB.TextBox txtAliqInterna 
+         Height          =   288
+         Left            =   960
+         TabIndex        =   5
+         Top             =   480
+         Width           =   1200
+      End
+      Begin VB.Label lblAliqFCP 
+         Caption         =   "Alíq. FCP (%):"
+         Height          =   252
+         Left            =   2280
+         TabIndex        =   20
+         Top             =   240
+         Width           =   1080
+      End
+      Begin VB.TextBox txtAliqFCP 
+         Height          =   288
+         Left            =   2280
+         TabIndex        =   6
+         Top             =   480
+         Width           =   1200
+      End
+      Begin VB.Label lblTipoCalculo 
+         Caption         =   "Tipo de Cálculo:"
+         Height          =   252
+         Left            =   3600
+         TabIndex        =   21
+         Top             =   240
+         Width           =   1680
+      End
+      Begin VB.ComboBox cboTipoCalculo 
+         Height          =   315
+         Left            =   3600
+         Style           =   2  'Dropdown List
+         TabIndex        =   7
+         Top             =   480
+         Width           =   3480
+      End
+      Begin VB.CheckBox chkFCPCompoeBase 
+         Caption         =   "FCP Compõe Base"
+         Height          =   288
+         Left            =   7320
+         TabIndex        =   8
+         Top             =   480
+         Width           =   2160
+      End
+      Begin VB.Label lblDtInicio 
+         Caption         =   "Início de Vigência:"
+         Height          =   252
+         Left            =   120
+         TabIndex        =   22
+         Top             =   900
+         Width           =   1800
+      End
+      Begin VB.TextBox txtDtInicio 
+         Height          =   288
+         Left            =   120
+         MaxLength       =   10
+         TabIndex        =   9
+         Top             =   1140
+         Width           =   1680
+      End
+      Begin VB.Label lblDtFim 
+         Caption         =   "Fim de Vigência:"
+         Height          =   252
+         Left            =   1920
+         TabIndex        =   23
+         Top             =   900
+         Width           =   1800
+      End
+      Begin VB.TextBox txtDtFim 
+         Height          =   288
+         Left            =   1920
+         MaxLength       =   10
+         TabIndex        =   10
+         Top             =   1140
+         Width           =   1680
+      End
+      Begin VB.Label lblObs 
+         Caption         =   "Observação:"
+         Height          =   252
+         Left            =   3720
+         TabIndex        =   24
+         Top             =   900
+         Width           =   1200
+      End
+      Begin VB.TextBox txtObservacao 
+         Height          =   288
+         Left            =   3720
+         MaxLength       =   255
+         TabIndex        =   11
+         Top             =   1140
+         Width           =   8040
+      End
+      Begin VB.CommandButton cmdNovo 
+         Caption         =   "Novo"
+         Height          =   375
+         Left            =   120
+         TabIndex        =   12
+         Top             =   1680
+         Width           =   840
+      End
+      Begin VB.CommandButton cmdSalvar 
+         Caption         =   "Salvar"
+         Height          =   375
+         Left            =   1080
+         TabIndex        =   13
+         Top             =   1680
+         Width           =   840
+      End
+      Begin VB.CommandButton cmdExcluir 
+         Caption         =   "Excluir"
+         Height          =   375
+         Left            =   2040
+         TabIndex        =   14
+         Top             =   1680
+         Width           =   840
+      End
+   End
+End
+Attribute VB_Name = "frmDIFAL_Cadastro"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+
+Dim vID As Long
+Dim vTipo As String
+
+Private Sub Form_Load()
+    vID = 0
+    vTipo = "Novo"
+    cboTipoCalculo.AddItem "1 - Base Única (Simples)"
+    cboTipoCalculo.ItemData(0) = 1
+    cboTipoCalculo.AddItem "2 - Base Dupla (Por Dentro)"
+    cboTipoCalculo.ItemData(1) = 2
+    cboTipoCalculo.ListIndex = 1
+    CarregarGrid
+End Sub
+
+Private Sub CarregarGrid()
+    Dim rs As ADODB.Recordset
+    Dim sSQL As String, sWhere As String
+    Dim lRow As Long
+
+    sWhere = " WHERE 1=1"
+    If Trim(txtFiltroUF.Text) <> "" Then
+        sWhere = sWhere & " AND UF_Destino LIKE '%" & Replace(UCase(Trim(txtFiltroUF.Text)), "'", "''") & "%'"
+    End If
+
+    sSQL = "SELECT ID, UF_Destino, AliquotaInterna, AliquotaFCP, " & _
+           "DataInicioVigencia, DataFimVigencia, TipoCalculo, FCPCompoeBase, Observacao " & _
+           "FROM TribRegraDifalUF" & sWhere & " ORDER BY UF_Destino, DataInicioVigencia"
+
+    RsOpen rs, sSQL
+
+    With lstDIFAL
+        .Redraw = False
+        .Clear
+        .Cols = 9
+        .Rows = 2
+        .ColWidth(0) = 0
+        .ColWidth(1) = 600
+        .ColWidth(2) = 1800
+        .ColWidth(3) = 1500
+        .ColWidth(4) = 2100
+        .ColWidth(5) = 2100
+        .ColWidth(6) = 2700
+        .ColWidth(7) = 1800
+        .ColWidth(8) = 1560
+        .FixedRows = 1
+        .FixedCols = 0
+        .TextMatrix(0, 1) = "UF"
+        .TextMatrix(0, 2) = "Alíq. Interna %"
+        .TextMatrix(0, 3) = "Alíq. FCP %"
+        .TextMatrix(0, 4) = "Início Vigência"
+        .TextMatrix(0, 5) = "Fim Vigência"
+        .TextMatrix(0, 6) = "Tipo Cálculo"
+        .TextMatrix(0, 7) = "FCP Compõe Base"
+        .TextMatrix(0, 8) = "Observação"
+        .Row = 0
+        .Col = 0
+        .ColSel = .Cols - 1
+        lRow = 1
+        Do While Not rs.EOF
+            .Rows = lRow + 1
+            .TextMatrix(lRow, 0) = rs("ID")
+            .TextMatrix(lRow, 1) = Trim(rs("UF_Destino"))
+            .TextMatrix(lRow, 2) = Format(rs("AliquotaInterna"), "0.00")
+            .TextMatrix(lRow, 3) = Format(rs("AliquotaFCP"), "0.00")
+            .TextMatrix(lRow, 4) = Format(rs("DataInicioVigencia"), "dd/mm/yyyy")
+            If IsNull(rs("DataFimVigencia")) Then
+                .TextMatrix(lRow, 5) = ""
+            Else
+                .TextMatrix(lRow, 5) = Format(rs("DataFimVigencia"), "dd/mm/yyyy")
+            End If
+            .TextMatrix(lRow, 6) = IIf(rs("TipoCalculo") = 1, "1 - Base Única", "2 - Base Dupla")
+            .TextMatrix(lRow, 7) = IIf(rs("FCPCompoeBase") = True, "Sim", "Não")
+            .TextMatrix(lRow, 8) = IIf(IsNull(rs("Observacao")), "", rs("Observacao"))
+            lRow = lRow + 1
+            rs.MoveNext
+        Loop
+        .Redraw = True
+    End With
+
+    rs.Close
+    Set rs = Nothing
+    LimparCampos
+End Sub
+
+Private Sub lstDIFAL_Click()
+    If lstDIFAL.Row = 0 Then Exit Sub
+    If Trim(lstDIFAL.TextMatrix(lstDIFAL.Row, 0)) = "" Then Exit Sub
+    vID = CLng(lstDIFAL.TextMatrix(lstDIFAL.Row, 0))
+    vTipo = "Edicao"
+    txtUF.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 1)
+    txtAliqInterna.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 2)
+    txtAliqFCP.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 3)
+    txtDtInicio.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 4)
+    txtDtFim.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 5)
+    If Left(lstDIFAL.TextMatrix(lstDIFAL.Row, 6), 1) = "1" Then
+        cboTipoCalculo.ListIndex = 0
+    Else
+        cboTipoCalculo.ListIndex = 1
+    End If
+    chkFCPCompoeBase.Value = IIf(lstDIFAL.TextMatrix(lstDIFAL.Row, 7) = "Sim", 1, 0)
+    txtObservacao.Text = lstDIFAL.TextMatrix(lstDIFAL.Row, 8)
+End Sub
+
+Private Sub cmdNovo_Click()
+    LimparCampos
+    txtUF.SetFocus
+End Sub
+
+Private Sub cmdSalvar_Click()
+    Dim sUF As String
+    Dim dAliqInt As Double, dAliqFCP As Double
+    Dim sDtInicio As String, sDtFim As String
+    Dim iTipoCalc As Integer, bFCPBase As Integer
+    Dim sObs As String, sSQL As String
+    Dim sAliqInt As String, sAliqFCP As String
+
+    sUF = UCase(Trim(txtUF.Text))
+    If Len(sUF) <> 2 Then
+        MsgBox "Informe a UF com 2 caracteres!", vbExclamation, "Aviso": Exit Sub
+    End If
+
+    If Not IsNumeric(Replace(Trim(txtAliqInterna.Text), ",", ".")) Then
+        MsgBox "Alíquota Interna inválida!", vbExclamation, "Aviso": Exit Sub
+    End If
+    dAliqInt = CDbl(Replace(Trim(txtAliqInterna.Text), ",", "."))
+
+    If Not IsNumeric(Replace(Trim(txtAliqFCP.Text), ",", ".")) Then
+        MsgBox "Alíquota FCP inválida!", vbExclamation, "Aviso": Exit Sub
+    End If
+    dAliqFCP = CDbl(Replace(Trim(txtAliqFCP.Text), ",", "."))
+
+    If Trim(txtDtInicio.Text) = "" Then
+        MsgBox "Informe a data de início de vigência!", vbExclamation, "Aviso": Exit Sub
+    End If
+    If Not IsDate(txtDtInicio.Text) Then
+        MsgBox "Data de início inválida! Use dd/mm/aaaa", vbExclamation, "Aviso": Exit Sub
+    End If
+    sDtInicio = Format(CDate(txtDtInicio.Text), "yyyy-mm-dd")
+
+    sDtFim = ""
+    If Trim(txtDtFim.Text) <> "" Then
+        If Not IsDate(txtDtFim.Text) Then
+            MsgBox "Data de fim inválida! Use dd/mm/aaaa", vbExclamation, "Aviso": Exit Sub
+        End If
+        sDtFim = Format(CDate(txtDtFim.Text), "yyyy-mm-dd")
+    End If
+
+    iTipoCalc = cboTipoCalculo.ItemData(cboTipoCalculo.ListIndex)
+    bFCPBase = chkFCPCompoeBase.Value
+    sObs = Replace(Trim(txtObservacao.Text), "'", "''")
+    sAliqInt = Replace(CStr(dAliqInt), ",", ".")
+    sAliqFCP = Replace(CStr(dAliqFCP), ",", ".")
+
+    If vTipo = "Novo" Then
+        sSQL = "INSERT INTO TribRegraDifalUF " & _
+               "(UF_Destino, AliquotaInterna, AliquotaFCP, DataInicioVigencia, " & _
+               "DataFimVigencia, TipoCalculo, FCPCompoeBase, Observacao) VALUES ('" & _
+               sUF & "', " & sAliqInt & ", " & sAliqFCP & ", '" & sDtInicio & "', " & _
+               IIf(sDtFim = "", "NULL", "'" & sDtFim & "'") & ", " & iTipoCalc & ", " & _
+               bFCPBase & ", " & IIf(Len(sObs) = 0, "NULL", "'" & sObs & "'") & ")"
+    Else
+        sSQL = "UPDATE TribRegraDifalUF SET " & _
+               "UF_Destino='" & sUF & "', " & _
+               "AliquotaInterna=" & sAliqInt & ", " & _
+               "AliquotaFCP=" & sAliqFCP & ", " & _
+               "DataInicioVigencia='" & sDtInicio & "', " & _
+               "DataFimVigencia=" & IIf(sDtFim = "", "NULL", "'" & sDtFim & "'") & ", " & _
+               "TipoCalculo=" & iTipoCalc & ", " & _
+               "FCPCompoeBase=" & bFCPBase & ", " & _
+               "Observacao=" & IIf(Len(sObs) = 0, "NULL", "'" & sObs & "'") & _
+               " WHERE ID=" & vID
+    End If
+
+    On Error GoTo errSalvar
+    dbData.Execute sSQL
+    MsgBox "Registro salvo com sucesso!", vbInformation, "Sucesso"
+    CarregarGrid
+    Exit Sub
+errSalvar:
+    MsgBox "Erro ao salvar: " & Err.Description, vbCritical, "Erro"
+End Sub
+
+Private Sub cmdExcluir_Click()
+    If vID = 0 Then
+        MsgBox "Selecione um registro no grid para excluir!", vbExclamation, "Aviso": Exit Sub
+    End If
+    If MsgBox("Confirma a exclusão da UF '" & txtUF.Text & "'?", _
+              vbQuestion + vbYesNo, "Confirmar") = vbNo Then Exit Sub
+    On Error GoTo errExcluir
+    dbData.Execute "DELETE FROM TribRegraDifalUF WHERE ID=" & vID
+    MsgBox "Registro excluído!", vbInformation, "Sucesso"
+    CarregarGrid
+    Exit Sub
+errExcluir:
+    MsgBox "Erro ao excluir: " & Err.Description, vbCritical, "Erro"
+End Sub
+
+Private Sub cmdLocalizar_Click()
+    CarregarGrid
+End Sub
+
+Private Sub cmdLimpar_Click()
+    txtFiltroUF.Text = ""
+    CarregarGrid
+End Sub
+
+Private Sub LimparCampos()
+    vID = 0
+    vTipo = "Novo"
+    txtUF.Text = ""
+    txtAliqInterna.Text = ""
+    txtAliqFCP.Text = ""
+    txtDtInicio.Text = ""
+    txtDtFim.Text = ""
+    cboTipoCalculo.ListIndex = 1
+    chkFCPCompoeBase.Value = 1
+    txtObservacao.Text = ""
+End Sub

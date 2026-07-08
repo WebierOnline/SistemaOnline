@@ -1,0 +1,36 @@
+Veja o exemplo lógico de como estruturar isso na rotina que varre a sua grade/lista de itens antes de salvar:
+
+Dim AcumuladoIBSUF As Double, AcumuladoIBSMun As Double
+Dim TotalBCEstado As Double, TotalBCMunicipio As Double
+
+' Zere os acumuladores no início da nota
+AcumuladoIBSUF = 0
+AcumuladoIBSMun = 0
+TotalBCEstado = 0
+TotalBCMunicipio = 0
+
+' Dentro do seu loop de gravação dos itens da nota:
+Do While Not GridOuRecordset.EOF
+    
+    ' 1. Acumula a base de cálculo de forma contínua
+    TotalBCEstado = TotalBCEstado + V_IBS_vBC
+    TotalBCMunicipio = TotalBCMunicipio + V_IBS_vBC
+    
+    ' 2. Calcula o imposto ideal para a situação acumulada e subtrai o que já gravou atrás
+    Dim ValorItemUF As Double
+    Dim ValorItemMun As Double
+    
+    ValorItemUF = Round(TotalBCEstado * (V_IBS_UFpAliq / 100), 2) - AcumuladoIBSUF
+    ValorItemMun = Round(TotalBCMunicipio * (V_IBS_MunpAliq / 100), 2) - AcumuladoIBSMun
+    
+    ' 3. Salva nas variáveis do item atual
+    IBS_vIBSUF = ValorItemUF
+    IBS_vIBSMun = ValorItemMun
+    IBS_vIBS = ValorItemUF + ValorItemMun ' Garante a soma perfeita das duas colunas
+    
+    ' 4. Atualiza o acumulador para o próximo item do loop
+    AcumuladoIBSUF = AcumuladoIBSUF + ValorItemUF
+    AcumuladoIBSMun = AcumuladoIBSMun + ValorItemMun
+
+    ' Avança para o próximo item...
+Loop

@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "06:43"
+            TextSave        =   "18:41"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -158,7 +158,7 @@ Begin VB.Form OS_Recapadora
    End
    Begin TabDlg.SSTab SSTab1 
       Height          =   8865
-      Left            =   60
+      Left            =   120
       TabIndex        =   110
       Top             =   720
       Width           =   12630
@@ -166,6 +166,7 @@ Begin VB.Form OS_Recapadora
       _ExtentY        =   15637
       _Version        =   393216
       Tabs            =   6
+      Tab             =   1
       TabsPerRow      =   6
       TabHeight       =   452
       TabMaxWidth     =   2646
@@ -180,55 +181,55 @@ Begin VB.Form OS_Recapadora
       EndProperty
       TabCaption(0)   =   "SITUAÇÃO"
       TabPicture(0)   =   "OS_Recapadora.frx":2441
-      Tab(0).ControlEnabled=   -1  'True
-      Tab(0).Control(0)=   "lblPecasServicos"
+      Tab(0).ControlEnabled=   0   'False
+      Tab(0).Control(0)=   "Text1"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "lblQuantOS"
+      Tab(0).Control(1)=   "Frame6"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "lblSomaDesconto"
+      Tab(0).Control(2)=   "optFinanceiroFechado"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "llblTotalSemDesconto"
+      Tab(0).Control(3)=   "optFinanceiroAberto"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "Label15"
+      Tab(0).Control(4)=   "Text2"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cmdExcluir"
+      Tab(0).Control(5)=   "Grid_OS"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cmdPedidoPDF"
+      Tab(0).Control(6)=   "GridPecasServicos"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cmdOrcamentoPDF"
+      Tab(0).Control(7)=   "cmdEditarOS"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cmdImpGarantia1"
+      Tab(0).Control(8)=   "cmdNovoOS"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cmdImpPedido1"
+      Tab(0).Control(9)=   "cmdFinanceiroOS"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cmdImpOrcamento1"
+      Tab(0).Control(10)=   "cmdImpEntrada1"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "cmdImpEntrada1"
+      Tab(0).Control(11)=   "cmdImpOrcamento1"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "cmdFinanceiroOS"
+      Tab(0).Control(12)=   "cmdImpPedido1"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "cmdNovoOS"
+      Tab(0).Control(13)=   "cmdImpGarantia1"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "cmdEditarOS"
+      Tab(0).Control(14)=   "cmdOrcamentoPDF"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "GridPecasServicos"
+      Tab(0).Control(15)=   "cmdPedidoPDF"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "Grid_OS"
+      Tab(0).Control(16)=   "cmdExcluir"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "Text2"
+      Tab(0).Control(17)=   "Label15"
       Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "optFinanceiroAberto"
+      Tab(0).Control(18)=   "llblTotalSemDesconto"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "optFinanceiroFechado"
+      Tab(0).Control(19)=   "lblSomaDesconto"
       Tab(0).Control(19).Enabled=   0   'False
-      Tab(0).Control(20)=   "Frame6"
+      Tab(0).Control(20)=   "lblQuantOS"
       Tab(0).Control(20).Enabled=   0   'False
-      Tab(0).Control(21)=   "Text1"
+      Tab(0).Control(21)=   "lblPecasServicos"
       Tab(0).Control(21).Enabled=   0   'False
       Tab(0).ControlCount=   22
       TabCaption(1)   =   "CADASTRO"
       TabPicture(1)   =   "OS_Recapadora.frx":245D
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "lblDataAberturaCaixa"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdImpPedido2"
@@ -259,24 +260,17 @@ Begin VB.Form OS_Recapadora
       TabCaption(2)   =   "FINANCEIRO"
       TabPicture(2)   =   "OS_Recapadora.frx":2479
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdFinalizarAP"
-      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(0)=   "frmVendaFechamento"
       Tab(2).Control(1)=   "cmdFinalizarAV"
-      Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "frmVendaFechamento"
-      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(2)=   "cmdFinalizarAP"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   "CONSULTA"
       TabPicture(3)   =   "OS_Recapadora.frx":2495
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblTotalConsulta"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "lblQuant"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "Grid"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "Frame2"
-      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(0)=   "Frame2"
+      Tab(3).Control(1)=   "Grid"
+      Tab(3).Control(2)=   "lblQuant"
+      Tab(3).Control(3)=   "lblTotalConsulta"
       Tab(3).ControlCount=   4
       TabCaption(4)   =   " "
       TabPicture(4)   =   "OS_Recapadora.frx":24B1
@@ -300,9 +294,9 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2955
-         Left            =   -71880
-         TabIndex        =   240
-         Top             =   3180
+         Left            =   7140
+         TabIndex        =   227
+         Top             =   -600
          Visible         =   0   'False
          Width           =   4935
          Begin VB.TextBox txtParecerTecnico 
@@ -310,14 +304,14 @@ Begin VB.Form OS_Recapadora
             Height          =   2295
             Left            =   60
             MultiLine       =   -1  'True
-            TabIndex        =   241
+            TabIndex        =   228
             Top             =   240
             Width           =   4815
          End
          Begin ChamaleonBtn.chameleonButton cmdCancelarParecer 
             Height          =   315
             Left            =   3840
-            TabIndex        =   242
+            TabIndex        =   229
             Top             =   2580
             Width           =   975
             _ExtentX        =   1720
@@ -355,7 +349,7 @@ Begin VB.Form OS_Recapadora
          Begin ChamaleonBtn.chameleonButton cmdSalvarParecer 
             Height          =   315
             Left            =   2820
-            TabIndex        =   243
+            TabIndex        =   230
             Top             =   2580
             Width           =   975
             _ExtentX        =   1720
@@ -406,7 +400,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H80000005&
          Height          =   420
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   112
          Text            =   "ORDEM DE SERVIÇO"
          Top             =   600
@@ -418,15 +412,15 @@ Begin VB.Form OS_Recapadora
          ClipControls    =   0   'False
          ForeColor       =   &H80000008&
          Height          =   375
-         Left            =   120
-         TabIndex        =   229
+         Left            =   -74880
+         TabIndex        =   216
          Top             =   270
          Width           =   4335
          Begin VB.OptionButton optGarantia 
             Caption         =   "Garantia"
             Height          =   195
             Left            =   3300
-            TabIndex        =   233
+            TabIndex        =   220
             Top             =   120
             Width           =   975
          End
@@ -434,7 +428,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Orçamento"
             Height          =   195
             Left            =   2040
-            TabIndex        =   232
+            TabIndex        =   219
             Top             =   120
             Width           =   1215
          End
@@ -442,7 +436,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Serviço"
             Height          =   195
             Left            =   1020
-            TabIndex        =   231
+            TabIndex        =   218
             Top             =   120
             Width           =   855
          End
@@ -450,7 +444,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Todos"
             Height          =   195
             Left            =   120
-            TabIndex        =   230
+            TabIndex        =   217
             Top             =   120
             Value           =   -1  'True
             Width           =   855
@@ -459,14 +453,14 @@ Begin VB.Form OS_Recapadora
       Begin VB.Frame Frame2 
          Height          =   1275
          Left            =   -74880
-         TabIndex        =   212
+         TabIndex        =   199
          Top             =   300
          Width           =   12375
          Begin VB.TextBox txtCodClienteLocalizar 
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   11700
-            TabIndex        =   213
+            TabIndex        =   200
             TabStop         =   0   'False
             Top             =   180
             Visible         =   0   'False
@@ -606,7 +600,7 @@ Begin VB.Form OS_Recapadora
             Height          =   210
             Index           =   4
             Left            =   6240
-            TabIndex        =   248
+            TabIndex        =   234
             Top             =   240
             Width           =   735
          End
@@ -625,7 +619,7 @@ Begin VB.Form OS_Recapadora
             Height          =   210
             Index           =   3
             Left            =   4860
-            TabIndex        =   247
+            TabIndex        =   233
             Top             =   240
             Width           =   1050
          End
@@ -644,7 +638,7 @@ Begin VB.Form OS_Recapadora
             Height          =   210
             Index           =   2
             Left            =   3300
-            TabIndex        =   246
+            TabIndex        =   232
             Top             =   240
             Width           =   1320
          End
@@ -663,7 +657,7 @@ Begin VB.Form OS_Recapadora
             Height          =   210
             Index           =   1
             Left            =   1800
-            TabIndex        =   245
+            TabIndex        =   231
             Top             =   240
             Width           =   900
          End
@@ -682,7 +676,7 @@ Begin VB.Form OS_Recapadora
             Height          =   210
             Index           =   0
             Left            =   60
-            TabIndex        =   214
+            TabIndex        =   201
             Top             =   240
             Width           =   690
          End
@@ -700,7 +694,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          Height          =   5835
          Left            =   -72840
-         TabIndex        =   179
+         TabIndex        =   166
          Top             =   1620
          Visible         =   0   'False
          Width           =   7515
@@ -708,7 +702,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "X"
             Height          =   195
             Left            =   7320
-            TabIndex        =   210
+            TabIndex        =   197
             Top             =   60
             Width           =   195
          End
@@ -716,7 +710,7 @@ Begin VB.Form OS_Recapadora
             BackColor       =   &H00C0FFFF&
             Height          =   855
             Left            =   3960
-            TabIndex        =   207
+            TabIndex        =   194
             Top             =   2880
             Width           =   3435
             Begin VB.TextBox txtRecebido 
@@ -777,7 +771,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   1980
-               TabIndex        =   209
+               TabIndex        =   196
                Top             =   180
                Width           =   570
             End
@@ -796,7 +790,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   120
-               TabIndex        =   208
+               TabIndex        =   195
                Top             =   180
                Width           =   885
             End
@@ -806,7 +800,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Forma Pagamento"
             Height          =   615
             Left            =   3360
-            TabIndex        =   206
+            TabIndex        =   193
             Top             =   240
             Width           =   1695
             Begin VB.ComboBox cboTipoPgto 
@@ -823,7 +817,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Quant. de Forma de Pgto"
             Height          =   615
             Left            =   5100
-            TabIndex        =   205
+            TabIndex        =   192
             Top             =   240
             Width           =   2295
             Begin VB.ComboBox cboQuantForma 
@@ -845,7 +839,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "Usuário"
             Height          =   615
             Left            =   120
-            TabIndex        =   204
+            TabIndex        =   191
             Top             =   240
             Width           =   3195
             Begin VB.TextBox txtFuncAP 
@@ -871,7 +865,7 @@ Begin VB.Form OS_Recapadora
             BackColor       =   &H00C0FFFF&
             Height          =   1455
             Left            =   120
-            TabIndex        =   194
+            TabIndex        =   181
             Top             =   3900
             Width           =   7275
             Begin VB.ComboBox cboformaPgto 
@@ -1003,7 +997,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Forma de Pagamento"
                Height          =   195
                Left            =   4500
-               TabIndex        =   203
+               TabIndex        =   190
                Top             =   180
                Width           =   1515
             End
@@ -1014,7 +1008,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Forma de Pagamento"
                Height          =   195
                Left            =   1200
-               TabIndex        =   202
+               TabIndex        =   189
                Top             =   180
                Width           =   1515
             End
@@ -1024,7 +1018,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Termino:"
                Height          =   195
                Left            =   4080
-               TabIndex        =   201
+               TabIndex        =   188
                Top             =   780
                Width           =   615
             End
@@ -1034,7 +1028,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Valor Parc.:"
                Height          =   195
                Left            =   1620
-               TabIndex        =   200
+               TabIndex        =   187
                Top             =   780
                Width           =   825
             End
@@ -1044,7 +1038,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Quant:"
                Height          =   195
                Left            =   120
-               TabIndex        =   199
+               TabIndex        =   186
                Top             =   780
                Width           =   480
             End
@@ -1054,7 +1048,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Valor Rest."
                Height          =   195
                Left            =   3420
-               TabIndex        =   198
+               TabIndex        =   185
                Top             =   180
                Width           =   780
             End
@@ -1064,7 +1058,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Prazo:"
                Height          =   195
                Left            =   900
-               TabIndex        =   197
+               TabIndex        =   184
                Top             =   780
                Width           =   450
             End
@@ -1074,7 +1068,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Inicio:"
                Height          =   195
                Left            =   2820
-               TabIndex        =   196
+               TabIndex        =   183
                Top             =   780
                Width           =   420
             End
@@ -1085,7 +1079,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Valor:"
                Height          =   195
                Left            =   120
-               TabIndex        =   195
+               TabIndex        =   182
                Top             =   180
                Width           =   405
             End
@@ -1094,7 +1088,7 @@ Begin VB.Form OS_Recapadora
             BackColor       =   &H00C0FFFF&
             Height          =   1815
             Left            =   3960
-            TabIndex        =   180
+            TabIndex        =   167
             Top             =   960
             Width           =   3435
             Begin VB.TextBox txtAcrescDinheiro 
@@ -1141,7 +1135,7 @@ Begin VB.Form OS_Recapadora
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   120
-               TabIndex        =   189
+               TabIndex        =   176
                Top             =   1440
                Visible         =   0   'False
                Width           =   1215
@@ -1153,7 +1147,7 @@ Begin VB.Form OS_Recapadora
                Left            =   1440
                ScaleHeight     =   210
                ScaleWidth      =   1035
-               TabIndex        =   186
+               TabIndex        =   173
                TabStop         =   0   'False
                Top             =   1020
                Width           =   1035
@@ -1162,7 +1156,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "%"
                   Height          =   210
                   Left            =   600
-                  TabIndex        =   188
+                  TabIndex        =   175
                   TabStop         =   0   'False
                   Top             =   0
                   Value           =   -1  'True
@@ -1173,7 +1167,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "R$"
                   Height          =   210
                   Left            =   60
-                  TabIndex        =   187
+                  TabIndex        =   174
                   TabStop         =   0   'False
                   Top             =   0
                   Width           =   555
@@ -1193,7 +1187,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   315
                Left            =   2520
-               TabIndex        =   185
+               TabIndex        =   172
                ToolTipText     =   "Pressiona a tecla ""ENTER"" para desconto em dinheiro."
                Top             =   960
                Width           =   855
@@ -1234,7 +1228,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   315
                Left            =   2520
-               TabIndex        =   184
+               TabIndex        =   171
                ToolTipText     =   "Pressiona a tecla ""ENTER"" para desconto em dinheiro."
                Top             =   600
                Width           =   855
@@ -1268,7 +1262,7 @@ Begin VB.Form OS_Recapadora
                Left            =   1440
                ScaleHeight     =   210
                ScaleWidth      =   1035
-               TabIndex        =   181
+               TabIndex        =   168
                TabStop         =   0   'False
                Top             =   660
                Width           =   1035
@@ -1277,7 +1271,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "%"
                   Height          =   210
                   Left            =   600
-                  TabIndex        =   183
+                  TabIndex        =   170
                   TabStop         =   0   'False
                   Top             =   0
                   Value           =   -1  'True
@@ -1288,7 +1282,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "R$"
                   Height          =   210
                   Left            =   0
-                  TabIndex        =   182
+                  TabIndex        =   169
                   TabStop         =   0   'False
                   Top             =   0
                   Width           =   555
@@ -1309,7 +1303,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   660
-               TabIndex        =   193
+               TabIndex        =   180
                Top             =   960
                Width           =   720
             End
@@ -1328,7 +1322,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   780
-               TabIndex        =   192
+               TabIndex        =   179
                Top             =   600
                Width           =   570
             End
@@ -1347,7 +1341,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   1380
-               TabIndex        =   191
+               TabIndex        =   178
                Top             =   1380
                Width           =   510
             End
@@ -1366,7 +1360,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   195
                Left            =   960
-               TabIndex        =   190
+               TabIndex        =   177
                Top             =   300
                Width           =   840
             End
@@ -1453,7 +1447,7 @@ Begin VB.Form OS_Recapadora
             Caption         =   "POR FAVOR, ENCAMINHE O CLIENTE PARA A GERÊNCIA"
             Height          =   195
             Left            =   120
-            TabIndex        =   211
+            TabIndex        =   198
             Top             =   5400
             Visible         =   0   'False
             Width           =   4365
@@ -1462,16 +1456,16 @@ Begin VB.Form OS_Recapadora
       Begin VB.OptionButton optFinanceiroFechado 
          Caption         =   "Fechado"
          Height          =   195
-         Left            =   11520
-         TabIndex        =   153
+         Left            =   -63480
+         TabIndex        =   140
          Top             =   390
          Width           =   975
       End
       Begin VB.OptionButton optFinanceiroAberto 
          Caption         =   "Aberto"
          Height          =   195
-         Left            =   10680
-         TabIndex        =   152
+         Left            =   -64320
+         TabIndex        =   139
          Top             =   390
          Value           =   -1  'True
          Width           =   795
@@ -1491,8 +1485,8 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H00000080&
          Height          =   360
-         Left            =   -63840
-         TabIndex        =   140
+         Left            =   11160
+         TabIndex        =   129
          TabStop         =   0   'False
          Top             =   7800
          Width           =   1095
@@ -1502,10 +1496,10 @@ Begin VB.Form OS_Recapadora
          Enabled         =   0   'False
          ForeColor       =   &H80000008&
          Height          =   7515
-         Left            =   -74880
+         Left            =   120
          ScaleHeight     =   7485
          ScaleWidth      =   10305
-         TabIndex        =   119
+         TabIndex        =   115
          Top             =   1260
          Width           =   10335
          Begin VB.PictureBox frmTotaisGeral 
@@ -1516,7 +1510,7 @@ Begin VB.Form OS_Recapadora
             Left            =   7560
             ScaleHeight     =   1155
             ScaleWidth      =   2685
-            TabIndex        =   175
+            TabIndex        =   162
             Top             =   6240
             Visible         =   0   'False
             Width           =   2715
@@ -1536,7 +1530,7 @@ Begin VB.Form OS_Recapadora
                Height          =   330
                Left            =   1080
                Locked          =   -1  'True
-               TabIndex        =   178
+               TabIndex        =   165
                TabStop         =   0   'False
                Top             =   420
                Width           =   1575
@@ -1556,7 +1550,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   330
                Left            =   1080
-               TabIndex        =   177
+               TabIndex        =   164
                TabStop         =   0   'False
                Top             =   780
                Width           =   1575
@@ -1577,7 +1571,7 @@ Begin VB.Form OS_Recapadora
                Height          =   315
                Left            =   1080
                Locked          =   -1  'True
-               TabIndex        =   176
+               TabIndex        =   163
                TabStop         =   0   'False
                Top             =   60
                Width           =   1575
@@ -1598,7 +1592,7 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   2
                Left            =   480
-               TabIndex        =   239
+               TabIndex        =   226
                Top             =   780
                Width           =   510
             End
@@ -1618,7 +1612,7 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   1
                Left            =   105
-               TabIndex        =   238
+               TabIndex        =   225
                Top             =   420
                Width           =   885
             End
@@ -1638,20 +1632,19 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   0
                Left            =   210
-               TabIndex        =   237
+               TabIndex        =   224
                Top             =   60
                Width           =   780
             End
          End
          Begin TabDlg.SSTab stProdSer 
-            Height          =   2280
+            Height          =   2340
             Left            =   60
-            TabIndex        =   158
+            TabIndex        =   145
             Top             =   1680
-            Visible         =   0   'False
             Width           =   10155
             _ExtentX        =   17912
-            _ExtentY        =   4022
+            _ExtentY        =   4128
             _Version        =   393216
             Tabs            =   2
             Tab             =   1
@@ -1671,6 +1664,7 @@ Begin VB.Form OS_Recapadora
             TabPicture(0)   =   "OS_Recapadora.frx":6C53
             Tab(0).ControlEnabled=   0   'False
             Tab(0).Control(0)=   "frmServicos"
+            Tab(0).Control(0).Enabled=   0   'False
             Tab(0).ControlCount=   1
             TabCaption(1)   =   "Produtos"
             TabPicture(1)   =   "OS_Recapadora.frx":6C6F
@@ -1691,14 +1685,14 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   1815
                Left            =   120
-               TabIndex        =   169
+               TabIndex        =   156
                Top             =   360
                Width           =   9915
                Begin VB.OptionButton optCodigo 
                   Caption         =   "Código"
                   Height          =   195
                   Left            =   1200
-                  TabIndex        =   251
+                  TabIndex        =   237
                   Top             =   240
                   Width           =   855
                End
@@ -1706,7 +1700,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Cód.Barra"
                   Height          =   195
                   Left            =   60
-                  TabIndex        =   250
+                  TabIndex        =   236
                   Top             =   240
                   Value           =   -1  'True
                   Width           =   1035
@@ -1716,7 +1710,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   315
                   Left            =   5100
                   Locked          =   -1  'True
-                  TabIndex        =   249
+                  TabIndex        =   235
                   TabStop         =   0   'False
                   Top             =   1080
                   Visible         =   0   'False
@@ -1742,7 +1736,7 @@ Begin VB.Form OS_Recapadora
                   Appearance      =   0  'Flat
                   Height          =   255
                   Left            =   3960
-                  TabIndex        =   170
+                  TabIndex        =   157
                   TabStop         =   0   'False
                   Top             =   240
                   Visible         =   0   'False
@@ -1876,7 +1870,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   6
                   Left            =   3900
-                  TabIndex        =   227
+                  TabIndex        =   214
                   Top             =   840
                   Width           =   360
                End
@@ -1887,7 +1881,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   5
                   Left            =   2940
-                  TabIndex        =   226
+                  TabIndex        =   213
                   Top             =   840
                   Width           =   690
                End
@@ -1898,7 +1892,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   4
                   Left            =   1860
-                  TabIndex        =   225
+                  TabIndex        =   212
                   Top             =   840
                   Width           =   585
                End
@@ -1909,7 +1903,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   3
                   Left            =   1140
-                  TabIndex        =   224
+                  TabIndex        =   211
                   Top             =   840
                   Width           =   480
                End
@@ -1920,7 +1914,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   2
                   Left            =   60
-                  TabIndex        =   223
+                  TabIndex        =   210
                   Top             =   840
                   Width           =   360
                End
@@ -1931,7 +1925,7 @@ Begin VB.Form OS_Recapadora
                   Height          =   195
                   Index           =   1
                   Left            =   2160
-                  TabIndex        =   222
+                  TabIndex        =   209
                   Top             =   240
                   Width           =   720
                End
@@ -1950,7 +1944,7 @@ Begin VB.Form OS_Recapadora
                   ForeColor       =   &H000000FF&
                   Height          =   195
                   Left            =   5520
-                  TabIndex        =   171
+                  TabIndex        =   158
                   Top             =   240
                   Width           =   4260
                   WordWrap        =   -1  'True
@@ -1967,17 +1961,25 @@ Begin VB.Form OS_Recapadora
                   Italic          =   0   'False
                   Strikethrough   =   0   'False
                EndProperty
-               Height          =   1815
+               Height          =   1875
                Left            =   -74880
-               TabIndex        =   159
+               TabIndex        =   146
                Top             =   360
                Width           =   9915
+               Begin VB.ComboBox cboMecanicoServ 
+                  Height          =   315
+                  Left            =   7020
+                  Sorted          =   -1  'True
+                  TabIndex        =   238
+                  Top             =   480
+                  Width           =   2115
+               End
                Begin VB.TextBox txtObsServ 
                   Height          =   315
-                  Left            =   60
+                  Left            =   120
                   TabIndex        =   37
-                  Top             =   1080
-                  Width           =   9735
+                  Top             =   1680
+                  Width           =   4455
                End
                Begin VB.TextBox txtSerie 
                   Height          =   315
@@ -2064,7 +2066,7 @@ Begin VB.Form OS_Recapadora
                   Appearance      =   0  'Flat
                   Height          =   285
                   Left            =   3300
-                  TabIndex        =   160
+                  TabIndex        =   147
                   TabStop         =   0   'False
                   Top             =   900
                   Visible         =   0   'False
@@ -2080,7 +2082,7 @@ Begin VB.Form OS_Recapadora
                End
                Begin ChamaleonBtn.chameleonButton cmdRemoverServicosAuto 
                   Height          =   315
-                  Left            =   8820
+                  Left            =   7800
                   TabIndex        =   45
                   Top             =   1440
                   Width           =   975
@@ -2118,7 +2120,7 @@ Begin VB.Form OS_Recapadora
                End
                Begin ChamaleonBtn.chameleonButton cmdAdicionarServicosAuto 
                   Height          =   315
-                  Left            =   7800
+                  Left            =   6780
                   TabIndex        =   44
                   Top             =   1440
                   Width           =   975
@@ -2154,14 +2156,62 @@ Begin VB.Form OS_Recapadora
                   CHECK           =   0   'False
                   VALUE           =   0   'False
                End
+               Begin ChamaleonBtn.chameleonButton cmdEditarServicosAuto 
+                  Height          =   315
+                  Left            =   8820
+                  TabIndex        =   254
+                  Top             =   1440
+                  Width           =   975
+                  _ExtentX        =   1720
+                  _ExtentY        =   556
+                  BTYPE           =   3
+                  TX              =   "Editar"
+                  ENAB            =   0   'False
+                  BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                     Name            =   "MS Sans Serif"
+                     Size            =   8.25
+                     Charset         =   0
+                     Weight          =   400
+                     Underline       =   0   'False
+                     Italic          =   0   'False
+                     Strikethrough   =   0   'False
+                  EndProperty
+                  COLTYPE         =   1
+                  FOCUSR          =   -1  'True
+                  BCOL            =   12632256
+                  BCOLO           =   12632256
+                  FCOL            =   0
+                  FCOLO           =   0
+                  MCOL            =   12632256
+                  MPTR            =   1
+                  MICON           =   "OS_Recapadora.frx":6CFB
+                  UMCOL           =   -1  'True
+                  SOFT            =   0   'False
+                  PICPOS          =   0
+                  NGREY           =   0   'False
+                  FX              =   0
+                  HAND            =   0   'False
+                  CHECK           =   0   'False
+                  VALUE           =   0   'False
+               End
+               Begin VB.Label lblMecanicoServ 
+                  AutoSize        =   -1  'True
+                  BackStyle       =   0  'Transparent
+                  Caption         =   "Mecânico"
+                  Height          =   195
+                  Left            =   7020
+                  TabIndex        =   253
+                  Top             =   240
+                  Width           =   705
+               End
                Begin VB.Label lblObsServ 
                   AutoSize        =   -1  'True
                   BackStyle       =   0  'Transparent
                   Caption         =   "Obs.:"
                   Height          =   195
-                  Left            =   60
-                  TabIndex        =   221
-                  Top             =   840
+                  Left            =   120
+                  TabIndex        =   208
+                  Top             =   1440
                   Width           =   375
                End
                Begin VB.Label lblSerieServ 
@@ -2170,7 +2220,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Série"
                   Height          =   195
                   Left            =   1800
-                  TabIndex        =   220
+                  TabIndex        =   207
                   Top             =   240
                   Width           =   360
                End
@@ -2180,7 +2230,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Fogo"
                   Height          =   195
                   Left            =   2580
-                  TabIndex        =   219
+                  TabIndex        =   206
                   Top             =   240
                   Width           =   360
                End
@@ -2190,7 +2240,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Tipo"
                   Height          =   195
                   Left            =   60
-                  TabIndex        =   218
+                  TabIndex        =   205
                   Top             =   240
                   Width           =   315
                End
@@ -2200,7 +2250,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Fabricante"
                   Height          =   195
                   Left            =   4860
-                  TabIndex        =   168
+                  TabIndex        =   155
                   Top             =   240
                   Width           =   750
                End
@@ -2210,7 +2260,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Dote No."
                   Height          =   195
                   Left            =   3360
-                  TabIndex        =   167
+                  TabIndex        =   154
                   Top             =   240
                   Width           =   645
                End
@@ -2220,7 +2270,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Total"
                   Height          =   195
                   Left            =   8460
-                  TabIndex        =   166
+                  TabIndex        =   153
                   Top             =   840
                   Width           =   360
                End
@@ -2230,7 +2280,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Desconto"
                   Height          =   195
                   Left            =   7380
-                  TabIndex        =   165
+                  TabIndex        =   152
                   Top             =   840
                   Width           =   690
                End
@@ -2240,7 +2290,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Subtotal"
                   Height          =   195
                   Left            =   6000
-                  TabIndex        =   164
+                  TabIndex        =   151
                   Top             =   840
                   Width           =   585
                End
@@ -2250,7 +2300,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Serviços:"
                   Height          =   195
                   Left            =   60
-                  TabIndex        =   163
+                  TabIndex        =   150
                   Top             =   840
                   Width           =   660
                End
@@ -2260,7 +2310,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Quant:"
                   Height          =   195
                   Left            =   5220
-                  TabIndex        =   162
+                  TabIndex        =   149
                   Top             =   840
                   Width           =   480
                End
@@ -2270,7 +2320,7 @@ Begin VB.Form OS_Recapadora
                   Caption         =   "Valor"
                   Height          =   195
                   Left            =   4020
-                  TabIndex        =   161
+                  TabIndex        =   148
                   Top             =   840
                   Width           =   360
                End
@@ -2289,7 +2339,7 @@ Begin VB.Form OS_Recapadora
             EndProperty
             Height          =   1815
             Left            =   60
-            TabIndex        =   143
+            TabIndex        =   130
             Top             =   1680
             Width           =   10155
             Begin VB.TextBox txtPareceCliente 
@@ -2334,13 +2384,13 @@ Begin VB.Form OS_Recapadora
             EndProperty
             Height          =   2655
             Left            =   5160
-            TabIndex        =   149
+            TabIndex        =   136
             Top             =   3540
             Width           =   5055
             Begin ChamaleonBtn.chameleonButton ccmdIncluirSituacao 
                Height          =   315
                Left            =   2400
-               TabIndex        =   157
+               TabIndex        =   144
                Top             =   480
                Width           =   255
                _ExtentX        =   450
@@ -2365,7 +2415,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6CFB
+               MICON           =   "OS_Recapadora.frx":6D17
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2386,7 +2436,7 @@ Begin VB.Form OS_Recapadora
                Appearance      =   0  'Flat
                Height          =   285
                Left            =   1920
-               TabIndex        =   150
+               TabIndex        =   137
                Top             =   180
                Visible         =   0   'False
                Width           =   675
@@ -2432,7 +2482,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6D17
+               MICON           =   "OS_Recapadora.frx":6D33
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2470,7 +2520,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6D33
+               MICON           =   "OS_Recapadora.frx":6D4F
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2486,7 +2536,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Item"
                Height          =   195
                Left            =   60
-               TabIndex        =   151
+               TabIndex        =   138
                Top             =   240
                Width           =   300
             End
@@ -2504,13 +2554,13 @@ Begin VB.Form OS_Recapadora
             EndProperty
             Height          =   2655
             Left            =   60
-            TabIndex        =   144
+            TabIndex        =   131
             Top             =   3540
             Width           =   5055
             Begin ChamaleonBtn.chameleonButton ccmdIncluirAcessório 
                Height          =   315
                Left            =   2400
-               TabIndex        =   156
+               TabIndex        =   143
                Top             =   480
                Width           =   255
                _ExtentX        =   450
@@ -2535,7 +2585,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6D4F
+               MICON           =   "OS_Recapadora.frx":6D6B
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2549,7 +2599,7 @@ Begin VB.Form OS_Recapadora
                Appearance      =   0  'Flat
                Height          =   285
                Left            =   1920
-               TabIndex        =   145
+               TabIndex        =   132
                Top             =   180
                Visible         =   0   'False
                Width           =   675
@@ -2602,7 +2652,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6D6B
+               MICON           =   "OS_Recapadora.frx":6D87
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2640,7 +2690,7 @@ Begin VB.Form OS_Recapadora
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "OS_Recapadora.frx":6D87
+               MICON           =   "OS_Recapadora.frx":6DA3
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2656,7 +2706,7 @@ Begin VB.Form OS_Recapadora
                Caption         =   "Item"
                Height          =   195
                Left            =   60
-               TabIndex        =   146
+               TabIndex        =   133
                Top             =   240
                Width           =   300
             End
@@ -2674,7 +2724,7 @@ Begin VB.Form OS_Recapadora
             EndProperty
             Height          =   975
             Left            =   60
-            TabIndex        =   134
+            TabIndex        =   128
             Top             =   660
             Width           =   10155
             Begin VB.TextBox txtChassi 
@@ -2738,92 +2788,100 @@ Begin VB.Form OS_Recapadora
                Top             =   540
                Width           =   795
             End
-            Begin VB.Label lblChassi 
+            Begin VB.Label lblArray 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Tanque:"
+               Height          =   195
+               Index           =   14
+               Left            =   9180
+               TabIndex        =   252
+               Top             =   300
+               Width           =   600
+            End
+            Begin VB.Label lblArray 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Cor:"
+               Height          =   195
+               Index           =   13
+               Left            =   7920
+               TabIndex        =   251
+               Top             =   300
+               Width           =   285
+            End
+            Begin VB.Label lblArray 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
                Caption         =   "Chassi:"
                Height          =   195
-               Left            =   6150
-               TabIndex        =   244
+               Index           =   12
+               Left            =   6180
+               TabIndex        =   250
                Top             =   300
                Width           =   510
             End
-            Begin VB.Label lblFabricante 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Fabricante:"
-               Height          =   195
-               Left            =   60
-               TabIndex        =   137
-               Top             =   300
-               Width           =   795
-            End
-            Begin VB.Label lblModelo 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Modelo:"
-               Height          =   195
-               Left            =   1962
-               TabIndex        =   136
-               Top             =   300
-               Width           =   570
-            End
-            Begin VB.Label lblTanque 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Tanque"
-               Height          =   195
-               Left            =   9160
-               TabIndex        =   142
-               Top             =   300
-               Width           =   555
-            End
-            Begin VB.Label lblCor 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Cor"
-               Height          =   195
-               Left            =   7932
-               TabIndex        =   141
-               Top             =   300
-               Width           =   240
-            End
-            Begin VB.Label lblKM 
+            Begin VB.Label lblArray 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
                Caption         =   "KM:"
                Height          =   195
-               Left            =   5328
-               TabIndex        =   139
+               Index           =   11
+               Left            =   5340
+               TabIndex        =   249
                Top             =   300
                Width           =   285
             End
-            Begin VB.Label lblPlaca 
+            Begin VB.Label lblArray 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
                Caption         =   "Placa:"
                Height          =   195
-               Left            =   4386
-               TabIndex        =   138
+               Index           =   10
+               Left            =   4440
+               TabIndex        =   248
                Top             =   300
                Width           =   450
             End
-            Begin VB.Label lblAno 
+            Begin VB.Label lblArray 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
                Caption         =   "Ano:"
                Height          =   195
-               Left            =   3564
-               TabIndex        =   135
+               Index           =   9
+               Left            =   3600
+               TabIndex        =   247
                Top             =   300
                Width           =   330
+            End
+            Begin VB.Label lblArray 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Modelo:"
+               Height          =   195
+               Index           =   8
+               Left            =   1980
+               TabIndex        =   246
+               Top             =   300
+               Width           =   570
+            End
+            Begin VB.Label lblArray 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Fabricante:"
+               Height          =   195
+               Index           =   7
+               Left            =   60
+               TabIndex        =   245
+               Top             =   300
+               Width           =   795
             End
          End
          Begin VB.TextBox txtCodCliente 
             Appearance      =   0  'Flat
             Height          =   255
             Left            =   6300
-            TabIndex        =   126
+            TabIndex        =   122
             TabStop         =   0   'False
             Top             =   60
             Visible         =   0   'False
@@ -2833,7 +2891,7 @@ Begin VB.Form OS_Recapadora
             Appearance      =   0  'Flat
             Height          =   255
             Left            =   1200
-            TabIndex        =   125
+            TabIndex        =   121
             TabStop         =   0   'False
             Top             =   60
             Visible         =   0   'False
@@ -2867,7 +2925,7 @@ Begin VB.Form OS_Recapadora
             EndProperty
             Height          =   2775
             Left            =   60
-            TabIndex        =   124
+            TabIndex        =   120
             Top             =   3420
             Width           =   10155
             Begin MSFlexGridLib.MSFlexGrid Grid_Servicos 
@@ -2902,7 +2960,7 @@ Begin VB.Form OS_Recapadora
             Left            =   60
             ScaleHeight     =   1155
             ScaleWidth      =   2625
-            TabIndex        =   120
+            TabIndex        =   116
             Top             =   6240
             Visible         =   0   'False
             Width           =   2655
@@ -2920,7 +2978,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   330
                Left            =   900
-               TabIndex        =   174
+               TabIndex        =   161
                TabStop         =   0   'False
                Top             =   780
                Width           =   435
@@ -2941,7 +2999,7 @@ Begin VB.Form OS_Recapadora
                Height          =   315
                Left            =   900
                Locked          =   -1  'True
-               TabIndex        =   173
+               TabIndex        =   160
                TabStop         =   0   'False
                Top             =   420
                Width           =   435
@@ -2962,7 +3020,7 @@ Begin VB.Form OS_Recapadora
                Height          =   315
                Left            =   900
                Locked          =   -1  'True
-               TabIndex        =   172
+               TabIndex        =   159
                TabStop         =   0   'False
                Top             =   60
                Width           =   435
@@ -2983,7 +3041,7 @@ Begin VB.Form OS_Recapadora
                Height          =   315
                Left            =   1380
                Locked          =   -1  'True
-               TabIndex        =   123
+               TabIndex        =   119
                TabStop         =   0   'False
                Top             =   60
                Width           =   1215
@@ -3002,7 +3060,7 @@ Begin VB.Form OS_Recapadora
                EndProperty
                Height          =   330
                Left            =   1380
-               TabIndex        =   122
+               TabIndex        =   118
                TabStop         =   0   'False
                Top             =   780
                Width           =   1215
@@ -3023,7 +3081,7 @@ Begin VB.Form OS_Recapadora
                Height          =   330
                Left            =   1380
                Locked          =   -1  'True
-               TabIndex        =   121
+               TabIndex        =   117
                TabStop         =   0   'False
                Top             =   420
                Width           =   1215
@@ -3044,7 +3102,7 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   5
                Left            =   60
-               TabIndex        =   236
+               TabIndex        =   223
                Top             =   780
                Width           =   780
             End
@@ -3064,7 +3122,7 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   4
                Left            =   255
-               TabIndex        =   235
+               TabIndex        =   222
                Top             =   420
                Width           =   585
             End
@@ -3084,10 +3142,32 @@ Begin VB.Form OS_Recapadora
                Height          =   195
                Index           =   3
                Left            =   30
-               TabIndex        =   234
+               TabIndex        =   221
                Top             =   60
                Width           =   810
             End
+         End
+         Begin VB.Label lblArray 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Cliente"
+            Height          =   195
+            Index           =   6
+            Left            =   2400
+            TabIndex        =   244
+            Top             =   60
+            Width           =   480
+         End
+         Begin VB.Label lblArray 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Recepcionista"
+            Height          =   195
+            Index           =   5
+            Left            =   60
+            TabIndex        =   243
+            Top             =   60
+            Width           =   1020
          End
          Begin VB.Label lblValidade 
             Appearance      =   0  'Flat
@@ -3096,37 +3176,17 @@ Begin VB.Form OS_Recapadora
             ForeColor       =   &H80000008&
             Height          =   315
             Left            =   4920
-            TabIndex        =   129
+            TabIndex        =   123
             Top             =   6660
             Visible         =   0   'False
             Width           =   1875
-         End
-         Begin VB.Label Label3 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Cliente"
-            Height          =   195
-            Left            =   2400
-            TabIndex        =   128
-            Top             =   60
-            Width           =   480
-         End
-         Begin VB.Label Label8 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Recepcionista"
-            Height          =   195
-            Left            =   60
-            TabIndex        =   127
-            Top             =   60
-            Width           =   1020
          End
       End
       Begin VB.PictureBox frmPrincipal 
          Appearance      =   0  'Flat
          ForeColor       =   &H80000008&
          Height          =   795
-         Left            =   -74880
+         Left            =   120
          ScaleHeight     =   765
          ScaleWidth      =   10305
          TabIndex        =   31
@@ -3214,9 +3274,9 @@ Begin VB.Form OS_Recapadora
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "OS_Recapadora.frx":6DA3
-            PICN            =   "OS_Recapadora.frx":6DBF
-            PICH            =   "OS_Recapadora.frx":9112
+            MICON           =   "OS_Recapadora.frx":6DBF
+            PICN            =   "OS_Recapadora.frx":6DDB
+            PICH            =   "OS_Recapadora.frx":912E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3256,9 +3316,9 @@ Begin VB.Form OS_Recapadora
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "OS_Recapadora.frx":B465
-            PICN            =   "OS_Recapadora.frx":B481
-            PICH            =   "OS_Recapadora.frx":D7D4
+            MICON           =   "OS_Recapadora.frx":B481
+            PICN            =   "OS_Recapadora.frx":B49D
+            PICH            =   "OS_Recapadora.frx":D7F0
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3315,84 +3375,60 @@ Begin VB.Form OS_Recapadora
             _Version        =   393216
             PromptChar      =   "_"
          End
-         Begin VB.Label Label5 
+         Begin VB.Label lblArray 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Saída (Previsão)"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   195
+            Index           =   4
             Left            =   8280
-            TabIndex        =   118
+            TabIndex        =   242
             Top             =   60
-            Width           =   1440
+            Width           =   1185
          End
-         Begin VB.Label Label1 
+         Begin VB.Label lblArray 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Entrada"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00000000&
             Height          =   195
+            Index           =   3
             Left            =   6360
-            TabIndex        =   117
+            TabIndex        =   241
             Top             =   60
-            Width           =   675
+            Width           =   555
          End
-         Begin VB.Label Label9 
+         Begin VB.Label lblArray 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Tipo de Serviço"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
             Height          =   195
+            Index           =   2
             Left            =   4200
-            TabIndex        =   116
+            TabIndex        =   240
             Top             =   60
-            Width           =   1365
+            Width           =   1125
          End
-         Begin VB.Label Label13 
+         Begin VB.Label lblArray 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Responsável"
+            Height          =   195
+            Index           =   1
+            Left            =   1860
+            TabIndex        =   239
+            Top             =   60
+            Width           =   930
+         End
+         Begin VB.Label lblArray 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Status"
             Height          =   195
+            Index           =   0
             Left            =   60
-            TabIndex        =   115
-            Top             =   60
-            Width           =   450
-         End
-         Begin VB.Label lblMecanico 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Responsável"
-            Enabled         =   0   'False
-            Height          =   195
-            Left            =   1860
             TabIndex        =   114
             Top             =   60
-            Width           =   930
+            Width           =   450
          End
       End
       Begin VB.TextBox Text2 
@@ -3410,7 +3446,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H80000005&
          Height          =   420
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   111
          Text            =   "PEÇAS / SERVIÇOS"
          Top             =   5700
@@ -3418,7 +3454,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_OS 
          Height          =   3915
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   0
          Top             =   1020
          Width           =   12495
@@ -3439,7 +3475,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarEntrada 
          Height          =   615
-         Left            =   -64485
+         Left            =   10515
          TabIndex        =   67
          Top             =   1740
          Width           =   1995
@@ -3465,8 +3501,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":FB27
-         PICN            =   "OS_Recapadora.frx":FB43
+         MICON           =   "OS_Recapadora.frx":FB43
+         PICN            =   "OS_Recapadora.frx":FB5F
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3478,7 +3514,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -64485
+         Left            =   10515
          TabIndex        =   68
          Top             =   2400
          Width           =   1995
@@ -3504,8 +3540,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":118D5
-         PICN            =   "OS_Recapadora.frx":118F1
+         MICON           =   "OS_Recapadora.frx":118F1
+         PICN            =   "OS_Recapadora.frx":1190D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3517,7 +3553,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdApagar 
          Height          =   615
-         Left            =   -64485
+         Left            =   10515
          TabIndex        =   69
          Top             =   3060
          Width           =   1995
@@ -3543,8 +3579,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":13683
-         PICN            =   "OS_Recapadora.frx":1369F
+         MICON           =   "OS_Recapadora.frx":1369F
+         PICN            =   "OS_Recapadora.frx":136BB
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3556,7 +3592,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdGerarEntrada 
          Height          =   615
-         Left            =   -64500
+         Left            =   10500
          TabIndex        =   66
          Top             =   1080
          Width           =   1995
@@ -3582,8 +3618,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":15431
-         PICN            =   "OS_Recapadora.frx":1544D
+         MICON           =   "OS_Recapadora.frx":1544D
+         PICN            =   "OS_Recapadora.frx":15469
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3595,7 +3631,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -64500
+         Left            =   10500
          TabIndex        =   10
          Top             =   360
          Width           =   1995
@@ -3621,8 +3657,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":171DF
-         PICN            =   "OS_Recapadora.frx":171FB
+         MICON           =   "OS_Recapadora.frx":171FB
+         PICN            =   "OS_Recapadora.frx":17217
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3634,8 +3670,8 @@ Begin VB.Form OS_Recapadora
       End
       Begin MSFlexGridLib.MSFlexGrid GridPecasServicos 
          Height          =   2415
-         Left            =   120
-         TabIndex        =   130
+         Left            =   -74880
+         TabIndex        =   124
          TabStop         =   0   'False
          Top             =   6120
          Width           =   12375
@@ -3647,7 +3683,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdEditarOS 
          Height          =   375
-         Left            =   1020
+         Left            =   -73980
          TabIndex        =   2
          Top             =   5100
          Width           =   795
@@ -3655,44 +3691,6 @@ Begin VB.Form OS_Recapadora
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Alterar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   13160660
-         BCOLO           =   13160660
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":18F8D
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdNovoOS 
-         Height          =   375
-         Left            =   120
-         TabIndex        =   1
-         Top             =   5100
-         Width           =   855
-         _ExtentX        =   1508
-         _ExtentY        =   661
-         BTYPE           =   3
-         TX              =   "Novo"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3721,16 +3719,16 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdFinanceiroOS 
+      Begin ChamaleonBtn.chameleonButton cmdNovoOS 
          Height          =   375
-         Left            =   1860
-         TabIndex        =   3
+         Left            =   -74880
+         TabIndex        =   1
          Top             =   5100
-         Width           =   975
-         _ExtentX        =   1720
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   661
          BTYPE           =   3
-         TX              =   "Financeiro"
+         TX              =   "Novo"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3759,9 +3757,47 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdFinanceiroOS 
+         Height          =   375
+         Left            =   -73140
+         TabIndex        =   3
+         Top             =   5100
+         Width           =   975
+         _ExtentX        =   1720
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "Financeiro"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":18FE1
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin ChamaleonBtn.chameleonButton cmdImpEntrada2 
          Height          =   615
-         Left            =   -64500
+         Left            =   10500
          TabIndex        =   70
          Top             =   4260
          Width           =   1995
@@ -3787,8 +3823,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":18FE1
-         PICN            =   "OS_Recapadora.frx":18FFD
+         MICON           =   "OS_Recapadora.frx":18FFD
+         PICN            =   "OS_Recapadora.frx":19019
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3800,7 +3836,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpOrcamento2 
          Height          =   615
-         Left            =   -64500
+         Left            =   10500
          TabIndex        =   71
          Top             =   4920
          Width           =   1995
@@ -3826,8 +3862,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":19317
-         PICN            =   "OS_Recapadora.frx":19333
+         MICON           =   "OS_Recapadora.frx":19333
+         PICN            =   "OS_Recapadora.frx":1934F
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3839,7 +3875,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpEntrada1 
          Height          =   375
-         Left            =   2880
+         Left            =   -72120
          TabIndex        =   4
          Top             =   5100
          Width           =   1455
@@ -3847,44 +3883,6 @@ Begin VB.Form OS_Recapadora
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Imprimir Entrada"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   13160660
-         BCOLO           =   13160660
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":1964D
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdImpOrcamento1 
-         Height          =   375
-         Left            =   4380
-         TabIndex        =   5
-         Top             =   5100
-         Width           =   1455
-         _ExtentX        =   2566
-         _ExtentY        =   661
-         BTYPE           =   3
-         TX              =   "Imprimir Orçamento"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3913,13 +3911,13 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdImpPedido1 
+      Begin ChamaleonBtn.chameleonButton cmdImpOrcamento1 
          Height          =   375
-         Left            =   7260
-         TabIndex        =   7
+         Left            =   -70620
+         TabIndex        =   5
          Top             =   5100
-         Width           =   1275
-         _ExtentX        =   2249
+         Width           =   1455
+         _ExtentX        =   2566
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Imprimir Pedido"
@@ -3951,9 +3949,47 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdImpPedido1 
+         Height          =   375
+         Left            =   -67740
+         TabIndex        =   7
+         Top             =   5100
+         Width           =   1275
+         _ExtentX        =   2249
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "Imprimir Pedido"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":196A1
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin ChamaleonBtn.chameleonButton cmdImpPedido2 
          Height          =   615
-         Left            =   -64500
+         Left            =   10500
          TabIndex        =   72
          Top             =   5580
          Width           =   1995
@@ -3979,8 +4015,8 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":196A1
-         PICN            =   "OS_Recapadora.frx":196BD
+         MICON           =   "OS_Recapadora.frx":196BD
+         PICN            =   "OS_Recapadora.frx":196D9
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3992,7 +4028,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpGarantia1 
          Height          =   375
-         Left            =   9840
+         Left            =   -65160
          TabIndex        =   9
          Top             =   5100
          Width           =   855
@@ -4001,44 +4037,6 @@ Begin VB.Form OS_Recapadora
          BTYPE           =   3
          TX              =   "Garantia"
          ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   13160660
-         BCOLO           =   13160660
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":199D7
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdOrcamentoPDF 
-         Height          =   375
-         Left            =   5880
-         TabIndex        =   6
-         Top             =   5100
-         Width           =   1335
-         _ExtentX        =   2355
-         _ExtentY        =   661
-         BTYPE           =   3
-         TX              =   "Orçamento PDF"
-         ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -4066,9 +4064,47 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdOrcamentoPDF 
+         Height          =   375
+         Left            =   -69120
+         TabIndex        =   6
+         Top             =   5100
+         Width           =   1335
+         _ExtentX        =   2355
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "Orçamento PDF"
+         ENAB            =   0   'False
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":19A0F
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin ChamaleonBtn.chameleonButton cmdPedidoPDF 
          Height          =   375
-         Left            =   8580
+         Left            =   -66420
          TabIndex        =   8
          Top             =   5100
          Width           =   1215
@@ -4094,7 +4130,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":19A0F
+         MICON           =   "OS_Recapadora.frx":19A2B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4133,7 +4169,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":19A2B
+         MICON           =   "OS_Recapadora.frx":19A47
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4172,7 +4208,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":19A47
+         MICON           =   "OS_Recapadora.frx":19A63
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4185,7 +4221,7 @@ Begin VB.Form OS_Recapadora
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   6855
          Left            =   -74880
-         TabIndex        =   215
+         TabIndex        =   202
          Top             =   1680
          Width           =   12375
          _ExtentX        =   21828
@@ -4196,8 +4232,8 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   375
-         Left            =   10740
-         TabIndex        =   228
+         Left            =   -64260
+         TabIndex        =   215
          Top             =   5100
          Width           =   855
          _ExtentX        =   1508
@@ -4222,7 +4258,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":19A63
+         MICON           =   "OS_Recapadora.frx":19A7F
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4247,7 +4283,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          Height          =   195
          Left            =   -74880
-         TabIndex        =   217
+         TabIndex        =   204
          Top             =   8580
          Width           =   225
       End
@@ -4267,7 +4303,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          Height          =   195
          Left            =   -62760
-         TabIndex        =   216
+         TabIndex        =   203
          Top             =   8580
          Width           =   225
       End
@@ -4287,8 +4323,8 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H000000FF&
          Height          =   195
-         Left            =   -63960
-         TabIndex        =   155
+         Left            =   11040
+         TabIndex        =   142
          Top             =   6600
          Width           =   1035
       End
@@ -4296,8 +4332,8 @@ Begin VB.Form OS_Recapadora
          AutoSize        =   -1  'True
          Caption         =   "Financeiro:"
          Height          =   195
-         Left            =   9780
-         TabIndex        =   154
+         Left            =   -65220
+         TabIndex        =   141
          Top             =   390
          Width           =   780
       End
@@ -4316,8 +4352,8 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   8880
-         TabIndex        =   148
+         Left            =   -66120
+         TabIndex        =   135
          Top             =   8540
          Width           =   225
       End
@@ -4336,8 +4372,8 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   9840
-         TabIndex        =   147
+         Left            =   -65160
+         TabIndex        =   134
          Top             =   8540
          Width           =   225
       End
@@ -4354,7 +4390,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          Height          =   195
          Left            =   -74880
-         TabIndex        =   133
+         TabIndex        =   127
          Top             =   8040
          Width           =   75
       End
@@ -4372,8 +4408,8 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   12300
-         TabIndex        =   132
+         Left            =   -62700
+         TabIndex        =   126
          Top             =   4980
          Width           =   225
       End
@@ -4392,8 +4428,8 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   10980
-         TabIndex        =   131
+         Left            =   -64020
+         TabIndex        =   125
          Top             =   8540
          Width           =   225
       End
@@ -4485,6 +4521,8 @@ Dim bImprAP As Integer
 Dim bConfImprAP As Boolean
 Dim vTabelaServico As String
 Dim printSQL As String
+Dim vCodMecanicoServ As String
+Dim vCodItemServicoEditando As String
 
 Dim NumCopias As Integer
 Dim ii As Integer
@@ -4643,13 +4681,22 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática"
     txtDescServicoAuto.Top = 480
     txtTotalServicoAuto.Top = 480
     
-    cmdAdicionarServicosAuto.Left = 7800
-    cmdRemoverServicosAuto.Left = 8820
+    lblMecanicoServ.Left = 60
+    lblMecanicoServ.Top = 840
+    cboMecanicoServ.Left = 60
+    cboMecanicoServ.Top = 1080
+    
+    cmdAdicionarServicosAuto.Left = 6780
+    cmdRemoverServicosAuto.Left = 7800
+    cmdEditarServicosAuto.Left = 8820
     
     cmdAdicionarServicosAuto.Top = 840
     cmdRemoverServicosAuto.Top = 840
+    cmdEditarServicosAuto.Top = 840
     txtTotalServicoAuto.Width = 1335
+    
     frmServicos.Caption = "Serviços"
+    
 ElseIf vTipoOS = "Comunicação Visual" Then
     lblMarca.Visible = False
     lblDote.Visible = False
@@ -4779,14 +4826,14 @@ txtTotalGeral.Text = Format(0, ocMONEY)
 End Sub
 
 Private Sub Mostrar_Equipamento_Automoveis()
-lblFabricante.Visible = True
-lblModelo.Visible = True
-lblAno.Visible = True
-lblPlaca.Visible = True
-lblKM.Visible = True
-lblChassi.Visible = True
-lblCor.Visible = True
-lblTanque.Visible = True
+lblArray(7).Visible = True
+lblArray(8).Visible = True
+lblArray(9).Visible = True
+lblArray(10).Visible = True
+lblArray(11).Visible = True
+lblArray(12).Visible = True
+lblArray(13).Visible = True
+lblArray(14).Visible = True
 cboFabricante.Visible = True
 cboModelo.Visible = True
 txtAno.Visible = True
@@ -4805,32 +4852,32 @@ txtChassi.Left = 6150
 cboCor.Left = 7932
 cboTanque.Left = 9180
 
-'lblFabricante.Top = 300
-'lblFabricante.Left = 60
+'lblArray(7).Top = 300
+'lblArray(7).Left = 60
 'cboFabricante.Top = 540
 'cboFabricante.Left = 60
 
-'lblModelo.Top = 300
-'lblModelo.Left = 2640
+'lblArray(8).Top = 300
+'lblArray(8).Left = 2640
 'cboModelo.Top = 540
 'cboModelo.Left = 2640
 
-'lblTanque.Top = 300
-'lblTanque.Left = 9240
+'lblArray(14).Top = 300
+'lblArray(14).Left = 9240
 'cboTanque.Top = 540
 'cboTanque.Left = 9240
 'cboTanque.Width = 855
-lblTanque.Caption = "Tanque"
+lblArray(14).Caption = "Tanque"
 End Sub
 
 Private Sub Mostrar_Equipamentos_Informatica()
-lblFabricante.Visible = True
-lblModelo.Visible = True
-lblAno.Visible = False
-lblPlaca.Visible = False
-lblKM.Visible = False
-lblCor.Visible = False
-lblTanque.Visible = True
+lblArray(7).Visible = True
+lblArray(8).Visible = True
+lblArray(9).Visible = False
+lblArray(10).Visible = False
+lblArray(11).Visible = False
+lblArray(13).Visible = False
+lblArray(14).Visible = True
 cboFabricante.Visible = True
 cboModelo.Visible = True
 txtAno.Visible = False
@@ -4839,19 +4886,19 @@ txtKM.Visible = False
 cboCor.Visible = False
 cboTanque.Visible = True
 
-lblFabricante.Top = 300
-lblFabricante.Left = 3840
+lblArray(7).Top = 300
+lblArray(7).Left = 3840
 cboFabricante.Top = 540
 cboFabricante.Left = 3840
 
-lblModelo.Top = 300
-lblModelo.Left = 6420
+lblArray(8).Top = 300
+lblArray(8).Left = 6420
 cboModelo.Top = 540
 cboModelo.Left = 6420
 
-lblTanque.Top = 300
-lblTanque.Left = 60
-lblTanque.Caption = "Equipamento"
+lblArray(14).Top = 300
+lblArray(14).Left = 60
+lblArray(14).Caption = "Equipamento"
 cboTanque.Top = 540
 cboTanque.Left = 60
 cboTanque.Width = 3735
@@ -5170,6 +5217,8 @@ txtSerie.Text = ""
 txtFogo.Text = ""
 cboMarca.Text = ""
 txtObsServ.Text = ""
+cboMecanicoServ.Text = ""
+vCodMecanicoServ = ""
 End Sub
 
 
@@ -5219,6 +5268,43 @@ End If
 End Sub
 
 
+Private Sub Grid_Servicos_DblClick()
+If vTipoOS <> "Automóveis" And vTipoOS <> "Motocicletas" And vTipoOS <> "Informática" And vTipoOS <> "Celular" Then Exit Sub
+If Grid_Servicos.Row = 0 Then Exit Sub
+If Grid_Servicos.TextMatrix(Grid_Servicos.Row, 1) = "" Then Exit Sub
+If Grid_Servicos.TextMatrix(Grid_Servicos.Row, 2) <> "SERVIÇO" Then Exit Sub
+
+vCodItemServicoEditando = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9)
+txtCodServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 13)
+vServico = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 3)
+cboServicosAuto.Text = vServico
+mskValorServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 4)
+txtQuantServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)
+txtSubTotalServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 6)
+txtDescServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 7)
+txtTotalServicoAuto.Text = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 8)
+
+Dim vCodMecEdit As String
+vCodMecEdit = Grid_Servicos.TextMatrix(Grid_Servicos.Row, 11)
+If vCodMecEdit <> "" Then
+    sSQL = "SELECT nome FROM funcionario WHERE (codigo = " & vCodMecEdit & ");"
+    Set r = dbData.OpenRecordset(sSQL)
+    If Not r.EOF Then
+        cboMecanicoServ.Text = r("nome")
+        vCodMecanicoServ = vCodMecEdit
+    End If
+    If r.State <> 0 Then r.Close
+    Set r = Nothing
+Else
+    cboMecanicoServ.Text = ""
+    vCodMecanicoServ = ""
+End If
+
+cmdEditarServicosAuto.Enabled = True
+cmdAdicionarServicosAuto.Enabled = False
+cmdRemoverServicosAuto.Enabled = False
+End Sub
+
 Private Sub MostrarGrid_Servicos()
 If txtCodOS.Text = "" Then txtCodOS.Text = 0
 If txtCodPedido.Text = "" Then txtCodPedido.Text = 0
@@ -5232,9 +5318,9 @@ If txtCodPedido.Text = "" Then txtCodPedido.Text = 0
 'End If
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-    sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL, CODIGO AS var_CODITEM, '' as var_CODPROD FROM OS_Servicos_Auto WHERE (COD_OS = " & txtCodOS.Text & ")" & _
+    sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL, CODIGO AS var_CODITEM, '' as var_CODPROD, cod_mecanico, (SELECT nome FROM funcionario WHERE funcionario.codigo = OS_Servicos_Auto.cod_mecanico) AS var_nomemecanico, cod_servico FROM OS_Servicos_Auto WHERE (COD_OS = " & txtCodOS.Text & ")" & _
           " UNION ALL "
-    sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL, pedidos_itens.CODIGO AS var_CODITEM, pedidos_itens.COD_PRODUTO as var_CODPROD " & _
+    sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL, pedidos_itens.CODIGO AS var_CODITEM, pedidos_itens.COD_PRODUTO as var_CODPROD, NULL as cod_mecanico, NULL as var_nomemecanico, NULL as cod_servico " & _
              "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
              "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
              "WHERE (pedidos_itens.cod_pedido = " & txtCodPedido.Text & ") "
@@ -5279,7 +5365,7 @@ Dim QUANT As Integer
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
     With Grid_Servicos
        .Clear
-       .Cols = 11
+       .Cols = 14
        .Rows = 2
        
        .ColWidth(0) = 0
@@ -5293,6 +5379,9 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática"
        .ColWidth(8) = 1100
        .ColWidth(9) = 0
        .ColWidth(10) = 0
+       .ColWidth(11) = 0
+       .ColWidth(12) = 1300
+       .ColWidth(13) = 0
        
        For i = 0 To .Cols - 1
           .Col = i
@@ -5310,6 +5399,9 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática"
        .TextMatrix(0, 8) = "TOTAL"
        .TextMatrix(0, 9) = "ITEM"
        .TextMatrix(0, 10) = "PROD"
+       .TextMatrix(0, 11) = "MEC"
+       .TextMatrix(0, 12) = "MECÂNICO"
+       .TextMatrix(0, 13) = "CODSERV"
     
        .Redraw = False
        
@@ -5325,6 +5417,9 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática"
              .TextMatrix(.Rows - 1, 8) = Format(rTabela("var_total"), ocMONEY)
              .TextMatrix(.Rows - 1, 9) = rTabela("var_CODITEM")
              .TextMatrix(.Rows - 1, 10) = rTabela("var_CODPROD")
+             .TextMatrix(.Rows - 1, 11) = ValidateNull(rTabela("cod_mecanico"))
+             .TextMatrix(.Rows - 1, 12) = ValidateNull(rTabela("var_nomemecanico"))
+             .TextMatrix(.Rows - 1, 13) = ValidateNull(rTabela("cod_servico"))
              
              rTabela.MoveNext
              .Rows = .Rows + 1
@@ -5768,6 +5863,10 @@ ElseIf vTipoOS = "Comunicação Visual" Then
 'SELECT DISTINCT OS.COD_OS, cliente.Nome, OS.COD_PEDIDO, OS.DATA_ENTRADA, OS.HORA_ENTRADA, OS.STATUS AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_Financeiro, OS.STATUS_OS, OS.STATUS, OS.SUBTOTAL, OS.TOTAL, OS.TIPO_PAGAMENTO, OS.PAGAMENTO, OS.ValorDescReal
 'FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE
       'Debug.Print sSQL
+Else
+    FormatarGrid_OS_Situacao Nothing
+    lblQuantOS.Caption = 0
+    Exit Sub
 End If
 
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
@@ -5899,6 +5998,10 @@ ElseIf vTipoOS = "Comunicação Visual" Then
                 "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
                 "ORDER BY " & INDICE
     End If
+Else
+    FormatarGrid_OS Nothing
+    lblQuant.Caption = "QUANTIDADE: " & Format(0, "000")
+    Exit Sub
 End If
 'Debug.Print sSQL
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
@@ -6459,6 +6562,49 @@ TrataErro:
    If Err.Number = 381 Then Exit Sub
 End Sub
 
+Private Sub cboMecanicoServ_GotFocus()
+Dim varNomeAntes As String
+Dim varCodAntes As String
+
+varNomeAntes = cboMecanicoServ.Text
+varCodAntes = vCodMecanicoServ
+
+cboMecanicoServ.Clear
+
+sSQL = "SELECT DISTINCT nome, codigo FROM funcionario order by nome;"
+Set r = dbData.OpenRecordset(sSQL)
+
+Do While Not r.EOF
+   cboMecanicoServ.AddItem r("nome")
+   cboMecanicoServ.ItemData(cboMecanicoServ.NewIndex) = r("codigo")
+   r.MoveNext
+Loop
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+cboMecanicoServ.Text = varNomeAntes
+vCodMecanicoServ = varCodAntes
+
+moCombo.AttachTo cboMecanicoServ
+End Sub
+
+Private Sub cboMecanicoServ_KeyPress(KeyAscii As Integer)
+   KeyAscii = Asc(UCase(Chr(KeyAscii)))
+End Sub
+
+Private Sub cboMecanicoServ_LostFocus()
+   On Error GoTo TrataErro
+   
+   If cboMecanicoServ.Text = "" Then vCodMecanicoServ = "": Exit Sub
+   
+   vCodMecanicoServ = cboMecanicoServ.ItemData(cboMecanicoServ.ListIndex)
+   Exit Sub
+   
+TrataErro:
+   If Err.Number = 381 Then Exit Sub
+End Sub
+
 Private Sub cboFabricante_KeyPress(KeyAscii As Integer)
    KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
@@ -6721,23 +6867,53 @@ End Sub
 Private Sub cboStatus_Change()
 If cboStatus.Text = "À COMEÇAR" Then
    'cmdImprimirEntrada.Enabled = False
-   lblMecanico.Enabled = False
+   lblArray(1).Enabled = False
    cboMecanico.Enabled = False
    cmdFinalizarAP.Visible = False
    cmdFinalizarAV.Visible = False
    frmServicos.Enabled = True
+   stProdSer.Visible = False
+   frmParecerCliente.Visible = True
+   frmAcessorios.Visible = True
+   frmSituacao.Visible = True
+   frmGridServicos.Visible = False
+   frmTotaisGeral.Visible = False
+   frmTotaisProdServ.Visible = False
+   cmdImpEntrada2.Enabled = False
+   cmdImpOrcamento2.Enabled = False
+   cmdImpPedido2.Enabled = False
 ElseIf cboStatus.Text = "EM EXECUÇÃO" Or cboStatus.Text = "AGUARDANDO" Then
    'cmdImprimirEntrada.Enabled = True
-   lblMecanico.Enabled = True
+   lblArray(1).Enabled = True
    cboMecanico.Enabled = True
    cmdFinalizarAP.Visible = False
    cmdFinalizarAV.Visible = False
    frmServicos.Enabled = True
+   stProdSer.Visible = True
+   frmParecerCliente.Visible = False
+   frmAcessorios.Visible = False
+   frmSituacao.Visible = False
+   frmGridServicos.Visible = True
+   frmTotaisGeral.Visible = True
+   frmTotaisProdServ.Visible = True
+   cmdImpEntrada2.Enabled = True
+   cmdImpOrcamento2.Enabled = True
+   cmdImpPedido2.Enabled = True
 ElseIf cboStatus.Text = "TERMINADO" Then
    'dbData.Execute "UPDATE OS SET DATA_TERMINO = '" & Format(Date, ocDATA) & "', DATA_TERMINO = '" & Format(Now, ocHORA) & "' WHERE (cod_os = " & txtCodOS.Text & ");"
-   lblMecanico.Enabled = True
+   lblArray(1).Enabled = True
    cboMecanico.Enabled = True
    frmServicos.Enabled = False
+   stProdSer.Visible = True
+   frmParecerCliente.Visible = False
+   frmAcessorios.Visible = False
+   frmSituacao.Visible = False
+   frmGridServicos.Visible = True
+   frmTotaisGeral.Visible = True
+   frmTotaisProdServ.Visible = True
+   cmdImpEntrada2.Enabled = True
+   cmdImpOrcamento2.Enabled = True
+   cmdImpPedido2.Enabled = True
 End If
 End Sub
 
@@ -7286,6 +7462,7 @@ Private Sub cmdAdicionarPecas_Click()
       "'OFICINA')"
 
    dbData.Execute sSQL
+   dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(txtQuantPeca.Text), ",", ".") & " WHERE (codigo = " & txtCodPeca.Text & ");"
    
 MostrarGrid_Servicos
 
@@ -7405,6 +7582,7 @@ Private Sub cmdAdicionarServicosAuto_Click()
 If txtCodServicoAuto.Text = "" Or txtCodOS.Text = "" Then Exit Sub
 If txtQuantServicoAuto.Text = "" Then txtQuantServicoAuto.Text = 1
 If mskValorServicoAuto.Text = "" Or mskValorServicoAuto.Text = "0,00" Then Exit Sub
+If vCodMecanicoServ = "" Then MsgBox "Selecione o mecânico que executou o serviço!", vbExclamation, "Aviso do Sistema": Exit Sub
 
 'CHECAR SE A OS ESTÁ FECHADA
 Verificar_OS_Fechada
@@ -7414,17 +7592,17 @@ If OS_FECHADA = True Then Exit Sub
 AutoNumeracao_Servico
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
-    dbData.Execute "INSERT INTO OS_Servicos_Auto (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data) VALUES (" & _
+    dbData.Execute "INSERT INTO OS_Servicos_Auto (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, cod_mecanico, cod_servico) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
-       txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103))"
+       txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & vCodMecanicoServ & ", " & txtCodServicoAuto.Text & ")"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "INSERT INTO os_servicos_recapadora (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, DOTE, TIPO, SERIE, FOGO, FABRICANTE, MEDIDA, ARO, BANDA) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
        txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), '" & txtDote.Text & "', '" & cboTipo.Text & "', '" & txtSerie.Text & "', '" & txtFogo.Text & "', '" & cboMarca.Text & "', '" & vMedida & "', '" & vAro & "', '" & vBanda & "')"
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-    dbData.Execute "INSERT INTO OS_Servicos_Auto (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data) VALUES (" & _
+    dbData.Execute "INSERT INTO OS_Servicos_Auto (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, cod_mecanico, cod_servico) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
-       txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103))"
+       txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & vCodMecanicoServ & ", " & txtCodServicoAuto.Text & ")"
 ElseIf vTipoOS = "Comunicação Visual" Then
     dbData.Execute "INSERT INTO OS_Servicos_Comunicacao (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, obs) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
@@ -7503,6 +7681,99 @@ End If
 LimparObjetos_ServicosAuto
 If cboTipo.Visible = True Then cboTipo.SetFocus Else cboServicosAuto.SetFocus
 Somar_Totais
+End Sub
+
+Private Sub cmdEditarServicosAuto_Click()
+If vCodItemServicoEditando = "" Or txtCodOS.Text = "" Then Exit Sub
+If txtQuantServicoAuto.Text = "" Then txtQuantServicoAuto.Text = 1
+If mskValorServicoAuto.Text = "" Or mskValorServicoAuto.Text = "0,00" Then Exit Sub
+If vCodMecanicoServ = "" Then MsgBox "Selecione o mecânico que executou o serviço!", vbExclamation, "Aviso do Sistema": Exit Sub
+
+'CHECAR SE A OS ESTÁ FECHADA
+Verificar_OS_Fechada
+If OS_FECHADA = True Then Exit Sub
+
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    dbData.Execute "UPDATE OS_Servicos_Auto SET descricao = '" & vServico & "', preco = " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", quantidade = " & txtQuantServicoAuto.Text & ", subtotal = " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", desconto = " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", cod_mecanico = " & vCodMecanicoServ & ", cod_servico = " & txtCodServicoAuto.Text & " WHERE (codigo = " & vCodItemServicoEditando & ") AND (cod_os = " & txtCodOS.Text & ");"
+End If
+
+MostrarGrid_Servicos
+
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
+    'atualizar tabela OS
+    dbData.Execute "UPDATE OS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_OS = " & txtCodOS.Text & ")"
+    
+    'atualizar tabela PEDIDOS
+    dbData.Execute "UPDATE PEDIDOS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
+ElseIf vTipoOS = "Recapadora" Then
+    'atualizar tabela OS
+    dbData.Execute "UPDATE OS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_OS = " & txtCodOS.Text & ")"
+    
+    'atualizar tabela PEDIDOS
+    dbData.Execute "UPDATE PEDIDOS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    'atualizar tabela OS
+    dbData.Execute "UPDATE OS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_OS = " & txtCodOS.Text & ")"
+    
+    'atualizar tabela PEDIDOS
+    dbData.Execute "UPDATE PEDIDOS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
+ElseIf vTipoOS = "Comunicação Visual" Then
+    'atualizar tabela OS
+    dbData.Execute "UPDATE OS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_OS = " & txtCodOS.Text & ")"
+    
+    'atualizar tabela PEDIDOS
+    dbData.Execute "UPDATE PEDIDOS SET " & _
+    "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "ValorDescReal = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
+    "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
+    "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
+
+End If
+
+vCodItemServicoEditando = ""
+LimparObjetos_ServicosAuto
+If cboTipo.Visible = True Then cboTipo.SetFocus Else cboServicosAuto.SetFocus
+Somar_Totais
+
+cmdEditarServicosAuto.Enabled = False
+cmdAdicionarServicosAuto.Enabled = True
+cmdRemoverServicosAuto.Enabled = True
 End Sub
 Private Sub cmdAdicionarSituacao_Click()
 If txtCodSituacao.Text = "" Or txtCodOS.Text = "" Then Exit Sub
@@ -7736,11 +8007,9 @@ Form_Load
 End Sub
 
 Private Sub Retorna_Produtos_Estoque()
-'Dim i As Integer
-
-'For i = 1 To Grid_Pecas.Rows - 1
-'   dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Pecas.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid_Pecas.TextMatrix(i, 2) & ");"
-'Next
+dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + pedidos_itens.quantidade " & _
+   "FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
+   "WHERE (pedidos_itens.cod_pedido = " & codPedido & ");"
 End Sub
 
 Private Sub cmdCal1_Click()
@@ -7787,6 +8056,8 @@ End Sub
 Private Sub cmdCancelar_Click()
 LimparObjetos_Prazo
 frmVendaFechamento.Visible = False
+SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
+SSTab1.Tab = 0
 cmdFinalizarAV.Enabled = True
 cmdFinalizarAP.Enabled = True
 txtTotalPecasServicos.Text = Format(txtSubtotal.Text, ocMONEY)
@@ -8288,7 +8559,6 @@ If txtCodPedido.Text = "" Then Exit Sub
 If cboTipoPgto.Text = "" Then Exit Sub
 If txtCodCliente.Text = "" Then cboCliente.Text = "": cboCliente.SetFocus: Exit Sub
 If txtFuncAP.Text = "" Then ShowMsg "Digite o código do funcionário!", vbInformation: txtCodFuncAP.SetFocus: Exit Sub
-If txtCodPedido.Text = "" Then MsgBox "Cód. Pedido em Branco": Exit Sub
 If txtCodOS.Text = "" Then Exit Sub Else vCodOS = txtCodOS.Text
 
 If cboQuantForma.Text = "2 - FORMAS" Then
@@ -8304,6 +8574,8 @@ Dim varValorRealAcresc As Currency
 Dim NumCopias As Integer
 Dim ii As Integer
 Dim lNovoCod As Long
+Dim lNovoCodBase As Long
+Dim bTrans As Boolean
 'Dim varHora As String       'Saber a hora do pagamento da parcela
 
 'Usando na NFCe
@@ -8532,11 +8804,13 @@ End If
 'End If
 
 
+bTrans = False
+On Error GoTo TrataErroFinalizar
 If cboTipoPgto.Text = "À PRAZO" Then
     Dim var_Vencimento As Date
     Dim Var_NumParc As Integer
     Dim arrayParc() As Currency
-    If txtCodCliente = "1" Then MsgBox "IDENTIFIQUE O CLIENTE DA COMPRA!", vbExclamation, "Aviso do sistema": Exit Sub
+    If txtCodCliente = "1" Then MsgBox "IDENTIFIQUE O CLIENTE DA COMPRA!", vbExclamation, "Aviso do sistema": cmdFinalizar.Enabled = True: Exit Sub
            
     'função para checar o limite do cliente..
     If txtCodCliente.Text <> "1" Then
@@ -8546,7 +8820,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
            
     'tabela configurações
     If bFechAP Then
-       If ShowMsg("Deseja finalizar essa compra?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then Exit Sub
+       If ShowMsg("Deseja finalizar essa compra?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then cmdFinalizar.Enabled = True: Exit Sub
     End If
            
     'Solicita autorização da gerência
@@ -8581,6 +8855,9 @@ If cboTipoPgto.Text = "À PRAZO" Then
     '   dbData.Execute "UPDATE produtos SET ult_compra = '" & Format$(Date, "yyyy-dd-MM") & "' WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
     'Next
 
+        lNovoCodBase = Autonumeracao_Parcelas
+        dbData.Execute "BEGIN TRANSACTION"
+        bTrans = True
         'ATUALIZAR A TABELA OS
         dbData.Execute "UPDATE os SET status_os = 1, tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = " & Replace(CCur(txtEntrada.Text), ",", ".") & " WHERE (cod_os = " & vCodOS & ");"
 
@@ -8613,11 +8890,11 @@ If cboTipoPgto.Text = "À PRAZO" Then
            If txtEntrada.Text <> "0,00" And txtValorParc.Text <> "0,00" Then
              
               'criar a entrada
-              lNovoCod = Autonumeracao_Parcelas
+              lNovoCod = lNovoCodBase
               
-              dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, cod_os,  numero, data, valor, status, TIPO, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, VALOR_FINAL) VALUES (" & _
+              dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, cod_os,  numero, data, valor, status, TIPO, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, VALOR_FINAL, COD_FUNCIONARIO) VALUES (" & _
                  lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 1, '" & Format$(Date, "yyyy-dd-MM") & "', " & _
-                 Replace(CCur(txtEntrada.Text), ",", ".") & ", 0, 'OS', 0, 0, 0, 0, " & Replace(CCur(txtEntrada.Text), ",", ".") & ");"
+                 Replace(CCur(txtEntrada.Text), ",", ".") & ", 0, 'OS', 0, 0, 0, 0, " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & txtCodFuncAP.Text & ");"
               
               'criar da segunda parcela em diante
               var_Vencimento = Format(DateAdd("m", Val(1), mskInicio.Text), "dd/mm/yy")
@@ -8626,7 +8903,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
               CalcularParcelas (CCur(txtTotalDesc) - CCur(txtEntrada)), CInt(cboQuantParc), arrayParc
               
               For i = 1 To CInt(cboQuantParc)
-                 lNovoCod = Autonumeracao_Parcelas
+                 lNovoCod = lNovoCodBase + i
                  
                  dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, status, VALOR_FINAL, TIPO, DIAS_ATRAZO, JUROS, MULTA, DESCONTO) VALUES (" & _
                     lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", " & Var_NumParc & ", '" & Format$(var_Vencimento, "yyyy-dd-MM") & "', " & _
@@ -8647,7 +8924,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
               
               'criar as parcelas
               For i = 1 To CInt(cboQuantParc)
-                 lNovoCod = Autonumeracao_Parcelas
+                 lNovoCod = lNovoCodBase + i - 1
                  
                  dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, status, VALOR_FINAL, TIPO, DIAS_ATRAZO, JUROS, MULTA, DESCONTO) VALUES (" & _
                     lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", " & Var_NumParc & ", '" & Format$(var_Vencimento, "yyyy-dd-MM") & "', " & _
@@ -8684,7 +8961,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                       "pagamento = '" & Format$(Date, "yyyy-dd-MM") & "', " & _
                       "hora = '" & Format(Now, ocHORA) & "', " & _
                       "forma_pgto = '" & var_PGTO_Entrada & "', " & _
-                      "tipo = 'PARCELA', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
+                      "tipo = 'OS', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                       "CODCAIXA = " & varCodCaixa & ", " & _
                       "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "' " & _
                       "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
@@ -8718,13 +8995,18 @@ If cboTipoPgto.Text = "À PRAZO" Then
         'dbData.Execute sSQL
 'DESATIVEI ATÉ AQUI
         
+        'DESATIVEI 2026-07-07: estoque ja e debitado em cmdAdicionarPecas_Click (e devolvido em cmdRemoverPecas_Click);
+        'manter esse loop aqui causaria debito duplicado ao finalizar.
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid
-        For i = 1 To Grid_Servicos.Rows - 1  'analizar essa linha
-            If Grid_Servicos.TextMatrix(i, 2) = "PRODUTO" Then
-                dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid_Servicos.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(i, 10) & ");"
-            End If
-        Next
+        'For i = 1 To Grid_Servicos.Rows - 1  'analizar essa linha
+        '    If Grid_Servicos.TextMatrix(i, 2) = "PRODUTO" Then
+        '        dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid_Servicos.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(i, 10) & ");"
+        '    End If
+        'Next
         
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
+
         If iCopiasAP <> 0 Then  'saber a quantidade de copias
            If bEntregaAP = True Then
               If ShowMsg("Desesa Imprimir o pedido para ENTREGAR?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
@@ -8755,7 +9037,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
         
 ElseIf cboTipoPgto.Text = "À VISTA" Then
            If bFechAV Then
-              If ShowMsg("Deseja finalizar essa compra?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then Exit Sub
+              If ShowMsg("Deseja finalizar essa compra?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then cmdFinalizar.Enabled = True: Exit Sub
            End If
            
            'colocar a data da Ultima compra de cada produro
@@ -8763,6 +9045,9 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
            '   dbData.Execute "UPDATE produtos SET ult_compra = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
            'Next
 
+            lNovoCodBase = Autonumeracao_Parcelas
+            dbData.Execute "BEGIN TRANSACTION"
+            bTrans = True
             'ATUALIZAR A TABELA OS
             dbData.Execute "UPDATE os SET status_os = 1, tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = 0 WHERE (cod_os = " & vCodOS & ");"
 
@@ -8784,18 +9069,18 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', tipo_cartao = " & varTipoCartao & ", " & _
               "cod_funcionario = " & txtCodFuncAP.Text & ",  " & _
               "tipo_pedido = 'OFICINA', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', maquina = '" & IIf(StatusBar1.Panels(4).Text = "", "PDV01", StatusBar1.Panels(4).Text) & "', codcaixa = " & varCodCaixa & ", " & _
-              "status_pedido = 1" & _
+              "status_pedido = 1 " & _
               "WHERE (cod_pedido = " & txtCodPedido.Text & ");"
            dbData.Execute sSQL
            
            '===========================================CRIAR E DAR BAIXA EM PARCELAS ==========================================
             If cboTipoPgto.Text = "À VISTA" And cboQuantForma.Text = "1 - FORMA" Then
                 'autonumeração das parcelas
-                lNovoCod = Autonumeracao_Parcelas
+                lNovoCod = lNovoCodBase
                 
                 'Criando as Parcelas
-                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, TIPO) VALUES (" & _
-                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 1, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", 0, 0, 0, 0, 'OS');"
+                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, TIPO, COD_FUNCIONARIO) VALUES (" & _
+                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 1, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", 0, 0, 0, 0, 'OS', " & txtCodFuncAP.Text & ");"
                 dbData.Execute sSQL
                 
                 'DAR BAIXA NA PARCELA =====
@@ -8816,19 +9101,19 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
             
             ElseIf cboTipoPgto.Text = "À VISTA" And cboQuantForma.Text = "2 - FORMAS" Then
                 'autonumeração das parcelas
-                lNovoCod = Autonumeracao_Parcelas
+                lNovoCod = lNovoCodBase
                 
                 'Criando as Parcelas
-                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO) VALUES (" & _
-                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 1, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & Replace(CCur(txtEntrada.Text), ",", ".") & ", 0, 0, 0, 0);"
+                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, COD_FUNCIONARIO) VALUES (" & _
+                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 1, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & Replace(CCur(txtEntrada.Text), ",", ".") & ", 0, 0, 0, 0, " & txtCodFuncAP.Text & ");"
                 dbData.Execute sSQL
             
                 'autonumeração das parcelas
-                lNovoCod = Autonumeracao_Parcelas
+                lNovoCod = lNovoCodBase + 1
                 
                 'Criando as Parcelas
-                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO) VALUES (" & _
-                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 2, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtValorRest.Text), ",", ".") & ", " & Replace(CCur(txtValorRest.Text), ",", ".") & ", 0, 0, 0, 0);"
+                sSQL = "INSERT INTO parcelas (codigo, cod_pedido, cod_os, numero, data, valor, VALOR_FINAL, DIAS_ATRAZO, JUROS, MULTA, DESCONTO, COD_FUNCIONARIO) VALUES (" & _
+                   lNovoCod & ", " & txtCodPedido.Text & ", " & vCodOS & ", 2, '" & Format$(Date, "yyyy-dd-MM") & "', " & Replace(CCur(txtValorRest.Text), ",", ".") & ", " & Replace(CCur(txtValorRest.Text), ",", ".") & ", 0, 0, 0, 0, " & txtCodFuncAP.Text & ");"
                 dbData.Execute sSQL
             
                 'DAR BAIXA NA PARCELA =====
@@ -8926,13 +9211,18 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
         'dbData.Execute sSQL
 'DESATIVEI ATÉ AQUI
         
+        'DESATIVEI 2026-07-07: estoque ja e debitado em cmdAdicionarPecas_Click (e devolvido em cmdRemoverPecas_Click);
+        'manter esse loop aqui causaria debito duplicado ao finalizar.
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid
-        For i = 1 To Grid_Servicos.Rows - 1  'analizar essa linha
-            If Grid_Servicos.TextMatrix(i, 2) = "PRODUTO" Then
-                dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid_Servicos.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(i, 10) & ");"
-            End If
-        Next
+        'For i = 1 To Grid_Servicos.Rows - 1  'analizar essa linha
+        '    If Grid_Servicos.TextMatrix(i, 2) = "PRODUTO" Then
+        '        dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid_Servicos.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(i, 10) & ");"
+        '    End If
+        'Next
         
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
+
         If iCopiasAP <> 0 Then  'saber a quantidade de copias
            If bEntregaAP = True Then
               If ShowMsg("Desesa Imprimir o pedido para ENTREGAR?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
@@ -8970,9 +9260,19 @@ txtCodOS.Text = ""
 frmVendaFechamento.Visible = False
 MostrarGrid_OS
 MostrarGrid_OS_Situacao
+SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
 SSTab1.Tab = 0
 
 cmdFinalizar.Enabled = True
+
+Exit Sub
+
+TrataErroFinalizar:
+Dim sErroFinalizar As String
+sErroFinalizar = Err.Description
+If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+cmdFinalizar.Enabled = True
+MsgBox "Não foi possível finalizar a venda:" & vbCrLf & sErroFinalizar, vbCritical, "Erro ao Finalizar"
 
 'If CAIXA_FECHADO = True Then
 'Else
@@ -10230,6 +10530,12 @@ cboStatus.Enabled = False
 cmdNovo.Enabled = False
 cmdAlterar.Enabled = False
 cmdApagar.Enabled = False
+cmdAdicionarServicosAuto.Enabled = True
+cmdRemoverServicosAuto.Enabled = True
+cmdEditarServicosAuto.Enabled = False
+vCodItemServicoEditando = ""
+cboMecanicoServ.Text = ""
+vCodMecanicoServ = ""
 
 If cboStatus.Text = "À COMEÇAR" Then
     frmAcessorios.Visible = True
@@ -11040,10 +11346,12 @@ If ShowMsg("Deseja remover da lista a peça: " & Grid_Servicos.TextMatrix(Grid_Se
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
+    dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 12) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
+    dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
 End If
@@ -12796,6 +13104,13 @@ ElseIf vTipoOS = "Comunicação Visual" Then
 End If
     If r.State <> 0 Then r.Close
     Set r = Nothing
+If cboMecanico.Text = "" Then
+    cboMecanicoServ.Text = ""
+    vCodMecanicoServ = ""
+Else
+    cboMecanicoServ.Text = cboMecanico.Text
+    vCodMecanicoServ = txtCodMecanico.Text
+End If
 End Sub
 
 Private Sub txtDesc_Change()

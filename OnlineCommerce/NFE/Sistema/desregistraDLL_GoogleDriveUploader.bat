@@ -1,0 +1,1 @@
+regasm /u GoogleDriveUploader.dll /tlb:GoogleDriveUploader.tlb

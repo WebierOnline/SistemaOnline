@@ -1,0 +1,7 @@
+no form Produtos_Cadastro quando vou cadastrar um produto novo (botão Novo), nos objetos cboCategoria e cboCST possuo a rotina AtualizarReforma que se baseia na categoria do produto e o icms cst para auto preencher os objetos da reforma tributaria. 
+Salvei o seguinte registro na tabela produtos:
+19273	7898904771637	CERVEJA DEVASSA LAGER 269ML		BEBIDAS (ALCOÓLICAS)	1,000	0,000	NULL	UN			False	True			5405	500	0,00	04	04	99	22089000	0	7898904771637	False	False	0,00	0,00	0,00	False	False	False	False	1,000	False	0,000	0	0,0000	0,0000	0,0000	0,0000	0	0	02	8,80	17,70	0,00	01	10,00	07898904771644	12,000
+Note que o campo ISpIS = 10,00
+Porem quando consultei e editei (cmdEditar) o produto... ele carregou txtISpIS = 0,00
+Olhei no rotina MostrarDados_Produto que preenche os objetos e aparentemente está buscando os dados.
+Acredito que a rotina ou algo que criei para auto preencher os campos da reforma tributaria está atrapalhando o carregamento dos dados para edição.

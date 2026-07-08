@@ -1643,9 +1643,15 @@ ElseIf cboCriterioSec.Text = "PERÍODO" Then
 End If
 
 'MONTAR O GRID
-sSQL = "SELECT parcelas.COD_PEDIDO as var_codped, pedidos.DATA_COMPRA, parcelas.PAGAMENTO, parcelas.NUMERO, parcelas.VALOR_FINAL, parcelas.FORMA_PGTO as var_FormaPgto, (CASE WHEN parcelas.status = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, pedidos.COD_FUNCIONARIO, cliente.Nome, pedidos.COD_CLIENTE, pedidos.TIPO_PAGAMENTO " & _
-        "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-        "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " AND (parcelas.STATUS = 1) " & vTipoCriterio & " "
+If cboTipo.Text = "SERVIÇOS" Then
+    sSQL = "SELECT OS.COD_PEDIDO AS var_codped, OS.TIPO_PAGAMENTO, OS.DATA_ENTRADA AS DATA_COMPRA, OS.COD_OS AS NUMERO, OS.TOTAL AS VALOR_FINAL, OS.TIPO_OS AS var_FormaPgto, (CASE WHEN OS.STATUS = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, OS.COD_FUNCIONARIO, cliente.Nome, OS.COD_CLIENTE, OS.PAGAMENTO " & _
+        "FROM OS LEFT JOIN cliente ON OS.COD_CLIENTE = cliente.CODIGO " & _
+        "WHERE (OS.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (OS.STATUS = 1) AND (MONTH(OS.DATA_ENTRADA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(OS.DATA_ENTRADA) = " & cboAno & ") "
+Else
+    sSQL = "SELECT parcelas.COD_PEDIDO as var_codped, pedidos.DATA_COMPRA, parcelas.PAGAMENTO, parcelas.NUMERO, parcelas.VALOR_FINAL, parcelas.FORMA_PGTO as var_FormaPgto, (CASE WHEN parcelas.status = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, pedidos.COD_FUNCIONARIO, cliente.Nome, pedidos.COD_CLIENTE, pedidos.TIPO_PAGAMENTO " & _
+            "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+            "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " AND (parcelas.STATUS = 1) " & vTipoCriterio & " "
+End If
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 printSQL = sSQL '" & TipoPgto & "
 '(pedidos.TIPO_PAGAMENTO = 'À Vista')
@@ -1674,7 +1680,7 @@ Else
 End If
 
 'CONSULTAS COMISSÕES
-sSQL = "SELECT Comissao_Avista1, Comissao_Avista2, Comissao_Avista3, Valor_Comissao1, Valor_Comissao2, Valor_Comissao3 " & _
+sSQL = "SELECT Comissao_Avista1, Comissao_Avista2, Comissao_Avista3, Valor_ComissaoAV1, Valor_ComissaoAV2, Valor_ComissaoAV3 " & _
        "FROM funcionario " & _
        "WHERE (CODIGO = " & txtCodFunc.Text & ") "
 Set r = dbData.OpenRecordset(sSQL)
@@ -1683,8 +1689,8 @@ Dim vAlvoAvista As Currency
 Dim vComissaoAvista As Currency
 
 If Not r.EOF Then
-    If vValorTotalAvista > r("Valor_Comissao1") Then
-        If vValorTotalAvista < r("Valor_Comissao3") Then
+    If vValorTotalAvista > r("Valor_ComissaoAV1") Then
+        If vValorTotalAvista < r("Valor_ComissaoAV3") Then
             vComissaoAvista = FormatNumber(r("Comissao_Avista2"), 2)
         Else
             vComissaoAvista = FormatNumber(r("Comissao_Avista3"), 2)
@@ -1776,7 +1782,42 @@ End If
 
 
 'COMISSÃO à PRAZO - EXIBIR TOTAIS
-sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * funcionario.Comissao_Prazo1 / 100), 0) AS var_ComAprazo, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
+Dim vValorTotalAPrazo As Currency
+sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL), 0) AS varTotalAPrazo " & _
+       "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+                     "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+                     "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
+       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') " & vTipoPgtoParcelas & " AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
+Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+If Not r.EOF Then
+    vValorTotalAPrazo = FormatNumber(ValidateNull(r("varTotalAPrazo")), 2)
+Else
+    vValorTotalAPrazo = FormatNumber(0, 2)
+End If
+
+sSQL = "SELECT Comissao_Prazo1, Comissao_Prazo2, Comissao_Prazo3, Valor_ComissaoAP1, Valor_ComissaoAP2, Valor_ComissaoAP3 " & _
+       "FROM funcionario " & _
+       "WHERE (CODIGO = " & txtCodFunc.Text & ") "
+Set r = dbData.OpenRecordset(sSQL)
+
+Dim vComissaoAPrazo As Currency
+
+If Not r.EOF Then
+    If vValorTotalAPrazo > r("Valor_ComissaoAP1") Then
+        If vValorTotalAPrazo < r("Valor_ComissaoAP3") Then
+            vComissaoAPrazo = FormatNumber(r("Comissao_Prazo2"), 2)
+        Else
+            vComissaoAPrazo = FormatNumber(r("Comissao_Prazo3"), 2)
+        End If
+    Else
+        vComissaoAPrazo = FormatNumber(r("Comissao_Prazo1"), 2)
+    End If
+Else
+    vComissaoAPrazo = FormatNumber(0, 2)
+End If
+
+sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoAPrazo), ",", ".") & " / 100), 0) AS var_ComAprazo, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
        "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
                      "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
                      "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
@@ -1792,8 +1833,51 @@ Else
 End If
 
 'COMISSÃO DE SERVIÇOS
-lblComServicosQtde.Caption = Format(0, "000")
-lblComServicos.Caption = FormatNumber(0, 2)
+Dim vValorTotalServicos As Currency
+sSQL = "SELECT ISNULL(SUM(sv.total), 0) AS varTotalServicos " & _
+       "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
+Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+If Not r.EOF Then
+    vValorTotalServicos = FormatNumber(ValidateNull(r("varTotalServicos")), 2)
+Else
+    vValorTotalServicos = FormatNumber(0, 2)
+End If
+
+sSQL = "SELECT Comissao_Servico1, Comissao_Servico2, Comissao_Servico3, Valor_ComissaoServ1, Valor_ComissaoServ2, Valor_ComissaoServ3 " & _
+       "FROM funcionario " & _
+       "WHERE (CODIGO = " & txtCodFunc.Text & ") "
+Set r = dbData.OpenRecordset(sSQL)
+
+Dim vComissaoServicos As Currency
+
+If Not r.EOF Then
+    If vValorTotalServicos > r("Valor_ComissaoServ1") Then
+        If vValorTotalServicos < r("Valor_ComissaoServ3") Then
+            vComissaoServicos = FormatNumber(r("Comissao_Servico2"), 2)
+        Else
+            vComissaoServicos = FormatNumber(r("Comissao_Servico3"), 2)
+        End If
+    Else
+        vComissaoServicos = FormatNumber(r("Comissao_Servico1"), 2)
+    End If
+Else
+    vComissaoServicos = FormatNumber(0, 2)
+End If
+
+sSQL = "SELECT ISNULL(SUM(sv.total * " & Replace(CDbl(vComissaoServicos), ",", ".") & " / 100), 0) AS var_ComServicos, COUNT(sv.codigo) AS var_ContServicos " & _
+       "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
+Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+If Not r.EOF Then
+    lblComServicosQtde.Caption = Format(r("var_ContServicos"), "000")
+    lblComServicos.Caption = FormatNumber(r("var_ComServicos"), 2)
+Else
+    lblComServicosQtde.Caption = Format(0, "000")
+    lblComServicos.Caption = FormatNumber(0, 2)
+End If
 
 If r.State <> 0 Then r.Close
 Set r = Nothing

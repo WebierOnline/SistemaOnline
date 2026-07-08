@@ -1,0 +1,1 @@
+regasm zapzap.dll /tlb:zapzap.tlb /codebase
