@@ -165,8 +165,8 @@ Begin VB.Form OS_Recapadora
       _ExtentX        =   22278
       _ExtentY        =   15637
       _Version        =   393216
-      Tabs            =   6
-      TabsPerRow      =   6
+      Tabs            =   5
+      TabsPerRow      =   5
       TabHeight       =   452
       TabMaxWidth     =   2646
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -266,27 +266,15 @@ Begin VB.Form OS_Recapadora
       Tab(2).Control(2)=   "frmVendaFechamento"
       Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
-      TabCaption(3)   =   "CONSULTA"
-      TabPicture(3)   =   "OS_Recapadora.frx":2495
+      TabCaption(3)   =   " "
+      TabPicture(3)   =   "OS_Recapadora.frx":24B1
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame2"
-      Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Grid"
-      Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "lblQuant"
-      Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "lblTotalConsulta"
-      Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).ControlCount=   4
+      Tab(3).ControlCount=   0
       TabCaption(4)   =   " "
-      TabPicture(4)   =   "OS_Recapadora.frx":24B1
+      TabPicture(4)   =   "OS_Recapadora.frx":24CD
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).ControlCount=   0
-      TabCaption(5)   =   " "
-      TabPicture(5)   =   "OS_Recapadora.frx":24CD
-      Tab(5).ControlEnabled=   0   'False
-      Tab(5).Control(0)=   "lblQuantFiltro"
-      Tab(5).ControlCount=   1
+      Tab(4).Control(0)=   "lblQuantFiltro"
+      Tab(4).ControlCount=   1
       Begin VB.Frame frmParecer 
          BackColor       =   &H00C0FFFF&
          Caption         =   "Parecer Técnico"
@@ -454,237 +442,6 @@ Begin VB.Form OS_Recapadora
             Top             =   120
             Value           =   -1  'True
             Width           =   855
-         End
-      End
-      Begin VB.Frame Frame2 
-         Height          =   1275
-         Left            =   -74880
-         TabIndex        =   199
-         Top             =   300
-         Width           =   12375
-         Begin VB.TextBox txtCodClienteLocalizar 
-            Appearance      =   0  'Flat
-            Height          =   285
-            Left            =   11700
-            TabIndex        =   200
-            TabStop         =   0   'False
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   555
-         End
-         Begin VB.ComboBox cboLocalizar 
-            Height          =   315
-            Left            =   7860
-            TabIndex        =   102
-            Top             =   480
-            Visible         =   0   'False
-            Width           =   4425
-         End
-         Begin VB.ComboBox cboConsultaCriterios 
-            Height          =   315
-            Left            =   6240
-            TabIndex        =   101
-            Top             =   480
-            Width           =   1575
-         End
-         Begin VB.ComboBox cboConsultaMostrar 
-            Height          =   315
-            Left            =   1800
-            TabIndex        =   98
-            Top             =   480
-            Width           =   1455
-         End
-         Begin VB.ComboBox cboConsultaStatus 
-            Height          =   315
-            Left            =   60
-            TabIndex        =   97
-            Top             =   480
-            Width           =   1695
-         End
-         Begin VB.ComboBox cboTipoServico 
-            Height          =   315
-            Left            =   3300
-            TabIndex        =   99
-            Top             =   480
-            Width           =   1515
-         End
-         Begin VB.ComboBox cboIndice 
-            Height          =   315
-            Left            =   4860
-            TabIndex        =   100
-            Top             =   480
-            Width           =   1335
-         End
-         Begin ChamaleonBtn.chameleonButton cmdExibir 
-            Height          =   315
-            Left            =   8580
-            TabIndex        =   103
-            Top             =   840
-            Width           =   1815
-            _ExtentX        =   3201
-            _ExtentY        =   556
-            BTYPE           =   3
-            TX              =   "Exibir"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   13160660
-            BCOLO           =   13160660
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "OS_Recapadora.frx":2521
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin ChamaleonBtn.chameleonButton cmdImprimirConsulta 
-            Height          =   315
-            Left            =   10440
-            TabIndex        =   104
-            Top             =   840
-            Width           =   1815
-            _ExtentX        =   3201
-            _ExtentY        =   556
-            BTYPE           =   3
-            TX              =   "Imprimir"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   13160660
-            BCOLO           =   13160660
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "OS_Recapadora.frx":253D
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin VB.Label Label35 
-            AutoSize        =   -1  'True
-            Caption         =   "Critérios"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   210
-            Index           =   4
-            Left            =   6240
-            TabIndex        =   234
-            Top             =   240
-            Width           =   735
-         End
-         Begin VB.Label Label35 
-            AutoSize        =   -1  'True
-            Caption         =   "Organização:"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   210
-            Index           =   3
-            Left            =   4860
-            TabIndex        =   233
-            Top             =   240
-            Width           =   1050
-         End
-         Begin VB.Label Label35 
-            AutoSize        =   -1  'True
-            Caption         =   "Tipo de Serviço:"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   210
-            Index           =   2
-            Left            =   3300
-            TabIndex        =   232
-            Top             =   240
-            Width           =   1320
-         End
-         Begin VB.Label Label35 
-            AutoSize        =   -1  'True
-            Caption         =   "Financeiro:"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   210
-            Index           =   1
-            Left            =   1800
-            TabIndex        =   231
-            Top             =   240
-            Width           =   900
-         End
-         Begin VB.Label Label35 
-            AutoSize        =   -1  'True
-            Caption         =   "Técnico:"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   210
-            Index           =   0
-            Left            =   60
-            TabIndex        =   201
-            Top             =   240
-            Width           =   690
          End
       End
       Begin VB.Frame frmVendaFechamento 
@@ -4223,18 +3980,6 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin MSFlexGridLib.MSFlexGrid Grid 
-         Height          =   6855
-         Left            =   -74880
-         TabIndex        =   202
-         Top             =   1680
-         Width           =   12375
-         _ExtentX        =   21828
-         _ExtentY        =   12091
-         _Version        =   393216
-         SelectionMode   =   1
-         Appearance      =   0
-      End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   375
          Left            =   10740
@@ -4272,45 +4017,6 @@ Begin VB.Form OS_Recapadora
          HAND            =   0   'False
          CHECK           =   0   'False
          VALUE           =   0   'False
-      End
-      Begin VB.Label lblQuant 
-         AutoSize        =   -1  'True
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "00"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   195
-         Left            =   -74880
-         TabIndex        =   204
-         Top             =   8580
-         Width           =   225
-      End
-      Begin VB.Label lblTotalConsulta 
-         Alignment       =   1  'Right Justify
-         AutoSize        =   -1  'True
-         BackColor       =   &H00FFFFFF&
-         Caption         =   "00"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         Height          =   195
-         Left            =   -62760
-         TabIndex        =   203
-         Top             =   8580
-         Width           =   225
       End
       Begin VB.Label lblDataAberturaCaixa 
          Alignment       =   1  'Right Justify
@@ -4531,7 +4237,6 @@ Dim bEntregaAP As Boolean
 Dim bImprAP As Integer
 Dim bConfImprAP As Boolean
 Dim vTabelaServico As String
-Dim printSQL As String
 Dim vCodMecanicoServ As String
 Dim vCodItemServicoEditando As String
 
@@ -5890,188 +5595,12 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Sub MostrarGrid_OS()
-Dim totalRegistros As Long
-
-Dim SITUACAO As String
-Dim var_STATUS As String
-Dim INDICE As String
-Dim varTIPO_OS As String
-
-'indice
-If cboIndice.Text = "CÓD. OS" Then
-   INDICE = "os.COD_OS DESC "
-ElseIf cboIndice.Text = "TIPO DE SERVIÇO" Then
-   INDICE = "os.TIPO_OS DESC "
-ElseIf cboIndice.Text = "CLIENTE" Then
-   INDICE = "cliente.nome DESC "
-ElseIf cboIndice.Text = "DATA" Then
-   INDICE = "os.DATA_ENTRADA DESC "
-Else
-   INDICE = "OS.COD_OS DESC "
-End If
-
-'tipo de serviço
-If cboTipoServico.Text = "TODOS" Then
-   varTIPO_OS = " (os.tipo_os <> 'TODOS') "
-ElseIf cboTipoServico.Text = "CONSERTO" Then
-   varTIPO_OS = " (os.tipo_os = 'CONSERTO') "
-ElseIf cboTipoServico.Text = "MONTAGEM" Then
-   varTIPO_OS = " (os.tipo_os = 'MONTAGEM') "
-ElseIf cboTipoServico.Text = "ATENDIMENTO" Then
-   varTIPO_OS = " (os.tipo_os = 'ATENDIMENTO') "
-ElseIf cboTipoServico.Text = "AUTOMAÇÃO" Then
-   varTIPO_OS = " (os.tipo_os = 'AUTOMAÇÃO') "
-ElseIf cboTipoServico.Text = "CONSULTORIA" Then
-   varTIPO_OS = " (os.tipo_os = 'CONSULTORIA') "
-ElseIf cboTipoServico.Text = "GARANTIA" Then
-   varTIPO_OS = " (os.tipo_os = 'GARANTIA') "
-ElseIf cboTipoServico.Text = "ORÇAMENTO" Then
-   varTIPO_OS = " (os.tipo_os = 'ORÇAMENTO') "
-Else
-   varTIPO_OS = " (os.tipo_os <> 'TODOS') "
-End If
-
-'Status
-If cboConsultaStatus.Text = "TODOS" Then
-   SITUACAO = ""
-ElseIf cboConsultaStatus.Text = "À COMEÇAR" Then
-   SITUACAO = "AND (os.status = 'À COMEÇAR') "
-ElseIf cboConsultaStatus.Text = "EM EXECUÇÃO" Then
-   SITUACAO = "AND (os.status = 'EM EXECUÇÃO') "
-ElseIf cboConsultaStatus.Text = "AGUARDANDO" Then
-   SITUACAO = "AND (os.status = 'AGUARDANDO') "
-ElseIf cboConsultaStatus.Text = "TERMINADO" Then
-   SITUACAO = "AND (os.status = 'TERMINADO') "
-End If
-
-'Situação
-If cboConsultaMostrar.Text = "TODOS" Then
-   var_STATUS = ""
-ElseIf cboConsultaMostrar.Text = "ABERTOS" Then
-   var_STATUS = "AND (status_os = 0) "
-ElseIf cboConsultaMostrar.Text = "FECHADOS" Then
-   var_STATUS = "AND (status_os = 1) "
-End If
-
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-    If cboConsultaCriterios.Text = "CLIENTE" Then
-       If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-          Debug.Print sSQL
-       
-    ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
-       If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-    Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento_Auto.FABRICANTE, OS_Equipamento_Auto.ANO, OS_Equipamento_Auto.MODELO, os.STATUS AS var_status, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.STATUS_OS, os.STATUS, os.SUBTOTAL, os.TOTAL, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.ValorDescReal " & _
-                "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS " & _
-                "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
-                "ORDER BY " & INDICE
-    End If
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-    If cboConsultaCriterios.Text = "CLIENTE" Then
-       If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.fabricante, OS_Equipamento.modelo, OS_Equipamento.equipamento, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.* " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-       
-    ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
-       If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.* " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-    Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.FABRICANTE, OS_Equipamento.equipamento, OS_Equipamento.MODELO, os.STATUS AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.STATUS_OS, os.STATUS, os.SUBTOTAL, os.TOTAL, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.ValorDescReal " & _
-                "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS " & _
-                "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
-                "ORDER BY " & INDICE
-    End If
-ElseIf vTipoOS = "Comunicação Visual" Then
-    If cboConsultaCriterios.Text = "CLIENTE" Then
-       If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.fabricante, OS_Equipamento.modelo, OS_Equipamento.equipamento, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.* " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-       
-    ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
-       If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.* " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
-          "ORDER BY " & INDICE
-    Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS_Equipamento.FABRICANTE, OS_Equipamento.equipamento, OS_Equipamento.MODELO, os.STATUS AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.STATUS_OS, os.STATUS, os.SUBTOTAL, os.TOTAL, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.ValorDescReal " & _
-                "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS " & _
-                "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
-                "ORDER BY " & INDICE
-    End If
-Else
-    FormatarGrid_OS Nothing
-    lblQuant.Caption = "QUANTIDADE: " & Format(0, "000")
-    Exit Sub
-End If
-'Debug.Print sSQL
-Set r = dbData.OpenRecordset(sSQL, totalRegistros)
-
-FormatarGrid_OS r
-
-printSQL = sSQL
-
-lblQuant.Caption = "QUANTIDADE: " & Format(totalRegistros, "000")
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-End Sub
-
 Private Sub MostrarTipoOS()
 cboTipoOS.Clear
 cboTipoOS.AddItem "CONSERTO"
 cboTipoOS.AddItem "GARANTIA"
 cboTipoOS.AddItem "ORÇAMENTO"
 cboTipoOS.AddItem "CONFECÇÃO"
-End Sub
-
-Private Sub Preencher_Criterios()
-cboConsultaCriterios.Clear
-cboConsultaCriterios.AddItem "TODOS"
-cboConsultaCriterios.AddItem "CÓD. OS"
-cboConsultaCriterios.AddItem "CLIENTE"
-End Sub
-
-Private Sub Preencher_Indice()
-   cboIndice.Clear
-   cboIndice.AddItem "CÓD. OS"
-   cboIndice.AddItem "TIPO DE SERVIÇO"
-   cboIndice.AddItem "CLIENTE"
-   cboIndice.AddItem "DATA"
-End Sub
-
-Private Sub Preencher_Mostrar()
-cboConsultaMostrar.Clear
-cboConsultaMostrar.AddItem "TODOS"
-cboConsultaMostrar.AddItem "ABERTOS"
-cboConsultaMostrar.AddItem "FECHADOS"
-End Sub
-
-Private Sub Preencher_Status()
-cboConsultaStatus.Clear
-cboConsultaStatus.AddItem "TODOS"
-cboConsultaStatus.AddItem "À COMEÇAR"
-cboConsultaStatus.AddItem "EM EXECUÇÃO"
-cboConsultaStatus.AddItem "AGUARDANDO"
-cboConsultaStatus.AddItem "TERMINADO"
-End Sub
-
-Private Sub Preencher_TipoServico()
-cboTipoServico.Clear
-cboTipoServico.AddItem "TODOS"
-cboTipoServico.AddItem "CONSERTO"
-cboTipoServico.AddItem "GARANTIA"
-cboTipoServico.AddItem "ORÇAMENTO"
 End Sub
 
 Private Sub Somar_Totais()
@@ -6195,78 +5724,10 @@ TrataErro:
    If Err.Number = 381 Then Exit Sub
 End Sub
 
-Private Sub cboConsultaCriterios_Click()
-If cboConsultaCriterios.Text = "TODOS" Then
-   cboLocalizar.Text = ""
-   cboLocalizar.Visible = False
-   MostrarGrid_OS
-Else
-   cboLocalizar.Visible = True
-   cboLocalizar.SetFocus
-End If
-End Sub
-
-Private Sub cboConsultaCriterios_GotFocus()
-Dim itemAtual As String
-itemAtual = cboConsultaCriterios.Text
-Preencher_Criterios
-cboConsultaCriterios.Text = itemAtual
-moCombo.AttachTo cboConsultaCriterios
-End Sub
-
-Private Sub cboConsultaCriterios_Validate(Cancel As Boolean)
-If cboConsultaCriterios.Text = "TODOS" Then
-   cboLocalizar.Text = ""
-   cboLocalizar.Visible = False
-Else
-   cboLocalizar.Visible = True
-End If
-End Sub
-
-Private Sub cboConsultaMostrar_Change()
-''MostrarGrid_OS
-End Sub
-
-Private Sub cboConsultaMostrar_Click()
-''MostrarGrid_OS
-End Sub
-
-Private Sub cboConsultaMostrar_GotFocus()
-Dim itemAtual As String
-itemAtual = cboConsultaMostrar.Text
-Preencher_Mostrar
-cboConsultaMostrar.Text = itemAtual
-moCombo.AttachTo cboConsultaMostrar
-End Sub
 
 
 
-Private Sub cboConsultaMostrar_Validate(Cancel As Boolean)
-''MostrarGrid_OS
-End Sub
 
-
-Private Sub cboConsultaStatus_Change()
-''MostrarGrid_OS
-End Sub
-
-Private Sub cboConsultaStatus_Click()
-''MostrarGrid_OS
-End Sub
-
-
-Private Sub cboConsultaStatus_GotFocus()
-Dim itemAtual As String
-itemAtual = cboConsultaStatus.Text
-Preencher_Status
-cboConsultaStatus.Text = itemAtual
-moCombo.AttachTo cboConsultaStatus
-End Sub
-
-
-Private Sub cboConsultaStatus_Validate(Cancel As Boolean)
-''MostrarGrid_OS
-End Sub
 
 
 Private Sub cboCor_GotFocus()
@@ -6462,65 +5923,7 @@ TrataErro:
    If Err.Number = 381 Then Exit Sub
 End Sub
 
-Private Sub cboIndice_Change()
-''MostrarGrid_OS
-End Sub
 
-Private Sub cboIndice_Click()
-''MostrarGrid_OS
-End Sub
-
-
-Private Sub cboIndice_GotFocus()
-Dim varNomeAntes As String
-varNomeAntes = cboIndice.Text
-
-Preencher_Indice
-
-cboIndice.Text = varNomeAntes
-moCombo.AttachTo cboIndice
-End Sub
-
-
-Private Sub cboLocalizar_GotFocus()
-
-If cboConsultaCriterios.Text = "CLIENTE" Then
-   cboLocalizar.Clear
-   
-   sSQL = "SELECT codigo, nome FROM cliente ORDER BY nome;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   Do While Not r.EOF
-      cboLocalizar.AddItem r("nome")
-      cboLocalizar.ItemData(cboLocalizar.NewIndex) = r("codigo")
-      r.MoveNext
-   Loop
-   
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-   
-   SelectControl cboLocalizar
-   moCombo.AttachTo cboLocalizar
-ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
-   cboLocalizar.Clear
-ElseIf cboConsultaCriterios.Text = "TODOS" Then
-   cboLocalizar.Text = ""
-End If
-End Sub
-
-Private Sub cboLocalizar_LostFocus()
-   On Error GoTo TrataErro
-
-If cboConsultaCriterios.Text = "CLIENTE" Then
-   If cboLocalizar.Text = "" Then Exit Sub
-   If cboLocalizar.ListIndex = -1 Then txtCodClienteLocalizar.Text = "": Exit Sub
-   txtCodClienteLocalizar = cboLocalizar.ItemData(cboLocalizar.ListIndex)
-   Exit Sub
-End If
-
-TrataErro:
-   If Err.Number = 381 Then Exit Sub
-End Sub
 
 Private Sub cboMecanico_GotFocus()
 Dim varNomeAntes As String
@@ -7146,24 +6549,6 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 End If
 
-End Sub
-Private Sub cboTipoServico_Change()
-''MostrarGrid_OS
-End Sub
-
-Private Sub cboTipoServico_Click()
-''MostrarGrid_OS
-End Sub
-
-
-Private Sub cboTipoServico_GotFocus()
-Dim varNomeAntes As String
-varNomeAntes = cboTipoServico.Text
-
-Preencher_TipoServico
-
-cboTipoServico.Text = varNomeAntes
-moCombo.AttachTo cboTipoServico
 End Sub
 
 
@@ -7914,7 +7299,6 @@ End If
 ShowMsg "ALTERAÇÃO DOS DADOS" & vbCr & "Confirmada com sucesso!!", vbExclamation
 
 If cboStatus.Text <> "TERMINADO" Then
-    MostrarGrid_OS
     MostrarGrid_OS_Situacao
     If cboStatus.Text <> "EM EXECUÇÃO" Then
         LimparObjetos_Entrada
@@ -8012,7 +7396,6 @@ LimparObjetos_Servicos
 LimparObjetos_Pecas
 txtCodOS.Text = ""
 txtCodPedido.Text = ""
-MostrarGrid_OS
 MostrarGrid_OS_Situacao
 Form_Load
 End Sub
@@ -8184,13 +7567,8 @@ End If
 'LimparObjetos_Pecas
 'txtCodOS.Text = ""
 'txtCodPedido.Text = ""
-MostrarGrid_OS
 MostrarGrid_OS_Situacao
 'Form_Load
-End Sub
-
-Private Sub cmdExibir_Click()
-MostrarGrid_OS
 End Sub
 
 Private Sub Imprimir_Pedido()
@@ -9269,7 +8647,6 @@ LimparGrid_Situacao
 LimparTotais
 txtCodOS.Text = ""
 frmVendaFechamento.Visible = False
-MostrarGrid_OS
 MostrarGrid_OS_Situacao
 SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
 SSTab1.Tab = 0
@@ -9899,7 +9276,6 @@ LimparObjetos_Servicos
 LimparObjetos_Pecas
 txtCodOS.Text = ""
 txtCodPedido.Text = ""
-MostrarGrid_OS
 MostrarGrid_OS_Situacao
 Form_Load
    
@@ -10468,45 +9844,6 @@ Imprimir_Pedido
 '    REL_OS_PedidoVista.loadPedidos vCodOS, "OFICINA"
 '    Unload REL_OS_PedidoVista
 'End If
-End Sub
-
-Private Sub cmdImprimirConsulta_Click()
-'colocar o nome da maquina na barra de status
-Dim var_Impressora As String
-Dim oIni As Ini
-
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
-var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
-Set oIni = Nothing
-
-Me.Hide
-
-Set r = dbData.OpenRecordset(printSQL)
-
-Set REL_OS_Consulta.Relatorio.Recordset = r
-
-REL_OS_Consulta.dfQuant.Caption = lblQuant.Caption
-REL_OS_Consulta.dfTotal.Caption = "TOTAL: " & lblTotalConsulta.Caption
-REL_OS_Consulta.lblTitulo.Caption = "RELATÓRIO - CONSULTA DE ORDEM DE SERVIÇOS"
-
-'If cboFiltro.Text = "TODOS" Then
-'   REL_OS_Consulta.dfTipo.Caption = "Tipo: Todos os registros"
-'ElseIf cboFiltro.Text = "PERIODO" Then
-'   REL_OS_Consulta.dfTipo.Caption = "Tipo: Intervalo de " & Mask1.Text & " à " & Mask2.Text
-'ElseIf cboFiltro.Text = "MÊS" Then
-'   REL_OS_Consulta.dfTipo.Caption = "Tipo: Mês = " & cboMes.Text & "/" & cboAno.Text
-'ElseIf cboFiltro.Text = "CLIENTE" Then
-'   REL_OS_Consulta.dfTipo.Caption = "Cliente = " & cboNome.Text
-'Else
-'   REL_OS_Consulta.dfTipo.Caption = "Tipo:"
-'End If
-
-REL_OS_Consulta.Relatorio.NomeImpressora = var_Impressora
-REL_OS_Consulta.Relatorio.Ativar
-Unload REL_OS_Consulta
-
-Me.Show 1
 End Sub
 
 Private Sub cmdNovo_Click()
@@ -11646,20 +10983,9 @@ LimparGrid_Servicos
 LimparGrid_Acessorios
 'lblTotal.Caption = Format(0, ocMONEY)
 'lblTotalPeca.Caption = Format(0, ocMONEY)
-Preencher_TipoServico
-Preencher_Mostrar
-Preencher_Status
-Preencher_Criterios
-Preencher_Indice
-cboConsultaMostrar.ListIndex = 0
-cboConsultaStatus.ListIndex = 0
-cboConsultaCriterios.ListIndex = 0
-cboTipoServico.ListIndex = 0
-cboIndice.ListIndex = 0
-MostrarGrid_OS
 MostrarGrid_OS_Situacao
 lblValidade.Caption = Format(DateAdd("m", 1, Date), "dd/mm/yy")
-SSTab1.TabVisible(5) = False
+SSTab1.TabVisible(4) = False
 cmdEditarOS.Enabled = False
 cmdFinanceiroOS.Enabled = False
 cmdImpEntrada1.Enabled = False
@@ -11954,106 +11280,6 @@ End If
    .Redraw = True
 End With
 End Sub
-Private Sub FormatarGrid_OS(rTabela As ADODB.Recordset)
-Dim i As Integer
-Dim aCor As ColorConstants
-Dim totalRegistros As Long
-
-With Grid
-   .Rows = 1       'INICIA O GRID COM UMA LINHA
-   .FixedCols = 0  'DETERMINA QUE NÃO HAJA COLUNA FIXA
-   
-   'Abaixo o cabeçalho é criado
-   .FormatString = "^CÓD.|^TECNICO|^FINANC.|^CLIENTE|^TIPO|^FORMA|^VALOR|^DESC.|^TOTAL"
-   .ColWidth(0) = 650
-   .ColWidth(1) = 1250
-   .ColWidth(2) = 1000
-   .ColWidth(3) = 5350
-   .ColWidth(4) = 750
-   .ColWidth(5) = 750
-   .ColWidth(6) = 850
-   .ColWidth(7) = 650
-   .ColWidth(8) = 850
-    
-    'colocar os cabeçalho em negrito
-   For i = 0 To .Cols - 1
-      .Col = i
-      .Row = 0
-      .CellFontBold = True
-   Next
-   
-   .Redraw = False
-   
-   If Not rTabela Is Nothing Then
-      Do While Not rTabela.EOF
-         'ALINHAMENTO
-         .ColAlignment(3) = 1
-         .ColAlignment(6) = 0
-         .ColAlignment(5) = 0
-         .ColAlignment(6) = 6
-         .ColAlignment(7) = 6
-         .ColAlignment(8) = 6
-         
-         'A linha abaixo cria mais linha no grid
-         .Rows = .Rows + 1
-         
-         'Preenche com os dados, e assim sucessivamente
-         .TextMatrix(.Rows - 1, 0) = Format(rTabela("cod_os"), "0000")
-         .TextMatrix(.Rows - 1, 1) = rTabela("var_status")
-         .TextMatrix(.Rows - 1, 2) = rTabela("var_status_os") & ""
-         
-         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo")) & " / " & ValidateNull(rTabela("ano"))
-         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("equipamento")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo"))
-         ElseIf vTipoOS = "Comunicação Visual" Then
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("equipamento")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo"))
-         End If
-         .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("TIPO_PAGAMENTO"))
-         .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("PAGAMENTO"))
-         .TextMatrix(.Rows - 1, 6) = Format(rTabela("SUBTOTAL"), ocMONEY)
-         .TextMatrix(.Rows - 1, 7) = Format(rTabela("ValorDescReal"), ocMONEY)
-         .TextMatrix(.Rows - 1, 8) = Format(rTabela("TOTAL"), ocMONEY)
-         rTabela.MoveNext
-      Loop
-   End If
-   
-   'agora sim coloco a fução para mudar a cor da coluna e pronto
-   'mudar a cor da fonte
-   For i = 1 To .Rows - 1
-      If UCase(Trim(.TextMatrix(i, 2))) = UCase("ABERTO") Then
-         aCor = vbBlue
-      Else
-         aCor = vbRed
-      End If
-      
-      .Col = 2 'a coluna do aberto ou fechado
-      .Row = i
-      .CellForeColor = aCor
-   Next
-   
-   'mudar a cor da fonte
-   For i = 1 To .Rows - 1
-      If UCase(Trim(.TextMatrix(i, 1))) = UCase("À COMEÇAR") Then
-         aCor = vbBlack
-      ElseIf UCase(Trim(.TextMatrix(i, 1))) = UCase("EM EXECUÇÃO") Then
-         aCor = vbGreen
-      ElseIf UCase(Trim(.TextMatrix(i, 1))) = UCase("AGUARDANDO") Then
-         aCor = vbBlue
-      ElseIf UCase(Trim(.TextMatrix(i, 1))) = UCase("TERMINADO") Then
-         aCor = vbRed
-      End If
-      
-      .Col = 1 'a coluna do aberto ou fechado
-      .Row = i
-      .CellForeColor = aCor
-   Next
-   
-   .Redraw = True
-End With
-
-lblTotalConsulta.Caption = Format(SomaGrid(Grid, 8), ocMONEY)
-End Sub
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
 'Dim i As Integer
 Dim Valor As Currency
@@ -12079,25 +11305,6 @@ If txtCodOS.Text <> "" And cmdGerarEntrada.Enabled = True Then
 Else
     KillProcess "Ordem de Serviço"
 End If
-End Sub
-
-Private Sub Grid_DblClick()
-If txtCodOS.Text <> "" And cmdGerarEntrada.Enabled = True Then
-    MsgBox "A Ordem de Serviço iniciada ainda não foi salvo", vbInformation, "Aviso do Sistema"
-    SSTab1.Tab = 1
-    Exit Sub
-End If
-
-SSTab1.Tab = 1
-frmSecundario.Enabled = True
-cboStatus.Enabled = True
-cmdGerarEntrada.Enabled = False
-cmdCancelarEntrada.Enabled = False
-cmdAlterar.Enabled = True
-cmdApagar.Enabled = True
-cmdNovo.Enabled = True
-txtCodOS.Text = ""
-txtCodOS.Text = (Grid.TextMatrix(Grid.Row, 0))
 End Sub
 
 Private Sub cmdCancelarEntrada_Click()
