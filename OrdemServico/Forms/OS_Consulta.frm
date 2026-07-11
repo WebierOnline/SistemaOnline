@@ -1157,7 +1157,7 @@ Else
    varTipoPagamento = ""
 End If
 
-sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
    "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS " & _
    "WHERE (" & campoBusca & " = '" & txtFiltroRefinado.Text & "') " & _
    SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY os.DATA_TERMINO DESC"
@@ -1191,8 +1191,9 @@ Set r = dbData.OpenRecordset(printSQL)
 Set REL_OS_Consulta.Relatorio.Recordset = r
 
 REL_OS_Consulta.dfQuant.Caption = lblQtda.Caption
-REL_OS_Consulta.dfTotal.Caption = "TOTAL: " & lblTotal.Caption
+REL_OS_Consulta.dfTotal.Caption = lblTotal.Caption
 REL_OS_Consulta.lblTitulo.Caption = "RELATÓRIO - CONSULTA DE ORDEM DE SERVIÇOS"
+REL_OS_Consulta.rfData.Caption = "Data: " & Format(Now, "dd/mm/yy") & " às " & Format(Now, "hh:nn") & "hs"
 
 'If cboFiltro.Text = "TODOS" Then
 '   REL_OS_Consulta.dfTipo.Caption = "Tipo: Todos os registros"
@@ -1205,6 +1206,46 @@ REL_OS_Consulta.lblTitulo.Caption = "RELATÓRIO - CONSULTA DE ORDEM DE SERVIÇOS"
 'Else
 '   REL_OS_Consulta.dfTipo.Caption = "Tipo:"
 'End If
+
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+   REL_OS_Consulta.Label4.Caption = "CLIENTE / VEÍCULOS"
+Else
+   REL_OS_Consulta.Label4.Caption = "CLIENTE / EQUIPAMENTO"
+End If
+
+Dim sTipoConsulta As String
+Dim sCriterio As String
+Dim sFiltrosAdic As String
+
+If optFiltroRefinado.Value = True Then
+   sTipoConsulta = "Refinado - " & IIf(chkPlaca.Value = 1, "PLACA", "CHASSI")
+   sCriterio = txtFiltroRefinado.Text
+Else
+   sTipoConsulta = "Simples - " & cboConsultaCriterios.Text
+   Select Case cboConsultaCriterios.Text
+      Case "CLIENTE"
+         sCriterio = txtCodClienteLocalizar.Text
+      Case "CÓD. OS"
+         sCriterio = cboLocalizar.Text
+      Case "DATA"
+         sCriterio = mskDataConsulta.Text
+      Case "PERÍODO"
+         sCriterio = mskPeriodoInicio.Text & " a " & mskPeriodoFim.Text
+      Case "MENSAL"
+         sCriterio = cboMesConsulta.Text & "/" & cboAnoConsulta.Text
+      Case Else
+         sCriterio = "TODOS"
+   End Select
+End If
+
+sFiltrosAdic = "Status: " & cboConsultaStatus.Text & "  |  Situação: " & cboConsultaMostrar.Text & "  |  Pagamento: " & cboTipo.Text & "  |  Tipo Serviço: " & cboTipoServico.Text
+
+REL_OS_Consulta.ReportField9.Visible = True
+REL_OS_Consulta.ReportField10.Visible = True
+REL_OS_Consulta.rfCons1.Visible = True
+REL_OS_Consulta.rfCons1.Caption = sTipoConsulta
+REL_OS_Consulta.rfCons2.Caption = sCriterio
+REL_OS_Consulta.rfCons3.Caption = sFiltrosAdic
 
 REL_OS_Consulta.Relatorio.NomeImpressora = var_Impressora
 REL_OS_Consulta.Relatorio.Ativar
@@ -1302,31 +1343,31 @@ End If
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
     If cboConsultaCriterios.Text = "CLIENTE" Then
        If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (os.cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
        If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "DATA" Then
        If Not IsDate(mskDataConsulta.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "PERÍODO" Then
        If Not IsDate(mskPeriodoInicio.Text) Or Not IsDate(mskPeriodoFim.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskPeriodoInicio.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskPeriodoFim.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "MENSAL" Then
        If cboMesConsulta.Text = "" Or cboAnoConsulta.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS WHERE " & varTIPO_OS & " and (MONTH(" & campoData & ") = " & (cboMesConsulta.ListIndex + 1) & ") and (YEAR(" & campoData & ") = " & cboAnoConsulta.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento_Auto.fabricante, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento_Auto.fabricante,'') + ' / ' + ISNULL(OS_Equipamento_Auto.modelo,'') + ' / ' + ISNULL(CAST(OS_Equipamento_Auto.ano AS VARCHAR(10)),'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
             "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS " & _
             "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
             varTipoPagamento & "ORDER BY " & INDICE
@@ -1334,31 +1375,31 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
     If cboConsultaCriterios.Text = "CLIENTE" Then
        If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
        If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "DATA" Then
        If Not IsDate(mskDataConsulta.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "PERÍODO" Then
        If Not IsDate(mskPeriodoInicio.Text) Or Not IsDate(mskPeriodoFim.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskPeriodoInicio.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskPeriodoFim.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "MENSAL" Then
        If cboMesConsulta.Text = "" Or cboAnoConsulta.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (MONTH(" & campoData & ") = " & (cboMesConsulta.ListIndex + 1) & ") and (YEAR(" & campoData & ") = " & cboAnoConsulta.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
             "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS " & _
             "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
             varTipoPagamento & "ORDER BY " & INDICE
@@ -1366,31 +1407,31 @@ ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
 ElseIf vTipoOS = "Comunicação Visual" Then
     If cboConsultaCriterios.Text = "CLIENTE" Then
        If txtCodClienteLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_cliente = " & txtCodClienteLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "CÓD. OS" Then
        If cboLocalizar.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (os.cod_os = " & cboLocalizar.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "DATA" Then
        If Not IsDate(mskDataConsulta.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "PERÍODO" Then
        If Not IsDate(mskPeriodoInicio.Text) Or Not IsDate(mskPeriodoFim.Text) Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (" & campoData & " >= CONVERT(DATETIME, '" & Format(mskPeriodoInicio.Text, ocDATA) & "', 103)) and (" & campoData & " < DATEADD(day, 1, CONVERT(DATETIME, '" & Format(mskPeriodoFim.Text, ocDATA) & "', 103))) " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     ElseIf cboConsultaCriterios.Text = "MENSAL" Then
        If cboMesConsulta.Text = "" Or cboAnoConsulta.Text = "" Then Exit Sub
-       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+       sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
           "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS WHERE " & varTIPO_OS & " and (MONTH(" & campoData & ") = " & (cboMesConsulta.ListIndex + 1) & ") and (YEAR(" & campoData & ") = " & cboAnoConsulta.Text & ") " & _
           SITUACAO & var_STATUS & varTipoPagamento & "ORDER BY " & INDICE
     Else
-        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
+        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
             "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS " & _
             "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
             varTipoPagamento & "ORDER BY " & INDICE
