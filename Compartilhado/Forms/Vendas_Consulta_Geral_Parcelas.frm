@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form Vendas_Consulta_Geral_Parcelas 
    BackColor       =   &H00FFC0C0&
    BorderStyle     =   0  'None
@@ -143,7 +143,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 11
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 450
@@ -191,16 +191,16 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       
       
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = rTabela("numero")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("data"), "DD/MM/YY")
-            .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("Valor"), 2)
-            .TextMatrix(.rows - 1, 4) = FormatNumber(rTabela("JUROS"), 2)
-            .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("DESCONTO"), 2)
-            .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("varSomaHaveres"), 2)
-            .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("VALOR_FINAL"), 2)
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("pagamento"), "DD/MM/YY")
-            .TextMatrix(.rows - 1, 9) = rTabela("varStatus")
-            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("FORMA_PGTO"))
+            .TextMatrix(.Rows - 1, 1) = rTabela("numero")
+            .TextMatrix(.Rows - 1, 2) = Format(rTabela("data"), "DD/MM/YY")
+            .TextMatrix(.Rows - 1, 3) = FormatNumber(rTabela("Valor"), 2)
+            .TextMatrix(.Rows - 1, 4) = FormatNumber(rTabela("JUROS"), 2)
+            .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("DESCONTO"), 2)
+            .TextMatrix(.Rows - 1, 6) = FormatNumber(rTabela("varSomaHaveres"), 2)
+            .TextMatrix(.Rows - 1, 7) = FormatNumber(rTabela("VALOR_FINAL"), 2)
+            .TextMatrix(.Rows - 1, 8) = Format(rTabela("pagamento"), "DD/MM/YY")
+            .TextMatrix(.Rows - 1, 9) = rTabela("varStatus")
+            .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("FORMA_PGTO"))
             
             'If rTabela("pago") = "PAGO" Then
             '   .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("valor_final"), 2)
@@ -209,24 +209,58 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
             'End If
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
+      'fundo cinza claro nas colunas PGTO e STATUS
+      For i = 0 To .Rows - 1
          .Row = i
-         .Col = 5
-         If .TextMatrix(i, 5) = "PAGO" Then
-            .CellForeColor = vbBlue
+         .Col = 8
+         .CellBackColor = &HE0E0E0
+         .Col = 9
+         .CellBackColor = &HE0E0E0
+      Next
+      
+      'STATUS: PAGO = verde escuro negrito / À PAGAR = vermelho negrito
+      'PGTO: mesma formatação de STATUS quando PAGO; preto sem negrito quando À PAGAR
+      For i = 1 To .Rows - 1
+         .Row = i
+         .Col = 9
+         If .TextMatrix(i, 9) = "PAGO" Then
+            .CellForeColor = RGB(0, 100, 0)
          Else
             .CellForeColor = vbRed
          End If
+         .CellFontBold = True
          
+         .Col = 8
+         If .TextMatrix(i, 9) = "PAGO" Then
+            .CellForeColor = RGB(0, 100, 0)
+            .CellFontBold = True
+         Else
+            .CellForeColor = vbBlack
+            .CellFontBold = False
+         End If
+      Next
+      
+      'DESC.: fonte preta, sem negrito
+      For i = 1 To .Rows - 1
+         .Row = i
+         .Col = 5
+         .CellForeColor = vbBlack
+         .CellFontBold = False
+      Next
+      
+      'VENC.: negrito, vermelho escuro
+      For i = 1 To .Rows - 1
+         .Row = i
+         .Col = 2
+         .CellForeColor = RGB(139, 0, 0)
          .CellFontBold = True
       Next
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
    End With
 End Sub
 
