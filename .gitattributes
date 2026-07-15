@@ -1,0 +1,5 @@
+*.frx binary
+*.ocx binary
+*.dll binary
+*.exe binary
+*.pdf binary

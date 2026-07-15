@@ -744,6 +744,7 @@ Attribute VB_Exposed = False
 Option Explicit
 
 Public lCodOSSelecionado As Long
+Public sPlacaBusca As String
 Private moCombo As cComboHelper
 Dim printSQL As String
 Dim sSQL As String
@@ -773,10 +774,20 @@ cboMesConsulta.ListIndex = Month(Date) - 1
 cboAnoConsulta_GotFocus
 cboAnoConsulta.Text = Year(Date)
 
-cboConsultaCriterios.Text = "MENSAL"
-AtualizarCamposCriterios
-
-MostrarGrid_OS
+If sPlacaBusca <> "" Then
+   optFiltroRefinado.Value = True
+   chkPlaca.Value = 1
+   chkChassi.Value = 0
+   txtFiltroRefinado.Text = sPlacaBusca
+   sPlacaBusca = ""
+   cboConsultaCriterios.Text = "TODOS"
+   AtualizarCamposCriterios
+   MostrarGrid_OS_Refinado
+Else
+   cboConsultaCriterios.Text = "MENSAL"
+   AtualizarCamposCriterios
+   MostrarGrid_OS
+End If
 End Sub
 Private Sub cmdExibirParcelas_Click()
 If Grid.Row = 0 Then Exit Sub

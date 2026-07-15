@@ -64,6 +64,7 @@ Module=Util; Modulos\Util.bas
 Form=Forms\REL_OS_Entrada_Automoveis.frm
 Form=Forms\REL_OS_Completo.frm
 Form=Forms\OS_Consulta.frm
+Form=Forms\frmBuscarPlaca.frm
 Form=..\Compartilhado\Forms\Parcelas_Consulta_Produtos.frm
 Form=..\Compartilhado\Forms\Vendas_Consulta_Geral_Parcelas.frm
 IconForm="OS_Recapadora"
