@@ -287,20 +287,28 @@ Private Sub txtDescricao_Change()
 End Sub
 
 Private Sub txtDescricao_KeyPress(KeyAscii As Integer)
-   If KeyAscii = 13 Then
-    If Grid.Row = 0 Then Exit Sub
-      Grid.SetFocus
-      Grid.Row = 1
-      Grid.Col = 0
-      Grid.ColSel = Grid.Cols - 1
-   ElseIf KeyAscii = 27 Then
-      Unload Me
-   End If
+If KeyAscii = 13 Then
+ If Grid.Row = 0 Then Exit Sub
+   Grid.SetFocus
+   Grid.Row = 1
+   Grid.Col = 0
+   Grid.ColSel = Grid.Cols - 1
+ElseIf KeyAscii = 27 Then
+   Unload Me
+End If
+KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
 Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    Dim i As Integer
    Dim var_Comp As String     'Compartibilidade
+   Dim sModelo As String
+   Dim bCompativel As Boolean
+   Dim sModeloOS As String
+   Dim iAnoOS As Long
+
+   sModeloOS = Trim(OS_Recapadora.cboModelo.Text)
+   iAnoOS = Val(OS_Recapadora.txtAno.Text)
    
    Dim sSQL As String
    Dim r2 As ADODB.Recordset
@@ -379,38 +387,47 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            'ALINHAMENTO
-            .ColAlignment(2) = 1
-            
-            .TextMatrix(.Rows - 1, 1) = rTabela("var_cod")
-            .TextMatrix(.Rows - 1, 2) = rTabela("var_codbarra")
-            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc")
-            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("var_fab"))
-            
-            .TextMatrix(.Rows - 1, 6) = rTabela("var_med")
-            .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("var_prat"))
-            .TextMatrix(.Rows - 1, 8) = rTabela("var_quant")
-            .TextMatrix(.Rows - 1, 9) = Format$(rTabela("venda"), ocMONEY)
-            .TextMatrix(.Rows - 1, 10) = Format$(rTabela("custo"), ocMONEY)
+            var_Comp = ""
+            bCompativel = True
             
             If chkCompartibilidade.Value = 1 Then
                 sSQL = "SELECT modelo, ano FROM produtos_comp WHERE (cod_produto = " & rTabela("var_cod") & ");"
                 Set r2 = dbData.OpenRecordset(sSQL)
-                var_Comp = ""
+                bCompativel = False
                 Do While Not r2.EOF
-                   var_Comp = var_Comp & r2("modelo") & "(" & r2("ano") & "), "
+                   sModelo = Trim(r2("modelo"))
+                   If Left(sModelo, 1) = "/" Then sModelo = Trim(Mid(sModelo, 2))
+                   var_Comp = var_Comp & sModelo & "(" & r2("ano") & "), "
+                   If Not bCompativel Then
+                      If VerificaModeloCompativel(sModelo, sModeloOS) And VerificaAnoCompativel(Trim(ValidateNull(r2("ano"))), iAnoOS) Then
+                         bCompativel = True
+                      End If
+                   End If
                    r2.MoveNext
                 Loop
                 If Len(var_Comp) > 0 Then var_Comp = Left(var_Comp, Len(var_Comp) - 2) ' Limpa a última vírgula
-                .TextMatrix(.Rows - 1, 5) = var_Comp
                 If r2.State <> 0 Then r2.Close
                 Set r2 = Nothing
             End If
             
-            var_Comp = ""
+            If bCompativel Then
+               'ALINHAMENTO
+               .ColAlignment(2) = 1
+               
+               .TextMatrix(.Rows - 1, 1) = rTabela("var_cod")
+               .TextMatrix(.Rows - 1, 2) = rTabela("var_codbarra")
+               .TextMatrix(.Rows - 1, 3) = rTabela("var_desc")
+               .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("var_fab"))
+               .TextMatrix(.Rows - 1, 5) = var_Comp
+               .TextMatrix(.Rows - 1, 6) = rTabela("var_med")
+               .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("var_prat"))
+               .TextMatrix(.Rows - 1, 8) = rTabela("var_quant")
+               .TextMatrix(.Rows - 1, 9) = Format$(rTabela("venda"), ocMONEY)
+               .TextMatrix(.Rows - 1, 10) = Format$(rTabela("custo"), ocMONEY)
+               .Rows = .Rows + 1
+            End If
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
          Loop
       End If
       
@@ -419,3 +436,105 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       '.Enabled = True
    End With
 End Sub
+
+Private Function VerificaModeloCompativel(sModeloCampo As String, sModeloOS As String) As Boolean
+    Dim arr() As String
+    Dim i As Integer
+    Dim sToken As String
+
+    If Trim(sModeloOS) = "" Then
+        VerificaModeloCompativel = True
+        Exit Function
+    End If
+
+    arr = Split(sModeloCampo, "/")
+    For i = 0 To UBound(arr)
+        sToken = Trim(arr(i))
+        If sToken <> "" Then
+            If InStr(1, sToken, sModeloOS, vbTextCompare) > 0 Then
+                VerificaModeloCompativel = True
+                Exit Function
+            End If
+        End If
+    Next i
+    VerificaModeloCompativel = False
+End Function
+
+Private Function VerificaAnoCompativel(sAnoCampo As String, iAnoOS As Long) As Boolean
+    Dim sA As String
+    Dim sSep As String
+    Dim partes() As String
+    Dim iA1 As Long, iA2 As Long
+
+    sA = Trim(sAnoCampo)
+
+    If sA = "" Or iAnoOS = 0 Then
+        VerificaAnoCompativel = True
+        Exit Function
+    End If
+
+    If Right(sA, 1) = ">" Then
+        iA1 = NormalizaAno(Left(sA, Len(sA) - 1))
+        If iA1 = 0 Then
+            VerificaAnoCompativel = True
+        Else
+            VerificaAnoCompativel = (iAnoOS >= iA1)
+        End If
+        Exit Function
+    End If
+
+    If InStr(sA, "/") > 0 Then
+        sSep = "/"
+    ElseIf InStr(sA, "-") > 0 Then
+        sSep = "-"
+    Else
+        sSep = ""
+    End If
+
+    If sSep <> "" Then
+        partes = Split(sA, sSep)
+        If UBound(partes) = 1 Then
+            iA1 = NormalizaAno(partes(0))
+            iA2 = NormalizaAno(partes(1))
+            If iA1 > 0 And iA2 > 0 Then
+                VerificaAnoCompativel = (iAnoOS >= iA1 And iAnoOS <= iA2)
+                Exit Function
+            End If
+        End If
+        VerificaAnoCompativel = True
+        Exit Function
+    End If
+
+    If IsNumeric(sA) Then
+        iA1 = NormalizaAno(sA)
+        If iA1 > 0 Then
+            VerificaAnoCompativel = (iAnoOS = iA1)
+        Else
+            VerificaAnoCompativel = True
+        End If
+        Exit Function
+    End If
+
+    VerificaAnoCompativel = True
+End Function
+
+Private Function NormalizaAno(sVal As String) As Long
+    Dim v As String
+    Dim n As Long
+
+    v = Trim(sVal)
+    If Not IsNumeric(v) Then
+        NormalizaAno = 0
+        Exit Function
+    End If
+
+    n = CLng(v)
+    If Len(v) <= 2 Then
+        If n <= 30 Then
+            n = 2000 + n
+        Else
+            n = 1900 + n
+        End If
+    End If
+    NormalizaAno = n
+End Function
