@@ -1,0 +1,68 @@
+estou criando um sistema comercial em vb que precisa enviar texto para clientes cadastro para o whatsapp.... tudo pelo computador... preciso criar uma rotina onde verificar se existe o app do whatsapp no pc ou se tem alguma aba no navegado com whatsapp web aberto
+
+Para fazer essa verificação direto pelo seu sistema em VB6, precisamos usar duas estratégias diferentes: uma para procurar o aplicativo instalado no Windows e outra para checar as abas dos navegadores.
+
+No VB6, a forma mais eficiente de fazer isso é utilizando a API do Windows para listar as janelas ativas pelo título (Window Title). O WhatsApp (tanto o App quanto o Web) altera o título da janela dependendo do status (ex: se tem mensagens não lidas), mas sempre mantém a palavra "WhatsApp" no nome.
+
+Aqui está como você pode montar essa rotina no seu sistema:
+
+1. O Código da Rotina em VB6
+Insira o código abaixo em um Módulo (.bas) ou diretamente no código do seu Form:
+
+VBA
+' Declarações da API do Windows para listar as janelas
+Private Declare Function GetWindowText Lib "user32" Alias "GetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String, ByVal cch As Long) As Long
+Private Declare Function GetWindowTextLength Lib "user32" Alias "GetWindowTextLengthA" (ByVal hwnd As Long) As Long
+Private Declare Function EnumWindows Lib "user32" (ByVal lpEnumFunc As Long, ByVal lParam As Long) As Long
+
+Private TargetFound As Boolean
+
+' Função de retorno (Callback) que o Windows vai chamar para cada janela aberta
+Public Function EnumWindowsProc(ByVal hwnd As Long, ByVal lParam As Long) As Long
+    Dim sTitle As String
+    Dim lLen As Long
+    
+    lLen = GetWindowTextLength(hwnd)
+    If lLen > 0 Then
+        sTitle = Space$(lLen + 1)
+        Call GetWindowText(hwnd, sTitle, lLen + 1)
+        sTitle = Left$(sTitle, lLen)
+        
+        ' Verifica se a palavra "WhatsApp" está no título da janela (App ou Navegador)
+        If InStr(1, sTitle, "WhatsApp", vbTextCompare) > 0 Then
+            TargetFound = True
+            EnumWindowsProc = 0 ' Para a busca pois já encontrou
+            Exit Function
+        End If
+    End If
+    
+    EnumWindowsProc = 1 ' Continua procurando nas próximas janelas
+End Function
+
+' Esta é a função principal que você vai chamar no seu botão ou rotina
+Public Function WhatsAppEstaAberto() As Boolean
+    TargetFound = False
+    ' Inicia a varredura do Windows passando a função de Callback
+    Call EnumWindows(AddressOf EnumWindowsProc, 0)
+    WhatsAppEstaAberto = TargetFound
+End Function
+2. Como usar no seu botão de Envio
+Na hora em que o usuário clicar para disparar as mensagens para os clientes cadastrados, você faz a checagem:
+
+VBA
+Private Sub BtnEnviar_Click()
+    If WhatsAppEstaAberto() = False Then
+        MsgBox "Atenção: O WhatsApp (App ou aba do navegador) não foi detectado aberto neste computador." & vbCrLf & _
+               "Por favor, abra o WhatsApp para que o sistema possa enviar as mensagens.", vbExclamation, "WhatsApp não encontrado"
+        Exit Sub
+    End If
+    
+    ' Se chegou aqui, está aberto. Segue com a sua rotina de envio...
+    MsgBox "WhatsApp detectado! Iniciando envios...", vbInformation
+End Sub
+Como essa lógica funciona na prática?
+Para o Aplicativo de PC: Quando o app oficial do Windows está aberto, o título da janela é exatamente "WhatsApp". O código vai achar de primeira.
+
+Para o WhatsApp Web: Os navegadores (Chrome, Edge, Firefox) colocam o título da aba ativa no título principal da janela do Windows. Se o cliente estiver com o WhatsApp Web aberto e a aba estiver ativa (ou se for o Chrome com as abas em processos separados), o título da janela do navegador passará a ser algo como "WhatsApp - Google Chrome". A rotina vai interceptar a palavra "WhatsApp" e validar o envio.
+
+⚠️ Uma dica importante para sistemas comerciais: Se o usuário estiver usando o WhatsApp Web, mas a aba do WhatsApp estiver em segundo plano (atrás de uma aba do YouTube, por exemplo), o navegador costuma ocultar o termo "WhatsApp" do título principal da janela. Por isso, o ideal é sempre instruir o usuário na mensagem de aviso para deixar o WhatsApp visível ou em uma janela separada antes de iniciar os disparos automatizados pelo VB6.

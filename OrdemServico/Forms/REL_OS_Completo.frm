@@ -23,8 +23,8 @@ Begin VB.Form REL_OS_Completo
       MargemEsquerda  =   6
       MargemDireita   =   6
       Titulo          =   ""
-      NomeImpressora  =   "\\servidor\IMPRESSORA1"
       Registrado      =   0   'False
+      Visualizar      =   0   'False
    End
    Begin ReportX.ReportSection ReportSection2 
       Align           =   1  'Align Top

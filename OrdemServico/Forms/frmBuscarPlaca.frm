@@ -392,9 +392,9 @@ Private Sub cmdHistorico_Click()
         Exit Sub
     End If
 
-    OS_Consulta.sPlacaBusca = sPlaca
-    OS_Consulta.Show vbModal
-    Unload OS_Consulta
+    frmHistoricoOleo.sPlacaBusca = sPlaca
+    frmHistoricoOleo.Show vbModal
+    Unload frmHistoricoOleo
 End Sub
 
 Private Sub cmdFechar_Click()

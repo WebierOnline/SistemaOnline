@@ -1,0 +1,37 @@
+Preciso que o botão cmdImpGarantia1 gere uma impressão assim:
+================================================================================
+                    TERMO DE GARANTIA DE SERVIÇOS E PEÇAS
+================================================================================
+Nº DA OS: [vCodOS]                                DATA DE SAÍDA: [DataSaida]
+CLIENTE:  [NomeCliente]                           CPF/CNPJ:      [Documento]
+VEÍCULO:  [ModeloCarro] | PLACA: [Placa]          KM ATUAL:      [KM_Atual]
+--------------------------------------------------------------------------------
+
+1. PRAZO E COBERTURA DA GARANTIA
+   1.1. SERVIÇOS (Mão de Obra): Garantia de 90 (noventa) dias, a contar da data
+        de saída do veículo, conforme o Art. 26 do Código de Defesa do Consumidor (CDC).
+   1.2. PEÇAS APLICADAS: Garantia de 90 (noventa) dias contra defeitos de fabricação,
+        ressalvada a garantia estendida fornecida por fabricantes específicos.
+
+2. CONDIÇÕES GERAIS E PERDA DA GARANTIA
+   A garantia cobrirá exclusivamente os itens e serviços discriminados nesta OS.
+   A garantia será AUTOMATICAMENTE CANCELADA se:
+   a) O veículo for submetido a uso severo, manobras indevidas ou sobrecarga.
+   b) Houver intervenção, reparo ou alteração realizada por terceiros/outras oficinas
+      nos componentes atendidos por esta OS sem prévia autorização.
+   c) O veículo trafegar sem os níveis adequados de fluídos (óleo, líquido de 
+      arrefecimento) ou por danos causados por acidentes/agentes externos.
+   d) O veículo ultrapassar o limite de [5.000 / 10.000] KM rodados a partir do
+      KM registrado no momento da entrega.
+
+3. RECOMENDAÇÕES IMPORTANTES
+   - Próxima troca de óleo recomendada para o KM: [KM_Proxima] ou em 6 meses.
+   - Verifique semanalmente o nível de água e óleo com o motor frio.
+
+--------------------------------------------------------------------------------
+Declaro que recebi o veículo em perfeitas condições de funcionamento e estou de 
+acordo com os termos de garantia e serviços executados constantes nesta OS.
+
+
+________________________________________    ____________________________________
+         Assinatura do Cliente                      Oficina / Responsável

@@ -95,6 +95,7 @@ Begin VB.Form Funcionario_Cadastro
       TabPicture(0)   =   "Funcionario_Cadastro.frx":2EAE
       Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "frmDados"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "EXTRA"
       TabPicture(1)   =   "Funcionario_Cadastro.frx":2ECA
@@ -115,10 +116,10 @@ Begin VB.Form Funcionario_Cadastro
       TabCaption(2)   =   "SISTEMA"
       TabPicture(2)   =   "Funcionario_Cadastro.frx":2EE6
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "optAdmissao"
-      Tab(2).Control(1)=   "optNome"
-      Tab(2).Control(2)=   "optAtivo"
-      Tab(2).Control(3)=   "Grid"
+      Tab(2).Control(0)=   "Grid"
+      Tab(2).Control(1)=   "optAtivo"
+      Tab(2).Control(2)=   "optNome"
+      Tab(2).Control(3)=   "optAdmissao"
       Tab(2).ControlCount=   4
       Begin VB.Frame Frame1 
          Caption         =   "Comissões"
@@ -636,6 +637,44 @@ Begin VB.Form Funcionario_Cadastro
                Top             =   360
                Width           =   180
             End
+         End
+         Begin ChamaleonBtn.chameleonButton cmdAplicaTodos 
+            Height          =   315
+            Left            =   120
+            TabIndex        =   176
+            Top             =   1800
+            Width           =   2595
+            _ExtentX        =   4577
+            _ExtentY        =   556
+            BTYPE           =   3
+            TX              =   "Aplicar a todos os funcionários"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Funcionario_Cadastro.frx":2F02
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
          End
       End
       Begin VB.Frame Frame2 
@@ -1401,18 +1440,18 @@ Begin VB.Form Funcionario_Cadastro
          End
          Begin VB.ComboBox cboEstado 
             Height          =   315
-            ItemData        =   "Funcionario_Cadastro.frx":2F02
+            ItemData        =   "Funcionario_Cadastro.frx":2F1E
             Left            =   1800
-            List            =   "Funcionario_Cadastro.frx":2F04
+            List            =   "Funcionario_Cadastro.frx":2F20
             TabIndex        =   11
             Top             =   2580
             Width           =   675
          End
          Begin VB.ComboBox cboCidade 
             Height          =   315
-            ItemData        =   "Funcionario_Cadastro.frx":2F06
+            ItemData        =   "Funcionario_Cadastro.frx":2F22
             Left            =   120
-            List            =   "Funcionario_Cadastro.frx":2F08
+            List            =   "Funcionario_Cadastro.frx":2F24
             TabIndex        =   10
             Top             =   2580
             Width           =   1635
@@ -1462,9 +1501,9 @@ Begin VB.Form Funcionario_Cadastro
          End
          Begin VB.ComboBox cboSexo 
             Height          =   315
-            ItemData        =   "Funcionario_Cadastro.frx":2F0A
+            ItemData        =   "Funcionario_Cadastro.frx":2F26
             Left            =   2520
-            List            =   "Funcionario_Cadastro.frx":2F0C
+            List            =   "Funcionario_Cadastro.frx":2F28
             TabIndex        =   12
             Top             =   2580
             Width           =   1395
@@ -1777,7 +1816,7 @@ Begin VB.Form Funcionario_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12:20"
+            TextSave        =   "20:50"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1823,8 +1862,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":2F0E
-      PICN            =   "Funcionario_Cadastro.frx":2F2A
+      MICON           =   "Funcionario_Cadastro.frx":2F2A
+      PICN            =   "Funcionario_Cadastro.frx":2F46
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1862,8 +1901,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":4CBC
-      PICN            =   "Funcionario_Cadastro.frx":4CD8
+      MICON           =   "Funcionario_Cadastro.frx":4CD8
+      PICN            =   "Funcionario_Cadastro.frx":4CF4
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1901,8 +1940,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":6A6A
-      PICN            =   "Funcionario_Cadastro.frx":6A86
+      MICON           =   "Funcionario_Cadastro.frx":6A86
+      PICN            =   "Funcionario_Cadastro.frx":6AA2
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1940,8 +1979,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":8818
-      PICN            =   "Funcionario_Cadastro.frx":8834
+      MICON           =   "Funcionario_Cadastro.frx":8834
+      PICN            =   "Funcionario_Cadastro.frx":8850
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1979,8 +2018,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":A5C6
-      PICN            =   "Funcionario_Cadastro.frx":A5E2
+      MICON           =   "Funcionario_Cadastro.frx":A5E2
+      PICN            =   "Funcionario_Cadastro.frx":A5FE
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -2018,8 +2057,8 @@ Begin VB.Form Funcionario_Cadastro
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Cadastro.frx":C374
-      PICN            =   "Funcionario_Cadastro.frx":C390
+      MICON           =   "Funcionario_Cadastro.frx":C390
+      PICN            =   "Funcionario_Cadastro.frx":C3AC
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -2664,6 +2703,38 @@ End If
 
 Campos_Brancos
 Form_Load
+End Sub
+
+Private Sub cmdAplicaTodos_Click()
+Dim sSQLAplicar As String
+Dim bRetAplicar As Boolean
+
+If txtCodigo.Text = "" Then
+    ShowMsg "Selecione um funcionário antes de aplicar as comissões.", vbInformation
+    Exit Sub
+End If
+
+If ShowMsg("Isso vai substituir as comissões (À Vista, À Prazo, Recebido e Serviço) de TODOS os outros funcionários cadastrados pelos valores digitados aqui." & vbCrLf & vbCrLf & "Deseja continuar?", vbInformation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+
+sSQLAplicar = "UPDATE funcionario SET " & _
+    "Comissao_Avista1 = " & Replace(CDbl(txtComVista1.Text), ",", ".") & ", Comissao_Avista2 = " & Replace(CDbl(txtComVista2.Text), ",", ".") & ", Comissao_Avista3 = " & Replace(CDbl(txtComVista3.Text), ",", ".") & ", " & _
+    "Valor_ComissaoAV1 = " & Replace(CDbl(txtComVistaAlvo1.Text), ",", ".") & ", Valor_ComissaoAV2 = " & Replace(CDbl(txtComVistaAlvo2.Text), ",", ".") & ", Valor_ComissaoAV3 = " & Replace(CDbl(txtComVistaAlvo3.Text), ",", ".") & ", " & _
+    "Comissao_Prazo1 = " & Replace(CDbl(txtComAP1.Text), ",", ".") & ", Comissao_Prazo2 = " & Replace(CDbl(txtComAP2.Text), ",", ".") & ", Comissao_Prazo3 = " & Replace(CDbl(txtComAP3.Text), ",", ".") & ", " & _
+    "Valor_ComissaoAP1 = " & Replace(CDbl(txtComAPAlvo1.Text), ",", ".") & ", Valor_ComissaoAP2 = " & Replace(CDbl(txtComAPAlvo2.Text), ",", ".") & ", Valor_ComissaoAP3 = " & Replace(CDbl(txtComAPAlvo3.Text), ",", ".") & ", " & _
+    "Comissao_Recebido1 = " & Replace(CDbl(txtComRecebidos1.Text), ",", ".") & ", Comissao_Recebido2 = " & Replace(CDbl(txtComRecebidos2.Text), ",", ".") & ", Comissao_Recebido3 = " & Replace(CDbl(txtComRecebidos3.Text), ",", ".") & ", " & _
+    "Valor_ComissaoRec1 = " & Replace(CDbl(txtComRECAlvo1.Text), ",", ".") & ", Valor_ComissaoRec2 = " & Replace(CDbl(txtComRECAlvo2.Text), ",", ".") & ", Valor_ComissaoRec3 = " & Replace(CDbl(txtComRECAlvo3.Text), ",", ".") & ", " & _
+    "Comissao_Servico1 = " & Replace(CDbl(txtComServ1.Text), ",", ".") & ", Comissao_Servico2 = " & Replace(CDbl(txtComServ2.Text), ",", ".") & ", Comissao_Servico3 = " & Replace(CDbl(txtComServ3.Text), ",", ".") & ", " & _
+    "Valor_ComissaoServ1 = " & Replace(CDbl(txtComServAlvo1.Text), ",", ".") & ", Valor_ComissaoServ2 = " & Replace(CDbl(txtComServAlvo2.Text), ",", ".") & ", Valor_ComissaoServ3 = " & Replace(CDbl(txtComServAlvo3.Text), ",", ".") & " " & _
+    "WHERE (codigo <> " & txtCodigo.Text & ");"
+
+bRetAplicar = dbData.Execute(sSQLAplicar)
+
+If Not bRetAplicar Then
+    ShowMsg "Não foi possível aplicar as comissões aos demais funcionários.", vbCritical
+    Exit Sub
+End If
+
+ShowMsg "Comissões aplicadas a todos os outros funcionários com sucesso!", vbInformation
 End Sub
 
 Private Sub cmdNovo_Click()

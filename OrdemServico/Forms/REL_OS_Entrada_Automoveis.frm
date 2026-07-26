@@ -637,13 +637,13 @@ Begin VB.Form REL_OS_Entrada_Automoveis
          _ExtentX        =   17674
          _ExtentY        =   318
          Formato         =   "##,##0.00"
-         Caption         =   $"REL_OS_Entrada_Automoveis.frx":030A
+         Caption         =   """Não nos responsabilizamos por objetos deixados no interior do veículo. Por favor, recolha todos os seus pertences!"""
          WordWrap        =   -1  'True
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Serif"
-            Size            =   6.75
+            Name            =   "Arial Narrow"
+            Size            =   8.25
             Charset         =   0
-            Weight          =   400
+            Weight          =   700
             Underline       =   0   'False
             Italic          =   0   'False
             Strikethrough   =   0   'False
@@ -659,11 +659,11 @@ Begin VB.Form REL_OS_Entrada_Automoveis
          _ExtentX        =   19685
          _ExtentY        =   318
          Formato         =   "##,##0.00"
-         Caption         =   $"REL_OS_Entrada_Automoveis.frx":03B0
+         Caption         =   $"REL_OS_Entrada_Automoveis.frx":030A
          WordWrap        =   -1  'True
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Serif"
-            Size            =   6.75
+            Name            =   "Arial Narrow"
+            Size            =   8.25
             Charset         =   0
             Weight          =   400
             Underline       =   0   'False

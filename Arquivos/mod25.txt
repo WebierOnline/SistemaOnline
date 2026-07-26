@@ -1,0 +1,11 @@
+Quero modificar a consulta para quando o chkCompartibilidade = true, então ele vai consultar somente as peças que são compartíveis com o carro da OS.
+Digamos eu criei uma OS e coloquei um carro MODELO = HILUX, ANO = 2020... vou no cboPecas, aperto F2 e aparece o form OS_Consulta_Pecas... digito 'FILTRO' e ele procura ela palavra filtros em qualquer parte da DESCRIÇÃO do PRODUTO na tabela produtos (assim já está funcionando).
+Porem, se eu marcar chkCompartibilidade ele deve procurar somente as peças compartiveis com aquela carro, porem no cadastro de compartibilidade existem algumas variações que devem ser levadas em consideração. Olha a imagem image79.jpg para vc ter uma ideia.
+- Uma carro que é aceito em 2 modelos ou mais fica assim(exemplo):
+CORSA (98/03), CLASSIC(2004/15), CELTA(00/15)
+Note que sempre o modelo fica fora(antes) do (), e dentro do () fica o ano (ou anos ou intervalos de anos)
+- O ano pode ser 2 dígitos ou 4 dígitos ou a mistura das duas... exemplo anterior CLASSIC(2004/15)
+- O modelo do carro por ser 2 ou mais (olha a terceira linha da image79.jpg).. exemplo: PALIO/STRADA/UNO()
+- O ano pode ser vazio (olha a sexta linha da image79.jpg)... exemplo:  S-10/BLAZER() isso significa que a consulta pega somente o modelo e todos os anos.
+-O ano pode ser ANO> (olha a segunda linha da image79.jpg)... exemplo: D-20(92>), significa que o modelo do carro é D/20 e o ano é de 92 em diante.
+-O ano pode ser ANO-ANO... exemplo: CORSA (98-03), isso quer dizer que será consultado todos desse modelo do ano de 1998 até 2003

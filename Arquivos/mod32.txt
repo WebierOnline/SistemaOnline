@@ -1,0 +1,12 @@
+Olha a image103 e veja algumas coisas que percebi:
+- Coluna PARC deve mostrar o numero da parcela daquela linha... no caso dos pedidos feitos no pdv saiu correto, porem no caso dos com origem OS saiu o numero da OS nessa coluna.
+- Coluna FORMA é para parecer a forma de pagamento daquela linha, no caso dos pedidos feitos no pdv saiu correto, porem no caso dos com origem OS saiu CONSERTO (que é o TIPO_OS).
+- Notei que no caso dos pedidos feitos no pdv, para cada parcela é uma linha, ou seja, se um pedido tem 3 parcelas, serão 3 linhas (com suas formas de pagamento), porem no caso dos com origem OS saiu uma linha para cada pedido. 
+Exemplo o pedido 770 (segunda linha no grid com cod_OS 462), ele possui duas parcelas:
+SELECT        CODIGO, COD_PEDIDO, COD_OS, NUMERO, DATA, PAGAMENTO, DIAS_ATRAZO, JUROS, MULTA, VALOR, VALOR_FINAL, STATUS, HAVER, HORA, FORMA_PGTO, CODCAIXA, CAIXA, TIPO_CARTAO, TIPO, DESCONTO, OS_ITEM, 
+                         COD_FUNCIONARIO
+FROM            parcelas
+WHERE        (COD_PEDIDO = 770)
+Dados:
+365	770	462	1	2026-07-07 00:00:00.000	2026-07-07 00:00:00.000	0	0,00	0,00	10,00	10,00	True	NULL	1900-01-01 20:47:36.000	DINHEIRO	125	CAIXA01	NULL	OS	0,00	NULL	1
+366	770	462	2	2026-07-07 00:00:00.000	2026-07-07 00:00:00.000	0	0,00	0,00	690,00	690,00	True	NULL	1900-01-01 20:47:36.000	PIX	125	CAIXA01	NULL	OS	0,00	NULL	1

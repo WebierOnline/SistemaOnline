@@ -1,0 +1,48 @@
+Conversei com outra IA com o botão cmdOrcamentoPDF. 
+Uso o ReportX para gerar o relatório com os dados da tabela.
+Ativo como padrão a 'Impressora PDF' (tudo que eu colocar ela para imprimir, ela gera um pdf ao invés de imprimir). Essa impressora geralmente é a 'Microsoft Print To PDF' ou 'CutePDF Writer v4.0' renomeada como 'Impressora PDF'.
+Quando clico no cmdOrcamentoPDF, coloca para imprimir o relatório na impressora de pdf... ele vai me pedi o nome do arquivo e o local numa janela logo apos.
+Para evitar de pedi o nome e o local, perguntei a IA como ela fixar um nome e um local, ela deu a ideia de usar a 'CutePDF Writer v4.0' que era mais facil de fazer a modificação abaixo:
+Veja se isso procede e se enquadra ao que desejo, caso vc tenha uma ideia melhor, pode sugerir tambem.
+
+' --- DEFINE A IMPRESSORA PDF ---
+var_ImpNormal = "Impressora PDF"
+
+' --- CONFIGURAÇÃO AUTOMÁTICA PARA CUTEPDF WRITER v4.0 ---
+If var_ImpNormal = "Impressora PDF" Then
+    Dim fso As Object
+    Dim txt As Object
+    Dim pathCopiaPDF As String
+    Dim pathIniCute As String
+    
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    
+    ' Caminho e nome do PDF que será gerado (Ex: Pasta do sistema\PDFs\OS_123.pdf)
+    pathCopiaPDF = appPathApp & "PDFs\OS_" & vCodOS & ".pdf"
+    
+    ' Local do arquivo de configuração temporário da CutePDF
+    pathIniCute = Interaction.Environ("TEMP") & "\CPW40.ini"
+    
+    ' Cria/Sobrescreve o arquivo com os parâmetros de impressão silenciosa
+    Set txt = fso.CreateTextFile(pathIniCute, True)
+    txt.WriteLine "[CutePDF Writer]"
+    txt.WriteLine "Output=" & pathCopiaPDF
+    txt.WriteLine "BypassSaveAs=1" ' Oculta a janela de 'Salvar Como'
+    txt.WriteLine "Overwrite=1"    ' Substitui o PDF caso ele já exista
+    txt.Close
+    
+    Set txt = Nothing
+    Set fso = Nothing
+End If
+' -----------------------------------------------------
+
+' Dispara a geração através do ReportX
+REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
+REL_OS_Completo.ReportMain1.Visualizar = False
+REL_OS_Completo.ReportMain1.Ativar
+
+Unload REL_OS_Completo
+
+Obs: 
+O arquivo deve ter o nome ORÇ + COD_OS, exemplo 'ORÇ_0001.PDF'
+Deve ser armazenado na pasta download do windows

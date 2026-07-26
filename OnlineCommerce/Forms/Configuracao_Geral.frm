@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:04"
+            TextSave        =   "08:29"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -5262,6 +5262,7 @@ var_Texto = cboTipoOS.Text
    cboTipoOS.AddItem "Comunicação Visual"
    cboTipoOS.AddItem "Informática"
    cboTipoOS.AddItem "Celular"
+   cboTipoOS.AddItem "Climatização"
    cboTipoOS.AddItem "Recapadora"
    cboTipoOS.AddItem "Agrícola"
 cboTipoOS.Text = var_Texto

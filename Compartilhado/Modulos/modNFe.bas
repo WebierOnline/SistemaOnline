@@ -69,7 +69,7 @@ Dim ComandoSQL As String
       End If
    End If
    
-   dirXML = SQLExecutaRetorno(ComandoSQL, "DiretorioXML", App.path)
+   dirXML = SQLExecutaRetorno(ComandoSQL, "DiretorioXML", App.Path)
    dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
    iRetorno = objNFeNFCe.ConfigurarDLL("", _
                                        SQLExecutaRetorno(ComandoSQL, "CertificadoDigital", ""), _
@@ -280,7 +280,7 @@ Screen.MousePointer = vbHourglass
         xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!Razao, 60)))           ' Raz�o social do destinatario, evitar caracteres acentuados e &
         xTelefone = Trim(Retira(ValidateNull(Destinatario!telefone), "()-. ", UM_A_UM))     ' n�mero do telefone sem m�scara
     Else
-        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!Nome, 60)))           ' Raz�o social do destinatario, evitar caracteres acentuados e &
+        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!nome, 60)))           ' Raz�o social do destinatario, evitar caracteres acentuados e &
         xTelefone = Trim(Retira(ValidateNull(Destinatario!Telefone1), "()-. ", UM_A_UM))   ' n�mero do telefone sem m�scara
     End If
       
@@ -494,9 +494,9 @@ End If
            vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
            pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
            pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
-           pAliqEfetUF  = pIBSUF  * (1 - pIBSpRed  / 100)
-           pAliqEfetMun = pIBSMun * (1 - pIBSpRed  / 100)
-           pAliqEfetCBS = pCBS    * (1 - pCBSpRed  / 100)
+           pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
+           pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
+           pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
            If vBCCBSIBS > 0 Then
               iRetorno = sistNFe.GerarItensImpostoIBSCBS( _
                   IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
@@ -533,9 +533,9 @@ End If
            vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
            pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
            pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
-           pAliqEfetUF  = pIBSUF  * (1 - pIBSpRed  / 100)
-           pAliqEfetMun = pIBSMun * (1 - pIBSpRed  / 100)
-           pAliqEfetCBS = pCBS    * (1 - pCBSpRed  / 100)
+           pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
+           pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
+           pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
            If vBCCBSIBS > 0 Then
               iRetorno = sistNFe.GerarItensImpostoIBSCBS( _
                   IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
@@ -843,7 +843,7 @@ consultaNFe:
     
     If cStat2 <> 100 And cStat2 <> 101 And cStat2 <> 110 And cStat2 <> 150 Then
        NFeMotivo = ""
-       MsgBox str$(cStat2) & " - " & nfeRetorno, vbExclamation, "Retorno Consulta Recibo"
+       MsgBox Str$(cStat2) & " - " & nfeRetorno, vbExclamation, "Retorno Consulta Recibo"
        If cStat2 = 206 Then
           vsSQL = "UPDATE NotaFiscal SET Inutilizada = 1 WHERE CodigoNota = " & NumeroNota
           vgDb.Execute vsSQL
@@ -899,7 +899,7 @@ buscaNFe:
       vgDb.Execute vsSQL
       GoTo buscaNFe
    ElseIf cStat <> 100 And cStat <> 301 Then
-      NFeMotivo = str$(cStat) + " - " + NFeMotivo
+      NFeMotivo = Str$(cStat) + " - " + NFeMotivo
       GoTo NaoEnviou
    ElseIf cStat = 105 And cStat = 217 Then
       GoTo consultaNFe
@@ -909,7 +909,7 @@ buscaNFe:
       msgResultado = msgResultado + "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
       'msgResultado = msgResultado + "Recibo.: " + NFeNumeroRecibo & vbCrLf
       msgResultado = msgResultado + "Data e Hora.: " + NFeDataHora & vbCrLf
-      msgResultado = msgResultado + "Resposta da Fazenda.: " + str$(cStat) & " - " & NFeMotivo
+      msgResultado = msgResultado + "Resposta da Fazenda.: " + Str$(cStat) & " - " & NFeMotivo
         
       MsgBox msgResultado, vbInformation + vbOKOnly
        
@@ -1029,7 +1029,7 @@ Caifora:
 End Function
 
 Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65") As Boolean  'Fun��o que monta o arquivo XML e faz o envio para a Receita
- Dim txtNumerado As String, Retorno As String, vsNFe As String, empUF As String, SQL As String
+ Dim txtNumerado As String, Retorno As String, vsNFe As String, empUF As String, sql As String
  Dim Parametros As New ADODB.Recordset
  Dim NFe As New ADODB.Recordset, NFeItens As New ADODB.Recordset, NFeParcelas As New ADODB.Recordset
  Dim NFeMedicamentos As New ADODB.Recordset, NFeArmamento As New ADODB.Recordset, NFeCombustivel As New ADODB.Recordset, NFeVeiculos As New ADODB.Recordset
@@ -1044,7 +1044,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
  
  'On Error GoTo TransmitirNFCe_Error
  
- On Error GoTo deuErro
+ 'On Error GoTo deuErro
 
  Dim sistNFCe As snfe.Util
  Set sistNFCe = New snfe.Util
@@ -1151,6 +1151,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     If Len(NFe!CPF_CNPJ) > 0 Then
        iRetorno = sistNFCe.GerarDestinatario(4, xRazaoSocial, xCNPJ, xCPF, "", Retira(NFe!InscEst, ".,-/", UM_A_UM), "", Left$(NFe!NFeIndicadorIEDestinatario, 1), "", RemoveAcento(NFe!Endereco), NFe!Num, "", RemoveAcento(NFe!bairro), NFe!CodigoIBGE, RemoveAcento(NFe!Municipio), NFe!UF, Retira(NFe!CEP, ".- ", UM_A_UM), 1058, "BRASIL", NFe!Fone, "", mensagemAlerta, mensagemErro)
     End If
+    
     'desabilitei pq o campo tipo_produto t� dando erro na consulta
     vsSQL = "SELECT TbNFCe_Itens.IdNFProd, TbNFCe_Itens.IdNFProd_Item, TbNFCe_Itens.CodProduto, TbNFCe_Itens.IdProduto, TbNFCe_Itens.DescricaoProduto, TbNFCe_Itens.ValorOutras, TbNFCe_Itens.TipoProduto, " & _
             "TbNFCe_Itens.CodBarras, TbNFCe_Itens.UN, TbNFCe_Itens.CFOP, TbNFCe_Itens.QtdeMov, TbNFCe_Itens.ValorUnit, TbNFCe_Itens.Desconto, TbNFCe_Itens.Aliq_Icms AS Aliquota, " & _
@@ -1174,6 +1175,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
 
     RsOpen NFeItens, vsSQL
     'Set NFeItens = vgDb.OpenRecordset(vsSQL)
+    'Debug.Print vsSQL
 
     'parte do g�s que estava desabilitada por erro
     Dim vGasCounter As Integer
@@ -1538,7 +1540,7 @@ buscaNFe:
         msgResultado = msgResultado + "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
         If NFeNumeroRecibo <> "" Then msgResultado = msgResultado + "Recibo.: " + NFeNumeroRecibo & vbCrLf
         msgResultado = msgResultado + "Data e Hora.: " + NFeDataHora & vbCrLf
-        msgResultado = msgResultado + "Resposta da Fazenda.: " + str$(cStat2) + " - " & nfeRetorno
+        msgResultado = msgResultado + "Resposta da Fazenda.: " + Str$(cStat2) + " - " & nfeRetorno
 
         ' mensagem de emissao  MsgBox msgResultado, vbInformation + vbOKOnly
 
@@ -1622,8 +1624,8 @@ deuErro:
 
 TransmitirNFCe_Error:    'reativei dia 06/03/26 para ver
     'Screen.MousePointer = vbDefault
-    ''MsgBox "ERRO AO TRANSMITIR A NFCe." & vbNewLine & "Confira os produtos e tente transferir novamente!", vbCritical, "Falha"
-    ''MsgBox "Falha (" & Err.Description & ")" & vbNewLine & "Em TransmitirNFCe no M�dulo NFe_DLL", vbCritical, "Falha"
+    'MsgBox "ERRO AO TRANSMITIR A NFCe." & vbNewLine & "Confira os produtos e tente transferir novamente!", vbCritical, "Falha"
+    'MsgBox "Falha (" & Err.Description & ")" & vbNewLine & "Em TransmitirNFCe no M�dulo NFe_DLL", vbCritical, "Falha"
     'MsgBox CStr(sistNFCe.cStat) & " - " & sistNFCe.xMotivo, vbCritical, "Falha"
     'Set sistNFCe = Nothing
     'Err.Clear
@@ -1664,9 +1666,9 @@ Dim sistNFe As snfe.Util
       GoTo continua
    Else
       If cStat2 > 0 Then
-         MsgBox str$(cStat2) & " - " & NFeValidate, vbInformation, "Cancelar NFe"
+         MsgBox Str$(cStat2) & " - " & NFeValidate, vbInformation, "Cancelar NFe"
       Else
-         MsgBox str$(cStat) & " - " & NFeMotivo, vbInformation, "Cancelar NFe"
+         MsgBox Str$(cStat) & " - " & NFeMotivo, vbInformation, "Cancelar NFe"
       End If
       GoTo Caifora
    End If
@@ -1674,7 +1676,7 @@ Dim sistNFe As snfe.Util
 continua:
    msgResultado = "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
    msgResultado = msgResultado + "Data/Hora: " & NFeDataHora & vbCrLf
-   msgResultado = msgResultado + "Resposta da Fazenda.: " + str(cStat2) & " - " & NFeValidate
+   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat2) & " - " & NFeValidate
    
    MsgBox msgResultado, vbInformation + vbOKOnly, "Cancelar NFe"
 
@@ -1737,7 +1739,7 @@ Dim sistNFCe As snfe.Util
 continua:
    msgResultado = "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
    msgResultado = msgResultado + "Data/Hora: " & NFeDataHora & vbCrLf
-   msgResultado = msgResultado + "Resposta da Fazenda.: " + str(cStat2) & " - " & NFeValidate
+   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat2) & " - " & NFeValidate
    
    'msgResultado = NFeResposta
    
@@ -1786,7 +1788,7 @@ buscaNFe:
      Sleep 10000
      GoTo buscaNFe
   ElseIf cStat = 106 Then
-     msgResultado = str$(cStat) + " - " + NFeMotivo
+     msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
      NFeValidate = "NFe/NFCe N�O LOCALIZADA"
      iRetorno = sistNFe.ConsultarProtocolo(ChaveAcesso)
@@ -1824,12 +1826,12 @@ buscaNFe:
         GoTo Caifora
      End If
   ElseIf cStat = 239 Then
-     msgResultado = str$(cStat) + " - " + NFeMotivo
+     msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
      NFeValidate = "NFe/NFCe COM PROBLEMAS"
      GoTo Caifora
   ElseIf cStat = 215 Then
-     msgResultado = str$(cStat) + " - " + NFeMotivo
+     msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
      NFeValidate = "NFe/NFCe COM PROBLEMAS"
      GoTo Caifora
@@ -1864,7 +1866,7 @@ buscaNFe:
      msgResultado = "Chave NF-e.: " + ChaveAcesso & vbCrLf
      msgResultado = msgResultado + "Recibo.: " + Recibo & vbCrLf
      msgResultado = msgResultado + "Data e Hora.: " + NFeDataHora & vbCrLf
-     msgResultado = msgResultado + "Resposta da Fazenda.: " + str(nroRecibo) + " - " & nfeRetorno
+     msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(nroRecibo) + " - " & nfeRetorno
      vsSQL = "UPDATE NotaFiscal SET " & _
              "ChavedeAcesso = '" & ChaveAcesso & "', " & _
              "Enviada = 1, " & _
@@ -1904,7 +1906,7 @@ continuaConsulta:
   msgResultado = msgResultado + "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
   msgResultado = msgResultado + "Recibo.: " + Recibo & vbCrLf
   msgResultado = msgResultado + "Data e Hora.: " + NFeDataHora & vbCrLf
-  msgResultado = msgResultado + "Resposta da Fazenda.: " + str(cStat) + " - " & NFeMotivo
+  msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat) + " - " & NFeMotivo
   
   If nroRecibo = 100 Then
      NFeValidate = "NFe AUTORIZADA"
@@ -1975,7 +1977,7 @@ buscaNFe:
      Sleep 10000
      GoTo buscaNFe
   ElseIf cStat = 106 Then
-     msgResultado = str$(cStat) + " - " + NFeMotivo
+     msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
      NFeValidate = "NFe/NFCe N�O LOCALIZADA"
      iRetorno = sistNFe.ConsultarProtocolo(ChaveAcesso)
@@ -2005,7 +2007,7 @@ buscaNFe:
         GoTo Caifora
      End If
   ElseIf cStat = 239 Then
-     msgResultado = str$(cStat) + " - " + NFeMotivo
+     msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
      NFeValidate = "NFe/NFCe COM PROBLEMAS"
      GoTo Caifora
@@ -2062,7 +2064,7 @@ continuaConsulta:
   msgResultado = msgResultado + "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
   msgResultado = msgResultado + "Recibo.: " + Recibo & vbCrLf
   msgResultado = msgResultado + "Data e Hora.: " + NFeDataHora & vbCrLf
-  msgResultado = msgResultado + "Resposta da Fazenda.: " + str$(cStat) + " - " & NFeMotivo
+  msgResultado = msgResultado + "Resposta da Fazenda.: " + Str$(cStat) + " - " & NFeMotivo
   If nroRecibo = 100 Then
      NFeValidate = "NFe AUTORIZADA"
      NFeChaveAcesso = ChaveAcesso
@@ -2123,7 +2125,7 @@ Public Sub consultaNFe(ChaveAcesso As Variant, Optional NaoMostraMSG As Boolean)
    msgResultado = "Chave NF-e.: " & ChaveAcesso & vbCrLf
    msgResultado = msgResultado + "Protocolo.: " & NFeNumeroProtocolo & vbCrLf
    msgResultado = msgResultado + "Data e Hora.: " & NFeDataHora & vbCrLf
-   msgResultado = msgResultado + "Resposta da Fazenda.: " + str$(cStat) & " - " & NFeMotivo
+   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str$(cStat) & " - " & NFeMotivo
    
    If cStat = 100 Then
       NFeValidate = "NFe AUTORIZADA"
@@ -2193,7 +2195,7 @@ Public Sub consultaNFCe(ChaveAcesso As Variant, Optional NaoMostraMSG As Boolean
    msgResultado = "Chave NF-e.: " & ChaveAcesso & vbCrLf
    msgResultado = msgResultado + "Protocolo.: " & NFeNumeroProtocolo & vbCrLf
    msgResultado = msgResultado + "Data e Hora.: " & NFeDataHora & vbCrLf
-   msgResultado = msgResultado + "Resposta da Fazenda.: " + str$(cStat) & " - " & NFeMotivo
+   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str$(cStat) & " - " & NFeMotivo
    
    If cStat = 100 Then
       NFeValidate = "NFe AUTORIZADA"
@@ -2309,7 +2311,7 @@ Set sistNFe = New snfe.Util
 continua:
    msgResultado = "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
    msgResultado = msgResultado + "Data/Hora: " & NFeDataHora & vbCrLf
-   msgResultado = msgResultado + "Resposta da Fazenda.: " + str(cStat) & " - " & NFeMotivo
+   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat) & " - " & NFeMotivo
    
    MsgBox msgResultado, vbInformation + vbOKOnly, "ENVIO CCe"
   
@@ -2358,14 +2360,14 @@ Set sistNFe = New snfe.Util
   If cStat = 135 Or cStat2 = 135 Then
      GoTo continua
   Else
-     MsgBox str(cStat2) & " - " & NFeValidate & vbNewLine & "CHAVE: " & ChaveAcesso, vbInformation, "ERRO"
+     MsgBox Str(cStat2) & " - " & NFeValidate & vbNewLine & "CHAVE: " & ChaveAcesso, vbInformation, "ERRO"
      GoTo Caifora
   End If
          
 continua:
   msgResultado = "Protocolo.: " + NFeNumeroProtocolo & vbCrLf
   msgResultado = msgResultado + "Data/Hora: " & NFeDataHora & vbCrLf
-  msgResultado = msgResultado + "Resposta da Fazenda.: " + str(cStat2) & " - " & NFeValidate
+  msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat2) & " - " & NFeValidate
     
   If Not SemMSG Then MsgBox msgResultado, vbInformation + vbOKOnly, "Envio Manifesta��o do Destinat�rio"
   

@@ -2,29 +2,29 @@ VERSION 5.00
 Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.Ocx"
 Begin VB.Form REL_Comissoes 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "Impressão de Contas à Pagar"
-   ClientHeight    =   4395
+   Caption         =   "Impressão de Comissões"
+   ClientHeight    =   4530
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   12570
+   ClientWidth     =   14040
    Icon            =   "REL_Comissoes.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   77.523
+   ScaleHeight     =   79.904
    ScaleMode       =   6  'Millimeter
-   ScaleWidth      =   221.721
+   ScaleWidth      =   247.65
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    WindowState     =   2  'Maximized
    Begin ReportX.ReportSection ReportSection3 
       Align           =   1  'Align Top
-      Height          =   1395
+      Height          =   1455
       Left            =   0
-      Top             =   2550
-      Width           =   12570
-      _ExtentX        =   22172
-      _ExtentY        =   2461
+      Top             =   2520
+      Width           =   14040
+      _ExtentX        =   24765
+      _ExtentY        =   2566
       Tipo            =   7
       Begin ReportX.ReportField rfCons2 
          Height          =   225
@@ -70,7 +70,6 @@ Begin VB.Form REL_Comissoes
          Left            =   120
          TabIndex        =   22
          Top             =   300
-         Visible         =   0   'False
          Width           =   3975
          _ExtentX        =   7011
          _ExtentY        =   397
@@ -87,11 +86,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfQuantAvista 
          Height          =   255
-         Left            =   9600
+         Left            =   8880
          TabIndex        =   23
          Top             =   180
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   435
+         _ExtentX        =   767
          _ExtentY        =   450
          Caption         =   ""
          Alignment       =   1
@@ -111,7 +110,6 @@ Begin VB.Form REL_Comissoes
          Left            =   120
          TabIndex        =   24
          Top             =   540
-         Visible         =   0   'False
          Width           =   1440
          _ExtentX        =   2540
          _ExtentY        =   397
@@ -131,8 +129,8 @@ Begin VB.Form REL_Comissoes
          Left            =   4140
          TabIndex        =   26
          Top             =   780
-         Width           =   3255
-         _ExtentX        =   5741
+         Width           =   1815
+         _ExtentX        =   3201
          _ExtentY        =   397
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -150,9 +148,8 @@ Begin VB.Form REL_Comissoes
          Left            =   4140
          TabIndex        =   27
          Top             =   300
-         Visible         =   0   'False
-         Width           =   3240
-         _ExtentX        =   5715
+         Width           =   1860
+         _ExtentX        =   3281
          _ExtentY        =   397
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -170,11 +167,10 @@ Begin VB.Form REL_Comissoes
          Left            =   4140
          TabIndex        =   28
          Top             =   60
-         Visible         =   0   'False
-         Width           =   960
-         _ExtentX        =   1693
+         Width           =   1140
+         _ExtentX        =   2011
          _ExtentY        =   397
-         Caption         =   "FORMA:"
+         Caption         =   "RELATÓRIO:"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Arial Narrow"
             Size            =   8.25
@@ -187,11 +183,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfTotalAVista 
          Height          =   255
-         Left            =   10500
+         Left            =   10860
          TabIndex        =   34
          Top             =   180
-         Width           =   1035
-         _ExtentX        =   1826
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   450
          Formato         =   "##,##0.00"
          Caption         =   ""
@@ -209,11 +205,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfQuantRecebido 
          Height          =   255
-         Left            =   9600
+         Left            =   8880
          TabIndex        =   36
          Top             =   780
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   435
+         _ExtentX        =   767
          _ExtentY        =   450
          Caption         =   ""
          Alignment       =   1
@@ -230,11 +226,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfQuantAPrazo 
          Height          =   255
-         Left            =   9600
+         Left            =   8880
          TabIndex        =   38
          Top             =   480
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   435
+         _ExtentX        =   767
          _ExtentY        =   450
          Caption         =   ""
          Alignment       =   1
@@ -251,11 +247,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfTotalAPrazo 
          Height          =   255
-         Left            =   10500
+         Left            =   10860
          TabIndex        =   39
          Top             =   480
-         Width           =   1035
-         _ExtentX        =   1826
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   450
          Formato         =   "##,##0.00"
          Caption         =   ""
@@ -273,11 +269,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfQuantServicos 
          Height          =   255
-         Left            =   9600
+         Left            =   8880
          TabIndex        =   44
          Top             =   1080
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   435
+         _ExtentX        =   767
          _ExtentY        =   450
          Caption         =   ""
          Alignment       =   1
@@ -294,11 +290,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfTotalRecebido 
          Height          =   255
-         Left            =   10500
+         Left            =   10860
          TabIndex        =   45
          Top             =   780
-         Width           =   1035
-         _ExtentX        =   1826
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   450
          Formato         =   "##,##0.00"
          Caption         =   ""
@@ -316,11 +312,11 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField dfTotalServicos 
          Height          =   255
-         Left            =   10500
+         Left            =   10860
          TabIndex        =   46
          Top             =   1080
-         Width           =   1035
-         _ExtentX        =   1826
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   450
          Formato         =   "##,##0.00"
          Caption         =   ""
@@ -362,8 +358,8 @@ Begin VB.Form REL_Comissoes
          TabIndex        =   50
          Top             =   540
          Visible         =   0   'False
-         Width           =   1320
-         _ExtentX        =   2328
+         Width           =   1140
+         _ExtentX        =   2011
          _ExtentY        =   397
          Caption         =   "VALOR TOTAL"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -375,6 +371,222 @@ Begin VB.Form REL_Comissoes
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
+      End
+      Begin ReportX.ReportField dfValorAvista 
+         Height          =   255
+         Left            =   9360
+         TabIndex        =   55
+         Top             =   180
+         Width           =   915
+         _ExtentX        =   1614
+         _ExtentY        =   450
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfValorAPrazo 
+         Height          =   255
+         Left            =   9360
+         TabIndex        =   56
+         Top             =   480
+         Width           =   915
+         _ExtentX        =   1614
+         _ExtentY        =   450
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfValorRecebido 
+         Height          =   255
+         Left            =   9360
+         TabIndex        =   57
+         Top             =   780
+         Width           =   915
+         _ExtentX        =   1614
+         _ExtentY        =   450
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfValorServicos 
+         Height          =   255
+         Left            =   9360
+         TabIndex        =   58
+         Top             =   1080
+         Width           =   915
+         _ExtentX        =   1614
+         _ExtentY        =   450
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfPorcAvista 
+         Height          =   255
+         Left            =   10320
+         TabIndex        =   60
+         Top             =   180
+         Width           =   495
+         _ExtentX        =   873
+         _ExtentY        =   450
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfPorcRecebido 
+         Height          =   255
+         Left            =   10320
+         TabIndex        =   61
+         Top             =   780
+         Width           =   495
+         _ExtentX        =   873
+         _ExtentY        =   450
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfPorcAPrazo 
+         Height          =   255
+         Left            =   10320
+         TabIndex        =   62
+         Top             =   480
+         Width           =   495
+         _ExtentX        =   873
+         _ExtentY        =   450
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField dfPorcServicos 
+         Height          =   255
+         Left            =   10320
+         TabIndex        =   63
+         Top             =   1080
+         Width           =   495
+         _ExtentX        =   873
+         _ExtentY        =   450
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin VB.Label Label19 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "%"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   210
+         Left            =   10320
+         TabIndex        =   64
+         Top             =   -15
+         Width           =   150
+      End
+      Begin VB.Label Label18 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Total"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   210
+         Left            =   9360
+         TabIndex        =   59
+         Top             =   -15
+         Width           =   345
       End
       Begin VB.Label Label11 
          Appearance      =   0  'Flat
@@ -393,7 +605,7 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   210
-         Left            =   10500
+         Left            =   10860
          TabIndex        =   49
          Top             =   -15
          Width           =   705
@@ -403,7 +615,7 @@ Begin VB.Form REL_Comissoes
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "Quant."
+         Caption         =   "Qtde."
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   8.25
@@ -415,10 +627,10 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   210
-         Left            =   9600
+         Left            =   8880
          TabIndex        =   48
-         Top             =   -10
-         Width           =   480
+         Top             =   -15
+         Width           =   390
       End
       Begin VB.Label Label12 
          Appearance      =   0  'Flat
@@ -437,7 +649,7 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   225
-         Left            =   8715
+         Left            =   7995
          TabIndex        =   40
          Top             =   1080
          Width           =   795
@@ -459,7 +671,7 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   225
-         Left            =   8565
+         Left            =   7845
          TabIndex        =   37
          Top             =   780
          Width           =   945
@@ -481,7 +693,7 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   225
-         Left            =   8145
+         Left            =   7425
          TabIndex        =   35
          Top             =   480
          Width           =   1365
@@ -503,7 +715,7 @@ Begin VB.Form REL_Comissoes
          EndProperty
          ForeColor       =   &H80000008&
          Height          =   225
-         Left            =   8220
+         Left            =   7500
          TabIndex        =   25
          Top             =   180
          Width           =   1290
@@ -520,7 +732,7 @@ Begin VB.Form REL_Comissoes
       Height          =   480
       Left            =   60
       TabIndex        =   0
-      Top             =   3840
+      Top             =   4020
       Width           =   480
       _ExtentX        =   847
       _ExtentY        =   847
@@ -531,19 +743,19 @@ Begin VB.Form REL_Comissoes
    End
    Begin ReportX.ReportSection ReportSection2 
       Align           =   1  'Align Top
-      Height          =   255
+      Height          =   227
       Left            =   0
       Top             =   2295
-      Width           =   12570
-      _ExtentX        =   22172
-      _ExtentY        =   450
+      Width           =   14040
+      _ExtentX        =   24765
+      _ExtentY        =   397
       Begin ReportX.ReportField ReportField1 
          Height          =   195
          Left            =   60
          TabIndex        =   7
          Top             =   0
-         Width           =   855
-         _ExtentX        =   1508
+         Width           =   735
+         _ExtentX        =   1296
          _ExtentY        =   344
          Campo           =   "var_codped"
          Caption         =   ""
@@ -559,7 +771,7 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField2 
          Height          =   195
-         Left            =   960
+         Left            =   2280
          TabIndex        =   8
          Top             =   0
          Width           =   795
@@ -580,13 +792,14 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField3 
          Height          =   195
-         Left            =   1800
+         Left            =   3120
          TabIndex        =   9
          Top             =   0
          Width           =   915
          _ExtentX        =   1614
          _ExtentY        =   344
          Campo           =   "DATA_COMPRA"
+         Formato         =   "dd/mm/yy"
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -600,16 +813,15 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField4 
          Height          =   195
-         Left            =   7500
+         Left            =   8640
          TabIndex        =   10
          Top             =   0
-         Width           =   915
-         _ExtentX        =   1614
+         Width           =   855
+         _ExtentX        =   1508
          _ExtentY        =   344
          Campo           =   "var_StatusPgto"
          Caption         =   ""
          TipoCampo       =   1
-         Alignment       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -622,13 +834,14 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField5 
          Height          =   195
-         Left            =   8520
+         Left            =   9540
          TabIndex        =   11
          Top             =   0
-         Width           =   915
-         _ExtentX        =   1614
+         Width           =   975
+         _ExtentX        =   1720
          _ExtentY        =   344
          Campo           =   "Pagamento"
+         Formato         =   "dd/mm/yy"
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -642,7 +855,7 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField8 
          Height          =   195
-         Left            =   6720
+         Left            =   7800
          TabIndex        =   29
          Top             =   0
          Width           =   735
@@ -665,7 +878,7 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField11 
          Height          =   195
-         Left            =   3360
+         Left            =   4440
          TabIndex        =   30
          Top             =   0
          Width           =   3315
@@ -686,16 +899,15 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField12 
          Height          =   195
-         Left            =   2760
+         Left            =   4080
          TabIndex        =   31
          Top             =   0
-         Width           =   555
-         _ExtentX        =   979
+         Width           =   315
+         _ExtentX        =   556
          _ExtentY        =   344
          Campo           =   "NUMERO"
          Caption         =   ""
          TipoCampo       =   1
-         Alignment       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -708,14 +920,56 @@ Begin VB.Form REL_Comissoes
       End
       Begin ReportX.ReportField ReportField7 
          Height          =   195
-         Left            =   9540
+         Left            =   10560
          TabIndex        =   41
          Top             =   0
-         Width           =   1635
-         _ExtentX        =   2884
+         Width           =   1275
+         _ExtentX        =   2249
          _ExtentY        =   344
          Campo           =   "var_FormaPgto"
          Caption         =   ""
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField46 
+         Height          =   195
+         Left            =   840
+         TabIndex        =   51
+         Top             =   0
+         Width           =   615
+         _ExtentX        =   1085
+         _ExtentY        =   344
+         Campo           =   "var_CodOS"
+         Caption         =   ""
+         TipoCampo       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField47 
+         Height          =   195
+         Left            =   1500
+         TabIndex        =   52
+         Top             =   0
+         Width           =   735
+         _ExtentX        =   1296
+         _ExtentY        =   344
+         Campo           =   "var_Origem"
+         Caption         =   ""
+         TipoCampo       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -732,8 +986,8 @@ Begin VB.Form REL_Comissoes
       Height          =   2295
       Left            =   0
       Top             =   0
-      Width           =   12570
-      _ExtentX        =   22172
+      Width           =   14040
+      _ExtentX        =   24765
       _ExtentY        =   4048
       Tipo            =   2
       Begin ReportX.ReportField rf2 
@@ -834,7 +1088,7 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   960
+         Left            =   2280
          TabIndex        =   43
          Top             =   2040
          Width           =   450
@@ -853,7 +1107,7 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   9540
+         Left            =   10560
          TabIndex        =   42
          Top             =   2040
          Width           =   660
@@ -861,7 +1115,7 @@ Begin VB.Form REL_Comissoes
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "PARC"
+         Caption         =   "Nº"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -872,12 +1126,13 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   2760
+         Left            =   4080
          TabIndex        =   33
          Top             =   2040
-         Width           =   510
+         Width           =   210
       End
       Begin VB.Label Label1 
+         Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "VALOR"
@@ -891,7 +1146,7 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   6840
+         Left            =   7920
          TabIndex        =   32
          Top             =   2040
          Width           =   630
@@ -931,7 +1186,7 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   8520
+         Left            =   9540
          TabIndex        =   6
          Top             =   2040
          Width           =   525
@@ -950,10 +1205,10 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   7620
+         Left            =   8640
          TabIndex        =   5
          Top             =   2040
-         Width           =   750
+         Width           =   810
       End
       Begin VB.Label Label7 
          AutoSize        =   -1  'True
@@ -969,7 +1224,7 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   3360
+         Left            =   4440
          TabIndex        =   4
          Top             =   2040
          Width           =   795
@@ -996,7 +1251,7 @@ Begin VB.Form REL_Comissoes
       Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "COMPRA"
+         Caption         =   "DATA"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -1007,10 +1262,10 @@ Begin VB.Form REL_Comissoes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   1800
+         Left            =   3120
          TabIndex        =   2
          Top             =   2040
-         Width           =   795
+         Width           =   510
       End
       Begin VB.Label lblTitulo 
          Alignment       =   2  'Center
@@ -1031,6 +1286,44 @@ Begin VB.Form REL_Comissoes
          TabIndex        =   1
          Top             =   1500
          Width           =   3420
+      End
+      Begin VB.Label Label15 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "OS"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   840
+         TabIndex        =   53
+         Top             =   2040
+         Width           =   225
+      End
+      Begin VB.Label Label17 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "ORIGEM"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   1500
+         TabIndex        =   54
+         Top             =   2040
+         Width           =   720
       End
    End
    Begin ReportX.ReportField ReportField42 

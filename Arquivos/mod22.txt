@@ -33,6 +33,529 @@ Acrescentem em cboCriterioPrinc a opção "PERÍODO" para Serviços.
    
 cmdExibirParcelas nao exibe as parcelas quando cboTipo.Text = "POR SERVIÇOS"
 
-image62 tudo
-image63 serviços
-image64 Produtos
+No form Vendas_Consulta_PorProdutos, quando for cboTipo.text = "POR SERVIÇOS"
+Atualmente ele filtra e exibe se baseado na OS_Servicos_Auto.data, porem preciso unir duas tabelas para exibir os mesmas campos da tabela OS_Servicos_Auto, porem usando a DATA_TERMINO da tabela OS.
+Segue as duas tabelas:
+SELECT COD_OS, COD_PEDIDO, STATUS_OS, STATUS, COD_RESPONSAVEL, TIPO_OS, DATA_ENTRADA, DATA_TERMINO, COD_FUNCIONARIO, COD_CLIENTE, SUBTOTAL, TIPO_DESC, VALOR_DESC, TOTAL, TIPO_PAGAMENTO, PAGAMENTO, ValorDescReal, OBS, ENTRADA FROM OS
+SELECT codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, cod_servico
+FROMOS_Servicos_Auto
+
+Olha a imagem image67.jpg
+Consultei 'POR PRODUTOS' e deu um total diferente tambem.
+Criei o arquivo TabPedidoItens.txt com a estrutura e dados da tabela pedidos_itens para vc olhar
+
+Olha as imagens image70.jpg e image71.jpg
+Veja que o totais dos produtos não batem
+
+Na imagem image72.jpg tem alguns campos da tabela funcionario
+Preciso editar o script 'Funcionarios - Modificações' que está em C:\Projeto\Arquivos\scripts
+Modificações: 
+* Preciso renomear os campos Valor_Comissao1, Valor_Comissao2 e Valor_Comissao1 para Valor_ComissaoAV1, Valor_ComissaoAV2, Valor_ComissaoAV3
+* Preciso criar os campos Comissao_Prazo2, Comissao_Prazo3, Valor_ComissaoAP1, Valor_ComissaoAP2 e Valor_ComissaoAP3
+* Preciso criar os campos Comissao_Servico2, Comissao_Servico3, Valor_ComissaoServ1, Valor_ComissaoServ2 e Valor_ComissaoServ3
+* Apagar os campos comissaoservicos e comissaovendas
+
+Atualize o form Funcionario_Cadastro com essas modificações que fizemos no script.
+Alguns campos novos precisam serem acrescentados nos códigos, já outros mudaram o nome.
+Objetos referentes as comissões à prazo:
+txtComAPAlvo1, txtComAPAlvo2, txtComAPAlvo3
+txtComAP1, txtComAP2, txtComAP3
+Objetos referentes as comissões de serviços:
+txtComServAlvo1(antigo: txtComPrazo1), txtComServAlvo2, txtComServAlvo3
+txtComServ1(antigo: txtComServicos1), txtComServ2, txtComServ3
+
+Nós trabalharemos com o form form Funcionario_Cadastro agora
+
+Notei que o cboTipo não é usado no chameleonButton1_Click do form Funcionario_Comissao.
+- Quando for cboTipo.Text = "VENDA" ele deve consultar / exibir as vendas
+- Quando for cboTipo.Text = "SERVIÇOS" ele deve consultar/exibir as ordens de serviços (tabela OS)
+
+Analisa o projeto OrdemServico em C:\Projeto\OrdemServico
+
+-Preciso criar na tabela OS_Servicos_Auto o campo cod_mecanico para armazenar o código do funcionário que fez o serviço(procura o script que foi criado e edite ele para add esse campo).
+-No form acrescentei o combobox cboMecanicoServ, nele deve exibir o nome de todos os funcionários, quando eu for adicionar um serviço (cmdAdicionarServicosAuto), deve ser adicionado o código daquele funcionário.
+-Não poderei adicionar o serviço sem adicionar quem fez o serviço.
+-Quando eu reabrir a OS, o cboMecanicoServ deve ser preenchido com nome do funcionario com aquele codigo armazenado
+
+Criei o cmdEditarServicosAuto para editar o serviço.
+No Grid_Servicos basta eu dar um duplo-clique na linha do serviço, que os objetos de serviços serão preenchidos.
+Poderei os dados do serviço e clicar em cmdEditarServicosAuto cmdAdicionarServicosAuto para ele atualizar
+Obs:
+Botão Editar somente ficar habitado quando o serviço for carregado nos objetos.
+Botões cmdAdicionarServicosAuto e cmdRemoverServicosAuto ficam desabitados quando estiver editando um serviço.
+Após Editar o serviços, os botãos Adicionar e Remover ficam habilitados e Editar desabilitado
+
+Ao iniciar uma nova OS (cmdNovo), os botões cmdAdicionarServicosAuto e cmdRemoverServicosAuto aparem inativos e cmdEditarServicosAuto aparece ativo.
+Quando dou um duplo-clique no grid de serviços... os objetos de serviços são preenchidos, menos o cboServicosAuto.
+Quando eu clicar em cmdEditarOS e a OS abre, se cboStatus.Text = "EM EXECUÇÃO", o stProdSer deve está invisível... porem ele está visivel (olha a image73.jpg)
+
+Continua a mesma coisa... tem certeza se está fazendo no form certo (OS_Recapadora)?
+
+Te passei a informação errada.... quando tiver como "À COMEÇAR" que deve ser oculado... os outros que exibe
+
+Deu erro:  Run-time error '91': Object variable or With block variable not set
+Quando debugo, ele seleciona a linha: If r.State <> 0 Then r.Close no evento: MostrarGrid_OS_Situacao
+
+Rodei o projeto e notei:
+- Form abriu sem erros, porem os grid vazios
+Obs: Na tabela configuracao o campo TIPO_OS = Automóveis
+- caption de tudo (botões, label, colunas e etc) eu usam acento ou ç estão desconfigurados
+
+Selecionei uma OS do grid e cliquei em cmdEditarOS e deu o seguinte erro:
+Descrição: Todas as consultas combinadas que usam o operador UNION, INTERSECT ou EXCEPT devem ter um número igual de expressões em suas listas de destino.Linha: SELECT 'SERVICO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL, CODIGO AS var_CODITEM, '' as var_CODPROD, FROM OS_Servicos_Auto WHERE (COD_OS = 00463) UNION ALL SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, desconto as var_desconto, pedidos_itens.TOTAL AS var_TOTAL, pedidos_itens.CODIGO AS var_CODITEM, pedidos_itens.COD_PRODUTO as var_CODPROD FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido WHERE (pedidos_itens.cod_pedido = 771)
+
+Selecionei uma OS do grid e cliquei em cmdEditarOS
+Os objetos da OS foram carregado com os dados.
+Quando cboStatus.Text = "À COMEÇAR", o stProdSer de ficar oculto.
+Caso eu abra uma OS com outro status diferente ou mude o cboStatus.Text <> "À COMEÇAR", ai sim o stProdSer aparecerá
+
+veja que antes o cmdAlterar definia quais objetos ocultavas e quais exibiam baseado no text escolhido no cboStatus.
+Como agora vc colocou o cboStatus para exibir/ocultar objetos, seria interessante ver o conjunto completo de objetos que precisam ocultar/exibir.
+
+-Quando eu escolher o nome do serviço em cboServicosAuto, e os dados do serviço preencher os objetos, o cboMecanicoServ deve aparecer o nome do mecanico exibido em cboMecanicoServ. Caso cboMecanico esteja vazio, deixar em branco para o usuario escolher um nome.
+-Grid que exibe os serviços deve exibir o nome do mecanico após o total
+-Ao clicar em cmdEditarServicosAuto ou cmdAdicionarServicosAuto deve ser limpo o text junto com os outros objetos dos serviços.
+
+Selecionei uma OS do grid e cliquei em cmdEditarOS e no cboMecanicoServ já apareceu o nome do ultimo mecanico adicionado os serviços.... cboMecanicoServ deve ficar limpo e somente quando eu escolher um serviço, ele autopreencher com o mesmo nome de cboMecanico
+
+o campo cod_servico na tabela OS_Servicos_Auto está ficando Null.
+Toda vez que eu adicionar/editar um serviço, esse campo deve ser preenchido 
+
+Na tabela produtos tem o campo QUANT_ESTOQUE (ele é a quantidade de produtos que possuo no meu estoque).
+Verifique se quando eu adiciono ou removo produtos de minha OS usando os cmdAdicionarPecas e cmdRemoverPecas, o QUANT_ESTOQUE é alterado corretamente.
+Verifica se em outro local tambem altera o campo QUANT_ESTOQUE
+
+Ao se criar uma nova OS (cmdNovo_Click), tambem se cria um novo PEDIDO na tabela pedidos, com o status_pedido = 0 (isso significa que o pedido encontra-se aberto), porem se outra pessoa começar uma venda no balcão (PDV) e o pedido estiver em aberto, poderia ser aberto por lá... 
+Caso eu mude para o pedido já começar fechado (status_pedido = 1) ao iniciar uma OS... alguma outra coisa no form vai deixar de ser feito?
+
+Quando financeiro fechar a vista, todas as parcelas tem que ter o campo COD_FUNCIONARIO igual numero do txtCodFuncAP.
+Quando for a prazo com entrada... a entrada(somente ela) deve ter o campo COD_FUNCIONARIO igual numero do txtCodFuncAP.
+
+
+Um fato interessante que já acontece (até mesmo antes de nós modificamos hoje)
+Após clicar no botão cmdFinalizar e tudo der certo... o SSTab1 dar foco para primeira aba, porem ficar uma parte do frmVendaFechamento da terceira aba sendo exibida ao dar o foco na primeira aba... como se fosse um fantasma, caso eu clica na segunda aba e volte para a primeira ela some.
+Olha a image75.jpg como fica
+
+Quando criei uma OS e fechei ela com a forma de pagamento à prazo com entrada...
+A entrada fico com o campo TIPO = PARCELA e deveria sera 'OS'
+Olha a image76.jpg para ver as outras parcelas com 'OS' e somente essa com nome 'PARCELAS'
+
+No tab = 3 do SSTab1 temos a aba chamada CONSULTA.
+Nela possuímos objetos para consultarmos as OS já criadas com critérios.
+Preciso que vc criei um novo form chamado OS_Consulta
+Com tudo que tem essa aba... após isso limpa os objetos e códigos perdidos dessa aba... de uma forma que não atrapalhe os códigos das outras abas que estão funcionando.
+Mais antes, faz um backup da forma que tá funcionando agora e commit tudo, pois caso dê problema, poderemos recuperar para esse ponto aqui
+
+Coloquei os comandos que vc criou no botão e coloquei em um menu.
+No evento Menu_Consulta_Geral_Click
+Quando tento abrir o form tanto tempo de execução como em desenvolvimento, dar o erro da msg image77.jpg
+
+Desconfigurou os botões do OS_Recapadora
+Os botões que ficavam abaixo do Grid_OS sumiram
+Os botões da aba CADASTRO, tambem estao aparecendo na aba situação entre outra soisas...
+Volta para como estava antes dessa ultima alteração
+
+
+Os botões do OS_Recapadora voltaram.
+Adicionei o OS_Consulta no projeto
+Criei um menu para abrir esse form... colocar para abrir ele no Menu_Consulta_OS_Click
+
+ao abrir o form OS_Consulta dar o erro da msg image78.jpg
+
+O form OS_Consulta abriu normal, dei um duplo-clique numa OS, voltou para o form OS_Recapadora, porem tentei fechar a janela clicando no X (botão Fechar) da barra de titulo... não fecha.. não acontece nada
+
+No form OS_Consulta, Na sub Preencher_Criterios quero acrescentar as opções:
+DATA
+PERÍODO
+MENSAL
+Coloca os objetos referentes a cada tipo de criterio para serem preenchidos ou escolhidos
+
+- O lblCriterio mudar o caption baseado no criterio que eu escolher em cboonsultaCriterios.
+- mskDataConsulta e mskPeriodoFim ter apenas 2 digitos no ano
+- O cmdCal1 colocar a data no mskDataConsulta e o cmdCal2 colocar a data no mskPeriodoFim(pegue o padrao de preenchido desse botão no OS_Recapadora.cmdCal1
+- Quando a consulta for por data, período ou mensal.. exibir os optionbutton optDataEntrada e optDataTermino(marcado)... então todas as consultas que usar datas, usará o campo DATA_TERMINO, caso eu marque optDataEntrada o campo será DATA_ENTRADA.
+- No Grid, após a coluna COD_OS, acrescente mais duas colunas... ENTRADA e TERMINO (exibindo a DATA_ENTRADA e DATA_TERMINO)
+
+-Quando escolhi cboConsultaCriterios.Text = "PERÍODO" o cmdCal1 não apareceu do lado do mskDataConsulta
+-Quando carregar o form OS_Consulta deve ser mensal e o ano o mês atual devem ser carregados nos objetos
+
+- Quando escolhe a consulta por PERÍODO, o mskDataConsulta aparece com ano com 4 digitos e deveria ser 2.
+- As colunas ^TERMINO e ^FINANC. aparecerem da cor cinza claro.
+
+frmConsultaSimples
+frmConsultaRefina
+
+Acrescentei alguns objetos ao form e quero dar funções a eles:
+-Quando marcar optFiltroSimples o frmConsultaSimples fica habilitado e quando marcar optFiltroRefinado, frmConsultaRefina fica habilitado... quando um estiver habilitado, o outro estará desabilitado.
+- Os chkChassi e chkPlaca somente um deles pode está marcado. Se eu marcar um e o outro estiver marcado, desmarque o outro.
+- Quando marcar um dos dois checkboxs e digitar txtFiltroRefinado e clicar no botão cmdExibir ele deve consultar todas as OS com aquela placa ou chassi.
+Obs.: Na consulta de Chassi/Placa dever organizar a lista por data_termino
+
+
+lblTotalConsulta
+lblTotal
+
+- Acrescentei cmdExibirPedidos e cmdExibirParcelas trazidos de outro form (código copiado tambem). Ajusta o código desses botões para ser usado nesse form.
+
+
+Ao abrir o form, deu erro de variavel nao definida... quando debugo, ele seleciona OS_Consulta na linha OS_Consulta.lCodOSSelecionado = 0 do evento Menu_Consulta_OS_Click
+
+No form Vendas_Consulta_Geral_Parcelas modifica:
+- Colunas "PGTO" e "STATUS" com cor de fundo cinza claro
+- Quando for "STATUS" = PAGO a cor da fonte deve ser verde escuro, quando for À PAGAR, vermelho (ambos negrito)
+- Quando for "STATUS" = PAGO a coluna "PGTO" deve pegar a mesma formatação de fonte da de "STATUS"
+- A coluna "DESC." está com a fonte negrito e vermelho... tira o negrito e deixa ela com a fonte preta
+- A coluna "VENC." deixa ela com a fonte em negrito e cor da fonte vermelha escuro
+
+ "EM EXECUÇÃO" 
+No form OS_Consulta a coluna ^TECNICO exibe "EM EXECUÇÃO" com verde muito vibrante, deixa um verde escuro
+
+Acrescentei o objeto cboTipo no frmConsultaSimples.
+preciso preencher ele com 'TODOS', 'À VISTA' e 'À PRAZO'
+Ao carregar o form, 'TODOS' deve está selecionado
+Preciso acrescentar ele na consulta do cmdExibir para consultar com os outros criterios as OS com a forma de pagamento À VISTA, À PRAZO ou todos (duas formas juntas)
+
+acrescentei o frame frmConsultaSimples2... deixe ele habilitado quando frmConsultaSimples2 estiver e quando não estiver, desabilite
+
+Acrescentei o optDataPrevisao para trabalhar na mesma linha do optDataEntrada e optDataTermino.
+
+No Grid do OS_Consulta quando:
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia, se for OS.STATUS = 'TERMINADO' ai exibe a data de termino correto.
+
+-cboConsultaStatus.text= "TODOS"
+-cboConsultaStatus.text= "À COMEÇAR"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "EM EXECUÇÃO"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "AGUARDANDO"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "TERMINADO"
+
+
+No OS_Recapadora:
+Quando um carro chega dou entrada nele na OS, obrigatoriamente tenho que colocar uma data de termino, que na verdade é uma previsão de termino... porem a data de termino verdadeira somente é pega no dia que eu mudo cboStatus.Text = "TERMINADO" e clico em cmdAlterar.
+Porem ao fechar o financeiro(cmdFinalizar) dessa OS é pego novamente a data de termino. Porque o carro pode terminar o serviço em um dia e somente dias depois o dono vim buscar... então a real data de termino é o dia que o financeiro foi fechado.
+Confira para mim se as duas situações estão atualizando a data de termino da OS.
+
+
+
+no form OS_consulta, não exibir data de termino quando o tecnico <> terminado
+
+
+O titulo CLIENTE / EQUIPAMENTO tem que depender do TIPO_OS	Automóveis da tabela configuracao... se 
+Aparecer o nome do cliente e o veiculo.
+
+- Quando escolhe cbo = MENSAL ele dar foco para cbo e apaga o text do cbo... deveria dar o foco mantendo o mês que está lá.
+- Mesma coisa do cboano.
+
+
+No OS_Consulta:
+Acrescentei o optDataPrevisao para trabalhar na mesma linha do optDataEntrada e optDataTermino.
+Se eu marcar optDataPrevisao a consulta continua pela DATA_TERMINO, o que muda somente é a exibição no grid.
+Se optDataPrevisao.value = true na linha onde OS.STATUS <> 'TERMINADO' exibe a data de termino com um P entre parentes no final. Exemplo: 04/04/06(P) e os que for OS.STATUS = 'TERMINADO' exibe a data normal
+
+-cboConsultaStatus.text= "À COMEÇAR"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "EM EXECUÇÃO"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "AGUARDANDO"
+Se OS.STATUS <> 'TERMINADO' então a celula de data de termino é exibida vazia
+-cboConsultaStatus.text= "TERMINADO"
+
+Escolhi no cboConsultaStatus = "À COMEÇAR" e cliquei no cmdExibir e não exibiu somentes os "À COMEÇAR".
+Verifica tambem as outras opções de cboConsultaStatus
+
+Na rotina Preencher_Indice remova "TIPO DE SERVIÇO"
+Verifica se o cboIndice.AddItem "DATA" usada um campo fixo para data ou usar o campo de data especificado pelo optionbutton escolhido (optDataEntrada, optDataTermino e optDataPrevisao) para fazer o indice da consulta
+
+Só me confirma uma coisa:
+Anteriormente pedi para vc criar um form com os objetos da aba CONSULTA do SSTab1 do form OS_Recapadora... e depois do form criado, vc deveria apagar somente os objetos do aba CONSULTA... e tambem os códigos desses objetos... tendo cuidado de não apagar algum codigo usado em outro objetos não apagado... pq os objetos e códigos não foram apagados?
+
+Agora vamos trabalhar com o cmdImprimir do form OS_Consulta.
+- O Label4 possui o caption 'CLIENTE / EQUIPAMENTO' tem que depender do TIPO_OS, se for	Automóveis ou Motocicletas na tabela configuração... então o caption deve ser 'CLIENTE / VEÍCULOS'... se for Informática ou Celular ou Motores deve ter o caption 'CLIENTE / EQUIPAMENTO'
+- No dfNome está fixado na propriedade CAMPO = NOME.... dessa forma só exibe o nome do cliente. preciso que seja igual exibido no grid.
+Objetos / propriedade / valor
+dfCodOS / CAMPO / cod_os
+dfTecnico / CAMPO / var_status
+dfFinanceiro / CAMPO / var_status_os
+dfNome / CAMPO / nome
+dfTipoPgto / CAMPO / TIPO_PAGAMENTO
+dfForma / CAMPO / PAGAMENTO
+dfValor / CAMPO / SUBTOTAL
+dfDesc / CAMPO / ValorDescReal
+dfTotalOS / CAMPO / TOTAL
+- Peguei de outro relatório os objetos:  rfCons1, rfCons2 e rfCons3... para descrever no rodapé do relatório quais foram os critérios usados para filtrar os dados daquele relatório.
+
+Memoriza a formatação dos objetos rfData e rfPag para usarmos no outros relatórios
+
+Coloquei novamente no form OS_Recapadora o botão cmdPlaca.
+Preciso criar um novo form para ser chamado ao clicar nesse botão.
+Esse novo form vai ter um textbox onde digitarei a placa do veiculo. Abaixo aparecerá num grid com todos os veiculos que usam essa placa.
+Clicando em um no grid e clicando no botão 'USAR ESSE', os dados do cliente e do veiculo preencherá o OS_Recapadora.
+Dados exibidos no grid e trazidos para form: CLIENTE, MODELO, ANO, PLACA, KM, COR, CHASSI
+
+Ao executar o form xxx deu o seguinte erro: Run-time error '713': Class not registered.
+Seguido de outro erro: Run-time error '440': Method 'Show' of object 'OS_Recapadora' failed
+
+Vou te explicar como o projeto de OS é sempre inicializado.
+No modulo General.bas possui a sub Main onde ao executar o projeto, o 'main' define qual form será aberto como tela inicial do projeto.
+Ao clicar no botão Start do vb6 dar o erro que expliquei antes.
+Quando debugo, ele seleciona a linha OS_Recapadora.Show do 'main'
+
+Ao clicar no botão cmdPlaca da o seguinte erro:
+Run-time error '5':Invalid procedure call or argument
+Quando debugo, ele seleciona: txtPlacaF.SetFocus no evento Form_Load
+
+No form OS_Consulta_Pecas tenho o checkbox chkCompartibilidade exibe a coluna de compartilhamento no grid.
+
+Quero modificar a consulta para quando o chkCompartibilidade = true, então ele vai consultar somente as peças que são compartíveis com o carro da OS.
+Digamos eu criei uma OS e coloquei um carro MODELO = HILUX, ANO = 2020... vou no cboPecas, aperto F2 e aparece o form OS_Consulta_Pecas... digito 'FILTRO' e ele procura ela palavra filtros em qualquer parte da DESCRIÇÃO do PRODUTO na tabela produtos (assim já está funcionando).
+Porem, se eu marcar chkCompartibilidade ele deve procurar somente as peças compartiveis com aquela carro, porem no cadastro de compartibilidade existem algumas variações que devem ser levadas em consideração. Olha a imagem image79.jpg para vc ter uma ideia.
+- Uma carro que é aceito em 2 modelos ou mais fica assim(exemplo):
+CORSA (98/03), CLASSIC(2004/15), CELTA(00/15)
+Note que sempre o modelo fica fora(antes) do (), e dentro do () fica o ano (ou anos ou intervalos de anos)
+- O ano pode ser 2 dígitos ou 4 dígitos ou a mistura das duas... exemplo anterior CLASSIC(2004/15)
+- O modelo do carro por ser 2 ou mais (olha a terceira linha da image79.jpg).. exemplo: PALIO/STRADA/UNO()
+- O ano pode ser vazio (olha a sexta linha da image79.jpg)... exemplo:  S-10/BLAZER() isso significa que a consulta pega somente o modelo e todos os anos.
+-O ano pode ser ANO> (olha a segunda linha da image79.jpg)... exemplo: D-20(92>), significa que o modelo do carro é D/20 e o ano é de 92 em diante.
+-O ano pode ser ANO-ANO... exemplo: CORSA (98-03), isso quer dizer que será consultado todos desse modelo do ano de 1998 até 2003
+
+
+No form OS_Consulta_Pecas tenho o checkbox chkCompartibilidade exibe a coluna de compartilhamento no grid. Exibe um o mais modelos de carros para uma mesma peça.
+Hoje a coluna é exibida 
+/ CORSA (98/03), / CLASSIC(2004/15), / CELTA(00/15)
+Gostaria que foi exibido assim:
+CORSA (98/03), CLASSIC(04/15), CELTA(00/15)
+
+No form frmBuscarPlaca acrescentei o botão cmdHistorico.
+Quando eu clicar no cmdHistorico, ele deve consulta no form OS_Consulta todas as OS com aquela placa.
+
+Olha a image80.jpg
+- Filtro Critérios deveria ter sido preenchido com TODOS.
+- Provavelmente os objetos que deveria ser ocultos (do lado) ficaram ocultados quando escolher TODOS no filtro de Critérios
+
+No form OS_Recapadora criei o menu Menu_Consulta_Placa.
+Preciso que ele abra o form frmBuscarPlaca e quando eu escolher uma OS e clicar no botão USAR ESSE... seja carregada a OS no OS_Recapadora.
+OBS: Quando uso o cmdPlaca para chamar o frmBuscarPlaca o botão USAR ESSE trás somente os dados do veículo e cliente... então o botão USAR ESSE tem funções distintas dependendo da forma que o form foi chamado
+
+Ao carregar uma OS já fechada o financeiro, tanto pelo frmBuscarPlaca como pelo OS_Consulta, o frmVendaFechamento deve ficar oculto.
+
+Cria um form clone do frmBuscarPlaca.
+Preciso saber todas as trocas de oleo de um veiculo.
+Na consulta de placa (txtPlacaF) consulta pela placa todas as trocas de óleo daquela placa.
+A consulta deve pegar pela placas todas as OS e ver se existe algum produto que na descrição 'OLEO' ou 'ÓLEO' em qualquer parte da descrição do produto vendido.
+Exibir no grid as colunas:
+COD.OS | DATA | CLIENTE | VEICULO | PLACA | KM | OLEO
+obs: VEICULO exibirá FABRICANTE/MODELO/ANO
+
+Coluna DATA ter 2 digitos no ano dd/mm/yy
+Coluna VEICULO ter espaço antes e depois da barra
+Depois da coluna OLEO, acrescentar outra coluna com nome CÓD. BARRA para exibir o código de barra do produto.
+Os dados do grid serem exibidos por ordem de data... descendente
+
+acrescentei o botão cmdHistorico no frmHistoricoOleo
+
+Coloca a coluna KM com fundo cinza claro
+
+No frmHistoricoOleo acrescentei o optPlaca e optCliente
+Se escolher optPlaca ele habilita txtPlacaF
+Se escolher optPlaca ele habilita cboCliente
+O cmdFiltrar vai filtrar baseado pelo optionbutton escolhido.
+O cboCliente deve ser preenchido com nome de meus clientes.
+Acrescentei o cmdCodBarra... ele copia para área de transferência o código de barra do produto selecionado no grid
+
+O cboCliente deve autoescolher o nome do cliente ao digitar as letras
+Exemplo: digito 'JOS' ele vai autopreenche o text com o primeiro cliente que começa com essas 3 letras.
+A medida que vou digitando, ele vai filtrando com as novas letras.
+Só pode começar a filtar quando eu tiver digitado 3 letras
+
+Se escolher optPlaca ele habilita e dar o foco para o txtPlacaF
+Se escolher optCliente ele habilita e dar o foco para o cboCliente
+
+Ao abrir o form dar o seguinte erro:
+"Run-time error '5': Invalid procedure call or argument".
+Quando debugo, ele seleciona txtPlacaF.SetFocus
+
+Preciso criar uma nova tabela chamada OS_ControleOleo
+ID, COD_PRODUTO, LIMITE_KM, LIMITE_PRAZO
+
+Quando vc gerar arquivos .py salve-os em C:\Projeto\scripts
+Quando vc gerar arquivos .sql salve-os em C:\Projeto\Arquivos\scripts
+
+Preciso de um formulário para exibir os dados dessa tabela que acabamos de criar.
+Exiba todos os oleos que tenho cadastrado na tabela produtos.
+Nesse grid tem que ter:
+CÓD. BARRA | ÓLEO | KM TROCA | TEMPO TROCA |
+Quero usar nesse grid o ImgMarcadaTODAS, ImgMarcada e imgDesmarcada (igual ao form Produtos_AjusteTributos)
+Preciso ter 2 optionbutton (optKM e optPrazo)
+Ao clicar no optKM fica disponível um textbox onde digitarei um numero... exemplo 5000 e ao clicar no botão Atualizar, todos que estiverem marcado no grid ficará armazenado (insert ou update na tabela OS_ControleOleo).
+Ao clicar no optPrazo fica disponível um textbox onde digitarei um numero... exemplo 6 e ao clicar no botão Atualizar, todos que estiverem marcado no grid ficará armazenado (insert ou update na tabela OS_ControleOleo). obs: optPrazo usaremos números que representa meses... exemplo: 2, 6, 10..
+
+Acrescentei no form OS_ControleOleo os objetos abaixos:
+optTodos = exibir todos que tiver 'OLEO' ou 'ÓLEO' na descrição do produto
+optCodBarra = exibir todos com aquele código de barra
+optDescricao = exibir todos com aquela descrição. (cboCriterio carrega todos os produtos que tiver 'OLEO' ou 'ÓLEO')... a medida que vou digitando, ele filtra aquelas letras na iniciais do nome do produto... começando a filtrar da terceira letra. 
+optCategoria = = exibir todos com aquela categoria (só será permitida as categorias ÓLEOS' FILTROS, LUBRIFICANTES, FLUIDOS, ADITIVOS
+cboCriterio = local onde digita/escolhe o valor para ser filtrados
+cmdFiltrar = botão para acionar o filto para exibir no grid
+
+-optTodos deve ser true quando abrir o form
+-Quando clica em optTodos oculta cboCriterio e cmdFiltrar e já exibe no grid
+-Quando clica em optKM e optPrazo limpa o txtValor
+-Quando escolher optPrazo, o txtValor não pode aceitar valores maiores que 36 quando clicar em cmdAtualizar
+-Quando clica em cmdAtualizar limpa o txtValor e desmarca os produtos (imgDesmarcada)
+
+No frmHistoricoOleo acrescentar uma coluna chamada 'PRÓXIMO' após a coluna 'KM'
+Nessa coluna deve ter o valor da proxima quilometragem do carro para troca de oleo e tambem a proxima data.
+Na tabela OS_ControleOleo tem os campos LIMITE_KM e LIMITE_PRAZO.
+Se na OS o carro trocou o oleo com 15000 km e o limite é 5000 km... a proxima troca de oleo será aos 20000 km
+Se na OS o carro trocou o oleo na data 15/05/26 e o limite(LIMITE_PRAZO) é 6(meses)... a proxima troca de oleo será em 15/11/26
+Na coluna deve exibir assim: 20000km ou 15/11/26
+
+No grid a coluna KM tem a cor de fundo cinza claro... deixa branco normal e a coluna 'PRÓXIMO' deixa ela da cor cinza claro
+
+Ao perder o foco da txtPlaca, consultar se existe algum produto que já passou o prazo de troca. Ele consulta as OS feitas por aquela placa, ver os produtos das OS, ver se os produtos estão na lista de produtos da tabela OS_ControleOleo e pega o campo LIMITE_PRAZO (que são meses) e faz o calculo baseado na data que está no objeto mskDataEntrada. Caso seja igual ou maior, aparecer uma mensagem alertando citado os produtos que já passou o prazo de troca.
+Caso tenha mais de uma OS com os mesmo produtos com prazo limite. Se baseia na ultima OS.
+Ao perder o foco do txtKm, fazer o mesmo que citei anteriormente, porem usando o campo LIMITE_KM comparando com o KM digitado no txtKm.
+Aparecerá 2 botões abaixo 'SIM' e 'NÃO'... caso eu der um SIM, ele vai adicionar o(s) produto(s) do alerta na OS.
+OBS: como são 2 objetos consulta a mesma coisas com formas diferentes (prazo ou km), tem que verificar se o produtos já não foram adicionados, para não adicionar a segunda vez. 
+Caso os produtos 'vencidos' já estejam naquela OS, nem a msg deve aparecer.
+
+Preciso criar um form onde tenha um grid onde me mostra todos os produtos vencidos baseado na DATA_TERMINO da OS e a data atual.
+Como um carro pode ter varias OS com os mesmo produtos, se baseia na ultima OS com aquele produto.
+No grid deve listar assim:
+COD.OS | CLIENTE | VEICULO / PLACA / KM | TROCA | VENCIDO | DIAS | OLEO
+VEICULO / PLACA / KM = uma coluna apenas com as 3 informações 
+TROCA =  DATA_TERMINO
+VENCIDO =  data que venceu (calcula a data de vencimento se baseado na data de termino e o LIMITE_PRAZO)
+DIAS = Quantos dias já se passou desde vencimento até a data atual
+
+No form frmOleoVencidos:
+- Colocar a coluna VENCIDO cinza claro
+- Coloquei o botão cmdNotificarEmail, quando eu clicar em uma linha do grid e clicar nesse botão, ele deve enviar para o cliente uma mensagem falando sobre os produtos que chegou ou passou do prazo_limite.
+Obs: Para vc ter uma ideia como envio email pelo meu sistema, dar uma olhada no form NFe_Completa, nele tem o cmdEnviarXML_Click que envia arquivos e mensagens para o cliente.
+Nesse caso vai ser diferente em alguns pontos:
+* Precisa pegar o nome fantasia da empresa que fez a OS (empresa.FANTASIA)
+* Não será enviado nenhum arquivo, somente mensagem
+* O email deve ser o email do cliente(cliente.Correio_eletronico) da linha que cliquei. 
+* Caso no cadastro do cliente não tenha email, pedi o email do cliente após clicar no botão cmdNotificarEmail.
+* Na imagem image81 coloquei o modelo de como deve ser o texto no email.
+
+No grid apareceu 2 linhas (cada linha com 1 cliente diferente do outro).
+- Na primeira linha o cliente tem email no cadastro dele.
+- Na segunda linha o cliente não tem email no cadastro dele.
+Cliquei na primeira linha e depois cliquei em cmdNotificarEmail e não aconteceu nada (nem msg de erro e nem o email chegou na caixa de email do cliente).
+Cliquei na segunda linha e depois cliquei em cmdNotificarEmail, pediu o email do cliente, digitei e em seguida deu o erro: "Subscript out of range" (Erro 9)  (nem o email chegou na caixa de email do cliente).
+
+-Colocar uma linha abaixo da ultima linha, assim:
+Caso deseje agendar pelo whatsapp, segue nosso contato (00) 0000-0000 (campo: empresa.CELULAR )
+-O titulo do email que é "Alerta de Troca de Óleo Vencida" deve ser "PRODUTOS FORA DO PRAZO LIMITE"
+
+
+Preciso detectar se no pc tem o app do whatsapp instalado, caso tenha, abrir ele e caso não tenha, abrir no navegador padrão o site do whatsapp web.
+Conversei agora com uma IA sobre integração do meu sistema com Whatsapp.
+Dar uma olhada no mod27 para vc entender.
+
+Quando clico no botão
+Compile error: Invalid use of AddressOf operator
+Quando debugo, ele seleciona Private Function WhatsAppEstaAberto() As Boolean
+
+Only comments may appear after End Sub, End Function, or End Property
+na Public Function fsoAbre
+
+Quando executo o projeto é para ele abrir direto o form OS_Recapadora
+Quando clico em executar no vb6 já dar o erro que mencionei anterior.
+ele seleciona a linha:
+Private Declare Function GetWindowText Lib "user32" Alias "GetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String, ByVal cch As Long) As Long
+
+Cliquei cmdNotificarZap, ele abriu uma nova aba do meu navegador padrão (Brave)
+Obs: olhe a imagem image82 e note que:
+- O navegador já encontrava-se aberto... ele apenas criou uma nova aba pedindo para conectar/escolher qual whatsapp queria enviar a msg.
+- Note que meu whatsapp já estava aberto na primeira aba, porem ele abriu uma nova aba para conectar o whatsapp
+- No sistema deu o erro: Run-time error '70': Permission denied e quando debugo, ele seleciona a linha: SendKeys "~" no evento cmdNotificarZap_Click
+
+- Cliquei cmdNotificarZap, ele abriu uma nova aba do meu navegador padrão (Brave)
+- Carregou meu whatsapp nessa nova guia, encontrou o contato na lista, abriu a conversa e digitou a msg... depois aguardou eu clicar no botão do whatsapp para enviar.
+Até aqui funcionou normal. porem, ao invés dele abrir uma nova aba, ele não utiliza a aba que já possui o whatsapp aberto?
+Teria como ele enviar a msg automaticamente sem eu ter que clicar no botão enviar da conversa?
+
+Confere se o que vc fez por ultimo foi desfeito? acho que deixei o projeto aberto enquanto vc modificava.
+
+No grid apareceu 2 linhas (cada linha com 1 cliente diferente do outro).
+- Na primeira linha a OS não tem nenhum dados do veiculo... quando clico cmdNotificarZap e cmdNotificaremail não acontece nada.
+Veja se é por esses motivos que não envia
+
+Vc disse que não tem com encontrar os produtos vencidos sem a placa, porem na image83 veja que no form/grid, mesmo sem os dados do veiculo apareceu o produto vencido.
+
+image84.jpg retrata o form xxx no estado inicial (somente abrir e não cliquei em nada).
+image85.jpg cliquei em uma OS que está "EM EXECUÇÃO"... note que os botões abaixos fica habilitados (alterar, imprimir entrada, imprimir pedido, orçamento PDF e Excluir).
+image86.jpg cliquei no optionbutton Garantia, como não existe nenhuma OS de garantia, o grid ficou vazio, porem os botões ficaram ativos... se eu clicar em algum deles, vai gerar erro, pois o grid está vazio.
+
+-Somente abrir e não cliquei em nada
+-Cliquei em uma OS que está "EM EXECUÇÃO"... note que os botões abaixos fica habilitados (alterar, imprimir entrada, imprimir pedido, orçamento PDF e Excluir)
+-cliquei no optionbutton Garantia e Orçamento, como não existe nenhuma OS de garantia e nem orçamento, o grid ficou vazio, porem o botão orçamento PDF ainda ficou ativo
+
+Uso o ReportX para gerar o relatorio com os dados da tabela.
+Ativo como padrão a impressora instalada de PDF (tudo que eu colocar ela para imprimir, ela gera um pdf ao inves de imprimir).
+Então gero o pdf e coloco para imprimir da impressora de pdf... ele vai me pedi o nome do arquivo e o local numa janela logo apos.
+
+Conversei com outra IA com o botão cmdOrcamentoPDF. 
+Uso o ReportX para gerar o relatório com os dados da tabela.
+Ativo como padrão a 'Impressora PDF' (tudo que eu colocar ela para imprimir, ela gera um pdf ao invés de imprimir). Essa impressora geralmente é a 'Microsoft Print To PDF' ou 'CutePDF Writer v4.0' renomeada como 'Impressora PDF'.
+Quando clico no cmdOrcamentoPDF, coloca para imprimir o relatório na impressora de pdf... ele vai me pedi o nome do arquivo e o local numa janela logo apos.
+Para evitar de pedi o nome e o local, perguntei a IA como ela fixar um nome e um local, ela deu a ideia de usar a 'CutePDF Writer v4.0' que era mais facil de fazer a modificação abaixo:
+Veja se isso procede e se enquadra ao que desejo, caso vc tenha uma ideia melhor, pode sugerir tambem.
+
+' --- DEFINE A IMPRESSORA PDF ---
+var_ImpNormal = "Impressora PDF"
+
+' --- CONFIGURAÇÃO AUTOMÁTICA PARA CUTEPDF WRITER v4.0 ---
+If var_ImpNormal = "Impressora PDF" Then
+    Dim fso As Object
+    Dim txt As Object
+    Dim pathCopiaPDF As String
+    Dim pathIniCute As String
+    
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    
+    ' Caminho e nome do PDF que será gerado (Ex: Pasta do sistema\PDFs\OS_123.pdf)
+    pathCopiaPDF = appPathApp & "PDFs\OS_" & vCodOS & ".pdf"
+    
+    ' Local do arquivo de configuração temporário da CutePDF
+    pathIniCute = Interaction.Environ("TEMP") & "\CPW40.ini"
+    
+    ' Cria/Sobrescreve o arquivo com os parâmetros de impressão silenciosa
+    Set txt = fso.CreateTextFile(pathIniCute, True)
+    txt.WriteLine "[CutePDF Writer]"
+    txt.WriteLine "Output=" & pathCopiaPDF
+    txt.WriteLine "BypassSaveAs=1" ' Oculta a janela de 'Salvar Como'
+    txt.WriteLine "Overwrite=1"    ' Substitui o PDF caso ele já exista
+    txt.Close
+    
+    Set txt = Nothing
+    Set fso = Nothing
+End If
+' -----------------------------------------------------
+
+' Dispara a geração através do ReportX
+REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
+REL_OS_Completo.ReportMain1.Visualizar = False
+REL_OS_Completo.ReportMain1.Ativar
+
+Unload REL_OS_Completo
+
+Obs: 
+O arquivo deve ter o nome ORÇ + COD_OS, exemplo 'ORÇ_0001.PDF'
+Deve ser armazenado na pasta download do windows
+
+Precisava ter uma solução para as 3 condições:
+- Quando a impressora for a 'CutePDF Writer v4.0' renomeada de 'Impressora PDF'
+- Quando a impressora for a 'Microsoft Print To PDF' renomeada de 'Impressora PDF'... deve pedi o nome e local
+- Quando não existir nenhuma 'Impressora PDF'... deve avisar que não existe Impressora PDF instalada e que é para entrar em contato com suporte para instalar
+
+Quando acabar de gerar o arquivo pdf, aparecer a msg que foi gerado o arquivo com sucesso... com nome do arquivo e o local (resumido), exemplo: Pasta "Downloads"
+
+A impressora é a 'CutePDF Writer v4.0' renomeada de 'Impressora PDF', porem ainda está aparecendo a janela 'Save as'
+
+Quando for cmdImpPedido1 e cmdPedidoPDF o txtParecerTitulo fica oculto no REL_OS_Completo
+txtParecerTitulo continua aparecendo nos 2 botes

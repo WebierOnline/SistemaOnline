@@ -2,6 +2,13 @@ Attribute VB_Name = "Util"
 'usado no Projeto OnlineCommerce
 Option Explicit
 
+' --- Deteccao de WhatsApp aberto (mod27.txt) - Declares tem que ficar aqui no topo ---
+Private Declare Function GetWindowText Lib "user32" Alias "GetWindowTextA" (ByVal hwnd As Long, ByVal lpString As String, ByVal cch As Long) As Long
+Private Declare Function GetWindowTextLength Lib "user32" Alias "GetWindowTextLengthA" (ByVal hwnd As Long) As Long
+Private Declare Function EnumWindows Lib "user32" (ByVal lpEnumFunc As Long, ByVal lParam As Long) As Long
+Private TargetFound As Boolean
+Private TargetHwnd As Long
+
 Public vgDb As New ADODB.Connection                 'variável objeto banco de dados
 Public vgCat As New ADOX.Catalog
 Public vgServerName As String                       'Nome do servidor SQL
@@ -2595,3 +2602,41 @@ Public Function fsoAbre(sArquivo As String, Optional sDir As String) As String
  Set fso = Nothing
 End Function
 
+
+' --- Deteccao de WhatsApp aberto (app ou aba do navegador) - mod27.txt ---
+' Declares e variavel ficam na secao de declaracoes, no topo do modulo
+' (Declare/Dim nao pode vir depois de Sub/Function em VB6).
+Private Function EnumWindowsProc(ByVal hwnd As Long, ByVal lParam As Long) As Long
+    Dim sTitle As String
+    Dim lLen As Long
+
+    lLen = GetWindowTextLength(hwnd)
+    If lLen > 0 Then
+        sTitle = Space$(lLen + 1)
+        Call GetWindowText(hwnd, sTitle, lLen + 1)
+        sTitle = Left$(sTitle, lLen)
+
+        If InStr(1, sTitle, "WhatsApp", vbTextCompare) > 0 Then
+            TargetFound = True
+            TargetHwnd = hwnd
+            EnumWindowsProc = 0
+            Exit Function
+        End If
+    End If
+
+    EnumWindowsProc = 1
+End Function
+
+Public Function WhatsAppEstaAberto() As Boolean
+    TargetFound = False
+    TargetHwnd = 0
+    Call EnumWindows(AddressOf EnumWindowsProc, 0)
+    WhatsAppEstaAberto = TargetFound
+End Function
+
+Public Function HwndJanelaWhatsApp() As Long
+    TargetFound = False
+    TargetHwnd = 0
+    Call EnumWindows(AddressOf EnumWindowsProc, 0)
+    HwndJanelaWhatsApp = TargetHwnd
+End Function

@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "11:03"
+            TextSave        =   "19:59"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -288,9 +288,9 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2955
-         Left            =   -70080
+         Left            =   -72060
          TabIndex        =   226
-         Top             =   0
+         Top             =   3180
          Visible         =   0   'False
          Width           =   4935
          Begin VB.TextBox txtParecerTecnico 
@@ -1411,7 +1411,6 @@ Begin VB.Form OS_Recapadora
             _ExtentY        =   4128
             _Version        =   393216
             Tabs            =   2
-            Tab             =   1
             TabsPerRow      =   2
             TabHeight       =   520
             TabMaxWidth     =   3528
@@ -1426,14 +1425,14 @@ Begin VB.Form OS_Recapadora
             EndProperty
             TabCaption(0)   =   "Serviços"
             TabPicture(0)   =   "OS_Recapadora.frx":6BFF
-            Tab(0).ControlEnabled=   0   'False
+            Tab(0).ControlEnabled=   -1  'True
             Tab(0).Control(0)=   "frmServicos"
+            Tab(0).Control(0).Enabled=   0   'False
             Tab(0).ControlCount=   1
             TabCaption(1)   =   "Produtos"
             TabPicture(1)   =   "OS_Recapadora.frx":6C1B
-            Tab(1).ControlEnabled=   -1  'True
+            Tab(1).ControlEnabled=   0   'False
             Tab(1).Control(0)=   "frmProdutos"
-            Tab(1).Control(0).Enabled=   0   'False
             Tab(1).ControlCount=   1
             Begin VB.Frame frmProdutos 
                Caption         =   "Produtos"
@@ -1447,7 +1446,7 @@ Begin VB.Form OS_Recapadora
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   1815
-               Left            =   120
+               Left            =   -74880
                TabIndex        =   155
                Top             =   360
                Width           =   9915
@@ -1725,7 +1724,7 @@ Begin VB.Form OS_Recapadora
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   1875
-               Left            =   -74880
+               Left            =   120
                TabIndex        =   145
                Top             =   360
                Width           =   9915
@@ -3470,6 +3469,7 @@ Begin VB.Form OS_Recapadora
          _ExtentX        =   21828
          _ExtentY        =   4260
          _Version        =   393216
+         ScrollBars      =   2
          SelectionMode   =   1
          Appearance      =   0
       End
@@ -3712,7 +3712,7 @@ Begin VB.Form OS_Recapadora
          _ExtentX        =   2566
          _ExtentY        =   661
          BTYPE           =   3
-         TX              =   "Imprimir Pedido"
+         TX              =   "Orçamento"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -4093,9 +4093,9 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   8880
+         Left            =   10200
          TabIndex        =   134
-         Top             =   8540
+         Top             =   8595
          Width           =   225
       End
       Begin VB.Label lblSomaDesconto 
@@ -4113,9 +4113,9 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   9840
+         Left            =   11160
          TabIndex        =   133
-         Top             =   8540
+         Top             =   8595
          Width           =   225
       End
       Begin VB.Label lblQuantFiltro 
@@ -4169,9 +4169,9 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   10980
+         Left            =   12300
          TabIndex        =   124
-         Top             =   8540
+         Top             =   8580
          Width           =   225
       End
    End
@@ -4185,6 +4185,9 @@ Begin VB.Form OS_Recapadora
       End
       Begin VB.Menu menu_Cadastro_Servicos 
          Caption         =   "&Serviços"
+      End
+      Begin VB.Menu menu_Cadastro_Oleo 
+         Caption         =   "Óleo - Limites"
       End
       Begin VB.Menu menu_Cadastro_Pneus 
          Caption         =   "Pneus"
@@ -4206,6 +4209,12 @@ Begin VB.Form OS_Recapadora
       End
       Begin VB.Menu Menu_Consulta_OS 
          Caption         =   "Ordem de Serviços"
+      End
+      Begin VB.Menu Menu_Consulta_Oleo 
+         Caption         =   "Troca de Óleo"
+      End
+      Begin VB.Menu Menu_Consulta_ProdutosLimites 
+         Caption         =   "Produtos - Fora do Limite"
       End
    End
    Begin VB.Menu menu_Impressao 
@@ -4814,10 +4823,10 @@ Private Sub FormatarGrid_PecasServicos(rTabela As ADODB.Recordset)
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
-      .ColWidth(2) = 2000
-      .ColWidth(3) = 4200
+      .ColWidth(2) = 1050
+      .ColWidth(3) = 6300
       .ColWidth(4) = 900
-      .ColWidth(5) = 900
+      .ColWidth(5) = 850
       .ColWidth(6) = 1050
       .ColWidth(7) = 900
       .ColWidth(8) = 1050
@@ -4832,7 +4841,7 @@ Private Sub FormatarGrid_PecasServicos(rTabela As ADODB.Recordset)
       .TextMatrix(0, 2) = "TIPO"
       .TextMatrix(0, 3) = "SERVIÇOS"
       .TextMatrix(0, 4) = "VALOR"
-      .TextMatrix(0, 5) = "QUANT."
+      .TextMatrix(0, 5) = "QTDE"
       .TextMatrix(0, 6) = "SUBTOTAL"
       .TextMatrix(0, 7) = "DESC."
       .TextMatrix(0, 8) = "TOTAL"
@@ -4864,6 +4873,8 @@ Private Sub FormatarGrid_PecasServicos(rTabela As ADODB.Recordset)
       
       .Rows = .Rows - 1
       .Redraw = True
+      
+      .ColAlignment(3) = flexAlignLeftCenter
       
       lblPecasServicos.Caption = Format(SomaGrid(GridPecasServicos, 8), ocMONEY)
       llblTotalSemDesconto.Caption = Format(SomaGrid(GridPecasServicos, 6), ocMONEY)
@@ -5016,6 +5027,136 @@ If Not r.BOF Then
 End If
 End Sub
 
+
+Private Sub cmdImpGarantia1_Click()
+Dim iGar As Integer
+Dim vCodOSGar As Long
+Dim vCodPedidoGar As Long
+Dim rOSGar As ADODB.Recordset
+Dim rPedidoGar As ADODB.Recordset
+Dim rClienteGar As ADODB.Recordset
+Dim rEquipGar As ADODB.Recordset
+Dim rOleoGar As ADODB.Recordset
+Dim sSQLGar As String
+Dim lKmAtualGar As Long
+Dim lKmProximaGar As Long
+
+If Grid_OS.Rows <= 1 Or Grid_OS.TextMatrix(Grid_OS.Row, 0) = "" Then Exit Sub
+
+'abrindo arquivo .ini
+Set oIni = New Ini
+oIni.Arquivo = appPathApp & "config.ini"
+var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
+
+Dim Prt As Printer
+Dim oldPrinter As String
+oldPrinter = Printer.DeviceName
+For Each Prt In Printers
+   If Prt.DeviceName = var_ImpNormal Then
+      Set Printer = Prt
+      Exit For
+   End If
+Next
+
+iGar = Grid_OS.Row
+vCodOSGar = Grid_OS.TextMatrix(iGar, 0)
+vCodPedidoGar = Grid_OS.TextMatrix(iGar, 7)
+
+Set rOSGar = dbData.OpenRecordset("SELECT DATA_ENTRADA, DATA_TERMINO FROM OS WHERE (COD_OS = " & vCodOSGar & ");")
+Set rPedidoGar = dbData.OpenRecordset("SELECT COD_CLIENTE FROM pedidos WHERE (COD_PEDIDO = " & vCodPedidoGar & ");")
+Set rClienteGar = dbData.OpenRecordset("SELECT nome, cpf FROM cliente WHERE (codigo = " & rPedidoGar("COD_CLIENTE") & ");")
+
+Me.Hide
+
+REL_OS_Garantia.txtNumOSGar.Caption = vCodOSGar
+REL_OS_Garantia.txtDataSaidaGar.Caption = IIf(IsNull(rOSGar("DATA_TERMINO")), "", Format(rOSGar("DATA_TERMINO"), "dd/mm/yy"))
+REL_OS_Garantia.txtClienteGar.Caption = rClienteGar("nome")
+REL_OS_Garantia.txtDocumentoGar.Caption = ValidateNull(rClienteGar("cpf"))
+
+REL_OS_Garantia.LimparParagrafos
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo "1. PRAZO E COBERTURA DA GARANTIA", True, 9.75
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo "1.1. SERVIÇOS (Mão de Obra): Garantia de 90 (noventa) dias, a contar da data de saída do veículo, conforme o Art. 26 do Código de Defesa do Consumidor (CDC)."
+REL_OS_Garantia.AdicionarParagrafo "1.2. PEÇAS APLICADAS: Garantia de 90 (noventa) dias contra defeitos de fabricação, ressalvada a garantia estendida fornecida por fabricantes específicos."
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo "2. CONDIÇÕES GERAIS E PERDA DA GARANTIA", True, 9.75
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo "A garantia cobrirá exclusivamente os itens e serviços discriminados nesta OS. A garantia será AUTOMATICAMENTE CANCELADA se:"
+REL_OS_Garantia.AdicionarParagrafo "a) O veículo for submetido a uso severo, manobras indevidas ou sobrecarga."
+REL_OS_Garantia.AdicionarParagrafo "b) Houver intervenção, reparo ou alteração realizada por terceiros/outras oficinas nos componentes atendidos por esta OS sem prévia autorização."
+REL_OS_Garantia.AdicionarParagrafo "c) O veículo trafegar sem os níveis adequados de fluídos (óleo, líquido de arrefecimento) ou por danos causados por acidentes/agentes externos."
+
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    Set rEquipGar = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, KM FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOSGar & ");")
+    lKmAtualGar = Val(ValidateNull(rEquipGar("KM")))
+
+    REL_OS_Garantia.lblVeiculoGar.Caption = "VEÍCULO:"
+    REL_OS_Garantia.txtVeiculoGar.Caption = IIf(IsNull(rEquipGar("fabricante")), "", rEquipGar("fabricante")) & " " & IIf(IsNull(rEquipGar("MODELO")), "", rEquipGar("MODELO"))
+    REL_OS_Garantia.txtPlacaGar.Caption = IIf(IsNull(rEquipGar("PLACA")), "", rEquipGar("PLACA"))
+    REL_OS_Garantia.txtKmAtualGar.Caption = Format(lKmAtualGar, "#,##0")
+    REL_OS_Garantia.lblPlacaGar.Visible = True
+    REL_OS_Garantia.txtPlacaGar.Visible = True
+    REL_OS_Garantia.lblKmAtualGar.Visible = True
+    REL_OS_Garantia.txtKmAtualGar.Visible = True
+
+    REL_OS_Garantia.AdicionarParagrafo "d) O veículo ultrapassar o limite de 10.000 KM rodados a partir do KM registrado no momento da entrega."
+REL_OS_Garantia.AdicionarParagrafo " "
+
+    sSQLGar = "SELECT TOP 1 OS_ControleOleo.LIMITE_KM FROM pedidos_itens " & _
+        "INNER JOIN OS_ControleOleo ON OS_ControleOleo.COD_PRODUTO = pedidos_itens.COD_PRODUTO " & _
+        "WHERE (pedidos_itens.COD_PEDIDO = " & vCodPedidoGar & ") AND (OS_ControleOleo.LIMITE_KM IS NOT NULL)"
+    RsOpen rOleoGar, sSQLGar
+    If Not rOleoGar.EOF Then
+        lKmProximaGar = lKmAtualGar + Val(rOleoGar("LIMITE_KM"))
+    Else
+        lKmProximaGar = lKmAtualGar + 5000
+    End If
+    If rOleoGar.State <> 0 Then rOleoGar.Close
+
+    REL_OS_Garantia.AdicionarParagrafo "3. RECOMENDAÇÕES IMPORTANTES", True, 9.75
+REL_OS_Garantia.AdicionarParagrafo " "
+    REL_OS_Garantia.AdicionarParagrafo "- Próxima troca de óleo recomendada para o KM: " & Format(lKmProximaGar, "#,##0") & " ou em 6 meses."
+    REL_OS_Garantia.AdicionarParagrafo "- Verifique semanalmente o nível de água e óleo com o motor frio."
+REL_OS_Garantia.AdicionarParagrafo " "
+Else
+    Set rEquipGar = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOSGar & ");")
+
+    REL_OS_Garantia.lblVeiculoGar.Caption = "EQUIPAMENTO:"
+    REL_OS_Garantia.txtVeiculoGar.Caption = IIf(IsNull(rEquipGar("EQUIPAMENTO")), "", rEquipGar("EQUIPAMENTO")) & " - " & IIf(IsNull(rEquipGar("fabricante")), "", rEquipGar("fabricante")) & " " & IIf(IsNull(rEquipGar("MODELO")), "", rEquipGar("MODELO"))
+    REL_OS_Garantia.lblPlacaGar.Visible = False
+    REL_OS_Garantia.txtPlacaGar.Visible = False
+    REL_OS_Garantia.lblKmAtualGar.Visible = False
+    REL_OS_Garantia.txtKmAtualGar.Visible = False
+
+REL_OS_Garantia.AdicionarParagrafo " "
+    REL_OS_Garantia.AdicionarParagrafo "3. RECOMENDAÇÕES IMPORTANTES", True, 9.75
+REL_OS_Garantia.AdicionarParagrafo " "
+    REL_OS_Garantia.AdicionarParagrafo "- Realize manutenção preventiva a cada 6 meses."
+REL_OS_Garantia.AdicionarParagrafo " "
+End If
+
+REL_OS_Garantia.AdicionarParagrafo "Declaro que recebi o veículo em perfeitas condições de funcionamento e estou de acordo com os termos de garantia e serviços executados constantes nesta OS."
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo " "
+REL_OS_Garantia.AdicionarParagrafo "________________________________________    ____________________________________"
+REL_OS_Garantia.AdicionarParagrafo "                 Assinatura do Cliente                                           Oficina / Responsável"
+
+If rOSGar.State <> 0 Then rOSGar.Close
+If rPedidoGar.State <> 0 Then rPedidoGar.Close
+If rClienteGar.State <> 0 Then rClienteGar.Close
+If rEquipGar.State <> 0 Then rEquipGar.Close
+
+REL_OS_Garantia.ReportMain1.NumeroRegistros = REL_OS_Garantia.ContagemParagrafos
+REL_OS_Garantia.ReportMain1.NomeImpressora = var_ImpNormal
+REL_OS_Garantia.ReportMain1.Visualizar = True
+REL_OS_Garantia.ReportMain1.Ativar
+Unload REL_OS_Garantia
+
+Me.Show 1
+End Sub
 
 Private Sub Grid_Servicos_DblClick()
 If vTipoOS <> "Automóveis" And vTipoOS <> "Motocicletas" And vTipoOS <> "Informática" And vTipoOS <> "Celular" Then Exit Sub
@@ -6984,7 +7125,7 @@ ElseIf vTipoOS = "Comunicação Visual" Then
 End If
 
 LimparObjetos_Pecas
-cboPecas.SetFocus
+If cboPecas.Visible And cboPecas.Enabled Then cboPecas.SetFocus
 Somar_Totais
 End Sub
 
@@ -7026,6 +7167,129 @@ If bEstNeg = False Then
 Else
    Exit Sub
 End If
+End Sub
+
+Private Sub VerificarOleoVencido(ByVal bPorKM As Boolean)
+    Dim rProd As ADODB.Recordset
+    Dim rUlt As ADODB.Recordset
+    Dim rDup As ADODB.Recordset
+    Dim sSQLProd As String
+    Dim sSQLUlt As String
+    Dim sSQLDup As String
+    Dim sLista As String
+    Dim colCodigosVencidos As Collection
+    Dim colQuantidadesVencidos As Collection
+    Dim lCodProd As Long
+    Dim dUltimaData As Date
+    Dim dDataProxima As Date
+    Dim lUltimoKm As Long
+    Dim lKmProxima As Long
+    Dim dUltimaQuant As Double
+    Dim bVencido As Boolean
+    Dim sPlacaEsc As String
+    Dim j As Integer
+
+    If Trim(txtPlaca.Text) = "" Then Exit Sub
+    If txtCodOS.Text = "" Or txtCodPedido.Text = "" Then Exit Sub
+
+    If bPorKM Then
+        If Trim(txtKM.Text) = "" Or Not IsNumeric(txtKM.Text) Then Exit Sub
+    Else
+        If Not IsDate(mskDataEntrada.Text) Then Exit Sub
+    End If
+
+    sPlacaEsc = Replace(Trim(txtPlaca.Text), "'", "''")
+
+    sSQLProd = "SELECT DISTINCT produtos.codigo AS cod_produto, produtos.descricao, " & _
+        "OS_ControleOleo.LIMITE_KM, OS_ControleOleo.LIMITE_PRAZO " & _
+        "FROM OS " & _
+        "INNER JOIN OS_Equipamento_Auto ON OS_Equipamento_Auto.COD_OS = OS.COD_OS " & _
+        "INNER JOIN pedidos_itens ON pedidos_itens.COD_PEDIDO = OS.COD_PEDIDO " & _
+        "INNER JOIN produtos ON produtos.CODIGO = pedidos_itens.COD_PRODUTO " & _
+        "INNER JOIN OS_ControleOleo ON OS_ControleOleo.COD_PRODUTO = produtos.CODIGO " & _
+        "WHERE (OS_Equipamento_Auto.placa = '" & sPlacaEsc & "') AND (OS.COD_OS <> " & txtCodOS.Text & ")"
+
+    RsOpen rProd, sSQLProd
+
+    sLista = ""
+    Set colCodigosVencidos = New Collection
+    Set colQuantidadesVencidos = New Collection
+
+    Do While Not rProd.EOF
+        lCodProd = rProd("cod_produto")
+
+        sSQLDup = "SELECT TOP 1 codigo FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (cod_produto = " & lCodProd & ")"
+        RsOpen rDup, sSQLDup
+
+        If rDup.EOF Then
+            sSQLUlt = "SELECT TOP 1 OS.DATA_ENTRADA, OS_Equipamento_Auto.km, pedidos_itens.quantidade " & _
+                "FROM OS " & _
+                "INNER JOIN OS_Equipamento_Auto ON OS_Equipamento_Auto.COD_OS = OS.COD_OS " & _
+                "INNER JOIN pedidos_itens ON pedidos_itens.COD_PEDIDO = OS.COD_PEDIDO " & _
+                "WHERE (OS_Equipamento_Auto.placa = '" & sPlacaEsc & "') AND (pedidos_itens.COD_PRODUTO = " & lCodProd & ") AND (OS.COD_OS <> " & txtCodOS.Text & ") " & _
+                "ORDER BY OS.DATA_ENTRADA DESC"
+            RsOpen rUlt, sSQLUlt
+
+            If Not rUlt.EOF Then
+                bVencido = False
+                dUltimaQuant = Val(ValidateNull(rUlt("quantidade")))
+
+                If bPorKM Then
+                    If Val(ValidateNull(rProd("LIMITE_KM"))) > 0 Then
+                        lUltimoKm = Val(ValidateNull(rUlt("km")))
+                        lKmProxima = lUltimoKm + Val(rProd("LIMITE_KM"))
+                        If lKmProxima <= Val(txtKM.Text) Then bVencido = True
+                    End If
+                Else
+                    If Val(ValidateNull(rProd("LIMITE_PRAZO"))) > 0 Then
+                        dUltimaData = rUlt("DATA_ENTRADA")
+                        dDataProxima = DateAdd("m", Val(rProd("LIMITE_PRAZO")), dUltimaData)
+                        If dDataProxima <= CDate(mskDataEntrada.Text) Then bVencido = True
+                    End If
+                End If
+
+                If bVencido Then
+                    sLista = sLista & "- " & rProd("descricao") & vbCrLf
+                    colCodigosVencidos.Add lCodProd
+                    colQuantidadesVencidos.Add dUltimaQuant
+                End If
+            End If
+            If rUlt.State <> 0 Then rUlt.Close
+        End If
+        If rDup.State <> 0 Then rDup.Close
+
+        rProd.MoveNext
+    Loop
+    If rProd.State <> 0 Then rProd.Close
+
+    If sLista <> "" Then
+        If MsgBox("Os produtos abaixo já passaram do prazo de troca de óleo:" & vbCrLf & vbCrLf & sLista & vbCrLf & "Deseja adicionar à OS?", vbYesNo + vbQuestion, "Alerta de Troca de Óleo") = vbYes Then
+            For j = 1 To colCodigosVencidos.Count
+                AdicionarPecaAutomatico colCodigosVencidos(j), colQuantidadesVencidos(j)
+            Next j
+        End If
+    End If
+End Sub
+
+Private Sub AdicionarPecaAutomatico(ByVal lCodProduto As Long, ByVal dQuantidade As Double)
+    txtCodPeca.Text = lCodProduto
+    MostrarValorVenda
+    If dQuantidade > 0 Then txtQuantPeca.Text = dQuantidade
+    txtDescPecas.Text = Format(0, ocMONEY)
+    CalcularValorPeca
+    cmdAdicionarPecas_Click
+End Sub
+
+Private Sub Menu_Consulta_ProdutosLimites_Click()
+frmOleoVencidos.Show 1
+End Sub
+
+Private Sub txtPlaca_LostFocus()
+    VerificarOleoVencido False
+End Sub
+
+Private Sub txtKM_LostFocus()
+    VerificarOleoVencido True
 End Sub
 
 Private Sub cmdAdicionarServicosAuto_Click()
@@ -7505,6 +7769,7 @@ End Sub
 Private Sub cmdCancelar_Click()
 LimparObjetos_Prazo
 frmVendaFechamento.Visible = False
+FormatarGrid_PecasServicos Nothing  'evita fantasma do frmVendaFechamento na area do grid
 SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
 SSTab1.Tab = 0
 cmdFinalizarAV.Enabled = True
@@ -8703,6 +8968,7 @@ LimparTotais
 txtCodOS.Text = ""
 frmVendaFechamento.Visible = False
 MostrarGrid_OS_Situacao
+FormatarGrid_PecasServicos Nothing  'evita fantasma do frmVendaFechamento na area do grid
 SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
 SSTab1.Tab = 0
 
@@ -9539,6 +9805,7 @@ Me.Hide
             REL_OS_Completo.ReportField18.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
+        REL_OS_Completo.ReportMain1.Visualizar = True
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 'Else
@@ -9688,6 +9955,10 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         REL_OS_Completo.rfForma.Caption = "VENDA À PRAZO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.txtParecerTitulo.Visible = False
+        REL_OS_Completo.txtParecerTitulo.Caption = ""
+        REL_OS_Completo.txtParecer.Visible = False
+        REL_OS_Completo.txtParecer.Caption = ""
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -9795,6 +10066,10 @@ Else
         REL_OS_Completo.rfForma.Caption = "VENDA À VISTA"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.txtParecerTitulo.Visible = False
+        REL_OS_Completo.txtParecerTitulo.Caption = ""
+        REL_OS_Completo.txtParecer.Visible = False
+        REL_OS_Completo.txtParecer.Caption = ""
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -9849,6 +10124,7 @@ Else
             REL_OS_Completo.ReportField18.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
+        REL_OS_Completo.ReportMain1.Visualizar = True
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 
@@ -10032,17 +10308,25 @@ End If
 
 Dim Prt As Printer
 Dim oldPrinter As String
+Dim bImpressoraEncontrada As Boolean
 
 'Armazena o nome da impressora atual
 oldPrinter = Printer.DeviceName
 
-' Find and use the printer just selected in the ListBox
+' Procura a impressora "Impressora PDF" entre as instaladas (CutePDF ou Microsoft Print to PDF, tanto faz)
+bImpressoraEncontrada = False
 For Each Prt In Printers
    If Prt.DeviceName = var_ImpNormal Then
       Set Printer = Prt
+      bImpressoraEncontrada = True
       Exit For
    End If
 Next
+
+If Not bImpressoraEncontrada Then
+    MsgBox "Não foi encontrada nenhuma impressora chamada """ & var_ImpNormal & """ instalada neste computador." & vbCrLf & vbCrLf & "Entre em contato com o suporte para instalar a Impressora PDF.", vbExclamation, "Impressora PDF não encontrada"
+    Exit Sub
+End If
 
 'buscando os dados do formulário
 i = Grid_OS.Row
@@ -10221,17 +10505,25 @@ End If
 
 Dim Prt As Printer
 Dim oldPrinter As String
+Dim bImpressoraEncontrada As Boolean
 
 'Armazena o nome da impressora atual
 oldPrinter = Printer.DeviceName
 
-' Find and use the printer just selected in the ListBox
+' Procura a impressora "Impressora PDF" entre as instaladas (CutePDF ou Microsoft Print to PDF, tanto faz)
+bImpressoraEncontrada = False
 For Each Prt In Printers
    If Prt.DeviceName = var_ImpNormal Then
       Set Printer = Prt
+      bImpressoraEncontrada = True
       Exit For
    End If
 Next
+
+If Not bImpressoraEncontrada Then
+    MsgBox "Não foi encontrada nenhuma impressora chamada """ & var_ImpNormal & """ instalada neste computador." & vbCrLf & vbCrLf & "Entre em contato com o suporte para instalar a Impressora PDF.", vbExclamation, "Impressora PDF não encontrada"
+    Exit Sub
+End If
 
 'buscando os dados do formulário
 i = Grid_OS.Row
@@ -10334,6 +10626,10 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         REL_OS_Completo.rfForma.Caption = "VENDA À PRAZO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.txtParecerTitulo.Visible = False
+        REL_OS_Completo.txtParecerTitulo.Caption = ""
+        REL_OS_Completo.txtParecer.Visible = False
+        REL_OS_Completo.txtParecer.Caption = ""
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -10436,6 +10732,10 @@ Else
         REL_OS_Completo.rfForma.Caption = "VENDA À VISTA"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.txtParecerTitulo.Visible = False
+        REL_OS_Completo.txtParecerTitulo.Caption = ""
+        REL_OS_Completo.txtParecer.Visible = False
+        REL_OS_Completo.txtParecer.Caption = ""
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -11492,6 +11792,10 @@ Clientes_Cadastro.Show 1
 End Sub
 
 
+Private Sub menu_Cadastro_Oleo_Click()
+OS_ControleOleo.Show 1
+End Sub
+
 Private Sub Menu_Cadastro_Parecer_Click()
 If txtCodOS.Text = "" Then Exit Sub
 
@@ -11533,6 +11837,10 @@ End Sub
 
 Private Sub Menu_Cadastro_Situacoes_Click()
 OS_Situacao.Show 1
+End Sub
+
+Private Sub Menu_Consulta_Oleo_Click()
+frmHistoricoOleo.Show 1
 End Sub
 
 Private Sub Menu_Consulta_OS_Click()
@@ -12102,35 +12410,56 @@ Private Sub optCodBarra_Click()
     txtCodBarra.SetFocus
 End Sub
 
+Private Sub DesabilitarBotoesOS()
+    cmdEditarOS.Enabled = False
+    cmdFinanceiroOS.Enabled = False
+    cmdImpEntrada1.Enabled = False
+    cmdImpOrcamento1.Enabled = False
+    cmdImpEntrada2.Enabled = False
+    cmdImpOrcamento2.Enabled = False
+    cmdImpPedido1.Enabled = False
+    cmdImpGarantia1.Enabled = False
+    cmdImpPedido2.Enabled = False
+    cmdOrcamentoPDF.Enabled = False
+    cmdPedidoPDF.Enabled = False
+    cmdExcluir.Enabled = False
+End Sub
+
 Private Sub optFinanceiroAberto_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 If optFinanceiroAberto.Value = True Then cmdExcluir.Enabled = True
 End Sub
 Private Sub optFinanceiroFechado_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 If optFinanceiroFechado.Value = True Then cmdExcluir.Enabled = False
 End Sub
 
 Private Sub optGarantia_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 End Sub
 
 Private Sub optOrcamento_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 End Sub
 
 Private Sub optServico_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 End Sub
 
 Private Sub optTodos_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
+DesabilitarBotoesOS
 End Sub
 
 
@@ -12993,12 +13322,12 @@ If txtTotalDesc.Text = "" Then Exit Sub
 If txtSubtotal.Text = "" Then Exit Sub
 
 Dim a As Currency
-Dim B As Currency
+Dim b As Currency
 
-B = txtTotalDesc.Text
+b = txtTotalDesc.Text
 a = txtSubtotal.Text
 
-varValorDescProc = ((B - a) / a) * 100
+varValorDescProc = ((b - a) / a) * 100
 txtDescItens.Text = Abs(FormatNumber(varValorDescProc, 6))
 End Sub
 

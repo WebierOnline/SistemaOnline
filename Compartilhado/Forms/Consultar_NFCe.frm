@@ -887,9 +887,9 @@ Begin VB.Form NFCe_Consultar
    End
    Begin ChamaleonBtn.chameleonButton cmdCancelar 
       Height          =   375
-      Left            =   4200
+      Left            =   4500
       TabIndex        =   4
-      Top             =   8340
+      Top             =   8220
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -952,14 +952,14 @@ Begin VB.Form NFCe_Consultar
             Alignment       =   1
             Object.Width           =   2999
             MinWidth        =   2999
-            TextSave        =   "06/03/2026"
+            TextSave        =   "23/07/2026"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16:57"
+            TextSave        =   "07:59"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -1859,8 +1859,8 @@ EncontroErroNFCe = False
     End If
      
      'ICMS CST..........
-     If rNFCeItens!icmsCST <> Empty Or rNFCeItens!icmsCST = "" Or rNFCeItens!icmsCST = "0" Then
-         If Len(rNFCeItens!icmsCST) > 3 Or Len(rNFCeItens!icmsCST) < 3 Then
+     If rNFCeItens!ICMSCST <> Empty Or rNFCeItens!ICMSCST = "" Or rNFCeItens!ICMSCST = "0" Then
+         If Len(rNFCeItens!ICMSCST) > 3 Or Len(rNFCeItens!ICMSCST) < 3 Then
              EncontroErroNFCe = True
          Else
              EncontroErroNFCe = False
@@ -1878,8 +1878,8 @@ EncontroErroNFCe = False
     End If
 
      'PIS CST..........
-     If rNFCeItens!pisCST <> Empty Then
-         If Len(rNFCeItens!pisCST) > 2 Or Len(rNFCeItens!pisCST) < 2 Then
+     If rNFCeItens!PISCST <> Empty Then
+         If Len(rNFCeItens!PISCST) > 2 Or Len(rNFCeItens!PISCST) < 2 Then
              EncontroErroNFCe = True
          Else
              EncontroErroNFCe = False
@@ -1897,8 +1897,8 @@ EncontroErroNFCe = False
     End If
 
      'COFINS CST..........
-     If rNFCeItens!cofinsCST <> Empty Then
-         If Len(rNFCeItens!cofinsCST) > 2 Or Len(rNFCeItens!cofinsCST) < 2 Then
+     If rNFCeItens!COFINSCST <> Empty Then
+         If Len(rNFCeItens!COFINSCST) > 2 Or Len(rNFCeItens!COFINSCST) < 2 Then
              EncontroErroNFCe = True
          Else
              EncontroErroNFCe = False

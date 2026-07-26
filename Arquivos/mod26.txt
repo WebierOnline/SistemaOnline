@@ -1,0 +1,6 @@
+Ao perder o foco da txtPlaca, consultar se existe algum produto que já passou o prazo de troca. Ele consulta as OS feitas por aquela placa, ver os produtos das OS, ver se os produtos estão na lista de produtos da tabela OS_ControleOleo e pega o campo LIMITE_PRAZO (que são meses) e faz o calculo baseado na data que está no objeto mskDataEntrada. Caso seja igual ou maior, aparecer uma mensagem alertando citado os produtos que já passou o prazo de troca.
+Caso tenha mais de uma OS com os mesmo produtos com prazo limite. Se baseia na ultima OS.
+Ao perder o foco do txtKm, fazer o mesmo que citei anteriormente, porem usando o campo LIMITE_KM comparando com o KM digitado no txtKm.
+Aparecerá 2 botões abaixo 'SIM' e 'NÃO'... caso eu der um SIM, ele vai adicionar o(s) produto(s) do alerta na OS.
+OBS: como são 2 objetos consulta a mesma coisas com formas diferentes (prazo ou km), tem que verificar se o produtos já não foram adicionados, para não adicionar a segunda vez. 
+Caso os produtos 'vencidos' já estejam naquela OS, nem a msg deve aparecer.

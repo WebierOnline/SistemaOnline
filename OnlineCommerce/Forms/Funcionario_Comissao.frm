@@ -31,8 +31,8 @@ Begin VB.Form Funcionario_Comissao
       EndProperty
       Height          =   1155
       Left            =   2940
-      TabIndex        =   39
-      Top             =   3000
+      TabIndex        =   37
+      Top             =   2520
       Width           =   10155
       Begin VB.Frame Frame6 
          Caption         =   "Serviços"
@@ -48,7 +48,7 @@ Begin VB.Form Funcionario_Comissao
          ForeColor       =   &H00000080&
          Height          =   855
          Left            =   6180
-         TabIndex        =   55
+         TabIndex        =   53
          Top             =   240
          Width           =   1995
          Begin VB.Label Label15 
@@ -66,7 +66,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   660
-            TabIndex        =   59
+            TabIndex        =   29
             Top             =   240
             Width           =   360
          End
@@ -87,7 +87,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   660
-            TabIndex        =   58
+            TabIndex        =   56
             Top             =   480
             Width           =   1275
          End
@@ -108,7 +108,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   60
-            TabIndex        =   57
+            TabIndex        =   55
             Top             =   480
             Width           =   555
          End
@@ -127,7 +127,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   60
-            TabIndex        =   56
+            TabIndex        =   54
             Top             =   240
             Width           =   330
          End
@@ -146,7 +146,7 @@ Begin VB.Form Funcionario_Comissao
          ForeColor       =   &H00000080&
          Height          =   855
          Left            =   4140
-         TabIndex        =   50
+         TabIndex        =   48
          Top             =   240
          Width           =   1995
          Begin VB.Label Label13 
@@ -164,7 +164,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   660
-            TabIndex        =   54
+            TabIndex        =   52
             Top             =   240
             Width           =   360
          End
@@ -185,7 +185,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   660
-            TabIndex        =   53
+            TabIndex        =   51
             Top             =   480
             Width           =   1275
          End
@@ -206,7 +206,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   60
-            TabIndex        =   52
+            TabIndex        =   50
             Top             =   480
             Width           =   555
          End
@@ -225,7 +225,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   60
-            TabIndex        =   51
+            TabIndex        =   49
             Top             =   240
             Width           =   330
          End
@@ -244,7 +244,7 @@ Begin VB.Form Funcionario_Comissao
          ForeColor       =   &H00000080&
          Height          =   855
          Left            =   2100
-         TabIndex        =   45
+         TabIndex        =   43
          Top             =   240
          Width           =   1995
          Begin VB.Label Label10 
@@ -262,7 +262,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   660
-            TabIndex        =   49
+            TabIndex        =   47
             Top             =   240
             Width           =   360
          End
@@ -283,7 +283,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   660
-            TabIndex        =   48
+            TabIndex        =   46
             Top             =   480
             Width           =   1275
          End
@@ -304,7 +304,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   60
-            TabIndex        =   47
+            TabIndex        =   45
             Top             =   480
             Width           =   555
          End
@@ -323,7 +323,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   60
-            TabIndex        =   46
+            TabIndex        =   44
             Top             =   240
             Width           =   330
          End
@@ -342,7 +342,7 @@ Begin VB.Form Funcionario_Comissao
          ForeColor       =   &H00000080&
          Height          =   855
          Left            =   60
-         TabIndex        =   40
+         TabIndex        =   38
          Top             =   240
          Width           =   1995
          Begin VB.Label lblComAvistaQtde 
@@ -362,7 +362,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   60
-            TabIndex        =   44
+            TabIndex        =   42
             Top             =   480
             Width           =   555
          End
@@ -381,7 +381,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   660
-            TabIndex        =   43
+            TabIndex        =   41
             Top             =   240
             Width           =   360
          End
@@ -402,7 +402,7 @@ Begin VB.Form Funcionario_Comissao
             ForeColor       =   &H000000C0&
             Height          =   285
             Left            =   660
-            TabIndex        =   42
+            TabIndex        =   40
             Top             =   480
             Width           =   1275
          End
@@ -421,7 +421,7 @@ Begin VB.Form Funcionario_Comissao
             EndProperty
             Height          =   240
             Left            =   60
-            TabIndex        =   41
+            TabIndex        =   39
             Top             =   240
             Width           =   330
          End
@@ -438,80 +438,49 @@ Begin VB.Form Funcionario_Comissao
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   3255
+      Height          =   2775
       Left            =   60
-      TabIndex        =   27
+      TabIndex        =   26
       Top             =   900
       Width           =   2835
-      Begin VB.ComboBox cboTipoPgto 
-         Height          =   315
-         Left            =   120
-         TabIndex        =   37
-         Top             =   2220
-         Width           =   2595
-      End
       Begin VB.ComboBox cboTipo 
          Height          =   315
          Left            =   120
-         TabIndex        =   31
-         Top             =   480
-         Width           =   2595
-      End
-      Begin VB.ComboBox cboCriterioSec 
-         Height          =   315
-         Left            =   120
          TabIndex        =   30
-         Top             =   1020
+         Top             =   480
          Width           =   2595
       End
       Begin VB.ComboBox cboIndice 
          Height          =   315
          Left            =   120
-         TabIndex        =   29
-         Top             =   2820
+         TabIndex        =   28
+         Top             =   1680
          Width           =   2595
       End
       Begin VB.ComboBox cboFormaPgto 
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   120
-         TabIndex        =   28
-         Top             =   1620
+         TabIndex        =   27
+         Top             =   1080
          Width           =   2595
-      End
-      Begin VB.Label Label3 
-         AutoSize        =   -1  'True
-         Caption         =   "Tipo de Pagamento:"
-         Height          =   195
-         Left            =   120
-         TabIndex        =   38
-         Top             =   1980
-         Width           =   1440
       End
       Begin VB.Label Label2 
          AutoSize        =   -1  'True
          Caption         =   "Tipo de Consulta"
          Height          =   195
          Left            =   120
-         TabIndex        =   35
+         TabIndex        =   33
          Top             =   240
          Width           =   1200
-      End
-      Begin VB.Label Label5 
-         AutoSize        =   -1  'True
-         Caption         =   "Criterio"
-         Height          =   195
-         Left            =   120
-         TabIndex        =   34
-         Top             =   780
-         Width           =   480
       End
       Begin VB.Label Label7 
          AutoSize        =   -1  'True
          Caption         =   "Organizar por:"
          Height          =   195
          Left            =   120
-         TabIndex        =   33
-         Top             =   2580
+         TabIndex        =   32
+         Top             =   1440
          Width           =   990
       End
       Begin VB.Label Label9 
@@ -519,8 +488,8 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "Forma de Pgto"
          Height          =   195
          Left            =   120
-         TabIndex        =   32
-         Top             =   1380
+         TabIndex        =   31
+         Top             =   840
          Width           =   1035
       End
    End
@@ -536,15 +505,41 @@ Begin VB.Form Funcionario_Comissao
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000000C0&
-      Height          =   2055
+      Height          =   1575
       Left            =   2940
-      TabIndex        =   12
+      TabIndex        =   11
       Top             =   900
       Width           =   10215
+      Begin VB.Frame frmDatas 
+         Caption         =   "Datas"
+         Height          =   495
+         Left            =   3240
+         TabIndex        =   57
+         Top             =   960
+         Visible         =   0   'False
+         Width           =   3015
+         Begin VB.OptionButton optExecucao 
+            Caption         =   "Execução"
+            Height          =   195
+            Left            =   1080
+            TabIndex        =   59
+            Top             =   240
+            Width           =   1035
+         End
+         Begin VB.OptionButton optTermino 
+            Caption         =   "Termino"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   58
+            Top             =   240
+            Value           =   -1  'True
+            Width           =   915
+         End
+      End
       Begin VB.ComboBox cboVendedor 
          Height          =   315
          Left            =   120
-         TabIndex        =   16
+         TabIndex        =   15
          Top             =   540
          Width           =   4905
       End
@@ -552,24 +547,22 @@ Begin VB.Form Funcionario_Comissao
          Height          =   315
          Left            =   1500
          Sorted          =   -1  'True
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   1140
-         Visible         =   0   'False
          Width           =   1155
       End
       Begin VB.ComboBox cboMes 
          Height          =   315
          Left            =   120
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   1140
-         Visible         =   0   'False
          Width           =   1335
       End
       Begin VB.TextBox txtCodFunc 
          Appearance      =   0  'Flat
          Height          =   195
          Left            =   4320
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   360
          Visible         =   0   'False
          Width           =   615
@@ -577,7 +570,7 @@ Begin VB.Form Funcionario_Comissao
       Begin ChamaleonBtn.chameleonButton cmdCalendario2 
          Height          =   315
          Left            =   2700
-         TabIndex        =   17
+         TabIndex        =   16
          Tag             =   "Calendario"
          Top             =   1140
          Visible         =   0   'False
@@ -619,7 +612,7 @@ Begin VB.Form Funcionario_Comissao
       Begin ChamaleonBtn.chameleonButton cmdCalendario1 
          Height          =   315
          Left            =   1080
-         TabIndex        =   18
+         TabIndex        =   17
          Tag             =   "Calendario"
          Top             =   1140
          Visible         =   0   'False
@@ -661,7 +654,7 @@ Begin VB.Form Funcionario_Comissao
       Begin MSMask.MaskEdBox mskInicio 
          Height          =   315
          Left            =   120
-         TabIndex        =   19
+         TabIndex        =   18
          Top             =   1140
          Visible         =   0   'False
          Width           =   990
@@ -674,7 +667,7 @@ Begin VB.Form Funcionario_Comissao
       Begin MSMask.MaskEdBox mskFim 
          Height          =   315
          Left            =   1740
-         TabIndex        =   20
+         TabIndex        =   19
          Top             =   1140
          Visible         =   0   'False
          Width           =   990
@@ -685,13 +678,13 @@ Begin VB.Form Funcionario_Comissao
          PromptChar      =   "_"
       End
       Begin ChamaleonBtn.chameleonButton chameleonButton1 
-         Height          =   495
-         Left            =   3060
-         TabIndex        =   36
-         Top             =   960
-         Width           =   1455
-         _ExtentX        =   2566
-         _ExtentY        =   873
+         Height          =   315
+         Left            =   5100
+         TabIndex        =   34
+         Top             =   540
+         Width           =   1215
+         _ExtentX        =   2143
+         _ExtentY        =   556
          BTYPE           =   3
          TX              =   "&Exibir"
          ENAB            =   -1  'True
@@ -713,7 +706,6 @@ Begin VB.Form Funcionario_Comissao
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Funcionario_Comissao.frx":B156
-         PICN            =   "Funcionario_Comissao.frx":B172
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -726,12 +718,12 @@ Begin VB.Form Funcionario_Comissao
       Begin VB.Label lblVendedor 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Vendedor(a):"
+         Caption         =   "Colaborador(a):"
          Height          =   195
          Left            =   120
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   300
-         Width           =   915
+         Width           =   1080
       End
       Begin VB.Label lblAte 
          AutoSize        =   -1  'True
@@ -739,7 +731,7 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "até"
          Height          =   195
          Left            =   1440
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   1200
          Visible         =   0   'False
          Width           =   225
@@ -750,7 +742,7 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "Data final:"
          Height          =   195
          Left            =   1740
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   900
          Visible         =   0   'False
          Width           =   720
@@ -761,7 +753,7 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "Data inicial:"
          Height          =   195
          Left            =   120
-         TabIndex        =   23
+         TabIndex        =   22
          Top             =   900
          Visible         =   0   'False
          Width           =   825
@@ -772,9 +764,8 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "Ano:"
          Height          =   195
          Left            =   1500
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   900
-         Visible         =   0   'False
          Width           =   330
       End
       Begin VB.Label lblMes 
@@ -783,50 +774,10 @@ Begin VB.Form Funcionario_Comissao
          Caption         =   "Mês:"
          Height          =   195
          Left            =   120
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   900
-         Visible         =   0   'False
          Width           =   345
       End
-   End
-   Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
-      Height          =   255
-      Left            =   6900
-      TabIndex        =   6
-      Top             =   8820
-      Visible         =   0   'False
-      Width           =   2655
-      _ExtentX        =   4683
-      _ExtentY        =   450
-      BTYPE           =   3
-      TX              =   "Exibir pedidos deste produto"
-      ENAB            =   -1  'True
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      COLTYPE         =   1
-      FOCUSR          =   -1  'True
-      BCOL            =   13160660
-      BCOLO           =   13160660
-      FCOL            =   0
-      FCOLO           =   0
-      MCOL            =   12632256
-      MPTR            =   1
-      MICON           =   "Funcionario_Comissao.frx":BA4C
-      UMCOL           =   -1  'True
-      SOFT            =   0   'False
-      PICPOS          =   0
-      NGREY           =   0   'False
-      FX              =   0
-      HAND            =   0   'False
-      CHECK           =   0   'False
-      VALUE           =   0   'False
    End
    Begin VB.PictureBox picAguarde 
       Appearance      =   0  'Flat
@@ -834,12 +785,12 @@ Begin VB.Form Funcionario_Comissao
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   4740
-      Picture         =   "Funcionario_Comissao.frx":BA68
+      Left            =   4800
+      Picture         =   "Funcionario_Comissao.frx":B172
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   2
-      Top             =   5820
+      Top             =   5340
       Visible         =   0   'False
       Width           =   2895
    End
@@ -857,7 +808,7 @@ Begin VB.Form Funcionario_Comissao
       Begin VB.Image Image1 
          Height          =   720
          Left            =   540
-         Picture         =   "Funcionario_Comissao.frx":CAA0
+         Picture         =   "Funcionario_Comissao.frx":C1AA
          Top             =   0
          Width           =   720
       End
@@ -907,7 +858,7 @@ Begin VB.Form Funcionario_Comissao
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "13:50"
+            TextSave        =   "10:17"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -926,29 +877,28 @@ Begin VB.Form Funcionario_Comissao
       EndProperty
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   4095
+      Height          =   4575
       Left            =   60
-      TabIndex        =   7
-      Top             =   4200
+      TabIndex        =   6
+      Top             =   3720
       Width           =   13095
       _ExtentX        =   23098
-      _ExtentY        =   7223
+      _ExtentY        =   8070
       _Version        =   393216
-      ScrollBars      =   2
       SelectionMode   =   1
       Appearance      =   0
    End
    Begin ChamaleonBtn.chameleonButton cmdExibirProdutos 
       Height          =   315
       Left            =   60
-      TabIndex        =   8
+      TabIndex        =   7
       Top             =   8340
       Visible         =   0   'False
-      Width           =   1755
-      _ExtentX        =   3096
+      Width           =   1935
+      _ExtentX        =   3413
       _ExtentY        =   556
       BTYPE           =   3
-      TX              =   "EXIBIR PRODUTOS"
+      TX              =   "PRODUTOS/SERVIÇOS"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -967,7 +917,7 @@ Begin VB.Form Funcionario_Comissao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Comissao.frx":D57C
+      MICON           =   "Funcionario_Comissao.frx":CC86
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -979,8 +929,8 @@ Begin VB.Form Funcionario_Comissao
    End
    Begin ChamaleonBtn.chameleonButton cmdExibirParcelas 
       Height          =   315
-      Left            =   1860
-      TabIndex        =   9
+      Left            =   2040
+      TabIndex        =   8
       Top             =   8340
       Visible         =   0   'False
       Width           =   1815
@@ -1006,7 +956,7 @@ Begin VB.Form Funcionario_Comissao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Comissao.frx":D598
+      MICON           =   "Funcionario_Comissao.frx":CCA2
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1018,8 +968,8 @@ Begin VB.Form Funcionario_Comissao
    End
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   315
-      Left            =   3720
-      TabIndex        =   60
+      Left            =   3900
+      TabIndex        =   35
       Top             =   8340
       Width           =   1815
       _ExtentX        =   3201
@@ -1044,7 +994,7 @@ Begin VB.Form Funcionario_Comissao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Comissao.frx":D5B4
+      MICON           =   "Funcionario_Comissao.frx":CCBE
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1056,8 +1006,8 @@ Begin VB.Form Funcionario_Comissao
    End
    Begin ChamaleonBtn.chameleonButton cmdCriarPDF 
       Height          =   315
-      Left            =   5580
-      TabIndex        =   61
+      Left            =   5760
+      TabIndex        =   36
       Top             =   8340
       Width           =   1815
       _ExtentX        =   3201
@@ -1082,7 +1032,7 @@ Begin VB.Form Funcionario_Comissao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Funcionario_Comissao.frx":D5D0
+      MICON           =   "Funcionario_Comissao.frx":CCDA
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -1107,7 +1057,7 @@ Begin VB.Form Funcionario_Comissao
       EndProperty
       Height          =   195
       Left            =   10680
-      TabIndex        =   11
+      TabIndex        =   10
       Top             =   8700
       Width           =   510
    End
@@ -1128,7 +1078,7 @@ Begin VB.Form Funcionario_Comissao
       ForeColor       =   &H000000C0&
       Height          =   285
       Left            =   11280
-      TabIndex        =   10
+      TabIndex        =   9
       Top             =   8700
       Width           =   1815
    End
@@ -1156,7 +1106,7 @@ Begin VB.Form Funcionario_Comissao
    Begin VB.Label Label8 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
-      Caption         =   "Quant. Parc.:"
+      Caption         =   "Quant.:"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1167,10 +1117,10 @@ Begin VB.Form Funcionario_Comissao
          Strikethrough   =   0   'False
       EndProperty
       Height          =   195
-      Left            =   10080
+      Left            =   10560
       TabIndex        =   3
       Top             =   8400
-      Width           =   1155
+      Width           =   645
    End
    Begin VB.Shape Shape1 
       BorderWidth     =   2
@@ -1189,6 +1139,14 @@ Option Explicit
 
 Private moCombo As cComboHelper
 Private printSQL As String
+Private vRelValorAvista As Currency
+Private vRelValorAPrazo As Currency
+Private vRelValorRecebido As Currency
+Private vRelValorServicos As Currency
+Private vRelPorcAvista As Currency
+Private vRelPorcAPrazo As Currency
+Private vRelPorcRecebido As Currency
+Private vRelPorcServicos As Currency
 
 Dim posX As Single
 
@@ -1204,29 +1162,33 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 10
+      .Cols = 12
       .rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 1000
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 1000
-      .ColWidth(4) = 700
-      .ColWidth(5) = 4300
-      .ColWidth(6) = 1000
-      .ColWidth(7) = 1000
+      .ColWidth(2) = 800
+      .ColWidth(3) = 800
+      .ColWidth(4) = 1000
+      .ColWidth(5) = 1000
+      .ColWidth(6) = 700
+      .ColWidth(7) = 4300
       .ColWidth(8) = 1000
       .ColWidth(9) = 1000
+      .ColWidth(10) = 1000
+      .ColWidth(11) = 1000
      
       .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "TIPO"
-      .TextMatrix(0, 3) = "DATA"
-      .TextMatrix(0, 4) = "PARC."
-      .TextMatrix(0, 5) = "NOME DO CLIENTE"
-      .TextMatrix(0, 6) = "VALOR"
-      .TextMatrix(0, 7) = "STATUS"
-      .TextMatrix(0, 8) = "PGTO"
-      .TextMatrix(0, 9) = "FORMA"
+      .TextMatrix(0, 2) = "OS"
+      .TextMatrix(0, 3) = "ORIGEM"
+      .TextMatrix(0, 4) = "TIPO"
+      .TextMatrix(0, 5) = "DATA"
+      .TextMatrix(0, 6) = "PARC."
+      .TextMatrix(0, 7) = "NOME DO CLIENTE"
+      .TextMatrix(0, 8) = "VALOR"
+      .TextMatrix(0, 9) = "STATUS"
+      .TextMatrix(0, 10) = "PGTO"
+      .TextMatrix(0, 11) = "FORMA"
       
 
       .Redraw = False
@@ -1242,11 +1204,13 @@ DoEvents
       .ColAlignment(2) = 7
       .ColAlignment(3) = 7
       .ColAlignment(4) = 7
-      .ColAlignment(5) = 1
+      .ColAlignment(5) = 7
       .ColAlignment(6) = 7
-      .ColAlignment(7) = 7
+      .ColAlignment(7) = 1
       .ColAlignment(8) = 7
       .ColAlignment(9) = 7
+      .ColAlignment(10) = 7
+      .ColAlignment(11) = 7
       
       'MUDAR COR DE FONTE DA COLUNA
       For i = 1 To .rows - 1
@@ -1256,11 +1220,15 @@ DoEvents
          .CellFontBold = True
       Next
       
-      'MUDAR COR DE FONTE DA COLUNA
+      'MUDAR COR DE FONTE DA COLUNA (STATUS: preto = Pago/Feito, vermelho escuro = A Pagar)
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 7
-         .CellForeColor = &HC0&
+         .Col = 9
+         If .TextMatrix(i, 9) = "Pago" Or .TextMatrix(i, 9) = "Feito" Then
+            .CellForeColor = vbBlack
+         Else
+            .CellForeColor = RGB(139, 0, 0)
+         End If
          .CellFontBold = True
       Next
       
@@ -1293,10 +1261,6 @@ txtCodFunc.Text = ""
 End Sub
 
 
-Private Sub PreencherCriterios()
-cboCriterioSec.Clear
-cboCriterioSec.AddItem "MENSAL"
-End Sub
 
 Private Sub PreencherTipoPgto()
 End Sub
@@ -1319,8 +1283,9 @@ End Sub
 
 Private Sub PreencherTipoConsulta()
 cboTipo.Clear
+cboTipo.AddItem "TODOS"
 cboTipo.AddItem "VENDA"
-cboTipo.AddItem "SERVIÇOS"
+cboTipo.AddItem "OFICINA"
 End Sub
 
 Private Sub cboAno_GotFocus()
@@ -1347,65 +1312,22 @@ Private Sub cboAno_KeyPress(KeyAscii As Integer)
     'If KeyAscii = 13 Then cmdLocalizar_Click
 End Sub
 
-Private Sub cboCriterioSec_Change()
-If cboCriterioSec.Text = "TODOS" Then
-    lblMes.Visible = False
-    cboMes.Visible = False
-    lblAno.Visible = False
-    cboAno.Visible = False
-    lblInicio.Visible = False
-    lblFim.Visible = False
-    lblAte.Visible = False
-    mskInicio.Visible = False
-    mskFim.Visible = False
-    cmdCalendario1.Visible = False
-    cmdCalendario2.Visible = False
-End If
-
-If cboCriterioSec.Text = "MENSAL" Then
-    lblMes.Visible = True
-    cboMes.Visible = True
-    lblAno.Visible = True
-    cboAno.Visible = True
-    lblInicio.Visible = False
-    lblFim.Visible = False
-    lblAte.Visible = False
-    mskInicio.Visible = False
-    mskFim.Visible = False
-    cmdCalendario1.Visible = False
-    cmdCalendario2.Visible = False
-End If
-
-If cboCriterioSec.Text = "PERÍODO" Then
-    lblMes.Visible = False
-    cboMes.Visible = False
-    lblAno.Visible = False
-    cboAno.Visible = False
-    lblInicio.Visible = True
-    lblFim.Visible = True
-    lblAte.Visible = True
-    mskInicio.Visible = True
-    mskFim.Visible = True
-    cmdCalendario1.Visible = True
-    cmdCalendario2.Visible = True
-End If
-End Sub
-
-Private Sub cboCriterioSec_Click()
-   cboCriterioSec_Change
-End Sub
-
-Private Sub cboCriterioSec_GotFocus()
-moCombo.AttachTo cboCriterioSec
-End Sub
-
-Private Sub cboCriterioSec_LostFocus()
-   If cboCriterioSec.Text = "" Then cboCriterioSec.Text = "TODOS"
-End Sub
 
 
 Private Sub cboFormaPgto_LostFocus()
 PreencherTipoPgto
+End Sub
+
+Private Sub cboFormaPgto_Change()
+If cboFormaPgto.Text = "SERVIÇOS" Then
+    frmDatas.Visible = True
+Else
+    frmDatas.Visible = False
+End If
+End Sub
+
+Private Sub cboFormaPgto_Click()
+cboFormaPgto_Change
 End Sub
 
 
@@ -1437,14 +1359,15 @@ Private Sub cboMes_LostFocus()
 End Sub
 
 Private Sub cboTipo_Change()
-If cboTipo.Text = "VENDA" Then
+If cboTipo.Text = "TODOS" Then
    cmdExibirProdutos.Visible = True
    cmdExibirParcelas.Visible = True
-   cmdExibirPedidos.Visible = False
-ElseIf cboTipo.Text = "SERVIÇOS" Then
+ElseIf cboTipo.Text = "VENDA" Then
    cmdExibirProdutos.Visible = True
    cmdExibirParcelas.Visible = True
-   cmdExibirPedidos.Visible = False
+ElseIf cboTipo.Text = "OFICINA" Then
+   cmdExibirProdutos.Visible = True
+   cmdExibirParcelas.Visible = True
 Else
    Exit Sub
 End If
@@ -1458,21 +1381,6 @@ Private Sub cboTipo_GotFocus()
 moCombo.AttachTo cboTipo
 End Sub
 
-Private Sub cboTipoPgto_GotFocus()
-cboTipoPgto.Clear
-cboTipoPgto.AddItem "TODOS"
-cboTipoPgto.AddItem "DINHEIRO"
-cboTipoPgto.AddItem "PIX"
-cboTipoPgto.AddItem "CARTÃO DÉBITO"
-cboTipoPgto.AddItem "CARTÃO CRÉDITO"
-cboTipoPgto.AddItem "TRANSFERÊNCIA"
-cboTipoPgto.AddItem "DEPOSITO"
-cboTipoPgto.AddItem "FINANCEIRA"
-cboTipoPgto.AddItem "CHEQUE"
-cboTipoPgto.AddItem "BOLETO"
-cboTipoPgto.AddItem "PROMISSÓRIA"
-moCombo.AttachTo cboTipoPgto
-End Sub
 
 
 Private Sub cboVendedor_Click()
@@ -1480,9 +1388,6 @@ Private Sub cboVendedor_Click()
 End Sub
 
 Private Sub cboVendedor_GotFocus()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
    cboVendedor.Clear
    
    sSQL = "SELECT codigo, nome, cargo FROM funcionario ORDER BY nome;"
@@ -1555,102 +1460,67 @@ Else
     TipoPgto = " AND (pedidos.TIPO_PAGAMENTO IN ('À Vista', 'À prazo'))"
 End If
 
-'TIPO DE PAGAMENTO ===================
-Dim vTipoPgtoParcelas As String
-If cboTipoPgto.Text = "TODOS" Then
-   vTipoPgtoParcelas = ""
-ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DINHEIRO')"
-ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'D')"
-ElseIf cboTipoPgto.Text = "CARTÃO CRÉDITO" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'C')"
-ElseIf cboTipoPgto.Text = "TRANSFERÊNCIA" Then
-   vTipoPgtoParcelas = "  AND (parcelas.FORMA_PGTO = 'TRANSFERENCIA')"
-ElseIf cboTipoPgto.Text = "DEPOSITO" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DEPOSITO')"
-ElseIf cboTipoPgto.Text = "FINANCEIRA" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'FINANCEIRA')"
-ElseIf cboTipoPgto.Text = "PROMISSÓRIA" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PROMISSORIA')"
-ElseIf cboTipoPgto.Text = "CHEQUE" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'Cheque')"
-ElseIf cboTipoPgto.Text = "BOLETO" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'BOLETO')"
-ElseIf cboTipoPgto.Text = "PIX" Then
-   vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PIX')"
-Else
-    vTipoPgtoParcelas = ""
-End If
 
 
 Dim vTipoCriterio As String
-If cboCriterioSec.Text = "TODOS" Then
-    vTipoCriterio = ""
-ElseIf cboCriterioSec.Text = "MENSAL" Then
+Dim vCriterioPagamento As String
+Dim vCriterioCompra As String
+Dim vCriterioTermino As String
+Dim vCriterioExecucao As String
+Dim vCriterioServicos As String
 
-    If cboMes.Text = "" Or cboAno.Text = "" Then Limpar_Grid: Exit Sub
+'Sempre MENSAL (cboCriterioSec removido -- todas as consultas sao mensais)
+If cboMes.Text = "" Or cboAno.Text = "" Then Limpar_Grid: Exit Sub
 
-    Dim vIndMes As Integer
-    If cboMes.ListCount = 0 Then
-        If cboMes.Text = "janeiro" Then
-            vIndMes = cboMes.ListIndex + 2
-        ElseIf cboMes.Text = "fevereiro" Then
-            vIndMes = cboMes.ListIndex + 3
-        ElseIf cboMes.Text = "março" Then
-            vIndMes = cboMes.ListIndex + 4
-        ElseIf cboMes.Text = "abril" Then
-            vIndMes = cboMes.ListIndex + 5
-        ElseIf cboMes.Text = "maio" Then
-            vIndMes = cboMes.ListIndex + 6
-        ElseIf cboMes.Text = "junho" Then
-            vIndMes = cboMes.ListIndex + 7
-        ElseIf cboMes.Text = "julho" Then
-            vIndMes = cboMes.ListIndex + 8
-        ElseIf cboMes.Text = "agosto" Then
-            vIndMes = cboMes.ListIndex + 9
-        ElseIf cboMes.Text = "setembro" Then
-            vIndMes = cboMes.ListIndex + 10
-        ElseIf cboMes.Text = "outubro" Then
-            vIndMes = cboMes.ListIndex + 11
-        ElseIf cboMes.Text = "novembro" Then
-            vIndMes = cboMes.ListIndex + 12
-        ElseIf cboMes.Text = "dezembro" Then
-            vIndMes = cboMes.ListIndex + 13
-        End If
-    
-        If cboFormaPgto.Text = "À VISTA" Then
-            vTipoCriterio = " AND (Month(parcelas.PAGAMENTO) = " & vIndMes & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
-        ElseIf cboFormaPgto.Text = "À PRAZO" Then
-            vTipoCriterio = " AND (Month(pedidos.DATA_COMPRA) = " & vIndMes & ") And (Year(pedidos.DATA_COMPRA) = " & cboAno & ")"
-        ElseIf cboFormaPgto.Text = "RECEBIDOS" Then
-            vTipoCriterio = " AND (Month(parcelas.PAGAMENTO) = " & vIndMes & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
-        End If
-    
-    Else
-        If cboFormaPgto.Text = "À VISTA" Then
-            vTipoCriterio = " AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
-        ElseIf cboFormaPgto.Text = "À PRAZO" Then
-            vTipoCriterio = " AND (Month(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos.DATA_COMPRA) = " & cboAno & ")"
-        ElseIf cboFormaPgto.Text = "RECEBIDOS" Then
-            vTipoCriterio = " AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
-        End If
-    End If
+vCriterioPagamento = " AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
+vCriterioCompra = " AND (Month(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos.DATA_COMPRA) = " & cboAno & ")"
+vCriterioTermino = " AND (Month(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & ") And (Year(OS.DATA_TERMINO) = " & cboAno & ")"
+vCriterioExecucao = " AND (Month(sv.data) = " & cboMes.ListIndex + 1 & ") And (Year(sv.data) = " & cboAno & ")"
 
-ElseIf cboCriterioSec.Text = "PERÍODO" Then
-    If Not IsDate(mskInicio) Or Not IsDate(mskFim) Then Limpar_Grid: Exit Sub
-    vTipoCriterio = " AND (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103))"
+If optExecucao.Value = True Then
+    vCriterioServicos = vCriterioExecucao
+Else
+    vCriterioServicos = vCriterioTermino
+End If
+
+If cboFormaPgto.Text = "À VISTA" Then
+    vTipoCriterio = vCriterioPagamento
+ElseIf cboFormaPgto.Text = "À PRAZO" Then
+    vTipoCriterio = vCriterioCompra
+ElseIf cboFormaPgto.Text = "RECEBIDOS" Then
+    vTipoCriterio = vCriterioPagamento
+Else
+    vTipoCriterio = vCriterioCompra
 End If
 
 'MONTAR O GRID
-If cboTipo.Text = "SERVIÇOS" Then
-    sSQL = "SELECT OS.COD_PEDIDO AS var_codped, OS.TIPO_PAGAMENTO, OS.DATA_ENTRADA AS DATA_COMPRA, OS.COD_OS AS NUMERO, OS.TOTAL AS VALOR_FINAL, OS.TIPO_OS AS var_FormaPgto, (CASE WHEN OS.STATUS = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, OS.COD_FUNCIONARIO, cliente.Nome, OS.COD_CLIENTE, OS.PAGAMENTO " & _
-        "FROM OS LEFT JOIN cliente ON OS.COD_CLIENTE = cliente.CODIGO " & _
-        "WHERE (OS.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (OS.STATUS = 1) AND (MONTH(OS.DATA_ENTRADA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(OS.DATA_ENTRADA) = " & cboAno & ") "
+'Ordem de colunas ALINHADA entre os dois SELECTs (necessario para o UNION ALL do modo TODOS nao misturar campos de posicoes diferentes)
+Dim sSQLOficina As String
+Dim sSQLVenda As String
+
+sSQLOficina = "SELECT OS.COD_PEDIDO AS var_codped, OS.COD_OS AS var_CodOS, 'OS' AS var_Origem, pedidos.TIPO_PAGAMENTO, pedidos.DATA_COMPRA, parcelas.NUMERO, parcelas.VALOR_FINAL, parcelas.FORMA_PGTO as var_FormaPgto, (CASE WHEN parcelas.status = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, pedidos.COD_FUNCIONARIO, cliente.Nome, OS.COD_CLIENTE, parcelas.PAGAMENTO " & _
+    "FROM OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN parcelas ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO LEFT JOIN cliente ON OS.COD_CLIENTE = cliente.CODIGO " & _
+    "WHERE (pedidos.TIPO_PEDIDO = 'OFICINA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " " & " AND (OS.STATUS_OS = 1) " & vTipoCriterio & " "
+
+sSQLVenda = "SELECT parcelas.COD_PEDIDO as var_codped, NULL AS var_CodOS, 'PDV' AS var_Origem, pedidos.TIPO_PAGAMENTO, pedidos.DATA_COMPRA, parcelas.NUMERO, parcelas.VALOR_FINAL, parcelas.FORMA_PGTO as var_FormaPgto, (CASE WHEN parcelas.status = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, pedidos.COD_FUNCIONARIO, cliente.Nome, pedidos.COD_CLIENTE, parcelas.PAGAMENTO " & _
+    "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+    "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " " & " " & vTipoCriterio & " "
+
+'SERVIÇOS: sempre trata como OFICINA, atribuindo por sv.cod_mecanico (quem executou o servico), ignorando cboTipo
+Dim sSQLServicos As String
+sSQLServicos = "SELECT OS.COD_PEDIDO AS var_codped, OS.COD_OS AS var_CodOS, 'OS' AS var_Origem, pedidos.TIPO_PAGAMENTO, OS.DATA_TERMINO AS DATA_COMPRA, '' AS NUMERO, sv.TOTAL AS VALOR_FINAL, '' AS var_FormaPgto, 'Feito' AS var_StatusPgto, sv.cod_mecanico AS COD_FUNCIONARIO, cliente.Nome, OS.COD_CLIENTE, sv.data AS PAGAMENTO " & _
+    "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO LEFT JOIN cliente ON OS.COD_CLIENTE = cliente.CODIGO " & _
+    "WHERE (pedidos.TIPO_PEDIDO = 'OFICINA') AND (pedidos.cancelado = 0) AND (sv.cod_mecanico = " & txtCodFunc.Text & ") " & vCriterioServicos & " "
+
+If cboFormaPgto.Text = "SERVIÇOS" Then
+    sSQL = sSQLServicos
+ElseIf cboTipo.Text = "OFICINA" Then
+    sSQL = sSQLOficina
+ElseIf cboTipo.Text = "VENDA" Then
+    sSQL = sSQLVenda
 Else
-    sSQL = "SELECT parcelas.COD_PEDIDO as var_codped, pedidos.DATA_COMPRA, parcelas.PAGAMENTO, parcelas.NUMERO, parcelas.VALOR_FINAL, parcelas.FORMA_PGTO as var_FormaPgto, (CASE WHEN parcelas.status = 1 THEN 'Pago' ELSE 'À Pagar' END) AS var_StatusPgto, pedidos.COD_FUNCIONARIO, cliente.Nome, pedidos.COD_CLIENTE, pedidos.TIPO_PAGAMENTO " & _
-            "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-            "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " AND (parcelas.STATUS = 1) " & vTipoCriterio & " "
+    'TODOS
+    sSQL = sSQLOficina & " UNION ALL " & sSQLVenda
 End If
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 printSQL = sSQL '" & TipoPgto & "
@@ -1669,7 +1539,7 @@ FormatarGrid r
 'BUSCAR TOTAL DE AVISTA ===================================================================================
 sSQL = "SELECT SUM(parcelas.VALOR_FINAL) AS varTotalAvista " & _
         "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-        "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " " & vTipoPgtoParcelas & " " & vTipoCriterio & " "
+        "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") " & TipoPgto & " " & vPago & " " & " " & vTipoCriterio & " "
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 Dim vValorTotalAvista As Currency
@@ -1678,6 +1548,7 @@ If Not r.EOF Then
 Else
     vValorTotalAvista = FormatNumber(0, 2)
 End If
+vRelValorAvista = vValorTotalAvista
 
 'CONSULTAS COMISSÕES
 sSQL = "SELECT Comissao_Avista1, Comissao_Avista2, Comissao_Avista3, Valor_ComissaoAV1, Valor_ComissaoAV2, Valor_ComissaoAV3 " & _
@@ -1687,8 +1558,12 @@ Set r = dbData.OpenRecordset(sSQL)
 
 Dim vAlvoAvista As Currency
 Dim vComissaoAvista As Currency
+Dim vMeta1Avista As Currency
+Dim vPerc1Avista As Currency
 
 If Not r.EOF Then
+    vMeta1Avista = ValidateNull(r("Valor_ComissaoAV1"))
+    vPerc1Avista = ValidateNull(r("Comissao_Avista1"))
     If vValorTotalAvista > r("Valor_ComissaoAV1") Then
         If vValorTotalAvista < r("Valor_ComissaoAV3") Then
             vComissaoAvista = FormatNumber(r("Comissao_Avista2"), 2)
@@ -1701,21 +1576,30 @@ If Not r.EOF Then
 Else
     vComissaoAvista = FormatNumber(0, 2)
 End If
+vRelPorcAvista = vComissaoAvista
 
-'COMISSÕES Á VISTA
-sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoAvista), ",", ".") & " / 100), 0) AS var_ComAvista, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
-       "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-                     "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-                     "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
-       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Vista') " & vPago & " " & vTipoPgtoParcelas & " AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ") "
-Set r = dbData.OpenRecordset(sSQL, totalRegistros)
-
-If Not r.EOF Then
-    lblComAvistaQtde.Caption = Format(r("var_ContParcelas"), "000")
-    lblComAvista.Caption = FormatNumber(r("var_ComAvista"), 2)
-Else
-    lblComAvistaQtde.Caption = Format(0, "00")
+'Meta 1 zerada (valor e/ou %) = funcionario nao participa dessa comissao: zera tudo, nao busca parcelas
+If vMeta1Avista = 0 Or vPerc1Avista = 0 Then
+    lblComAvistaQtde.Caption = Format(0, "000")
     lblComAvista.Caption = FormatNumber(0, 2)
+    vRelValorAvista = 0
+    vRelPorcAvista = 0
+Else
+    'COMISSÕES À VISTA
+    sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoAvista), ",", ".") & " / 100), 0) AS var_ComAvista, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
+           "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+                         "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+                         "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
+           "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Vista') " & vPago & " " & " " & vCriterioPagamento & " "
+    Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+    If Not r.EOF Then
+        lblComAvistaQtde.Caption = Format(r("var_ContParcelas"), "000")
+        lblComAvista.Caption = FormatNumber(r("var_ComAvista"), 2)
+    Else
+        lblComAvistaQtde.Caption = Format(0, "00")
+        lblComAvista.Caption = FormatNumber(0, 2)
+    End If
 End If
 
 
@@ -1725,7 +1609,7 @@ End If
 'BUSCAR TOTAL DE RECEBIDO ===================================================================================
 sSQL = "SELECT SUM(parcelas.VALOR_FINAL) AS varTotalRecebido " & _
         "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-        "WHERE (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') AND (parcelas.STATUS = 1) AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
+        "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') AND (parcelas.STATUS = 1) " & " " & vCriterioPagamento & ""
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 'Debug.Print sSQL
 Dim vValorTotalRecebido As Currency
@@ -1734,6 +1618,7 @@ If Not r.EOF Then
 Else
     vValorTotalRecebido = FormatNumber(0, 2)
 End If
+vRelValorRecebido = vValorTotalRecebido
 
 'CONSULTAS COMISSÕES
 sSQL = "SELECT Comissao_Recebido1, Comissao_Recebido2, Comissao_Recebido3, Valor_ComissaoRec1, Valor_ComissaoRec2, Valor_ComissaoRec3 " & _
@@ -1743,8 +1628,12 @@ Set r = dbData.OpenRecordset(sSQL)
 
 Dim vAlvoRecebido As Currency
 Dim vComissaoRecebido As Currency
+Dim vMeta1Recebido As Currency
+Dim vPerc1Recebido As Currency
 
 If Not r.EOF Then
+    vMeta1Recebido = ValidateNull(r("Valor_ComissaoRec1"))
+    vPerc1Recebido = ValidateNull(r("Comissao_Recebido1"))
     If vValorTotalRecebido > r("Valor_ComissaoRec1") Then
         If vValorTotalRecebido < r("Valor_ComissaoRec3") Then
             vComissaoRecebido = FormatNumber(r("Comissao_Recebido2"), 2)
@@ -1757,24 +1646,33 @@ If Not r.EOF Then
 Else
     vComissaoRecebido = FormatNumber(0, 2)
 End If
+vRelPorcRecebido = vComissaoRecebido
 
-'COMISSÃO à RECEBIDO
-sSQL = "SELECT  ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoRecebido), ",", ".") & " / 100), 0) AS var_ComRecebido, count(parcelas.COD_PEDIDO) as var_ContParcelas " & _
-        "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
-        "WHERE (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') AND (parcelas.STATUS = 1) AND (Month(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.PAGAMENTO) = " & cboAno & ")"
-Set r = dbData.OpenRecordset(sSQL, totalRegistros)
-
-'Debug.Print sSQL
-If Not r.EOF Then
-    lblComRecebidoQtde.Caption = Format(r("var_ContParcelas"), "000")
-    lblComRecebido.Caption = FormatNumber(r("var_ComRecebido"), 2)
-Else
+'Meta 1 zerada (valor e/ou %) = funcionario nao participa dessa comissao: zera tudo, nao busca parcelas
+If vMeta1Recebido = 0 Or vPerc1Recebido = 0 Then
     lblComRecebidoQtde.Caption = Format(0, "000")
     lblComRecebido.Caption = FormatNumber(0, 2)
-End If
+    vRelValorRecebido = 0
+    vRelPorcRecebido = 0
+Else
+    'COMISSÃO à RECEBIDO
+    sSQL = "SELECT  ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoRecebido), ",", ".") & " / 100), 0) AS var_ComRecebido, count(parcelas.COD_PEDIDO) as var_ContParcelas " & _
+            "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
+            "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') AND (parcelas.STATUS = 1) " & " " & vCriterioPagamento & ""
+    Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
-If lblComRecebido.Caption = "0,00" Then
-    lblComRecebidoQtde.Caption = Format(0, "000")
+    'Debug.Print sSQL
+    If Not r.EOF Then
+        lblComRecebidoQtde.Caption = Format(r("var_ContParcelas"), "000")
+        lblComRecebido.Caption = FormatNumber(r("var_ComRecebido"), 2)
+    Else
+        lblComRecebidoQtde.Caption = Format(0, "000")
+        lblComRecebido.Caption = FormatNumber(0, 2)
+    End If
+
+    If lblComRecebido.Caption = "0,00" Then
+        lblComRecebidoQtde.Caption = Format(0, "000")
+    End If
 End If
 
 
@@ -1787,7 +1685,7 @@ sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL), 0) AS varTotalAPrazo " & _
        "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
                      "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
                      "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
-       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') " & vTipoPgtoParcelas & " AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
+       "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') " & " " & vCriterioCompra & " "
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 If Not r.EOF Then
@@ -1795,6 +1693,7 @@ If Not r.EOF Then
 Else
     vValorTotalAPrazo = FormatNumber(0, 2)
 End If
+vRelValorAPrazo = vValorTotalAPrazo
 
 sSQL = "SELECT Comissao_Prazo1, Comissao_Prazo2, Comissao_Prazo3, Valor_ComissaoAP1, Valor_ComissaoAP2, Valor_ComissaoAP3 " & _
        "FROM funcionario " & _
@@ -1802,8 +1701,12 @@ sSQL = "SELECT Comissao_Prazo1, Comissao_Prazo2, Comissao_Prazo3, Valor_Comissao
 Set r = dbData.OpenRecordset(sSQL)
 
 Dim vComissaoAPrazo As Currency
+Dim vMeta1APrazo As Currency
+Dim vPerc1APrazo As Currency
 
 If Not r.EOF Then
+    vMeta1APrazo = ValidateNull(r("Valor_ComissaoAP1"))
+    vPerc1APrazo = ValidateNull(r("Comissao_Prazo1"))
     If vValorTotalAPrazo > r("Valor_ComissaoAP1") Then
         If vValorTotalAPrazo < r("Valor_ComissaoAP3") Then
             vComissaoAPrazo = FormatNumber(r("Comissao_Prazo2"), 2)
@@ -1816,27 +1719,36 @@ If Not r.EOF Then
 Else
     vComissaoAPrazo = FormatNumber(0, 2)
 End If
+vRelPorcAPrazo = vComissaoAPrazo
 
-sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoAPrazo), ",", ".") & " / 100), 0) AS var_ComAprazo, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
-       "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-                     "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-                     "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
-       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') " & vTipoPgtoParcelas & " AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
-Set r = dbData.OpenRecordset(sSQL, totalRegistros)
-
-If Not r.EOF Then
-    lblComAPrazoQtde.Caption = Format(r("var_ContParcelas"), "000")
-    lblComAPrazo.Caption = FormatNumber(r("var_ComAprazo"), 2)
-Else
-    lblComAPrazoQtde.Caption = Format(0, "00")
+'Meta 1 zerada (valor e/ou %) = funcionario nao participa dessa comissao: zera tudo, nao busca parcelas
+If vMeta1APrazo = 0 Or vPerc1APrazo = 0 Then
+    lblComAPrazoQtde.Caption = Format(0, "000")
     lblComAPrazo.Caption = FormatNumber(0, 2)
+    vRelValorAPrazo = 0
+    vRelPorcAPrazo = 0
+Else
+    sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL * " & Replace(CDbl(vComissaoAPrazo), ",", ".") & " / 100), 0) AS var_ComAprazo, COUNT(parcelas.CODIGO) AS var_ContParcelas " & _
+           "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+                         "INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+                         "INNER JOIN funcionario ON pedidos.COD_FUNCIONARIO = funcionario.CODIGO " & _
+           "WHERE (pedidos.TIPO_PEDIDO IN ('VENDA', 'OFICINA')) AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (pedidos.TIPO_PAGAMENTO = 'À Prazo') " & " " & vCriterioCompra & " "
+    Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+    If Not r.EOF Then
+        lblComAPrazoQtde.Caption = Format(r("var_ContParcelas"), "000")
+        lblComAPrazo.Caption = FormatNumber(r("var_ComAprazo"), 2)
+    Else
+        lblComAPrazoQtde.Caption = Format(0, "00")
+        lblComAPrazo.Caption = FormatNumber(0, 2)
+    End If
 End If
 
 'COMISSÃO DE SERVIÇOS
 Dim vValorTotalServicos As Currency
 sSQL = "SELECT ISNULL(SUM(sv.total), 0) AS varTotalServicos " & _
        "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
+       "WHERE (pedidos.TIPO_PEDIDO = 'OFICINA') AND (pedidos.cancelado = 0) AND (sv.cod_mecanico = " & txtCodFunc.Text & ") " & vCriterioServicos & " "
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 If Not r.EOF Then
@@ -1844,6 +1756,7 @@ If Not r.EOF Then
 Else
     vValorTotalServicos = FormatNumber(0, 2)
 End If
+vRelValorServicos = vValorTotalServicos
 
 sSQL = "SELECT Comissao_Servico1, Comissao_Servico2, Comissao_Servico3, Valor_ComissaoServ1, Valor_ComissaoServ2, Valor_ComissaoServ3 " & _
        "FROM funcionario " & _
@@ -1851,8 +1764,12 @@ sSQL = "SELECT Comissao_Servico1, Comissao_Servico2, Comissao_Servico3, Valor_Co
 Set r = dbData.OpenRecordset(sSQL)
 
 Dim vComissaoServicos As Currency
+Dim vMeta1Servicos As Currency
+Dim vPerc1Servicos As Currency
 
 If Not r.EOF Then
+    vMeta1Servicos = ValidateNull(r("Valor_ComissaoServ1"))
+    vPerc1Servicos = ValidateNull(r("Comissao_Servico1"))
     If vValorTotalServicos > r("Valor_ComissaoServ1") Then
         If vValorTotalServicos < r("Valor_ComissaoServ3") Then
             vComissaoServicos = FormatNumber(r("Comissao_Servico2"), 2)
@@ -1865,18 +1782,27 @@ If Not r.EOF Then
 Else
     vComissaoServicos = FormatNumber(0, 2)
 End If
+vRelPorcServicos = vComissaoServicos
 
-sSQL = "SELECT ISNULL(SUM(sv.total * " & Replace(CDbl(vComissaoServicos), ",", ".") & " / 100), 0) AS var_ComServicos, COUNT(sv.codigo) AS var_ContServicos " & _
-       "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-       "WHERE (pedidos.TIPO_PEDIDO = 'VENDA') AND (pedidos.cancelado = 0) AND (pedidos.COD_FUNCIONARIO = " & txtCodFunc.Text & ") AND (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") "
-Set r = dbData.OpenRecordset(sSQL, totalRegistros)
-
-If Not r.EOF Then
-    lblComServicosQtde.Caption = Format(r("var_ContServicos"), "000")
-    lblComServicos.Caption = FormatNumber(r("var_ComServicos"), 2)
-Else
+'Meta 1 zerada (valor e/ou %) = funcionario nao participa dessa comissao: zera tudo, nao busca servicos
+If vMeta1Servicos = 0 Or vPerc1Servicos = 0 Then
     lblComServicosQtde.Caption = Format(0, "000")
     lblComServicos.Caption = FormatNumber(0, 2)
+    vRelValorServicos = 0
+    vRelPorcServicos = 0
+Else
+    sSQL = "SELECT ISNULL(SUM(sv.total * " & Replace(CDbl(vComissaoServicos), ",", ".") & " / 100), 0) AS var_ComServicos, COUNT(sv.codigo) AS var_ContServicos " & _
+           "FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os = OS.COD_OS INNER JOIN pedidos ON OS.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+           "WHERE (pedidos.TIPO_PEDIDO = 'OFICINA') AND (pedidos.cancelado = 0) AND (sv.cod_mecanico = " & txtCodFunc.Text & ") " & vCriterioServicos & " "
+    Set r = dbData.OpenRecordset(sSQL, totalRegistros)
+
+    If Not r.EOF Then
+        lblComServicosQtde.Caption = Format(r("var_ContServicos"), "000")
+        lblComServicos.Caption = FormatNumber(r("var_ComServicos"), 2)
+    Else
+        lblComServicosQtde.Caption = Format(0, "000")
+        lblComServicos.Caption = FormatNumber(0, 2)
+    End If
 End If
 
 If r.State <> 0 Then r.Close
@@ -1924,71 +1850,105 @@ Private Sub cmdCalendario2_Click()
 End Sub
 
 
-Private Sub cmdCriarPDF_Click()
+Private Sub MontarRelatorioComissoes(ByVal bGerarPDF As Boolean)
 Dim r As ADODB.Recordset
 
-'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+If printSQL = "" Then
+    ShowMsg "Clique em ""Exibir"" antes de gerar o relatório.", vbInformation
+    Exit Sub
+End If
 
-'nome da maquina
-var_ImpNormal = "Impressora PDF"
+If bGerarPDF Then
+    Set oIni = New Ini
+    oIni.Arquivo = appPathApp & "config.ini"
+    var_ImpNormal = "Impressora PDF"
 
-Dim Prt As Printer
-Dim oldPrinter As String
+    Dim Prt As Printer
+    Dim bImpressoraEncontrada As Boolean
+    bImpressoraEncontrada = False
+    For Each Prt In Printers
+       If Prt.DeviceName = var_ImpNormal Then
+          Set Printer = Prt
+          bImpressoraEncontrada = True
+          Exit For
+       End If
+    Next
 
-'Armazena o nome da impressora atual
-oldPrinter = Printer.DeviceName
-
-' Find and use the printer just selected in the ListBox
-For Each Prt In Printers
-   If Prt.DeviceName = var_ImpNormal Then
-      Set Printer = Prt
-      Exit For
-   End If
-Next
+    If Not bImpressoraEncontrada Then
+        ShowMsg "Não foi encontrada nenhuma impressora chamada ""Impressora PDF"" instalada neste computador." & vbCrLf & vbCrLf & "Entre em contato com o suporte para instalar a Impressora PDF.", vbExclamation
+        Exit Sub
+    End If
+Else
+    Dim oIniNormal As Ini
+    Dim var_Impressora As String
+    Set oIniNormal = New Ini
+    oIniNormal.Arquivo = appPathApp & "config.ini"
+    var_Impressora = oIniNormal.LerTexto("DADOS_IMPRESSORA", "impressora")
+    Set oIniNormal = Nothing
+End If
 
 Me.Hide
 
 Set r = dbData.OpenRecordset(printSQL)
-'Debug.Print printSQL
-   Set REL_Comissoes.Relatorio.Recordset = r
-    
-    REL_Comissoes.lblTitulo.Caption = "RELATÓRIO DE COMISSÕES"
-   
-    REL_Comissoes.dfQuantAvista.Caption = lblComAvistaQtde.Caption
-    REL_Comissoes.dfQuantAPrazo.Caption = lblComAPrazoQtde.Caption
-    REL_Comissoes.dfQuantRecebido.Caption = lblComRecebidoQtde.Caption
-    REL_Comissoes.dfQuantServicos.Caption = lblComServicosQtde.Caption
+Set REL_Comissoes.Relatorio.Recordset = r
 
-    REL_Comissoes.dfTotalAVista.Caption = FormatNumber(lblComAvista.Caption, 2)
-    REL_Comissoes.dfTotalAPrazo.Caption = FormatNumber(lblComAPrazo.Caption, 2)
-    REL_Comissoes.dfTotalRecebido.Caption = FormatNumber(lblComRecebido.Caption, 2)
-    REL_Comissoes.dfTotalServicos.Caption = FormatNumber(lblComServicos.Caption, 2)
+REL_Comissoes.lblTitulo.Caption = "RELATÓRIO DE COMISSÕES"
 
-   If cboFormaPgto.Text = "TODOS" Then
-      REL_Comissoes.rfForma.Caption = "TODAS"
-   ElseIf cboFormaPgto.Text = "À VISTA" Then
-      REL_Comissoes.rfForma.Caption = "À VISTA"
-   ElseIf cboFormaPgto.Text = "À PRAZO" Then
-      REL_Comissoes.rfForma.Caption = "À PRAZO"
-   Else
-      REL_Comissoes.rfForma.Caption = "TODAS"
-   End If
+'Cabecalhos dinamicos: modo SERVICOS troca COMPRA/VALOR/PGTO por TERMINO/SERVICO/DATA e oculta FORMA (mesmo padrao do Grid/FormatarGrid)
+Dim bModoServicosRel As Boolean
+bModoServicosRel = (cboFormaPgto.Text = "SERVIÇOS")
+REL_Comissoes.Label5.Caption = IIf(bModoServicosRel, "TÉRMINO", "COMPRA")
+REL_Comissoes.Label1.Caption = IIf(bModoServicosRel, "SERVIÇO", "VALOR")
+REL_Comissoes.Label9.Caption = IIf(bModoServicosRel, "DATA", "PGTO")
+REL_Comissoes.Label10.Visible = Not bModoServicosRel
+REL_Comissoes.ReportField7.Visible = Not bModoServicosRel
 
-   
-   If cboCriterioSec.Text = "MENSAL" Then
-      REL_Comissoes.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-   End If
-   REL_Comissoes.rfCons1.Caption = cboVendedor
-   REL_Comissoes.rfCons3.Caption = FormatNumber(lblSubTotal.Caption, 2)
-    
+REL_Comissoes.dfQuantAvista.Caption = lblComAvistaQtde.Caption
+REL_Comissoes.dfQuantAPrazo.Caption = lblComAPrazoQtde.Caption
+REL_Comissoes.dfQuantRecebido.Caption = lblComRecebidoQtde.Caption
+REL_Comissoes.dfQuantServicos.Caption = lblComServicosQtde.Caption
+
+REL_Comissoes.dfTotalAVista.Caption = FormatNumber(lblComAvista.Caption, 2)
+REL_Comissoes.dfTotalAPrazo.Caption = FormatNumber(lblComAPrazo.Caption, 2)
+REL_Comissoes.dfTotalRecebido.Caption = FormatNumber(lblComRecebido.Caption, 2)
+REL_Comissoes.dfTotalServicos.Caption = FormatNumber(lblComServicos.Caption, 2)
+
+'Soma usada p/ definir a faixa de comissao + % da faixa escolhida (persistidos em modulo, ver vRelValor*/vRelPorc*)
+REL_Comissoes.dfValorAvista.Caption = FormatNumber(vRelValorAvista, 2)
+REL_Comissoes.dfValorAPrazo.Caption = FormatNumber(vRelValorAPrazo, 2)
+REL_Comissoes.dfValorRecebido.Caption = FormatNumber(vRelValorRecebido, 2)
+REL_Comissoes.dfValorServicos.Caption = FormatNumber(vRelValorServicos, 2)
+REL_Comissoes.dfPorcAvista.Caption = FormatNumber(vRelPorcAvista, 2)
+REL_Comissoes.dfPorcAPrazo.Caption = FormatNumber(vRelPorcAPrazo, 2)
+REL_Comissoes.dfPorcRecebido.Caption = FormatNumber(vRelPorcRecebido, 2)
+REL_Comissoes.dfPorcServicos.Caption = FormatNumber(vRelPorcServicos, 2)
+
+'FORMA + TIPO (modo SERVIÇOS sempre trata como OFICINA, ignorando cboTipo)
+If cboFormaPgto.Text = "SERVIÇOS" Then
+   REL_Comissoes.rfForma.Caption = "SERVIÇOS (somente OFICINA)"
+Else
+   REL_Comissoes.rfForma.Caption = cboFormaPgto.Text & " (" & cboTipo.Text & ")"
+End If
+
+REL_Comissoes.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+If cboFormaPgto.Text = "SERVIÇOS" Then
+    REL_Comissoes.rfCons2.Caption = REL_Comissoes.rfCons2.Caption & " (" & IIf(optExecucao.Value = True, "Execução do Serviço", "Término da OS") & ")"
+End If
+REL_Comissoes.rfCons1.Caption = cboVendedor
+REL_Comissoes.rfCons3.Caption = FormatNumber(lblSubtotal.Caption, 2)
+
+If bGerarPDF Then
     REL_Comissoes.Relatorio.NomeImpressora = var_ImpNormal
     REL_Comissoes.Relatorio.Visualizar = False
-    REL_Comissoes.Relatorio.Ativar
-    Unload REL_Comissoes
+End If
+REL_Comissoes.Relatorio.Ativar
+Unload REL_Comissoes
 
 Me.Show 1
+End Sub
+
+Private Sub cmdCriarPDF_Click()
+MontarRelatorioComissoes True
 End Sub
 
 Private Sub cmdExibirParcelas_Click()
@@ -1999,82 +1959,19 @@ If Grid.Col = 0 Then Exit Sub
    End If
 End Sub
 
-Private Sub cmdExibirPedidos_Click()
-If cboTipo.Text = "POR PRODUTOS" Then
-   If Grid.Col = 0 Then Exit Sub
-   If IsNumeric(Grid.TextMatrix(Grid.Row, 0)) = True Then
-      If Grid.TextMatrix(Grid.Row, 0) = "" Then Exit Sub
-      Vendas_Consulta_Pedidos.loadPedidos Grid.TextMatrix(Grid.Row, 0)
-      Vendas_Consulta_Pedidos.Show 1
-   End If
-End If
-End Sub
-
 Private Sub cmdExibirProdutos_Click()
 If Grid.Col = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
    If Grid.Col = 1 Then
       If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 7)
+      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), "OS"
       Parcelas_Consulta_Produtos.Show 1
    End If
 End If
 End Sub
 
 Private Sub cmdImprimir_Click()
-Dim r As ADODB.Recordset
-
-'colocar o nome da maquina na barra de status
-Dim var_Impressora As String
-Dim oIni As Ini
-
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
-var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
-Set oIni = Nothing
-
-Me.Hide
-
-Set r = dbData.OpenRecordset(printSQL)
-'Debug.Print printSQL
-   Set REL_Comissoes.Relatorio.Recordset = r
-    
-    REL_Comissoes.lblTitulo.Caption = "RELATÓRIO DE COMISSÕES"
-   
-    REL_Comissoes.dfQuantAvista.Caption = lblComAvistaQtde.Caption
-    REL_Comissoes.dfQuantAPrazo.Caption = lblComAPrazoQtde.Caption
-    REL_Comissoes.dfQuantRecebido.Caption = lblComRecebidoQtde.Caption
-    REL_Comissoes.dfQuantServicos.Caption = lblComServicosQtde.Caption
-
-    REL_Comissoes.dfTotalAVista.Caption = FormatNumber(lblComAvista.Caption, 2)
-    REL_Comissoes.dfTotalAPrazo.Caption = FormatNumber(lblComAPrazo.Caption, 2)
-    REL_Comissoes.dfTotalRecebido.Caption = FormatNumber(lblComRecebido.Caption, 2)
-    REL_Comissoes.dfTotalServicos.Caption = FormatNumber(lblComServicos.Caption, 2)
-
-   If cboFormaPgto.Text = "TODOS" Then
-      REL_Comissoes.rfForma.Caption = "TODAS"
-   ElseIf cboFormaPgto.Text = "À VISTA" Then
-      REL_Comissoes.rfForma.Caption = "À VISTA"
-   ElseIf cboFormaPgto.Text = "À PRAZO" Then
-      REL_Comissoes.rfForma.Caption = "À PRAZO"
-   Else
-      REL_Comissoes.rfForma.Caption = "TODAS"
-   End If
-
-   
-   If cboCriterioSec.Text = "MENSAL" Then
-      REL_Comissoes.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-   End If
-   REL_Comissoes.rfCons1.Caption = cboVendedor
-   REL_Comissoes.rfCons3.Caption = FormatNumber(lblSubTotal.Caption, 2)
-   
-   
-   REL_Comissoes.Relatorio.Ativar
-   Unload REL_Comissoes
-
-
-
-Me.Show 1
+MontarRelatorioComissoes False
 End Sub
 
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
@@ -2094,9 +1991,6 @@ End Function
 
 
 
-Private Sub Combo1_Change()
-
-End Sub
 
 Private Sub Form_Load()
 Set cCfg = sysConfig("TIPO_EMPRESA")
@@ -2107,16 +2001,12 @@ Set cCfg = Nothing
 PreencherTipoConsulta
 cboTipo.ListIndex = 0
 
-PreencherCriterios
-cboCriterioSec.ListIndex = 0
-
 PreencherIndice
 cboIndice.ListIndex = 1
 
 PreencherFormaPgto
 cboFormaPgto.ListIndex = 0
 
-cboTipoPgto.Text = "TODOS"
 
 'cboMes.Text = Format(Date, "mmmm")
 'cboAno.Text = Year(Date)
@@ -2170,29 +2060,36 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 10
+      .Cols = 12
       .rows = 2
       
+      Dim bModoServicos As Boolean
+      bModoServicos = (cboFormaPgto.Text = "SERVIÇOS")
+      
       .ColWidth(0) = 150
-      .ColWidth(1) = 1000
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 1000
+      .ColWidth(1) = 850
+      .ColWidth(2) = 850
+      .ColWidth(3) = 900
       .ColWidth(4) = 700
-      .ColWidth(5) = 4300
-      .ColWidth(6) = 1000
-      .ColWidth(7) = 1000
-      .ColWidth(8) = 1000
-      .ColWidth(9) = 1500
+      .ColWidth(5) = 1000
+      .ColWidth(6) = 300
+      .ColWidth(7) = 4300
+      .ColWidth(8) = 900
+      .ColWidth(9) = 850
+      .ColWidth(10) = 900
+      .ColWidth(11) = IIf(bModoServicos, 0, 1100)
      
       .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "TIPO"
-      .TextMatrix(0, 3) = "COMPRA"
-      .TextMatrix(0, 4) = "PARC."
-      .TextMatrix(0, 5) = "NOME DO CLIENTE"
-      .TextMatrix(0, 6) = "VALOR"
-      .TextMatrix(0, 7) = "STATUS"
-      .TextMatrix(0, 8) = "PGTO"
-      .TextMatrix(0, 9) = "FORMA"
+      .TextMatrix(0, 2) = "OS"
+      .TextMatrix(0, 3) = "ORIGEM"
+      .TextMatrix(0, 4) = "TIPO"
+      .TextMatrix(0, 5) = IIf(bModoServicos, "TERMINO", "COMPRA")
+      .TextMatrix(0, 6) = "Nº"
+      .TextMatrix(0, 7) = "NOME DO CLIENTE"
+      .TextMatrix(0, 8) = IIf(bModoServicos, "SERVIÇO", "VALOR")
+      .TextMatrix(0, 9) = "STATUS"
+      .TextMatrix(0, 10) = IIf(bModoServicos, "DATA", "PGTO")
+      .TextMatrix(0, 11) = "FORMA"
       
 
       .Redraw = False
@@ -2208,25 +2105,34 @@ DoEvents
       .ColAlignment(2) = 7
       .ColAlignment(3) = 7
       .ColAlignment(4) = 7
-      .ColAlignment(5) = 1
+      .ColAlignment(5) = 7
       .ColAlignment(6) = 7
-      .ColAlignment(7) = 7
+      .ColAlignment(7) = 1
       .ColAlignment(8) = 7
       .ColAlignment(9) = 7
+      .ColAlignment(10) = 7
+      .ColAlignment(11) = 1
       
       i = 1
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = Format(rTabela("var_codped"), "000000")
-            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("TIPO_PAGAMENTO"))
-            .TextMatrix(.rows - 1, 3) = Format(rTabela("DATA_COMPRA"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("NUMERO"))
-            .TextMatrix(.rows - 1, 5) = Format(UCase(rTabela("NOME")), ocMONEY)
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("VALOR_FINAL"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_StatusPgto"))
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("Pagamento"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("var_FormaPgto"))
+            .TextMatrix(.rows - 1, 2) = IIf(IsNull(rTabela("var_CodOS")), "", Format(rTabela("var_CodOS"), "000000"))
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("var_Origem"))
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("TIPO_PAGAMENTO"))
+            .TextMatrix(.rows - 1, 5) = Format(rTabela("DATA_COMPRA"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("NUMERO"))
+            .TextMatrix(.rows - 1, 7) = Format(UCase(rTabela("NOME")), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = Format(rTabela("VALOR_FINAL"), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("var_StatusPgto"))
+            If .TextMatrix(.rows - 1, 9) = "Pago" Or .TextMatrix(.rows - 1, 9) = "Feito" Then
+               .TextMatrix(.rows - 1, 10) = Format(rTabela("Pagamento"), "dd/mm/yy")
+               .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("var_FormaPgto"))
+            Else
+               .TextMatrix(.rows - 1, 10) = ""
+               .TextMatrix(.rows - 1, 11) = ""
+            End If
             rTabela.MoveNext
             .rows = .rows + 1
             i = i + 1
@@ -2241,11 +2147,15 @@ DoEvents
          .CellFontBold = True
       Next
       
-      'MUDAR COR DE FONTE DA COLUNA
+      'MUDAR COR DE FONTE DA COLUNA (STATUS: preto = Pago/Feito, vermelho escuro = A Pagar)
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 7
-         .CellForeColor = &HC0&
+         .Col = 9
+         If .TextMatrix(i, 9) = "Pago" Or .TextMatrix(i, 9) = "Feito" Then
+            .CellForeColor = vbBlack
+         Else
+            .CellForeColor = RGB(139, 0, 0)
+         End If
          .CellFontBold = True
       Next
       
@@ -2254,7 +2164,7 @@ DoEvents
    End With
    
    
-    lblSubTotal.Caption = Format(SomaGrid(Grid, 6), ocMONEY)
+    lblSubtotal.Caption = Format(SomaGrid(Grid, 8), ocMONEY)
     'lblSubtotalBruto.Caption = Format(SomaGrid(Grid, 7), ocMONEY)
     'lblAcresc.Caption = Format(SomaGrid(Grid, 6), ocMONEY)
     'lblTotal.Caption = Format(SomaGrid(Grid, 7), ocMONEY)
