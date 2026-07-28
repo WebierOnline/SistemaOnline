@@ -192,7 +192,8 @@ LerConfiguracao
 'Produtos_Cadastro.Show
 'NFe_Completa.Show
 'Tela_Principal.Show
-Funcionario_Comissao.Show
+Vendas_Consulta_PorProdutos.Show
+'Funcionario_Comissao.Show
 'Notas_Adesivas.Show
 'Sistema_Financeiro.Show
 'Inventario_Cadastro.Show

@@ -8,13 +8,13 @@ Begin VB.Form VendasServicos_Consulta
    ClientHeight    =   9510
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   12570
+   ClientWidth     =   13050
    Icon            =   "VendasServicos_Consulta.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   9510
-   ScaleWidth      =   12570
+   ScaleWidth      =   13050
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame8 
       Caption         =   "Critérios"
@@ -28,22 +28,22 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000000C0&
-      Height          =   1755
+      Height          =   2355
       Left            =   60
-      TabIndex        =   17
+      TabIndex        =   26
       Top             =   720
-      Width           =   12435
+      Width           =   12915
       Begin VB.Frame frmFiltro1 
-         Height          =   1455
+         Height          =   2055
          Left            =   5700
-         TabIndex        =   27
+         TabIndex        =   32
          Top             =   180
-         Width           =   6615
+         Width           =   7095
          Begin VB.TextBox txtCodFunc 
             Appearance      =   0  'Flat
             Height          =   195
             Left            =   4440
-            TabIndex        =   36
+            TabIndex        =   38
             Top             =   840
             Visible         =   0   'False
             Width           =   615
@@ -52,7 +52,7 @@ Begin VB.Form VendasServicos_Consulta
             Appearance      =   0  'Flat
             Height          =   195
             Left            =   3780
-            TabIndex        =   35
+            TabIndex        =   37
             Top             =   780
             Visible         =   0   'False
             Width           =   615
@@ -60,7 +60,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin VB.ComboBox cboMes 
             Height          =   315
             Left            =   120
-            TabIndex        =   34
+            TabIndex        =   6
             Top             =   420
             Visible         =   0   'False
             Width           =   1335
@@ -69,7 +69,7 @@ Begin VB.Form VendasServicos_Consulta
             Height          =   315
             Left            =   1500
             Sorted          =   -1  'True
-            TabIndex        =   33
+            TabIndex        =   7
             Top             =   420
             Visible         =   0   'False
             Width           =   1155
@@ -78,7 +78,7 @@ Begin VB.Form VendasServicos_Consulta
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   120
-            TabIndex        =   32
+            TabIndex        =   36
             Top             =   420
             Visible         =   0   'False
             Width           =   1155
@@ -86,7 +86,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin VB.ComboBox cboVendedor 
             Height          =   315
             Left            =   120
-            TabIndex        =   31
+            TabIndex        =   5
             Top             =   1020
             Visible         =   0   'False
             Width           =   4965
@@ -94,7 +94,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin VB.ComboBox cboCliente 
             Height          =   315
             Left            =   120
-            TabIndex        =   30
+            TabIndex        =   35
             Top             =   1020
             Visible         =   0   'False
             Width           =   4965
@@ -102,7 +102,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin ChamaleonBtn.chameleonButton cmdCalendario2 
             Height          =   315
             Left            =   2500
-            TabIndex        =   28
+            TabIndex        =   33
             Tag             =   "Calendario"
             Top             =   420
             Visible         =   0   'False
@@ -144,7 +144,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin ChamaleonBtn.chameleonButton cmdCalendario1 
             Height          =   315
             Left            =   1020
-            TabIndex        =   29
+            TabIndex        =   34
             Tag             =   "Calendario"
             Top             =   420
             Visible         =   0   'False
@@ -186,7 +186,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin MSMask.MaskEdBox mskInicio 
             Height          =   315
             Left            =   120
-            TabIndex        =   37
+            TabIndex        =   39
             Top             =   420
             Visible         =   0   'False
             Width           =   990
@@ -200,7 +200,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin MSMask.MaskEdBox mskFim 
             Height          =   315
             Left            =   1680
-            TabIndex        =   38
+            TabIndex        =   40
             Top             =   420
             Visible         =   0   'False
             Width           =   990
@@ -214,7 +214,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin ChamaleonBtn.chameleonButton cmdCal1 
             Height          =   315
             Left            =   1320
-            TabIndex        =   39
+            TabIndex        =   41
             Tag             =   "Calendario"
             Top             =   420
             Visible         =   0   'False
@@ -256,7 +256,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin MSMask.MaskEdBox mskData 
             Height          =   315
             Left            =   120
-            TabIndex        =   40
+            TabIndex        =   42
             Top             =   420
             Visible         =   0   'False
             Width           =   1455
@@ -270,7 +270,7 @@ Begin VB.Form VendasServicos_Consulta
          Begin ChamaleonBtn.chameleonButton cmdLocalizar 
             Height          =   315
             Left            =   2940
-            TabIndex        =   41
+            TabIndex        =   8
             Top             =   420
             Width           =   1215
             _ExtentX        =   2143
@@ -311,7 +311,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Data::"
             Height          =   195
             Left            =   120
-            TabIndex        =   50
+            TabIndex        =   51
             Top             =   180
             Visible         =   0   'False
             Width           =   435
@@ -322,7 +322,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Mês:"
             Height          =   195
             Left            =   120
-            TabIndex        =   49
+            TabIndex        =   50
             Top             =   165
             Visible         =   0   'False
             Width           =   345
@@ -333,7 +333,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Ano:"
             Height          =   195
             Left            =   1515
-            TabIndex        =   48
+            TabIndex        =   49
             Top             =   180
             Visible         =   0   'False
             Width           =   330
@@ -344,7 +344,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Pedido:"
             Height          =   195
             Left            =   120
-            TabIndex        =   47
+            TabIndex        =   48
             Top             =   180
             Visible         =   0   'False
             Width           =   540
@@ -355,7 +355,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Data inicial:"
             Height          =   195
             Left            =   120
-            TabIndex        =   46
+            TabIndex        =   47
             Top             =   180
             Visible         =   0   'False
             Width           =   825
@@ -366,7 +366,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Data final:"
             Height          =   195
             Left            =   1680
-            TabIndex        =   45
+            TabIndex        =   46
             Top             =   180
             Visible         =   0   'False
             Width           =   720
@@ -377,7 +377,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "até"
             Height          =   195
             Left            =   1380
-            TabIndex        =   44
+            TabIndex        =   45
             Top             =   420
             Visible         =   0   'False
             Width           =   225
@@ -388,7 +388,7 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Vendedor(a):"
             Height          =   195
             Left            =   120
-            TabIndex        =   43
+            TabIndex        =   44
             Top             =   780
             Visible         =   0   'False
             Width           =   915
@@ -399,54 +399,70 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Clientes:"
             Height          =   195
             Left            =   120
-            TabIndex        =   42
+            TabIndex        =   43
             Top             =   780
             Visible         =   0   'False
             Width           =   600
          End
       End
       Begin VB.Frame Frame1 
-         Height          =   1455
+         Height          =   2055
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   27
          Top             =   180
          Width           =   5475
+         Begin VB.ComboBox cboTipo 
+            Height          =   315
+            Left            =   120
+            TabIndex        =   0
+            Top             =   420
+            Width           =   2595
+         End
          Begin VB.ComboBox cboFormaPgto 
             Height          =   315
             Left            =   2760
-            TabIndex        =   22
-            Top             =   1020
+            TabIndex        =   4
+            Top             =   1620
             Width           =   2595
          End
          Begin VB.ComboBox cboIndice 
             Height          =   315
             Left            =   120
-            TabIndex        =   21
-            Top             =   1020
+            TabIndex        =   3
+            Top             =   1620
             Width           =   2595
          End
          Begin VB.ComboBox cboCriterioSec 
             Enabled         =   0   'False
             Height          =   315
             Left            =   2760
-            TabIndex        =   20
-            Top             =   420
+            TabIndex        =   2
+            Top             =   1020
             Width           =   2595
          End
          Begin VB.ComboBox cboCriterioPrinc 
             Height          =   315
             Left            =   120
-            TabIndex        =   19
-            Top             =   420
+            TabIndex        =   1
+            Top             =   1020
             Width           =   2595
+         End
+         Begin VB.Label Label1 
+            AutoSize        =   -1  'True
+            Caption         =   "Tipo:"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   57
+            Top             =   180
+            Width           =   360
          End
          Begin VB.Label Label9 
             AutoSize        =   -1  'True
             Caption         =   "Forma de Pgto"
             Height          =   195
             Left            =   2760
-            TabIndex        =   26
-            Top             =   780
+            TabIndex        =   31
+            Top             =   1380
             Width           =   1035
          End
          Begin VB.Label Label7 
@@ -454,8 +470,8 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Organizar por:"
             Height          =   195
             Left            =   120
-            TabIndex        =   25
-            Top             =   780
+            TabIndex        =   30
+            Top             =   1380
             Width           =   990
          End
          Begin VB.Label Label5 
@@ -463,8 +479,8 @@ Begin VB.Form VendasServicos_Consulta
             Caption         =   "Consulta:"
             Height          =   195
             Left            =   120
-            TabIndex        =   24
-            Top             =   180
+            TabIndex        =   29
+            Top             =   780
             Width           =   660
          End
          Begin VB.Label lblSubConsulta 
@@ -473,8 +489,8 @@ Begin VB.Form VendasServicos_Consulta
             Enabled         =   0   'False
             Height          =   195
             Left            =   2760
-            TabIndex        =   23
-            Top             =   180
+            TabIndex        =   28
+            Top             =   780
             Width           =   930
          End
       End
@@ -489,7 +505,7 @@ Begin VB.Form VendasServicos_Consulta
       Picture         =   "VendasServicos_Consulta.frx":F834
       ScaleHeight     =   1095
       ScaleWidth      =   2895
-      TabIndex        =   3
+      TabIndex        =   12
       Top             =   4320
       Visible         =   0   'False
       Width           =   2895
@@ -501,16 +517,16 @@ Begin VB.Form VendasServicos_Consulta
       Height          =   675
       Left            =   60
       ScaleHeight     =   645
-      ScaleWidth      =   12405
-      TabIndex        =   0
+      ScaleWidth      =   12885
+      TabIndex        =   9
       Top             =   60
-      Width           =   12435
+      Width           =   12915
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "CONSULTA DE VENDAS E SERVIÇOS"
+         Caption         =   "CONSULTA DE VENDAS E ORDENS DE SERVIÇOS"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   15.75
@@ -523,9 +539,9 @@ Begin VB.Form VendasServicos_Consulta
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1440
-         TabIndex        =   1
+         TabIndex        =   10
          Top             =   180
-         Width           =   5580
+         Width           =   7515
       End
       Begin VB.Image Image1 
          Height          =   585
@@ -537,13 +553,13 @@ Begin VB.Form VendasServicos_Consulta
       End
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   5175
+      Height          =   4635
       Left            =   60
-      TabIndex        =   6
-      Top             =   2580
-      Width           =   12435
-      _ExtentX        =   21934
-      _ExtentY        =   9128
+      TabIndex        =   15
+      Top             =   3120
+      Width           =   12915
+      _ExtentX        =   22781
+      _ExtentY        =   8176
       _Version        =   393216
       ScrollBars      =   2
       SelectionMode   =   1
@@ -552,7 +568,7 @@ Begin VB.Form VendasServicos_Consulta
    Begin ChamaleonBtn.chameleonButton cmdExibirProdutos 
       Height          =   315
       Left            =   60
-      TabIndex        =   7
+      TabIndex        =   16
       Top             =   7800
       Width           =   2055
       _ExtentX        =   3625
@@ -590,7 +606,7 @@ Begin VB.Form VendasServicos_Consulta
    Begin ChamaleonBtn.chameleonButton cmdExibirParcelas 
       Height          =   315
       Left            =   2160
-      TabIndex        =   8
+      TabIndex        =   17
       Top             =   7800
       Width           =   2055
       _ExtentX        =   3625
@@ -628,7 +644,7 @@ Begin VB.Form VendasServicos_Consulta
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   315
       Left            =   4260
-      TabIndex        =   55
+      TabIndex        =   56
       Top             =   7800
       Width           =   1635
       _ExtentX        =   2884
@@ -665,7 +681,7 @@ Begin VB.Form VendasServicos_Consulta
    End
    Begin VB.Shape Shape2 
       Height          =   735
-      Left            =   7740
+      Left            =   8220
       Top             =   7800
       Width           =   2355
    End
@@ -683,8 +699,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   7980
-      TabIndex        =   51
+      Left            =   8460
+      TabIndex        =   52
       Top             =   7860
       Width           =   630
    End
@@ -704,8 +720,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   8700
-      TabIndex        =   54
+      Left            =   9180
+      TabIndex        =   55
       Top             =   7860
       Width           =   1275
    End
@@ -725,8 +741,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   8700
-      TabIndex        =   53
+      Left            =   9180
+      TabIndex        =   54
       Top             =   8160
       Width           =   1275
    End
@@ -744,8 +760,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   7980
-      TabIndex        =   52
+      Left            =   8460
+      TabIndex        =   53
       Top             =   8160
       Width           =   675
    End
@@ -763,8 +779,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   10440
-      TabIndex        =   16
+      Left            =   10920
+      TabIndex        =   25
       Top             =   8460
       Width           =   690
    End
@@ -784,8 +800,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11160
-      TabIndex        =   15
+      Left            =   11640
+      TabIndex        =   24
       Top             =   8460
       Width           =   1275
    End
@@ -805,8 +821,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11160
-      TabIndex        =   14
+      Left            =   11640
+      TabIndex        =   23
       Top             =   8760
       Width           =   1275
    End
@@ -824,8 +840,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   10320
-      TabIndex        =   13
+      Left            =   10800
+      TabIndex        =   22
       Top             =   8760
       Width           =   780
    End
@@ -845,8 +861,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11160
-      TabIndex        =   12
+      Left            =   11640
+      TabIndex        =   21
       Top             =   9060
       Width           =   1275
    End
@@ -864,8 +880,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   10740
-      TabIndex        =   11
+      Left            =   11220
+      TabIndex        =   20
       Top             =   9060
       Width           =   375
    End
@@ -883,8 +899,8 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   10500
-      TabIndex        =   10
+      Left            =   10980
+      TabIndex        =   19
       Top             =   8160
       Width           =   615
    End
@@ -904,8 +920,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11160
-      TabIndex        =   9
+      Left            =   11640
+      TabIndex        =   18
       Top             =   8160
       Width           =   1275
    End
@@ -925,8 +941,8 @@ Begin VB.Form VendasServicos_Consulta
       EndProperty
       ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11160
-      TabIndex        =   5
+      Left            =   11640
+      TabIndex        =   14
       Top             =   7860
       Width           =   1275
    End
@@ -944,14 +960,14 @@ Begin VB.Form VendasServicos_Consulta
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   10620
-      TabIndex        =   4
+      Left            =   11100
+      TabIndex        =   13
       Top             =   7860
       Width           =   495
    End
    Begin VB.Shape Shape1 
       Height          =   1635
-      Left            =   10140
+      Left            =   10620
       Top             =   7800
       Width           =   2355
    End
@@ -959,7 +975,7 @@ Begin VB.Form VendasServicos_Consulta
       Caption         =   "Label3"
       Height          =   195
       Left            =   4620
-      TabIndex        =   2
+      TabIndex        =   11
       Top             =   8340
       Visible         =   0   'False
       Width           =   1215
@@ -1070,7 +1086,6 @@ cboCriterioPrinc.AddItem "CLIENTE"
 cboCriterioPrinc.AddItem "PERIODO"
 cboCriterioPrinc.AddItem "CÓDIGO"
 cboCriterioPrinc.AddItem "MENSAL"
-cboCriterioPrinc.AddItem "MECÂNICO"
 End Sub
 
 Private Sub PreencherIndice()
@@ -1090,9 +1105,10 @@ cboFormaPgto.AddItem "TODOS"
 End Sub
 
 Private Sub PreencherTipoConsulta()
-'cboTipo.Clear
-'cboTipo.AddItem "VENDA"
-'cboTipo.AddItem "ORÇAMENTOS"
+cboTipo.Clear
+cboTipo.AddItem "TODOS"
+cboTipo.AddItem "PDV"
+cboTipo.AddItem "OS"
 End Sub
 
 
@@ -1704,7 +1720,7 @@ If Grid.Col = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
    If Grid.Col = 1 Then
       If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 11)
+      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 3)
       Parcelas_Consulta_Produtos.Show 1
    End If
 End If
@@ -1741,7 +1757,7 @@ Set r = dbData.OpenRecordset(printSQL)
    'REL_Cons_Venda.dfAcresc.Caption = lblAcresc.Caption
 
    'If cboTipo.Text = "VENDA" Then
-      REL_Cons_Venda.lblTitulo.Caption = "RELATÓRIO DE VENDAS E SERVIÇOS"
+      REL_Cons_Venda.lblTitulo.Caption = "CONSULTA DE VENDAS E ORDENS DE SERVIÇOS"
    'ElseIf cboTipo.Text = "ORÇAMENTOS" Then
    '   REL_Cons_Venda.lblTitulo.Caption = "RELATÓRIO DE ORÇAMENTOS"
    'End If
@@ -2193,6 +2209,18 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
 
    End If
    
+   'Filtro cboTipo (TODOS/PDV/OS) - via subquery, sem alterar as variantes de SELECT acima
+   If cboTipo.Text = "PDV" Or cboTipo.Text = "OS" Then
+      Dim idxOrderTipo As Long
+      idxOrderTipo = InStrRev(sSQL, "ORDER BY")
+      If idxOrderTipo > 0 Then sSQL = Left(sSQL, idxOrderTipo - 1)
+      If cboTipo.Text = "PDV" Then
+         sSQL = "SELECT * FROM (" & sSQL & ") AS qTipo WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.COD_PEDIDO = qTipo.var_codped)"
+      Else
+         sSQL = "SELECT * FROM (" & sSQL & ") AS qTipo WHERE EXISTS (SELECT 1 FROM OS WHERE OS.COD_PEDIDO = qTipo.var_codped)"
+      End If
+   End If
+   
  'SQLCount = "SELECT COUNT (DISTINCT pedidos_1.COD_PEDIDO) AS vQuant " & vTABELAS & " " & SQLWhere & ""
 ' sSQL = sSQL & " ORDER BY " & INDICE
  
@@ -2224,7 +2252,8 @@ sOrder = Replace(sOrder, "total", "var_total")
 sOrder = Replace(sOrder, "cod_pedido", "var_codped")
 printSQL = "SELECT *, " & _
     "(SELECT ISNULL(SUM(pi.total),0) FROM pedidos_itens pi WHERE pi.cod_pedido=q.var_codped) AS vProd, " & _
-    "(SELECT ISNULL(SUM(sv.total),0) FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=q.var_codped) AS vServ " & _
+    "(SELECT ISNULL(SUM(sv.total),0) FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=q.var_codped) AS vServ, " & _
+    "(SELECT COD_OS FROM OS WHERE OS.COD_PEDIDO=q.var_codped) AS var_CodOS " & _
     "FROM (" & sPrintBase & ") AS q ORDER BY " & sOrder
 End Sub
 
@@ -2259,6 +2288,9 @@ cboIndice.ListIndex = 1
 
 PreencherFormaPgto
 cboFormaPgto.ListIndex = 2
+
+PreencherTipoConsulta
+cboTipo.ListIndex = 0
 
 'PreencherTipoPgto
 'cboTipoPgto.ListIndex = 0
@@ -2327,33 +2359,35 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 12
+      .Cols = 13
       .rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 800
-      .ColWidth(2) = 900
-      .ColWidth(3) = 3000
-      .ColWidth(4) = 1150
-      .ColWidth(5) = 1150
-      .ColWidth(6) = 1000
-      .ColWidth(7) = 700
-      .ColWidth(8) = 700
-      .ColWidth(9) = 1000
-      .ColWidth(10) = 850
-      .ColWidth(11) = 900
+      .ColWidth(2) = 700
+      .ColWidth(3) = 900
+      .ColWidth(4) = 850
+      .ColWidth(5) = 3000
+      .ColWidth(6) = 1050
+      .ColWidth(7) = 1050
+      .ColWidth(8) = 1050
+      .ColWidth(9) = 700
+      .ColWidth(10) = 700
+      .ColWidth(11) = 1000
+      .ColWidth(12) = 850
      
       .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "NOME DO CLIENTE"
-      .TextMatrix(0, 4) = "PRODUTOS"
-      .TextMatrix(0, 5) = "SERVIÇOS"
-      .TextMatrix(0, 6) = "SUBTOTAL"
-      .TextMatrix(0, 7) = "DESC."
-      .TextMatrix(0, 8) = "ACRE."
-      .TextMatrix(0, 9) = "VALOR"
-      .TextMatrix(0, 10) = "FORMA"
-      .TextMatrix(0, 11) = "TIPO"
+      .TextMatrix(0, 2) = "OS"
+      .TextMatrix(0, 3) = "TIPO"
+      .TextMatrix(0, 4) = "DATA"
+      .TextMatrix(0, 5) = "NOME DO CLIENTE"
+      .TextMatrix(0, 6) = "ITENS"
+      .TextMatrix(0, 7) = "SERVIÇOS"
+      .TextMatrix(0, 8) = "SUBTOTAL"
+      .TextMatrix(0, 9) = "DESC."
+      .TextMatrix(0, 10) = "ACRE."
+      .TextMatrix(0, 11) = "VALOR"
+      .TextMatrix(0, 12) = "FORMA"
       .Redraw = False
       
       'colocar os cabeçalho em negrito
@@ -2365,29 +2399,44 @@ DoEvents
       
       .ColAlignment(1) = 3
       .ColAlignment(2) = 3
+      .ColAlignment(3) = 3
+      .ColAlignment(4) = 3
       i = 1
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = Format(rTabela("var_codped"), "000000")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("data_compra"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("nome"))
+            If rTabela("TIPO_PEDIDO") = "OFICINA" Then
+                .TextMatrix(.rows - 1, 3) = "OS"
+            ElseIf rTabela("TIPO_PEDIDO") = "VENDA" Then
+                .TextMatrix(.rows - 1, 3) = "PDV"
+            Else
+                .TextMatrix(.rows - 1, 3) = rTabela("TIPO_PEDIDO")
+            End If
+            .TextMatrix(.rows - 1, 4) = Format(rTabela("data_compra"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("nome"))
             Dim rSub As ADODB.Recordset
             Dim lCodPed As Long
             lCodPed = CLng(rTabela("var_codped"))
+            RsOpen rSub, "SELECT COD_OS FROM OS WHERE COD_PEDIDO=" & lCodPed
+            If Not rSub.EOF Then
+                .TextMatrix(.rows - 1, 2) = Format(rSub("COD_OS"), "000000")
+            Else
+                .TextMatrix(.rows - 1, 2) = ""
+            End If
+            rSub.Close
             RsOpen rSub, "SELECT ISNULL(SUM(total),0) AS vProd FROM pedidos_itens WHERE cod_pedido=" & lCodPed
-            .TextMatrix(.rows - 1, 4) = Format(rSub("vProd"), ocMONEY)
+            .TextMatrix(.rows - 1, 6) = Format(rSub("vProd"), ocMONEY)
             rSub.Close
             RsOpen rSub, "SELECT ISNULL(SUM(sv.total),0) AS vServ FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=" & lCodPed
-            .TextMatrix(.rows - 1, 5) = Format(rSub("vServ"), ocMONEY)
+            .TextMatrix(.rows - 1, 7) = Format(rSub("vServ"), ocMONEY)
             rSub.Close
             Set rSub = Nothing
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("subtotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("ValorDescReal"), ocMONEY)
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("ValorAcrescReal"), ocMONEY)
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("var_total"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = rTabela("tipo_pagamento")
-            .TextMatrix(.rows - 1, 11) = rTabela("TIPO_PEDIDO")
+            .TextMatrix(.rows - 1, 8) = Format(rTabela("subtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("ValorDescReal"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("ValorAcrescReal"), ocMONEY)
+            .TextMatrix(.rows - 1, 11) = Format(rTabela("var_total"), ocMONEY)
+            .TextMatrix(.rows - 1, 12) = rTabela("tipo_pagamento")
             
 '            .TextMatrix(.rows - 1, 9) = Format(rTabela("pvalorPgto"), ocMONEY)
 '            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("vTipoPgto"))
@@ -2409,7 +2458,7 @@ DoEvents
       'MUDAR COR DE FONTE DA COLUNA
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 9
+         .Col = 11
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
@@ -2417,9 +2466,9 @@ DoEvents
       'COR DE FUNDO AMARELO CLARO PARA PRODUTOS E SERVICOS
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 4
+         .Col = 6
          .CellBackColor = &H80FFFF
-         .Col = 5
+         .Col = 7
          .CellBackColor = &H80FFFF
       Next
       
@@ -2427,12 +2476,12 @@ DoEvents
       Grid.Redraw = True
    End With
    
-    lblTotalProdutos = Format(SomaGrid(Grid, 4), ocMONEY)
-    lblTotalServicos = Format(SomaGrid(Grid, 5), ocMONEY)
-    lblSubtotal = Format(SomaGrid(Grid, 6), ocMONEY)
-    lblTotalDesc = Format(SomaGrid(Grid, 7), ocMONEY)
-    lblTotalAcresc = Format(SomaGrid(Grid, 8), ocMONEY)
-    lblSubtotalBruto = Format(SomaGrid(Grid, 9), ocMONEY)
+    lblTotalProdutos = Format(SomaGrid(Grid, 6), ocMONEY)
+    lblTotalServicos = Format(SomaGrid(Grid, 7), ocMONEY)
+    lblSubtotal = Format(SomaGrid(Grid, 8), ocMONEY)
+    lblTotalDesc = Format(SomaGrid(Grid, 9), ocMONEY)
+    lblTotalAcresc = Format(SomaGrid(Grid, 10), ocMONEY)
+    lblSubtotalBruto = Format(SomaGrid(Grid, 11), ocMONEY)
 
     'lblSubtotal.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
     'lblSubtotalBruto.Caption = Format(SomaGrid(Grid, 7), ocMONEY)

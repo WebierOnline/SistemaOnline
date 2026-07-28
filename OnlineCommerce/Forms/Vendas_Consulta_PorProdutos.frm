@@ -4,7 +4,7 @@ Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Begin VB.Form Vendas_Consulta_PorProdutos 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "CONSULTA PRODUTOS E SERVIÇOS"
+   Caption         =   "CONSULTA DE VENDAS POR PRODUTOS E SERVIÇOS"
    ClientHeight    =   9660
    ClientLeft      =   45
    ClientTop       =   330
@@ -16,14 +16,56 @@ Begin VB.Form Vendas_Consulta_PorProdutos
    ScaleHeight     =   9660
    ScaleWidth      =   13395
    StartUpPosition =   2  'CenterScreen
+   Begin VB.OptionButton optPedido 
+      Caption         =   "Pedido"
+      Height          =   195
+      Left            =   4020
+      TabIndex        =   49
+      Top             =   2400
+      Width           =   975
+   End
+   Begin VB.OptionButton optData 
+      Caption         =   "Data"
+      Height          =   195
+      Left            =   1440
+      TabIndex        =   48
+      Top             =   2400
+      Value           =   -1  'True
+      Width           =   735
+   End
+   Begin VB.OptionButton optProduto 
+      Caption         =   "Produto"
+      Height          =   195
+      Left            =   3060
+      TabIndex        =   47
+      Top             =   2400
+      Width           =   915
+   End
+   Begin VB.OptionButton optQuant 
+      Caption         =   "Quant."
+      Height          =   195
+      Left            =   2220
+      TabIndex        =   46
+      Top             =   2400
+      Width           =   795
+   End
+   Begin VB.CheckBox chkCodBarra 
+      Caption         =   "Cód. Barra"
+      Height          =   195
+      Left            =   12240
+      TabIndex        =   45
+      Top             =   2400
+      Visible         =   0   'False
+      Width           =   1095
+   End
    Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
       Height          =   255
       Left            =   60
-      TabIndex        =   10
-      Top             =   8700
+      TabIndex        =   6
+      Top             =   8220
       Visible         =   0   'False
-      Width           =   2235
-      _ExtentX        =   3942
+      Width           =   1695
+      _ExtentX        =   2990
       _ExtentY        =   450
       BTYPE           =   3
       TX              =   "DETALHAMENTO"
@@ -59,11 +101,11 @@ Begin VB.Form Vendas_Consulta_PorProdutos
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       ForeColor       =   &H80000008&
-      Height          =   1755
+      Height          =   1695
       Left            =   60
-      ScaleHeight     =   1725
+      ScaleHeight     =   1665
       ScaleWidth      =   13245
-      TabIndex        =   8
+      TabIndex        =   4
       ToolTipText     =   "Imprimir"
       Top             =   660
       Width           =   13275
@@ -83,47 +125,30 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          ForeColor       =   &H80000008&
          Height          =   1515
          Left            =   120
-         TabIndex        =   27
+         TabIndex        =   23
          Top             =   60
          Width           =   4515
-         Begin VB.ComboBox cboIndice 
-            Height          =   315
-            Left            =   2280
-            TabIndex        =   31
-            Top             =   480
-            Width           =   2175
-         End
          Begin VB.ComboBox cboCriterioSec 
             BackColor       =   &H00C0FFFF&
             Height          =   315
             Left            =   120
-            TabIndex        =   29
+            TabIndex        =   25
             Top             =   1080
             Width           =   2115
          End
          Begin VB.ComboBox cboCriterioPrinc 
             Height          =   315
             Left            =   2280
-            TabIndex        =   30
+            TabIndex        =   26
             Top             =   1080
             Width           =   2175
          End
          Begin VB.ComboBox cboTipo 
             Height          =   315
             Left            =   120
-            TabIndex        =   28
+            TabIndex        =   24
             Top             =   480
             Width           =   2115
-         End
-         Begin VB.Label Label7 
-            AutoSize        =   -1  'True
-            BackColor       =   &H00FFFFFF&
-            Caption         =   "Organizar por:"
-            Height          =   195
-            Left            =   2280
-            TabIndex        =   35
-            Top             =   240
-            Width           =   990
          End
          Begin VB.Label Label5 
             AutoSize        =   -1  'True
@@ -131,7 +156,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Criterio"
             Height          =   195
             Left            =   2280
-            TabIndex        =   34
+            TabIndex        =   30
             Top             =   840
             Width           =   480
          End
@@ -141,7 +166,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Tipo"
             Height          =   195
             Left            =   120
-            TabIndex        =   33
+            TabIndex        =   29
             Top             =   240
             Width           =   315
          End
@@ -151,7 +176,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Consultar por:"
             Height          =   195
             Left            =   120
-            TabIndex        =   32
+            TabIndex        =   28
             Top             =   840
             Width           =   975
          End
@@ -172,14 +197,64 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          ForeColor       =   &H80000008&
          Height          =   1515
          Left            =   4680
-         TabIndex        =   9
+         TabIndex        =   5
          Top             =   60
          Width           =   8475
+         Begin VB.Frame frmDatas 
+            BackColor       =   &H80000005&
+            Caption         =   "Datas"
+            Height          =   495
+            Left            =   3240
+            TabIndex        =   50
+            Top             =   900
+            Visible         =   0   'False
+            Width           =   2235
+            Begin VB.OptionButton optTermino 
+               BackColor       =   &H80000005&
+               Caption         =   "Termino"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   52
+               Top             =   240
+               Value           =   -1  'True
+               Width           =   915
+            End
+            Begin VB.OptionButton optExecucao 
+               BackColor       =   &H80000005&
+               Caption         =   "Execução"
+               Height          =   195
+               Left            =   1080
+               TabIndex        =   51
+               Top             =   240
+               Width           =   1035
+            End
+         End
+         Begin VB.OptionButton optDescQualquer 
+            BackColor       =   &H80000005&
+            Caption         =   "Qualquer lugar"
+            Height          =   195
+            Left            =   6900
+            TabIndex        =   44
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   1395
+         End
+         Begin VB.OptionButton optDescIniciais 
+            BackColor       =   &H80000005&
+            Caption         =   "Iniciais"
+            Height          =   195
+            Left            =   5940
+            TabIndex        =   43
+            Top             =   240
+            Value           =   -1  'True
+            Visible         =   0   'False
+            Width           =   855
+         End
          Begin VB.TextBox txtCodProduto 
             Appearance      =   0  'Flat
             Height          =   315
-            Left            =   5760
-            TabIndex        =   38
+            Left            =   3600
+            TabIndex        =   33
             Top             =   180
             Visible         =   0   'False
             Width           =   855
@@ -187,7 +262,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin ChamaleonBtn.chameleonButton cmdCalendario1 
             Height          =   315
             Left            =   1140
-            TabIndex        =   25
+            TabIndex        =   21
             Tag             =   "Calendario"
             Top             =   1080
             Width           =   315
@@ -228,7 +303,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin ChamaleonBtn.chameleonButton cmdCalendario2 
             Height          =   315
             Left            =   2880
-            TabIndex        =   26
+            TabIndex        =   22
             Tag             =   "Calendario"
             Top             =   1080
             Width           =   315
@@ -269,7 +344,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin VB.TextBox txtCodBarra 
             Height          =   315
             Left            =   180
-            TabIndex        =   16
+            TabIndex        =   12
             Top             =   480
             Visible         =   0   'False
             Width           =   2355
@@ -277,7 +352,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin VB.ComboBox cboDescricao 
             Height          =   315
             Left            =   180
-            TabIndex        =   15
+            TabIndex        =   11
             Top             =   480
             Visible         =   0   'False
             Width           =   8175
@@ -285,7 +360,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin MSMask.MaskEdBox mskInicio 
             Height          =   315
             Left            =   180
-            TabIndex        =   17
+            TabIndex        =   13
             Top             =   1080
             Visible         =   0   'False
             Width           =   1290
@@ -298,7 +373,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin MSMask.MaskEdBox mskFim 
             Height          =   315
             Left            =   1920
-            TabIndex        =   18
+            TabIndex        =   14
             Top             =   1080
             Visible         =   0   'False
             Width           =   1290
@@ -311,7 +386,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin ChamaleonBtn.chameleonButton cmdLocalizar 
             Height          =   495
             Left            =   6900
-            TabIndex        =   37
+            TabIndex        =   32
             Top             =   960
             Width           =   1455
             _ExtentX        =   2566
@@ -350,7 +425,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Begin VB.ComboBox cboMes 
             Height          =   315
             Left            =   180
-            TabIndex        =   14
+            TabIndex        =   10
             Top             =   1080
             Visible         =   0   'False
             Width           =   1335
@@ -359,7 +434,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Height          =   315
             Left            =   1560
             Sorted          =   -1  'True
-            TabIndex        =   13
+            TabIndex        =   9
             Top             =   1080
             Visible         =   0   'False
             Width           =   1155
@@ -369,7 +444,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Descrição:"
             Height          =   195
             Left            =   180
-            TabIndex        =   24
+            TabIndex        =   20
             Top             =   240
             Width           =   795
          End
@@ -379,7 +454,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Mês:"
             Height          =   195
             Left            =   180
-            TabIndex        =   23
+            TabIndex        =   19
             Top             =   840
             Visible         =   0   'False
             Width           =   345
@@ -390,7 +465,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Ano:"
             Height          =   195
             Left            =   1560
-            TabIndex        =   22
+            TabIndex        =   18
             Top             =   840
             Visible         =   0   'False
             Width           =   330
@@ -401,7 +476,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Data inicial:"
             Height          =   195
             Left            =   180
-            TabIndex        =   21
+            TabIndex        =   17
             Top             =   840
             Visible         =   0   'False
             Width           =   825
@@ -412,7 +487,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "Data final:"
             Height          =   195
             Left            =   1920
-            TabIndex        =   20
+            TabIndex        =   16
             Top             =   840
             Visible         =   0   'False
             Width           =   720
@@ -423,7 +498,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
             Caption         =   "até"
             Height          =   195
             Left            =   1560
-            TabIndex        =   19
+            TabIndex        =   15
             Top             =   1140
             Visible         =   0   'False
             Width           =   225
@@ -436,12 +511,12 @@ Begin VB.Form Vendas_Consulta_PorProdutos
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   4380
+      Left            =   5400
       Picture         =   "Vendas_Consulta_PorProdutos.frx":BA68
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   3
-      Top             =   6480
+      Top             =   4620
       Visible         =   0   'False
       Width           =   2895
    End
@@ -461,7 +536,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "CONSULTA DE PRODUTOS E SERVIÇOS"
+         Caption         =   "CONSULTA DE VENDAS POR PRODUTOS E SERVIÇOS"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   12
@@ -476,7 +551,7 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Left            =   1380
          TabIndex        =   1
          Top             =   120
-         Width           =   4740
+         Width           =   6405
       End
       Begin VB.Image Image1 
          Height          =   450
@@ -487,13 +562,13 @@ Begin VB.Form Vendas_Consulta_PorProdutos
       End
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   6195
+      Height          =   5535
       Left            =   60
-      TabIndex        =   11
-      Top             =   2460
+      TabIndex        =   7
+      Top             =   2640
       Width           =   13275
       _ExtentX        =   23416
-      _ExtentY        =   10927
+      _ExtentY        =   9763
       _Version        =   393216
       ScrollBars      =   2
       SelectionMode   =   1
@@ -510,11 +585,11 @@ Begin VB.Form Vendas_Consulta_PorProdutos
    End
    Begin ChamaleonBtn.chameleonButton cmdExibirParcelas 
       Height          =   255
-      Left            =   2340
-      TabIndex        =   12
-      Top             =   8700
-      Width           =   2235
-      _ExtentX        =   3942
+      Left            =   1800
+      TabIndex        =   8
+      Top             =   8220
+      Width           =   1695
+      _ExtentX        =   2990
       _ExtentY        =   450
       BTYPE           =   3
       TX              =   "FINANCEIRO"
@@ -548,11 +623,11 @@ Begin VB.Form Vendas_Consulta_PorProdutos
    End
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   255
-      Left            =   4620
-      TabIndex        =   36
-      Top             =   8700
-      Width           =   2235
-      _ExtentX        =   3942
+      Left            =   3540
+      TabIndex        =   31
+      Top             =   8220
+      Width           =   1695
+      _ExtentX        =   2990
       _ExtentY        =   450
       BTYPE           =   3
       TX              =   "IMPRIMIR"
@@ -584,10 +659,47 @@ Begin VB.Form Vendas_Consulta_PorProdutos
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin ChamaleonBtn.chameleonButton cmdCodBarra 
+      Height          =   255
+      Left            =   5280
+      TabIndex        =   42
+      Top             =   8220
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   450
+      BTYPE           =   3
+      TX              =   "COPIAR CÓD."
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Vendas_Consulta_PorProdutos.frx":D3FF
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label Label4 
       AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "TOTAL:"
+      Caption         =   "Organizar por:"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -598,31 +710,29 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   195
-      Left            =   10860
-      TabIndex        =   7
-      Top             =   9180
-      Width           =   675
+      Left            =   120
+      TabIndex        =   27
+      Top             =   2400
+      Width           =   1215
    End
-   Begin VB.Label lblTotal 
-      Alignment       =   1  'Right Justify
-      Appearance      =   0  'Flat
-      BackColor       =   &H00FFFFFF&
-      BorderStyle     =   1  'Fixed Single
+   Begin VB.Label Label12 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Quant.:"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
+         Name            =   "Arial Narrow"
+         Size            =   8.25
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H000000C0&
-      Height          =   285
-      Left            =   11580
-      TabIndex        =   6
-      Top             =   9180
-      Width           =   1635
+      Height          =   225
+      Left            =   11460
+      TabIndex        =   41
+      Top             =   8280
+      Width           =   495
    End
    Begin VB.Label lblQtda 
       Alignment       =   1  'Right Justify
@@ -630,27 +740,48 @@ Begin VB.Form Vendas_Consulta_PorProdutos
       BackColor       =   &H00FFFFFF&
       BorderStyle     =   1  'Fixed Single
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   9.75
+         Name            =   "Arial"
+         Size            =   8.25
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H000000C0&
+      ForeColor       =   &H00000000&
       Height          =   285
-      Left            =   11580
-      TabIndex        =   5
-      Top             =   8820
-      Width           =   1635
+      Left            =   12000
+      TabIndex        =   40
+      Top             =   8280
+      Width           =   1275
    End
-   Begin VB.Label Label8 
+   Begin VB.Label lblSubtotal 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   12000
+      TabIndex        =   39
+      Top             =   8580
+      Width           =   1275
+   End
+   Begin VB.Label Label11 
       AutoSize        =   -1  'True
       BackStyle       =   0  'Transparent
-      Caption         =   "QUANT.:"
+      Caption         =   "Subtotal:"
       BeginProperty Font 
-         Name            =   "MS Sans Serif"
+         Name            =   "Arial Narrow"
          Size            =   8.25
          Charset         =   0
          Weight          =   700
@@ -658,25 +789,104 @@ Begin VB.Form Vendas_Consulta_PorProdutos
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   195
-      Left            =   10740
-      TabIndex        =   4
-      Top             =   8820
-      Width           =   780
+      Height          =   225
+      Left            =   11340
+      TabIndex        =   38
+      Top             =   8580
+      Width           =   615
+   End
+   Begin VB.Label Label1 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Total:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   11580
+      TabIndex        =   37
+      Top             =   9180
+      Width           =   375
+   End
+   Begin VB.Label lblTotal 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   12000
+      TabIndex        =   36
+      Top             =   9180
+      Width           =   1275
+   End
+   Begin VB.Label lblTotalDesc 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   12000
+      TabIndex        =   35
+      Top             =   8880
+      Width           =   1275
+   End
+   Begin VB.Label Label14 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Desconto:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   11280
+      TabIndex        =   34
+      Top             =   8880
+      Width           =   690
    End
    Begin VB.Shape Shape1 
-      BorderWidth     =   2
-      Height          =   915
-      Left            =   10620
-      Top             =   8700
-      Width           =   2715
+      Height          =   1335
+      Left            =   11160
+      Top             =   8220
+      Width           =   2175
    End
    Begin VB.Label Label3 
       Caption         =   "Label3"
       Height          =   255
-      Left            =   8520
+      Left            =   4680
       TabIndex        =   2
-      Top             =   8880
+      Top             =   9300
       Visible         =   0   'False
       Width           =   1215
    End
@@ -778,29 +988,29 @@ DoEvents
       
       .ColWidth(0) = 0
       .ColWidth(1) = 750
-      .ColWidth(2) = 900
-      .ColWidth(3) = 0
-      .ColWidth(4) = 1200
-      .ColWidth(5) = 5300
-      .ColWidth(6) = 800
+      .ColWidth(2) = 750
+      .ColWidth(3) = 900
+      .ColWidth(4) = 0
+      .ColWidth(5) = 1200
+      .ColWidth(6) = 5300
       .ColWidth(7) = 800
-      .ColWidth(8) = 850
-      .ColWidth(9) = 700
-      .ColWidth(10) = 800
-      .ColWidth(11) = 0
+      .ColWidth(8) = 800
+      .ColWidth(9) = 850
+      .ColWidth(10) = 700
+      .ColWidth(11) = 800
       .ColWidth(12) = 0
       
-      .TextMatrix(0, 1) = "OS"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = ""
-      .TextMatrix(0, 4) = "CÓD. SERV."
-      .TextMatrix(0, 5) = "DESCRIÇÃO"
-      .TextMatrix(0, 6) = "VALOR"
-      .TextMatrix(0, 7) = "QTDE"
-      .TextMatrix(0, 8) = "SUBTOTAL"
-      .TextMatrix(0, 9) = "DESC."
-      .TextMatrix(0, 10) = "TOTAL"
-      .TextMatrix(0, 11) = ""
+      .TextMatrix(0, 1) = "PEDIDO"
+      .TextMatrix(0, 2) = "OS"
+      .TextMatrix(0, 3) = "DATA"
+      .TextMatrix(0, 4) = ""
+      .TextMatrix(0, 5) = "CÓD. SERV."
+      .TextMatrix(0, 6) = "DESCRIÇÃO"
+      .TextMatrix(0, 7) = "VALOR"
+      .TextMatrix(0, 8) = "QTDE"
+      .TextMatrix(0, 9) = "SUBTOTAL"
+      .TextMatrix(0, 10) = "DESC."
+      .TextMatrix(0, 11) = "TOTAL"
       .TextMatrix(0, 12) = "CÓD.PROD."
       
       .Redraw = False
@@ -812,6 +1022,7 @@ DoEvents
       Next
       
       .ColAlignment(1) = 1
+      .ColAlignment(2) = 1
       
       For i = 0 To .Cols - 1
          .Row = 0
@@ -821,17 +1032,21 @@ DoEvents
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = Format(rTabela("varCodPed"), "000000")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("varData"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = ""
-            .TextMatrix(.rows - 1, 4) = rTabela("varCodServ")
-            .TextMatrix(.rows - 1, 5) = rTabela("varNome")
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("varValor"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = rTabela("varQuant")
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("varSubtotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("varDesc"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = Format(rTabela("varTotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 11) = rTabela("var_CodOS")
+            If rTabela("varCodPed") = 0 Then
+                .TextMatrix(.rows - 1, 1) = ""
+            Else
+                .TextMatrix(.rows - 1, 1) = Format(rTabela("varCodPed"), "000000")
+            End If
+            .TextMatrix(.rows - 1, 2) = Format(rTabela("var_CodOS"), "000000")
+            .TextMatrix(.rows - 1, 3) = Format(rTabela("varData"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 4) = ""
+            .TextMatrix(.rows - 1, 5) = rTabela("varCodServ")
+            .TextMatrix(.rows - 1, 6) = rTabela("varNome")
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("varValor"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = rTabela("varQuant")
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("varSubtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("varDesc"), ocMONEY)
+            .TextMatrix(.rows - 1, 11) = Format(rTabela("varTotal"), ocMONEY)
             .TextMatrix(.rows - 1, 12) = ""
             
             rTabela.MoveNext
@@ -843,8 +1058,10 @@ DoEvents
       .Redraw = True
    End With
    
-   lblQtda.Caption = SomaGrid(Grid, 7)
-   lblTotal.Caption = Format(SomaGrid(Grid, 10), ocMONEY)
+   lblQtda.Caption = SomaGrid(Grid, 8)
+   lblTotal.Caption = Format(SomaGrid(Grid, 11), ocMONEY)
+   lblSubtotal.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
+   lblTotalDesc.Caption = Format(SomaGrid(Grid, 10), ocMONEY)
 picAguarde.Visible = False
 End Sub
 
@@ -861,28 +1078,28 @@ DoEvents
       .ColWidth(0) = 0
       .ColWidth(1) = 700
       .ColWidth(2) = 800
-      .ColWidth(3) = 0
-      .ColWidth(4) = 1200
-      .ColWidth(5) = 5300
-      .ColWidth(6) = 800
-      .ColWidth(7) = 700
-      .ColWidth(8) = 850
-      .ColWidth(9) = 700
-      .ColWidth(10) = 800
-      .ColWidth(11) = 0
-      .ColWidth(12) = 900
+      .ColWidth(3) = 800
+      .ColWidth(4) = 0
+      .ColWidth(5) = IIf(chkCodBarra.Value = 1, 1200, 0)
+      .ColWidth(6) = 5300
+      .ColWidth(7) = 800
+      .ColWidth(8) = 700
+      .ColWidth(9) = 850
+      .ColWidth(10) = 700
+      .ColWidth(11) = 800
+      .ColWidth(12) = IIf(chkCodBarra.Value = 1, 900, 0)
       
       .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "CÓD.PROD."
-      .TextMatrix(0, 4) = "CÓD. BARRA"
-      .TextMatrix(0, 5) = "DESCRIÇÃO"
-      .TextMatrix(0, 6) = "VALOR"
-      .TextMatrix(0, 7) = "QTDE"
-      .TextMatrix(0, 8) = "SUBTOTAL"
-      .TextMatrix(0, 9) = "DESC."
-      .TextMatrix(0, 10) = "TOTAL"
-      .TextMatrix(0, 11) = "COD_OS"
+      .TextMatrix(0, 2) = "OS"
+      .TextMatrix(0, 3) = "DATA"
+      .TextMatrix(0, 4) = "CÓD.PROD."
+      .TextMatrix(0, 5) = "CÓD. BARRA"
+      .TextMatrix(0, 6) = "DESCRIÇÃO"
+      .TextMatrix(0, 7) = "VALOR"
+      .TextMatrix(0, 8) = "QTDE"
+      .TextMatrix(0, 9) = "SUBTOTAL"
+      .TextMatrix(0, 10) = "DESC."
+      .TextMatrix(0, 11) = "TOTAL"
       .TextMatrix(0, 12) = "CÓD.PROD."
       
       .Redraw = False
@@ -896,6 +1113,7 @@ DoEvents
       
       'ALINHAMENTO
       .ColAlignment(1) = 1
+      .ColAlignment(2) = 1
       
       'centralizar o titulo
       For i = 0 To .Cols - 1
@@ -908,22 +1126,26 @@ DoEvents
       
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = Format(rTabela("varcodped"), "000000")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("varData"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = rTabela("varcodprod")
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("varCodBarra"))
-            '.TextMatrix(.Rows - 1, 5) = rTabela("vardesc")
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("varvalor"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = rTabela("varquant")
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("varsubtotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("vardesc"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = Format(rTabela("vartotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 11) = rTabela("var_codos")
+            If rTabela("var_codos") = 0 Then
+                .TextMatrix(.rows - 1, 2) = ""
+            Else
+                .TextMatrix(.rows - 1, 2) = Format(rTabela("var_codos"), "000000")
+            End If
+            .TextMatrix(.rows - 1, 3) = Format(rTabela("varData"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 4) = rTabela("varcodprod")
+            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("varCodBarra"))
+            '.TextMatrix(.Rows - 1, 6) = rTabela("vardesc")
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("varvalor"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = rTabela("varquant")
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("varsubtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("vardesc"), ocMONEY)
+            .TextMatrix(.rows - 1, 11) = Format(rTabela("vartotal"), ocMONEY)
             .TextMatrix(.rows - 1, 12) = rTabela("varcodprod")
             
             If tipoEmpresa = 4 Then
-            .TextMatrix(.rows - 1, 5) = rTabela("varNome") & " /  " & rTabela("vartam") & " / " & rTabela("varfab") & " /  " & rTabela("varref")
+            .TextMatrix(.rows - 1, 6) = rTabela("varNome") & " /  " & rTabela("vartam") & " / " & rTabela("varfab") & " /  " & rTabela("varref")
             Else
-            .TextMatrix(.rows - 1, 5) = rTabela("varNome") & " /  " & ValidateNull(rTabela("varfab")) & " /  " & rTabela("varRef")
+            .TextMatrix(.rows - 1, 6) = rTabela("varNome") & " /  " & ValidateNull(rTabela("varfab")) & " /  " & rTabela("varRef")
             End If
             
             rTabela.MoveNext
@@ -943,8 +1165,10 @@ DoEvents
       .Redraw = True
    End With
    
-   lblQtda.Caption = SomaGrid(Grid, 7)
-   lblTotal.Caption = Format(SomaGrid(Grid, 10), ocMONEY)
+   lblQtda.Caption = SomaGrid(Grid, 8)
+   lblTotal.Caption = Format(SomaGrid(Grid, 11), ocMONEY)
+   lblSubtotal.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
+   lblTotalDesc.Caption = Format(SomaGrid(Grid, 10), ocMONEY)
    'lblEntrada.Caption = Format(0, ocMONEY)
 picAguarde.Visible = False
 End Sub
@@ -1111,12 +1335,6 @@ cboCriterioSec.AddItem "REFERÊNCIA"
 cboCriterioSec.AddItem "FABRICANTE"
 End Sub
 
-Private Sub PreencherIndice()
-cboIndice.AddItem "QUANT."
-cboIndice.AddItem "PRODUTO"
-cboIndice.AddItem "DATA"
-cboIndice.AddItem "PEDIDO"
-End Sub
 
 Private Sub PreencherTipoConsulta()
 cboTipo.AddItem "POR PRODUTOS"
@@ -1161,11 +1379,16 @@ If cboTipo.Text = "POR PRODUTOS" Then
       cboCriterioPrinc.AddItem "PRODUTO/PERÍODO"
    End If
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
-   If cboCriterioSec.Text <> "TODOS" Then cboCriterioPrinc.AddItem "TODOS"
-   cboCriterioPrinc.AddItem "MENSAL"
-   cboCriterioPrinc.AddItem "PERÍODO"
-   cboCriterioPrinc.AddItem "SERVIÇOS"
-   If cboCriterioSec.Text = "TODOS" Then
+   If cboCriterioSec.Text = "SERVIÇOS" Or cboCriterioSec.Text = "COLABORADOR" Then
+      cboCriterioPrinc.AddItem "TODOS"
+      cboCriterioPrinc.AddItem "MENSAL"
+      cboCriterioPrinc.AddItem "PERÍODO"
+   ElseIf cboCriterioSec.Text = "CÓD. OS" Then
+      cboCriterioPrinc.AddItem "TODOS"
+   Else
+      cboCriterioPrinc.AddItem "MENSAL"
+      cboCriterioPrinc.AddItem "PERÍODO"
+      cboCriterioPrinc.AddItem "SERVIÇOS"
       cboCriterioPrinc.AddItem "SERVIÇOS/MENSAL"
       cboCriterioPrinc.AddItem "SERVIÇOS/PERÍODO"
    End If
@@ -1175,6 +1398,8 @@ moCombo.AttachTo cboCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_LostFocus()
+optDescIniciais.Visible = False
+optDescQualquer.Visible = False
 If cboCriterioPrinc.Text = "TODOS" Then
     lblInicio.Visible = False
     mskInicio.Visible = False
@@ -1280,6 +1505,8 @@ ElseIf cboCriterioPrinc.Text = "SERVIÇOS" Then
     txtCodBarra.Visible = False
     cboDescricao.Text = ""
     LimparObjetos_Consulta
+    frmDatas.Visible = (cboMes.Visible Or mskInicio.Visible)
+    cboDescricao.SetFocus
     Exit Sub
 ElseIf cboCriterioPrinc.Text = "SERVIÇOS/MENSAL" Then
     lblInicio.Visible = False
@@ -1299,6 +1526,16 @@ ElseIf cboCriterioPrinc.Text = "SERVIÇOS/MENSAL" Then
     txtCodBarra.Visible = False
     cboDescricao.Text = ""
     LimparObjetos_Consulta
+    'Preencher mes/ano atual DEPOIS do LimparObjetos_Consulta acima (que zera os dois)
+    If cboMes.Text = "" Then
+        cboMes_GotFocus
+        cboMes.ListIndex = Month(Date) - 1
+    End If
+    If cboAno.Text = "" Then
+        cboAno_GotFocus
+        cboAno.ListIndex = 2
+    End If
+    frmDatas.Visible = (cboMes.Visible Or mskInicio.Visible)
     Exit Sub
 ElseIf cboCriterioPrinc.Text = "SERVIÇOS/PERÍODO" Then
     lblInicio.Visible = True
@@ -1319,12 +1556,15 @@ ElseIf cboCriterioPrinc.Text = "SERVIÇOS/PERÍODO" Then
     txtCodBarra.Visible = False
     cboDescricao.Text = ""
     LimparObjetos_Consulta
+    frmDatas.Visible = (cboMes.Visible Or mskInicio.Visible)
     Exit Sub
 End If
 
 If cboCriterioSec.Text = "DESCRIÇÃO" Or cboCriterioSec.Text = "REFERÊNCIA" Or cboCriterioSec.Text = "FABRICANTE" Then
     If cboCriterioSec.Text = "DESCRIÇÃO" Then
         lblDescricao.Caption = "Descrição"
+        optDescIniciais.Visible = True
+        optDescQualquer.Visible = True
     ElseIf cboCriterioSec.Text = "REFERÊNCIA" Then
         lblDescricao.Caption = "Referência"
     ElseIf cboCriterioSec.Text = "FABRICANTE" Then
@@ -1352,6 +1592,21 @@ End If
 
 
 LimparObjetos_Consulta
+'Preencher mes/ano atual DEPOIS do LimparObjetos_Consulta acima (que zera os dois)
+If cboCriterioPrinc.Text = "MENSAL" And cboTipo.Text = "POR SERVIÇOS" Then
+    If cboMes.Text = "" Then
+        cboMes_GotFocus
+        cboMes.ListIndex = Month(Date) - 1
+    End If
+    If cboAno.Text = "" Then
+        cboAno_GotFocus
+        cboAno.ListIndex = 2
+    End If
+End If
+'frmDatas so aparece se cboMes ou mskInicio estiver visivel (criterio MENSAL ou PERIODO/DATA)
+If cboTipo.Text = "POR SERVIÇOS" Then
+    frmDatas.Visible = (cboMes.Visible Or mskInicio.Visible)
+End If
 End Sub
 
 
@@ -1364,8 +1619,9 @@ cboCriterioSec.Clear
 
 If cboTipo.Text = "POR SERVIÇOS" Then
    cboCriterioSec.AddItem "TODOS"
-   cboCriterioSec.AddItem "DESCRIÇÃO"
+   cboCriterioSec.AddItem "SERVIÇOS"
    cboCriterioSec.AddItem "CÓD. OS"
+   cboCriterioSec.AddItem "COLABORADOR"
 Else
    cboCriterioSec.AddItem "TODOS"
    cboCriterioSec.AddItem "DESCRIÇÃO"
@@ -1379,15 +1635,25 @@ moCombo.AttachTo cboCriterioSec
 End Sub
 
 Private Sub cboCriterioSec_LostFocus()
-If cboCriterioSec.Text = "DESCRIÇÃO" Or cboCriterioSec.Text = "REFERÊNCIA" Or cboCriterioSec.Text = "FABRICANTE" Or cboCriterioSec.Text = "CATEGORIA" Then
+optDescIniciais.Visible = False
+optDescQualquer.Visible = False
+If cboCriterioSec.Text = "DESCRIÇÃO" Or cboCriterioSec.Text = "REFERÊNCIA" Or cboCriterioSec.Text = "FABRICANTE" Or cboCriterioSec.Text = "CATEGORIA" Or cboCriterioSec.Text = "SERVIÇOS" Or cboCriterioSec.Text = "COLABORADOR" Then
     If cboCriterioSec.Text = "DESCRIÇÃO" Then
         lblDescricao.Caption = "Descrição"
+        optDescIniciais.Visible = True
+        optDescQualquer.Visible = True
     ElseIf cboCriterioSec.Text = "REFERÊNCIA" Then
         lblDescricao.Caption = "Referência"
     ElseIf cboCriterioSec.Text = "FABRICANTE" Then
         lblDescricao.Caption = "Fabricante"
     ElseIf cboCriterioSec.Text = "CATEGORIA" Then
         lblDescricao.Caption = "Categoria"
+    ElseIf cboCriterioSec.Text = "SERVIÇOS" Then
+        lblDescricao.Caption = "Serviço"
+        optDescIniciais.Visible = True
+        optDescQualquer.Visible = True
+    ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+        lblDescricao.Caption = "Colaborador"
     End If
     lblDescricao.Visible = True
     cboDescricao.Visible = True
@@ -1420,11 +1686,16 @@ If cboTipo.Text = "POR PRODUTOS" Then
       cboCriterioPrinc.AddItem "PRODUTO/PERÍODO"
    End If
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
-   If cboCriterioSec.Text <> "TODOS" Then cboCriterioPrinc.AddItem "TODOS"
-   cboCriterioPrinc.AddItem "MENSAL"
-   cboCriterioPrinc.AddItem "PERÍODO"
-   cboCriterioPrinc.AddItem "SERVIÇOS"
-   If cboCriterioSec.Text = "TODOS" Then
+   If cboCriterioSec.Text = "SERVIÇOS" Or cboCriterioSec.Text = "COLABORADOR" Then
+      cboCriterioPrinc.AddItem "TODOS"
+      cboCriterioPrinc.AddItem "MENSAL"
+      cboCriterioPrinc.AddItem "PERÍODO"
+   ElseIf cboCriterioSec.Text = "CÓD. OS" Then
+      cboCriterioPrinc.AddItem "TODOS"
+   Else
+      cboCriterioPrinc.AddItem "MENSAL"
+      cboCriterioPrinc.AddItem "PERÍODO"
+      cboCriterioPrinc.AddItem "SERVIÇOS"
       cboCriterioPrinc.AddItem "SERVIÇOS/MENSAL"
       cboCriterioPrinc.AddItem "SERVIÇOS/PERÍODO"
    End If
@@ -1442,6 +1713,19 @@ Private Sub cboDescricao_GotFocus()
    cboDescricao.Clear
    
 If cboTipo.Text = "POR SERVIÇOS" Then
+   If cboCriterioSec.Text = "COLABORADOR" Then
+      sSQL = "SELECT nome, codigo FROM funcionario ORDER BY nome;"
+      Set r = dbData.OpenRecordset(sSQL)
+      Do While Not r.EOF
+         cboDescricao.AddItem r("nome")
+         cboDescricao.ItemData(cboDescricao.NewIndex) = r("codigo")
+         r.MoveNext
+      Loop
+      If r.State <> 0 Then r.Close
+      Set r = Nothing
+      moCombo.AttachTo cboDescricao
+      Exit Sub
+   End If
    sSQL = "SELECT SERVICO, CODIGO FROM OS_Servicos ORDER BY SERVICO;"
    Set r = dbData.OpenRecordset(sSQL)
    Do While Not r.EOF
@@ -1451,7 +1735,9 @@ If cboTipo.Text = "POR SERVIÇOS" Then
    Loop
    If r.State <> 0 Then r.Close
    Set r = Nothing
-   moCombo.AttachTo cboDescricao
+   If cboCriterioSec.Text <> "SERVIÇOS" Then
+      moCombo.AttachTo cboDescricao
+   End If
    Exit Sub
 End If
 
@@ -1509,7 +1795,10 @@ End If
    If r.State <> 0 Then r.Close
    Set r = Nothing
    
-   moCombo.AttachTo cboDescricao
+   'Nao anexa autocomplete em modo DESCRICAO -- precisa permitir digitar texto parcial pra busca LIKE
+   If cboCriterioSec.Text <> "DESCRIÇÃO" Then
+      moCombo.AttachTo cboDescricao
+   End If
 End Sub
 
 
@@ -1523,15 +1812,14 @@ TrataErro:
    If Err.Number = 381 Then Exit Sub
 End Sub
 
-
-Private Sub cboIndice_GotFocus()
-cboIndice.Clear
-cboIndice.AddItem "QUANT."
-cboIndice.AddItem "PRODUTO"
-cboIndice.AddItem "DATA"
-cboIndice.AddItem "PEDIDO"
-moCombo.AttachTo cboIndice
+Private Sub cmdCodBarra_Click()
+If cboTipo.Text = "POR SERVIÇOS" Then Exit Sub
+If Grid.Row = 0 Then Exit Sub
+If Grid.TextMatrix(Grid.Row, 5) = "" Then Exit Sub
+Clipboard.SetText Grid.TextMatrix(Grid.Row, 5)
 End Sub
+
+
 
 Private Sub cboMes_GotFocus()
 cboMes.Clear
@@ -1560,9 +1848,15 @@ Private Sub cboTipo_Change()
 If cboTipo.Text = "POR PRODUTOS" Then
 'cmdExibirParcelas.Visible = False
    cmdExibirPedidos.Visible = True
+   chkCodBarra.Visible = True
+   optProduto.Caption = "Produto"
+   frmDatas.Visible = False
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
 'cmdExibirParcelas.Visible = False
    cmdExibirPedidos.Visible = True
+   chkCodBarra.Visible = False
+   optProduto.Caption = "Serviço"
+   frmDatas.Visible = True
 Else
    Exit Sub
 End If
@@ -1615,6 +1909,17 @@ cboTipo.AddItem "POR SERVIÇOS"
 moCombo.AttachTo cboTipo
 End Sub
 
+Private Sub chkCodBarra_Click()
+If cboTipo.Text = "POR SERVIÇOS" Then Exit Sub
+If chkCodBarra.Value = 1 Then
+   Grid.ColWidth(5) = 1200
+   Grid.ColWidth(12) = 900
+Else
+   Grid.ColWidth(5) = 0
+   Grid.ColWidth(12) = 0
+End If
+End Sub
+
 Private Sub cmdCalendario1_Click()
 Dim varData As Variant
 Dim fCal As Calendario
@@ -1659,12 +1964,9 @@ End Sub
 Private Sub cmdExibirParcelas_Click()
 If Grid.Col = 0 Then Exit Sub
    Dim lPedido As Long
-   If cboTipo.Text = "POR SERVIÇOS" Then
-      If Not IsNumeric(Grid.TextMatrix(Grid.Row, 11)) Then Exit Sub
-      lPedido = CLng(Grid.TextMatrix(Grid.Row, 11))
-      If lPedido = 0 Then Exit Sub
-   ElseIf IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then
+   If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then
       lPedido = CLng(Grid.TextMatrix(Grid.Row, 1))
+      If lPedido = 0 Then Exit Sub
    Else
       Exit Sub
    End If
@@ -1695,14 +1997,14 @@ Private Sub cmdExibirPedidos_Click()
 If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
 
 If cboTipo.Text = "POR SERVIÇOS" Then
-   ' col1 = COD_OS, col11 = COD_PEDIDO (gravado pelo FormatarGrid_Servicos)
-   If Not IsNumeric(Grid.TextMatrix(Grid.Row, 11)) Then Exit Sub
-   If CLng(Grid.TextMatrix(Grid.Row, 11)) = 0 Then Exit Sub
-   Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 11)), "OS"
-Else
-   ' POR PRODUTOS: col1 = cod_pedido, col11 = COD_OS (0 = sem OS)
+   ' col1 = PEDIDO, col2 = OS (ambos sempre visiveis agora)
    If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
-   If Grid.TextMatrix(Grid.Row, 11) <> "0" Then
+   If CLng(Grid.TextMatrix(Grid.Row, 1)) = 0 Then Exit Sub
+   Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "OS"
+Else
+   ' POR PRODUTOS: col1 = PEDIDO, col2 = OS ("" = sem OS)
+   If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
+   If Grid.TextMatrix(Grid.Row, 2) <> "" Then
       Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "OS"
    Else
       Parcelas_Consulta_Produtos.loadPedidos CLng(Grid.TextMatrix(Grid.Row, 1)), "VENDA"
@@ -1730,6 +2032,8 @@ Set REL_Cons_Venda_Prod.Relatorio.Recordset = r
 
 If cboTipo.Text = "POR PRODUTOS" Then
 
+    REL_Cons_Venda_Prod.lblTitulo.Caption = "RELATÓRIO DE PRODUTOS VENDIDOS"
+
     If cboCriterioPrinc.Text = "TODOS" Then
         REL_Cons_Venda_Prod.rfCons1.Caption = "TODOS"
         REL_Cons_Venda_Prod.rfCons3.Caption = ""
@@ -1753,7 +2057,7 @@ If cboTipo.Text = "POR PRODUTOS" Then
     If cboCriterioPrinc.Text = "PRODUTO/MENSAL" Or cboCriterioPrinc.Text = "PRODUTO/PERÍODO" Then
         REL_Cons_Venda_Prod.rfCons2.Caption = "PRODUTO = " & cboDescricao.Text
     ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
-        REL_Cons_Venda_Prod.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text & ""
+        REL_Cons_Venda_Prod.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text & IIf(optDescQualquer.Value = True, " (contém)", " (início)")
     ElseIf cboCriterioSec.Text = "CÓD. BARRA" Then
         REL_Cons_Venda_Prod.rfCons2.Caption = "CÓD. BARRA = " & txtCodBarra.Text & ""
     ElseIf cboCriterioSec.Text = "REFERÊNCIA" Then
@@ -1766,37 +2070,47 @@ If cboTipo.Text = "POR PRODUTOS" Then
 
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
 
+    REL_Cons_Venda_Prod.lblTitulo.Caption = "RELATÓRIO DE SERVIÇOS REALIZADOS"
+
     REL_Cons_Venda_Prod.rfCons1.Caption = cboCriterioPrinc.Text
     REL_Cons_Venda_Prod.rfCons2.Caption = ""
     REL_Cons_Venda_Prod.rfCons3.Caption = ""
 
     If cboCriterioPrinc.Text = "TODOS" Then
-        If cboCriterioSec.Text = "DESCRIÇÃO" Then
-            REL_Cons_Venda_Prod.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
+        If cboCriterioSec.Text = "SERVIÇOS" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "SERVIÇOS = " & cboDescricao.Text & IIf(optDescQualquer.Value = True, " (contém)", " (início)")
         ElseIf cboCriterioSec.Text = "CÓD. OS" Then
             REL_Cons_Venda_Prod.rfCons2.Caption = "CÓD. OS = " & txtCodBarra.Text
+        ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "COLABORADOR = " & cboDescricao.Text
         End If
 
     ElseIf cboCriterioPrinc.Text = "MENSAL" Then
-        If cboCriterioSec.Text = "DESCRIÇÃO" Then
-            REL_Cons_Venda_Prod.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+        If cboCriterioSec.Text = "SERVIÇOS" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "SERVIÇOS = " & cboDescricao.Text & IIf(optDescQualquer.Value = True, " (contém)", " (início)")
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         ElseIf cboCriterioSec.Text = "CÓD. OS" Then
             REL_Cons_Venda_Prod.rfCons2.Caption = "CÓD. OS = " & txtCodBarra.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
+        ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "COLABORADOR = " & cboDescricao.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         Else
-            REL_Cons_Venda_Prod.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+            REL_Cons_Venda_Prod.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         End If
 
     ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
-        If cboCriterioSec.Text = "DESCRIÇÃO" Then
-            REL_Cons_Venda_Prod.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text
+        If cboCriterioSec.Text = "SERVIÇOS" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "SERVIÇOS = " & cboDescricao.Text & IIf(optDescQualquer.Value = True, " (contém)", " (início)")
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         ElseIf cboCriterioSec.Text = "CÓD. OS" Then
             REL_Cons_Venda_Prod.rfCons2.Caption = "CÓD. OS = " & txtCodBarra.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
+        ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+            REL_Cons_Venda_Prod.rfCons2.Caption = "COLABORADOR = " & cboDescricao.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         Else
-            REL_Cons_Venda_Prod.rfCons2.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text
+            REL_Cons_Venda_Prod.rfCons2.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         End If
 
     ElseIf cboCriterioPrinc.Text = "SERVIÇOS" Then
@@ -1807,17 +2121,17 @@ ElseIf cboTipo.Text = "POR SERVIÇOS" Then
     ElseIf cboCriterioPrinc.Text = "SERVIÇOS/MENSAL" Then
         If txtCodProduto.Text <> "" Then
             REL_Cons_Venda_Prod.rfCons2.Caption = "SERVIço = " & cboDescricao.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         Else
-            REL_Cons_Venda_Prod.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+            REL_Cons_Venda_Prod.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         End If
 
     ElseIf cboCriterioPrinc.Text = "SERVIÇOS/PERÍODO" Then
         If txtCodProduto.Text <> "" Then
             REL_Cons_Venda_Prod.rfCons2.Caption = "SERVIço = " & cboDescricao.Text
-            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text
+            REL_Cons_Venda_Prod.rfCons3.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         Else
-            REL_Cons_Venda_Prod.rfCons2.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text
+            REL_Cons_Venda_Prod.rfCons2.Caption = "Inicio/Final = " & mskInicio.Text & " até " & mskFim.Text & IIf(optExecucao.Value = True, " (Execução)", " (Término da OS)")
         End If
 
     End If
@@ -1826,6 +2140,8 @@ End If
 
 REL_Cons_Venda_Prod.dfQuant.Caption = lblQtda.Caption
 REL_Cons_Venda_Prod.dfTotal.Caption = Format(lblTotal.Caption, "##,##0.00")
+REL_Cons_Venda_Prod.dfSubtotal.Caption = Format(lblSubtotal.Caption, "##,##0.00")
+REL_Cons_Venda_Prod.dfDesconto.Caption = Format(lblTotalDesc.Caption, "##,##0.00")
 
 'REL_Cons_Venda_Prod.Relatorio.NomeImpressora = var_Impressora
 REL_Cons_Venda_Prod.Relatorio.Ativar
@@ -1841,26 +2157,26 @@ totalRegistros = "0"
 
 'INDICE
 If cboTipo.Text = "POR PRODUTOS" Then
-   If cboIndice.Text = "QUANT." Then
+   If optQuant.Value = True Then
       INDICE = "quantidade ;"
-   ElseIf cboIndice.Text = "PRODUTO" Then
+   ElseIf optProduto.Value = True Then
       INDICE = "produtos.descricao ;"
-   ElseIf cboIndice.Text = "DATA" Then
+   ElseIf optData.Value = True Then
       INDICE = "pedidos.DATA_COMPRA ;"
-   ElseIf cboIndice.Text = "PEDIDO" Then
+   ElseIf optPedido.Value = True Then
       INDICE = "pedidos_itens.cod_pedido ;"
    Else
       INDICE = "produtos.descricao ;"
    End If
 End If
 If cboTipo.Text = "POR SERVIÇOS" Then
-   If cboIndice.Text = "QUANT." Then
+   If optQuant.Value = True Then
       INDICE = "s.quantidade ;"
-   ElseIf cboIndice.Text = "PRODUTO" Then
+   ElseIf optProduto.Value = True Then
       INDICE = "s.descricao ;"
-   ElseIf cboIndice.Text = "DATA" Then
+   ElseIf optData.Value = True Then
       INDICE = "s.data ;"
-   ElseIf cboIndice.Text = "PEDIDO" Then
+   ElseIf optPedido.Value = True Then
       INDICE = "s.cod_os ;"
    Else
       INDICE = "s.descricao ;"
@@ -1875,8 +2191,8 @@ If cboTipo.Text = "POR PRODUTOS" Then
 
             'TODOS
              If cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "TODOS" Then
-                If txtCodProduto.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.codigo = " & txtCodProduto.Text & " " & _
+                If cboDescricao.Text = "" Then Exit Sub
+                sSQL = sSQL & " and produtos.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' " & _
                        "ORDER BY " & INDICE
                        
              ElseIf cboCriterioSec.Text = "REFERÊNCIA" And cboCriterioPrinc.Text = "TODOS" Then
@@ -1903,7 +2219,7 @@ If cboTipo.Text = "POR PRODUTOS" Then
              ElseIf cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "MENSAL" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
+                sSQL = sSQL & " and produtos.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' and (MONTH(pedidos.DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos.DATA_COMPRA) = " & cboAno & ") " & _
                        "ORDER BY " & INDICE
                 
              ElseIf cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "MENSAL" Then
@@ -1938,7 +2254,7 @@ If cboTipo.Text = "POR PRODUTOS" Then
              ElseIf cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "PERÍODO" Then
                 If cboDescricao.Text = "" Then Exit Sub
                 If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-                sSQL = sSQL & " and produtos.descricao = '" & cboDescricao.Text & "' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
+                sSQL = sSQL & " and produtos.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' and (pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos.DATA_COMPRA <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
                        "ORDER BY " & INDICE
                 
              ElseIf cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "PERÍODO" Then
@@ -2024,56 +2340,87 @@ If cboTipo.Text = "POR PRODUTOS" Then
         
 ElseIf cboTipo.Text = "POR SERVIÇOS" Then
    Dim sBase As String
-   sBase = "SELECT s.codigo, OS.COD_OS AS varCodPed, OS.DATA_TERMINO AS varData, s.descricao AS varNome, " & _
+   Dim vCampoDataServ As String
+   If optExecucao.Value = True Then
+      vCampoDataServ = "s.data"
+   Else
+      vCampoDataServ = "OS.DATA_TERMINO"
+   End If
+   sBase = "SELECT s.codigo, ISNULL(OS.COD_PEDIDO, 0) AS varCodPed, " & vCampoDataServ & " AS varData, s.descricao + ISNULL(' (' + func.nome + ')', '') AS varNome, " & _
            "s.preco AS varValor, s.quantidade AS varQuant, s.subtotal AS varSubtotal, " & _
-           "s.desconto AS varDesc, s.total AS varTotal, ISNULL(OS.COD_PEDIDO, 0) AS var_CodOS, s.cod_servico AS varCodServ " & _
-           "FROM OS_Servicos_Auto s INNER JOIN OS ON s.cod_os = OS.COD_OS WHERE OS.STATUS_OS = 1 "
+           "s.desconto AS varDesc, s.total AS varTotal, OS.COD_OS AS var_CodOS, s.cod_servico AS varCodServ " & _
+           "FROM OS_Servicos_Auto s INNER JOIN OS ON s.cod_os = OS.COD_OS LEFT JOIN funcionario func ON func.codigo = s.cod_mecanico WHERE OS.STATUS_OS = 1 "
 
    If cboCriterioPrinc.Text = "TODOS" Then
-      If cboCriterioSec.Text = "DESCRIÇÃO" Then
-         If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " ORDER BY " & INDICE
+      If cboCriterioSec.Text = "SERVIÇOS" Then
+         If cboDescricao.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
          sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " ORDER BY " & INDICE
+      ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+         If txtCodProduto.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.cod_mecanico = " & txtCodProduto.Text & " ORDER BY " & INDICE
       Else
          sSQL = sBase & "ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "MENSAL" Then
+      If cboMes.Text = "" Then
+         cboMes_GotFocus
+         cboMes.ListIndex = Month(Date) - 1
+      End If
+      If cboAno.Text = "" Then
+         cboAno_GotFocus
+         cboAno.ListIndex = 2
+      End If
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
-      If cboCriterioSec.Text = "DESCRIÇÃO" Then
-         If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+      If cboCriterioSec.Text = "SERVIÇOS" Then
+         If cboDescricao.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
-         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
+      ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+         If txtCodProduto.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.cod_mecanico = " & txtCodProduto.Text & " AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
       Else
-         sSQL = sBase & "AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
       If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-      If cboCriterioSec.Text = "DESCRIÇÃO" Then
-         If cboDescricao.Text = "" Or txtCodProduto.Text = "" Then Exit Sub
-         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+      If cboCriterioSec.Text = "SERVIÇOS" Then
+         If cboDescricao.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.descricao LIKE '" & IIf(optDescQualquer.Value = True, "%", "") & cboDescricao.Text & "%' AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       ElseIf cboCriterioSec.Text = "CÓD. OS" Then
          If txtCodBarra.Text = "" Then Exit Sub
-         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND OS.COD_OS = " & Val(txtCodBarra.Text) & " AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+      ElseIf cboCriterioSec.Text = "COLABORADOR" Then
+         If txtCodProduto.Text = "" Then Exit Sub
+         sSQL = sBase & "AND s.cod_mecanico = " & txtCodProduto.Text & " AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       Else
-         sSQL = sBase & "AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS/MENSAL" Then
+      If cboMes.Text = "" Then
+         cboMes_GotFocus
+         cboMes.ListIndex = Month(Date) - 1
+      End If
+      If cboAno.Text = "" Then
+         cboAno_GotFocus
+         cboAno.ListIndex = 2
+      End If
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
       If txtCodProduto.Text <> "" Then
-         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
       Else
-         sSQL = sBase & "AND MONTH(OS.DATA_TERMINO) = " & cboMes.ListIndex + 1 & " AND YEAR(OS.DATA_TERMINO) = " & cboAno & " ORDER BY " & INDICE
+         sSQL = sBase & "AND MONTH(" & vCampoDataServ & ") = " & cboMes.ListIndex + 1 & " AND YEAR(" & vCampoDataServ & ") = " & cboAno & " ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS/PERÍODO" Then
       If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
       If txtCodProduto.Text <> "" Then
-         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND s.cod_servico = " & txtCodProduto.Text & " AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       Else
-         sSQL = sBase & "AND (OS.DATA_TERMINO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (OS.DATA_TERMINO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
+         sSQL = sBase & "AND (" & vCampoDataServ & " >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (" & vCampoDataServ & " <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) ORDER BY " & INDICE
       End If
    ElseIf cboCriterioPrinc.Text = "SERVIÇOS" Then
       If txtCodProduto.Text <> "" Then
@@ -2085,7 +2432,7 @@ ElseIf cboTipo.Text = "POR SERVIÇOS" Then
 End If
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
-Debug.Print sSQL
+'Debug.Print sSQL
 
 If cboTipo.Text = "POR SERVIÇOS" Then
    FormatarGrid_Servicos r
@@ -2139,13 +2486,16 @@ cboCriterioPrinc.ListIndex = 0
 PreencherTipoConsulta
 cboTipo.ListIndex = 0
 
-PreencherCriterioSec
-cboCriterioSec.ListIndex = 1
-
-PreencherIndice
-cboIndice.ListIndex = 2
 
 Set moCombo = New cComboHelper
+
+'Selecao automatica ao carregar o form (cboTipo/cboCriterioPrinc/cboCriterioSec ja ficam corretos pelo cascade do cboTipo_Change acima)
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.ListIndex = 2
+
+cmdLocalizar_Click
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -2387,4 +2737,21 @@ Private Sub mskInicio_LostFocus()
       End If
    End If
 End Sub
+
+Private Sub optProduto_Click()
+cmdLocalizar_Click
+End Sub
+
+Private Sub optQuant_Click()
+cmdLocalizar_Click
+End Sub
+
+Private Sub optData_Click()
+cmdLocalizar_Click
+End Sub
+
+Private Sub optPedido_Click()
+cmdLocalizar_Click
+End Sub
+
 

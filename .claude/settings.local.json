@@ -58,7 +58,18 @@
       "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_imprimir_filtros.py\")",
       "PowerShell(python \"C:\\\\Projeto\\\\scripts\\\\patch_servicos_criterios.py\")",
       "Bash(iconv -f cp1252 -t utf-8)",
-      "Bash(sort -t: -k2 -n)"
+      "Bash(sort -t: -k2 -n)",
+      "Bash(powershell -Command \"\\(Get-Content 'C:\\\\projeto\\\\OnlineCommerce\\\\Forms\\\\NFe_Completa.frm'\\).Length\")",
+      "Bash(awk *)",
+      "Bash(iconv -f utf-8 -t utf-8)",
+      "Read(//tmp/**)",
+      "Bash(sort -t= -k2 -u)",
+      "Skill(artifact-design)",
+      "Artifact",
+      "PowerShell(py *)",
+      "Bash(where python *)",
+      "Bash(where py *)",
+      "Bash(C:/Python314/python.exe *)"
     ]
   }
 }

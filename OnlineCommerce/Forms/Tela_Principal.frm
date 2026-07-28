@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12:21"
+            TextSave        =   "09:20"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1007,36 +1007,36 @@ Begin VB.MDIForm Tela_Principal
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_VendasPorProdutos 
-         Caption         =   "Vendas Por Produtos e Serviços"
+         Caption         =   "Vendas por Produtos e Serviços"
       End
       Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
-         Caption         =   "Vendas Por Produtos Agrupados"
+         Caption         =   "Vendas por Produtos Agrupados"
       End
       Begin VB.Menu menuseparar7 
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_EntradaPorProdutos 
-         Caption         =   "Entradas Por Produtos"
+         Caption         =   "Entradas por Produtos"
       End
       Begin VB.Menu Menu_CONS_EntradaPorProdAgrupadas 
-         Caption         =   "Entradas Por Produtos Agrupados"
+         Caption         =   "Entradas por Produtos Agrupados"
       End
       Begin VB.Menu menuseparar10 
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_SaidasPorProdutos 
-         Caption         =   "Saídas Por Produtos"
+         Caption         =   "Saídas por Produtos"
          Enabled         =   0   'False
       End
       Begin VB.Menu Menu_CONS_SaidaPorProdAgrupadas 
-         Caption         =   "Saídas Por Produtos Agrupados"
+         Caption         =   "Saídas por Produtos Agrupados"
          Enabled         =   0   'False
       End
       Begin VB.Menu menuseparar8 
          Caption         =   "-"
       End
       Begin VB.Menu Menu_CONS_VendasServicos 
-         Caption         =   "Vendas e Serviços"
+         Caption         =   "Venda e Ordem Serviço"
       End
       Begin VB.Menu menuseparar13 
          Caption         =   "-"
