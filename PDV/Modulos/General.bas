@@ -393,13 +393,18 @@ oIni.Arquivo = appPathApp & "config.ini"
 var_IP = oIni.LerTexto("IP_MAQUINA", "ip")
 Set oIni = Nothing
 'var_IP = "192.168.1.20\SQLEXPRESS2008"
+
+If Vazio(var_IP) Then
+   var_IP = "localhost\SQLEXPRESS2008"
+End If
+
 vgServerName = var_IP
 
 'Atribui falha na execução
 AbrirConexaoBD = False
 
 'Conexão padrão do MySql
-cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
+cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=600;TRUSTED_CONNECTION=NO"
 'cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
 Set dbData = New Database
 

@@ -380,10 +380,11 @@ Dim uploader As Object
     If uploader Is Nothing Then Exit Function
     uploader.UseInternalDialog = True
     uploader.ApplicationName = "OnlineInfo"
-    uploader.CredentialsPath = App.path & "\clientGoogle_secret.json"
-    uploader.AuthMode = "OAuth"
+    uploader.CredentialsPath = App.path & "\NFE\backupclientes-488021-067a35f7c315.json"
+    uploader.AuthMode = "ServiceAccount"
+    uploader.SharedDriveId = "0ADpoMDm94fJRUk9PVA"
     uploader.TokenPath = App.path & "\tokens"
-    uploader.UserToImpersonate = "financeiroonlineinfo@gmail.com"  ' Meu Drive deste usuário
+    'uploader.UserToImpersonate = "financeiroonlineinfo@gmail.com"  ' nao usa impersonation - Shared Drive "Backups" com a service account como membro
     Dim fid As String
     fid = uploader.UploadFileToFolderName(nomeArquivo, "BACKUP")
     'txtResult.Text = fid
@@ -391,7 +392,11 @@ Dim uploader As Object
     Exit Function
 deuErro:
     'MsgBox "Erro: " & Err.Description, vbCritical
-    mensagemErro = Err.Description
+    If Err.Number = 429 Then
+        mensagemErro = "Componente GoogleDriveUploader.Uploader não está registrado nesta máquina."
+    Else
+        mensagemErro = Err.Description
+    End If
     Err.Clear
 End Function
 Public Sub CalcularParcelas(ByVal ValorTotal As Currency, ByVal NroParcelas As Integer, ByRef ValorParcelas() As Currency)

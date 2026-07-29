@@ -1543,6 +1543,9 @@ ElseIf vTipoOS = "Agrícola" Then
     MENU_SERV_Pneus.Visible = True
 End If
 
+If EhServidorLocal() Then
+   RegistrarTarefaBackupNuvem
+End If
 
 End Sub
 
@@ -2215,6 +2218,10 @@ Private Sub menuajudaonline_Click()
 End Sub
 
 Private Sub menulogoff_Click()
+If Not EhServidorLocal() Then
+   MsgBox "O backup na nuvem só pode ser enviado a partir do servidor." & vbCrLf & vbCrLf & "Esta máquina está configurada como terminal (ip=" & var_IP & ").", vbExclamation, "Backup Nuvem"
+   Exit Sub
+End If
 'MsgBox "Timer ativo"
 Dim DataHora As Date, xCaminhoBK As String
 Dim nomeArquivoBK As String
@@ -2240,16 +2247,60 @@ Dim IniciouProcesso As Boolean
         
    DataHora = Now
         
-   If Not Existe(xCaminhoBK & "\" & nomeArquivoBK) Then Exit Sub
+   If Not Existe(xCaminhoBK & "\" & nomeArquivoBK) Then
+      MsgBox "Nenhum backup local encontrado para enviar." & vbCrLf & vbCrLf & xCaminhoBK & "\" & nomeArquivoBK, vbExclamation, "Backup Nuvem"
+      Exit Sub
+   End If
         
    Me.MousePointer = 11
    iRetorno = GoogleEnviarArquivo(xCaminhoBK & "\" & nomeArquivoBK)
    DoEvents
+   Me.MousePointer = 0
    If iRetorno Then
       sSQL = "UPDATE empresa SET BackupDataHora = " & FdthrSQL(DataHora)
       SQLExecuta sSQL
+      MsgBox "Backup enviado para a nuvem com sucesso!", vbInformation, "Backup Nuvem"
+   Else
+      MsgBox "Falha ao enviar o backup para a nuvem." & IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Backup Nuvem"
    End If
-   Me.MousePointer = 0
+End Sub
+
+Private Function EhServidorLocal() As Boolean
+Dim vHost As String
+Dim vBarra As Integer
+
+   vBarra = InStr(var_IP, "\")
+   If vBarra > 0 Then
+      vHost = Left(var_IP, vBarra - 1)
+   Else
+      vHost = var_IP
+   End If
+
+   If vHost = "." Or LCase(vHost) = "localhost" Or LCase(vHost) = "(local)" Then
+      EhServidorLocal = True
+   ElseIf UCase(vHost) = UCase(Environ$("COMPUTERNAME")) Then
+      EhServidorLocal = True
+   Else
+      EhServidorLocal = False
+   End If
+End Function
+
+Private Sub RegistrarTarefaBackupNuvem()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+
+   Set vShell = CreateObject("WScript.Shell")
+
+   'Verifica se a tarefa agendada ja existe
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_BackupNuvem""", 0, True)
+
+   If vExitCode <> 0 Then
+      'Tarefa nao existe ainda, cria agendada para rodar todo dia as 13:00 (horario de menor movimento)
+      vComando = "schtasks /Create /TN ""OnlineCommerce_BackupNuvem"" /TR ""C:\Windows\SysWOW64\wscript.exe \""" & appPathApp & "BackupNuvem.vbs\"""" /SC DAILY /ST 13:00 /F"
+      vShell.Run vComando, 0, True
+   End If
 End Sub
 
 Private Sub menusair_Click()

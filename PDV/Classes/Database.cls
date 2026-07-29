@@ -112,9 +112,10 @@ errReturnEmpty:
    
 errHandle:
    Select Case Err.Number
-      Case -2147467259        'Falha de conexão
-         ShowMsg "Falha de conexão ou erro geral de rede." & vbCr & _
-            "Verifique a documentação da rede e tente novamente.", vbCritical
+      Case -2147467259        'Falha de conexão (rede/servidor indisponível)
+         ShowMsg "Conexão com o servidor de banco de dados foi perdida." & vbCr & _
+            "Verifique se o servidor está ligado e se a rede está conectada." & vbCr & _
+            "Tente novamente, e em caso do erro persistir contacte o suporte técnico.", vbCritical
          GoSub errReturnEmpty
       
       Case -2147217871        'Tempo excedido

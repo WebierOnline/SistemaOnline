@@ -11,3 +11,10 @@ MSSCCPRJ.SCC
 *.mdf
 *.ldf
 *.bak
+
+# Credenciais - nunca enviar chaves/secrets/tokens do Google nem config de maquina
+clientGoogle_secret.json
+*-*-*.json
+Config.ini
+tokens/
+BackupNuvem_log.txt

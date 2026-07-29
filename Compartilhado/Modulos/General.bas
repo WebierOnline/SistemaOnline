@@ -192,7 +192,7 @@ LerConfiguracao
 'Produtos_Cadastro.Show
 'NFe_Completa.Show
 'Tela_Principal.Show
-Vendas_Consulta_PorProdutos.Show
+'Vendas_Consulta_PorProdutos.Show
 'Funcionario_Comissao.Show
 'Notas_Adesivas.Show
 'Sistema_Financeiro.Show
@@ -200,7 +200,7 @@ Vendas_Consulta_PorProdutos.Show
 'Entrada_Estoque.Show
 'Vendas_Consulta_Lucro.Show
 'Vendas_Consulta_PorProdutos.Show
-'Senha.Show
+Senha.Show
 End Sub
 
 'Recupera a configuração do sistema

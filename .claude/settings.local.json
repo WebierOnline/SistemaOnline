@@ -69,7 +69,18 @@
       "PowerShell(py *)",
       "Bash(where python *)",
       "Bash(where py *)",
-      "Bash(C:/Python314/python.exe *)"
+      "Bash(C:/Python314/python.exe *)",
+      "PowerShell(schtasks *)",
+      "PowerShell(schtasks.exe --% /Create /TN \"OnlineCommerce_BackupNuvem\" /TR \"wscript.exe \\\\\"C:\\\\projeto\\\\OnlineCommerce\\\\BackupNuvem.vbs\\\\\"\" /SC DAILY /ST 21:50 /F)",
+      "PowerShell(schtasks.exe /Query /TN \"OnlineCommerce_BackupNuvem\" /V /FO LIST)",
+      "Bash(where sqlcmd *)",
+      "Bash(C:\\\\Program Files\\\\Microsoft SQL Server\\\\Client SDK\\\\ODBC\\\\110\\\\Tools\\\\Binn\\\\SQLCMD.EXE *)",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft SQL Server\\\\Client SDK\\\\ODBC\\\\110\\\\Tools\\\\Binn\\\\SQLCMD.EXE\" -S \".\\\\SQLEXPRESS2008\" -U sa -P 190106web -d cyber_base -Q \"SELECT c.name, ty.name AS type_name, c.is_nullable FROM sys.columns c JOIN sys.tables t ON c.object_id=t.object_id JOIN sys.types ty ON c.user_type_id=ty.user_type_id WHERE t.name='empresa' AND c.name='BackupDataHora'\")",
+      "Bash(\"C:\\\\Program Files\\\\Microsoft SQL Server\\\\Client SDK\\\\ODBC\\\\110\\\\Tools\\\\Binn\\\\SQLCMD.EXE\" -S \".\\\\SQLEXPRESS2008\" -U sa -P 190106web -d cyber_base -Q \"SELECT COUNT\\(*\\) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME='empresa' AND COLUMN_NAME='BackupDataHora'\")",
+      "Bash(\"C:\\\\Windows\\\\System32\\\\cscript.exe\" //nologo \"C:\\\\projeto\\\\scripts\\\\test_com_bitness.vbs\")",
+      "Bash(\"C:\\\\Windows\\\\SysWOW64\\\\cscript.exe\" //nologo \"C:\\\\projeto\\\\scripts\\\\test_com_bitness.vbs\")",
+      "PowerShell(schtasks.exe --% /Create /TN \"OnlineCommerce_BackupNuvem\" /TR \"C:\\\\Windows\\\\SysWOW64\\\\wscript.exe \\\\\"C:\\\\projeto\\\\OnlineCommerce\\\\BackupNuvem.vbs\\\\\"\" /SC DAILY /ST 21:50 /F)",
+      "PowerShell(schtasks.exe --% /Create /TN \"OnlineCommerce_BackupNuvem\" /TR \"C:\\\\Windows\\\\SysWOW64\\\\wscript.exe \\\\\"C:\\\\projeto\\\\OnlineCommerce\\\\BackupNuvem.vbs\\\\\"\" /SC DAILY /ST 13:00 /F)"
     ]
   }
 }
