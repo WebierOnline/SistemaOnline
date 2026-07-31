@@ -400,7 +400,7 @@ Dim emailDestino As String, i As Integer, ComandoSQL As String
 Dim rsEntradas As New ADODB.Recordset, rsNFe As New ADODB.Recordset, rsNFCe As New ADODB.Recordset
 Dim xDiretorioDestino As String, xArquivoDestino As String
 Dim vTentativas As Long
-
+Dim fso As Object
 If cboMes.Text <> "" Then vMes = cboMes.Text Else: MsgBox "Escolha um mês!", vbInformation, "Aviso do Sistema": cboMes.SetFocus: Exit Sub
 If cboAno.Text <> "" Then vAno = cboAno.Text Else: MsgBox "Escolha um ano!", vbInformation, "Aviso do Sistema": cboAno.SetFocus: Exit Sub
 
@@ -446,6 +446,7 @@ End If
 If IniciaComponenteCompactacao Then
 
    i = 0
+   Set fso = CreateObject("Scripting.FileSystemObject")
    
    'Caminho para comprimir arquivo
    DestPath = diretorioDestino
@@ -505,14 +506,40 @@ If IniciaComponenteCompactacao Then
       Loop
    End If
    
-   If chkIncluirEntradas.Value = 1 Then
+      If Not Existe(DiretorioOrigem) Then
+      MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema"
+      lblAguarde.Visible = False
+      Exit Sub
+   End If
+   
+   'Monta pasta temporaria com as 4 subpastas (mesmo padrao do envio automatico ao contador)
+   Dim vPastaTemp As String
+   vPastaTemp = diretorioDestino & "\" & vAno & vMesNum
+   If fso.FolderExists(vPastaTemp) Then fso.DeleteFolder vPastaTemp, True
+   fso.CreateFolder vPastaTemp
+   
+   'Enviados: XMLs das notas autorizadas (+ PDF, se marcado acima)
+   fso.CopyFolder DiretorioOrigem, vPastaTemp & "\Enviados", True
+   
+   'Cancelados: XMLs de evento de cancelamento das notas EMITIDAS neste mes (mesmo que o
+   'cancelamento em si tenha sido feito ja no mes seguinte, dentro das 24h permitidas) -
+   'por isso a busca e por chave de acesso vinda do banco, e nao pela data do arquivo.
+   Dim vChaves() As String, vTotalChaves As Long
+   ColetarChavesCanceladas vMesNum, vAno, vChaves, vTotalChaves
+   CopiarArquivosPorChave fso, vCaminhoXML & "\nfe\arquivos\procEventoNFe", vPastaTemp & "\Cancelados", vChaves, vTotalChaves
+   
+   'Inutilizados: nao existe "nota emitida" de referencia aqui (numero nunca foi
+   'transmitido), entao agrupa pela propria data do evento de inutilizacao.
+   CopiarArquivosPorData fso, vCaminhoXML & "\nfe\arquivos\Inutilizacao", vPastaTemp & "\Inutilizados", CInt(vMesNum), CInt(vAno)
+   
+If chkIncluirEntradas.Value = 1 Then
       ComandoSQL = "SELECT ChavedeAcesso " & _
                    "FROM EntradaEstoque " & _
                    "WHERE MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
        Set rsEntradas = dbData.OpenRecordset(ComandoSQL)
        Do While Not rsEntradas.EOF
           xCaminhoXML = vCaminhoXML & "\nfe\arquivos\ConfRecebto\" & rsEntradas!ChavedeAcesso & "-procNFe.xml"
-          xDiretorioDestino = DiretorioOrigem & IIf(Right(DiretorioOrigem, 1) = "\", "", "\") & "Entradas\"
+          xDiretorioDestino = vPastaTemp & "\Entradas\"
           If Not Existe(xDiretorioDestino) Then MkDir xDiretorioDestino
           xArquivoDestino = xDiretorioDestino & rsEntradas!ChavedeAcesso & "-procNFe.xml"
           If Existe(xCaminhoXML) = -1 Then FileCopy xCaminhoXML, xArquivoDestino
@@ -520,15 +547,21 @@ If IniciaComponenteCompactacao Then
        Loop
    End If
    
-   If Not Existe(DiretorioOrigem) Then
-      MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema"
-      lblAguarde.Visible = False
-      Exit Sub
+      'Entradas (fonte nova): XMLs de notas de fornecedor importadas via cmdImportarXML do
+   'Entrada_Estoque.frm, ja arquivadas por mes de DataEmissao no momento da importacao.
+   Dim vDiretorioEntradasXML As String
+   vDiretorioEntradasXML = vCaminhoXML & "\EntradasXML\" & vAno & vMesNum
+   If fso.FolderExists(vDiretorioEntradasXML) Then
+      If Not fso.FolderExists(vPastaTemp & "\Entradas") Then fso.CreateFolder vPastaTemp & "\Entradas"
+      Dim vArqEnt As Object
+      For Each vArqEnt In fso.GetFolder(vDiretorioEntradasXML).Files
+         fso.CopyFile vArqEnt.Path, vPastaTemp & "\Entradas\" & vArqEnt.Name, True
+      Next vArqEnt
    End If
    
-   PathToCompress = Transforma(DiretorioOrigem)
+   PathToCompress = Transforma(vPastaTemp)
    
-   'Chama o compressor que se encontra instalado para o efeito.
+'Chama o compressor que se encontra instalado para o efeito.
    If xWinRar <> "" Then
        Shell xWinRar & " a -ep1 " & FullPathZip & " " & PathToCompress, vbNormalFocus  ', vbHide
    Else
@@ -571,7 +604,10 @@ If IniciaComponenteCompactacao Then
       If vTentativasTamanho > 300 Then Exit Do
    Loop
    
-   sSQL = "SELECT * FROM TbContabilista"
+      'limpeza da pasta temporaria (o conteudo ja esta dentro do .rar gerado)
+   If fso.FolderExists(vPastaTemp) Then fso.DeleteFolder vPastaTemp, True
+   
+sSQL = "SELECT * FROM TbContabilista"
    Set rCont = dbData.OpenRecordset(sSQL)
    
       If rCont.RecordCount > 0 Then emailDestino = rCont!email
@@ -599,6 +635,66 @@ TrataErro:
 lblAguarde.Visible = False
 MsgBox "Erro ao compactar/exportar os arquivos XML:" & vbCrLf & Err.Description, vbCritical, "Erro"
 End Sub
+Private Sub ColetarChavesCanceladas(vMesNumStr As String, vAnoStr As String, ByRef chaves() As String, ByRef totalChaves As Long)
+Dim rsC As ADODB.Recordset
+Dim sql As String
+
+totalChaves = 0
+ReDim chaves(500)
+
+sql = "SELECT ChavedeAcesso FROM NotaFiscal WHERE Cancelada = 1 AND MONTH(DataEmissao) = " & vMesNumStr & _
+      " AND YEAR(DataEmissao) = " & vAnoStr & " AND ChavedeAcesso IS NOT NULL AND ChavedeAcesso <> ''"
+Set rsC = dbData.OpenRecordset(sql)
+Do While Not rsC.EOF
+   chaves(totalChaves) = Trim(rsC!ChavedeAcesso)
+   totalChaves = totalChaves + 1
+   rsC.MoveNext
+Loop
+rsC.Close
+
+sql = "SELECT NFCeChaveAcesso FROM TbNFCe WHERE NFCeCancelada = 1 AND MONTH(DataEmissao) = " & vMesNumStr & _
+      " AND YEAR(DataEmissao) = " & vAnoStr & " AND NFCeChaveAcesso IS NOT NULL AND NFCeChaveAcesso <> ''"
+Set rsC = dbData.OpenRecordset(sql)
+Do While Not rsC.EOF
+   chaves(totalChaves) = Trim(rsC!NFCeChaveAcesso)
+   totalChaves = totalChaves + 1
+   rsC.MoveNext
+Loop
+rsC.Close
+
+If totalChaves > 0 Then ReDim Preserve chaves(totalChaves - 1)
+End Sub
+
+Private Sub CopiarArquivosPorChave(fso As Object, pastaOrigem As String, pastaDestino As String, chaves() As String, totalChaves As Long)
+Dim arq As Object, i As Long
+
+If totalChaves = 0 Then Exit Sub
+If Not fso.FolderExists(pastaOrigem) Then Exit Sub
+
+For Each arq In fso.GetFolder(pastaOrigem).Files
+   For i = 0 To totalChaves - 1
+      If InStr(arq.Name, chaves(i)) > 0 Then
+         If Not fso.FolderExists(pastaDestino) Then fso.CreateFolder pastaDestino
+         fso.CopyFile arq.Path, pastaDestino & "\" & arq.Name, True
+         Exit For
+      End If
+   Next i
+Next arq
+End Sub
+
+Private Sub CopiarArquivosPorData(fso As Object, pastaOrigem As String, pastaDestino As String, vMesNumInt As Integer, vAnoInt As Integer)
+Dim arq As Object
+
+If Not fso.FolderExists(pastaOrigem) Then Exit Sub
+
+For Each arq In fso.GetFolder(pastaOrigem).Files
+   If Month(arq.DateLastModified) = vMesNumInt And Year(arq.DateLastModified) = vAnoInt Then
+      If Not fso.FolderExists(pastaDestino) Then fso.CreateFolder pastaDestino
+      fso.CopyFile arq.Path, pastaDestino & "\" & arq.Name, True
+   End If
+Next arq
+End Sub
+
 
 Private Sub EnviaEmail(EmailPara As String, Anexo1 As String)
 Dim emailDest As String, pathAnexo() As String, NomeRemetente As String, corpoEmail As String, emailCC() As String
