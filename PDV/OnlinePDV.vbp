@@ -23,6 +23,7 @@ Class=Ini; Classes\Ini.cls
 Class=ConfigItem; Classes\ConfigItem.cls
 Form=Forms\PDV.frm
 Form=Forms\PDV_Senha.frm
+Form=Forms\PDV_Bloqueio.frm
 Form=Forms\Estonar.frm
 Form=Forms\REL_Pedido_Orcamento.frm
 Form=Forms\REL_Caixa_Fech_Resumido.frm

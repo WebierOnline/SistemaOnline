@@ -535,3 +535,228 @@ Public Function AppIsRunning(ByVal appName As String) As Boolean
         CloseHandle hSnapShot
     End If
 End Function
+
+'Calcula a data de bloqueio do PDV a partir da data de bloqueio do Online Commerce.
+'Regra: +5 dias, e se cair em sábado/domingo, empurra para a próxima segunda-feira.
+Public Function CalcularDataBloqueioPDV(ByVal DataBloqueioOC As Date) As Date
+Dim vData As Date
+   vData = DateAdd("d", 5, DataBloqueioOC)
+   Select Case Weekday(vData)
+      Case vbSaturday
+         vData = DateAdd("d", 2, vData)
+      Case vbSunday
+         vData = DateAdd("d", 1, vData)
+   End Select
+   CalcularDataBloqueioPDV = vData
+End Function
+
+'Verifica se a licença do PDV está em dia. Se estiver bloqueado, mostra PDV_Bloqueio
+'(modal) e retorna o resultado do desbloqueio. Se faltar 1, 2 ou 3 dias, avisa.
+'Retorna True se o PDV pode continuar normalmente (não bloqueado, ou desbloqueado agora).
+Public Function VerificarBloqueioPDV() As Boolean
+On Error GoTo errHandle
+Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim vDataBloqueioPDV As Date
+Dim vDiasRestantes As Integer
+Dim vUltimaData As Date
+
+VerificarBloqueioPDV = True
+
+sSQL = "SELECT codigo, mes_ref, data_bloqueio FROM licenca_pagamentos WHERE pago = 0 ORDER BY data_bloqueio;"
+Set r = dbData.OpenRecordset(sSQL)
+
+If Not r.BOF Then
+   vDataBloqueioPDV = CalcularDataBloqueioPDV(r("data_bloqueio"))
+
+   If Date >= vDataBloqueioPDV Then
+      PDV.Hide
+      Load PDV_Bloqueio
+      PDV_Bloqueio.txtMesRef.Text = r("mes_ref")
+      PDV_Bloqueio.lblCodMens.Caption = r("codigo")
+      PDV_Bloqueio.Show vbModal
+      VerificarBloqueioPDV = PDV_Bloqueio.pDesbloqueado
+      Unload PDV_Bloqueio
+   Else
+      vDiasRestantes = vDataBloqueioPDV - Date
+      If vDiasRestantes = 3 Or vDiasRestantes = 2 Or vDiasRestantes = 1 Then
+         ShowMsg "Sua licença do PDV vence em " & vDiasRestantes & IIf(vDiasRestantes = 1, " dia.", " dias."), vbInformation
+      End If
+   End If
+Else
+   sSQL = "SELECT codigo, data_vencimento FROM licenca_pagamentos ORDER BY data_vencimento;"
+   Set r = dbData.OpenRecordset(sSQL)
+   If Not r.BOF Then
+      r.MoveLast
+      vUltimaData = r("data_vencimento")
+      If vUltimaData < Date Then
+         Call GerarNovaMensalidadePDV(vUltimaData)
+      End If
+   End If
+End If
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+Exit Function
+
+errHandle:
+VerificarBloqueioPDV = True
+End Function
+
+'Cria o proximo registro de mensalidade em licenca_pagamentos (mesma logica de
+'GerarNovaMensalidade em Senha.frm, Online Commerce) - chamado quando nao existe
+'nenhum registro em aberto e a ultima data_vencimento ja passou.
+Public Sub GerarNovaMensalidadePDV(ByVal UltimaDataVencimento As Date)
+Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim vCnpj As Integer
+Dim vQuantRazao As Integer
+Dim vDataInicio As Date
+Dim vDia As Integer
+Dim vMes As Integer
+Dim vMesInt As String
+Dim vAno As Integer
+Dim vMesRef As String
+Dim vUltimoDiaMes As Integer
+Dim vDataBloqueio As String
+Dim vDataVenc As String
+Dim vNumeroMes As Integer
+Dim vCodDesbloqueio As String
+Dim vCodDesbTemp As String
+Dim lNovoCod As Long
+
+sSQL = "SELECT cnpj, razao FROM empresa"
+Set r = dbData.OpenRecordset(sSQL)
+
+If Not r.BOF Then
+    vCnpj = SomarDigitosPDV(r("cnpj"))
+    vQuantRazao = Len(r("razao"))
+End If
+
+vDataInicio = Format(DateAdd("m", Val(1), UltimaDataVencimento), "dd/mm/yy")
+vMes = Format(vDataInicio, "m")
+vAno = Year(vDataInicio)
+
+vUltimoDiaMes = Day(DateSerial(vAno, vMes + 1, 0))
+vDia = vUltimoDiaMes
+
+lNovoCod = Autonumeracao_PagamentosPDV()
+
+vMesInt = Format(vDataInicio, "mmmm")
+vAno = Year(vDataInicio)
+vMesRef = vMesInt & "/" & vAno
+
+vDataBloqueio = vDia & "/" & vMes & "/" & vAno
+vDataVenc = vDia & "/" & vMes & "/" & vAno
+vDataBloqueio = Format(DateAdd("d", Val(5), vDataBloqueio), "dd/mm/yy")
+
+If vMesInt = "janeiro" Then
+    vNumeroMes = 1
+ElseIf vMesInt = "fevereiro" Then
+    vNumeroMes = 2
+ElseIf vMesInt = "março" Then
+    vNumeroMes = 3
+ElseIf vMesInt = "abril" Then
+    vNumeroMes = 4
+ElseIf vMesInt = "maio" Then
+    vNumeroMes = 5
+ElseIf vMesInt = "junho" Then
+    vNumeroMes = 6
+ElseIf vMesInt = "julho" Then
+    vNumeroMes = 7
+ElseIf vMesInt = "agosto" Then
+    vNumeroMes = 8
+ElseIf vMesInt = "setembro" Then
+    vNumeroMes = 9
+ElseIf vMesInt = "outubro" Then
+    vNumeroMes = 10
+ElseIf vMesInt = "novembro" Then
+    vNumeroMes = 11
+ElseIf vMesInt = "dezembro" Then
+    vNumeroMes = 12
+End If
+
+If vNumeroMes Mod 2 = 0 Then
+    vCodDesbloqueio = Left(vCnpj, 1) & "" & Left(vQuantRazao, 1) & "" & Len(vMesInt) & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 3, 1))
+Else
+    vCodDesbloqueio = Mid(vCnpj, 2, 1) & "" & Mid(vQuantRazao, 2, 1) & "" & Len(vMesInt) - 1 & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 2, 1))
+End If
+
+If vNumeroMes Mod 2 = 0 Then
+    vCodDesbTemp = Left(vCodDesbloqueio, 1) & "" & Left(vCodDesbloqueio, 1) & "" & vNumeroMes + 1 & "" & UCase(Mid(vMesInt, 4, 1))
+Else
+    vCodDesbTemp = Mid(vCodDesbloqueio, 2, 1) & "" & Mid(vCodDesbloqueio, 2, 1) & "" & Len(vMesInt) - 1 & "" & vNumeroMes + 1 & "" & UCase(Mid(vMesInt, 4, 1))
+End If
+
+dbData.Execute "INSERT INTO  licenca_pagamentos (codigo, dia_vencimento, mes_ref, data_vencimento, data_bloqueio, bloqueio, pago, COD_DESBLOQUEIO, COD_TEMP, Debloqueio_Temp) VALUES (" & _
+        lNovoCod & ", " & vDia & ", '" & vMesRef & "', '" & Format$(vDataVenc, "yyyy-dd-MM") & "', '" & Format$(vDataBloqueio, "yyyy-dd-MM") & "', 0, 0, '" & vCodDesbloqueio & "', '" & vCodDesbTemp & "', 0);"
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+End Sub
+
+Public Function SomarDigitosPDV(CNPJ As String) As Integer
+    Dim s As Integer
+    Dim i As Integer
+    For i = 1 To Len(CNPJ)
+      If IsNumeric(Mid(CNPJ, i, 1)) Then
+        s = s + Mid(CNPJ, i, 1)
+      End If
+    Next
+    SomarDigitosPDV = s
+End Function
+
+Private Function Autonumeracao_PagamentosPDV() As Long
+Dim sSQL As String
+Dim r As ADODB.Recordset
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS Ultimo_Pgto FROM licenca_pagamentos;"
+Set r = dbData.OpenRecordset(sSQL)
+
+If Not r.BOF Then
+    Autonumeracao_PagamentosPDV = r("Ultimo_Pgto") + 1
+Else
+    Autonumeracao_PagamentosPDV = 1
+End If
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+End Function
+
+'Verifica se esta maquina e o servidor (ip do config.ini aponta para o proprio SQL local) ou um terminal
+Public Function EhServidorLocal() As Boolean
+Dim vHost As String
+Dim vBarra As Integer
+
+   vBarra = InStr(var_IP, "\")
+   If vBarra > 0 Then
+      vHost = Left(var_IP, vBarra - 1)
+   Else
+      vHost = var_IP
+   End If
+
+   If vHost = "." Or vHost = "127.0.0.1" Or LCase(vHost) = "localhost" Or LCase(vHost) = "(local)" Then
+      EhServidorLocal = True
+   ElseIf UCase(vHost) = UCase(Environ$("COMPUTERNAME")) Then
+      EhServidorLocal = True
+   Else
+      EhServidorLocal = False
+   End If
+End Function
+
+Public Sub RegistrarTarefaExportarXMLTerminal()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+
+   Set vShell = CreateObject("WScript.Shell")
+
+   'Verifica se a tarefa agendada ja existe
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlinePDV_ExportarXML""", 0, True)
+
+   If vExitCode <> 0 Then
+      'Tarefa nao existe ainda, cria agendada para rodar todo dia as 13:00 (horario de menor movimento)
+      vComando = "schtasks /Create /TN ""OnlinePDV_ExportarXML"" /TR ""C:\Windows\SysWOW64\wscript.exe \""" & appPathApp & "ExportarXMLTerminal.vbs\"""" /SC DAILY /ST 13:00 /F"
+      vShell.Run vComando, 0, True
+   End If
+End Sub

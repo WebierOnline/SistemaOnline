@@ -10993,8 +10993,15 @@ If StatusBar1.Panels(3).Text = "" Then
    If varLoginFunc = 1 Then
       PDV.Hide
       PDV_Senha.Show vbModal
+   Else
+      If Not VerificarBloqueioPDV() Then
+         End
+      End If
+      PDV.Show
    End If
 End If
+
+If Not EhServidorLocal() Then RegistrarTarefaExportarXMLTerminal
 
 'pegar a data de venda correta do pedido
 If lblEstornar.Caption <> "ESTORNO" Then

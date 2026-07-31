@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Begin VB.Form Senha_Bloqueio 
+Begin VB.Form PDV_Bloqueio 
    BorderStyle     =   0  'None
    Caption         =   "LICENÇA EXPIRADA"
    ClientHeight    =   3195
@@ -8,7 +8,7 @@ Begin VB.Form Senha_Bloqueio
    ClientTop       =   -45
    ClientWidth     =   5475
    ForeColor       =   &H00000000&
-   Icon            =   "Senha_Bloqueio.frx":0000
+   Icon            =   "PDV_Bloqueio.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -89,7 +89,7 @@ Begin VB.Form Senha_Bloqueio
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Senha_Bloqueio.frx":23D2
+         MICON           =   "PDV_Bloqueio.frx":23D2
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -173,7 +173,7 @@ Begin VB.Form Senha_Bloqueio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Senha_Bloqueio.frx":23EE
+      MICON           =   "PDV_Bloqueio.frx":23EE
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -283,7 +283,7 @@ Begin VB.Form Senha_Bloqueio
    Begin VB.Image Image1 
       Height          =   585
       Left            =   100
-      Picture         =   "Senha_Bloqueio.frx":240A
+      Picture         =   "PDV_Bloqueio.frx":240A
       Top             =   2100
       Width           =   600
    End
@@ -315,7 +315,7 @@ Begin VB.Form Senha_Bloqueio
       Width           =   5475
    End
 End
-Attribute VB_Name = "Senha_Bloqueio"
+Attribute VB_Name = "PDV_Bloqueio"
 Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
@@ -324,6 +324,7 @@ Option Explicit
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim vSenhaTemp As String
+Public pDesbloqueado As Boolean
 
 Private Sub chameleonButton1_Click()
 End
@@ -337,9 +338,9 @@ If Not r.BOF Then
     'If txtSenhaDesbloq.Text <> "" And txtSenhaDesbloqTemp = "" Then
         If txtSenhaDesbloq.Text = r("COD_DESBLOQUEIO") Then
             dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 0, pago = 1, data_liberacao = '" & Format$(Date, "yyyy-dd-MM") & "' WHERE (codigo = " & lblCodMens.Caption & ");"
-            MsgBox "MÊS REFERENTE FOI DESBLOQUEADO" & vbCrLf & "Tente novamente fazer o login no sistema", vbInformation
+            MsgBox "MÊS REFERENTE FOI DESBLOQUEADO" & vbCrLf & "O sistema vai continuar normalmente.", vbInformation
+            pDesbloqueado = True
             Unload Me
-            Senha.Show 1
         Else
              MsgBox "Código de desbloqueio errado" & vbCrLf & "Entre em contato com o administador do sistema", vbInformation
              Exit Sub
@@ -397,9 +398,9 @@ Set r = dbData.OpenRecordset(sSQL)
         If vSenhaTemp = r("COD_TEMP") Then
             If r("Debloqueio_Temp") = 0 Then
                 dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 0, Debloqueio_Temp = 1, data_bloqueio = '" & Format$(Date + 1, "yyyy-dd-MM") & "' WHERE (codigo = " & lblCodMens.Caption & ");"
-                MsgBox "VOCÊ USOU UM CÓD. TEMPORÁRIO" & vbCrLf & "Você ganhou mais 1 dia de desbloqueio!", vbInformation
+                MsgBox "VOCÊ USOU UM CÓD. TEMPORÁRIO" & vbCrLf & "Você ganhou mais 1 dia de desbloqueio! O sistema vai continuar normalmente.", vbInformation
+                pDesbloqueado = True
                 Unload Me
-                Senha.Show 1
             Else
                 MsgBox "Você já usou esse cód. de desbloqueio." & vbCrLf & "Entre em contato com o administador do sistema", vbInformation
                 Exit Sub

@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "09:20"
+            TextSave        =   "16:01"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1545,6 +1545,7 @@ End If
 
 If EhServidorLocal() Then
    RegistrarTarefaBackupNuvem
+   RegistrarTarefaExportarXMLServidor
 End If
 
 End Sub
@@ -1979,7 +1980,7 @@ Contador_Cadastro.Show 1
 End Sub
 
 Private Sub Menu_SIS_ExportarXML_Click()
-'Exportar_XML.Show 1    'procurar depois pq sumiu
+Exportar_XML.Show 1
 End Sub
 
 Private Sub Menu_Sistema_Backup_Click()
@@ -2265,26 +2266,6 @@ Dim IniciouProcesso As Boolean
    End If
 End Sub
 
-Private Function EhServidorLocal() As Boolean
-Dim vHost As String
-Dim vBarra As Integer
-
-   vBarra = InStr(var_IP, "\")
-   If vBarra > 0 Then
-      vHost = Left(var_IP, vBarra - 1)
-   Else
-      vHost = var_IP
-   End If
-
-   If vHost = "." Or LCase(vHost) = "localhost" Or LCase(vHost) = "(local)" Then
-      EhServidorLocal = True
-   ElseIf UCase(vHost) = UCase(Environ$("COMPUTERNAME")) Then
-      EhServidorLocal = True
-   Else
-      EhServidorLocal = False
-   End If
-End Function
-
 Private Sub RegistrarTarefaBackupNuvem()
 On Error Resume Next
 Dim vShell As Object
@@ -2299,6 +2280,24 @@ Dim vComando As String
    If vExitCode <> 0 Then
       'Tarefa nao existe ainda, cria agendada para rodar todo dia as 13:00 (horario de menor movimento)
       vComando = "schtasks /Create /TN ""OnlineCommerce_BackupNuvem"" /TR ""C:\Windows\SysWOW64\wscript.exe \""" & appPathApp & "BackupNuvem.vbs\"""" /SC DAILY /ST 13:00 /F"
+      vShell.Run vComando, 0, True
+   End If
+End Sub
+
+Private Sub RegistrarTarefaExportarXMLServidor()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+
+   Set vShell = CreateObject("WScript.Shell")
+
+   'Verifica se a tarefa agendada ja existe
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_ExportarXMLServidor""", 0, True)
+
+   If vExitCode <> 0 Then
+      'Tarefa nao existe ainda, cria agendada para rodar todo dia as 13:00 (horario de menor movimento)
+      vComando = "schtasks /Create /TN ""OnlineCommerce_ExportarXMLServidor"" /TR ""C:\Windows\SysWOW64\wscript.exe \""" & appPathApp & "ExportarXMLServidor.vbs\"""" /SC DAILY /ST 13:00 /F"
       vShell.Run vComando, 0, True
    End If
 End Sub

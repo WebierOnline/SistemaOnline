@@ -30,11 +30,12 @@ Begin VB.Form NFe_Completa
       _ExtentX        =   29448
       _ExtentY        =   15266
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   520
       TabMaxWidth     =   5292
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "NFe_Completa.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdSalvar"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdNovo"
@@ -52,7 +53,7 @@ Begin VB.Form NFe_Completa
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "cmdEnviarXML"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdEspelho"
@@ -91,20 +92,20 @@ Begin VB.Form NFe_Completa
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "picAguarde2"
-      Tab(2).Control(1)=   "frmFiltrosPedidos"
-      Tab(2).Control(2)=   "GridPedidos"
-      Tab(2).Control(3)=   "cmdConverterNFe"
-      Tab(2).Control(4)=   "lblCodFabrica(9)"
-      Tab(2).Control(5)=   "ImgMarcadaTODAS"
-      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
-      Tab(2).Control(7)=   "imgDesmarcada"
-      Tab(2).Control(8)=   "ImgMarcada"
-      Tab(2).Control(9)=   "lblQuantPedidos"
+      Tab(2).Control(0)=   "lblQuantPedidos"
+      Tab(2).Control(1)=   "ImgMarcada"
+      Tab(2).Control(2)=   "imgDesmarcada"
+      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(4)=   "ImgMarcadaTODAS"
+      Tab(2).Control(5)=   "lblCodFabrica(9)"
+      Tab(2).Control(6)=   "cmdConverterNFe"
+      Tab(2).Control(7)=   "GridPedidos"
+      Tab(2).Control(8)=   "frmFiltrosPedidos"
+      Tab(2).Control(9)=   "picAguarde2"
       Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   48
          Top             =   1740
          Width           =   1815
@@ -158,7 +159,7 @@ Begin VB.Form NFe_Completa
       End
       Begin VB.TextBox txtCodObservacao 
          Height          =   315
-         Left            =   -66120
+         Left            =   8880
          MaxLength       =   50
          TabIndex        =   217
          TabStop         =   0   'False
@@ -179,7 +180,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3975
-         Left            =   -73620
+         Left            =   1380
          TabIndex        =   206
          Top             =   1380
          Visible         =   0   'False
@@ -411,7 +412,7 @@ Begin VB.Form NFe_Completa
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1095
-         Left            =   -68100
+         Left            =   6900
          Picture         =   "NFe_Completa.frx":2EC6
          ScaleHeight     =   1095
          ScaleWidth      =   2895
@@ -422,7 +423,7 @@ Begin VB.Form NFe_Completa
       End
       Begin MSComctlLib.ListView lvwTotais 
          Height          =   1155
-         Left            =   -61920
+         Left            =   13080
          TabIndex        =   191
          Top             =   6360
          Width           =   3435
@@ -704,7 +705,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   137
          Top             =   7440
          Width           =   16455
@@ -1003,7 +1004,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   136
          Top             =   1260
          Width           =   14535
@@ -1333,7 +1334,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   69
          Top             =   360
          Width           =   14535
@@ -1464,7 +1465,7 @@ Begin VB.Form NFe_Completa
       End
       Begin TabDlg.SSTab Tab_Totais 
          Height          =   1095
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   72
          Top             =   7380
          Width           =   16455
@@ -1896,7 +1897,7 @@ Begin VB.Form NFe_Completa
       End
       Begin TabDlg.SSTab Tab_Produtos 
          Height          =   4995
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   84
          Top             =   2340
          Width           =   16485
@@ -1917,19 +1918,19 @@ Begin VB.Form NFe_Completa
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "cboModFrete"
+         Tab(1).Control(0)=   "Label71"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(2)=   "Label71"
+         Tab(1).Control(2)=   "cboModFrete"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "cboFormaPgto"
-         Tab(2).Control(1)=   "frmDuplicata"
-         Tab(2).Control(2)=   "frmFatura"
-         Tab(2).Control(3)=   "cboIndicadorPagamento"
-         Tab(2).Control(4)=   "Label67"
-         Tab(2).Control(5)=   "Label15"
+         Tab(2).Control(0)=   "Label15"
+         Tab(2).Control(1)=   "Label67"
+         Tab(2).Control(2)=   "cboIndicadorPagamento"
+         Tab(2).Control(3)=   "frmFatura"
+         Tab(2).Control(4)=   "frmDuplicata"
+         Tab(2).Control(5)=   "cboFormaPgto"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":20F4A
@@ -1948,8 +1949,8 @@ Begin VB.Form NFe_Completa
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboTipoEmissao"
-         Tab(4).Control(1)=   "cboFormatoDANFe"
+         Tab(4).Control(0)=   "cboFormatoDANFe"
+         Tab(4).Control(1)=   "cboTipoEmissao"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
          TabPicture(5)   =   "NFe_Completa.frx":20F82
@@ -3021,10 +3022,10 @@ Begin VB.Form NFe_Completa
             TabCaption(0)   =   "Transportadora"
             TabPicture(0)   =   "NFe_Completa.frx":25778
             Tab(0).ControlEnabled=   0   'False
-            Tab(0).Control(0)=   "cboTransporte"
-            Tab(0).Control(1)=   "Frame6"
-            Tab(0).Control(2)=   "txtCodTransporte"
-            Tab(0).Control(3)=   "Label7"
+            Tab(0).Control(0)=   "Label7"
+            Tab(0).Control(1)=   "txtCodTransporte"
+            Tab(0).Control(2)=   "Frame6"
+            Tab(0).Control(3)=   "cboTransporte"
             Tab(0).ControlCount=   4
             TabCaption(1)   =   "Volumes"
             TabPicture(1)   =   "NFe_Completa.frx":25794
@@ -3427,7 +3428,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   0
          Top             =   420
          Width           =   1815
@@ -3466,7 +3467,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   47
          Top             =   1080
          Width           =   1815
@@ -3505,7 +3506,7 @@ Begin VB.Form NFe_Completa
       End
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   5940
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   150
          Top             =   420
          Width           =   16395
@@ -3531,7 +3532,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
          Height          =   315
-         Left            =   -65400
+         Left            =   9600
          TabIndex        =   182
          Top             =   6420
          Width           =   1155
@@ -3569,7 +3570,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   315
-         Left            =   -69300
+         Left            =   5700
          TabIndex        =   184
          Top             =   6420
          Width           =   855
@@ -3607,7 +3608,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdTransmitir 
          Height          =   315
-         Left            =   -73800
+         Left            =   1200
          TabIndex        =   185
          Top             =   6420
          Width           =   1035
@@ -3645,7 +3646,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
          Height          =   315
-         Left            =   -72720
+         Left            =   2280
          TabIndex        =   186
          Top             =   6420
          Width           =   1155
@@ -3683,7 +3684,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdConsultar 
          Height          =   315
-         Left            =   -71520
+         Left            =   3480
          TabIndex        =   187
          Top             =   6420
          Width           =   975
@@ -3721,7 +3722,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdDuplicar 
          Height          =   315
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   188
          Top             =   6420
          Width           =   915
@@ -3759,7 +3760,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdInutilizar 
          Height          =   315
-         Left            =   -70500
+         Left            =   4500
          TabIndex        =   189
          Top             =   6420
          Width           =   1155
@@ -3797,7 +3798,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCartaCorrecao 
          Height          =   315
-         Left            =   -66600
+         Left            =   8400
          TabIndex        =   190
          Top             =   6420
          Width           =   1155
@@ -3835,7 +3836,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   204
          Top             =   6420
          Width           =   1035
@@ -3873,7 +3874,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEspelho 
          Height          =   315
-         Left            =   -67440
+         Left            =   7560
          TabIndex        =   216
          Top             =   6420
          Width           =   795
@@ -3950,7 +3951,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEnviarXML 
          Height          =   315
-         Left            =   -64200
+         Left            =   10800
          TabIndex        =   223
          Top             =   6420
          Width           =   1095
@@ -4166,7 +4167,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "07:41"
+            TextSave        =   "11:37"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -5055,9 +5056,9 @@ chkDadosBancarios.Value = 0
 End Sub
 
 Private Sub LimparObjetosDestinatario()
-TxtCodCliente.Text = ""
+txtCodCliente.Text = ""
 cboTipoDest.Text = ""
-CboCliente.Text = ""
+cboCliente.Text = ""
 cboTipoContribuinte.Text = ""
 cboConsumidorFinal.Text = ""
 'txtAliqUFDest.Text = ""
@@ -6015,7 +6016,7 @@ If Not r.BOF Then Mostrar_Pedido r
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-If TxtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": TxtCodCliente.SetFocus: Exit Sub
+If txtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": txtCodCliente.SetFocus: Exit Sub
 If cboModFrete.Text = "" Then MsgBox "o campo Modalidade do frete é obrigatório.", vbCritical, "Online Commerce": cboModFrete.SetFocus: Exit Sub
 If cboDestOperacao.Text = "" Then MsgBox "O campo código CFOP é obrigatório.", vbCritical, "Online Commerce": cboDestOperacao.SetFocus: Exit Sub
 'If txtCodObservacao.Text = "" Then MsgBox "O campo mensagem é obrigatório.", vbCritical, "Online Commerce": txtCodObservacao.SetFocus: Exit Sub
@@ -6077,8 +6078,8 @@ Private Sub LerDadosInserir()
     TbNotas("NumeroNota") = Format(txtNumNota, "@")
     TbNotas("cCodigoNota") = IIf(TbNotas("cCodigoNota") = 0, GeraCodigoNota, TbNotas("cCodigoNota"))
 
-    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(TxtCodCliente, "@")) Or Vazio(Format(TxtCodCliente, "@")), 0, Format(TxtCodCliente, "@"))
-    TbNotas("RazaoSocial") = Format(CboCliente, "@")
+    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(txtCodCliente, "@")) Or Vazio(Format(txtCodCliente, "@")), 0, Format(txtCodCliente, "@"))
+    TbNotas("RazaoSocial") = Format(cboCliente, "@")
     TbNotas("IndicadorFormaPagamento") = Format(cboIndicadorPagamento.Text, "@")
     TbNotas("FormatoImpressaoDANFE") = Format(cboFormatoDANFe.Text, "@")
     TbNotas("FormatoEmissaoNFe") = Format(cboTipoEmissao.Text, "@")
@@ -6701,8 +6702,8 @@ On Error GoTo erro
     TbNotas("FormaPagamento") = IIf(IsNull(Format(cboFormaPgto, "@")) Or Vazio(Format(cboFormaPgto, "@")), "01 = Dinheiro", Format(cboFormaPgto, "@"))
     'TbNotas("FormaPagamento") = Format(cboFormaPgto.Text, "@")
     
-    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(TxtCodCliente, "@")) Or Vazio(Format(TxtCodCliente, "@")), 0, Format(TxtCodCliente, "@"))
-    TbNotas("RazaoSocial") = Format(CboCliente, "@")
+    TbNotas("CodigoCorrentista") = IIf(IsNull(Format(txtCodCliente, "@")) Or Vazio(Format(txtCodCliente, "@")), 0, Format(txtCodCliente, "@"))
+    TbNotas("RazaoSocial") = Format(cboCliente, "@")
     
     'cboFormaPgto
     TbNotas("FormatoImpressaoDANFE") = Format(cboFormatoDANFe.Text, "@")
@@ -6795,8 +6796,8 @@ End Sub
 Public Sub Load_Controls()
 'On Error GoTo erro
     cboTipoDest = Format(TbNotas("TipoCliente"), "@")
-    TxtCodCliente = Format(TbNotas("CodigoCorrentista"), "@")
-    CboCliente = Format(TbNotas("RazaoSocial"), "@")
+    txtCodCliente = Format(TbNotas("CodigoCorrentista"), "@")
+    cboCliente = Format(TbNotas("RazaoSocial"), "@")
     
     If TbNotas("CodigoNatureza") = 1 Then
         cboDestOperacao.Text = "1 - Operação Interna"
@@ -8622,7 +8623,7 @@ Dim vTotal As Double
 If txtCodNota.Text = "" Then Exit Sub
 If txtCodProduto.Text = "" Then Exit Sub
 If txtSubTotal.Text = "" Then Exit Sub
-If TxtCodCliente.Text = "" Then MsgBox "Selecione um cliente/fornecedor antes de adicionar itens.", vbExclamation, "Online Commerce": Exit Sub
+If txtCodCliente.Text = "" Then MsgBox "Selecione um cliente/fornecedor antes de adicionar itens.", vbExclamation, "Online Commerce": Exit Sub
 VerificarDestinatarioEnviar
 If vPossuiErro Then Exit Sub
 If Len(vNCM) < 8 Then ShowMsg "NCM INCORRETO!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbExclamation
@@ -8849,12 +8850,12 @@ vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
                  "FROM NotaFiscal WHERE CodigoNota = " & Val(vCodNota)
  iRetorno = CancelaNFe(TbNotas("ChavedeAcesso"), TbNotas("NumeroProtocolo"), Justificativa, True)
  If iRetorno Then
-    SQL = "UPDATE NotaFiscal SET " & _
+    sql = "UPDATE NotaFiscal SET " & _
           "Cancelada = 1, " & _
           "CanceladaProtocolo = " & NFeNumeroProtocolo & ", " & _
           "Justificativa = '" & Justificativa & "' " & _
           "WHERE CodigoNota = " & Val(vCodNota)
-    vgDb.Execute SQL
+    vgDb.Execute sql
     vgDb.Execute "UPDATE NotaFiscal SET Cod_Pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
     vgDb.Execute "UPDATE NotaFiscalItens SET Cod_Pedido = 0, Item_pedido = 0 WHERE CodigoNota = " & Val(vCodNota)
     'RsOpen TbNotas, "SELECT CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota,  " & _
@@ -8871,17 +8872,17 @@ Dim r As ADODB.Recordset
 Dim itemAtual As String
 Dim codAtual As String
 
-itemAtual = CboCliente.Text
-codAtual = TxtCodCliente.Text
-CboCliente.Clear
+itemAtual = cboCliente.Text
+codAtual = txtCodCliente.Text
+cboCliente.Clear
 
 If cboTipoDest.Text = "FORNECEDOR" Then
     sSQL = "SELECT DISTINCT RAZAO, codigo FROM FORNECEDOR ORDER BY razao;"
     Set r = dbData.OpenRecordset(sSQL)
     
     Do While Not r.EOF
-       CboCliente.AddItem r("RAZAO")
-       CboCliente.ItemData(CboCliente.NewIndex) = r("codigo")
+       cboCliente.AddItem r("RAZAO")
+       cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
        r.MoveNext
     Loop
 Else
@@ -8889,8 +8890,8 @@ Else
     Set r = dbData.OpenRecordset(sSQL)
     
     Do While Not r.EOF
-       CboCliente.AddItem r("nome")
-       CboCliente.ItemData(CboCliente.NewIndex) = r("codigo")
+       cboCliente.AddItem r("nome")
+       cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
        r.MoveNext
     Loop
 End If
@@ -8898,21 +8899,21 @@ End If
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-CboCliente.Text = itemAtual
-TxtCodCliente.Text = codAtual
-SelectControl CboCliente
-moCombo.AttachTo CboCliente
+cboCliente.Text = itemAtual
+txtCodCliente.Text = codAtual
+SelectControl cboCliente
+moCombo.AttachTo cboCliente
 End Sub
 Private Sub CboCliente_LostFocus()
 On Error GoTo TrataErro
 
-If CboCliente.Text = "" Then TxtCodCliente.Text = "": Exit Sub
+If cboCliente.Text = "" Then txtCodCliente.Text = "": Exit Sub
 
 'If cmdAlterar.Enabled = False Then
-If CboCliente.ListIndex = -1 Then TxtCodCliente.Text = "": Exit Sub
+If cboCliente.ListIndex = -1 Then txtCodCliente.Text = "": Exit Sub
 'End If
 
-TxtCodCliente = CboCliente.ItemData(CboCliente.ListIndex)
+txtCodCliente = cboCliente.ItemData(cboCliente.ListIndex)
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
@@ -9087,11 +9088,11 @@ Set r = dbData.OpenRecordset(sSQL)
      ' IBS: aliquotas da cidade do destinatario
      vIBSUFpAliq = "0,00"
      vIBSMunpAliq = "0,00"
-     If Val(TxtCodCliente.Text) > 0 Then
+     If Val(txtCodCliente.Text) > 0 Then
         Dim rCli As ADODB.Recordset
         Dim lCodIBGE As Long
         lCodIBGE = 0
-        RsOpen rCli, "SELECT CodigoIBGE FROM cliente WHERE CODIGO = " & Val(TxtCodCliente.Text)
+        RsOpen rCli, "SELECT CodigoIBGE FROM cliente WHERE CODIGO = " & Val(txtCodCliente.Text)
         If Not rCli.BOF Then lCodIBGE = CLng(ValidateNull(rCli("CodigoIBGE")))
         If rCli.State <> 0 Then rCli.Close
         Set rCli = Nothing
@@ -9611,33 +9612,33 @@ End If
 ''Load_Controls
 ''FormatarGridNotas TbNotas
 If cStat = 100 Or cStat = 150 Then
-      SQL = "UPDATE NotaFiscal SET " & _
+      sql = "UPDATE NotaFiscal SET " & _
             "Enviada = 1, " & _
             "EmProcessamento = 0, " & _
             "NumeroProtocolo = " & NFeNumeroProtocolo & ", " & _
             "DataHoraProcotolo = '" & NFeDataHora & "' " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute SQL
+      vgDb.Execute sql
       'SQL = "INSERT INTO NotaFiscalRecibos (CodigoNota, NumeroProtocolo, DataHora) Values " & _
       '      "(" & Val(txtCodNota.Text) & ", " & NFeNumeroProtocolo & ", '" & NFeDataHora & "')"
       'vgDb.Execute SQL
    ElseIf cStat = 101 Then
-      SQL = "UPDATE NotaFiscal SET " & _
+      sql = "UPDATE NotaFiscal SET " & _
             "Cancelada = 1, " & _
             "CanceladaProtocolo = " & NFeNumeroProtocolo & " " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute SQL
+      vgDb.Execute sql
    ElseIf cStat = 110 Then
-      SQL = "UPDATE NotaFiscal SET " & _
+      sql = "UPDATE NotaFiscal SET " & _
             "Denegada = 1, " & _
             "NumeroProtocolo = " & NFeNumeroProtocolo & " " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute SQL
+      vgDb.Execute sql
    Else
-      SQL = "UPDATE NotaFiscal SET " & _
+      sql = "UPDATE NotaFiscal SET " & _
             "Enviada = 0 " & _
             "WHERE CodigoNota = " & Val(vCodNota)
-      vgDb.Execute SQL
+      vgDb.Execute sql
    End If
    
    If Not Vazio(NFeChaveAcesso) Then
@@ -9656,12 +9657,12 @@ ShellExecute hwnd, "open", "http://www.buscacest.com.br/?utf8=" + Chr(95) + "&nc
 End Sub
 
 Private Sub cmdConsultarCliente_Click()
-If TxtCodCliente.Text = "" Then MsgBox "Escolha um cliente!", vbInformation, "Aviso do Sistema": Exit Sub
+If txtCodCliente.Text = "" Then MsgBox "Escolha um cliente!", vbInformation, "Aviso do Sistema": Exit Sub
 Dim varCodCliente As String
-varCodCliente = TxtCodCliente.Text
+varCodCliente = txtCodCliente.Text
 
 If cboTipoDest.Text = "CLIENTE" Then
-    If ShowMsg("Deseja atualizar o cliente " & CboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
+    If ShowMsg("Deseja atualizar o cliente " & cboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Clientes_Cadastro
         Clientes_Cadastro.SSTab1.Tab = 0
         Clientes_Cadastro.cmdNovo.Enabled = False
@@ -9671,7 +9672,7 @@ If cboTipoDest.Text = "CLIENTE" Then
         Clientes_Cadastro.Show 1
     End If
 ElseIf cboTipoDest.Text = "FORNECEDOR" Then
-    If ShowMsg("Deseja atualizar o fornecedor " & CboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
+    If ShowMsg("Deseja atualizar o fornecedor " & cboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Fornecedor_Cadastro
         Fornecedor_Cadastro.SSTab1.Tab = 0
         Fornecedor_Cadastro.cmdNovo.Enabled = False
@@ -10852,11 +10853,11 @@ Private Sub cmdSalvar_Click()
 flag = False
 
 'On Error GoTo Err_Grava
-If TxtCodCliente.Text = "1" Then MsgBox "NÃO É PERMITIDO FAZER NFE PARA ESSE CLIENTE." & Chr(13) & "Selecione outro cliente!", vbInformation, "Aviso do Sistema": CboCliente.SetFocus: Exit Sub
+If txtCodCliente.Text = "1" Then MsgBox "NÃO É PERMITIDO FAZER NFE PARA ESSE CLIENTE." & Chr(13) & "Selecione outro cliente!", vbInformation, "Aviso do Sistema": cboCliente.SetFocus: Exit Sub
 If mskHora.Text = "" Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskHora.SetFocus: Exit Sub
 If Not IsDate(mskEmissao) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskEmissao.SetFocus: Exit Sub
 If Not IsDate(mskSaida) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskSaida.SetFocus: Exit Sub
-If TxtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": CboCliente.SetFocus: Exit Sub
+If txtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": cboCliente.SetFocus: Exit Sub
 If cboModFrete.Text = "" Then MsgBox "o campo Modalidade do frete é obrigatório.", vbCritical, "Online Commerce": cboModFrete.SetFocus: Exit Sub
 If cboDestOperacao.Text = "" Then MsgBox "O campo Destino é obrigatório.", vbCritical, "Online Commerce": cboDestOperacao.SetFocus: Exit Sub
 'If txtCodObservacao.Text = "" Then MsgBox "O campo mensagem é obrigatório.", vbCritical, "Online Commerce": txtCodObservacao.SetFocus: Exit Sub
@@ -10998,10 +10999,10 @@ If vPossuiErro = False Then
     picAguarde.Visible = True
     iRetorno = TransmitirNFe(Val(vCodNota), Val(vSerieNota), True)
     If iRetorno Then
-       SQL = "UPDATE NotaFiscal SET " & _
+       sql = "UPDATE NotaFiscal SET " & _
              "Enviada = 1 " & _
              "WHERE CodigoNota = " & Val(vCodNota)
-       vgDb.Execute SQL
+       vgDb.Execute sql
        'RsOpen TbNotas, "SELECT *,  " & _
                        "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitação' END) END) END) AS Status " & _
                        "FROM NotaFiscal WHERE CodigoNota = " & Val(vCodNota)
@@ -11375,7 +11376,7 @@ Private Sub TxtCodCliente_Change()
 Dim TbClientes As New ADODB.Recordset
 Dim TbEmpresa As New ADODB.Recordset
 
-If TxtCodCliente.Text = "" Then
+If txtCodCliente.Text = "" Then
     'txtCliEndereco.Text = ""
     'txtCliNum.Text = ""
     'txtCliBairro.Text = ""
@@ -11387,9 +11388,9 @@ If TxtCodCliente.Text = "" Then
     'Exit Sub
 Else
     If cboTipoDest.Text = "FORNECEDOR" Then
-        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM fornecedor WHERE codigo = " & Val(TxtCodCliente.Text)
+        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM fornecedor WHERE codigo = " & Val(txtCodCliente.Text)
     Else
-        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM cliente WHERE codigo = " & Val(TxtCodCliente.Text)
+        RsOpen TbClientes, "SELECT codigo, TipoContribuinte, estado FROM cliente WHERE codigo = " & Val(txtCodCliente.Text)
     End If
     
     
@@ -12283,8 +12284,8 @@ Dim totalRegistros As Long
         txtSerie.Text = TbNotaPedido("SerieNF")
     End If
 
-    TxtCodCliente = Format(rTabela("COD_CLIENTE"), "@")
-    CboCliente = Format(rTabela("varnome"), "@")
+    txtCodCliente = Format(rTabela("COD_CLIENTE"), "@")
+    cboCliente = Format(rTabela("varnome"), "@")
 
     cboDestOperacao.Text = "1 - Operação Interna"
     'txtInfAdicionais = Format(rTabela("InformacoesAdicionais"), "@")
@@ -12714,15 +12715,15 @@ Private Sub txtCodCliente_KeyDown(KeyCode As Integer, Shift As Integer)
 Dim TbClientes As New ADODB.Recordset
 On Error GoTo erro
 If KeyCode = 13 Then
-    If TxtCodCliente.Text = "" Then
-        TxtCodCliente.SetFocus
+    If txtCodCliente.Text = "" Then
+        txtCodCliente.SetFocus
         Exit Sub
     End If
-    RsOpen TbClientes, "SELECT * FROM cliente WHERE codigo = " & Val(TxtCodCliente.Text)
+    RsOpen TbClientes, "SELECT * FROM cliente WHERE codigo = " & Val(txtCodCliente.Text)
     If TbClientes.EOF And TbClientes.BOF Then
         MsgBox "Código do cliente não foi localizado no sistema. Verifique.", vbCritical, "Online Commerce": Exit Sub
     Else
-        CboCliente.Text = TbClientes("nome")
+        cboCliente.Text = TbClientes("nome")
         txtCliEndereco.Text = TbClientes("nome")
         txtCliNum.Text = TbClientes("nome")
         txtCliBairro.Text = TbClientes("nome")
@@ -12731,7 +12732,7 @@ If KeyCode = 13 Then
         txtCliCPF.Text = TbClientes("nome")
         txtCliIE.Text = TbClientes("nome")
         
-        CboCliente.SetFocus
+        cboCliente.SetFocus
     End If
 End If
 Exit Sub

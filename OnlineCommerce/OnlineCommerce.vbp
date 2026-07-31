@@ -171,6 +171,7 @@ Form=..\Compartilhado\Forms\Caixa_Controle_Resumo.frm
 Module=NFe_DLL; ..\Compartilhado\Modulos\modNFe.bas
 Form=Forms\frmDIFAL_Cadastro.frm
 Form=Forms\Vendas_Consulta.frm
+Form=Forms\Exportar_XML2.frm
 IconForm="Tela_Principal"
 Startup="Sub Main"
 HelpFile=""

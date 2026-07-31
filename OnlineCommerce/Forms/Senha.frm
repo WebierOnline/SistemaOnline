@@ -343,6 +343,12 @@ If oCfg.Value = "NOME" Then
                 vCodMensalidade = r("codigo")
                 If Date >= r("data_bloqueio") Then
                     dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 1 WHERE (codigo = " & vCodMensalidade & ");"
+                    Unload Me
+                    Load Senha_Bloqueio
+                    Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
+                    Senha_Bloqueio.lblCodMens.Caption = vCodMensalidade
+                    Senha_Bloqueio.Show 1
+                    Exit Sub
                 End If
                 'Exit Sub
             Else
@@ -352,6 +358,7 @@ If oCfg.Value = "NOME" Then
                 Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
                 Senha_Bloqueio.lblCodMens.Caption = r("codigo")
                 Senha_Bloqueio.Show 1
+                Exit Sub
             End If
         Else
         
@@ -414,6 +421,12 @@ Else
                         vCodMensalidade = r("codigo")
                         If Date >= r("data_bloqueio") Then
                             dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 1 WHERE (codigo = " & vCodMensalidade & ");"
+                            Unload Me
+                            Load Senha_Bloqueio
+                            Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
+                            Senha_Bloqueio.lblCodMens.Caption = vCodMensalidade
+                            Senha_Bloqueio.Show 1
+                            Exit Sub
                         End If
                         'Exit Sub
                     Else
@@ -422,6 +435,7 @@ Else
                         Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
                         Senha_Bloqueio.lblCodMens.Caption = r("codigo")
                         Senha_Bloqueio.Show 1
+                        Exit Sub
                     End If
                 Else
                 

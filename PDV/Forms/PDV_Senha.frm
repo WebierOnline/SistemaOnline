@@ -170,6 +170,7 @@ If oCfg.Value = "NOME" Then
       If txtSenha = r("password") Then
          Tag = 0
          PDV_Senha.Hide
+         If Not VerificarBloqueioPDV() Then Exit Sub
          vCodFunc = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
          PDV.txtCodFuncAP.Text = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
          PDV.txtCodFunc.Text = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
@@ -206,6 +207,7 @@ Else
       If txtSenha = r("password") Then
          Tag = 0
          PDV_Senha.Hide
+         If Not VerificarBloqueioPDV() Then Exit Sub
          vCodFunc = r("codigo")
          PDV.txtCodFuncAP.Text = r("codigo")
          PDV.StatusBar1.Panels(3).Text = r("login")

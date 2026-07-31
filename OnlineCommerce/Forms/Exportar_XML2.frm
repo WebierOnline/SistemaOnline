@@ -359,6 +359,8 @@ Private Type BrowseInfo
   iImage As Long
 End Type
 
+Private Const MAX_PATH As Long = 260
+
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim rCont As ADODB.Recordset
@@ -392,10 +394,12 @@ moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cmdCompactar_Click()
+On Error GoTo TrataErro
 Dim FileZipName As String, PathToCompress As String, DestPath As String, FullPathZip As String
-Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
+Dim emailDestino As String, i As Integer, ComandoSQL As String
 Dim rsEntradas As New ADODB.Recordset, rsNFe As New ADODB.Recordset, rsNFCe As New ADODB.Recordset
 Dim xDiretorioDestino As String, xArquivoDestino As String
+Dim vTentativas As Long
 
 If cboMes.Text <> "" Then vMes = cboMes.Text Else: MsgBox "Escolha um mês!", vbInformation, "Aviso do Sistema": cboMes.SetFocus: Exit Sub
 If cboAno.Text <> "" Then vAno = cboAno.Text Else: MsgBox "Escolha um ano!", vbInformation, "Aviso do Sistema": cboAno.SetFocus: Exit Sub
@@ -447,11 +451,19 @@ If IniciaComponenteCompactacao Then
    DestPath = diretorioDestino
    
    'nome do arquivo
-   NomeEmp = vRazao
-   NomeEmp = RemoveAcento(NomeEmp)
-   NomeEmp = Substitui(NomeEmp, ".,/", "", UM_A_UM)
-   NomeEmp = Substitui(NomeEmp, " ", "_", UM_A_UM)
-   FileZipName = NomeEmp & "_" & vMes & vAno & ".rar"
+   Dim vCnpjLimpo As String
+   Dim vNomeMaquina As String
+   Dim oIniMaquina As Ini
+   vCnpjLimpo = Retira(vCnpj, ".-/ ", UM_A_UM)
+   If EhServidorLocal() Then
+      vNomeMaquina = "SERVIDOR"
+   Else
+      Set oIniMaquina = New Ini
+      oIniMaquina.Arquivo = appPathApp & "config.ini"
+      vNomeMaquina = oIniMaquina.LerTexto("DADOS_MAQUINA", "maquina")
+      Set oIniMaquina = Nothing
+   End If
+   FileZipName = vCnpjLimpo & "_" & vMes & vAno & "_" & vNomeMaquina & ".rar"
    
    'local de destino + ficheiro.rar
    diretorioDestino = vCaminhoXML & "\ExportarXML"
@@ -468,10 +480,10 @@ If IniciaComponenteCompactacao Then
    If chkIncluirPDF.Value = 1 Then
       ComandoSQL = "SELECT ChavedeAcesso " & _
                    "FROM NotaFiscal " & _
-                   "WHERE MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
+                   "WHERE Cancelada = 0 AND MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
       Set rsNFe = dbData.OpenRecordset(ComandoSQL)
       Do While Not rsNFe.EOF
-          xCaminhoXML = vCaminhoXML & "nfe\arquivos\PDF\NFe" & rsNFe!ChavedeAcesso & ".pdf"
+          xCaminhoXML = vCaminhoXML & "\nfe\arquivos\PDF\NFe" & rsNFe!ChavedeAcesso & ".pdf"
           xDiretorioDestino = DiretorioOrigem & IIf(Right(DiretorioOrigem, 1) = "\", "", "\") & "PDF\"
           If Not Existe(xDiretorioDestino) Then MkDir xDiretorioDestino
           xArquivoDestino = xDiretorioDestino & rsNFe!ChavedeAcesso & ".pdf"
@@ -481,10 +493,10 @@ If IniciaComponenteCompactacao Then
       DoEvents
       ComandoSQL = "SELECT NFCeChaveAcesso " & _
                    "FROM TbNFCe " & _
-                   "WHERE MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
+                   "WHERE NFCeCancelada = 0 AND Inutilizada = 0 AND MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
       Set rsNFCe = dbData.OpenRecordset(ComandoSQL)
       Do While Not rsNFCe.EOF
-          xCaminhoXML = vCaminhoXML & "nfe\arquivos\PDF\NFe" & rsNFCe!NFCeChaveAcesso & ".pdf"
+          xCaminhoXML = vCaminhoXML & "\nfe\arquivos\PDF\NFe" & rsNFCe!NFCeChaveAcesso & ".pdf"
           xDiretorioDestino = DiretorioOrigem & IIf(Right(DiretorioOrigem, 1) = "\", "", "\") & "PDF\"
           If Not Existe(xDiretorioDestino) Then MkDir xDiretorioDestino
           xArquivoDestino = xDiretorioDestino & rsNFCe!NFCeChaveAcesso & ".pdf"
@@ -499,7 +511,7 @@ If IniciaComponenteCompactacao Then
                    "WHERE MONTH(DataEmissao) = " & vMesNum & " AND YEAR(DataEmissao) = " & vAno
        Set rsEntradas = dbData.OpenRecordset(ComandoSQL)
        Do While Not rsEntradas.EOF
-          xCaminhoXML = vCaminhoXML & "nfe\arquivos\ConfRecebto\" & rsEntradas!ChavedeAcesso & "-procNFe.xml"
+          xCaminhoXML = vCaminhoXML & "\nfe\arquivos\ConfRecebto\" & rsEntradas!ChavedeAcesso & "-procNFe.xml"
           xDiretorioDestino = DiretorioOrigem & IIf(Right(DiretorioOrigem, 1) = "\", "", "\") & "Entradas\"
           If Not Existe(xDiretorioDestino) Then MkDir xDiretorioDestino
           xArquivoDestino = xDiretorioDestino & rsEntradas!ChavedeAcesso & "-procNFe.xml"
@@ -508,7 +520,11 @@ If IniciaComponenteCompactacao Then
        Loop
    End If
    
-   If Not Existe(DiretorioOrigem) Then MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema": lblAguarde.Visible = False: Exit Sub
+   If Not Existe(DiretorioOrigem) Then
+      MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema"
+      lblAguarde.Visible = False
+      Exit Sub
+   End If
    
    PathToCompress = Transforma(DiretorioOrigem)
    
@@ -524,25 +540,44 @@ If IniciaComponenteCompactacao Then
    'Load frmECFMsg
    'frmECFMsg.SetaMensagem "Aguarde! Compactando arquivos XML..."
   
-   'entra em loop até a criação do arquivo
+   'entra em loop até a criação do arquivo (limite de 2 minutos pra não travar se o compressor falhar)
+   vTentativas = 0
    Do While Dir$(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) = ""
        Sleep (1000)
+       vTentativas = vTentativas + 1
+       If vTentativas > 120 Then
+          MsgBox "Tempo esgotado aguardando a compactação do arquivo." & vbCrLf & "Verifique se o WinRAR/WinZip está instalado corretamente.", vbExclamation, "Aviso do Sistema"
+          lblAguarde.Visible = False
+          Exit Sub
+       End If
    Loop
    
-   Sleep 2000
+   'aguarda o tamanho do arquivo parar de crescer, pra garantir que a compactacao terminou de escrever
+   Dim vTamanhoAnterior As Long
+   Dim vEstavel As Integer
+   Dim vTentativasTamanho As Long
+   vTamanhoAnterior = -1
+   vEstavel = 0
+   vTentativasTamanho = 0
+   Do While vEstavel < 3
+      Sleep (1000)
+      If FileLen(FullPathZip) = vTamanhoAnterior Then
+         vEstavel = vEstavel + 1
+      Else
+         vTamanhoAnterior = FileLen(FullPathZip)
+         vEstavel = 0
+      End If
+      vTentativasTamanho = vTentativasTamanho + 1
+      If vTentativasTamanho > 300 Then Exit Do
+   Loop
    
    sSQL = "SELECT * FROM TbContabilista"
    Set rCont = dbData.OpenRecordset(sSQL)
    
-   'If ckEnviarEmail Then
-      Do While Not (Existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) = -1)
-         DoEvents
-         i = i + 1
-         If i > 50 Then Exit Do
-      Loop
-      If Not (Existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) = -1) Then Exit Sub: lblAguarde.Visible = False
       If rCont.RecordCount > 0 Then emailDestino = rCont!email
-      emailDestino = InputBox("Informe o Email do destinatario", "Envio de Email", emailDestino)
+      If Vazio(emailDestino) Then
+         emailDestino = InputBox("Informe o Email do destinatario", "Envio de Email", emailDestino)
+      End If
       If Not Vazio(emailDestino) Then
          'HourglassShow
          EnviaEmail emailDestino, FullPathZip
@@ -558,6 +593,11 @@ If IniciaComponenteCompactacao Then
 End If
 
 lblAguarde.Visible = False
+Exit Sub
+
+TrataErro:
+lblAguarde.Visible = False
+MsgBox "Erro ao compactar/exportar os arquivos XML:" & vbCrLf & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub EnviaEmail(EmailPara As String, Anexo1 As String)
@@ -609,7 +649,7 @@ Exit Sub
 '    Set sistNFe = Nothing
 End Sub
 
-Private Sub cmdDiretorioXML_Click()
+Private Sub chameleonButton1_Click()
   'Opens a Treeview control that displays the directories in a computer
   Dim lpIDList As Long
   Dim sBuffer As String
@@ -636,7 +676,7 @@ End Sub
 
 Private Sub cmdEnviar_Click()
 Dim FileZipName As String, PathToCompress As String, DestPath As String, FullPathZip As String
-Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
+Dim emailDestino As String, i As Integer, ComandoSQL As String
 
 If cboMes.Text <> "" Then vMes = cboMes.Text Else: MsgBox "Escolha um mês!", vbInformation, "Aviso do Sistema": cboMes.SetFocus: Exit Sub
 If cboAno.Text <> "" Then vAno = cboAno.Text Else: MsgBox "Escolha um ano!", vbInformation, "Aviso do Sistema": cboAno.SetFocus: Exit Sub
@@ -669,23 +709,37 @@ lblAguarde.Visible = True
       vMesNum = 12
    End If
 
-   NomeEmp = vRazao
-   NomeEmp = RemoveAcento(NomeEmp)
-   NomeEmp = Substitui(NomeEmp, ".,/", "", UM_A_UM)
-   NomeEmp = Substitui(NomeEmp, " ", "_", UM_A_UM)
-   FileZipName = NomeEmp & "_" & vMes & vAno & ".rar"
+   Dim vCnpjLimpo As String
+   Dim vNomeMaquina As String
+   Dim oIniMaquina As Ini
+   vCnpjLimpo = Retira(vCnpj, ".-/ ", UM_A_UM)
+   If EhServidorLocal() Then
+      vNomeMaquina = "SERVIDOR"
+   Else
+      Set oIniMaquina = New Ini
+      oIniMaquina.Arquivo = appPathApp & "config.ini"
+      vNomeMaquina = oIniMaquina.LerTexto("DADOS_MAQUINA", "maquina")
+      Set oIniMaquina = Nothing
+   End If
+   FileZipName = vCnpjLimpo & "_" & vMes & vAno & "_" & vNomeMaquina & ".rar"
    
    'local de destino + ficheiro.rar
    diretorioDestino = vCaminhoXML & "\ExportarXML"
    FullPathZip = Transforma(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName)
    
-   If Not Existe(FullPathZip) Then MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema": Exit Sub
+   If Not Existe(FullPathZip) Then
+      MsgBox "Não existe a pasta referente ao mês selecionado!", vbInformation, "Aviso do Sistema"
+      lblAguarde.Visible = False
+      Exit Sub
+   End If
 
    sSQL = "SELECT * FROM TbContabilista"
    Set rCont = dbData.OpenRecordset(sSQL)
-      
-   If Not (Existe(FullPathZip) = -1) Then Exit Sub
-   emailDestino = InputBox("Informe o Email do destinatario", "Envio de Email", rCont!email)
+
+   If rCont.RecordCount > 0 Then emailDestino = rCont!email
+   If Vazio(emailDestino) Then
+      emailDestino = InputBox("Informe o Email do destinatario", "Envio de Email", emailDestino)
+   End If
    If Not Vazio(emailDestino) Then
       Call EnviaEmail(emailDestino, FullPathZip)
       DoEvents
@@ -697,6 +751,7 @@ End Sub
 
 Private Sub Form_Load()
 Dim totalRegistros As Long
+Dim vMesAnterior As Date
 
 Set moCombo = New cComboHelper
 
@@ -711,6 +766,7 @@ If totalRegistros >= 1 Then
       vRazao = r("razao")
       vCnpj = r("cnpj")
       vCaminhoXML = r("DiretorioXML")
+      vCaminhoXML = IIf(Right(vCaminhoXML, 1) = "\", Left(vCaminhoXML, Len(vCaminhoXML) - 1), vCaminhoXML)
       'txtDiretorioXML.Text = ValidateNull(rTabela("caminho"))
       'txtDiretorioXML.Text = App.path & "\ExportarXML"
       txtDiretorioXML.Text = vCaminhoXML & "\ExportarXML"
@@ -718,6 +774,12 @@ If totalRegistros >= 1 Then
 Else
     MsgBox "Precisa fazer o cadastro da licença antes dessa operação!", vbInformation, "Aviso do Sistema"
 End If
+
+vMesAnterior = DateAdd("m", -1, Date)
+cboMes_GotFocus
+cboMes.Text = StrConv(MonthName(Month(vMesAnterior)), vbProperCase)
+cboAno_GotFocus
+cboAno.Text = Year(vMesAnterior)
 
 Set moCombo = New cComboHelper
 End Sub

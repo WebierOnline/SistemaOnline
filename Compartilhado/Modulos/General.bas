@@ -191,7 +191,7 @@ LerConfiguracao
 'OS_Recapadora.Show
 'Produtos_Cadastro.Show
 'NFe_Completa.Show
-'Tela_Principal.Show
+Tela_Principal.Show
 'Vendas_Consulta_PorProdutos.Show
 'Funcionario_Comissao.Show
 'Notas_Adesivas.Show
@@ -200,7 +200,7 @@ LerConfiguracao
 'Entrada_Estoque.Show
 'Vendas_Consulta_Lucro.Show
 'Vendas_Consulta_PorProdutos.Show
-Senha.Show
+'Senha.Show
 End Sub
 
 'Recupera a configuração do sistema
@@ -533,4 +533,25 @@ Public Function AppIsRunning(ByVal appName As String) As Boolean
         Loop
         CloseHandle hSnapShot
     End If
+End Function
+
+'Verifica se esta maquina e o servidor do banco (ip=./127.0.0.1/localhost) ou um terminal
+Public Function EhServidorLocal() As Boolean
+Dim vHost As String
+Dim vBarra As Integer
+
+   vBarra = InStr(var_IP, "\")
+   If vBarra > 0 Then
+      vHost = Left(var_IP, vBarra - 1)
+   Else
+      vHost = var_IP
+   End If
+
+   If vHost = "." Or vHost = "127.0.0.1" Or LCase(vHost) = "localhost" Or LCase(vHost) = "(local)" Then
+      EhServidorLocal = True
+   ElseIf UCase(vHost) = UCase(Environ$("COMPUTERNAME")) Then
+      EhServidorLocal = True
+   Else
+      EhServidorLocal = False
+   End If
 End Function

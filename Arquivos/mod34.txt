@@ -1,0 +1,11 @@
+No form Entrada_Estoque temos o botão cmdImportarXML... Como funciona?
+1. Usuário baixa a xml da nota pelo navegador. Geralmente ele escolhe o local onde fica essa xml na pasta downloads, mais pode ser outro local (fica a criterio de escolha do usuario).
+2. Após baixado o arquivo, uso o cmdImportarXML para ler esse arquivo e carregar os dados da xml no banco de dados (e exibir no form)...
+Preciso:
+1. Após ler o arquivo, copiar o arquivo para uma pasta chamada EntradasXML, dentro da pasta EntradasXML, tem uma pasta separadas por ano/mês (igual as NFe enviadas).
+Obs: 
+- A pasta EntradasXML deve está no mesmo local que a pasta ExportarXML
+- Caso a pasta não exista, criar-la.
+- Existem XML de NF com data de emissão com meses anteriores ao que foi lido (dado entrada) no sistema. Exemplo: NF com data de emissão 30/06 sendo lida no sistema dia 03/07.
+* Ao ler o arquivo pelo botão cmdImportarXML, ele armazena a data de emissão na tabela.campo EntradaEstoque.DataEmissao.
+2. Incluir a pasta do mês na lista de pastas para envio para servidor/contador.

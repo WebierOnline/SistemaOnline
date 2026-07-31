@@ -1,0 +1,16 @@
+No form Exportar_XML ficou perfeito assim, quando eu quiser enviar as xml manualmente para o contador.
+Preciso criar uma solução para trabalhar numa rede.
+Exemplo: Tenho 1 servidor e 3 terminais (PDV02, PDV03 e PDV04)... nome das maquinas pode variar (depende do "maquina=" do config.ini de cada terminal).
+1. No servidor:
+- Dia 01 de cada mês ele verificar se a pasta ExportarXML está compartilhada na rede, caso não esteja, compartilha com acesso total.
+- Dia 01 de cada mês ele gera da pasta ano/mês anterior a data do dia da geração (que será dia 01 de cada mês). Exemplo: 01/07/26 ele iria criar o .rar da pasta '202606'.
+2. Nos Terminais:
+- Dia 01 de cada mês ele verificar se a pasta ExportarXML (do servidor) é uma unidade de disco Z: (mapeada) naquele terminal, caso não esteja, mapeada com acesso total.
+- Dia 01 de cada mês ele gera da pasta ano/mês anterior a data do dia da geração (que será dia 01 de cada mês). Exemplo: 01/07/26 ele iria criar o .rar da pasta '202606'.
+- Dia 01 de cada mês ele envia esse arquivo .rar para a pasta mapeada no servidor.
+3. No servidor:
+- Dia 02 de cada mês, automaticamente, é enviado todos os .rar daquele ano/mês (todos CNPJ_MesAno_*) para o email da contabilidade.
+Fatos relevantes:
+- Se dia 01 cair no domingo ou feriado (empresa fechada) e dia dia 02 não for.
+- Se dia 02 cair no domingo ou feriado (empresa fechada)
+- Se no momento do envio para a contabilidade estiver sem internet

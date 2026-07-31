@@ -6428,12 +6428,15 @@ End If
    Compras_XML!ChavedeAcesso = XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").Item(0).Text
    Compras_XML!NaturezaOperacao = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/natOp").Item(0).Text)
    
+   Dim vDataEmissaoXML As String
    If XMLDOC.getElementsByTagName("nfeProc/protNFe").Item(0).Attributes.getNamedItem("versao").Text = "2.00" Then
-       Compras_XML!DataEmissao = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").Item(0).Text
-       Compras_XML!DataSaida = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").Item(0).Text
+       vDataEmissaoXML = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dEmi").Item(0).Text
+       Compras_XML!DataEmissao = vDataEmissaoXML
+       Compras_XML!DataSaida = vDataEmissaoXML
    Else
-       Compras_XML!DataEmissao = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").Item(0).Text, 10)
-       Compras_XML!DataSaida = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").Item(0).Text, 10)
+       vDataEmissaoXML = Left(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/dhEmi").Item(0).Text, 10)
+       Compras_XML!DataEmissao = vDataEmissaoXML
+       Compras_XML!DataSaida = vDataEmissaoXML
    End If
   
    'Compras_XML!TipoEntradaEst = "Nota Fiscal"
@@ -7869,6 +7872,21 @@ pulaParcelas:
                      "FROM EntradaEstoque WHERE CodigoNota = " & Compra
    Load_Controls
    Frm_NF.Tab = 0
+
+   '-------- ARQUIVA O XML IMPORTADO EM EntradasXML\AAAAMM (mesmo nivel de ExportarXML) --------
+   Dim vDirBaseXML As String, vPastaEntradasXML As String, vAnoMesEntrada As String, vNomeArqEntrada As String
+   vDirBaseXML = SQLExecutaRetorno("SELECT DiretorioXML FROM Empresa", "DiretorioXML", App.Path)
+   vDirBaseXML = IIf(Right(vDirBaseXML, 1) = "\", Left(vDirBaseXML, Len(vDirBaseXML) - 1), vDirBaseXML)
+   vAnoMesEntrada = Left(vDataEmissaoXML, 4) & Mid(vDataEmissaoXML, 6, 2)
+   vPastaEntradasXML = vDirBaseXML & "\EntradasXML\" & vAnoMesEntrada
+   If Not Existe(vDirBaseXML & "\EntradasXML") Then MkDir vDirBaseXML & "\EntradasXML"
+   If Not Existe(vPastaEntradasXML) Then MkDir vPastaEntradasXML
+   vNomeArqEntrada = Mid(arqXML, InStrRev(arqXML, "\") + 1)
+   FileCopy arqXML, vPastaEntradasXML & "\" & vNomeArqEntrada
+   If Err.Number <> 0 Then
+      MsgBox "NF-e importada, mas houve falha ao arquivar o XML em " & vPastaEntradasXML & ": " & Err.Description, vbExclamation, "Aviso do Sistema"
+      Err.Clear
+   End If
 
    ImportarXML = True
 End Function
