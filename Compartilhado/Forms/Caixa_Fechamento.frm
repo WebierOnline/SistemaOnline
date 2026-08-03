@@ -621,6 +621,13 @@ End Sub
 Private Sub Backup()
 Dim rEmpresa As ADODB.Recordset, xCaminhoBK As String
 Dim NomeEmp As String, i As Integer, ComandoSQL As String, e As String, nomeArquivoBK As String
+Dim vTentativas As Long
+
+On Error GoTo ErrHandlerBackup
+
+Me.Caption = "AGUARDE... FAZENDO O BACKUP"
+Screen.MousePointer = vbHourglass
+DoEvents
 
 'parte de encontrar o caminho do sistema
 sSQL = "SELECT DiretorioXML, razao, CNPJ FROM Empresa"
@@ -635,7 +642,7 @@ xCaminhoBK = dirXML & "backup"
 'cria a pasta caso não exista
 If Not Existe(xCaminhoBK) Then MkDir xCaminhoBK
 
-If Not Existe(xCaminhoBK) Then Exit Sub
+If Not Existe(xCaminhoBK) Then GoTo SairBackup
 
 'nomeArquivoBK = Format(Date, "yyyy-mm-dd") & "__" & rEmpresa!Razao & ".bak"
 nomeArquivoBK = Retira(rEmpresa!CNPJ, ".-/ ", UM_A_UM) & ".bak"
@@ -643,8 +650,12 @@ DoEvents
 
 If Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> "" Then
    Kill xCaminhoBK & "\" & nomeArquivoBK
+   vTentativas = 0
    Do While Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> ""
       Sleep (200)
+      DoEvents
+      vTentativas = vTentativas + 1
+      If vTentativas > 150 Then MsgBox "Não foi possível apagar o backup anterior (" & nomeArquivoBK & ") a tempo!", vbExclamation, "Aviso do Sistema": GoTo SairBackup
    Loop
 End If
 
@@ -652,28 +663,58 @@ ComandoSQL = "EXEC BackupBD '" & xCaminhoBK & "'"
 e$ = SQLExecuta(ComandoSQL)
 If e$ <> "" Then
    MsgBox e$, vbCritical + vbOKOnly, "ERRO BACKUP"
-   Exit Sub
+   GoTo SairBackup
 End If
 
+vTentativas = 0
 Do While Dir$(xCaminhoBK & "\" & nomeArquivoBK) = ""
    Sleep (200)
+   DoEvents
+   vTentativas = vTentativas + 1
+   If vTentativas > 600 Then MsgBox "O arquivo de backup (" & nomeArquivoBK & ") não foi gerado a tempo!", vbExclamation, "Aviso do Sistema": GoTo SairBackup
 Loop
 
 
 If Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> "" Then
    iRetorno = CompactarBackup2(nomeArquivoBK, xCaminhoBK)
-   On Error Resume Next
-   Sleep (1000)
    If iRetorno Then
-      Kill xCaminhoBK & "\" & nomeArquivoBK
+      'o .bak pode continuar brevemente em uso (antivirus/handle do compactador)
+      'apos o .rar ja existir - tenta apagar por alguns segundos antes de desistir
+      Dim vTentativasKill As Long
+      vTentativasKill = 0
+      Do
+         Sleep (500)
+         DoEvents
+         Err.Clear
+         On Error Resume Next
+         Kill xCaminhoBK & "\" & nomeArquivoBK
+         On Error GoTo ErrHandlerBackup
+         vTentativasKill = vTentativasKill + 1
+      Loop While Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> "" And vTentativasKill < 10
+      
+   Else
+      MsgBox "O backup (" & nomeArquivoBK & ") foi gerado, mas não foi possível compactá-lo em .rar!", vbExclamation, "Aviso do Sistema"
    End If
 End If
+
+SairBackup:
+Screen.MousePointer = vbDefault
+Me.Caption = "SITUAÇÃO DO CAIXA"
+Exit Sub
+
+ErrHandlerBackup:
+   Screen.MousePointer = vbDefault
+   Me.Caption = "SITUAÇÃO DO CAIXA"
+   MsgBox "Erro ao fazer o backup: " & Err.Description, vbCritical, "Erro"
 End Sub
 Private Function CompactarBackup2(nomeArquivoBK As String, diretorioDestino As String) As Boolean
 Dim FileZipName As String, PathToCompress As String, DestPath As String, FullPathZip As String
 Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
 Dim rsEntradas As New ADODB.Recordset, rsNFe As New ADODB.Recordset, rsNFCe As New ADODB.Recordset
 Dim xDiretorioDestino As String, xArquivoDestino As String
+Dim vPastaDestino As String, vNomeBase As String
+Dim vArqAntigo As String, vDataArquivo As String
+Dim vTentativas As Long
 
 On Error GoTo deuErro
 
@@ -691,18 +732,27 @@ If IniciaComponenteCompactacao Then
    'NomeEmp = Substitui(NomeEmp, ".,/", "", UM_A_UM)
    'NomeEmp = Substitui(NomeEmp, " ", "_", UM_A_UM)
    FileZipName = Left(nomeArquivoBK, Len(nomeArquivoBK) - 4) & ".rar"
+   vPastaDestino = diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\")
+   vNomeBase = Left(FileZipName, Len(FileZipName) - 4)
    
-   If Dir$(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) <> "" Then
-      Kill diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName
-      DoEvents
-      Do While Dir$(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) <> ""
-         Sleep (200)
-      Loop
+   'ROTACAO: mantém no máximo 2 gerações do backup compactado - o mais recente
+   'sempre se chama <CNPJ>.rar; a geração anterior é renomeada com a data/hora de
+   'criação antes de criar a nova; a geração mais antiga (a que já tinha data no
+   'nome) é apagada
+   vArqAntigo = Dir$(vPastaDestino & vNomeBase & "_*.rar")
+   Do While vArqAntigo <> ""
+      Kill vPastaDestino & vArqAntigo
+      vArqAntigo = Dir$()
+   Loop
+   
+   If Dir$(vPastaDestino & FileZipName) <> "" Then
+      vDataArquivo = Format(FileDateTime(vPastaDestino & FileZipName), "yyyy-mm-dd_hhnnss")
+      Name vPastaDestino & FileZipName As vPastaDestino & vNomeBase & "_" & vDataArquivo & ".rar"
    End If
    
    'local de destino + ficheiro.rar
    'diretorioDestino = vCaminhoXML & "\backup"
-   FullPathZip = Transforma(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName)
+   FullPathZip = Transforma(vPastaDestino & FileZipName)
    
    'DiretorioDestino = vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMes
    'DiretorioOrigem = nomeArquivoBK  'vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMesNum
@@ -711,34 +761,34 @@ If IniciaComponenteCompactacao Then
    
    PathToCompress = Transforma(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK)
    
+   'a janela do compactador fica oculta (vbHide); o aviso de aguarde e o cursor
+   'de espera já são controlados pelo chamador (Backup), que cobre o processo inteiro
    'Chama o compressor que se encontra instalado para o efeito.
    If xWinRar <> "" Then
-       Shell xWinRar & " a -ep1 " & FullPathZip & " " & PathToCompress, vbNormalFocus  ', vbHide
+       Shell xWinRar & " a -ep1 " & FullPathZip & " " & PathToCompress, vbHide
    Else
-       Shell xWinZip & " -a -ep1 " & FullPathZip & " " & PathToCompress, vbNormalFocus ', vbHide
+       Shell xWinZip & " -a -ep1 " & FullPathZip & " " & PathToCompress, vbHide
    End If
    
    DoEvents
    
-   'Load frmECFMsg
-   'frmECFMsg.SetaMensagem "Aguarde! Compactando BACKUP..."
-  
    'entra em loop até a criação do arquivo
-   Do While Dir$(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & FileZipName) = ""
+   vTentativas = 0
+   Do While Dir$(vPastaDestino & FileZipName) = ""
        Sleep (200)
+       DoEvents
+       vTentativas = vTentativas + 1
+       If vTentativas > 3000 Then GoTo deuErro
    Loop
    
-   'Unload frmECFMsg
+   CompactarBackup2 = True
    
 End If
 
-CompactarBackup2 = True
 Exit Function
 
 deuErro:
   CompactarBackup2 = False
-  ''If FormExists("frmECFMsg") Then Unload frmECFMsg
-'lblAguarde.Visible = False
 End Function
 
 Private Sub GerarSaldo()
@@ -2194,45 +2244,55 @@ End Sub
 Private Sub cmdReativar_Click()
 Dim var_CodSequencia As Long
 Dim var_CodCaixa As Long
+Dim bTrans As Boolean
 
 If txtCodFuncAP.Text = "" Then MsgBox "Coloque o Cód de Funcinario!", vbInformation, "Aviso do Sistema": txtCodFuncAP.SetFocus: Exit Sub
 
+On Error GoTo ErrHandlerReativar
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
 If cmdReativar.Caption = "Abrir Caixa" Then
    'sequencia de caixas numeração
-   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_caixa FROM caixa_dia"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_caixa FROM caixa_dia WITH (UPDLOCK, HOLDLOCK)"
    Set r = dbData.OpenRecordset(sSQL)
    
    If Not r.BOF Then var_CodSequencia = r("ultimo_caixa") + 1
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
    
    'sequencia de caixas numeração
-   sSQL = "SELECT ISNULL(MAX(CODCAIXA), 0) AS ultimo_caixa FROM caixa_dia where CAIXA = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "'"
+   sSQL = "SELECT ISNULL(MAX(CODCAIXA), 0) AS ultimo_caixa FROM caixa_dia WITH (UPDLOCK, HOLDLOCK) where CAIXA = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "'"
    Set r = dbData.OpenRecordset(sSQL)
    
    If Not r.BOF Then var_CodCaixa = r("ultimo_caixa") + 1
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
    
    dbData.Execute "INSERT INTO caixa_dia (codigo, CODCAIXA, data_abertura, hora_abertura, COD_FUNC_ABERTURA, status, entrada, saida, saldo, caixa) VALUES (" & var_CodSequencia & ", " & var_CodCaixa & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHRMN) & "', " & txtCodFuncAP.Text & ", 0, " & Replace(CCur(lblEntrada), ",", ".") & ", " & Replace(CCur(lblSaida), ",", ".") & ", " & Replace(CCur(lblTotal), ",", ".") & ", '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "');"
 
-
-    'caixa troco
-    Dim x_Troco As Long
-    
-    If txtTroco.Text = "" Then Exit Sub
-    
-    x_Troco = 1
-    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_troco FROM caixa_troco where (caixa = '" & StatusBar1.Panels(2).Text & "');"
-    Set r = dbData.OpenRecordset(sSQL)
-    
-    If Not r.BOF Then x_Troco = r("ultimo_troco") + 1
-    If r.State <> 0 Then r.Close
-    Set r = Nothing
-    
-    dbData.Execute "INSERT INTO caixa_troco (codigo, data, valor, caixa, codcaixa) VALUES (" & x_Troco & ", CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103), " & Replace(CCur(txtTroco.Text), ",", ".") & ", '" & StatusBar1.Panels(2).Text & "', " & var_CodCaixa & ");"
+   'caixa troco - opcional, nem toda empresa define um troco inicial ao abrir o caixa
+   If txtTroco.Text <> "" Then
+      Dim x_Troco As Long
+      x_Troco = 1
+      sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_troco FROM caixa_troco WITH (UPDLOCK, HOLDLOCK) where (caixa = '" & StatusBar1.Panels(2).Text & "');"
+      Set r = dbData.OpenRecordset(sSQL)
+      
+      If Not r.BOF Then x_Troco = r("ultimo_troco") + 1
+      If r.State <> 0 Then r.Close
+      Set r = Nothing
+      
+      dbData.Execute "INSERT INTO caixa_troco (codigo, data, valor, caixa, codcaixa) VALUES (" & x_Troco & ", CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103), " & Replace(CCur(txtTroco.Text), ",", ".") & ", '" & StatusBar1.Panels(2).Text & "', " & var_CodCaixa & ");"
+   End If
 
 Else
-   dbData.Execute "UPDATE caixa_dia SET status = 0 WHERE (data_abertura = CONVERT(DATETIME, '" & Format(Caixa_Controle_semOS.StatusBar1.Panels(5).Text, ocDATA) & "', 103)) AND (caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "');"
+   dbData.Execute "UPDATE caixa_dia SET status = 0 WHERE (data_abertura = CONVERT(DATETIME, '" & Format(Caixa_Controle_semOS.StatusBar1.Panels(5).Text, ocDATA) & "', 103)) AND (caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "') AND (codcaixa = " & txtCodCaixa.Text & ");"
    ''execSQL "DELETE FROM CAIXA_DIA WHERE DATA_ABERTURA = #" & Format(StatusBar1.Panels(3).Text, "dd/mm/yyyy") & "# and CAIXA = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "' "
    'dbData.Execute "DELETE FROM caixa_saldo WHERE (data = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103));"
 End If
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 sSQL = "SELECT VencimentoCert FROM empresa"
 Set r = dbData.OpenRecordset(sSQL)
@@ -2248,6 +2308,9 @@ If Not IsNull(r!VencimentoCert) Then
       End If
    End If
 End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
 MsgBox "SEU CAIXA FOI ABERTO COM SUCESSO!!" & Chr(13) & "Reabra seu PDV novamente", vbInformation, "Aviso do Sistema"
 
 If varFluxoCaixa = False Then
@@ -2258,9 +2321,15 @@ End If
 varFluxoCaixa = False
 Unload Me
 'Unload PDV
+Exit Sub
+
+ErrHandlerReativar:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao abrir/reativar o caixa: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdFecharCaixa_Click()
+Dim bTrans As Boolean
 On Error GoTo TrataErro
 
 If txtFuncAP.Text = "" Then
@@ -2284,10 +2353,15 @@ sSQL = "UPDATE caixa_dia SET " & _
    "COD_FUNC_FECHAMENTO = " & txtCodFuncAP & _
    " WHERE (codcaixa = " & txtCodCaixa.Text & ") and (caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "');"
 'Debug.Print sSQL
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 dbData.Execute sSQL
 
 GerarSaldo
 'InutilizarCuponsFiscais
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 'verificar se a maquina é o servidor
 Dim vNomeMaquina As String
@@ -2342,9 +2416,14 @@ varFluxoCaixa = False
 Exit Sub
 
 TrataErro:
-If Err.Number = 3022 Then
+Dim vErrNum As Long, vErrDesc As String
+vErrNum = Err.Number
+vErrDesc = Err.Description
+If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+If vErrNum = 3022 Then
    ShowMsg "DADOS DUPLICADO!" & vbCrLf & "Verifique se já está cadastrado.", vbInformation
-   Exit Sub
+Else
+   MsgBox "Erro ao fechar o caixa: " & vErrDesc, vbCritical, "Erro"
 End If
 End Sub
 Private Sub AutoNumeracao_CaixaDia()

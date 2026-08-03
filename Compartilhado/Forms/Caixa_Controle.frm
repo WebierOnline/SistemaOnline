@@ -2865,7 +2865,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'Option Explicit
+Option Explicit
 Private printSQL As String
 Private moCombo As cComboHelper
 
@@ -2876,7 +2876,6 @@ Dim varHoraFecha As String      'relatorio de impressao do caixa
 'Dim var_Maquina As String       'colocar o nome da maquina na barra de status
 Dim var_Caixa As String         'colocar o nome da maquina na barra de status
 'Dim var_Setor As String         'mostrar o setor
-Dim vStatusCaixaAtual As String
 
 Dim varBotaoCaixa As Boolean
 Dim varCodCaixa As Long
@@ -3191,27 +3190,27 @@ var_ALUGUEL = 0
 var_AluguelPrazo = 0
 
 If chkTroco.Value = Checked Then
-    If txtTotalTroco.Text <> "" Then var_Troco = txtTotalTroco.Text
+    If txtTotalTroco.Text <> "" Then var_Troco = ValMoeda(txtTotalTroco.Text)
 Else
     var_Troco = 0
 End If
 
-If txtTotalDinheiro.Text <> "" Then var_Venda = txtTotalDinheiro.Text
-If txtTotalDinheiroParcelas.Text <> "" Then var_Parcela = txtTotalDinheiroParcelas.Text
-If txtTotalDinheiroHaveres.Text <> "" Then var_Haver = txtTotalDinheiroHaveres.Text
-If txtTotalDinheiroSuprimento.Text <> "" Then var_Suprimento = txtTotalDinheiroSuprimento.Text
-If txtTotalDinheiroOS.Text <> "" Then var_OS = txtTotalDinheiroOS.Text
-If txtTotalDinheiroAluguel.Text <> "" Then var_ALUGUEL = txtTotalDinheiroAluguel.Text
-If txtTotalCheque.Text <> "" Then var_Cheque = txtTotalCheque.Text
-If txtSaida.Text <> "" Then var_Saida = txtSaida.Text
-If txtTotalVendaPrazo <> "" Then var_VendasPrazo = txtTotalVendaPrazo.Text
-If txtTotalAluguelPrazo <> "" Then var_AluguelPrazo = txtTotalAluguelPrazo.Text
+If txtTotalDinheiro.Text <> "" Then var_Venda = ValMoeda(txtTotalDinheiro.Text)
+If txtTotalDinheiroParcelas.Text <> "" Then var_Parcela = ValMoeda(txtTotalDinheiroParcelas.Text)
+If txtTotalDinheiroHaveres.Text <> "" Then var_Haver = ValMoeda(txtTotalDinheiroHaveres.Text)
+If txtTotalDinheiroSuprimento.Text <> "" Then var_Suprimento = ValMoeda(txtTotalDinheiroSuprimento.Text)
+If txtTotalDinheiroOS.Text <> "" Then var_OS = ValMoeda(txtTotalDinheiroOS.Text)
+If txtTotalDinheiroAluguel.Text <> "" Then var_ALUGUEL = ValMoeda(txtTotalDinheiroAluguel.Text)
+If txtTotalCheque.Text <> "" Then var_Cheque = ValMoeda(txtTotalCheque.Text)
+If txtSaida.Text <> "" Then var_Saida = ValMoeda(txtSaida.Text)
+If txtTotalVendaPrazo <> "" Then var_VendasPrazo = ValMoeda(txtTotalVendaPrazo.Text)
+If txtTotalAluguelPrazo <> "" Then var_AluguelPrazo = ValMoeda(txtTotalAluguelPrazo.Text)
 
 'var_AluguelPrazo
 'txtTotalAluguelPrazo
 
-If txtTotalCartao.Text <> "" Then var_Cartao = txtTotalCartao.Text
-If txtTotalAvulso.Text <> "" Then var_Transf = txtTotalAvulso.Text
+If txtTotalCartao.Text <> "" Then var_Cartao = ValMoeda(txtTotalCartao.Text)
+If txtTotalAvulso.Text <> "" Then var_Transf = ValMoeda(txtTotalAvulso.Text)
 
 var_SaldoFisico = var_Troco + var_Venda + var_Parcela + var_Haver + var_Cheque + var_Suprimento + var_ALUGUEL + var_OS
 vSaldoFisicoImpressão = var_SaldoFisico  'criei somente para impressão de caixa em branco
@@ -3242,7 +3241,7 @@ QUANT = 0
    With Grid
       For i = 1 To .rows - 1
          If .TextMatrix(i, 5) = "CHEQUE" And IsNumeric(.TextMatrix(i, 6)) Then
-            soma = soma + CCur(.TextMatrix(i, 6))
+            soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
          End If
       Next
@@ -3252,6 +3251,7 @@ QUANT = 0
    txtQuantCheque.Text = Format(QUANT, "000")
    
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub SomaFlexOutros()
@@ -3265,7 +3265,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DEPOSITO" Or .TextMatrix(i, 5) = "TRANSFERENCIA" Or .TextMatrix(i, 5) = "BOLETO" Or .TextMatrix(i, 5) = "FINANCEIRA" Or .TextMatrix(i, 5) = "PIX" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3275,6 +3275,7 @@ txtTotalAvulso.Text = Format(soma, ocMONEY)
 txtQuantAvulso.Text = Format(QUANT, "000")
    
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 
@@ -3290,7 +3291,7 @@ QUANT = 0
    With Grid
       For i = 1 To .rows - 1
          If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
-            soma = soma + CCur(.TextMatrix(i, 7))
+            soma = soma + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
          End If
       Next
@@ -3300,6 +3301,7 @@ QUANT = 0
    txtQuantSaida.Text = Format(QUANT, "000")
    
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub SomaFlexCartao()
@@ -3313,7 +3315,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If Left(.TextMatrix(i, 5), 6) = "CARTAO" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3323,6 +3325,7 @@ txtTotalCartao.Text = Format(soma, "#,##0.00")
 txtQuantCartao.Text = Format(QUANT, "000")
    
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub SomaFaturamento()
@@ -3348,7 +3351,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "VENDA" And .TextMatrix(i, 10) <> "À Prazo" And IsNumeric(.TextMatrix(i, 6)) Then
-         somaVendas = somaVendas + CCur(.TextMatrix(i, 6))
+         somaVendas = somaVendas + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3364,7 +3367,7 @@ With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "PARCELA" Or .TextMatrix(i, 3) = "ALUGUEL" Or .TextMatrix(i, 3) = "OS" Then
         If IsNumeric(.TextMatrix(i, 6)) Then
-            somaParcelas = somaParcelas + CCur(.TextMatrix(i, 6))
+            somaParcelas = somaParcelas + ValMoeda(.TextMatrix(i, 6))
             QUANT = QUANT + 1
         End If
       End If
@@ -3380,7 +3383,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
-         somaHaveres = somaHaveres + CCur(.TextMatrix(i, 6))
+         somaHaveres = somaHaveres + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3395,7 +3398,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
-         somaSuprimentos = somaSuprimentos + CCur(.TextMatrix(i, 6))
+         somaSuprimentos = somaSuprimentos + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3441,7 +3444,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
-         somaSaidas = somaSaidas + CCur(.TextMatrix(i, 7))
+         somaSaidas = somaSaidas + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
       End If
    Next
@@ -3450,15 +3453,16 @@ End With
 txtFATTotalSaidas.Text = Format(somaSaidas, "#,##0.00")
 txtF6.Text = Format(QUANT, "000")
 
-somaPrazo = txtFATTotalPrazo.Text
-somaOS = txtFATTotalServicos.Text
-somaAluguel = txtFATTotalAluguel.Text
+somaPrazo = ValMoeda(txtFATTotalPrazo.Text)
+somaOS = ValMoeda(txtFATTotalServicos.Text)
+somaAluguel = ValMoeda(txtFATTotalAluguel.Text)
 
 Saldo = somaVendas + somaParcelas + somaHaveres + somaSuprimentos + somaPrazo + somaOS + somaAluguel
 Saldo = Saldo - somaSaidas
 txtFATTotalSaldo.Text = Format(Saldo, "#,##0.00")
 
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub SomaFlexDinheiro()
@@ -3472,7 +3476,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "VENDA" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3486,7 +3490,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "PARCELA" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3501,7 +3505,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3515,7 +3519,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3530,7 +3534,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "OS" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3545,7 +3549,7 @@ QUANT = 0
 With Grid
    For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "ALUGUEL" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + CCur(.TextMatrix(i, 6))
+         soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
       End If
    Next
@@ -3555,6 +3559,7 @@ txtTotalDinheiroAluguel.Text = Format(soma, "#,##0.00")
 txtQuantDinheiroAluguel.Text = Format(QUANT, "000")
    
 errorhandeler:
+If Err.Number <> 0 Then MsgBox "Erro ao calcular totais: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub Limpa_Tudo()
@@ -3636,175 +3641,6 @@ cboSetor.AddItem "BALCAO"
 cboSetor.AddItem "OFICINA"
 cboSetor.AddItem "TODOS"
 moCombo.AttachTo cboSetor
-End Sub
-
-Private Sub chameleonButton1_Click()
-Dim SETOR_CAIXA As String
-'Dim var_Setor As String
-Dim varTipoCartao2 As String
-
-If Not IsDate(mskData) Then Exit Sub
-
-If varCodCaixa = 0 Then
-    sSQL = "SELECT SUM(parcelas.valor_final) as vValorVendasTotal, 'VENDAS' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE 1=0"
-
-    Set r = dbData.OpenRecordset(sSQL)
-Else
-    Dim Maquina_Parcela As String
-    If StatusBar1.Panels(2).Text <> "TODOS" Then
-       Maquina_Parcela = "AND (parcelas.caixa = '" & StatusBar1.Panels(2).Text & "') "
-    ElseIf StatusBar1.Panels(2).Text = "TODOS" Then
-       Maquina_Parcela = "AND (parcelas.caixa <> 'CAIXA') "
-    End If
-    
-    Dim Maquina_Haver As String
-    If StatusBar1.Panels(2).Text <> "TODOS" Then
-       Maquina_Haver = "AND (parcelas_haver.caixa = '" & StatusBar1.Panels(2).Text & "') "
-    ElseIf StatusBar1.Panels(2).Text = "TODOS" Then
-       Maquina_Haver = "AND (parcelas_haver.caixa <> 'CAIXA') "
-    End If
-    
-    Dim Maquina_Suprimento As String
-    If StatusBar1.Panels(2).Text <> "TODOS" Then
-       Maquina_Suprimento = "AND (caixa_entrada.caixa = '" & StatusBar1.Panels(2).Text & "') "
-    ElseIf StatusBar1.Panels(2).Text = "TODOS" Then
-       Maquina_Suprimento = "AND (caixa_entrada.caixa <> 'CAIXA') "
-    End If
-    
-    Dim Maquina_Sangria As String
-    If StatusBar1.Panels(2).Text <> "TODOS" Then
-       Maquina_Sangria = "AND (caixa_saida.caixa = '" & StatusBar1.Panels(2).Text & "') "
-    ElseIf StatusBar1.Panels(2).Text = "TODOS" Then
-       Maquina_Sangria = "AND (caixa_saida.caixa <> 'CAIXA') "
-    End If
-    
-    SETOR_CAIXA = "AND (pedidos.tipo_pedido = 'VENDA') "
-
-    
-    'VENDAS
-    sSQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Dinheiro
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM DINHEIRO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'DINHEIRO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Pix
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM PIX' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'PIX' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Transferencia
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM TRANSFERÊNCIA' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Deposito
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM DEPOSITO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'DEPOSITO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Financeira
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM FINANCEIRA' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Cartão
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM CARTÃO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'CARTAO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de vendas - Cheque
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'VENDAS EM CHEQUE' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'CHEQUE' " & Maquina_Parcela & _
-           "UNION ALL "
-
-    'PARCELAS
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Dinheiro
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM DINHEIRO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'DINHEIRO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Pix
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM PIX' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'PIX' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Transferencia
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM TRANSFERÊNCIA' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Deposito
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM DEPOSITO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'DEPOSITO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Financeira
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM FINANCEIRA' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Cartão
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM CARTÃO' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'CARTAO' " & Maquina_Parcela & _
-           "UNION ALL "
-    'Detalhamento de Parcelas - Cheque
-    sSQL = sSQL & "SELECT ISNULL(SUM(parcelas.valor_final),0) as vTotal, 'PARCELAS EM CHEQUE' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-           "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'PARCELA' and FORMA_PGTO = 'CHEQUE' " & Maquina_Parcela & _
-           "UNION ALL "
-
-    'HAVERES
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Dinheiro
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM DINHEIRO' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'DINHEIRO' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Pix
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM PIX' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'PIX' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Transferencia
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM TRANSFERÊNCIA' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Deposito
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM DEPOSITO' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'DEPOSITO' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Financeira
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM FINANCEIRA' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Cartão
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM CARTÃO' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'CARTAO' " & Maquina_Haver & _
-           "UNION ALL "
-    'Detalhamento de Haveres - Cheque
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR_HAVER),0) as vTotal, 'HAVERES EM CHEQUE' as vTipoResultado FROM parcelas_haver " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'CHEQUE' " & Maquina_Haver & _
-           "UNION ALL "
-
-    'SUPRIMENTO
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR),0) as vTotal, 'SUPRIMENTOS' as vTipoResultado FROM caixa_entrada " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Suprimento & _
-           "UNION ALL "
-
-    'SANGRIA
-    sSQL = sSQL & "SELECT ISNULL(SUM(VALOR),0) as vTotal, 'SANGRIAS' as vTipoResultado FROM caixa_saida " & _
-           "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Sangria
-  
-    'Debug.Print sSQL
-
-    Set r = dbData.OpenRecordset(sSQL)
-End If
-
-'Mostrar_APrazo
-'Mostrar_Retiradas
-
-FormatarGridResumido r
-  
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
-printSQL = sSQL
-
 End Sub
 
 Private Sub chkTroco_Click()
@@ -4528,6 +4364,7 @@ mskData = Format(varData, "dd/mm/yyyy")   'Exibe a data no campo
 End Sub
 
 Private Sub cmdDetalhar_Click()
+If Grid.rows <= 1 Then Exit Sub
 If Not IsNumeric(Grid.TextMatrix(Grid.Row, 2)) = True Then Exit Sub
 If Grid.TextMatrix(Grid.Row, 2) = "" Or Grid.TextMatrix(Grid.Row, 3) = "" Then Exit Sub
 
@@ -4561,6 +4398,7 @@ Public Sub cmdImprimir_Click()
 
 Dim r As ADODB.Recordset
 'abrindo arquivo .ini
+Dim oIni As Ini
 Set oIni = New Ini
 oIni.Arquivo = appPathApp & "config.ini"
 
@@ -4602,7 +4440,7 @@ If vSaldoFisicoImpressão = "0" And vSaldoGeralImpressão = "0" Then    'fiz esse 
 End If
 
 If vAluguelAtiva = False And vOSAtiva = False Then
-    Set REL_Caixa_Fech_Imp.ReportMain1.Recordset = r
+    If Not r Is Nothing Then Set REL_Caixa_Fech_Imp.ReportMain1.Recordset = r
     
     REL_Caixa_Fech_Imp.txtDHead.Caption = "FECHAMENTO DE CAIXA - ABERTURA: " & Format(ValidateNull(r_usuario("DATA_ABERTURA")), "dd/mm/yyyy")
     
@@ -4684,7 +4522,7 @@ If vAluguelAtiva = False And vOSAtiva = False Then
     Unload REL_Caixa_Fech_Imp
 
 ElseIf vAluguelAtiva = True And vOSAtiva = False Then
-    Set REL_Caixa_Fech_Imp_Aluguel.ReportMain1.Recordset = r
+    If Not r Is Nothing Then Set REL_Caixa_Fech_Imp_Aluguel.ReportMain1.Recordset = r
     
     REL_Caixa_Fech_Imp_Aluguel.txtDHead.Caption = "FECHAMENTO DE CAIXA - ABERTURA: " & Format(ValidateNull(r_usuario("DATA_ABERTURA")), "dd/mm/yyyy")
     
@@ -4765,7 +4603,7 @@ ElseIf vAluguelAtiva = True And vOSAtiva = False Then
     REL_Caixa_Fech_Imp_Aluguel.ReportMain1.Ativar
     Unload REL_Caixa_Fech_Imp_Aluguel
 ElseIf vAluguelAtiva = False And vOSAtiva = True Then
-    Set REL_Caixa_Fech_Imp_OS.ReportMain1.Recordset = r
+    If Not r Is Nothing Then Set REL_Caixa_Fech_Imp_OS.ReportMain1.Recordset = r
     
     REL_Caixa_Fech_Imp_OS.txtDHead.Caption = "FECHAMENTO DE CAIXA - ABERTURA: " & Format(ValidateNull(r_usuario("DATA_ABERTURA")), "dd/mm/yyyy")
     
@@ -4858,6 +4696,7 @@ Dim SQL As String
 If Not IsDate(mskData) Then Exit Sub
 
 'abrindo arquivo .ini
+Dim oIni As Ini
 Set oIni = New Ini
 oIni.Arquivo = appPathApp & "config.ini"
 
@@ -5228,10 +5067,6 @@ End If
 SQL = "SELECT HORA as vSHora, SUBDESCRICAO + '/' + DESCRICAO as vSDescricao, COD_FUNCIONARIO as vSFunc, VALOR as vSValor FROM caixa_saida " & _
        "WHERE FONTE = 'CAIXA ATUAL' AND (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Sangria
 Set r = dbData.OpenRecordset(SQL)
-
-If r.EOF Then
-    Set r = dbData.OpenRecordset(sSQL)
-End If
 
 
 Me.Hide
@@ -5669,18 +5504,28 @@ End Sub
 
 Private Sub cmdSalvarTroco_Click()
 Dim x_Troco As Long
+Dim bTrans As Boolean
 
 If txtTroco.Text = "" Then frmTroco.Visible = False: Exit Sub
 
+On Error GoTo ErrHandlerSalvarTroco
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
 'CHECAR SE O JÁ TEM TROCO ADICIONADO PARA A DATA
-sSQL = "SELECT * FROM caixa_troco WHERE (caixa_troco.codcaixa = " & varCodCaixa & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
+'WITH (UPDLOCK, HOLDLOCK) trava a linha ate o fim da transacao, evitando que 2 cliques
+'concorrentes vejam ambos "nao existe troco" e dupliquem o INSERT
+sSQL = "SELECT * FROM caixa_troco WITH (UPDLOCK, HOLDLOCK) WHERE (caixa_troco.codcaixa = " & varCodCaixa & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
    dbData.Execute "UPDATE caixa_troco SET valor = " & Replace(CCur(txtTroco.Text), ",", ".") & ", caixa = '" & StatusBar1.Panels(2).Text & "', codcaixa = " & varCodCaixa & " WHERE codcaixa = " & varCodCaixa & " AND (caixa = '" & StatusBar1.Panels(2).Text & "') ;"
 Else
    x_Troco = 1
-   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_troco FROM caixa_troco where (caixa = '" & StatusBar1.Panels(2).Text & "');"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_troco FROM caixa_troco WITH (UPDLOCK, HOLDLOCK) where (caixa = '" & StatusBar1.Panels(2).Text & "');"
+   If r.State <> 0 Then r.Close
    Set r = dbData.OpenRecordset(sSQL)
    
    If Not r.BOF Then x_Troco = r("ultimo_troco") + 1
@@ -5690,10 +5535,18 @@ Else
    dbData.Execute "INSERT INTO caixa_troco (codigo, data, valor, caixa, codcaixa) VALUES (" & x_Troco & ", CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103), " & Replace(CCur(txtTroco.Text), ",", ".") & ", '" & StatusBar1.Panels(2).Text & "', " & varCodCaixa & ");"
 End If
 
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+
 txtTroco.Text = ""
 frmTroco.Visible = False
 'lblAviso1.Visible = True
 cmdMostrar_Click
+Exit Sub
+
+ErrHandlerSalvarTroco:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao salvar o troco: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
@@ -5702,11 +5555,19 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Valor = 0
    For i = 0 To var_Grid.rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
-         Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
+         Valor = Valor + ValMoeda(var_Grid.TextMatrix(i, Col))
       End If
    Next
    
    SomaGrid = Valor
+End Function
+
+Private Function ValMoeda(ByVal s As String) As Currency
+ValMoeda = Val(Replace(Replace(s, ".", ""), ",", "."))
+End Function
+
+Private Function EA(ByVal s As String) As String
+EA = Replace(s, "'", "''")
 End Function
 
 Private Sub cmdSenha_Click()
@@ -5715,7 +5576,7 @@ If var_Caixa = "TODOS" Then
     Exit Sub
 End If
 
-sSQL = "SELECT * FROM usuario WHERE (password = '" & txtSenha.Text & "');"
+sSQL = "SELECT * FROM usuario WHERE (password = '" & EA(txtSenha.Text) & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
@@ -5732,6 +5593,7 @@ End If
 End Sub
 
 Private Sub cmdTrocarCaixa_Click()
+If Grid.rows <= 1 Then Exit Sub
 If lblCodCaixaAtual.Caption = "0" Or lblCodCaixaStatus.Caption = "FECHADO" Then MsgBox "O " & lblCaixaAtual.Caption & " ainda encontra fechado!", vbInformation, "Aviso do Sistema": Exit Sub
 
 i = Grid.Row
@@ -5739,19 +5601,37 @@ i = Grid.Row
 If Grid.TextMatrix(i, 3) <> "VENDA" Then MsgBox "Somente é possível a troca de caixa para VENDAS!", vbInformation, "Aviso do Sistema": Exit Sub
 
 If ShowMsg("Tem certeza que deseja mudar de caixa a venda de " & Grid.TextMatrix(i, 4) & " no valor de " & Format(Grid.TextMatrix(i, 6), ocMONEY) & " ?", vbInformation + vbYesNo) = vbYes Then
+    Dim bTrans As Boolean
+    On Error GoTo ErrHandlerTrocarCaixa
+    
     sSQL = "SELECT caixa, codcaixa " & _
            "FROM caixa_dia " & _
            "WHERE (caixa = '" & lblCaixaAtual & "') and (codcaixa = " & lblCodCaixaAtual & ");"
     Set r = dbData.OpenRecordset(sSQL)
     
     If Not r.EOF Then
+        If r.State <> 0 Then r.Close
+        Set r = Nothing
+        
+        dbData.Execute "BEGIN TRANSACTION"
+        bTrans = True
         dbData.Execute "UPDATE pedidos SET caixa = '" & lblCaixaAtual & "', codcaixa = " & lblCodCaixaAtual & " WHERE COD_PEDIDO = " & Val(Grid.TextMatrix(i, 2)) & "  ;"
         dbData.Execute "UPDATE parcelas SET caixa = '" & lblCaixaAtual & "', codcaixa = " & lblCodCaixaAtual & " WHERE COD_PEDIDO = " & Val(Grid.TextMatrix(i, 2)) & "  ;"
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
+        
         Call cmdMostrar_Click
     Else
         MsgBox "Transferência de caixa incorreta!", vbInformation, "Aviso do Sistema"
+        If r.State <> 0 Then r.Close
+        Set r = Nothing
     End If
 End If
+Exit Sub
+
+ErrHandlerTrocarCaixa:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao trocar o caixa: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdTroco_Click()
@@ -5844,7 +5724,7 @@ If varFluxoCaixa = False Then
     cmdMostrar_Click
     varBotaoCaixa = False
     lblCodCaixaAtual.Caption = varCodCaixa
-    lblCodCaixaStatus.Caption = vStatusCaixaAtual
+    lblCodCaixaStatus.Caption = StatusBar1.Panels(4).Text
 Else
     StatusBar1.Panels(2).Text = varFluxoNomeCaixa
     StatusBar1.Panels(3).Text = varFluxoCodCaixa
@@ -5859,7 +5739,7 @@ Else
     cmdImprimirResumido.Enabled = True
     cmdMostrar_Click
     lblCodCaixaAtual.Caption = varCodCaixa
-    lblCodCaixaStatus.Caption = vStatusCaixaAtual
+    lblCodCaixaStatus.Caption = StatusBar1.Panels(4).Text
 End If
 
 Set moCombo = New cComboHelper
@@ -5891,81 +5771,6 @@ Else
         varCodCaixa = StatusBar1.Panels(3).Text
     End If
 End If
-End Sub
-
-Private Sub FormatarGridEntradaDetalhado(rTabela As ADODB.Recordset)
-   Dim i As Integer, j As Integer
-   Dim m_Saldo As Currency
-   
-   With Grid
-      .Clear
-      .Cols = 7
-      .rows = 2
-      
-      .ColWidth(0) = 0
-      .ColWidth(1) = 650
-      .ColWidth(2) = 4800
-      .ColWidth(3) = 1150
-      .ColWidth(4) = 1150
-      .ColWidth(5) = 1150
-      .ColWidth(6) = 1150
-      
-      .TextMatrix(0, 1) = "HORA"
-      .TextMatrix(0, 2) = "DESCRIÇÃO"
-      .TextMatrix(0, 3) = "TIPO"
-      .TextMatrix(0, 4) = "ENTRADA"
-      .TextMatrix(0, 5) = "SAÍDA"
-      .TextMatrix(0, 6) = "SALDO"
-      
-      .Row = 0
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito / Centralizado
-      For i = 0 To .Cols - 1
-         .Col = i
-         .CellFontBold = True
-         .CellAlignment = flexAlignCenterCenter
-      Next
-      
-      i = 1
-      m_Saldo = 0
-      
-      If Not rTabela Is Nothing Then
-         Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = Format(rTabela("varHora"), ocHRMN)
-            .TextMatrix(.rows - 1, 2) = rTabela("varCliente")
-            .TextMatrix(.rows - 1, 3) = rTabela("var_tipo")
-            .TextMatrix(.rows - 1, 4) = Format(rTabela("varValorLanc"), ocMONEY)
-            .TextMatrix(.rows - 1, 5) = Format(rTabela("varValorSaida"), ocMONEY)
-            
-            m_Saldo = m_Saldo + CCur(rTabela("varValorLanc")) - CCur(rTabela("varValorSaida"))
-            .TextMatrix(.rows - 1, 5) = Format(m_Saldo, ocMONEY)
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-         Loop
-      End If
-      
-      .rows = .rows - 1
-      
-      'mudar a cor da coluna
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 4:   .CellBackColor = &HC0FFFF
-         .Col = 5:   .CellBackColor = &HC0C0FF
-      Next
-
-      'Deixar negrito quando vencido
-      For i = 1 To .rows - 1
-         For j = 0 To .Cols - 1
-            .Col = j
-            .Row = i
-            If CCur(.TextMatrix(i, 4)) > 0 Then .CellFontBold = True
-         Next
-      Next
-      
-      .Redraw = True
-   End With
 End Sub
 
 Private Sub FormatarGridResumido(rTabela As ADODB.Recordset)
