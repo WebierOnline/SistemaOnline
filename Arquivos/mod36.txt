@@ -1,0 +1,55 @@
+
+No form NFe_Completa:
+Quando clico no cboModFrete aparece os tipos de fretes da nota.
+"0 - Frete por conta do Remetente (CIF)"
+"1 - Frete por conta do Destinatário (FOB)"
+"2 - Frete por conta de Terceiros"
+"3 - Transporte Próprio por conta do Remetente"
+"4 - Transporte Próprio por conta do Destinatário"
+"9 - Sem Ocorrência de Transporte"
+Porem dependendo do tipo do frete eu escolher, terei que levar outros dados juntos para a nota fiscal.
+1 - Frete por conta do Destinatário (FOB) ou 2 - Frete por conta de Terceiros
+Use quando uma empresa terceirizada ou o próprio cliente leva o produto.
+Campos obrigatórios:
+CNPJ/CPF da transportadora (ou do cliente se ele mesmo estiver transportando).
+Razão Social / Nome do transportador.
+Inscrição Estadual (se for transportadora jurídica).
+Endereço completo do transportador.
+0 - Frete por conta do Remetente (CIF) ou 3 - Transporte Próprio por conta do Remetente
+Use se a sua própria empresa vai fazer a entrega ao cliente.
+Campos obrigatórios:
+CNPJ, Nome e Inscrição Estadual da sua própria empresa nos campos do transportador.
+Placa do Veículo e UF: 
+Muito recomendado preencher para evitar rejeições em operações interestaduais com combustível.
+4 - Transporte Próprio por conta do Destinatário
+Use quando o cliente retira a mercadoria com um veículo dele mesmo.
+Campos obrigatórios:
+CPF/CNPJ e Nome do cliente nos campos do transportador.
+Placa do Veículo e UF do carro/caminhão do cliente que está retirando o produto.
+9 - Sem Ocorrência de Transporte
+Não precisa de dados de transportadora e nem veiculo.
+Objetos:
+cboModFrete (onde escolho o tipo do frete)
+cboTransporte (onde escolho a transportadora)
+txtPlaca (onde digito a placa do veiculo)
+txtPlacaUF (onde digito estado da placa do veiculo)
+Obs:
+* Ao escolher uma transportadora, temos que verificar se os dados necessários estão preenchidos e validos
+* Ao digita placa, temos que verificar se nao ouve erro de digitação ou espaços (antes, meio e depois)... tudo em maiúsculo
+* Ao digita UF, temos que verificar se nao ouve erro de digitação ou espaços (antes, meio e depois)... tudo em maiúsculo... somente 2 letras (exemplo: SP)... não aceita nada que não seja letras.
+-Campos da tabela Transportadora
+SELECT        CODIGO, RAZAO, FANTASIA, CONTATO, Endereco, Bairro, Ponto_de_referencia, CEP, Telefone, Fax, Celular, Cidade, Estado, CNPJ, IE, Correio_eletronico, OBS, BANCO, AGENCIA, CONTA, TIPO_CONTA, TIPO
+FROM            Transportadora
+Campos da tabela NotaFiscal
+SELECT         CodigoNota, NumeroNota, SerieNF, cCodigoNota, TipoDocumento, NaturezaOperacao, DataEmissao, DataSaida, HoraSaida, CodigoCorrentista, RazaoSocial, InscricaoEstadual, Suframa, CNPJ_CPF, Logradouro, 
+                         Numero, Complemento, Bairro, CodigoIBGE, Municipio, UF, CEP, CodigoPais, Pais, Telefone, IndicadorFormaPagamento, FormatoImpressaoDANFE, FormatoEmissaoNFe, BaseICMS, ValorICMS, BaseICMSST, ValorICMSST, 
+                         ValorProdutos, ValorFrete, ValorSeguro, TipoDesconto, PercDesconto, ValorDesconto, ValorImportacao, ValorIPI, ValorPIS, ValorCOFINS, ValorOutrasDespesas, ValorIsento, ValorNota, ValorServico, ValorBCISS, ValorISS, 
+                         ValorPISISS, ValorPISCOFINS, ValorRetidoPIS, ValorRetidoCOFINS, ValorRetidoCSLL, ValorBCIRRF, ValorIRRF, ValorRetidoBCPrev, ValorRetidoPrev, ModFrete, TranspCodigo, TranspNome, TranspInscricaoEstadual, 
+                         TranspEndereco, TranspUF, TranspMunicipio, TranspCNPJ_CPF, TranspValorServico, TranspBCRetencaoICMS, TranspAliquotaRetencaoICMS, TranspValorRetencaoICMS, TranspCFOP, TranspcMunFG, TranspPlaca, 
+                         TranspPlacaUF, TranspRNTC, TranspReboquePlaca, TranspReboquePlacaUF, TranspReboqueRNTC, VolumeQuantidade, VolumeEspecie, VolumeMarca, VolumeNumeracao, VolumePesoLiquido, VolumePesoBruto, Lacres, 
+                         NumeroFatura, ValorOriginalFatura, ValorDescontoFatura, ValorLiquidoFatura, NumeroDuplicata, VencimentoDuplicata, ValorDuplicata, InformacoesAdicionais, InformacoesComplementares, UFEmbarque, LocEmbarque, 
+                         ChavedeAcesso, NumeroRecibo, DataHoraRecebimento, NumeroProtocolo, DataHoraProcotolo, Enviada, Cancelada, Justificativa, EmProcessamento, CodigoObservacao, ContingenciaDataHora, ContingenciaJustificativa, Email, 
+                         CodigoVenda, TipoNota, ModeloNF, FinalidadeEmissaoNFe, IdentificadorDestino, ConsumidorFinal, IndicadorPresencaComprador, IndicadorIEDestinatario, InscricaoMunicipal, Origem, ValorFunRural, CanceladaProtocolo, 
+                         CodigoNatureza, Denegada, Cod_Pedido, TipoCliente, ChavedeAcessoAdicional, CFOP, vFCPUFDest, vICMSUFDest, vICMSUFRemet, Inutilizada, vBCCBS, vBCIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
+FROM            NotaFiscal
+Ao escolher o tipo do frete, o usuário ser obrigado a escolher/digitar os dados obrigatorios ao salvar/editar (cmdSalvar).

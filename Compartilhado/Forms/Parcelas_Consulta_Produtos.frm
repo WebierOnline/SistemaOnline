@@ -542,6 +542,21 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim r2 As ADODB.Recordset
 Dim totalRegistros As Long
+Static vStatusTabelaOS As Integer   '0 = não verificado, 1 = existe, 2 = não existe
+Dim vTemOS As Boolean
+
+If vStatusTabelaOS = 0 Then
+   sSQL = "SELECT COUNT(*) AS qtd FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME IN ('OS', 'OS_Servicos_Auto')"
+   Set r = dbData.OpenRecordset(sSQL)
+   If r("qtd") = 2 Then
+      vStatusTabelaOS = 1
+   Else
+      vStatusTabelaOS = 2
+   End If
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+End If
+vTemOS = (vStatusTabelaOS = 1)
 
 If Tipo = "OFICINA" Then Tipo = "OS"
 'contar a quantidades de produtos na consulta, para saber se vai agrupar com outra tabela
@@ -558,7 +573,7 @@ If totalRegistros >= 1 Then
           "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
     'Debug.Print sSQL
     
-    If UCase(Tipo) = "OS" Then  'If UCase(Tipo) = "OS" Then 'mudei e testar nas outras coisas se interfere
+    If UCase(Tipo) = "OS" And vTemOS Then  'If UCase(Tipo) = "OS" Then 'mudei e testar nas outras coisas se interfere
        'If vTipoOS = "Automóveis" Then
        If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
        sSQL = sSQL & " UNION "
@@ -592,7 +607,7 @@ If totalRegistros >= 1 Then
              "FROM Aluguel_Cadastro_Itens INNER JOIN Aluguel_Cadastro_Equipamento ON Aluguel_Cadastro_Itens.COD_EQUIP = Aluguel_Cadastro_Equipamento.COD_EQUIP INNER JOIN Aluguel_Cadastro ON Aluguel_Cadastro_Itens.COD_LOCACAO = Aluguel_Cadastro.CODIGO WHERE (Aluguel_Cadastro.Cod_Pedido = " & Pedido & ")"
     End If
 Else
-    If UCase(Tipo) = "OS" Then
+    If UCase(Tipo) = "OS" And vTemOS Then
        If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
        sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd " & _
               "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
@@ -618,7 +633,7 @@ FormatarGrid_Itens r
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-If UCase(Tipo) = "OS" Then
+If UCase(Tipo) = "OS" And vTemOS Then
     sSQL = "SELECT COD_OS " & _
           "FROM  OS WHERE (COD_PEDIDO = " & Pedido & ")"
     Set r = dbData.OpenRecordset(sSQL)
@@ -670,11 +685,15 @@ lblTotalProdutos.Caption = Format(r("vProd"), ocMONEY)
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-sSQL = "SELECT ISNULL(SUM(sv.total),0) AS vServ FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=" & Pedido
-Set r = dbData.OpenRecordset(sSQL)
-lblTotalServico.Caption = Format(r("vServ"), ocMONEY)
-If r.State <> 0 Then r.Close
-Set r = Nothing
+If vTemOS Then
+   sSQL = "SELECT ISNULL(SUM(sv.total),0) AS vServ FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=" & Pedido
+   Set r = dbData.OpenRecordset(sSQL)
+   lblTotalServico.Caption = Format(r("vServ"), ocMONEY)
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+Else
+   lblTotalServico.Caption = Format(0, ocMONEY)
+End If
 
 txtCodPedido.Text = Format(Pedido, "000000")
 End Sub

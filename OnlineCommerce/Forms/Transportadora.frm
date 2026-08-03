@@ -52,8 +52,8 @@ Begin VB.Form Transportadora
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Transportadora.frx":23EE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Picture1"
-      Tab(1).Control(1)=   "Grid"
+      Tab(1).Control(0)=   "Grid"
+      Tab(1).Control(1)=   "Picture1"
       Tab(1).ControlCount=   2
       Begin VB.PictureBox Picture1 
          Appearance      =   0  'Flat
@@ -161,6 +161,7 @@ Begin VB.Form Transportadora
             Width           =   1995
          End
          Begin VB.ComboBox cboEstado 
+            BackColor       =   &H00C0FFFF&
             Height          =   315
             ItemData        =   "Transportadora.frx":240A
             Left            =   1920
@@ -170,6 +171,7 @@ Begin VB.Form Transportadora
             Width           =   795
          End
          Begin VB.ComboBox cboCidade 
+            BackColor       =   &H00C0FFFF&
             Height          =   315
             ItemData        =   "Transportadora.frx":240E
             Left            =   120
@@ -179,6 +181,7 @@ Begin VB.Form Transportadora
             Width           =   1755
          End
          Begin VB.TextBox txtIE 
+            BackColor       =   &H00C0FFFF&
             Height          =   315
             Left            =   4560
             TabIndex        =   15
@@ -202,6 +205,7 @@ Begin VB.Form Transportadora
             Width           =   675
          End
          Begin VB.TextBox txtRazao 
+            BackColor       =   &H00C0FFFF&
             DataField       =   "CPF"
             DataSource      =   "Data1"
             Height          =   315
@@ -211,6 +215,7 @@ Begin VB.Form Transportadora
             Width           =   8745
          End
          Begin VB.TextBox txtEndereco 
+            BackColor       =   &H00C0FFFF&
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
             Height          =   315
@@ -236,6 +241,7 @@ Begin VB.Form Transportadora
             Width           =   4275
          End
          Begin VB.TextBox txtBairro 
+            BackColor       =   &H00C0FFFF&
             DataField       =   "Nickname"
             DataSource      =   "Data1"
             Height          =   315
@@ -245,6 +251,7 @@ Begin VB.Form Transportadora
             Width           =   1695
          End
          Begin VB.TextBox txtFantasia 
+            BackColor       =   &H00C0FFFF&
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
             Height          =   315
@@ -270,6 +277,7 @@ Begin VB.Form Transportadora
             _ExtentX        =   2672
             _ExtentY        =   556
             _Version        =   393216
+            BackColor       =   12648447
             PromptChar      =   "_"
          End
          Begin MSMask.MaskEdBox mskCNPJ 
@@ -281,6 +289,7 @@ Begin VB.Form Transportadora
             _ExtentX        =   3096
             _ExtentY        =   556
             _Version        =   393216
+            BackColor       =   12648447
             PromptChar      =   "_"
          End
          Begin MSMask.MaskEdBox mskTelefone 
@@ -910,7 +919,7 @@ Begin VB.Form Transportadora
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "06:33"
+            TextSave        =   "12:08"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -934,7 +943,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'Option Explicit
+Option Explicit
 Private moCombo As cComboHelper
 
 Private Sub Campos_Brancos()
@@ -1079,8 +1088,15 @@ Private Sub cmdAlterar_Click()
    Dim sSQL As String
    Dim r As ADODB.Recordset
    
-   If txtRazao.Text = "" Or txtFantasia.Text = "" Or cboCidade.Text = "" Then
+   If txtRazao.Text = "" Or txtFantasia.Text = "" Or cboCidade.Text = "" Or mskCNPJ.Text = "" Or _
+      txtEndereco.Text = "" Or txtBairro.Text = "" Or mskCEP.Text = "" Or cboEstado.Text = "" Then
       ShowMsg "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Verifique se todos os dados estão cadastrados.", vbInformation
+      Exit Sub
+   End If
+
+   If cboTipoPessoa.Text = "JURÍDICA" And txtIE.Text = "" Then
+      ShowMsg "O campo Inscrição Estadual é obrigatório para transportadora jurídica!", vbExclamation
+      txtIE.SetFocus
       Exit Sub
    End If
    
@@ -1116,7 +1132,13 @@ Private Sub cmdAlterar_Click()
    'End If
 End Sub
 
+'Escapa aspas simples antes de montar SQL (evita quebra de sintaxe/injecao)
+Private Function EA(ByVal s As String) As String
+EA = Replace(s, "'", "''")
+End Function
+
 Private Function Inserir_Dados() As Boolean
+On Error GoTo TrataErro
 Dim sSQL As String
 
 sSQL = "INSERT INTO transportadora (" & _
@@ -1125,51 +1147,55 @@ sSQL = "INSERT INTO transportadora (" & _
    "banco, agencia, conta, tipo_conta) VALUES ("
 
 sSQL = sSQL & _
-   txtCodigo.Text & ", '" & cboTipoPessoa.Text & "', '" & txtRazao.Text & "', '" & txtEndereco.Text & "', '" & txtReferencia.Text & "', '" & _
-   mskTelefone.Text & "', '" & cboCidade.Text & "', '" & cboEstado.Text & "', '" & mskCNPJ.Text & "', '" & _
-   txtIE.Text & "', '" & txtEmail.Text & "', '" & mskFax.Text & "', '" & mskCelular.Text & "', '" & _
-   txtBairro.Text & "', '" & mskCEP.Text & "', '" & txtContato.Text & "', '" & txtFantasia.Text & "', '" & _
-   txtObs.Text & "', '" & cboBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipoConta.Text & "')"
+   txtCodigo.Text & ", '" & EA(cboTipoPessoa.Text) & "', '" & EA(txtRazao.Text) & "', '" & EA(txtEndereco.Text) & "', '" & EA(txtReferencia.Text) & "', '" & _
+   EA(mskTelefone.Text) & "', '" & EA(cboCidade.Text) & "', '" & EA(cboEstado.Text) & "', '" & EA(mskCNPJ.Text) & "', '" & _
+   EA(txtIE.Text) & "', '" & EA(txtEmail.Text) & "', '" & EA(mskFax.Text) & "', '" & EA(mskCelular.Text) & "', '" & _
+   EA(txtBairro.Text) & "', '" & EA(mskCEP.Text) & "', '" & EA(txtContato.Text) & "', '" & EA(txtFantasia.Text) & "', '" & _
+   EA(txtObs.Text) & "', '" & EA(cboBanco.Text) & "', '" & EA(txtAgencia.Text) & "', '" & EA(txtConta.Text) & "', '" & EA(cboTipoConta.Text) & "')"
 
-Inserir_Dados = dbData.Execute(sSQL)
+dbData.Execute sSQL
+Inserir_Dados = True
+Exit Function
+
+TrataErro:
+Inserir_Dados = False
 End Function
 
 Private Function Atualizar_Dados() As Boolean
-   'A atualização deve ser feita utilizando o comando UPDATE do sql
-   'e não mais usando o método .Update do Recordset
-   
-   'Não se deve comparar se o campo está vazio ou não, pois dessa forma não
-   'haverá atualização quando for necessário apagar alguma informação
-   
+On Error GoTo TrataErro
    Dim sSQL As String
    
    'Comando de atualização
    sSQL = "UPDATE transportadora SET " & _
-      "razao = '" & txtRazao.Text & "', " & _
-      "tipo = '" & cboTipoPessoa.Text & "', " & _
-      "endereco = '" & txtEndereco.Text & "', " & _
-      "ponto_de_referencia = '" & txtReferencia.Text & "', " & _
-      "telefone = '" & mskTelefone.Text & "', " & _
-      "cidade = '" & cboCidade.Text & "', " & _
-      "estado = '" & cboEstado.Text & "', " & _
-      "cnpj = '" & mskCNPJ.Text & "', " & _
-      "ie = '" & txtIE.Text & "', " & _
-      "correio_eletronico = '" & txtEmail.Text & "', " & _
-      "fax = '" & mskFax.Text & "', " & _
-      "celular = '" & mskCelular.Text & "', " & _
-      "bairro = '" & txtBairro.Text & "', " & _
-      "cep = '" & mskCEP.Text & "', " & _
-      "contato = '" & txtContato.Text & "', " & _
-      "fantasia = '" & txtFantasia.Text & "', " & _
-      "obs = '" & txtObs.Text & "', " & _
-      "banco = '" & cboBanco.Text & "', " & _
-      "agencia = '" & txtAgencia.Text & "', " & _
-      "conta = '" & txtConta.Text & "', " & _
-      "tipo_conta = '" & cboTipoConta.Text & "' " & _
+      "razao = '" & EA(txtRazao.Text) & "', " & _
+      "tipo = '" & EA(cboTipoPessoa.Text) & "', " & _
+      "endereco = '" & EA(txtEndereco.Text) & "', " & _
+      "ponto_de_referencia = '" & EA(txtReferencia.Text) & "', " & _
+      "telefone = '" & EA(mskTelefone.Text) & "', " & _
+      "cidade = '" & EA(cboCidade.Text) & "', " & _
+      "estado = '" & EA(cboEstado.Text) & "', " & _
+      "cnpj = '" & EA(mskCNPJ.Text) & "', " & _
+      "ie = '" & EA(txtIE.Text) & "', " & _
+      "correio_eletronico = '" & EA(txtEmail.Text) & "', " & _
+      "fax = '" & EA(mskFax.Text) & "', " & _
+      "celular = '" & EA(mskCelular.Text) & "', " & _
+      "bairro = '" & EA(txtBairro.Text) & "', " & _
+      "cep = '" & EA(mskCEP.Text) & "', " & _
+      "contato = '" & EA(txtContato.Text) & "', " & _
+      "fantasia = '" & EA(txtFantasia.Text) & "', " & _
+      "obs = '" & EA(txtObs.Text) & "', " & _
+      "banco = '" & EA(cboBanco.Text) & "', " & _
+      "agencia = '" & EA(txtAgencia.Text) & "', " & _
+      "conta = '" & EA(txtConta.Text) & "', " & _
+      "tipo_conta = '" & EA(cboTipoConta.Text) & "' " & _
       "WHERE (codigo = " & Me.txtCodigo.Text & ");"
    
-   'Retorna o resultado da atualização
-   Atualizar_Dados = dbData.Execute(sSQL)
+   dbData.Execute sSQL
+   Atualizar_Dados = True
+   Exit Function
+
+TrataErro:
+   Atualizar_Dados = False
 End Function
 
 Private Sub cmdCancelar_Click()
@@ -1184,25 +1210,30 @@ Private Sub cmdCancelar_Click()
 End Sub
 
 Private Sub cmdExcluir_Click()
+   On Error GoTo TrataErroExcluir
    Dim sSQL As String
    Dim bRet As Boolean
    
-   If txtRazao.Text = "" Or txtFantasia.Text = "" Or cboCidade.Text = "" Then
+   If txtRazao.Text = "" Or txtFantasia.Text = "" Or cboCidade.Text = "" Or mskCNPJ.Text = "" Or _
+      txtEndereco.Text = "" Or txtBairro.Text = "" Or mskCEP.Text = "" Or cboEstado.Text = "" Then
       ShowMsg "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Verifique se todos os dados estão cadastrados.", vbInformation
+      Exit Sub
+   End If
+
+   If cboTipoPessoa.Text = "JURÍDICA" And txtIE.Text = "" Then
+      ShowMsg "O campo Inscrição Estadual é obrigatório para transportadora jurídica!", vbExclamation
+      txtIE.SetFocus
       Exit Sub
    End If
    
    'Solicita ao usuário confirmação da exclusão
    If ShowMsg("Deseja excluir esse transportadora?", vbInformation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
    
-   'Não é necessário consulta o registro antes de exclui-lo
-   'sSQL = "SELECT * FROM transportadora WHERE (codigo = " & txtCodigo.Text & ");"
-   'Set r = dbData.OpenRecordset(sSQL)
-   
    'Faz a exclusão usando o comando DELETE do SQL
    sSQL = "DELETE FROM transportadora WHERE (codigo = " & txtCodigo.Text & ");"
-   bRet = dbData.Execute(sSQL)
-    
+   dbData.Execute sSQL
+   bRet = True
+   
    If Not bRet Then
       ShowMsg "Não foi possível excluir o registro.", vbCritical
       Exit Sub
@@ -1217,6 +1248,10 @@ Private Sub cmdExcluir_Click()
    cmdNovo.Enabled = True
    Campos_Brancos
    Mostrar_Fornecedores
+   Exit Sub
+
+TrataErroExcluir:
+   ShowMsg "Não foi possível excluir o registro." & vbCrLf & Err.Description, vbCritical
 End Sub
 
 Private Sub cmdNovo_Click()
@@ -1237,6 +1272,7 @@ Private Sub cmdSair_Click()
 End Sub
 
 Private Sub Grid_DblClick()
+   If Grid.rows <= 1 Then Exit Sub
    SSTab1.Tab = 0
    frm_Principal.Enabled = True
    frm_Secundario.Enabled = True
@@ -1289,15 +1325,9 @@ If mskCNPJ.Text = "___.___.___-__" Or mskCNPJ.Text = "__.___.___/____-__" Then m
 Dim vCPF As String
 vCPF = RemoverFormato(mskCNPJ.Text)
 
-'If cboTipoCliente.Text = "CADASTRO" Then
- Select Case Len(vCPF)
+Select Case Len(vCPF)
         Case 0
-            If Len(vCPF) = 0 Then
-                vCPF = Empty
-            Else
-                mskCNPJ.SetFocus
-            End If
-            KeyCode = 0
+            vCPF = Empty
         Case 14
             If Validar_CNPJ(vCPF) = False Then
                 MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
@@ -1308,12 +1338,10 @@ vCPF = RemoverFormato(mskCNPJ.Text)
                 MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
                 mskCNPJ.SetFocus
             End If
-        Case Is < 11
-            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+        Case Else
+            MsgBox "CPF/CNPJ Informado não é valido (quantidade de dígitos incorreta)", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
             mskCNPJ.SetFocus
 End Select
-'End If
-
 End Sub
 
 
@@ -1385,9 +1413,16 @@ Private Sub cmdSalvar_Click()
    Dim sSQL As String
    Dim r As ADODB.Recordset
    
-   If txtRazao.Text = "" Or txtFantasia.Text = "" Or mskCNPJ.Text = "" Then
+   If txtRazao.Text = "" Or txtFantasia.Text = "" Or mskCNPJ.Text = "" Or cboCidade.Text = "" Or _
+      txtEndereco.Text = "" Or txtBairro.Text = "" Or mskCEP.Text = "" Or cboEstado.Text = "" Then
       ShowMsg "FORMULÁRIO INCOMPLETO!", vbExclamation
       txtRazao.SetFocus
+      Exit Sub
+   End If
+
+   If cboTipoPessoa.Text = "JURÍDICA" And txtIE.Text = "" Then
+      ShowMsg "O campo Inscrição Estadual é obrigatório para transportadora jurídica!", vbExclamation
+      txtIE.SetFocus
       Exit Sub
    End If
    
@@ -1510,7 +1545,7 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
             
             .TextMatrix(.rows - 1, 1) = rTabela("codigo")
             .TextMatrix(.rows - 1, 2) = rTabela("razao")
-            .TextMatrix(.rows - 1, 3) = rTabela("fantasia")
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("fantasia"))
             .TextMatrix(.rows - 1, 4) = rTabela("cidade")
             .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("estado"))
             

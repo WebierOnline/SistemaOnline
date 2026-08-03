@@ -2915,6 +2915,23 @@ If Grid.Rows <= 1 Then
     Exit Sub
 End If
 
+'descobrir a maquina de origem do NFCe - nao baixa/gera em outra maquina de proposito,
+'pra nao criar arquivo duplicado que seria enviado ao contador de 2 maquinas diferentes
+sSQL = "SELECT DISTINCT MAQUINA FROM pedidos WHERE cod_pedido = " & Grid.TextMatrix(Grid.Row, 1) & ""
+Set r = dbData.OpenRecordset(sSQL)
+Dim vMaquinaOrigem As String
+If Not r.EOF Then
+   vMaquinaOrigem = ValidateNull(r("MAQUINA"))
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If vMaquinaOrigem <> StatusBar1.Panels(2).Text Then
+   MsgBox "Esse cupom fiscal (NFCe) foi gerado na maquina " & vMaquinaOrigem & "." & vbCrLf & _
+          "Voce so conseguira fazer esse envio na maquina que originou a NFCe.", vbExclamation, "Aviso do Sistema"
+   Exit Sub
+End If
+
 Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
 
 'parte de encontrar o arquivo
@@ -2944,6 +2961,10 @@ If Not Existe(xCaminhoXML) Then MsgBox "Não existe o arquivo XML dessa venda nes
 emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
 
 If Not Vazio(emailDestino) Then
+   If InStr(1, emailDestino, "@") = 0 Then
+      MsgBox "E-mail inválido! O endereço não contém '@'.", vbExclamation, "Aviso"
+      Exit Sub
+   End If
    Call EnviaEmail(emailDestino, xCaminhoXML)
    DoEvents
 End If
@@ -2953,6 +2974,23 @@ Private Sub cmdEnviarPDF_Click()
 If Grid.Rows <= 1 Then
     MsgBox "Não existe nenhum pedido selecionado!", vbInformation, "Aviso do Sistema"
     Exit Sub
+End If
+
+'descobrir a maquina de origem do NFCe - nao baixa/gera em outra maquina de proposito,
+'pra nao criar arquivo duplicado que seria enviado ao contador de 2 maquinas diferentes
+sSQL = "SELECT DISTINCT MAQUINA FROM pedidos WHERE cod_pedido = " & Grid.TextMatrix(Grid.Row, 1) & ""
+Set r = dbData.OpenRecordset(sSQL)
+Dim vMaquinaOrigem As String
+If Not r.EOF Then
+   vMaquinaOrigem = ValidateNull(r("MAQUINA"))
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If vMaquinaOrigem <> StatusBar1.Panels(2).Text Then
+   MsgBox "Esse cupom fiscal (NFCe) foi gerado na maquina " & vMaquinaOrigem & "." & vbCrLf & _
+          "Voce so conseguira fazer esse envio na maquina que originou a NFCe.", vbExclamation, "Aviso do Sistema"
+   Exit Sub
 End If
 
 Dim NomeEmp As String, emailDestino As String, i As Integer, ComandoSQL As String
@@ -2979,6 +3017,10 @@ If Not Existe(xCaminhoXML) Then MsgBox "Não existe o arquivo PDF dessa venda nes
 emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
 
 If Not Vazio(emailDestino) Then
+   If InStr(1, emailDestino, "@") = 0 Then
+      MsgBox "E-mail inválido! O endereço não contém '@'.", vbExclamation, "Aviso"
+      Exit Sub
+   End If
    Call EnviaEmailPDF(emailDestino, xCaminhoXML)
    DoEvents
 End If
@@ -3156,7 +3198,6 @@ NFCeContingencia = r!ContigenciaNFCe
 'descobrir a maquina de origem do nfce
 sSQL = "SELECT DISTINCT MAQUINA FROM pedidos WHERE cod_pedido = " & Grid.TextMatrix(Grid.Row, 1) & ""
 Set r = dbData.OpenRecordset(sSQL)
-Debug.Print sSQL
 Dim vMaquinas As String
 If Not r.EOF Then
    vMaquinas = ValidateNull(r("MAQUINA"))

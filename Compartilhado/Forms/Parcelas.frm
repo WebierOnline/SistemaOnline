@@ -27,14 +27,14 @@ Begin VB.Form Parcelas
       Left            =   60
       ScaleHeight     =   585
       ScaleWidth      =   9645
-      TabIndex        =   50
+      TabIndex        =   49
       Top             =   60
       Width           =   9675
       Begin VB.TextBox txtCodFuncionario 
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   8340
-         TabIndex        =   106
+         TabIndex        =   100
          Top             =   180
          Visible         =   0   'False
          Width           =   1215
@@ -65,7 +65,7 @@ Begin VB.Form Parcelas
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1140
-         TabIndex        =   51
+         TabIndex        =   50
          Top             =   120
          Width           =   1725
       End
@@ -95,15 +95,21 @@ Begin VB.Form Parcelas
       TabPicture(0)   =   "Parcelas.frx":D7CE
       Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "frmParcela"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "txtCodParc"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "frmPagamento"
+      Tab(0).Control(2).Enabled=   0   'False
       Tab(0).Control(3)=   "Picture2"
+      Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Frame2"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "HAVER"
       TabPicture(1)   =   "Parcelas.frx":D7EA
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "frmHaver"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "PAGAS"
       TabPicture(2)   =   "Parcelas.frx":D806
@@ -126,7 +132,7 @@ Begin VB.Form Parcelas
       Tab(2).Control(7).Enabled=   0   'False
       Tab(2).Control(8)=   "lblTotalHistorico"
       Tab(2).Control(8).Enabled=   0   'False
-      Tab(2).Control(9)=   "cmdImprimirParcQuitSel"
+      Tab(2).Control(9)=   "lblQuantSelecionadasQuitadas"
       Tab(2).Control(9).Enabled=   0   'False
       Tab(2).Control(10)=   "cmdImprimirParcelas"
       Tab(2).Control(10).Enabled=   0   'False
@@ -138,338 +144,230 @@ Begin VB.Form Parcelas
       Tab(2).Control(13).Enabled=   0   'False
       Tab(2).Control(14)=   "cmdHabilitarREATIVAR"
       Tab(2).Control(14).Enabled=   0   'False
-      Tab(2).Control(15)=   "txtCONcodParc"
+      Tab(2).Control(15)=   "Picture3"
       Tab(2).Control(15).Enabled=   0   'False
-      Tab(2).Control(16)=   "Picture3"
-      Tab(2).Control(16).Enabled=   0   'False
-      Tab(2).Control(17)=   "frmReativar"
-      Tab(2).Control(17).Enabled=   0   'False
-      Tab(2).ControlCount=   18
-      Begin VB.Frame frmReativar 
-         BackColor       =   &H00C0FFFF&
-         Caption         =   "Parcela para reativar"
-         Enabled         =   0   'False
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
-         Height          =   1035
-         Left            =   120
-         TabIndex        =   78
-         Top             =   5520
-         Width           =   9435
-         Begin VB.TextBox txtCaixa 
-            Alignment       =   1  'Right Justify
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   1740
-            Locked          =   -1  'True
-            TabIndex        =   105
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   1155
-         End
-         Begin VB.TextBox txtCodCaixa 
-            Alignment       =   1  'Right Justify
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   480
-            Locked          =   -1  'True
-            TabIndex        =   104
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   1155
-         End
-         Begin VB.TextBox txtConCodOS 
-            Alignment       =   2  'Center
-            Appearance      =   0  'Flat
-            BackColor       =   &H00E0E0E0&
-            Height          =   315
-            Left            =   120
-            Locked          =   -1  'True
-            TabIndex        =   82
-            TabStop         =   0   'False
-            Top             =   540
-            Width           =   1215
-         End
-         Begin VB.TextBox txtConCodPedido 
-            Alignment       =   2  'Center
-            Appearance      =   0  'Flat
-            BackColor       =   &H00E0E0E0&
-            Height          =   315
-            Left            =   1380
-            Locked          =   -1  'True
-            TabIndex        =   81
-            TabStop         =   0   'False
-            Top             =   540
-            Width           =   735
-         End
-         Begin VB.TextBox txtConNumParcela 
-            Alignment       =   2  'Center
-            Appearance      =   0  'Flat
-            BackColor       =   &H00E0E0E0&
-            Height          =   315
-            Left            =   2160
-            Locked          =   -1  'True
-            TabIndex        =   80
-            TabStop         =   0   'False
-            Top             =   540
-            Width           =   435
-         End
-         Begin VB.TextBox txtConValor 
-            Alignment       =   1  'Right Justify
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   4680
-            Locked          =   -1  'True
-            TabIndex        =   79
-            Top             =   540
-            Width           =   1155
-         End
-         Begin MSMask.MaskEdBox mskConData 
-            Height          =   315
-            Left            =   2640
-            TabIndex        =   83
-            Top             =   540
-            Width           =   975
-            _ExtentX        =   1720
-            _ExtentY        =   556
-            _Version        =   393216
-            Appearance      =   0
-            PromptChar      =   "_"
-         End
-         Begin MSMask.MaskEdBox mskConPgto 
-            Height          =   315
-            Left            =   3660
-            TabIndex        =   84
-            Top             =   540
-            Width           =   975
-            _ExtentX        =   1720
-            _ExtentY        =   556
-            _Version        =   393216
-            Appearance      =   0
-            PromptChar      =   "_"
-         End
-         Begin ChamaleonBtn.chameleonButton cmdReativar 
-            Height          =   315
-            Left            =   6000
-            TabIndex        =   91
-            Top             =   540
-            Width           =   1515
-            _ExtentX        =   2672
-            _ExtentY        =   556
-            BTYPE           =   3
-            TX              =   "R&eativar"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   12632256
-            BCOLO           =   12632256
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "Parcelas.frx":D822
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin VB.Label Label7 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Origem"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
-            TabIndex        =   90
-            Top             =   300
-            Width           =   600
-         End
-         Begin VB.Label Label8 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Pedido"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   1380
-            TabIndex        =   89
-            Top             =   300
-            Width           =   600
-         End
-         Begin VB.Label Label12 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "No."
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2160
-            TabIndex        =   88
-            Top             =   300
-            Width           =   315
-         End
-         Begin VB.Label Label13 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Venc."
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   2640
-            TabIndex        =   87
-            Top             =   300
-            Width           =   510
-         End
-         Begin VB.Label Label17 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Valor"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   4680
-            TabIndex        =   86
-            Top             =   300
-            Width           =   450
-         End
-         Begin VB.Label Label18 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Pgto."
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   3660
-            TabIndex        =   85
-            Top             =   300
-            Width           =   465
-         End
-      End
+      Tab(2).ControlCount=   16
       Begin VB.PictureBox Picture3 
          Appearance      =   0  'Flat
          BackColor       =   &H80000005&
          ForeColor       =   &H80000008&
-         Height          =   4095
+         Height          =   4935
          Left            =   120
-         ScaleHeight     =   4065
+         ScaleHeight     =   4905
          ScaleWidth      =   9405
-         TabIndex        =   66
+         TabIndex        =   65
          Top             =   720
          Width           =   9435
-         Begin VB.OptionButton optTodas 
-            Caption         =   "Todas"
-            Height          =   195
-            Left            =   3600
-            TabIndex        =   128
-            Top             =   120
-            Width           =   1395
-         End
-         Begin VB.ComboBox cboAno 
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   8160
-            Sorted          =   -1  'True
-            TabIndex        =   127
+         Begin VB.Frame frmFiltro 
+            BackColor       =   &H80000005&
+            Caption         =   "Filtrar por:"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   615
+            Left            =   60
+            TabIndex        =   120
             Top             =   60
-            Width           =   1155
+            Width           =   2655
+            Begin VB.OptionButton optTodas 
+               BackColor       =   &H80000005&
+               Caption         =   "Todas"
+               Height          =   195
+               Left            =   1740
+               TabIndex        =   123
+               Top             =   300
+               Width           =   795
+            End
+            Begin VB.OptionButton optDia 
+               BackColor       =   &H80000005&
+               Caption         =   "Dia"
+               Height          =   195
+               Left            =   1080
+               TabIndex        =   122
+               Top             =   300
+               Width           =   675
+            End
+            Begin VB.OptionButton optMensal 
+               BackColor       =   &H80000005&
+               Caption         =   "Mensal"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   121
+               Top             =   300
+               Value           =   -1  'True
+               Width           =   855
+            End
          End
-         Begin VB.ComboBox cboMes 
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   6780
-            TabIndex        =   126
+         Begin VB.Frame frmConsulta 
+            BackColor       =   &H80000005&
+            Caption         =   "Critérios:"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   615
+            Left            =   2760
+            TabIndex        =   113
             Top             =   60
-            Width           =   1335
-         End
-         Begin VB.OptionButton optVenc 
-            Caption         =   "Vencimento"
-            Height          =   195
-            Left            =   2340
-            TabIndex        =   103
-            Top             =   120
-            Width           =   1395
-         End
-         Begin VB.OptionButton optPgto 
-            Caption         =   "Pagamento"
-            Height          =   195
-            Left            =   1140
-            TabIndex        =   102
-            Top             =   120
-            Value           =   -1  'True
-            Width           =   1215
+            Width           =   4815
+            Begin VB.ComboBox cboMes 
+               Appearance      =   0  'Flat
+               Height          =   315
+               Left            =   900
+               TabIndex        =   119
+               Top             =   240
+               Width           =   1335
+            End
+            Begin VB.ComboBox cboAno 
+               Appearance      =   0  'Flat
+               Height          =   315
+               Left            =   2280
+               Sorted          =   -1  'True
+               TabIndex        =   118
+               Top             =   240
+               Width           =   1035
+            End
+            Begin VB.OptionButton optPgto 
+               BackColor       =   &H80000005&
+               Caption         =   "Pgto"
+               Height          =   195
+               Left            =   1080
+               TabIndex        =   117
+               Top             =   0
+               Value           =   -1  'True
+               Width           =   735
+            End
+            Begin VB.OptionButton optVenc 
+               BackColor       =   &H80000005&
+               Caption         =   "Venc."
+               Height          =   195
+               Left            =   1800
+               TabIndex        =   116
+               Top             =   0
+               Width           =   795
+            End
+            Begin ChamaleonBtn.chameleonButton cmdExibirConsulta 
+               Height          =   315
+               Left            =   3360
+               TabIndex        =   114
+               Top             =   240
+               Width           =   1335
+               _ExtentX        =   2355
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "Exibir"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   12632256
+               BCOLO           =   12632256
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Parcelas.frx":D822
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin ChamaleonBtn.chameleonButton Cal1 
+               Height          =   315
+               Left            =   2160
+               TabIndex        =   124
+               TabStop         =   0   'False
+               Tag             =   "Calendario"
+               Top             =   240
+               Width           =   315
+               _ExtentX        =   556
+               _ExtentY        =   556
+               BTYPE           =   8
+               TX              =   ""
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   15790320
+               BCOLO           =   15790320
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Parcelas.frx":D83E
+               PICN            =   "Parcelas.frx":D85A
+               PICH            =   "Parcelas.frx":FBAD
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin MSMask.MaskEdBox mskDataConsulta 
+               Height          =   315
+               Left            =   900
+               TabIndex        =   125
+               Top             =   240
+               Width           =   1275
+               _ExtentX        =   2249
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin VB.Label lblRotuloConsulta 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Mês/Ano:"
+               Height          =   195
+               Index           =   10
+               Left            =   120
+               TabIndex        =   115
+               Top             =   240
+               Width           =   705
+            End
          End
          Begin MSFlexGridLib.MSFlexGrid Grid_Historico 
-            Height          =   3555
+            Height          =   4095
             Left            =   60
-            TabIndex        =   74
-            Top             =   420
+            TabIndex        =   73
+            Top             =   720
             Width           =   9255
             _ExtentX        =   16325
-            _ExtentY        =   6271
+            _ExtentY        =   7223
             _Version        =   393216
             FixedCols       =   0
             SelectionMode   =   1
@@ -483,23 +381,6 @@ Begin VB.Form Parcelas
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-         End
-         Begin VB.Label Label10 
-            Caption         =   "Filtrar por:"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   180
-            TabIndex        =   101
-            Top             =   120
-            Width           =   1275
          End
       End
       Begin VB.Frame frmParcela 
@@ -517,7 +398,7 @@ Begin VB.Form Parcelas
          ForeColor       =   &H000000C0&
          Height          =   1815
          Left            =   -74280
-         TabIndex        =   54
+         TabIndex        =   53
          Top             =   6120
          Visible         =   0   'False
          Width           =   4035
@@ -622,7 +503,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   1500
-            TabIndex        =   59
+            TabIndex        =   58
             Top             =   1020
             Width           =   450
          End
@@ -641,7 +522,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   120
-            TabIndex        =   58
+            TabIndex        =   57
             Top             =   1020
             Width           =   1005
          End
@@ -660,7 +541,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   2700
-            TabIndex        =   57
+            TabIndex        =   56
             Top             =   360
             Width           =   660
          End
@@ -679,7 +560,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   1380
-            TabIndex        =   56
+            TabIndex        =   55
             Top             =   360
             Width           =   600
          End
@@ -698,19 +579,10 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   120
-            TabIndex        =   55
+            TabIndex        =   54
             Top             =   360
             Width           =   600
          End
-      End
-      Begin VB.TextBox txtCONcodParc 
-         Appearance      =   0  'Flat
-         Height          =   285
-         Left            =   3660
-         TabIndex        =   49
-         Top             =   4860
-         Visible         =   0   'False
-         Width           =   615
       End
       Begin VB.TextBox txtCodParc 
          Appearance      =   0  'Flat
@@ -797,9 +669,9 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":D83E
-            PICN            =   "Parcelas.frx":D85A
-            PICH            =   "Parcelas.frx":FBAD
+            MICON           =   "Parcelas.frx":11F00
+            PICN            =   "Parcelas.frx":11F1C
+            PICH            =   "Parcelas.frx":1426F
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -948,7 +820,7 @@ Begin VB.Form Parcelas
             Caption         =   "Valor:"
             Height          =   195
             Left            =   960
-            TabIndex        =   120
+            TabIndex        =   77
             Top             =   600
             Visible         =   0   'False
             Width           =   405
@@ -961,7 +833,7 @@ Begin VB.Form Parcelas
             Caption         =   "Forma de Pgto:"
             Height          =   195
             Left            =   240
-            TabIndex        =   70
+            TabIndex        =   69
             Top             =   240
             Width           =   1080
          End
@@ -1035,7 +907,7 @@ Begin VB.Form Parcelas
             Caption         =   "Cód. Pedido"
             Height          =   195
             Left            =   6120
-            TabIndex        =   72
+            TabIndex        =   71
             TabStop         =   0   'False
             Top             =   60
             Width           =   1335
@@ -1044,7 +916,7 @@ Begin VB.Form Parcelas
             Enabled         =   0   'False
             Height          =   315
             Left            =   6120
-            TabIndex        =   71
+            TabIndex        =   70
             TabStop         =   0   'False
             Top             =   300
             Width           =   1515
@@ -1084,14 +956,14 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   555
             Left            =   7680
-            TabIndex        =   67
+            TabIndex        =   66
             Top             =   60
             Width           =   1635
             Begin VB.OptionButton optJurosNao 
                Caption         =   "Não"
                Height          =   195
                Left            =   840
-               TabIndex        =   69
+               TabIndex        =   68
                Top             =   300
                Width           =   675
             End
@@ -1099,7 +971,7 @@ Begin VB.Form Parcelas
                Caption         =   "Sim"
                Height          =   195
                Left            =   180
-               TabIndex        =   68
+               TabIndex        =   67
                Top             =   300
                Value           =   -1  'True
                Width           =   795
@@ -1125,7 +997,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdMostrarProdutos 
             Height          =   255
             Left            =   1500
-            TabIndex        =   114
+            TabIndex        =   108
             Top             =   3300
             Width           =   1935
             _ExtentX        =   3413
@@ -1150,7 +1022,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":11F00
+            MICON           =   "Parcelas.frx":165C2
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1163,7 +1035,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdMarcarCheck 
             Height          =   255
             Left            =   60
-            TabIndex        =   115
+            TabIndex        =   109
             Top             =   3300
             Width           =   1395
             _ExtentX        =   2461
@@ -1188,7 +1060,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":11F1C
+            MICON           =   "Parcelas.frx":165DE
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1201,7 +1073,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdMostrarHaveres 
             Height          =   255
             Left            =   3480
-            TabIndex        =   124
+            TabIndex        =   78
             Top             =   3300
             Width           =   1695
             _ExtentX        =   2990
@@ -1226,7 +1098,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":11F38
+            MICON           =   "Parcelas.frx":165FA
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1253,7 +1125,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   7740
-            TabIndex        =   118
+            TabIndex        =   85
             Top             =   3360
             Width           =   1545
          End
@@ -1273,7 +1145,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   6060
-            TabIndex        =   117
+            TabIndex        =   111
             Top             =   3600
             Width           =   1005
          End
@@ -1294,7 +1166,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   5340
-            TabIndex        =   116
+            TabIndex        =   110
             Top             =   3600
             Width           =   645
          End
@@ -1315,7 +1187,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   7560
-            TabIndex        =   112
+            TabIndex        =   106
             Top             =   3600
             Width           =   645
          End
@@ -1336,7 +1208,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   5205
-            TabIndex        =   111
+            TabIndex        =   105
             Top             =   4320
             Width           =   795
          End
@@ -1357,7 +1229,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   5220
-            TabIndex        =   110
+            TabIndex        =   104
             Top             =   3840
             Width           =   780
          End
@@ -1378,7 +1250,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   5100
-            TabIndex        =   109
+            TabIndex        =   103
             Top             =   4080
             Width           =   900
          End
@@ -1399,7 +1271,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   7425
-            TabIndex        =   108
+            TabIndex        =   102
             Top             =   4320
             Width           =   795
          End
@@ -1420,7 +1292,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   7440
-            TabIndex        =   107
+            TabIndex        =   101
             Top             =   3840
             Width           =   780
          End
@@ -1441,7 +1313,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   7320
-            TabIndex        =   99
+            TabIndex        =   96
             Top             =   4080
             Width           =   900
          End
@@ -1462,7 +1334,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   5280
-            TabIndex        =   98
+            TabIndex        =   95
             Top             =   3360
             Width           =   1785
          End
@@ -1482,7 +1354,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   6060
-            TabIndex        =   97
+            TabIndex        =   94
             ToolTipText     =   "Haveres"
             Top             =   4080
             Width           =   990
@@ -1503,7 +1375,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   6060
-            TabIndex        =   96
+            TabIndex        =   93
             ToolTipText     =   "Sub-Total"
             Top             =   3840
             Width           =   990
@@ -1524,7 +1396,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   6060
-            TabIndex        =   93
+            TabIndex        =   90
             ToolTipText     =   "Sub-Total"
             Top             =   4320
             Width           =   990
@@ -1532,7 +1404,7 @@ Begin VB.Form Parcelas
          Begin VB.Image imgDesmarcada 
             Height          =   195
             Left            =   2940
-            Picture         =   "Parcelas.frx":11F54
+            Picture         =   "Parcelas.frx":16616
             Top             =   3660
             Visible         =   0   'False
             Width           =   195
@@ -1540,7 +1412,7 @@ Begin VB.Form Parcelas
          Begin VB.Image ImgMarcada 
             Height          =   195
             Left            =   2100
-            Picture         =   "Parcelas.frx":142D0
+            Picture         =   "Parcelas.frx":18992
             Top             =   3660
             Visible         =   0   'False
             Width           =   195
@@ -1561,7 +1433,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   8280
-            TabIndex        =   64
+            TabIndex        =   63
             ToolTipText     =   "Sub-Total"
             Top             =   3840
             Width           =   990
@@ -1582,7 +1454,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   8280
-            TabIndex        =   63
+            TabIndex        =   62
             ToolTipText     =   "Haveres"
             Top             =   4080
             Width           =   990
@@ -1603,7 +1475,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   8280
-            TabIndex        =   60
+            TabIndex        =   59
             Top             =   3600
             Width           =   1005
          End
@@ -1623,7 +1495,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H00FFFFFF&
             Height          =   195
             Left            =   8280
-            TabIndex        =   53
+            TabIndex        =   52
             ToolTipText     =   "Total"
             Top             =   4320
             Width           =   990
@@ -1740,7 +1612,7 @@ Begin VB.Form Parcelas
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Parcelas.frx":166CF
+               MICON           =   "Parcelas.frx":1AD91
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1778,7 +1650,7 @@ Begin VB.Form Parcelas
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Parcelas.frx":166EB
+               MICON           =   "Parcelas.frx":1ADAD
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1791,7 +1663,7 @@ Begin VB.Form Parcelas
             Begin ChamaleonBtn.chameleonButton cmdImprimirHaver 
                Height          =   315
                Left            =   7080
-               TabIndex        =   123
+               TabIndex        =   79
                Top             =   300
                Width           =   1335
                _ExtentX        =   2355
@@ -1816,7 +1688,7 @@ Begin VB.Form Parcelas
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Parcelas.frx":16707
+               MICON           =   "Parcelas.frx":1ADC9
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1843,7 +1715,7 @@ Begin VB.Form Parcelas
                EndProperty
                Height          =   195
                Left            =   2340
-               TabIndex        =   92
+               TabIndex        =   89
                Top             =   60
                Width           =   1305
             End
@@ -1924,7 +1796,7 @@ Begin VB.Form Parcelas
                ForeColor       =   &H00FFFFFF&
                Height          =   195
                Left            =   60
-               TabIndex        =   62
+               TabIndex        =   61
                Top             =   4320
                Width           =   225
             End
@@ -1945,7 +1817,7 @@ Begin VB.Form Parcelas
                ForeColor       =   &H00000000&
                Height          =   195
                Left            =   8700
-               TabIndex        =   61
+               TabIndex        =   60
                Top             =   4320
                Width           =   390
             End
@@ -1968,7 +1840,7 @@ Begin VB.Form Parcelas
             ForeColor       =   &H000000FF&
             Height          =   315
             Left            =   120
-            TabIndex        =   52
+            TabIndex        =   51
             Top             =   240
             Width           =   9195
          End
@@ -1976,14 +1848,14 @@ Begin VB.Form Parcelas
       Begin VB.Frame Frame2 
          Height          =   3255
          Left            =   -74880
-         TabIndex        =   73
+         TabIndex        =   72
          Top             =   5160
          Width           =   9435
          Begin VB.TextBox txtItem 
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   4740
-            TabIndex        =   122
+            TabIndex        =   80
             Top             =   1920
             Visible         =   0   'False
             Width           =   1335
@@ -1996,7 +1868,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdAlterar 
             Height          =   555
             Left            =   4260
-            TabIndex        =   94
+            TabIndex        =   91
             Top             =   1200
             Visible         =   0   'False
             Width           =   1395
@@ -2022,8 +1894,8 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":16723
-            PICN            =   "Parcelas.frx":1673F
+            MICON           =   "Parcelas.frx":1ADE5
+            PICN            =   "Parcelas.frx":1AE01
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2036,7 +1908,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdExcluir 
             Height          =   555
             Left            =   4740
-            TabIndex        =   95
+            TabIndex        =   92
             Top             =   2280
             Visible         =   0   'False
             Width           =   1395
@@ -2062,8 +1934,8 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":17019
-            PICN            =   "Parcelas.frx":17035
+            MICON           =   "Parcelas.frx":1B6DB
+            PICN            =   "Parcelas.frx":1B6F7
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2102,7 +1974,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":1734F
+            MICON           =   "Parcelas.frx":1BA11
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2141,7 +2013,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":1736B
+            MICON           =   "Parcelas.frx":1BA2D
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2180,7 +2052,7 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":17387
+            MICON           =   "Parcelas.frx":1BA49
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   4
@@ -2219,7 +2091,7 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":173A3
+            MICON           =   "Parcelas.frx":1BA65
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   4
@@ -2258,7 +2130,7 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":173BF
+            MICON           =   "Parcelas.frx":1BA81
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   4
@@ -2271,7 +2143,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdQuitarAutomatico 
             Height          =   435
             Left            =   60
-            TabIndex        =   119
+            TabIndex        =   81
             Top             =   180
             Visible         =   0   'False
             Width           =   2295
@@ -2297,7 +2169,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":173DB
+            MICON           =   "Parcelas.frx":1BA9D
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2336,7 +2208,7 @@ Begin VB.Form Parcelas
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":173F7
+            MICON           =   "Parcelas.frx":1BAB9
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   4
@@ -2349,7 +2221,7 @@ Begin VB.Form Parcelas
          Begin ChamaleonBtn.chameleonButton cmdAlterarVenc 
             Height          =   435
             Left            =   4740
-            TabIndex        =   125
+            TabIndex        =   82
             Top             =   180
             Visible         =   0   'False
             Width           =   2295
@@ -2375,7 +2247,7 @@ Begin VB.Form Parcelas
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Parcelas.frx":17413
+            MICON           =   "Parcelas.frx":1BAD5
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2399,7 +2271,7 @@ Begin VB.Form Parcelas
             EndProperty
             Height          =   195
             Left            =   -60
-            TabIndex        =   113
+            TabIndex        =   107
             Top             =   1680
             Visible         =   0   'False
             Width           =   495
@@ -2407,7 +2279,7 @@ Begin VB.Form Parcelas
          Begin VB.Image imLogoCupom 
             Height          =   1125
             Left            =   360
-            Picture         =   "Parcelas.frx":1742F
+            Picture         =   "Parcelas.frx":1BAF1
             Top             =   900
             Visible         =   0   'False
             Width           =   2850
@@ -2415,9 +2287,9 @@ Begin VB.Form Parcelas
       End
       Begin ChamaleonBtn.chameleonButton cmdHabilitarREATIVAR 
          Height          =   315
-         Left            =   4200
-         TabIndex        =   75
-         Top             =   5160
+         Left            =   4500
+         TabIndex        =   74
+         Top             =   6240
          Width           =   1515
          _ExtentX        =   2672
          _ExtentY        =   556
@@ -2441,7 +2313,7 @@ Begin VB.Form Parcelas
          FCOLO           =   255
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Parcelas.frx":17F4C
+         MICON           =   "Parcelas.frx":1C60E
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2454,10 +2326,10 @@ Begin VB.Form Parcelas
       Begin ChamaleonBtn.chameleonButton cmdMarcarTodasREATIVAR 
          Height          =   315
          Left            =   120
-         TabIndex        =   76
-         Top             =   5160
-         Width           =   1755
-         _ExtentX        =   3096
+         TabIndex        =   75
+         Top             =   6240
+         Width           =   2055
+         _ExtentX        =   3625
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "MARCAR TODAS"
@@ -2479,7 +2351,7 @@ Begin VB.Form Parcelas
          FCOLO           =   255
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Parcelas.frx":17F68
+         MICON           =   "Parcelas.frx":1C62A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2491,9 +2363,9 @@ Begin VB.Form Parcelas
       End
       Begin ChamaleonBtn.chameleonButton cmdMostrarProdutosREATIVAR 
          Height          =   315
-         Left            =   1920
-         TabIndex        =   77
-         Top             =   5160
+         Left            =   2220
+         TabIndex        =   76
+         Top             =   6240
          Width           =   2235
          _ExtentX        =   3942
          _ExtentY        =   556
@@ -2517,7 +2389,7 @@ Begin VB.Form Parcelas
          FCOLO           =   255
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Parcelas.frx":17F84
+         MICON           =   "Parcelas.frx":1C646
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2530,8 +2402,9 @@ Begin VB.Form Parcelas
       Begin MSFlexGridLib.MSFlexGrid GridHaverPagas 
          Height          =   1455
          Left            =   120
-         TabIndex        =   121
+         TabIndex        =   83
          Top             =   6900
+         Visible         =   0   'False
          Width           =   9435
          _ExtentX        =   16642
          _ExtentY        =   2566
@@ -2543,15 +2416,15 @@ Begin VB.Form Parcelas
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimirParcelas 
          Height          =   315
-         Left            =   5760
-         TabIndex        =   130
-         Top             =   5160
+         Left            =   6060
+         TabIndex        =   84
+         Top             =   6240
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "RECIBO"
-         ENAB            =   -1  'True
+         ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -2569,7 +2442,7 @@ Begin VB.Form Parcelas
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Parcelas.frx":17FA0
+         MICON           =   "Parcelas.frx":1C662
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2579,18 +2452,10 @@ Begin VB.Form Parcelas
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdImprimirParcQuitSel 
-         Height          =   315
-         Left            =   5760
-         TabIndex        =   135
-         Top             =   5160
-         Width           =   1335
-         _ExtentX        =   2355
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "RECIBO"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+      Begin VB.Label lblQuantSelecionadasQuitadas 
+         BackColor       =   &H00000080&
+         Caption         =   "00"
+         BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
             Charset         =   0
@@ -2599,23 +2464,12 @@ Begin VB.Form Parcelas
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Parcelas.frx":17FBC
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
+         ForeColor       =   &H00FFFFFF&
+         Height          =   195
+         Left            =   7860
+         TabIndex        =   112
+         Top             =   5940
+         Width           =   585
       End
       Begin VB.Label lblTotalHistorico 
          Alignment       =   1  'Right Justify
@@ -2632,11 +2486,11 @@ Begin VB.Form Parcelas
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   195
-         Left            =   8580
-         TabIndex        =   134
+         Left            =   8460
+         TabIndex        =   86
          ToolTipText     =   "Sub-Total"
-         Top             =   4860
-         Width           =   990
+         Top             =   5700
+         Width           =   1050
       End
       Begin VB.Label lblTotalSelecionadasQuitadas 
          Alignment       =   1  'Right Justify
@@ -2653,11 +2507,11 @@ Begin VB.Form Parcelas
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   195
-         Left            =   8580
-         TabIndex        =   133
+         Left            =   8460
+         TabIndex        =   87
          ToolTipText     =   "Haveres"
-         Top             =   5100
-         Width           =   990
+         Top             =   5940
+         Width           =   1050
       End
       Begin VB.Label Label30 
          Alignment       =   1  'Right Justify
@@ -2675,9 +2529,9 @@ Begin VB.Form Parcelas
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   7185
-         TabIndex        =   132
-         Top             =   5100
+         Left            =   6480
+         TabIndex        =   88
+         Top             =   5940
          Width           =   1335
       End
       Begin VB.Label Label29 
@@ -2696,9 +2550,9 @@ Begin VB.Form Parcelas
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   7620
-         TabIndex        =   131
-         Top             =   4860
+         Left            =   6900
+         TabIndex        =   98
+         Top             =   5700
          Width           =   900
       End
       Begin VB.Label Label28 
@@ -2719,28 +2573,28 @@ Begin VB.Form Parcelas
          ForeColor       =   &H00800000&
          Height          =   315
          Left            =   120
-         TabIndex        =   129
+         TabIndex        =   99
          Top             =   6600
+         Visible         =   0   'False
          Width           =   9435
       End
       Begin VB.Image ImgMarcadaPAGAS 
          Height          =   195
-         Left            =   1320
-         Picture         =   "Parcelas.frx":17FD8
-         Top             =   4920
+         Left            =   120
+         Picture         =   "Parcelas.frx":1C67E
+         Top             =   5700
          Visible         =   0   'False
          Width           =   195
       End
       Begin VB.Image imgDesmarcadaPAGAS 
          Height          =   195
-         Left            =   1560
-         Picture         =   "Parcelas.frx":1A3D7
-         Top             =   4920
+         Left            =   360
+         Picture         =   "Parcelas.frx":1EA7D
+         Top             =   5700
          Visible         =   0   'False
          Width           =   195
       End
       Begin VB.Label lblQuantHistorico 
-         AutoSize        =   -1  'True
          BackColor       =   &H00000080&
          Caption         =   "00"
          BeginProperty Font 
@@ -2754,10 +2608,10 @@ Begin VB.Form Parcelas
          EndProperty
          ForeColor       =   &H00FFFFFF&
          Height          =   195
-         Left            =   120
-         TabIndex        =   65
-         Top             =   4860
-         Width           =   225
+         Left            =   7860
+         TabIndex        =   64
+         Top             =   5700
+         Width           =   585
       End
       Begin VB.Label lblCliente 
          Alignment       =   2  'Center
@@ -2786,7 +2640,7 @@ Begin VB.Form Parcelas
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   100
+      TabIndex        =   97
       Top             =   9270
       Width           =   9795
       _ExtentX        =   17277
@@ -2810,7 +2664,7 @@ Begin VB.Form Parcelas
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "21:13"
+            TextSave        =   "15:02"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2895,14 +2749,6 @@ Else
 End If
 End Sub
 
-Private Sub Limpar_Campos_Reativar()
-txtConCodOS.Text = ""
-txtConCodPedido.Text = ""
-txtConNumParcela.Text = ""
-mskConData.Text = ""
-mskConPgto.Text = ""
-txtCONValor.Text = ""
-End Sub
 
 Private Sub Reimprimir_HaverFolha()
 i = Grid_Haver.Row
@@ -2999,74 +2845,6 @@ Me.Show
 End Sub
 
 
-Private Sub ImprimirPedidoFolhaSel()
-If vQuitarUma = True Then
-   If txtCodPedido.Text = "" Then
-      ShowMsg "O código do PEDIDO está em branco !!", vbExclamation
-      Exit Sub
-   End If
-End If
-
-'tabela empresa
-sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-Set rEmpresa = dbData.OpenRecordset(sSQL)
-vCidadeUF = rEmpresa("cidade") & "-" & rEmpresa("estado")
-
-Set rUsuario = dbData.OpenRecordset("SELECT codigo, login FROM Usuario WHERE  (codigo = " & txtCodFuncionario.Text & ");")
-
-Me.Hide
-With REL_Recibo
-   .txtCliente.Caption = UCase(cboCliente.Text)
-    If Not rUsuario.EOF Then
-        .txtUsuario.Caption = UCase(rUsuario("login"))
-    Else
-        .txtUsuario.Caption = "Não Especificado"
-    End If
-   
-   .txtFormaPgto.Caption = UCase(cboForma.Text)
-   
-   If vQuitarUma = True Then
-      .txtValor.Caption = UCase(NumeroExtenso(txtTotal.Text, True))
-      .txthead.Caption = "R$ " & Format(txtTotal.Text, "##,##0.00")
-      .txtProveniente.Caption = "Pagamento da " & txtNumParcela.Text & "ª parcela do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
-      .txtData.Caption = "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & MonthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
-   Else
-      Dim var_Parc As String
-      Dim f As Integer
-
-      var_Parc = ""
-      
-      With Grid_Historico
-         For f = 1 To .rows - 1
-            .Col = 0
-            .Row = f
-
-            If .CellPicture = ImgMarcadaPAGAS Then
-               If f = 1 Then
-                  var_Parc = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-               ElseIf Right(var_Parc, 8) = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00") Then
-                  MsgBox "Tratar Repetido"
-               Else
-                  var_Parc = var_Parc & ", " & Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-                  If f = .rows - 1 Then Exit For
-               End If
-            End If
-         Next f
-      End With
-
-      .txtValor.Caption = UCase(NumeroExtenso(lblTotalSelecionadasQuitadas.Caption, True))
-      .txthead.Caption = "R$ " & Format(lblTotalSelecionadasQuitadas.Caption, "##,##0.00")
-      .txtProveniente.Caption = "PEDIDO(S): " & var_Parc
-      .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
-   End If
-
-   .Relatorio.NumeroRegistros = 1
-   .Relatorio.NomeImpressora = var_ImpNormal
-   .Relatorio.Ativar
-End With
-Unload REL_Recibo
-Me.Show
-End Sub
 
 Private Sub ImprimirPedidoFolha()
 If vQuitarUma = True Then
@@ -3382,44 +3160,49 @@ End Sub
 
 Private Sub FormatarGrid_Historico(rTabela As ADODB.Recordset)
 Dim i As Integer
+Dim j As Integer
 
 With Grid_Historico
    .Visible = False
    
    .Clear
-   .Cols = 15
+   .Cols = 17
    .rows = 2
    
    .ColWidth(0) = 300
    .ColWidth(1) = 0 '0
    .ColWidth(2) = 0 '0
-   .ColWidth(3) = 750
-   .ColWidth(4) = 450
-   .ColWidth(5) = 900
+   .ColWidth(3) = 700
+   .ColWidth(4) = 750
+   .ColWidth(5) = 400
    .ColWidth(6) = 900
    .ColWidth(7) = 800
-   .ColWidth(8) = 900
-   .ColWidth(9) = 750
-   .ColWidth(10) = 850
-   .ColWidth(11) = 900
-   .ColWidth(12) = 800
-   .ColWidth(13) = 800
-   .ColWidth(14) = 850
+   .ColWidth(8) = 800
+   .ColWidth(9) = 800
+   .ColWidth(10) = 650
+   .ColWidth(11) = 750
+   .ColWidth(12) = 850
+   .ColWidth(13) = 750
+   .ColWidth(14) = 600
+   .ColWidth(15) = 600
+   .ColWidth(16) = 600
    
    .TextMatrix(0, 1) = "CÓD"
    .TextMatrix(0, 2) = "ORIGEM"
    .TextMatrix(0, 3) = "PEDIDO"
-   .TextMatrix(0, 4) = "No."
-   .TextMatrix(0, 5) = "VENC."
-   .TextMatrix(0, 6) = "VALOR"
-   .TextMatrix(0, 7) = "JUROS"
-   .TextMatrix(0, 8) = "SUBTOTAL"
-   .TextMatrix(0, 9) = "DESC."
-   .TextMatrix(0, 10) = "HAVER"
-   .TextMatrix(0, 11) = "TOTAL"
-   .TextMatrix(0, 12) = "PGTO"
-   .TextMatrix(0, 13) = "CÓD."
-   .TextMatrix(0, 14) = "CAIXA"
+   .TextMatrix(0, 4) = "TIPO"
+   .TextMatrix(0, 5) = "No."
+   .TextMatrix(0, 6) = "VENC."
+   .TextMatrix(0, 7) = "VALOR"
+   .TextMatrix(0, 8) = "JUROS"
+   .TextMatrix(0, 9) = "SUBTOTAL"
+   .TextMatrix(0, 10) = "DESC."
+   .TextMatrix(0, 11) = "HAVER"
+   .TextMatrix(0, 12) = "TOTAL"
+   .TextMatrix(0, 13) = "PGTO"
+   .TextMatrix(0, 14) = "HORA"
+   .TextMatrix(0, 15) = "CÓD."
+   .TextMatrix(0, 16) = "CAIXA"
    
    .Redraw = False
    
@@ -3442,40 +3225,26 @@ With Grid_Historico
          'mudar a cor da coluna
          For i = 1 To .rows - 1
             .Row = i
-            .Col = 11
+            .Col = 12
             .CellBackColor = &HC0FFFF
          Next
          
          .TextMatrix(.rows - 1, 1) = rTabela("cod")
          .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("campo00"))
          .TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
-         .TextMatrix(.rows - 1, 4) = rTabela("campo02")
-         .TextMatrix(.rows - 1, 5) = Format(rTabela("campo03"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("campo04"), 2)
-         .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("var_juros"), 2)
-         .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("subtotal"), 2)
-         .TextMatrix(.rows - 1, 9) = FormatNumber(rTabela("vardesc"), 2)
-         .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("varSomaHaveres"), 2)
-         .TextMatrix(.rows - 1, 11) = FormatNumber(rTabela("vValorFinal"), 2)
-         .TextMatrix(.rows - 1, 12) = Format(rTabela("campo06"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 13) = Format(rTabela("VARCODCAIXAPARC"), "000000")
-         .TextMatrix(.rows - 1, 14) = ValidateNull(rTabela("varCaixaParc"))
-         
-         
-         '.TextMatrix(.rows - 1, 1) = rTabela("cod")
-         '.TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("campo00"))
-         '.TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
-         '.TextMatrix(.rows - 1, 4) = rTabela("campo02")
-         '.TextMatrix(.rows - 1, 5) = Format(rTabela("campo03"), "dd/mm/yy")
-         '.TextMatrix(.rows - 1, 6) = Format(rTabela("campo04"), ocMONEY)
-'        ' .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_dias"))
-         '.TextMatrix(.rows - 1, 8) = Format(rTabela("var_juros"), ocMONEY)
-         '.TextMatrix(.rows - 1, 9) = Format(rTabela("vardesc"), ocMONEY)
-         '.TextMatrix(.rows - 1, 10) = Format(rTabela("vValorFinal"), ocMONEY)
-         '.TextMatrix(.rows - 1, 11) = Format(rTabela("VARCODCAIXAPARC"), "000000")
-         '.TextMatrix(.rows - 1, 12) = ValidateNull(rTabela("varCaixaParc"))
-         '.TextMatrix(.rows - 1, 13) = Format(rTabela("campo06"), "dd/mm/yy")
-         
+         .TextMatrix(.rows - 1, 4) = rTabela("varTipoLinha")
+         .TextMatrix(.rows - 1, 5) = rTabela("campo02")
+         .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("campo04"), 2)
+         .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("var_juros"), 2)
+         .TextMatrix(.rows - 1, 9) = FormatNumber(rTabela("subtotal"), 2)
+         .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("vardesc"), 2)
+         .TextMatrix(.rows - 1, 11) = FormatNumber(rTabela("varSomaHaveres"), 2)
+         .TextMatrix(.rows - 1, 12) = FormatNumber(rTabela("vValorFinal"), 2)
+         .TextMatrix(.rows - 1, 13) = Format(rTabela("campo06"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 14) = IIf(IsNull(rTabela("campoHora")) Or rTabela("campoHora") = "", "", Format(rTabela("campoHora"), "hh:nn"))
+         .TextMatrix(.rows - 1, 15) = Format(rTabela("VARCODCAIXAPARC"), "000000")
+         .TextMatrix(.rows - 1, 16) = ValidateNull(rTabela("varCaixaParc"))
          rTabela.MoveNext
          .rows = .rows + 1
       Loop
@@ -3494,7 +3263,7 @@ With Grid_Historico
    
    For i = 1 To .rows - 1
       .Row = i
-      .Col = 10
+      .Col = 11
       .CellForeColor = &HC0&
       .CellFontBold = True
    Next
@@ -3506,15 +3275,33 @@ With Grid_Historico
       .CellPictureAlignment = 4
    Next
    
+   'linhas de HAVER em vermelho escuro
+   For i = 1 To .rows - 1
+      If .TextMatrix(i, 4) = "HAVER" Then
+         For j = 0 To .Cols - 1
+            .Row = i
+            .Col = j
+            .CellForeColor = RGB(139, 0, 0)
+         Next
+      End If
+   Next
+   
    .Redraw = True
    .Visible = True
 End With
 
-lblTotalHistorico.Caption = Format(SomaGrid(Grid_Historico, 11), ocMONEY)
+Dim vTotalHist As Currency
+vTotalHist = 0
+For i = 1 To Grid_Historico.rows - 1
+   vTotalHist = vTotalHist + Grid_Historico.TextMatrix(i, 12)
+Next
+lblTotalHistorico.Caption = Format(vTotalHist, ocMONEY)
 End Sub
 
 Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
    Dim i As Integer
+   Dim varValorLinha As Currency
+   Dim varHaverLinha As Currency
    
    With grid_Parcelas
       .Clear
@@ -3576,14 +3363,17 @@ Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
             .TextMatrix(.rows - 1, 5) = rTabela("campo02")
             .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
             .TextMatrix(.rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
+            varValorLinha = rTabela("campo04")
             
             If Not IsNull(rTabela("campo06")) Then
                .TextMatrix(.rows - 1, 8) = Format(rTabela("campo06"), ocMONEY)
+               varHaverLinha = rTabela("campo06")
             Else
                .TextMatrix(.rows - 1, 8) = Format(0, ocMONEY)
+               varHaverLinha = 0
             End If
             
-            .TextMatrix(.rows - 1, 9) = Format(.TextMatrix(.rows - 1, 7) - .TextMatrix(.rows - 1, 8), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = Format(varValorLinha - varHaverLinha, ocMONEY)
             .TextMatrix(.rows - 1, 10) = rTabela("var_atrazo")
             
             rTabela.MoveNext
@@ -4016,22 +3806,15 @@ lblTotalHaver.Caption = FormatNumber(0, 2)
 lblTotalHistorico.Caption = FormatNumber(0, 2)
 lblQuantHaver.Caption = 0
 lblQuantHistorico.Caption = 0
+lblTotalSelecionadasQuitadas.Caption = FormatNumber(0, 2)
+lblQuantSelecionadasQuitadas.Caption = 0
 LimparGrid_Haver
 'LimparGrid_Historico
 End Sub
 
 Private Sub LimparObjetos_Historico()
-txtCONcodParc.Text = ""
-txtConCodOS.Text = ""
-txtConCodPedido.Text = ""
-txtConNumParcela.Text = ""
-mskConData.Text = ""
-mskConPgto.Text = ""
-txtCONValor.Text = ""
 mskPagamento.Mask = ""
 mskPagamento.Text = ""
-txtCodCaixa.Text = ""
-txtCaixa.Text = ""
 End Sub
 
 Private Sub MostraHaveresPagas()
@@ -4075,38 +3858,55 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim totalRegistros As Long
 Dim INDICE As String
-Dim vWhere As String
+Dim vWhereParc As String
+Dim vWhereHaver As String
 
  'indice
+Dim vCampoParc As String
+Dim vCampoHaver As String
+
+'qual campo de data usar (pagamento ou vencimento)
  If optPgto.Value = True Then
-    INDICE = "parcelas.pagamento "
-    vWhere = " AND (Month(parcelas.pagamento) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.pagamento) = " & cboAno & ") "
- ElseIf optVenc.Value = True Then
-    INDICE = "parcelas.data "
-    vWhere = " AND (Month(parcelas.data) = " & cboMes.ListIndex + 1 & ") And (Year(parcelas.data) = " & cboAno & ") "
- ElseIf optTodas.Value = True Then
-    INDICE = "parcelas.pagamento "
-    vWhere = " "
+    vCampoParc = "parcelas.pagamento"
+    vCampoHaver = "parcelas_haver.haver"
+    INDICE = "campo06, campoHora "
+ Else
+    vCampoParc = "parcelas.data"
+    vCampoHaver = "parcelas_haver.vencimento"
+    INDICE = "campo03, campoHora "
  End If
 
 If txtCodCliente.Text = "" Then Exit Sub
-If cboMes.Text = "" Then cboMes.Text = Format(Date, "mmmm")
-If cboAno.Text = "" Then cboAno.Text = Year(Date)
 
-sSQL = "SELECT parcelas.CODIGO AS cod, ISNULL(parcelas.CODCAIXA, 0) AS varCodCaixaParc, ISNULL(parcelas.CAIXA, 'CAIXA01') AS varCaixaParc, pedidos.TIPO_PEDIDO AS campo00, parcelas.COD_PEDIDO AS campo01, parcelas.NUMERO AS campo02, parcelas.DATA AS campo03,pedidos.PAGAMENTO AS campo05, parcelas.PAGAMENTO AS campo06, parcelas.STATUS, pedidos.COD_PEDIDO, pedidos.COD_CLIENTE, parcelas.VALOR AS campo04, ISNULL(parcelas.JUROS, 0) AS var_juros, parcelas.VALOR + ISNULL(parcelas.JUROS, 0) AS SubTotal, ISNULL(parcelas.DESCONTO, 0) AS varDesc, parcelas.VALOR_FINAL AS vValorFinal, " & _
-            "(SELECT ISNULL(SUM(VALOR_HAVER), 0) FROM parcelas_haver WHERE (COD_PARCELA = parcelas.CODIGO)) AS varSomaHaveres " & _
-            "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
-            "INNER JOIN parcelas ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-            "WHERE (cliente.codigo = " & txtCodCliente.Text & ") AND (parcelas.status = 1) " & vWhere & "  ORDER BY  " & INDICE
+'periodo da consulta
+ If optMensal.Value = True Then
+    If cboMes.Text = "" Then cboMes.Text = Format(Date, "mmmm")
+    If cboAno.Text = "" Then cboAno.Text = Year(Date)
+    vWhereParc = " AND (Month(" & vCampoParc & ") = " & cboMes.ListIndex + 1 & ") And (Year(" & vCampoParc & ") = " & cboAno & ") "
+    vWhereHaver = " AND (Month(" & vCampoHaver & ") = " & cboMes.ListIndex + 1 & ") And (Year(" & vCampoHaver & ") = " & cboAno & ") "
+ ElseIf optDia.Value = True Then
+    If mskDataConsulta.Text = "" Then mskDataConsulta.Text = Format(Date, "dd/mm/yy")
+    vWhereParc = " AND (CONVERT(DATE, " & vCampoParc & ") = CONVERT(DATE, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103)) "
+    vWhereHaver = " AND (CONVERT(DATE, " & vCampoHaver & ") = CONVERT(DATE, '" & Format(mskDataConsulta.Text, ocDATA) & "', 103)) "
+ ElseIf optTodas.Value = True Then
+    vWhereParc = " "
+    vWhereHaver = " "
+ End If
 
-'sSQL = "SELECT parcelas.codigo AS cod, isnull(parcelas.CODCAIXA, 0) AS varCodCaixaParc, isnull(parcelas.CAIXA, 'CAIXA01') AS varCaixaParc, pedidos.tipo_pedido AS campo00, parcelas.cod_pedido AS campo01, parcelas.numero AS campo02, isnull(parcelas.desconto,0) AS varDesc," & _
-   "parcelas.data AS campo03, parcelas.valor AS campo04, pedidos.pagamento AS campo05, parcelas.pagamento AS campo06, " & _
-   "isnull(parcelas.dias_atrazo,0) AS var_dias, isnull(parcelas.juros,0) AS var_juros, isnull(parcelas.MULTA,0), isnull(parcelas.DESCONTO,0), parcelas.VALOR_FINAL AS vValorFinal, parcelas.status, " & _
-   "pedidos.cod_pedido, pedidos.cod_cliente FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
-   "INNER JOIN parcelas ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-   "WHERE (cliente.codigo = " & txtCodCliente.Text & ") AND (parcelas.status = 1) " & vWhere & "  ORDER BY  " & INDICE
-  
-'Debug.Print sSQL
+sSQL = "SELECT * FROM (" & _
+          "SELECT parcelas.CODIGO AS cod, ISNULL(parcelas.CODCAIXA, 0) AS varCodCaixaParc, ISNULL(parcelas.CAIXA, 'CAIXA01') AS varCaixaParc, pedidos.TIPO_PEDIDO AS campo00, parcelas.COD_PEDIDO AS campo01, parcelas.NUMERO AS campo02, parcelas.DATA AS campo03, parcelas.PAGAMENTO AS campo06, ISNULL(parcelas.HORA, '') AS campoHora, parcelas.VALOR AS campo04, ISNULL(parcelas.JUROS, 0) AS var_juros, parcelas.VALOR + ISNULL(parcelas.JUROS, 0) AS SubTotal, ISNULL(parcelas.DESCONTO, 0) AS varDesc, parcelas.VALOR_FINAL AS vValorFinal, " & _
+             "(SELECT ISNULL(SUM(VALOR_HAVER), 0) FROM parcelas_haver WHERE (COD_PARCELA = parcelas.CODIGO)) AS varSomaHaveres, 'PARCELA' AS varTipoLinha " & _
+             "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
+             "INNER JOIN parcelas ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+             "WHERE (cliente.codigo = " & txtCodCliente.Text & ") AND (parcelas.status = 1) " & vWhereParc & _
+          " UNION ALL " & _
+          "SELECT parcelas_haver.CODIGO AS cod, ISNULL(parcelas_haver.CODCAIXA, 0) AS varCodCaixaParc, ISNULL(parcelas_haver.CAIXA, 'CAIXA01') AS varCaixaParc, pedidos.TIPO_PEDIDO AS campo00, parcelas.COD_PEDIDO AS campo01, parcelas_haver.NUMERO AS campo02, parcelas_haver.VENCIMENTO AS campo03, parcelas_haver.HAVER AS campo06, ISNULL(parcelas_haver.HORA, '') AS campoHora, parcelas_haver.VALOR_HAVER AS campo04, 0 AS var_juros, 0 AS SubTotal, 0 AS varDesc, parcelas_haver.VALOR_HAVER AS vValorFinal, " & _
+             "0 AS varSomaHaveres, 'HAVER' AS varTipoLinha " & _
+             "FROM cliente INNER JOIN pedidos ON cliente.codigo = pedidos.cod_cliente " & _
+             "INNER JOIN parcelas ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+             "INNER JOIN parcelas_haver ON parcelas_haver.cod_parcela = parcelas.codigo " & _
+             "WHERE (cliente.codigo = " & txtCodCliente.Text & ") AND (parcelas_haver.status = 1) " & vWhereHaver & _
+       ") AS HIST ORDER BY " & INDICE
 
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
@@ -4114,7 +3914,7 @@ If txtCodCliente.Text <> "1" Then FormatarGrid_Historico r
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-lblQuantHistorico.Caption = Format(totalRegistros, "00") & " parcela(s)"
+lblQuantHistorico.Caption = Format(totalRegistros, "00") & " registro(s)"
 cmdMarcarTodasREATIVAR.Enabled = Grid_Historico.rows > 1
 End Sub
 
@@ -4215,25 +4015,35 @@ Private Sub ReimprimirPedidoFolha()
 Dim vValorTotal As Currency
 Dim vNumParc As Integer
 Dim vDataPgto As Date
+Dim vTipoImp As String
+Dim vQtdMarcadas As Integer
+Dim var_Parc As String
 
-For f = 0 To Grid_Historico.rows - 1
+vValorTotal = 0
+vQtdMarcadas = 0
+var_Parc = ""
+
+For f = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
    If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then
+      vQtdMarcadas = vQtdMarcadas + 1
       vCodPed = Grid_Historico.TextMatrix(Grid_Historico.Row, 3)
-      vValorTotal = Grid_Historico.TextMatrix(Grid_Historico.Row, 11)
-      vNumParc = Grid_Historico.TextMatrix(Grid_Historico.Row, 4)
-      vDataPgto = Grid_Historico.TextMatrix(Grid_Historico.Row, 12)
+      vValorTotal = vValorTotal + Grid_Historico.TextMatrix(Grid_Historico.Row, 12)
+      vNumParc = Grid_Historico.TextMatrix(Grid_Historico.Row, 5)
+      vDataPgto = Grid_Historico.TextMatrix(Grid_Historico.Row, 13)
+      vTipoImp = Grid_Historico.TextMatrix(Grid_Historico.Row, 4)
+      
+      If var_Parc = "" Then
+         var_Parc = Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 3), "00000") & "/" & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 5), "00")
+      Else
+         var_Parc = var_Parc & ", " & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 3), "00000") & "/" & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 5), "00")
+      End If
    End If
 Next
 
-'If vQuitarUma = True Then
-'   If txtCodPedido.Text = "" Then
-'      ShowMsg "O código do PEDIDO está em branco !!", vbExclamation
-'      Exit Sub
-'   End If
-'End If
+If vQtdMarcadas = 0 Then Exit Sub
 
 'tabela empresa
 sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
@@ -4244,9 +4054,6 @@ Set rPedidos = dbData.OpenRecordset("SELECT cod_pedido, TIPO_PAGAMENTO, PAGAMENT
 Set rParcelas = dbData.OpenRecordset("SELECT parcelas.FORMA_PGTO FROM pedidos INNER JOIN parcelas ON pedidos.COD_PEDIDO = parcelas.COD_PEDIDO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
 Set rClientes = dbData.OpenRecordset("SELECT cliente.CODIGO, cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
 Set rUsuario = dbData.OpenRecordset("SELECT Usuario.Codigo, Usuario.Login FROM pedidos INNER JOIN Usuario ON pedidos.COD_FUNCIONARIO = Usuario.Codigo WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
-
-
-'Set rUsuario = dbData.OpenRecordset("SELECT codigo, login FROM Usuario WHERE  (codigo = " & txtCodFuncionario.Text & ");")
 
 Me.Hide
 With REL_Recibo
@@ -4261,8 +4068,16 @@ With REL_Recibo
    
     .txtValor.Caption = UCase(NumeroExtenso(vValorTotal, True))
     .txthead.Caption = "R$ " & Format(vValorTotal, "##,##0.00")
-    .txtProveniente.Caption = "Pagamento da " & vNumParc & "ª parcela do PEDIDO Nº " & Format(vCodPed, "000000")
-    .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+    If vQtdMarcadas > 1 Then
+        .txtProveniente.Caption = "PEDIDO(S): " & var_Parc
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
+    ElseIf vTipoImp = "HAVER" Then
+        .txtProveniente.Caption = "Haver da " & vNumParc & "ª parcela do PEDIDO Nº " & Format(vCodPed, "000000")
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+    Else
+        .txtProveniente.Caption = "Pagamento da " & vNumParc & "ª parcela do PEDIDO Nº " & Format(vCodPed, "000000")
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+    End If
 
    .Relatorio.NumeroRegistros = 1
    .Relatorio.NomeImpressora = var_ImpNormal
@@ -4294,21 +4109,20 @@ Total = 0
 varContarSelecionadas = 0
 
 With Grid_Historico
-    If .TextMatrix(.Row, 10) = "" Then Exit Sub
+    If .TextMatrix(.Row, 12) = "" Then Exit Sub
    For i = 1 To .rows - 1
       .Col = 0
       .Row = i
       
       If .CellPicture = ImgMarcadaPAGAS Then
-         .Col = 10
-         Total = Total + .TextMatrix(.Row, 10)
+         varContarSelecionadas = varContarSelecionadas + 1
+         .Col = 12
+         Total = Total + .TextMatrix(.Row, 12)
       End If
    Next
    
-   'lblQuantSel.Caption = Format(varContarSelecionadas, "00")
+   lblQuantSelecionadasQuitadas.Caption = Format(varContarSelecionadas, "00")
    lblTotalSelecionadasQuitadas.Caption = FormatNumber(Total, 2)
-   'lblHaverSel.Caption = Format(HAVER, ocMONEY)
-   'lblTotalSel.Caption = Format(Total, ocMONEY)
 End With
 End Sub
 
@@ -4693,7 +4507,7 @@ frmPagamento.Visible = True
 mskPagamento.Visible = True
 mskPagamento.SetFocus
 cmdCal1.Visible = True
-lblPgto.Visible = True
+lblPGTO.Visible = True
 cmdSalvar.Visible = True
 cmdCancelar.Visible = True
 cmdQuitarUma.Visible = False
@@ -4717,9 +4531,9 @@ txtDesconto.Visible = False
 lblTotalPgto.Visible = False
 txtTotal.Visible = False
 mskPagamento.Top = 240
-lblPgto.Top = 240
+lblPGTO.Top = 240
 cmdCal1.Top = 240
-lblPgto.Caption = "Vencimento"
+lblPGTO.Caption = "Vencimento"
 frmPagamento.Caption = "Vencimento"
 cboCliente.Locked = True
 
@@ -4793,7 +4607,7 @@ cmdCancelar.Visible = False
 vQuitarUma = False
 cboCliente.Locked = False
 mskPagamento.Top = 600
-lblPgto.Top = 600
+lblPGTO.Top = 600
 cmdCal1.Top = 600
 End Sub
 
@@ -4852,17 +4666,6 @@ If ShowMsg("Deseja imprimir o recibo ?", vbQuestion + vbYesNo) = vbYes Then
 End If
 End Sub
 
-Private Sub cmdImprimirParcQuitSel_Click()
-vQuitarUma = False
-If ShowMsg("Deseja imprimir o recibo ?", vbQuestion + vbYesNo) = vbYes Then
-    If varTipoRecPgto = "CUPOM" Then
-        Imprimir_ReciboCupomSel
-    Else
-        ImprimirPedidoFolhaSel
-    End If
-End If
-vQuitarUma = True
-End Sub
 
 
 Private Sub cmdMostrarHaveres_Click()
@@ -4897,7 +4700,7 @@ lblValorAutomatico.Visible = True
 txtValorAutomatico.Visible = True
 cmdSalvarAutomatico.Visible = True
 cmdCancelar.Visible = True
-lblPgto.Visible = False
+lblPGTO.Visible = False
 mskPagamento.Visible = False
 cmdCal1.Visible = False
 chkJuros.Visible = False
@@ -4951,26 +4754,74 @@ cboForma.SetFocus
 End Sub
 
 Private Sub cmdHabilitarREATIVAR_Click()
+Dim vCodParcRea As Long
+Dim vTipoRea As String
+Dim vCodPedidoRea As String
+Dim vNumParcelaRea As String
+Dim vCodCaixaRea As String
+Dim vCaixaRea As String
+Dim sSQL As String
+Dim r As ADODB.Recordset
 
+vTipoRea = ""
+vCodPedidoRea = ""
+vNumParcelaRea = ""
 
 For f = 0 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
    If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then
-      frmReativar.Enabled = True
-      cmdReativar.Visible = True
-      txtCONcodParc.Text = (Grid_Historico.TextMatrix(Grid_Historico.Row, 1))
-      txtConCodOS.Text = Format((Grid_Historico.TextMatrix(Grid_Historico.Row, 2)), "000000")
-      txtConCodPedido.Text = Format((Grid_Historico.TextMatrix(Grid_Historico.Row, 3)), "000000")
-      txtConNumParcela.Text = (Grid_Historico.TextMatrix(Grid_Historico.Row, 4))
-      mskConData.Text = Format((Grid_Historico.TextMatrix(Grid_Historico.Row, 5)), "dd/mm/yy")
-      mskConPgto.Text = Format((Grid_Historico.TextMatrix(Grid_Historico.Row, 12)), "dd/mm/yy")
-      txtCONValor.Text = Format((Grid_Historico.TextMatrix(Grid_Historico.Row, 6)), "##,##0.00")
-      txtCodCaixa.Text = (Grid_Historico.TextMatrix(Grid_Historico.Row, 13))
-      txtCaixa.Text = (Grid_Historico.TextMatrix(Grid_Historico.Row, 14))
+      vCodParcRea = Grid_Historico.TextMatrix(Grid_Historico.Row, 1)
+      vTipoRea = Grid_Historico.TextMatrix(Grid_Historico.Row, 4)
+      vCodPedidoRea = Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 3), "000000")
+      vNumParcelaRea = Grid_Historico.TextMatrix(Grid_Historico.Row, 5)
+      vCodCaixaRea = Grid_Historico.TextMatrix(Grid_Historico.Row, 15)
+      vCaixaRea = Grid_Historico.TextMatrix(Grid_Historico.Row, 16)
    End If
 Next
+
+If cboCliente.Text = "" Or vTipoRea = "" Then Exit Sub
+
+'verificar se o caixa onde essa parcela/haver foi pago(a) está em aberto (nem
+'parcela nem haver podem ser reativados/removidos com o caixa de origem fechado)
+sSQL = "SELECT * " & _
+       "FROM caixa_dia " & _
+       "WHERE (codcaixa = " & vCodCaixaRea & ") and (caixa = '" & vCaixaRea & "') and caixa_dia.status = 1;"
+Set r = dbData.OpenRecordset(sSQL)
+
+If r.RecordCount > 0 Then
+    If vTipoRea = "HAVER" Then
+        MsgBox "O caixa onde esse haver foi adicionado encontra-se fechado!", vbInformation, "Aviso do Sistema"
+    Else
+        MsgBox "O caixa onde essa parcela foi paga encontra-se fechado!", vbInformation, "Aviso do Sistema"
+    End If
+    r.Close
+    Set r = Nothing
+    Exit Sub
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If vTipoRea = "HAVER" Then
+   If ShowMsg("O haver será removido. Deseja continuar?", vbExclamation + vbYesNo) = vbNo Then Exit Sub
+   
+   dbData.Execute "DELETE FROM parcelas_haver WHERE (codigo = " & vCodParcRea & ");"
+Else
+   If vNumParcelaRea = "" Or vCodPedidoRea = "" Then Exit Sub
+   If ShowMsg("Deseja reativar a parcela '" & vNumParcelaRea & "' do Pedido No. '" & vCodPedidoRea & "' ??", vbInformation + vbYesNo) = vbNo Then Exit Sub
+   
+   dbData.Execute "UPDATE parcelas SET status = 0, valor_final = VALOR, JUROS = 0, DIAS_ATRAZO = 0, MULTA = 0, DESCONTO = 0, pagamento = Null, forma_pgto = '', caixa = '', codcaixa = '' WHERE (cod_pedido = " & vCodPedidoRea & ") AND (numero = " & vNumParcelaRea & ");"
+   dbData.Execute "UPDATE parcelas_haver SET status = 0 WHERE (cod_parcela = " & vCodParcRea & ");"
+End If
+
+MostrarGrid_Parcelas
+Calcular_Valores
+MostrarGrid_Historico
+LimparObjetos_Historico
+
+OP = contar
+AcaoGridREATIVAR
 End Sub
 
 Private Sub Reimprimir_HaverCupom()
@@ -5316,504 +5167,189 @@ Private Sub Reimprimir_ReciboCupom()
 Dim vValorTotal As Currency
 Dim vNumParc As Integer
 Dim vDataPgto As Date
+Dim vTipoImp As String
+Dim vQtdMarcadas As Integer
+Dim var_Parc As String
 
-For f = 0 To Grid_Historico.rows - 1
+vValorTotal = 0
+vQtdMarcadas = 0
+var_Parc = ""
+
+For f = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
    If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then
+      vQtdMarcadas = vQtdMarcadas + 1
       vCodPed = Grid_Historico.TextMatrix(Grid_Historico.Row, 3)
-      vValorTotal = Grid_Historico.TextMatrix(Grid_Historico.Row, 11)
-      vNumParc = Grid_Historico.TextMatrix(Grid_Historico.Row, 4)
-      vDataPgto = Grid_Historico.TextMatrix(Grid_Historico.Row, 12)
+      vValorTotal = vValorTotal + Grid_Historico.TextMatrix(Grid_Historico.Row, 12)
+      vNumParc = Grid_Historico.TextMatrix(Grid_Historico.Row, 5)
+      vDataPgto = Grid_Historico.TextMatrix(Grid_Historico.Row, 13)
+      vTipoImp = Grid_Historico.TextMatrix(Grid_Historico.Row, 4)
+      
+      If var_Parc = "" Then
+         var_Parc = Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 3), "00000") & "/" & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 5), "00")
+      Else
+         var_Parc = var_Parc & ", " & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 3), "00000") & "/" & Format(Grid_Historico.TextMatrix(Grid_Historico.Row, 5), "00")
+      End If
    End If
 Next
-   
-   'tabela empresa
-    sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-    Set rEmpresa = dbData.OpenRecordset(sSQL)
-    vCidadeUF = rEmpresa("cidade") & "-" & rEmpresa("estado")
 
-    Set rPedidos = dbData.OpenRecordset("SELECT cod_pedido, TIPO_PAGAMENTO, PAGAMENTO FROM pedidos WHERE (cod_pedido = " & vCodPed & ");")
-    Set rParcelas = dbData.OpenRecordset("SELECT parcelas.FORMA_PGTO FROM pedidos INNER JOIN parcelas ON pedidos.COD_PEDIDO = parcelas.COD_PEDIDO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
-    Set rClientes = dbData.OpenRecordset("SELECT cliente.CODIGO, cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
-    Set rUsuario = dbData.OpenRecordset("SELECT Usuario.Codigo, Usuario.Login FROM pedidos INNER JOIN Usuario ON pedidos.COD_FUNCIONARIO = Usuario.Codigo WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
-  
-  'Recupera um número de arquivo disponível
-  f = FreeFile()
+If vQtdMarcadas = 0 Then Exit Sub
 
- 'pegar o nome da impressora no ini
-  Dim oIni As Ini
-  
-  Set oIni = New Ini
-  oIni.Arquivo = appPathApp & "config.ini"
-  var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
-  Set oIni = Nothing
-  
-  Dim Prt As Printer
-  Dim oldPrinter As String
-  
-  'Armazena o nome da impressora atual
-  oldPrinter = Printer.DeviceName
-  
-  ' Find and use the printer just selected in the ListBox
-  For Each Prt In Printers
-     If Prt.DeviceName = var_ImpTermica Then
-        Set Printer = Prt
-        Exit For
-     End If
-  Next
+'tabela empresa
+sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
+Set rEmpresa = dbData.OpenRecordset(sSQL)
+vCidadeUF = rEmpresa("cidade") & "-" & rEmpresa("estado")
 
-     With Printer
-        .ScaleMode = vbPixels
-        .PaintPicture imLogoCupom.Picture, 100, 0, 372, 150
-        
-        For i = 1 To 6
-           Printer.Print " "
-        Next
-        
-        .ScaleMode = vbCentimeters
-        .FontName = "courier new"
-        '.PrintQuality = vbPRPQHigh
-        
+Set rPedidos = dbData.OpenRecordset("SELECT cod_pedido, TIPO_PAGAMENTO, PAGAMENTO FROM pedidos WHERE (cod_pedido = " & vCodPed & ");")
+Set rParcelas = dbData.OpenRecordset("SELECT parcelas.FORMA_PGTO FROM pedidos INNER JOIN parcelas ON pedidos.COD_PEDIDO = parcelas.COD_PEDIDO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
+Set rClientes = dbData.OpenRecordset("SELECT cliente.CODIGO, cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
+Set rUsuario = dbData.OpenRecordset("SELECT Usuario.Codigo, Usuario.Login FROM pedidos INNER JOIN Usuario ON pedidos.COD_FUNCIONARIO = Usuario.Codigo WHERE  (pedidos.cod_pedido = " & vCodPed & ");")
 
-        Fonte 10, True, False
-        Printer.Print Tab((35 - Len(rEmpresa("fantasia"))) / 2); rEmpresa("fantasia")   'Esse /2 é p/ centralizar
-        Fonte 10, False, False
-        Printer.Print Tab((35 - Len(rEmpresa("razao"))) / 2); rEmpresa("razao")
-        Fonte 8, False, False
-        Printer.Print rEmpresa("endereco") & ", " & rEmpresa("cidade") & "-" & rEmpresa("estado")
-        Printer.Print "FONE: "; rEmpresa("telefone")                                        '& " - (89) 9986-3739"
-        Fonte 8, False, False
-        Printer.Print "CNPJ:"; rEmpresa("cnpj") & "  IE:" & rEmpresa("ie")
-        Fonte 8, False, False
-        Printer.Print String(40, "-")
-        
-         For i = 1 To 2
-           Printer.Print " "
-        Next
-        
-        Fonte 10, True, False
-        Printer.Print Tab(10); "R E C I B O"
-        
-        
-        For i = 1 To 1
-           Printer.Print " "
-        Next
-                 
-        Fonte 8, True, False
-        'If vQuitarUma = True Then
-           Printer.Print Tab(28); "R$ " & Format(vValorTotal, "##,##0.00")
-        'Else
-        '   Printer.Print Tab(28); "R$ " & Format(lblTotalSel.Caption, "##,##0.00")
-        'End If
-        
-        For i = 1 To 1
-           Printer.Print " "
-        Next
-        
-        Dim Line1 As String
-        Dim Line2 As String
-        
-        Dim Texto As String
-        'If vQuitarUma = True Then
-           Texto = UCase(NumeroExtenso(vValorTotal, True))
-        'Else
-           'Texto = UCase(NumeroExtenso(lblTotalSel.Caption, True))
-        'End If
-        Line1 = Mid(Texto, 1, 40)
-        Line2 = Mid(Texto, 41, 80)
-       
-        Fonte 8, False, False
-        Printer.Print Tab(2); "Recebi(emos) de: "
-        Fonte 8, True, False
-        Printer.Print Tab(2); rClientes("NOME")
-        
-        For i = 1 To 1
-           Printer.Print " "
-        Next
-        
-        Fonte 8, False, False
-        Printer.Print Tab(2); "A importância supra de: "
-        Fonte 8, False, False
-        Printer.Print Tab(2); Line1
-        Printer.Print Tab(2); Line2
-        Fonte 8, False, False
-       
-        For i = 1 To 1
-           Printer.Print " "
-        Next
-        
-       'If vQuitarUma = True Then
-           Printer.Print Tab(2); "Proveniente do: "; "Pagamento da " & vNumParc & "ª parcela "
-           Printer.Print Tab(2); "do PEDIDO Nº " & Format(vCodPed, "000000")
-       'Else
-       'DIVIDINDO OS PEDIDOS POR LINHA
-         '  Dim iMaxCol As Integer
-         '  Dim var_Parc As String
-         '  Dim strSeparator As String
-  
-  
-         '  iMaxCol = 50
-         '  strSeparator = ", "
-         '  'var_Parc = "00001/00, 00001/01, 00001/02, 00001/03, 00001/04, 00001/05, 00001/06, 00001/07, 00001/08, 00001/09, 00001/10, 00001/11, 00001/12, 00001/13, 00001/14, 00001/15"
-        
-        ''INICIO DA IMPRESSÃO DE MULTIPLUS PEDIDOS
-          '  'Dim var_Parc As String
-          '  Dim y As Integer
-   
-         '   var_Parc = ""
-            
-         '   With Grid_Parcelas
-         '      For y = 1 To .Rows - 1
-         '         .Col = 0
-         '         .Row = y
-   
-         '         If .CellPicture = ImgMarcada Then
-         '            If y = 1 Then
-         '               var_Parc = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-         '            ElseIf Right(var_Parc, 8) = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00") Then
-         '               MsgBox "Tratar Repetido"
-         '            Else
-         '               var_Parc = var_Parc & ", " & Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-         '               If y = .Rows - 1 Then Exit For
-         '            End If
-         '         End If
-         '      Next y
-         '   End With
-         '   'txtText1.Text = ReturnLargueToPrint(var_Parc, iMaxCol, strSeparator)
-         '   Printer.Print Tab(2); "Proveniente do Pagamento dos pedidos: "
-         '   Printer.Print Tab(2); ReturnLargueToPrint(var_Parc, iMaxCol, strSeparator)
-        'End If
-        
-           'Printer.Print Tab(2); "Proveniente do: "; "Pagamento da " & txtNumParcela.Text & "ª parcela "
-           
+'Recupera um número de arquivo disponível
+f = FreeFile()
 
-        
-        '.txtProveniente.Caption = "PEDIDO(S): " & var_Parc
-        
-        '.txtValor.Caption = UCase(NumeroExtenso(lblTotalSel.Caption, True))
-        '.txthead.Caption = "R$ " & Format(lblTotalSel.Caption, "##,##0.00")
-        
-        '.txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
-        '===================================================
+'pegar o nome da impressora no ini
+Dim oIni As Ini
 
-        
-        For i = 1 To 1
-           Printer.Print " "
-        Next
-        
-        
-        Printer.Print Tab(2); "Forma de Pgto: " & rParcelas("FORMA_PGTO")
-       If Not rUsuario.EOF Then
-           Printer.Print Tab(2); "Funcionário: "; rUsuario("login");
-       Else
-           Printer.Print Tab(2); "Funcionário: Não Especificado"
-       End If
-        
-        For i = 1 To 2
-           Printer.Print " "
-        Next
-       
-        Fonte 8, False, False
-        'If vQuitarUma = True Then
-           Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
-       'Else
-        '   Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
-       'End If
-        
-        For i = 1 To 3
-              Printer.Print " "
-        Next
-        
-        Printer.Print Tab((40 - Len("______________________________________")) / 2); "______________________________________"
-        Printer.Print Tab((40 - Len("Assinatura")) / 2); "Assinatura"
-        
+Set oIni = New Ini
+oIni.Arquivo = appPathApp & "config.ini"
+var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
+Set oIni = Nothing
 
-       
-     Close #f
-     .EndDoc
-     'rsPedidos.Close
-     'rsFunc.Close
-     'RS.Close
-     'BD.Close
-  End With
-   
-Tratar_Erro:
-   ' Atribui a impressora inicial
-   'For Each Prt In Printers
-   '   If Prt.DeviceName = oldPrinter Then
-   '      Set Printer = Prt
-   '      Exit For
-   '   End If
-   'Next
-   
-   If Not rEmpresa Is Nothing Then If rEmpresa.State <> 0 Then rEmpresa.Close
-   If Not rPedidos Is Nothing Then If rPedidos.State <> 0 Then rPedidos.Close
-   If Not rClientes Is Nothing Then If rClientes.State <> 0 Then rClientes.Close
-   If Not rParcelas Is Nothing Then If rParcelas.State <> 0 Then rParcelas.Close
-   
-   'If Err.Number = 52 Then
-    '  ShowMsg "Impressora não esta pronta ou está com problemas, Verifique !!!", vbInformation
-    '  Printer.KillDoc
-    '  Exit Sub
-   'End If
-End Sub
-Private Sub Imprimir_ReciboCupomSel()
-   'On Error GoTo Tratar_Erro
-   Dim i As Integer
-   Dim f As Integer
-    
-    'tabela empresa
-    sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-    Set rEmpresa = dbData.OpenRecordset(sSQL)
-    vCidadeUF = rEmpresa("cidade") & "-" & rEmpresa("estado")
-    
-   If vQuitarUma = True Then
-        If txtCodPedido.Text = "" Then Exit Sub
-        'tabela pedidos
-        Set rPedidos = dbData.OpenRecordset("SELECT cod_pedido, TIPO_PAGAMENTO, PAGAMENTO FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");")
+Dim Prt As Printer
+Dim oldPrinter As String
+
+'Armazena o nome da impressora atual
+oldPrinter = Printer.DeviceName
+
+' Find and use the printer just selected in the ListBox
+For Each Prt In Printers
+   If Prt.DeviceName = var_ImpTermica Then
+      Set Printer = Prt
+      Exit For
    End If
-    
-    'tabela pedidos
-    Set rClientes = dbData.OpenRecordset("SELECT codigo, nome FROM cliente WHERE  (codigo = " & txtCodCliente.Text & ");")
-   
-   If txtCodFuncionario.Text = "" Then txtCodFuncionario.Text = "1"
-   Set rUsuario = dbData.OpenRecordset("SELECT codigo, login FROM Usuario WHERE  (codigo = " & txtCodFuncionario.Text & ");")
+Next
 
-   
-   'Recupera um número de arquivo disponível
-   f = FreeFile()
+   With Printer
+      .ScaleMode = vbPixels
+      .PaintPicture imLogoCupom.Picture, 100, 0, 372, 150
       
-   'Dim Prt As Printer
-   'Dim oldPrinter As String
-   
-   'Armazena o nome da impressora atual
-   'oldPrinter = Printer.DeviceName
-   
-   ' Find and use the printer just selected in the ListBox
-   'For Each Prt In Printers
-   '   If Prt.DeviceName = var_ImpTermica Then
-   '      Set Printer = Prt
-   '      Exit For
-    '  End If
-  ' Next
-  
-  'pegar o nome da impressora no ini
-   Dim oIni As Ini
-   
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
-   var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
-   Set oIni = Nothing
-   
-   Dim Prt As Printer
-   Dim oldPrinter As String
-   
-   'Armazena o nome da impressora atual
-   oldPrinter = Printer.DeviceName
-   
-   ' Find and use the printer just selected in the ListBox
-   For Each Prt In Printers
-      If Prt.DeviceName = var_ImpTermica Then
-         Set Printer = Prt
-         Exit For
+      For i = 1 To 6
+         Printer.Print " "
+      Next
+      
+      .ScaleMode = vbCentimeters
+      .FontName = "courier new"
+      
+      Fonte 10, True, False
+      Printer.Print Tab((35 - Len(rEmpresa("fantasia"))) / 2); rEmpresa("fantasia")   'Esse /2 é p/ centralizar
+      Fonte 10, False, False
+      Printer.Print Tab((35 - Len(rEmpresa("razao"))) / 2); rEmpresa("razao")
+      Fonte 8, False, False
+      Printer.Print rEmpresa("endereco") & ", " & rEmpresa("cidade") & "-" & rEmpresa("estado")
+      Printer.Print "FONE: "; rEmpresa("telefone")
+      Fonte 8, False, False
+      Printer.Print "CNPJ:"; rEmpresa("cnpj") & "  IE:" & rEmpresa("ie")
+      Fonte 8, False, False
+      Printer.Print String(40, "-")
+      
+       For i = 1 To 2
+         Printer.Print " "
+      Next
+      
+      Fonte 10, True, False
+      Printer.Print Tab(10); "R E C I B O"
+      
+      For i = 1 To 1
+         Printer.Print " "
+      Next
+      
+      Fonte 8, True, False
+      Printer.Print Tab(28); "R$ " & Format(vValorTotal, "##,##0.00")
+      
+      For i = 1 To 1
+         Printer.Print " "
+      Next
+      
+      Dim Line1 As String
+      Dim Line2 As String
+      
+      Dim Texto As String
+      Texto = UCase(NumeroExtenso(vValorTotal, True))
+      Line1 = Mid(Texto, 1, 40)
+      Line2 = Mid(Texto, 41, 80)
+     
+      Fonte 8, False, False
+      Printer.Print Tab(2); "Recebi(emos) de: "
+      Fonte 8, True, False
+      Printer.Print Tab(2); rClientes("NOME")
+      
+      For i = 1 To 1
+         Printer.Print " "
+      Next
+      
+      Fonte 8, False, False
+      Printer.Print Tab(2); "A importância supra de: "
+      Fonte 8, False, False
+      Printer.Print Tab(2); Line1
+      Printer.Print Tab(2); Line2
+      Fonte 8, False, False
+     
+      For i = 1 To 1
+         Printer.Print " "
+      Next
+      
+      If vQtdMarcadas > 1 Then
+         Printer.Print Tab(2); "Proveniente do Pagamento dos pedidos: "
+         Printer.Print Tab(2); ReturnLargueToPrint(var_Parc, 50, ", ")
+      ElseIf vTipoImp = "HAVER" Then
+         Printer.Print Tab(2); "Proveniente do: "; "Haver da " & vNumParc & "ª parcela "
+         Printer.Print Tab(2); "do PEDIDO Nº " & Format(vCodPed, "000000")
+      Else
+         Printer.Print Tab(2); "Proveniente do: "; "Pagamento da " & vNumParc & "ª parcela "
+         Printer.Print Tab(2); "do PEDIDO Nº " & Format(vCodPed, "000000")
       End If
-   Next
- 
-      With Printer
-         .ScaleMode = vbPixels
-         .PaintPicture imLogoCupom.Picture, 100, 0, 372, 150
-         
-         For i = 1 To 6
+      
+      For i = 1 To 1
+         Printer.Print " "
+      Next
+      
+      Printer.Print Tab(2); "Forma de Pgto: " & rParcelas("FORMA_PGTO")
+     If Not rUsuario.EOF Then
+         Printer.Print Tab(2); "Funcionário: "; rUsuario("login");
+     Else
+         Printer.Print Tab(2); "Funcionário: Não Especificado"
+     End If
+      
+      For i = 1 To 2
+         Printer.Print " "
+      Next
+     
+      Fonte 8, False, False
+      If vQtdMarcadas > 1 Then
+         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
+      Else
+         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+      End If
+      
+      For i = 1 To 3
             Printer.Print " "
-         Next
-         
-         .ScaleMode = vbCentimeters
-         .FontName = "courier new"
-         '.PrintQuality = vbPRPQHigh
-         
+      Next
+      
+      Printer.Print Tab((40 - Len("______________________________________")) / 2); "______________________________________"
+      Printer.Print Tab((40 - Len("Assinatura")) / 2); "Assinatura"
+      
+   Close #f
+   .EndDoc
+End With
 
-         Fonte 10, True, False
-         Printer.Print Tab((35 - Len(rEmpresa("fantasia"))) / 2); rEmpresa("fantasia")   'Esse /2 é p/ centralizar
-         Fonte 10, False, False
-         Printer.Print Tab((35 - Len(rEmpresa("razao"))) / 2); rEmpresa("razao")
-         Fonte 8, False, False
-         Printer.Print rEmpresa("endereco") & ", " & rEmpresa("cidade") & "-" & rEmpresa("estado")
-         Printer.Print "FONE: "; rEmpresa("telefone")                                        '& " - (89) 9986-3739"
-         Fonte 8, False, False
-         Printer.Print "CNPJ:"; rEmpresa("cnpj") & "  IE:" & rEmpresa("ie")
-         Fonte 8, False, False
-         Printer.Print String(40, "-")
-         
-          For i = 1 To 2
-            Printer.Print " "
-         Next
-         
-         Fonte 10, True, False
-         Printer.Print Tab(10); "R E C I B O"
-         
-         
-         For i = 1 To 1
-            Printer.Print " "
-         Next
-                  
-         Fonte 8, True, False
-         If vQuitarUma = True Then
-            Printer.Print Tab(28); "R$ " & Format(txtTotal.Text, "##,##0.00")
-         Else
-            Printer.Print Tab(28); "R$ " & Format(lblTotalSelecionadasQuitadas.Caption, "##,##0.00")
-         End If
-         
-         For i = 1 To 1
-            Printer.Print " "
-         Next
-         
-         Dim Line1 As String
-         Dim Line2 As String
-         
-         Dim Texto As String
-         If vQuitarUma = True Then
-            Texto = UCase(NumeroExtenso(txtTotal.Text, True))
-         Else
-            Texto = UCase(NumeroExtenso(lblTotalSelecionadasQuitadas.Caption, True))
-         End If
-         Line1 = Mid(Texto, 1, 40)
-         Line2 = Mid(Texto, 41, 80)
-        
-         Fonte 8, False, False
-         Printer.Print Tab(2); "Recebi(emos) de: "
-         Fonte 8, True, False
-         Printer.Print Tab(2); rClientes("NOME")
-         
-         For i = 1 To 1
-            Printer.Print " "
-         Next
-         
-         Fonte 8, False, False
-         Printer.Print Tab(2); "A importância supra de: "
-         Fonte 8, False, False
-         Printer.Print Tab(2); Line1
-         Printer.Print Tab(2); Line2
-         Fonte 8, False, False
-        
-         For i = 1 To 1
-            Printer.Print " "
-         Next
-         
-        If vQuitarUma = True Then
-            Printer.Print Tab(2); "Proveniente do: "; "Pagamento da " & txtNumParcela.Text & "ª parcela "
-            Printer.Print Tab(2); "do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
-        Else
-        'DIVIDINDO OS PEDIDOS POR LINHA
-            Dim iMaxCol As Integer
-            Dim var_Parc As String
-            Dim strSeparator As String
-   
-   
-            iMaxCol = 50
-            strSeparator = ", "
-            'var_Parc = "00001/00, 00001/01, 00001/02, 00001/03, 00001/04, 00001/05, 00001/06, 00001/07, 00001/08, 00001/09, 00001/10, 00001/11, 00001/12, 00001/13, 00001/14, 00001/15"
-         
-         'INICIO DA IMPRESSÃO DE MULTIPLUS PEDIDOS
-             'Dim var_Parc As String
-             Dim y As Integer
-    
-             var_Parc = ""
-             
-             With Grid_Historico
-                For y = 1 To .rows - 1
-                   .Col = 0
-                   .Row = y
-    
-                   If .CellPicture = ImgMarcadaPAGAS Then
-                      If y = 1 Then
-                         var_Parc = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-                      ElseIf Right(var_Parc, 8) = Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00") Then
-                         MsgBox "Tratar Repetido"
-                      Else
-                         var_Parc = var_Parc & ", " & Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-                         If y = .rows - 1 Then Exit For
-                      End If
-                   End If
-                Next y
-             End With
-             'txtText1.Text = ReturnLargueToPrint(var_Parc, iMaxCol, strSeparator)
-             Printer.Print Tab(2); "Proveniente do Pagamento dos pedidos: "
-             Printer.Print Tab(2); ReturnLargueToPrint(var_Parc, iMaxCol, strSeparator)
-         End If
-         
-            'Printer.Print Tab(2); "Proveniente do: "; "Pagamento da " & txtNumParcela.Text & "ª parcela "
-            
-
-         
-         '.txtProveniente.Caption = "PEDIDO(S): " & var_Parc
-         
-         '.txtValor.Caption = UCase(NumeroExtenso(lblTotalSel.Caption, True))
-         '.txthead.Caption = "R$ " & Format(lblTotalSel.Caption, "##,##0.00")
-         
-         '.txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
-         '===================================================
-
-         
-         For i = 1 To 1
-            Printer.Print " "
-         Next
-         
-         
-         Printer.Print Tab(2); "Forma de Pgto: " & cboForma.Text
-        If Not rUsuario.EOF Then
-            Printer.Print Tab(2); "Funcionário: "; rUsuario("login")
-        Else
-            Printer.Print Tab(2); "Funcionário: Não Especificado"
-        End If
-         
-         For i = 1 To 2
-            Printer.Print " "
-         Next
-        
-         Fonte 8, False, False
-         If vQuitarUma = True Then
-            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & MonthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
-        Else
-            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
-        End If
-         
-         For i = 1 To 3
-               Printer.Print " "
-         Next
-         
-         Printer.Print Tab((40 - Len("______________________________________")) / 2); "______________________________________"
-         Printer.Print Tab((40 - Len("Assinatura")) / 2); "Assinatura"
-         
-
-        
-      Close #f
-      .EndDoc
-      'rsPedidos.Close
-      'rsFunc.Close
-      'RS.Close
-      'BD.Close
-   End With
-   
 Tratar_Erro:
-   ' Atribui a impressora inicial
-   'For Each Prt In Printers
-   '   If Prt.DeviceName = oldPrinter Then
-   '      Set Printer = Prt
-   '      Exit For
-   '   End If
-   'Next
-   
-   If Not rEmpresa Is Nothing Then If rEmpresa.State <> 0 Then rEmpresa.Close
-   If Not rPedidos Is Nothing Then If rPedidos.State <> 0 Then rPedidos.Close
-   If Not rClientes Is Nothing Then If rClientes.State <> 0 Then rClientes.Close
-   
-   'If Err.Number = 52 Then
-    '  ShowMsg "Impressora não esta pronta ou está com problemas, Verifique !!!", vbInformation
-    '  Printer.KillDoc
-    '  Exit Sub
-   'End If
+If Not rEmpresa Is Nothing Then If rEmpresa.State <> 0 Then rEmpresa.Close
+If Not rPedidos Is Nothing Then If rPedidos.State <> 0 Then rPedidos.Close
+If Not rClientes Is Nothing Then If rClientes.State <> 0 Then rClientes.Close
+If Not rParcelas Is Nothing Then If rParcelas.State <> 0 Then rParcelas.Close
 End Sub
 Private Sub Imprimir_ReciboCupom()
    'On Error GoTo Tratar_Erro
@@ -6112,6 +5648,7 @@ Private Sub cmdMarcarTodasREATIVAR_Click()
    
    OP = contar
    AcaoGridREATIVAR
+   Somar_Parcelas_SelecionadasQuitadas
 End Sub
 
 Private Sub cmdMostrarProdutos_Click()
@@ -6190,8 +5727,16 @@ ElseIf cboForma.Text = "PIX" Then
 End If
 
 'MOSTRAR SE O CAIXA ESTÁ FECHADO
-Verificar_Caixa_Baixa
-If CAIXA_FECHADO_BAIXA = True Then Exit Sub
+If Verificar_Caixa_Baixa() = 1 Then
+   MsgBox "O caixa referente a essa data já está fechado!", vbInformation, "Aviso do Sistema"
+   Exit Sub
+End If
+
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerQuitarTodas
+
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 
 With grid_Parcelas
    For f = 1 To .rows - 1
@@ -6208,6 +5753,9 @@ With grid_Parcelas
       End If
    Next f
 End With
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 If varPgtoAutomatico = False Then
     If ShowMsg("Deseja imprimir o recibo ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
@@ -6249,65 +5797,25 @@ Else
          'End If
     End If
 End If
+Exit Sub
+
+ErrHandlerQuitarTodas:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao quitar as parcelas: " & Err.Description, vbCritical, "Erro"
 End Sub
 
-Private Sub cmdReativar_Click()
-'verificar ser o caixa do haver selecionado está em aberto
-Dim sSQL As String
-Dim r As ADODB.Recordset
-
-sSQL = "SELECT * " & _
-       "FROM caixa_dia " & _
-       "WHERE (codcaixa = " & txtCodCaixa.Text & ") and (caixa = '" & txtCaixa.Text & "') and caixa_dia.status = 1;"
-Set r = dbData.OpenRecordset(sSQL)
-Debug.Print sSQL
-
-'If Not r.BOF Then
-    If r.RecordCount > 0 Then
-        MsgBox "O caixa onde essa parcela foi adicionado encontra-se fechado!", vbInformation, "Aviso do Sistema"
-        r.Close
-        Set r = Nothing
-        Exit Sub
-    End If
-'Else
-
-'End If
-
-'INICIO DA ROTINA
-If cboCliente.Text = "" Or txtConNumParcela.Text = "" Or txtCONValor.Text = "" Then Exit Sub
-If txtConCodPedido.Text = "" And txtConCodOS.Text = "" Then Exit Sub
-
-'If txtConCodOS.Text <> "" And txtConCodPedido.Text = "" Then
-'   If MsgBox("Deseja reativar a parcela '" & txtConNumParcela.Text & "' da OS No.'" & txtConCodOS.Text & "' ??", vbInformation + vbYesNo, "Aviso do Sistema") = vbNo Then Exit Sub
-'ElseIf txtConCodOS.Text = "" And txtConCodPedido.Text <> "" Then
-   If ShowMsg("Deseja reativar a parcela '" & txtConNumParcela.Text & "' do Pedido No. '" & txtConCodPedido.Text & "' ??", vbInformation + vbYesNo) = vbNo Then Exit Sub
-'End If
-
-'If txtConCodOS.Text <> "" And txtConCodPedido.Text = "" Then
-'   execSQL "UPDATE PARCELAS SET STATUS = false , VALOR_FINAL = '" & Format(0, "##,##0.00") & "', PAGAMENTO = #" & Format(MaskEdBox1.Text, "mm/dd/yyyy") & "# WHERE COD_OS = " & txtConCodOS.Text & " AND NUMERO = " & txtConNumParcela.Text & ""
-'   execSQL "UPDATE CHEQUE SET STATUS = false WHERE COD_OS = " & txtConCodOS.Text & " AND PARCELA = " & txtConNumParcela.Text & ""
-'   execSQL "UPDATE PARCELAS_HAVER SET STATUS = 0 WHERE (CODIGO = " & txtCONcodParc.Text & ")"
-'ElseIf txtConCodOS.Text = "" And txtConCodPedido.Text <> "" Then
-   dbData.Execute "UPDATE parcelas SET status = 0, valor_final = VALOR, JUROS = 0, DIAS_ATRAZO = 0, MULTA = 0, DESCONTO = 0, pagamento = Null, forma_pgto = '', caixa = '', codcaixa = '' WHERE (cod_pedido = " & txtConCodPedido.Text & ") AND (numero = " & txtConNumParcela.Text & ");"
-   'dbData.Execute "UPDATE cheque SET status = 0 WHERE (cod_pedido = " & txtConCodPedido.Text & ") AND (parcela = " & txtConNumParcela.Text & ");"
-   dbData.Execute "UPDATE parcelas_haver SET status = 0 WHERE (codigo = " & txtCONcodParc.Text & ");"
-'End If
-
-MostrarGrid_Parcelas
-Calcular_Valores
-MostrarGrid_Historico
-LimparObjetos_Historico
-
-OP = contar
-AcaoGridREATIVAR
-End Sub
 
 Private Sub cmdRemoverHaver_Click()
-On Error GoTo erro
+On Error GoTo TrataErroRemoverHaver
 
 'verificar ser o caixa do haver selecionado está em aberto
 Dim sSQL As String
 Dim r As ADODB.Recordset
+
+If Grid_Haver.TextMatrix(Grid_Haver.Row, 1) = "" Then
+   MsgBox "Não existe nenhum haver selecionado para ser removido!", vbExclamation
+   Exit Sub
+End If
 
 sSQL = "SELECT * " & _
        "FROM caixa_dia " & _
@@ -6322,10 +5830,11 @@ If r.RecordCount > 0 Then
 End If
 
 'INICIO DA ROTINA
-Verificar_Caixa_Haver
-If CAIXA_FECHADO_HAVER = True Then Exit Sub
+If Verificar_Caixa_Haver() = 1 Then
+   MsgBox "O caixa referente a essa data de haver já está fechado!", vbInformation, "Aviso do Sistema"
+   Exit Sub
+End If
 
-If Grid_Haver.TextMatrix(Grid_Haver.Row, 1) = "" Then GoSub erro
 If ShowMsg("Deseja remover o haver de: " & Grid_Haver.TextMatrix(Grid_Haver.Row, 3) & " ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
 'If txtOrigem.Text <> "" And txtCodPedido.Text = "" Then
@@ -6356,12 +5865,13 @@ Somar_Parcelas_Selecionadas
 txtValorHaver.SetFocus
 Exit Sub
 
-erro:
-   MsgBox "Não existe nenhum haver selecionado para ser removido!", vbExclamation
-   Exit Sub
+TrataErroRemoverHaver:
+   MsgBox "Erro ao remover o haver: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdSalvar_Click()
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerSalvar
 If txtDias.Visible = True Then
     ConsultarCaixaAtual
     
@@ -6438,6 +5948,8 @@ If txtDias.Visible = True Then
         vDataPgto = ""
     End If
     
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     If vDataCompra = vDataPgto Then
         dbData.Execute "UPDATE pedidos SET caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & " WHERE (cod_pedido = " & txtCodPedido.Text & ");"
     End If
@@ -6468,6 +5980,8 @@ If txtDias.Visible = True Then
     
        'ver depois dbData.Execute "UPDATE cheque SET status = 1 WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (parcela = " & txtNumParcela.Text & ");"
        dbData.Execute "UPDATE parcelas_haver SET status = 1 WHERE (cod_parcela = " & txtCodParc.Text & ");"
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
     'End If
 
     If ShowMsg("Deseja imprimir o recibo ?", vbQuestion + vbYesNo) = vbYes Then
@@ -6488,7 +6002,11 @@ If txtDias.Visible = True Then
          'End If
     End If
 Else
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     dbData.Execute "UPDATE parcelas SET DATA = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103) WHERE (codigo = " & vCodParc & ");"
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 End If
 
 MostrarGrid_Haver
@@ -6502,12 +6020,19 @@ txtCodParc.Text = ""
 txtItem.Text = ""
 cboCliente.Locked = False
 mskPagamento.Top = 600
-lblPgto.Top = 600
+lblPGTO.Top = 600
 cmdCal1.Top = 600
+Exit Sub
+
+ErrHandlerSalvar:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao salvar o pagamento: " & Err.Description, vbCritical, "Erro"
 End Sub
 Private Sub cmdSalvarAutomatico_Click()
 If cboForma.Text = "" Then MsgBox "Selecione uma forma de pagamento!", vbInformation, "Aviso do Sistema": cboForma.SetFocus: Exit Sub
 If txtValorAutomatico.Text = "" Or txtValorAutomatico.Text = "0,00" Then MsgBox "Valor incorreto!", vbInformation, "Aviso do Sistema": txtValorAutomatico.SetFocus: Exit Sub
+
+If grid_Parcelas.rows <= 1 Then MsgBox "Nenhuma parcela disponível para quitar!", vbInformation, "Aviso do Sistema": Exit Sub
 
 frmPagamento.Visible = True
 varPgtoAutomatico = True
@@ -6544,7 +6069,7 @@ Else
             
             If varSomaParcelasSelecionas < varValorParaAbater Then
                 varSomaFutura = varSomaParcelasSelecionas + grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11)
-                If varSomaFutura < varValorParaAbater Then
+                If varSomaFutura <= varValorParaAbater Then
                     varSomaParcelasSelecionas = varSomaParcelasSelecionas + grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11)
                     Set grid_Parcelas.CellPicture = ImgMarcada
                     varSobra = varValorParaAbater - varSomaParcelasSelecionas
@@ -6566,13 +6091,14 @@ varFormaPgtoHaver = cboForma.Text
 Dim varLinhaMarcada As Boolean
 varLinhaMarcada = False
 
+If varSobra > 0 Then
 With grid_Parcelas
     For i = 1 To .rows - 1
         .Col = 0
         .Row = i
         
         If varLinhaMarcada = False Then
-            If varSobra < grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11) Then
+            If varSobra <= grid_Parcelas.TextMatrix(grid_Parcelas.Row, 11) Then
                 Set grid_Parcelas.CellPicture = ImgMarcada
                 varLinhaMarcada = True
                 cmdHabilitarHaver_Click
@@ -6583,8 +6109,13 @@ With grid_Parcelas
         End If
     Next
 End With
+End If
 
-cmdAdicionarHaver_Click
+If varLinhaMarcada = True Then
+    cmdAdicionarHaver_Click
+ElseIf varSobra > 0 Then
+    MsgBox "Não foi possível gerar o haver da sobra de " & Format(varSobra, ocMONEY) & " automaticamente: nenhuma parcela restante comporta esse valor. Gere o haver manualmente na aba HAVER.", vbExclamation, "Aviso do Sistema"
+End If
 'MostrarGrid_Haver
 MostrarGrid_Parcelas
 MostrarGrid_Historico
@@ -6713,6 +6244,7 @@ LimparGrid_Parcelas
 LimparGrid_Haver
 LimparGrid_Historico
 Set moCombo = New cComboHelper
+optMensal_Click
 End Sub
 Private Sub MostrarCodCaixa()
 sSQL = "SELECT *, CASE status WHEN 0 THEN 'ABERTO' ELSE 'FECHADO' END AS varStatus " & _
@@ -6748,23 +6280,32 @@ End If
 End Sub
 
 Sub AcaoGridREATIVAR()
-'Grid_Historico.Col = 0
+Grid_Historico.Col = 0
+Dim vTipoMarcado As String
 var_Contador = 0
+vTipoMarcado = ""
 For i = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = i
    If OP = MarcarTodos Then Set Grid_Historico.CellPicture = ImgMarcadaPAGAS
    If OP = DesmarcarTodos Then Set Grid_Historico.CellPicture = imgDesmarcadaPAGAS
    If OP = contar Then
-      If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then var_Contador = var_Contador + 1
+      If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then
+         var_Contador = var_Contador + 1
+         vTipoMarcado = Grid_Historico.TextMatrix(i, 4)
+      End If
    End If
 Next
 
 If var_Contador = 1 Then
-   frmReativar.Enabled = False
    cmdMostrarProdutosREATIVAR.Enabled = True
    cmdHabilitarREATIVAR.Enabled = True
    cmdImprimirParcelas.Visible = True
-   cmdImprimirParcQuitSel.Visible = False
+   cmdImprimirParcelas.Enabled = True
+   If vTipoMarcado = "HAVER" Then
+      cmdHabilitarREATIVAR.Caption = "REMOVER"
+   Else
+      cmdHabilitarREATIVAR.Caption = "REATIVAR"
+   End If
    
     'If Grid_Historico.Rows >= 2 Then
     '    sSQL = "SELECT * FROM parcelas_haver WHERE (cod_parcela = " & iCodParc & ") ORDER BY codigo;"
@@ -6777,20 +6318,24 @@ If var_Contador = 1 Then
     'End If
     
 ElseIf var_Contador > 1 Then
-   frmReativar.Enabled = False
-   cmdMostrarProdutosREATIVAR.Enabled = True
-   cmdHabilitarREATIVAR.Enabled = False
-   cmdImprimirParcelas.Visible = False
-   cmdImprimirParcQuitSel.Visible = True
-  
-   LimparGridHaverPagas
-ElseIf var_Contador = 0 Then
-   frmReativar.Enabled = False
    cmdMostrarProdutosREATIVAR.Enabled = False
    cmdHabilitarREATIVAR.Enabled = False
-   cmdImprimirParcelas.Visible = False
-   cmdImprimirParcQuitSel.Visible = True
+   cmdHabilitarREATIVAR.Caption = "REATIVAR"
+   cmdImprimirParcelas.Visible = True
+   cmdImprimirParcelas.Enabled = True
+  
    LimparGridHaverPagas
+   Label28.Visible = False
+   GridHaverPagas.Visible = False
+ElseIf var_Contador = 0 Then
+   cmdMostrarProdutosREATIVAR.Enabled = False
+   cmdHabilitarREATIVAR.Enabled = False
+   cmdHabilitarREATIVAR.Caption = "REATIVAR"
+   cmdImprimirParcelas.Visible = True
+   cmdImprimirParcelas.Enabled = False
+   LimparGridHaverPagas
+   Label28.Visible = False
+   GridHaverPagas.Visible = False
 End If
    
    'If OP = Contar Then ShowMsg "Qtde de itens selecionados: " & var_Contador, , "Contador"
@@ -6819,7 +6364,6 @@ If var_Contador = 1 Then
    'cboForma.Visible = False
    cmdMostrarProdutos.Enabled = True
    cmdMostrarHaveres.Enabled = True
-   cmdReativar.Enabled = True
    If grid_Parcelas.TextMatrix(grid_Parcelas.Row, 9) <> "" Then
     cmdQuitarUma.Visible = True
     cmdHabilitarHaver.Visible = True
@@ -6830,7 +6374,7 @@ If var_Contador = 1 Then
    'frmPagamento.Visible = True
    lblFormaPgto.Visible = True
    cboForma.Visible = True
-   lblPgto.Visible = True
+   lblPGTO.Visible = True
    mskPagamento.Visible = True
    cmdCal1.Visible = True
    txtDias.Visible = True
@@ -6853,7 +6397,6 @@ ElseIf var_Contador > 1 Then
    cmdQuitarTodas.Visible = True
    cmdMostrarProdutos.Enabled = False
    cmdMostrarHaveres.Enabled = False
-   cmdReativar.Enabled = False
    cmdQuitarUma.Visible = False
    cmdHabilitarHaver.Visible = False
    cmdAlterarVenc.Visible = False
@@ -6867,7 +6410,7 @@ ElseIf var_Contador > 1 Then
    frmPagamento.Visible = True
    lblFormaPgto.Visible = True
    cboForma.Visible = True
-   lblPgto.Visible = False
+   lblPGTO.Visible = False
    mskPagamento.Visible = False
    cmdCal1.Visible = False
    txtDias.Visible = False
@@ -6885,11 +6428,9 @@ ElseIf var_Contador > 1 Then
    cmdQuitarAutomatico.Visible = False
     lblValorAutomatico.Visible = False
     txtValorAutomatico.Visible = False
-    Limpar_Campos_Reativar
 ElseIf var_Contador = 0 Then
    cmdMostrarProdutos.Enabled = False
    cmdMostrarHaveres.Enabled = False
-   cmdReativar.Enabled = False
    cmdQuitarUma.Visible = False
    cmdHabilitarHaver.Visible = False
    cmdQuitarTodas.Visible = False
@@ -6905,7 +6446,7 @@ ElseIf var_Contador = 0 Then
    frmPagamento.Visible = False
    lblFormaPgto.Visible = False
    cboForma.Visible = False
-   lblPgto.Visible = False
+   lblPGTO.Visible = False
    mskPagamento.Visible = False
    cmdCal1.Visible = False
    txtDias.Visible = False
@@ -6923,27 +6464,8 @@ ElseIf var_Contador = 0 Then
    cmdQuitarAutomatico.Visible = True
     lblValorAutomatico.Visible = False
    txtValorAutomatico.Visible = False
-   Limpar_Campos_Reativar
 End If
 End Sub
-Private Function Verificar_Caixa_Reativar() As Integer
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   Dim cxaStatus As Integer
-  
-   cxaStatus = -1   'Não foi aberto
-   'If cmdAlterar.Enabled = True Then
-      sSQL = "SELECT status FROM caixa_dia WHERE (data_abertura = CONVERT(DATETIME, '" & Format(mskConPgto.FormattedText, ocDATA) & "', 103)) AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
-   'Else
-      'sSQL = "SELECT status FROM caixa_dia WHERE (data_abertura = '" & Format(StatusBar1.Panels(4), ocDATA_EUA) & "') AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
-   'End If
-   
-   Set r = dbData.OpenRecordset(sSQL)
-   If Not r.BOF Then cxaStatus = CInt(ValidateNull(r("status")))   '0 = aberto, 1 = fechado
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-   Verificar_Caixa_Reativar = cxaStatus
-End Function
 
 Private Function Verificar_Caixa_Haver() As Integer
 Dim sSQL As String
@@ -6996,7 +6518,7 @@ Dim Total As Currency, HAVER As Currency, TOTAL_GERAL As Currency, JUROS As Curr
 
 If txtMulta.Text = "" Then txtMulta.Text = FormatNumber(0, 2)
 If txtDesconto.Text = "" Then txtDesconto.Text = FormatNumber(0, 2)
-If txtJuros.Text = "" Then txtJuros.Text = FormatNumber("0,33", 2)
+If txtJuros.Text = "" Then txtJuros.Text = FormatNumber(0, 2)
 
 If txtValor.Text = "" Then Total = 0 Else Total = txtValor
 If txtDesconto.Text = "" Then varDesc = 0 Else varDesc = txtDesconto.Text
@@ -7076,6 +6598,7 @@ If Grid_Haver.TextMatrix(i, 2) = varCodCaixa Then cmdRemoverHaver.Enabled = True
 End Sub
 
 Private Sub Grid_Historico_Click()
+If Grid_Historico.rows <= 1 Then Exit Sub
 'Dim i As Long
 Dim vCodParc As Long
 vCodParc = 0
@@ -7086,7 +6609,6 @@ vCodParc = 0
 'iCodParc = Grid_Historico.TextMatrix(i, 1)
 
 If Grid_Historico.Col <> 0 Then Exit Sub
-'If Grid_Historico.TextMatrix(i, 1) = "" Then Exit Sub
 
 If Grid_Historico.CellPicture = imgDesmarcadaPAGAS Then
    Set Grid_Historico.CellPicture = ImgMarcadaPAGAS
@@ -7105,17 +6627,29 @@ If var_Contador = 1 Then
        Grid_Historico.Col = 0
        
        If Grid_Historico.CellPicture = ImgMarcadaPAGAS Then
-          vCodParc = (Grid_Historico.TextMatrix(Grid_Historico.Row, 1))
+          If Grid_Historico.TextMatrix(Grid_Historico.Row, 4) = "PARCELA" Then
+             vCodParc = (Grid_Historico.TextMatrix(Grid_Historico.Row, 1))
+          End If
        End If
     Next
-        
-    sSQL = "SELECT * FROM parcelas_haver WHERE (cod_parcela = " & vCodParc & ") ORDER BY haver, codigo;"
-    Set r = dbData.OpenRecordset(sSQL)
-    'Debug.Print sSQL
-    FormatarGrid_HaverPagas r
     
-    If r.State <> 0 Then r.Close
-    Set r = Nothing
+    Dim vTotalHaveresPagos As Long
+    vTotalHaveresPagos = 0
+    
+    If vCodParc > 0 Then
+        sSQL = "SELECT * FROM parcelas_haver WHERE (cod_parcela = " & vCodParc & ") ORDER BY haver, codigo;"
+        Set r = dbData.OpenRecordset(sSQL, vTotalHaveresPagos)
+        'Debug.Print sSQL
+        FormatarGrid_HaverPagas r
+        
+        If r.State <> 0 Then r.Close
+        Set r = Nothing
+    Else
+        LimparGridHaverPagas
+    End If
+    
+    Label28.Visible = (vTotalHaveresPagos > 0)
+    GridHaverPagas.Visible = (vTotalHaveresPagos > 0)
 End If
 
 Somar_Parcelas_SelecionadasQuitadas
@@ -7139,45 +6673,7 @@ End Sub
 
     
 
-Private Sub mskConData_GotFocus()
-   SelectControl mskConData
-End Sub
 
-Private Sub mskConData_KeyPress(KeyAscii As Integer)
-   mskConData.Mask = "##/##/##"
-End Sub
-
-Private Sub mskConData_LostFocus()
-   If mskConData.Text = "" Or mskConData.Text = "__/__/__" Then
-      mskConData.Mask = ""
-      mskConData.Text = ""
-   Else
-      If Not IsDate(mskConData.Text) Then
-         ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-         mskConData.SetFocus
-      End If
-   End If
-End Sub
-
-Private Sub mskConPgto_GotFocus()
-   SelectControl mskConPgto
-End Sub
-
-Private Sub mskConPgto_KeyPress(KeyAscii As Integer)
-   mskConPgto.Mask = "##/##/##"
-End Sub
-
-Private Sub mskConPgto_LostFocus()
-   If mskConPgto.Text = "" Or mskConPgto.Text = "__/__/__" Then
-      mskConPgto.Mask = ""
-      mskConPgto.Text = ""
-   Else
-      If Not IsDate(mskConPgto.Text) Then
-         ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-         mskConPgto.SetFocus
-      End If
-   End If
-End Sub
 
 Private Sub mskData_GotFocus()
    SelectControl mskData
@@ -7254,12 +6750,100 @@ Private Sub optJurosSim_Click()
    TxtCodCliente_Change
 End Sub
 
+Private Sub Cal1_Click()
+Dim varData As Variant
+Dim fCal As Calendario
+
+varData = Empty
+
+Set fCal = New Calendario
+fCal.Show vbModal
+
+varData = fCal.DateSelected
+
+Unload fCal
+Set fCal = Nothing
+
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+
+mskDataConsulta = Format(varData, "dd/mm/yyyy")
+mskDataConsulta.SetFocus
+End Sub
+
+Private Sub cmdExibirConsulta_Click()
+MostrarGrid_Historico
+End Sub
+
+Private Sub mskDataConsulta_GotFocus()
+   SelectControl mskDataConsulta
+End Sub
+
+Private Sub mskDataConsulta_KeyPress(KeyAscii As Integer)
+   mskDataConsulta.Mask = "##/##/##"
+End Sub
+
+Private Sub mskDataConsulta_LostFocus()
+   If mskDataConsulta.Text = "" Or mskDataConsulta.Text = "__/__/__" Then
+      mskDataConsulta.Mask = ""
+      mskDataConsulta.Text = ""
+   Else
+      If Not IsDate(mskDataConsulta.Text) Then
+         ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+         mskDataConsulta.SetFocus
+      End If
+   End If
+End Sub
+
+Private Sub optDia_Click()
+lblRotuloConsulta(10).Caption = "Data:"
+lblRotuloConsulta(10).Visible = True
+cboMes.Visible = False
+cboAno.Visible = False
+mskDataConsulta.Visible = True
+Cal1.Visible = True
+cmdExibirConsulta.Visible = True
+
+mskDataConsulta.Text = Format(Date, "dd/mm/yy")
+
+cmdExibirConsulta.Left = 2520
+frmConsulta.Width = 3975
+
+cmdExibirConsulta_Click
+End Sub
+
+Private Sub optMensal_Click()
+lblRotuloConsulta(10).Caption = "Mês/Ano:"
+lblRotuloConsulta(10).Visible = True
+cboMes.Visible = True
+cboAno.Visible = True
+mskDataConsulta.Visible = False
+Cal1.Visible = False
+cmdExibirConsulta.Visible = True
+
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno.Text = Year(Date)
+
+cmdExibirConsulta.Left = 3360
+frmConsulta.Width = 4875
+
+cmdExibirConsulta_Click
+End Sub
+
 Private Sub optPgto_Click()
 MostrarGrid_Historico
 End Sub
 
 Private Sub optTodas_Click()
-MostrarGrid_Historico
+lblRotuloConsulta(10).Visible = False
+cboMes.Visible = False
+cboAno.Visible = False
+mskDataConsulta.Visible = False
+Cal1.Visible = False
+cmdExibirConsulta.Visible = False
+
+cmdExibirConsulta_Click
 End Sub
 
 Private Sub optVenc_Click()
@@ -7319,13 +6903,6 @@ Private Sub txtCodPed_LostFocus()
    Mostrar_Pedidos_Por_Codigo
 End Sub
 
-Private Sub txtConValor_GotFocus()
-   SelectControl txtCONValor
-End Sub
-
-Private Sub txtConValor_LostFocus()
-   If txtCONValor.Text = "" Then txtCONValor.Text = FormatNumber(0, 2) Else txtCONValor.Text = FormatNumber(txtCONValor.Text, 2)
-End Sub
 
 Private Sub txtDesconto_GotFocus()
 SelectControl txtDesconto

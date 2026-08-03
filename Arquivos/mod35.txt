@@ -1,0 +1,8 @@
+No Projeto Online Commerce:
+No form NFe_Completa:
+-Botão cmdImprimir não consegue gerar a impressão (danfe) se no xml da nota não for encontrado. Como posso gerar a NF em qualquer maquina... a xml fica na maquina que foi transmitida a NF, porem se em outra maquina eu clicar no cmdImprimir como se deve proceder ?
+- Sobre o cmdEnviarXML (ele deve enviar por email a pdf/xml daquela NF para um email digitado (caso o cliente tivesse um email cadastrado, aparece-se autopreenchido no input, caso não, aparecesse o input para digitar)... caso o cliente da NF não tivesse email e eu digitasse um email no input, o cadastro do cliente deveria ser atualizado com esse novo email.
+No Projeto PDV:
+No form NFCe_Consultar:
+-Botão cmdImprimir não consegue gerar a impressão se no xml da NFCe não for encontrado. Como posso gerar a NFCe em qualquer maquina... a xml fica na maquina que foi transmitida a NFCe, porem se em outra maquina eu clicar no cmdImprimir como se deve proceder ?
+- cmdEnviarPDF e cmdEnviarArquivo (mesma tese do cmdEnviarXML)... porem uma diferencia: quando o cliente possui o codigo = 1 quer dizer que ele é o CONSUMIDOR AVULSO, nesse caso não precisa atualizar o cadastro do cliente com email digitado no input.
