@@ -1166,9 +1166,6 @@ Private Sub cmdCadastrar_Click()
               Produtos_Cadastro.cboIBSCBSCST.ListIndex = kM: Exit For
           End If
       Next kM
-      Produtos_Cadastro.txtCBSpAliq.Text = FormatNumber(Item.CBSpAliq, 4)
-      Produtos_Cadastro.txtIBSUFpAliq.Text = FormatNumber(Item.IBSUFpAliq, 4)
-      Produtos_Cadastro.txtIBSMunpAliq.Text = FormatNumber(Item.IBSMunpAliq, 4)
       Dim sISM As String
       sISM = Left(Item.ISCST & "  ", 2)
       If Trim(sISM) = "" Then sISM = "00"
@@ -1177,7 +1174,6 @@ Private Sub cmdCadastrar_Click()
               Produtos_Cadastro.cboISCST.ListIndex = kM: Exit For
           End If
       Next kM
-      Produtos_Cadastro.txtISpIS.Text = FormatNumber(Item.ISpIS, 4)
 
       ' Custo e margens
       Produtos_Cadastro.txtCusto.Text = Format(Item.vUnCom / frac, "##,##0.00")
