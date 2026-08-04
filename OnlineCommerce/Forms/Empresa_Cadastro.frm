@@ -1564,8 +1564,15 @@ Private Function Atualizar_Dados() As Boolean
 End Function
 
 Private Function Atualizar_CertificadoDigital() As Boolean
+   'Usuarios comuns tambem podem atualizar esses campos (alem do CertificadoDigital)
    Dim sSQL As String
-   sSQL = "UPDATE empresa SET CertificadoDigital = '" & EA(txtCertificadoDigital.Text) & "'"
+   sSQL = "UPDATE empresa SET CertificadoDigital = '" & EA(txtCertificadoDigital.Text) & "', " & _
+      "Banco = '" & EA(txtBanco.Text) & "', " & _
+      "Agencia = '" & EA(txtAgencia.Text) & "', " & _
+      "Conta = '" & EA(txtConta.Text) & "', " & _
+      "Tipo = '" & EA(cboTipo.Text) & "', " & _
+      "Favorecido = '" & EA(txtFavorecido.Text) & "', " & _
+      "Pix = '" & EA(txtPix.Text) & "'"
    Atualizar_CertificadoDigital = dbData.Execute(sSQL)
 End Function
 
@@ -1929,7 +1936,7 @@ End Sub
 
 Private Sub cmdAlterar_Click()
 If Tela_Principal.StatusBar1.Panels(2).Text <> "PROGRAMADOR" Then
-   'usuarios comuns so podem atualizar o certificado digital, nao o cadastro inteiro
+   'usuarios comuns so podem atualizar CertificadoDigital/Banco/Agencia/Conta/Tipo/Favorecido/Pix, nao o cadastro inteiro
    If Not Atualizar_CertificadoDigital Then
       ShowMsg "Não foi possível atualizar o certificado digital." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
       Exit Sub
@@ -2461,7 +2468,7 @@ StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 If Tela_Principal.StatusBar1.Panels(2).Text <> "PROGRAMADOR" Then
    'somente PROGRAMADOR pode salvar/excluir/gerar pagamentos; qualquer
    'usuario pode clicar em Alterar, mas cmdAlterar_Click restringe o
-   'que realmente e alterado nesse caso (so o CertificadoDigital)
+   'que realmente e alterado nesse caso (CertificadoDigital/Banco/Agencia/Conta/Tipo/Favorecido/Pix)
    cmdSalvar.Enabled = False
    cmdExcluir.Enabled = False
    cmdGerarPagamentos.Enabled = False
