@@ -461,17 +461,43 @@ Attribute VB_Exposed = False
 Option Explicit
 Private moCombo As cComboHelper
 
+Private Function EA(ByVal s As String) As String
+EA = Replace(s, "'", "''")
+End Function
+
 Private Function Inserir_Dados() As Boolean
    'A inclusão deve ser feita utilizando o comando INSERT INTO do sql
    'e não mais usando o método .AddNew do Recordset
    
    Dim sSQL As String
+   Dim r As ADODB.Recordset
+   Dim bTrans As Boolean
+   
+   On Error GoTo ErrHandlerInserir
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
+   
+   'recalcula o codigo dentro da transacao (com lock) para evitar que 2
+   'terminais peguem o mesmo numero entre o cmdNovo e o cmdSalvar
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_servico FROM os_Servicos WITH (UPDLOCK, HOLDLOCK);"
+   Set r = dbData.OpenRecordset(sSQL)
+   If Not r.BOF Then txtCodigo.Text = r("cod_servico") + 1
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
    
    'Comando de inclusão
-   sSQL = "INSERT INTO os_Servicos (codigo, servico, valor) VALUES (" & txtCodigo.Text & ", '" & cboServico.Text & "', " & Replace(CCur(mskValor.Text), ",", ".") & ");"
+   sSQL = "INSERT INTO os_Servicos (codigo, servico, valor) VALUES (" & txtCodigo.Text & ", '" & EA(cboServico.Text) & "', " & Replace(CCur(mskValor.Text), ",", ".") & ");"
    
    'Retorna o resultado da inclusão
    Inserir_Dados = dbData.Execute(sSQL)
+   
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
+   Exit Function
+   
+ErrHandlerInserir:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   Inserir_Dados = False
 End Function
 
 Private Function Atualizar_Dados() As Boolean
@@ -484,7 +510,7 @@ Private Function Atualizar_Dados() As Boolean
    Dim sSQL As String
    
    'Comando de atualização
-   sSQL = "UPDATE os_Servicos SET servico = '" & cboServico.Text & "', valor = " & Replace(CCur(mskValor.Text), ",", ".") & " WHERE (codigo = " & txtCodigo.Text & ");"
+   sSQL = "UPDATE os_Servicos SET servico = '" & EA(cboServico.Text) & "', valor = " & Replace(CCur(mskValor.Text), ",", ".") & " WHERE (codigo = " & txtCodigo.Text & ");"
    
    'Retorna o resultado da atualização
    Atualizar_Dados = dbData.Execute(sSQL)
@@ -592,7 +618,19 @@ Private Sub cmdAlterar_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
+On Error GoTo TrataErroAlterar
+
 If txtCodigo.Text = "" Then Exit Sub
+
+'não permitir 2 serviços com o mesmo nome (exclui o proprio registro)
+sSQL = "SELECT COUNT(*) AS vTotal FROM os_Servicos WHERE servico = '" & EA(cboServico.Text) & "' AND codigo <> " & txtCodigo.Text
+Set r = dbData.OpenRecordset(sSQL)
+If r("vTotal") > 0 Then
+   ShowMsg "Já existe um serviço cadastrado com esse nome!", vbExclamation
+   Exit Sub
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
 
 If Not Atualizar_Dados Then
    ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
@@ -601,6 +639,10 @@ End If
 
 Limpar_Objetos
 Form_Load
+Exit Sub
+
+TrataErroAlterar:
+   MsgBox "Erro ao atualizar o serviço: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdCancelar_Click()
@@ -610,9 +652,22 @@ End Sub
 
 Private Sub cmdExcluir_Click()
 Dim sSQL As String
+Dim r As ADODB.Recordset
 Dim bRet As Boolean
 
+On Error GoTo TrataErroExcluir
+
 If txtCodigo.Text = "" Then Exit Sub
+
+'não permitir excluir serviço já usado em alguma OS
+sSQL = "SELECT COUNT(*) AS vTotal FROM OS_Servicos_Auto WHERE cod_servico = " & txtCodigo.Text
+Set r = dbData.OpenRecordset(sSQL)
+If r("vTotal") > 0 Then
+   ShowMsg "Não é permitido excluir esse serviço!" & vbCrLf & "Esse serviço já foi usado em alguma Ordem de Serviço!", vbInformation
+   Exit Sub
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
 
 If ShowMsg("Excluir esse serviço?", vbInformation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
 
@@ -626,6 +681,10 @@ End If
 
 Limpar_Objetos
 Form_Load
+Exit Sub
+
+TrataErroExcluir:
+   MsgBox "Erro ao excluir o serviço: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdNovo_Click()
@@ -649,6 +708,18 @@ On Error GoTo TrataErro
 
 If txtCodigo.Text = "" Or cboServico.Text = "" Or mskValor.Text = "" Then Exit Sub
 
+Dim sSQL As String
+Dim r As ADODB.Recordset
+'não permitir 2 serviços com o mesmo nome
+sSQL = "SELECT COUNT(*) AS vTotal FROM os_Servicos WHERE servico = '" & EA(cboServico.Text) & "'"
+Set r = dbData.OpenRecordset(sSQL)
+If r("vTotal") > 0 Then
+   ShowMsg "Já existe um serviço cadastrado com esse nome!", vbExclamation
+   Exit Sub
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
 If Not Inserir_Dados Then
     ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
     Exit Sub
@@ -656,12 +727,10 @@ End If
 
 Limpar_Objetos
 Form_Load
-   
+Exit Sub
+
 TrataErro:
-   If Err.Number = 3022 Then
-      ShowMsg "DADOS DUPLICADO!" & vbCrLf & "Verifique se já está cadastrado.", vbInformation
-      Exit Sub
-   End If
+   MsgBox "Erro ao salvar o serviço: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub Form_Load()
@@ -682,6 +751,7 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Grid_DblClick()
+If Grid.Rows <= 1 Then Exit Sub
 Picture1.Enabled = True
 txtCodigo.Text = ""
 txtCodigo.Text = (Grid.TextMatrix(Grid.Row, 1))

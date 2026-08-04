@@ -3566,6 +3566,9 @@ Private Sub CriarNovoPedido()
 vQuantItensVenda = 0
 vDescItensVenda = 0
 
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerNovoPedido
+
 If varTipoValorVenda = 1 Then
     'verificar se o pedido está livre
     Dim var_NroPedido As Long
@@ -3573,8 +3576,12 @@ If varTipoValorVenda = 1 Then
     
     'Nenhum pedido livre
     If var_NroPedido = -1 Then
+       dbData.Execute "BEGIN TRANSACTION"
+       bTrans = True
        txtCodPedido = AutoNumeracao_Pedido
        dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+       dbData.Execute "COMMIT TRANSACTION"
+       bTrans = False
     Else
        txtCodPedido = var_NroPedido
     End If
@@ -3595,6 +3602,11 @@ ElseIf varTipoValorVenda = 2 Then
     'txtCodBarra.SetFocus
     lblTipoVenda.Caption = ""
 End If
+Exit Sub
+
+ErrHandlerNovoPedido:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao criar o novo pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub DANFCeImpressao()
@@ -4487,7 +4499,7 @@ Private Function AutoNumeracao_Pedido() As Long
 
 'pegar o código do ultimo pedido
 lNovoCod = 1
-sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo FROM pedidos;"
+sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo FROM pedidos WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lNovoCod = r("ultimo") + 1
 If r.State <> 0 Then r.Close
@@ -6869,16 +6881,28 @@ frmTipoVenda.Visible = False
 Dim var_NroPedido As Long
 var_NroPedido = ExistePedidoLivre
 
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerNovoPedido
+
 'Nenhum pedido livre
 If var_NroPedido = -1 Then
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
    dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
 Else
    txtCodPedido = var_NroPedido
 End If
 
 HabilitaObjetosVenda False
 txtCodBarra.SetFocus
+Exit Sub
+
+ErrHandlerNovoPedido:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao criar o novo pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdAV_Click()
@@ -6888,10 +6912,17 @@ frmTipoVenda.Visible = False
 Dim var_NroPedido As Long
 var_NroPedido = ExistePedidoLivre
 
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerNovoPedido
+
 'Nenhum pedido livre
 If var_NroPedido = -1 Then
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
    dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
 Else
    txtCodPedido = var_NroPedido
 End If
@@ -6902,6 +6933,11 @@ txtCodBarra.SetFocus
     'If LerPermissoesUsuario(vCodUsuario, 18) = True Then
      '    Menu_Fin_Caixa.Enabled = True
      'Else
+Exit Sub
+
+ErrHandlerNovoPedido:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao criar o novo pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdAvancado_Click()
@@ -10311,16 +10347,28 @@ frmTipoVenda.Visible = False
 Dim var_NroPedido As Long
 var_NroPedido = ExistePedidoLivre
 
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerNovoPedido
+
 'Nenhum pedido livre
 If var_NroPedido = -1 Then
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
    dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
 Else
    txtCodPedido = var_NroPedido
 End If
 
 HabilitaObjetosVenda False
 txtCodBarra.SetFocus
+Exit Sub
+
+ErrHandlerNovoPedido:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao criar o novo pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdVV_Click()
@@ -10330,16 +10378,28 @@ frmTipoVenda.Visible = False
     Dim var_NroPedido As Long
     var_NroPedido = ExistePedidoLivre
     
+    Dim bTrans As Boolean
+    On Error GoTo ErrHandlerNovoPedido
+    
     'Nenhum pedido livre
     If var_NroPedido = -1 Then
+       dbData.Execute "BEGIN TRANSACTION"
+       bTrans = True
        txtCodPedido = AutoNumeracao_Pedido
        dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+       dbData.Execute "COMMIT TRANSACTION"
+       bTrans = False
     Else
        txtCodPedido = var_NroPedido
     End If
 
 HabilitaObjetosVenda False
 txtCodBarra.SetFocus
+Exit Sub
+
+ErrHandlerNovoPedido:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao criar o novo pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub Command1_Click()

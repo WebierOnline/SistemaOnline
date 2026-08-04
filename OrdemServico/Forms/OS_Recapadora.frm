@@ -4319,7 +4319,7 @@ Dim Cliente_Debito As Boolean
 Public bFechAV As Boolean
 
 Private Sub AutoNumeracao_Pedido()
-sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo_Ped FROM pedidos;"
+sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo_Ped FROM pedidos WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then txtCodPedido.Text = Format(r("ultimo_Ped") + 1, "000000")
 'If r.State <> 0 Then r.Close
@@ -4772,7 +4772,7 @@ Set r = Nothing
 End Sub
 
 Private Sub AutoNumeracao_OS()
-sSQL = "SELECT ISNULL(MAX(COD_OS), 0) AS ultima_os FROM os;"
+sSQL = "SELECT ISNULL(MAX(COD_OS), 0) AS ultima_os FROM os WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then txtCodOS.Text = Format(r("ultima_os") + 1, "000000")
 'If r.State <> 0 Then r.Close
@@ -10182,6 +10182,12 @@ LimparObjetos_Entrada
 LimparTotais
 LimparObjetos_Servicos
 LimparObjetos_Pecas
+
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerNovo
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
 AutoNumeracao_Pedido
 AutoNumeracao_OS
 mskDataEntrada.Text = Format(Date, "dd/mm/yy")
@@ -10202,6 +10208,9 @@ ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
 ElseIf vTipoOS = "Comunicação Visual" Then
     'dbData.Execute "INSERT INTO OS_Equipamento (cod_os) VALUES (" & txtCodOS.Text & ")"
 End If
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 cmdGerarEntrada.Enabled = True
 cmdCancelarEntrada.Enabled = True
@@ -10278,6 +10287,11 @@ cmdImpOrcamento2.Enabled = False
 cmdImpPedido2.Enabled = False
 
 cboFuncionario.SetFocus
+Exit Sub
+
+ErrHandlerNovo:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   MsgBox "Erro ao iniciar a nova OS: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdNovoOS_Click()

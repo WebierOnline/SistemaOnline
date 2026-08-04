@@ -1427,7 +1427,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'Option Explicit
+Option Explicit
 Dim lNovoCod As Long
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -1460,13 +1460,6 @@ ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As Strin
 ByVal nShowCmd As Long) As Long
 Private Const conSwNormal = 1
 
-Dim certificadoDataVencimento As String
-
-Private Sub GerarCodDesbloqueio()
-
-
-End Sub
-
 Private Function Inserir_Pagamentos() As Boolean
 'Dim sSQL As String
 
@@ -1486,6 +1479,10 @@ Private Function Inserir_Pagamentos() As Boolean
 'Inserir_Dados = dbData.Execute(sSQL)
 End Function
 
+Private Function EA(ByVal s As String) As String
+EA = Replace(s, "'", "''")
+End Function
+
 Private Function Inserir_Dados() As Boolean
 Dim sSQL As String, bOpt As Boolean
 
@@ -1499,13 +1496,14 @@ If txtCodigoIBGE.Text = "" Then txtCodigoIBGE.Text = 0
 If txtCRT.Text = "" Then txtCRT.Text = 0
 If txtAmbienteNF.Text = "" Then txtAmbienteNF.Text = 2
 If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
+If txtNum.Text = "" Then txtNum.Text = 0
 
 'Comando de inclusão
 sSQL = "INSERT INTO empresa (" & _
    "fantasia, razao, cnpj, ie, endereco, cidade, estado, telefone, celular, cep, email, caminho, CodigoIBGE, CRT, DiretorioXML, CertificadoDigital, NFCeIDToken, NFCeCSC, LicencaDLL, BAIRRO, AmbienteNF, pCreditoICMSSimplesNacional, numero, Perfil, pAliqUF, UltimoNSU, ContigenciaNFe, ContigenciaNFCe, Banco, Agencia, Conta, Tipo, Favorecido, Pix, WhatsAppApiKey, IPICompoeDIFAL, VencimentoCert, RegimeTributario, NFCeOffline, IEMunicipal ) VALUES ('" & _
-   txtFantasia.Text & "', '" & txtRazao.Text & "', '" & mskCNPJ.Text & "', '" & txtIE.Text & "', '" & _
-   txtEndereco.Text & "', '" & cboCidade.Text & "', '" & cboEstado.Text & "', '" & mskTelefone.Text & "', '" & mskCelular.Text & "','" & _
-   mskCep.Text & "', '" & txtEmail.Text & "', '" & txtCaminho.Text & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & txtDiretorioXML.Text & "', '" & txtCertificadoDigital.Text & "', '" & LPad(txtNFCeIDToken.Text, 6, "0") & "', '" & txtNFCeCSC.Text & "', '" & txtLicencaDLL.Text & "', '" & txtBairro.Text & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & cboPerfil.Text & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & txtBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipo.Text & "', '" & txtFavorecido.Text & "', '" & txtPix.Text & "', 0, '" & Abs(bOpt) & "', null, " & txtRegime.Text & ", " & Abs(chkOffline.Value) & ", '" & txtIEMunicipal.Text & "' )"
+   EA(txtFantasia.Text) & "', '" & EA(txtRazao.Text) & "', '" & EA(mskCNPJ.Text) & "', '" & EA(txtIE.Text) & "', '" & _
+   EA(txtEndereco.Text) & "', '" & EA(cboCidade.Text) & "', '" & EA(cboEstado.Text) & "', '" & EA(mskTelefone.Text) & "', '" & EA(mskCelular.Text) & "','" & _
+   EA(mskCep.Text) & "', '" & EA(txtEmail.Text) & "', '" & EA(txtCaminho.Text) & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & EA(txtDiretorioXML.Text) & "', '" & EA(txtCertificadoDigital.Text) & "', '" & EA(LPad(txtNFCeIDToken.Text, 6, "0")) & "', '" & EA(txtNFCeCSC.Text) & "', '" & EA(txtLicencaDLL.Text) & "', '" & EA(txtBairro.Text) & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & EA(cboPerfil.Text) & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & EA(txtBanco.Text) & "', '" & EA(txtAgencia.Text) & "', '" & EA(txtConta.Text) & "', '" & EA(cboTipo.Text) & "', '" & EA(txtFavorecido.Text) & "', '" & EA(txtPix.Text) & "', 0, '" & Abs(bOpt) & "', null, " & txtRegime.Text & ", " & Abs(chkOffline.Value) & ", '" & EA(txtIEMunicipal.Text) & "' )"
 
 'Retorna o resultado da atualização
 Inserir_Dados = dbData.Execute(sSQL)
@@ -1531,37 +1529,44 @@ Private Function Atualizar_Dados() As Boolean
    If txtCRT.Text = "" Then txtCRT.Text = 0
    If txtAmbienteNF.Text = "" Then txtAmbienteNF.Text = 2
    If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
+   If txtNum.Text = "" Then txtNum.Text = 0
    If txtCRT.Text = "1" Or txtCRT.Text = "2" Then txtRegime.Text = "1" Else txtRegime.Text = 3
    
    'Comando de atualização
    sSQL = "UPDATE empresa SET " & _
-      "fantasia = '" & txtFantasia.Text & "', " & _
-      "razao = '" & txtRazao.Text & "', " & _
-      "cnpj = '" & mskCNPJ.Text & "', " & _
-      "ie = '" & txtIE.Text & "', " & _
-      "endereco = '" & txtEndereco.Text & "', " & _
-      "bairro = '" & txtBairro.Text & "', " & _
-      "cidade = '" & cboCidade.Text & "', " & _
-      "estado = '" & cboEstado.Text & "', " & _
-      "telefone = '" & mskTelefone.Text & "', " & _
-      "celular = '" & mskCelular.Text & "', " & _
-      "cep = '" & mskCep.Text & "', " & _
-      "email = '" & txtEmail.Text & "', " & _
-      "caminho = '" & txtCaminho.Text & "', " & _
+      "fantasia = '" & EA(txtFantasia.Text) & "', " & _
+      "razao = '" & EA(txtRazao.Text) & "', " & _
+      "cnpj = '" & EA(mskCNPJ.Text) & "', " & _
+      "ie = '" & EA(txtIE.Text) & "', " & _
+      "endereco = '" & EA(txtEndereco.Text) & "', " & _
+      "bairro = '" & EA(txtBairro.Text) & "', " & _
+      "cidade = '" & EA(cboCidade.Text) & "', " & _
+      "estado = '" & EA(cboEstado.Text) & "', " & _
+      "telefone = '" & EA(mskTelefone.Text) & "', " & _
+      "celular = '" & EA(mskCelular.Text) & "', " & _
+      "cep = '" & EA(mskCep.Text) & "', " & _
+      "email = '" & EA(txtEmail.Text) & "', " & _
+      "caminho = '" & EA(txtCaminho.Text) & "', " & _
       "CodigoIBGE = " & txtCodigoIBGE.Text & ", " & _
       "CRT = " & txtCRT.Text & ", " & _
-      "DiretorioXML = '" & txtDiretorioXML.Text & "', " & _
-      "CertificadoDigital = '" & txtCertificadoDigital.Text & "', " & _
-      "NFCeIDToken = '" & LPad(txtNFCeIDToken.Text, 6, "0") & "', " & _
-      "NFCeCSC = '" & txtNFCeCSC.Text & "', " & _
-      "LicencaDLL = '" & txtLicencaDLL.Text & "', " & _
+      "DiretorioXML = '" & EA(txtDiretorioXML.Text) & "', " & _
+      "CertificadoDigital = '" & EA(txtCertificadoDigital.Text) & "', " & _
+      "NFCeIDToken = '" & EA(LPad(txtNFCeIDToken.Text, 6, "0")) & "', " & _
+      "NFCeCSC = '" & EA(txtNFCeCSC.Text) & "', " & _
+      "LicencaDLL = '" & EA(txtLicencaDLL.Text) & "', " & _
       "AmbienteNF = " & txtAmbienteNF.Text & ", " & _
       "pCreditoICMSSimplesNacional = " & FSQL(txtpICMSSN.Text, 2) & ", pAliqUF = " & FSQL(txtAliqUF.Text, 2) & ", " & _
-      "Numero = " & txtNum.Text & ", ContigenciaNFe = " & Abs(chkContigenciaNFe.Value) & ", ContigenciaNFCe = " & Abs(chkContigenciaNFCe.Value) & ", Perfil = '" & cboPerfil.Text & "', Banco = '" & txtBanco.Text & "', Agencia = '" & txtAgencia.Text & "', Conta = '" & txtConta.Text & "', Tipo = '" & cboTipo.Text & "', Favorecido = '" & txtFavorecido.Text & "' , " & _
-      "Pix = '" & txtPix.Text & "',  IPICompoeDIFAL = '" & Abs(bOpt) & "', RegimeTributario = " & txtRegime.Text & ", NFCeOffline = " & Abs(chkOffline.Value) & ", IEMunicipal = '" & txtIEMunicipal.Text & "'"
+      "Numero = " & txtNum.Text & ", ContigenciaNFe = " & Abs(chkContigenciaNFe.Value) & ", ContigenciaNFCe = " & Abs(chkContigenciaNFCe.Value) & ", Perfil = '" & EA(cboPerfil.Text) & "', Banco = '" & EA(txtBanco.Text) & "', Agencia = '" & EA(txtAgencia.Text) & "', Conta = '" & EA(txtConta.Text) & "', Tipo = '" & EA(cboTipo.Text) & "', Favorecido = '" & EA(txtFavorecido.Text) & "' , " & _
+      "Pix = '" & EA(txtPix.Text) & "',  IPICompoeDIFAL = '" & Abs(bOpt) & "', RegimeTributario = " & txtRegime.Text & ", NFCeOffline = " & Abs(chkOffline.Value) & ", IEMunicipal = '" & EA(txtIEMunicipal.Text) & "'"
       
    'Retorna o resultado da atualização
    Atualizar_Dados = dbData.Execute(sSQL)
+End Function
+
+Private Function Atualizar_CertificadoDigital() As Boolean
+   Dim sSQL As String
+   sSQL = "UPDATE empresa SET CertificadoDigital = '" & EA(txtCertificadoDigital.Text) & "'"
+   Atualizar_CertificadoDigital = dbData.Execute(sSQL)
 End Function
 
 Private Function REGIME(sREGIME As Integer) As String
@@ -1840,6 +1845,7 @@ End If
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
+   If Err.Number <> 0 Then MsgBox "Erro ao processar a cidade: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 
@@ -1892,6 +1898,7 @@ txtCodUF = cboEstado.ItemData(cboEstado.ListIndex)
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
+   If Err.Number <> 0 Then MsgBox "Erro ao processar o estado: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 
@@ -1921,7 +1928,23 @@ End Sub
 
 
 Private Sub cmdAlterar_Click()
+If Tela_Principal.StatusBar1.Panels(2).Text <> "PROGRAMADOR" Then
+   'usuarios comuns so podem atualizar o certificado digital, nao o cadastro inteiro
+   If Not Atualizar_CertificadoDigital Then
+      ShowMsg "Não foi possível atualizar o certificado digital." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
+      Exit Sub
+   End If
+   
+   Limpar_Objetos
+   Form_Load
+   Exit Sub
+End If
+
 If txtFantasia.Text = "" Or txtRazao.Text = "" Or cboCidade.Text = "" Then Exit Sub
+If mskCNPJ.Text = "" Or InStr(mskCNPJ.Text, "_") > 0 Then
+   ShowMsg "Informe um CNPJ/CPF válido e completo!", vbExclamation
+   Exit Sub
+End If
 
 If Not ValidarRegimeCRT() Then
     txtRegime.SetFocus
@@ -2004,6 +2027,13 @@ Set sistCertificado = New snfe.CertDigital
        FimValidade = sistCertificado.retCertDigital.DataExpira
         
        'MsgBox "Subject Name: " & nomeCertificado & vbNewLine & "CNPJ: " & CNPJ & vbNewLine & "Número de Série: " & NroSerie & vbNewLine & "Validade: " & FimValidade, vbInformation
+
+       If Retira(CNPJ, ".-/ ", UM_A_UM) <> Retira(mskCNPJ.Text, ".-/ ", UM_A_UM) Then
+          If ShowMsg("O CNPJ do certificado selecionado (" & CNPJ & ") é diferente do CNPJ cadastrado (" & mskCNPJ.Text & ")." & vbCrLf & "Deseja usar esse certificado mesmo assim?", vbExclamation + vbYesNo) = vbNo Then
+             nomeCertificado = "Operação cancelada!"
+             NroSerie = ""
+          End If
+       End If
     Else
        nomeCertificado = "Operação cancelada!"
     End If
@@ -2022,7 +2052,7 @@ deuErro:
 End Sub
 
 Private Sub cmdConsultarIE_Click()
-ShellExecute hwnd, "open", "https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", vbNullString, vbNullString, conSwNo
+ShellExecute hwnd, "open", "https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", vbNullString, vbNullString, conSwNormal
 End Sub
 
 Private Sub cmdCopiar_Click()
@@ -2036,6 +2066,7 @@ End Sub
 
 Private Sub cmdDesbroquear_Click()
 Dim i As Integer
+If Grid.rows <= 1 Then Exit Sub
 i = Grid.Row
 
 sSQL = "SELECT codigo, bloqueio, mes_ref, COD_DESBLOQUEIO, COD_TEMP, Debloqueio_Temp FROM licenca_pagamentos WHERE (codigo = " & Grid.TextMatrix(i, 1) & ");"
@@ -2060,18 +2091,19 @@ End Sub
 
 Private Sub cmdDesbTemp_Click()
 Dim i As Integer
+If Grid.rows <= 1 Then Exit Sub
 i = Grid.Row
 
 sSQL = "SELECT codigo, bloqueio, mes_ref, COD_DESBLOQUEIO, COD_TEMP, Debloqueio_Temp, data_bloqueio FROM licenca_pagamentos WHERE (codigo = " & Grid.TextMatrix(i, 1) & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
-Dim vDataBloq As Date
-vDataBloq = r("data_bloqueio")
 
 If Not r.BOF Then
     If txtCodDesbloqueio.Text <> "" Then
         If txtCodDesbloqueio.Text = r("COD_TEMP") Then
             If r("Debloqueio_Temp") = 0 Then
+                Dim vDataBloq As Date
+                vDataBloq = r("data_bloqueio")
                 dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 0, Debloqueio_Temp = 1, data_bloqueio = '" & Format$(vDataBloq + 3, "yyyy-dd-MM") & "' WHERE (codigo = " & Grid.TextMatrix(i, 1) & ");"
                 MsgBox "VOCÊ USOU UM CÓD. TEMPORÁRIO" & vbCrLf & "Você ganhou mais 3 dias de desbloqueio!", vbInformation
                 Mostrar_Pagamentos
@@ -2329,6 +2361,10 @@ End Function
 Private Sub cmdSalvar_Click()
 'Se os dados não foram informados, sai da rotina
 If txtFantasia.Text = "" Or txtRazao.Text = "" Or cboCidade.Text = "" Then Exit Sub
+If mskCNPJ.Text = "" Or InStr(mskCNPJ.Text, "_") > 0 Then
+   ShowMsg "Informe um CNPJ/CPF válido e completo!", vbExclamation
+   Exit Sub
+End If
 If txtAliqUF.Text = "" Then txtAliqUF.Text = "12"
 
 If Not ValidarRegimeCRT() Then
@@ -2423,9 +2459,12 @@ Mostrar_Pagamentos
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 
 If Tela_Principal.StatusBar1.Panels(2).Text <> "PROGRAMADOR" Then
-   cmdAlterar.Enabled = False
+   'somente PROGRAMADOR pode salvar/excluir/gerar pagamentos; qualquer
+   'usuario pode clicar em Alterar, mas cmdAlterar_Click restringe o
+   'que realmente e alterado nesse caso (so o CertificadoDigital)
+   cmdSalvar.Enabled = False
    cmdExcluir.Enabled = False
-   'cmdGerarPagamentos.Enabled = False
+   cmdGerarPagamentos.Enabled = False
    Exit Sub
 End If
 End Sub
@@ -2449,6 +2488,8 @@ Private Sub lblProcurar_Click()
    Dim FSys As FileSystemObject 'referencia que nao deixa copiar arquivos duplicados (PROJECT / REFERENCES e selecionar MICROSOFT SCRIPTING RUNTIME)
    Set FSys = New FileSystemObject
    
+   On Error GoTo ErrHandlerLogo
+   
    CommonDialog1.Filter = "Imagens JPG(*.jpg)|*.jpg"
    CommonDialog1.ShowOpen
    txtCaminho.Text = CommonDialog1.FileName
@@ -2460,6 +2501,11 @@ Private Sub lblProcurar_Click()
    End If
       txtCaminho.Text = Caminho & CommonDialog1.FileTitle
       picLogo.Picture = LoadPicture(txtCaminho.Text) 'mostrar a imagem
+   Set FSys = Nothing
+   Exit Sub
+   
+ErrHandlerLogo:
+   MsgBox "Erro ao copiar a imagem do logo: " & Err.Description, vbCritical, "Erro"
    Set FSys = Nothing
 End Sub
 

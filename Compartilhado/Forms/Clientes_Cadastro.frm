@@ -2366,10 +2366,24 @@ End Sub
 
 Private Function Inserir_Dados() As Boolean
 Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim bTrans As Boolean
 
 'Validaçao dos dados
 If Trim(txtLimite.Text) = "" Then txtLimite.Text = "0"
 If Trim(txtCodigoIBGE.Text) = "" Then txtCodigoIBGE.Text = "0"
+
+On Error GoTo ErrHandlerInserirCliente
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
+'recalcula o codigo dentro da transacao (com lock) para evitar que 2
+'terminais peguem o mesmo numero ao cadastrar clientes ao mesmo tempo
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_cliente FROM cliente WITH (UPDLOCK, HOLDLOCK);"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then txtCodigo.Text = r("cod_cliente") + 1
+If r.State <> 0 Then r.Close
+Set r = Nothing
 
 'Comando de inclusão
 sSQL = "INSERT INTO cliente (" & _
@@ -2388,6 +2402,14 @@ sSQL = sSQL & _
    cboEstadoCivil.Text & "', '" & txtProfissao.Text & "', '" & txtFiliacao.Text & "', '" & txtConjuge.Text & "', " & IIf((txtCodigoIBGE.Text = ""), "0", txtCodigoIBGE.Text) & ", '" & txtObs.Text & "')"
 '" & IIf((txtCodigoIBGE.Text = ""), "0", "txtCodigoIBGE.Text") & "
 Inserir_Dados = dbData.Execute(sSQL)
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+Exit Function
+
+ErrHandlerInserirCliente:
+   If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+   Inserir_Dados = False
 End Function
 
 Private Function Atualizar_Dados() As Boolean
