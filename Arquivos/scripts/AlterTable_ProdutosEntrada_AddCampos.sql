@@ -1,6 +1,10 @@
 -- Adiciona em produtos_entrada todos os campos que existem em EntradaEstoque mas faltavam
 -- Tipos e defaults iguais aos de EntradaEstoque
+-- Adicionados todos de uma vez soh (uma unica instrucao ALTER TABLE, atomica);
+-- basta checar a existencia da primeira coluna para saber se o bloco inteiro ja rodou.
 
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada') AND name = 'cCodigoNota')
+BEGIN
 ALTER TABLE produtos_entrada ADD
 -- Identificacao
     cCodigoNota            int           NOT NULL DEFAULT (0),
@@ -157,3 +161,5 @@ ALTER TABLE produtos_entrada ADD
     CodigoVenda            int           NOT NULL DEFAULT (0),
     CanceladaProtocolo     bigint        NOT NULL DEFAULT (0),
     CodigoNatureza         smallint      NOT NULL DEFAULT (0);
+END
+GO

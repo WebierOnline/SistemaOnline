@@ -1,6 +1,10 @@
 -- Adiciona em produtos_entrada_itens todos os campos que existem em EntradaEstoqueItens mas faltavam
 -- Tipos e defaults iguais aos de EntradaEstoqueItens
+-- Adicionados todos de uma vez soh (uma unica instrucao ALTER TABLE, atomica);
+-- basta checar a existencia da primeira coluna para saber se o bloco inteiro ja rodou.
 
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'CodigoNota')
+BEGIN
 ALTER TABLE produtos_entrada_itens ADD
 
 -- Identificacao do item
@@ -155,3 +159,5 @@ ALTER TABLE produtos_entrada_itens ADD
     IBSCBSMonovCBSMonoRet       decimal(15,2)  NOT NULL DEFAULT (0),
     IBSCBSMonovTotIBSMonoItem   decimal(15,2)  NOT NULL DEFAULT (0),
     IBSCBSMonovTotCBSMonoItem   decimal(15,2)  NOT NULL DEFAULT (0);
+END
+GO

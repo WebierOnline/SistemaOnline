@@ -7,6 +7,12 @@
 --           armazenando fracionamento e custo unitario.
 -- ============================================================
 
+-- Necessario para indices filtrados (CREATE INDEX ... WHERE ...) mais abaixo
+SET ANSI_NULLS ON;
+GO
+SET QUOTED_IDENTIFIER ON;
+GO
+
 IF NOT EXISTS (
     SELECT 1 FROM sys.objects
     WHERE object_id = OBJECT_ID('VinculoXMLProduto') AND type = 'U'

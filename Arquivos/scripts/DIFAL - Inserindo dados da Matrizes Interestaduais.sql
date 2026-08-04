@@ -2,7 +2,8 @@
 INSERT INTO TribMatrizInterestadual (UF_Origem, UF_Destino, AliquotaInterestadual)
 SELECT Origem, Destino, 7.00
 FROM (VALUES ('SP'),('MG'),('RJ'),('PR'),('RS'),('SC')) AS O(Origem)
-CROSS JOIN (VALUES ('AC'),('AL'),('AM'),('AP'),('BA'),('CE'),('DF'),('ES'),('GO'),('MA'),('MT'),('MS'),('PA'),('PB'),('PE'),('PI'),('RN'),('RO'),('RR'),('SE'),('TO')) AS D(Destino);
+CROSS JOIN (VALUES ('AC'),('AL'),('AM'),('AP'),('BA'),('CE'),('DF'),('ES'),('GO'),('MA'),('MT'),('MS'),('PA'),('PB'),('PE'),('PI'),('RN'),('RO'),('RR'),('SE'),('TO')) AS D(Destino)
+WHERE NOT EXISTS (SELECT 1 FROM TribMatrizInterestadual M WHERE M.UF_Origem = Origem AND M.UF_Destino = Destino);
 
 -- Demais operações e Interestaduais entre estados da mesma região (12%)
 -- O comando abaixo preenche o que falta com 12%

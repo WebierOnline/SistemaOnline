@@ -1,13 +1,34 @@
 -- Adiciona totais IBS / CBS / IS em NotaFiscal
-ALTER TABLE NotaFiscal ADD
-    vBCCBS     DECIMAL(15,2) NULL,
-    vBCIBS     DECIMAL(15,2) NULL,
-    vIBSUF     DECIMAL(15,2) NULL,
-    vIBSMun    DECIMAL(15,2) NULL,
-    vIBS       DECIMAL(15,2) NULL,
-    vCBS       DECIMAL(15,2) NULL,
-    vBCIS      DECIMAL(15,2) NULL,
-    vIS        DECIMAL(15,2) NULL
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vBCCBS')
+    ALTER TABLE NotaFiscal ADD vBCCBS DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vBCIBS')
+    ALTER TABLE NotaFiscal ADD vBCIBS DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vIBSUF')
+    ALTER TABLE NotaFiscal ADD vIBSUF DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vIBSMun')
+    ALTER TABLE NotaFiscal ADD vIBSMun DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vIBS')
+    ALTER TABLE NotaFiscal ADD vIBS DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vCBS')
+    ALTER TABLE NotaFiscal ADD vCBS DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vBCIS')
+    ALTER TABLE NotaFiscal ADD vBCIS DECIMAL(15,2) NULL;
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('NotaFiscal') AND name = 'vIS')
+    ALTER TABLE NotaFiscal ADD vIS DECIMAL(15,2) NULL;
 GO
 
 -- Migracao: se a coluna vBCCBSIBS ja existir, renomear / recriar

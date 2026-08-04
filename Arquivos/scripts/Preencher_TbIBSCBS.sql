@@ -9,8 +9,11 @@ GO
 
 
 -- Limpa dados anteriores para evitar duplicidade
+-- TRUNCATE em TbIBSCBS fica bloqueado pela FK de TbIBSCBSClassTrib mesmo com
+-- a tabela filha ja vazia (TRUNCATE checa a EXISTENCIA da constraint, nao os
+-- dados) - por isso o pai usa DELETE em vez de TRUNCATE.
 TRUNCATE TABLE TbIBSCBSClassTrib; -- filho primeiro (FK)
-TRUNCATE TABLE TbIBSCBS;
+DELETE FROM TbIBSCBS;
 GO
 
 INSERT INTO TbIBSCBS (CST, DescricaoIBSCBS, ind_gIBSCBS, ind_gIBSCBSMono, ind_gRed, ind_gDif, ind_gTransfCred, ind_gCredPresIBSZFM, ind_gAjusteCompet, ind_RedutorBC)

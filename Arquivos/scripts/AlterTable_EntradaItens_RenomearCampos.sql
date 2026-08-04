@@ -2,14 +2,20 @@
 -- para ficar igual aos campos correspondentes em EntradaEstoqueItens
 
 -- 1. Renomear CODIGO_PRODUTO -> CodigoProduto (int permanece igual)
-EXEC sp_rename 'produtos_entrada_itens.CODIGO_PRODUTO', 'CodigoProduto', 'COLUMN';
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'CODIGO_PRODUTO')
+   AND NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'CodigoProduto')
+    EXEC sp_rename 'produtos_entrada_itens.CODIGO_PRODUTO', 'CodigoProduto', 'COLUMN';
 
 -- 2. Renomear DESCRICAO -> NomeProduto e ajustar tipo
-EXEC sp_rename 'produtos_entrada_itens.DESCRICAO', 'NomeProduto', 'COLUMN';
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'DESCRICAO')
+   AND NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'NomeProduto')
+    EXEC sp_rename 'produtos_entrada_itens.DESCRICAO', 'NomeProduto', 'COLUMN';
 ALTER TABLE produtos_entrada_itens ALTER COLUMN NomeProduto text NULL;
 
 -- 3. Renomear QUANT -> QuantidadeTributavel e ajustar tipo
-EXEC sp_rename 'produtos_entrada_itens.QUANT', 'QuantidadeTributavel', 'COLUMN';
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'QUANT')
+   AND NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'QuantidadeTributavel')
+    EXEC sp_rename 'produtos_entrada_itens.QUANT', 'QuantidadeTributavel', 'COLUMN';
 ALTER TABLE produtos_entrada_itens ALTER COLUMN QuantidadeTributavel decimal(15,3) NULL;
 
 -- 4. EAN: sem renomear, apenas ajustar tipo nvarchar(100) -> varchar(14)

@@ -3,4 +3,8 @@
 -- mas nunca criada na base. Nullable, mesmo padrao de DFeUltimaConsultaData/
 -- DFeUltimaConsultaHora/VencimentoCert (datetime, NULL).
 
-ALTER TABLE empresa ADD BackupDataHora DATETIME NULL;
+IF NOT EXISTS (
+    SELECT 1 FROM sys.columns
+    WHERE object_id = OBJECT_ID('empresa') AND name = 'BackupDataHora'
+)
+    ALTER TABLE empresa ADD BackupDataHora DATETIME NULL;

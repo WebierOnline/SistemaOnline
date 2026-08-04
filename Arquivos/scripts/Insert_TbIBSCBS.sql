@@ -1,6 +1,8 @@
 SET NOCOUNT ON;
 GO
 
+IF NOT EXISTS (SELECT 1 FROM TbIBSCBS)
+BEGIN
 INSERT INTO TbIBSCBS (CST, DescricaoIBSCBS, ind_gIBSCBS, ind_gIBSCBSMono, ind_gRed, ind_gDif, ind_gTransfCred, ind_gCredPresIBSZFM, ind_gAjusteCompet, ind_RedutorBC)
 VALUES
   ('000','Tributação integral',1,0,0,0,0,0,0,0),
@@ -21,4 +23,5 @@ VALUES
   ('811','Ajustes',0,0,0,0,0,0,1,0),
   ('820','Tributação em documento específico',0,0,0,0,0,0,0,0),
   ('830','Exclusão de base de cálculo',1,0,0,0,0,0,0,0);
+END
 GO

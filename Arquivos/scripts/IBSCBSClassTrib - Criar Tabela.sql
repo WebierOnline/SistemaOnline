@@ -1,0 +1,63 @@
+/** Object:  Table [dbo].[TbIBSCBSClassTrib]    Script Date: 23/04/2026 08:26:23 **/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID('[dbo].[TbIBSCBSClassTrib]') AND type = 'U')
+BEGIN
+    CREATE TABLE [dbo].[TbIBSCBSClassTrib](
+    	[CST] [varchar](3) NOT NULL,
+    	[DescricaoIBSCBS] [varchar](255) NOT NULL,
+    	[cClassTrib] [varchar](6) NOT NULL,
+    	[NomecClassTrib] [varchar](255) NOT NULL,
+    	[DescricaocClassTrib] [varchar](1000) NOT NULL,
+    	[LC_Redacao] [varchar](1000) NOT NULL,
+    	[LC_214_25] [varchar](1000) NOT NULL,
+    	[TipoDeAliquota] [varchar](255) NOT NULL,
+    	[pRedIBS] [decimal](8, 4) NOT NULL,
+    	[pRedCBS] [decimal](8, 4) NOT NULL,
+    	[ind_gTribRegular] [bit] NOT NULL,
+    	[ind_gCredPresOper] [bit] NOT NULL,
+    	[ind_gMonoPadrao] [bit] NOT NULL,
+    	[indMonoReten] [bit] NOT NULL,
+    	[indMonoRet] [bit] NOT NULL,
+    	[indMonoDif] [bit] NOT NULL,
+    	[Credito_para] [varchar](1000) NOT NULL,
+    	[dIniVig] [datetime] NULL,
+    	[dFimVig] [datetime] NULL,
+    	[DataAtualizacao] [datetime] NULL,
+    	[ind_gEstornoCred] [bit] NOT NULL,
+    	[indNFeABI] [bit] NOT NULL,
+    	[indNFe] [bit] NOT NULL,
+    	[indNFCe] [bit] NOT NULL,
+    	[indCTe] [bit] NOT NULL,
+    	[indCTeOS] [bit] NOT NULL,
+    	[indBPe] [bit] NOT NULL,
+    	[indBPeTA] [bit] NOT NULL,
+    	[indBPeTM] [bit] NOT NULL,
+    	[indNF3e] [bit] NOT NULL,
+    	[indNFSe] [bit] NOT NULL,
+    	[indNFSe_Via] [bit] NOT NULL,
+    	[indNFCom] [bit] NOT NULL,
+    	[indNFAg] [bit] NOT NULL,
+    	[indNFGas] [bit] NOT NULL,
+    	[indDERE] [bit] NOT NULL,
+    	[Anexo] [varchar](100) NOT NULL,
+    	[Link] [varchar](1000) NOT NULL,
+     CONSTRAINT [CSTIBSCBScClassTrib] PRIMARY KEY CLUSTERED
+    (
+    	[CST] ASC,
+    	[cClassTrib] ASC
+    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, FILLFACTOR = 90) ON [PRIMARY]
+    ) ON [PRIMARY]
+
+    ALTER TABLE [dbo].[TbIBSCBSClassTrib]  WITH CHECK ADD  CONSTRAINT [FK_TbIBSCBSClassTrib_TbIBSCBS] FOREIGN KEY([CST])
+    REFERENCES [dbo].[TbIBSCBS] ([CST])
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
+
+    ALTER TABLE [dbo].[TbIBSCBSClassTrib] CHECK CONSTRAINT [FK_TbIBSCBSClassTrib_TbIBSCBS]
+END
+GO

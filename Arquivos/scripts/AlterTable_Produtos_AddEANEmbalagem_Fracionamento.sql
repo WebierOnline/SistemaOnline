@@ -2,6 +2,10 @@
 -- EANEmbalagem: EAN da caixa/fardo (unidade de atacado)
 -- Fracionamento: quantas unidades vem dentro dessa embalagem
 
-ALTER TABLE Produtos ADD
-    EANEmbalagem  varchar(14)    NOT NULL DEFAULT (''),
-    Fracionamento decimal(9,3)   NOT NULL DEFAULT (1);
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('Produtos') AND name = 'EANEmbalagem')
+    ALTER TABLE Produtos ADD EANEmbalagem varchar(14) NOT NULL DEFAULT ('');
+GO
+
+IF NOT EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('Produtos') AND name = 'Fracionamento')
+    ALTER TABLE Produtos ADD Fracionamento decimal(9,3) NOT NULL DEFAULT (1);
+GO

@@ -31,7 +31,22 @@ END
 CLOSE cols
 DEALLOCATE cols
 
--- Agora dropa as colunas
-ALTER TABLE produtos_entrada_itens
-DROP COLUMN CUSTO, VALOR_VV, VALOR_VP, VALOR_AV, VALOR_AP,
-            MARGEM_VV, MARGEM_VP, MARGEM_AV, MARGEM_AP;
+-- Agora dropa as colunas (uma por vez, so se ainda existir)
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'CUSTO')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN CUSTO;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'VALOR_VV')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN VALOR_VV;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'VALOR_VP')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN VALOR_VP;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'VALOR_AV')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN VALOR_AV;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'VALOR_AP')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN VALOR_AP;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'MARGEM_VV')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN MARGEM_VV;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'MARGEM_VP')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN MARGEM_VP;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'MARGEM_AV')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN MARGEM_AV;
+IF EXISTS (SELECT 1 FROM sys.columns WHERE object_id = OBJECT_ID('produtos_entrada_itens') AND name = 'MARGEM_AP')
+    ALTER TABLE produtos_entrada_itens DROP COLUMN MARGEM_AP;
