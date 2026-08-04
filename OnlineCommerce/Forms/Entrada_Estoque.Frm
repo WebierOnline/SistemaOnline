@@ -5668,9 +5668,6 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
             Produtos_Cadastro.cboIBSCBSCST.ListIndex = k: Exit For
         End If
     Next k
-    Produtos_Cadastro.txtCBSpAliq.Text = FormatNumber(ValidateNull(rItem("CBSpAliq")), 4)
-    Produtos_Cadastro.txtIBSUFpAliq.Text = FormatNumber(ValidateNull(rItem("IBSUFpAliq")), 4)
-    Produtos_Cadastro.txtIBSMunpAliq.Text = FormatNumber(ValidateNull(rItem("IBSMunpAliq")), 4)
 
     sISCST = Left(ValidateNull(rItem("ISCST")) & "  ", 2)
     If Trim(sISCST) = "" Then sISCST = "00"  ' default: nao incidente
@@ -5679,7 +5676,6 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
             Produtos_Cadastro.cboISCST.ListIndex = k: Exit For
         End If
     Next k
-    Produtos_Cadastro.txtISpIS.Text = FormatNumber(ValidateNull(rItem("ISpIS")), 4)
 
     ' 13. Custo (margens ficam zeradas para o usuario preencher)
     Produtos_Cadastro.txtCusto.Text = txtValorSel.Text
