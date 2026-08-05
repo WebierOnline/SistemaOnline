@@ -1,0 +1,13 @@
+[History]
+1=#P0#=mb	#P1#=cmdZap_Click	#P2#=WhastappWeb/frmZap/cmdZap_Click	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20210327190920	#P7#=0	#P8#=0	.
+2=#P0#=mb	#P1#=Form_KeyDown	#P2#=WhastappWeb/frmZap/Form_KeyDown	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327183543	#P7#=0	#P8#=-1	.
+3=#P0#=mb	#P1#=Form_KeyPress	#P2#=WhastappWeb/frmZap/Form_KeyPress	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327183046	#P7#=0	#P8#=-1	.
+4=#P0#=mb	#P1#=txtZap_GotFocus	#P2#=WhastappWeb/frmZap/txtZap_GotFocus	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327184008	#P7#=0	#P8#=5	.
+5=#P0#=mb	#P1#=ptbZap_Click	#P2#=WhastappWeb/frmZap/ptbZap_Click	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20210327190255	#P7#=0	#P8#=1	.
+6=#P0#=mb	#P1#=txtZap_KeyDown	#P2#=WhastappWeb/frmZap/txtZap_KeyDown	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327190941	#P7#=0	#P8#=9	.
+7=#P0#=mb	#P1#=txtZap_Change	#P2#=WhastappWeb/frmZap/txtZap_Change	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327183929	#P7#=0	#P8#=1	.
+8=#P0#=mb	#P1#=FormataTelefone	#P2#=WhastappWeb/mFormataCelular/FormataTelefone	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20210327171959	#P7#=0	#P8#=13	.
+9=#P0#=mb	#P1#=txtZap_KeyPress	#P2#=WhastappWeb/frmZap/txtZap_KeyPress	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327185114	#P7#=0	#P8#=0	.
+10=#P0#=mb	#P1#=txtZap_LostFocus	#P2#=WhastappWeb/frmZap/txtZap_LostFocus	#P3#=	#P4#=	#P5#=MembEventProcPrivate	#P6#=20210327165617	#P7#=0	#P8#=1	.
+11=#P0#=mb	#P1#=ApenasNrs	#P2#=WhastappWeb/mApenasNumeros/ApenasNrs	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20210327181933	#P7#=0	#P8#=1	.
+12=#P0#=mb	#P1#=CampoCelular	#P2#=WhastappWeb/mCampoCelular/CampoCelular	#P3#=	#P4#=	#P5#=MembMethodPublic	#P6#=20210327163502	#P7#=0	#P8#=0	.

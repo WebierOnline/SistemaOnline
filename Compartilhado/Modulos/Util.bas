@@ -2164,11 +2164,11 @@ Public Sub SendK(ByVal KeyCode As Integer)
 End Sub
 
 'abre banco de dados
-Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0) As Integer
+Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0, Optional ByVal NomeBanco As String = "cyber_base") As Integer
     Dim x As String
     On Error GoTo deuErro
     AbreBancoDeDados = False
-    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=600;TRUSTED_CONNECTION=NO"
+    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=" + NomeBanco + ";Connect Timeout=600;TRUSTED_CONNECTION=NO"
     'x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
     vgDb.ConnectionString = x$
     vgDb.CursorLocation = adUseClient
@@ -3189,9 +3189,9 @@ Public Function WhatsAppMensagemEnvio(Celular As String, Mensagem As String, ByR
        WhatsAppMensagemEnvio = True
     Else
        If Not Existe(App.path & "\WhatsJSON") Then MkDir App.path & "\WhatsJSON"
-       fsoSalva App.path & "\WhatsJSON\jsonEnvio_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", jsonAPI, App.path
+       fsoSalva App.path & "\WhatsJSON\jsonEnvio_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", jsonAPI
        DoEvents
-       fsoSalva App.path & "\WhatsJSON\jsonEnvioResposta_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", resposta, App.path
+       fsoSalva App.path & "\WhatsJSON\jsonEnvioResposta_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", resposta
        DoEvents
        mensagemErro = resposta
        WhatsAppMensagemEnvio = False
@@ -3258,9 +3258,9 @@ Public Function WhatsAppArquivoEnvio(Celular As String, Mensagem As String, Arqu
        WhatsAppArquivoEnvio = True
     Else
        If Not Existe(App.path & "\WhatsJSON") Then MkDir App.path & "\WhatsJSON"
-       fsoSalva App.path & "\WhatsJSON\jsonArquivoEnvio_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", jsonAPI, App.path
+       fsoSalva App.path & "\WhatsJSON\jsonArquivoEnvio_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", jsonAPI
        DoEvents
-       fsoSalva App.path & "\WhatsJSON\jsonArquivoEnvioResposta_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", resposta, App.path
+       fsoSalva App.path & "\WhatsJSON\jsonArquivoEnvioResposta_" & Format(DateTime.Now, "ddMMyyyyhhmmss") & ".json", resposta
        DoEvents
        mensagemErro = resposta
        WhatsAppArquivoEnvio = False

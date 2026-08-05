@@ -1,17 +1,12 @@
 Attribute VB_Name = "General"
-'usado no Projeto OnlineCommerce
 Option Explicit
-Public oCfg As ConfigItem               'Arquivo ini
-Public oIni As Ini                      'Arquivo ini
+'Public oCfg As ConfigItem               'Arquivo ini
+'Public oIni As Ini                      'Arquivo ini
 Public var_IP As String                 'Arquivo ini
 Public var_Impressora As String         'Arquivo ini
-Public varValorEstimado As Double       'usando para quando apertar f2 ele mostrar o valor estimado em %
-Public varCustoEstimado As Currency     'usando para quando apertar f2 ele mostrar o valor estimado em %
-Public vTipoEdicao As String
+
 
 Public dbData As Database               'Referencia a classe Database para manipulação de todo o acesso a dados
-
-Public var_RegimeEmpresa As Integer     ' 1 = Simples, 3 = Lucro Presumido
 
 '1.caixa e fluxo do caixa
 Public varCodCaixa As Long              'pegar o codigo do caixa no fluxo
@@ -20,8 +15,6 @@ Public varFluxoNomeCaixa As String
 Public varFluxoCodCaixa As Long
 Public varFluxoCaixaSituacao As String
 Public varFluxoCaixaData As String
-Public vChamouCaixa As String 'online commerce
-
 '1.fim
 
 '1.ordem de servico
@@ -29,10 +22,8 @@ Public vServico As String
 Public vMedida As String
 Public vAro As String
 Public vBanda As String
-Public vCodOS As Long
-Public vTipoOS As String
-Public vTipoConsPecas As Integer
 '1.fim
+
 
 Public vOrigemRelatorio As Boolean
 Public vCodFunc As Integer
@@ -43,7 +34,6 @@ Public var_ImpNormal As String
 Public var_ImpTermica As String
 Public var_ImpNFCe As String
 Declare Function GetProfileString Lib "kernel32" Alias "GetProfileStringA" (ByVal lpAppName As String, ByVal lpKeyName As String, ByVal lpDefault As String, ByVal lpReturnedString As String, ByVal nSize As Long) As Long   'API para listar impressoras nas configuraçoes
-Public varImpPDF As Boolean
 '2.fim
 
 Public HabilitaObjetosVenda As Boolean
@@ -121,15 +111,9 @@ Private Declare Function Process32First Lib "kernel32" (ByVal hSnapShot As Long,
 Private Declare Function Process32Next Lib "kernel32" (ByVal hSnapShot As Long, typProcess As PROCESSENTRY32) As Long
 Private Declare Sub CloseHandle Lib "kernel32" (ByVal hPass As Long)
 
-'testar internet
-Private Declare Function InternetGetConnectedStateEx Lib "wininet.dll" (ByRef lpdwFlags As Long, ByVal lpszConnectionName As String, ByVal dwNameLen As Integer, ByVal dwReserved As Long) As Long
-Dim sConnType As String * 255
-
 'Declarações API
 Public Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 Public UTC As String
-
-
 
 Private Function fixStrings(ByVal Value As String) As String
     Dim bRepete As Boolean
@@ -148,17 +132,22 @@ Comando = "TASKKILL -F -IM " & "PDV.exe"
 Shell Comando
 End Sub
 
+Public Function IsWebConnected(Optional ByRef ConnType As String) As Boolean
+'saber se está conectada na internet
+'Dim dwFlags As Long
+'Dim WebTest As Boolean
+'ConnType = ""
+'WebTest = InternetGetConnectedState(dwFlags, 0&)
 
- 
-Sub TesteConexaoInternet()
-Dim Ret As Long
-Ret = InternetGetConnectedStateEx(Ret, sConnType, 254, 0)
-If Ret = 1 Then
-    MsgBox "Você está conectado a Internet via " & sConnType, vbInformation
-Else
-    MsgBox "Você não está conectado a Internet", vbInformation
-End If
-End Sub
+'Select Case WebTest
+'    Case dwFlags And CONNECT_LAN: ConnType = "LAN"
+'    Case dwFlags And CONNECT_MODEM: ConnType = "Modem"
+'    Case dwFlags And CONNECT_PROXY: ConnType = "Proxy"
+'    Case dwFlags And CONNECT_OFFLINE: ConnType = "Offline"
+'    Case dwFlags And CONNECT_CONFIGURED: ConnType = "Configurada"
+'End Select
+'IsWebConnected = WebTest
+End Function
 Sub TravarVenda(Status As Boolean)
 'PDV.txtCodBarra.Enabled = Not Status
 'PDV.txtValor.Enabled = Not Status
@@ -170,13 +159,18 @@ End Sub
 Public Sub Main()
 'Previne a execução de mais de uma vez do sistema
 If App.PrevInstance Then
-    ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation
+   ShowMsg "Uma outra Instância do Sistema já está em Execução nesta Máquina!", vbInformation
+   If ShowMsg("Deseja fechar o programa: " & App.PrevInstance & " que já está aberto?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then
     End
+    Exit Sub
+   Else
+    EncerrarPrograma
+   End If
 End If
 
 ChDir App.Path                         'Muda o diretório padrão para onde está o sistema
 appPathApp = App.Path                  'Armazena o diretório do sistema
-NormalizePath appPathApp               'Normaliza o diretório
+'NormalizePath appPathApp               'Normaliza o diretório
 appPathIni = appPathApp & ocArqvINI    'Armazena o arquivo ini
 appEXEName = App.EXEName & ".exe"
 
@@ -185,21 +179,15 @@ IniciarPrograma True
 
 'Armazena as configurações do sistema
 LerConfiguracao
-'Produtos_Estoque_Simples.Show
-'Configuracao_Geral.Show
-Sistema_Financeiro.Show
+
 'OS_Recapadora.Show
-'Produtos_Cadastro.Show
+'Recibos_Avulso.Show
 'NFe_Completa.Show
-'Tela_Principal.Show
-'Vendas_Consulta_PorProdutos.Show
-'Funcionario_Comissao.Show
-'Notas_Adesivas.Show
-'Sistema_Financeiro.Show
-'Inventario_Cadastro.Show
-'Entrada_Estoque.Show
-'Vendas_Consulta_Lucro.Show
-'Vendas_Consulta_PorProdutos.Show
+'Produtos_Cadastro.Show
+'OS_Recapadora.Show
+'Etiquetas_Impressao.Show
+'Parcelas.Show
+Configuracao_Geral.Show
 'Senha.Show
 End Sub
 
@@ -341,92 +329,41 @@ Public Sub EncerrarPrograma()
    End
 End Sub
 
-Public Sub KillProcess(ByVal processName As String)
-Dim oWMI As Object
-Dim oServices As Object
-Dim oService As Object
-Dim oWMIServices As Object
-Dim oWMIService As Object
-
-Dim Ret As Long
-Dim sService As String
-Dim servicename As String
-
-Set oWMI = GetObject("winmgmts:")
-Set oServices = oWMI.InstancesOf("win32_process")
-
-For Each oService In oServices
-    servicename = LCase(Trim(CStr(oService.Name) & ""))
-
-    If InStr(1, servicename, LCase(processName), vbTextCompare) > 0 Then
-        Ret = oService.Terminate
-    End If
-Next
-
-Set oServices = Nothing
-Set oWMI = Nothing
-End Sub
 Public Function AbrirConexaoBD() As Boolean
-   On Local Error GoTo errHandle   'Inicia o controle de erro
-   Dim cn1 As String, cn2 As String
-   Dim vNomeBanco As String
+On Local Error GoTo errHandle   'Inicia o controle de erro
+Dim cn1 As String, cn2 As String
 
-   'Atribui falha na execução
-   AbrirConexaoBD = False
-   
-   'pegar dados no arquivo txt
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
-   var_IP = oIni.LerTexto("IP_MAQUINA", "ip")
-   UTC = oIni.LerTexto("FUSOHORARIO", "UTC")
-   Set oIni = Nothing
-   
-   If Vazio(var_IP) Then
-      var_IP = "localhost\SQLEXPRESS2008"
-   End If
-   
-   vgServerName = var_IP
-   
-   'O projeto Financeiro (Whatsapp Web.exe) usa banco de dados proprio,
-   'separado do cyber_base compartilhado pelos demais projetos
-   If App.EXEName = "Whatsapp Web" Or App.EXEName = "WhastappWeb" Then
-      vNomeBanco = "cyber_baseFINANCEIRO"
-   Else
-      vNomeBanco = "cyber_base"
-   End If
-   
-   'Conexão padrão do SQL Server
-   'Dim BC As String
-   cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=" + vNomeBanco + ";Connect Timeout=600;TRUSTED_CONNECTION=NO"
-   'Set BC = ws.OpenDatabase("", dbDriverComplete, False, "Driver={SQL Server Native Client 10.0};Server=" + var_IP + ";uid=sa;pwd=190106web;Database=cyber_base;Trusted_Connection=yes")
-    
-    'Instancia os objetos
-   Set dbData = New Database
-   
-   'Abre as conexões com os bancos de dados, em caso de erro sai da função
-   If Not dbData.OpenConnection(cn1) Then Exit Function
-   
-   AbrirConexaoBD = AbreBancoDeDados(0, vNomeBanco)    'Conexão estabelecida
-   Exit Function                        'Sai da função
+'Atribui falha na execução
+AbrirConexaoBD = False
+
+'pegar dados no arquivo txt
+'Set oIni = New Ini
+'oIni.Arquivo = appPathApp & "config.ini"
+'var_IP = oIni.LerTexto("IP_MAQUINA", "ip")
+'UTC = oIni.LerTexto("FUSOHORARIO", "UTC")
+'Set oIni = Nothing
+'var_IP = "servidor\SQLEXPRESS2008"
+'vgServerName = var_IP
+
+'Conexão padrão do SQL Server
+'Dim BC As String
+cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=600;TRUSTED_CONNECTION=NO"
+'Set BC = ws.OpenDatabase("", dbDriverComplete, False, "Driver={SQL Server Native Client 10.0};Server=" + var_IP + ";uid=sa;pwd=190106web;Database=cyber_base;Trusted_Connection=yes")
+ 
+ 'Instancia os objetos
+Set dbData = New Database
+
+'Abre as conexões com os bancos de dados, em caso de erro sai da função
+If Not dbData.OpenConnection(cn1) Then Exit Function
+
+AbrirConexaoBD = AbreBancoDeDados    'Conexão estabelecida
+Exit Function                        'Sai da função
 
 errHandle:
    ''Conexão não estabelecida
    AbrirConexaoBD = False
 End Function
 
-Function GetDesktopFolder() As String
-'criar uma atalho na área de trabalho
-Dim WSHShell As Object
-Dim MyRegKey As String
-Set WSHShell = CreateObject("WScript.Shell")
-MyRegKey = "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders\Desktop"
-'GetDesktopFolder = WSHShell.regread(MyRegKey)
-GetDesktopFolder = WSHShell.CreateShortcut(MyRegKey)
-Set WSHShell = Nothing
-
-
-'WSHShell.CreateShortcut (Pasta_destino)
-End Function
 'Exibe uma mensagem de erro/aviso padronizada mostrando
 'informações completas e descritivas do erro.
 Public Sub msgErro(ByVal vModulo As String, ByVal vFuncao As String, ByVal vNumero As Long, ByVal vDescricao As String, ByVal vLinha As Integer, ByVal vOpcoes As Integer, ByVal vTipo As Integer, Optional ByVal vExibir As Boolean = True, Optional ByVal vSalvarLog As Boolean = True)
@@ -542,25 +479,4 @@ Public Function AppIsRunning(ByVal appName As String) As Boolean
         Loop
         CloseHandle hSnapShot
     End If
-End Function
-
-'Verifica se esta maquina e o servidor do banco (ip=./127.0.0.1/localhost) ou um terminal
-Public Function EhServidorLocal() As Boolean
-Dim vHost As String
-Dim vBarra As Integer
-
-   vBarra = InStr(var_IP, "\")
-   If vBarra > 0 Then
-      vHost = Left(var_IP, vBarra - 1)
-   Else
-      vHost = var_IP
-   End If
-
-   If vHost = "." Or vHost = "127.0.0.1" Or LCase(vHost) = "localhost" Or LCase(vHost) = "(local)" Then
-      EhServidorLocal = True
-   ElseIf UCase(vHost) = UCase(Environ$("COMPUTERNAME")) Then
-      EhServidorLocal = True
-   Else
-      EhServidorLocal = False
-   End If
 End Function
