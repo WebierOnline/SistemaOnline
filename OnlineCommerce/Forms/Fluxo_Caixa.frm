@@ -2081,11 +2081,15 @@ Caixa_Controle_semOS.Show
 End Sub
 
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub cmdSenha_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-sSQL = "SELECT * FROM usuario WHERE (password = '" & txtSenha.Text & "') AND (nivel = 1);" 'desabilitei pelo jacobina usar
+sSQL = "SELECT * FROM usuario WHERE (password = '" & EA(txtSenha.Text) & "') AND (nivel = 1);" 'desabilitei pelo jacobina usar
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then

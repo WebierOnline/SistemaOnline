@@ -2031,11 +2031,11 @@ Public Sub SendK(ByVal KeyCode As Integer)
 End Sub
 
 'abre banco de dados
-Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0) As Integer
+Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0, Optional ByVal NomeBanco As String = "cyber_base") As Integer
     Dim x As String
     On Error GoTo deuErro
     AbreBancoDeDados = False
-    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=600;TRUSTED_CONNECTION=NO"
+    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=" + NomeBanco + ";Connect Timeout=15;TRUSTED_CONNECTION=NO"
     'x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
     vgDb.ConnectionString = x$
     vgDb.CursorLocation = adUseClient

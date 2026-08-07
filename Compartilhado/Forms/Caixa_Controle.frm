@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Controle_semOS 
    BorderStyle     =   3  'Fixed Dialog
@@ -2593,7 +2593,7 @@ Begin VB.Form Caixa_Controle_semOS
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
-            TextSave        =   "18:19"
+            TextSave        =   "13:42"
             Object.ToolTipText     =   "Hora"
          EndProperty
       EndProperty
@@ -3239,7 +3239,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
    With Grid
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          If .TextMatrix(i, 5) = "CHEQUE" And IsNumeric(.TextMatrix(i, 6)) Then
             soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3263,7 +3263,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DEPOSITO" Or .TextMatrix(i, 5) = "TRANSFERENCIA" Or .TextMatrix(i, 5) = "BOLETO" Or .TextMatrix(i, 5) = "FINANCEIRA" Or .TextMatrix(i, 5) = "PIX" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3289,7 +3289,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
    With Grid
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
             soma = soma + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
@@ -3313,7 +3313,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If Left(.TextMatrix(i, 5), 6) = "CARTAO" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3349,7 +3349,7 @@ Dim i As Integer
 somaVendas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 3) = "VENDA" And .TextMatrix(i, 10) <> "À Prazo" And IsNumeric(.TextMatrix(i, 6)) Then
          somaVendas = somaVendas + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3364,7 +3364,7 @@ txtF1.Text = Format(QUANT, "000")
 somaParcelas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 3) = "PARCELA" Or .TextMatrix(i, 3) = "ALUGUEL" Or .TextMatrix(i, 3) = "OS" Then
         If IsNumeric(.TextMatrix(i, 6)) Then
             somaParcelas = somaParcelas + ValMoeda(.TextMatrix(i, 6))
@@ -3381,7 +3381,7 @@ txtF2.Text = Format(QUANT, "000")
 somaHaveres = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
          somaHaveres = somaHaveres + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3396,7 +3396,7 @@ txtF3.Text = Format(QUANT, "000")
 somaSuprimentos = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
          somaSuprimentos = somaSuprimentos + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3442,7 +3442,7 @@ txtF4.Text = Format(QUANT, "000")
 somaSaidas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
          somaSaidas = somaSaidas + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
@@ -3474,7 +3474,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "VENDA" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3488,7 +3488,7 @@ txtQuantDinheiro.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "PARCELA" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3503,7 +3503,7 @@ txtQuantDinheiroParcelas.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3517,7 +3517,7 @@ txtQuantDinheiroHaveres.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3532,7 +3532,7 @@ txtQuantDinheiroSuprimento.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "OS" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3547,7 +3547,7 @@ txtQuantDinheiroOS.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "ALUGUEL" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -4364,7 +4364,7 @@ mskData = Format(varData, "dd/mm/yyyy")   'Exibe a data no campo
 End Sub
 
 Private Sub cmdDetalhar_Click()
-If Grid.rows <= 1 Then Exit Sub
+If Grid.Rows <= 1 Then Exit Sub
 If Not IsNumeric(Grid.TextMatrix(Grid.Row, 2)) = True Then Exit Sub
 If Grid.TextMatrix(Grid.Row, 2) = "" Or Grid.TextMatrix(Grid.Row, 3) = "" Then Exit Sub
 
@@ -4691,7 +4691,7 @@ Private Sub cmdImprimirResumido_Click()
 Dim SETOR_CAIXA As String
 'Dim var_Setor As String
 Dim varTipoCartao2 As String
-Dim SQL As String
+Dim sql As String
 
 If Not IsDate(mskData) Then Exit Sub
 
@@ -4720,9 +4720,9 @@ Next
 '    If vOSAtiva = True And vAluguelAtiva = False Then
 
 If varCodCaixa = 0 Then
-    SQL = "SELECT SUM(parcelas.valor_final) as vValorVendasTotal, 'VENDAS' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT SUM(parcelas.valor_final) as vValorVendasTotal, 'VENDAS' as vTipoResultado FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE 1=0"
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
 Else
     Dim Maquina_Parcela As String
     If StatusBar1.Panels(2).Text <> "TODOS" Then
@@ -4764,222 +4764,222 @@ Else
     'TROCO
     Dim vVlrTroco As Currency
     '"SELECT * FROM caixa_troco WHERE (caixa_troco.codcaixa = " & StatusBar1.Panels(3).Text & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
-    SQL = "SELECT * FROM caixa_troco WHERE (caixa_troco.codcaixa = " & StatusBar1.Panels(3).Text & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
-    Set r = dbData.OpenRecordset(SQL)
+    sql = "SELECT * FROM caixa_troco WHERE (caixa_troco.codcaixa = " & StatusBar1.Panels(3).Text & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrTroco = r("VALOR") Else vVlrTroco = 0
     
     'VENDAS
     Dim vVlrVendasTotal As Currency
     Dim vQtdeVendasTotal As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasTotal, count(codigo) as vQuantVendasTotal FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasTotal, count(codigo) as vQuantVendasTotal FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasTotal = r("vValorVendasTotal"): vQtdeVendasTotal = r("vQuantVendasTotal") Else vVlrVendasTotal = 0: vQtdeVendasTotal = 0
 
     'Detalhamento de vendas - Dinheiro
     Dim vVlrVendasDinheiro As Currency
     Dim vQtdeVendasDinheiro As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasDinheiro, count(codigo) as vQuantVendasDinheiro FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasDinheiro, count(codigo) as vQuantVendasDinheiro FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'DINHEIRO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasDinheiro = r("vValorVendasDinheiro"): vQtdeVendasDinheiro = r("vQuantVendasDinheiro") Else vVlrVendasDinheiro = 0: vQtdeVendasDinheiro = 0
 
 
     'Detalhamento de vendas - Pix
     Dim vVlrVendasPix As Currency
     Dim vQtdeVendasPix As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasPix, count(codigo) as vQuantVendasPix FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasPix, count(codigo) as vQuantVendasPix FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'PIX' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasPix = r("vValorVendasPix"): vQtdeVendasPix = r("vQuantVendasPix") Else vVlrVendasPix = 0: vQtdeVendasPix = 0
 
     'Detalhamento de vendas - Transferencia
     Dim vVlrVendasTransferencia As Currency
     Dim vQtdeVendasTransferencia As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasTransferencia, count(codigo) as vQuantVendasTransferencia FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasTransferencia, count(codigo) as vQuantVendasTransferencia FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasTransferencia = r("vValorVendasTransferencia"): vQtdeVendasTransferencia = r("vQuantVendasTransferencia") Else vVlrVendasTransferencia = 0: vQtdeVendasTransferencia = 0
 
     'Detalhamento de vendas - Deposito
     Dim vVlrVendasDeposito As Currency
     Dim vQtdeVendasDeposito As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasDeposito, count(codigo) as vQuantVendasDeposito FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasDeposito, count(codigo) as vQuantVendasDeposito FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'DEPOSITO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasDeposito = r("vValorVendasDeposito"): vQtdeVendasDeposito = r("vQuantVendasDeposito") Else vVlrVendasDeposito = 0: vQtdeVendasDeposito = 0
 
     'Detalhamento de vendas - Financeira
     Dim vVlrVendasFinanceira As Currency
     Dim vQtdeVendasFinanceira As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasFinanceira, count(codigo) as vQuantVendasFinanceira FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasFinanceira, count(codigo) as vQuantVendasFinanceira FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasFinanceira = r("vValorVendasFinanceira"): vQtdeVendasFinanceira = r("vQuantVendasFinanceira") Else vVlrVendasFinanceira = 0: vQtdeVendasFinanceira = 0
 
     'Detalhamento de vendas - Cartão
     Dim vVlrVendasCartao As Currency
     Dim vQtdeVendasCartao As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasCartao, count(codigo) as vQuantVendasCartao FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasCartao, count(codigo) as vQuantVendasCartao FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'CARTAO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasCartao = r("vValorVendasCartao"): vQtdeVendasCartao = r("vQuantVendasCartao") Else vVlrVendasCartao = 0: vQtdeVendasCartao = 0
 
     'Detalhamento de vendas - Cheque
     Dim vVlrVendasCheque As Currency
     Dim vQtdeVendasCheque As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasCheque, count(codigo) as vQuantVendasCheque FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorVendasCheque, count(codigo) as vQuantVendasCheque FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and parcelas.tipo = 'VENDA' and FORMA_PGTO = 'CHEQUE' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrVendasCheque = r("vValorVendasCheque"): vQtdeVendasCheque = r("vQuantVendasCheque") Else vVlrVendasCheque = 0: vQtdeVendasCheque = 0
 
 
     'PARCELAS
     Dim vVlrParcelasTotal As Currency
     Dim vQtdeParcelasTotal As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaTotal, count(codigo) as vQuantParcelaTotal FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaTotal, count(codigo) as vQuantParcelaTotal FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasTotal = r("vValorParcelaTotal"): vQtdeParcelasTotal = r("vQuantParcelaTotal") Else vVlrParcelasTotal = 0: vQtdeParcelasTotal = 0
 
     'Detalhamento de Parcelas - Dinheiro
     Dim vVlrParcelasDinheiro As Currency
     Dim vQtdeParcelasDinheiro As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaDinheiro, count(codigo) as vQuantParcelaDinheiro FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaDinheiro, count(codigo) as vQuantParcelaDinheiro FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'DINHEIRO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     'Debug.Print SQL
     If Not r.EOF Then vVlrParcelasDinheiro = r("vValorParcelaDinheiro"): vQtdeParcelasDinheiro = r("vQuantParcelaDinheiro") Else vVlrParcelasDinheiro = 0: vQtdeParcelasDinheiro = 0
 
     'Detalhamento de Parcelas - Pix
     Dim vVlrParcelasPix As Currency
     Dim vQtdeParcelasPix As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaPix, count(codigo) as vQuantParcelaPix FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaPix, count(codigo) as vQuantParcelaPix FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'PIX' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasPix = r("vValorParcelaPix"): vQtdeParcelasPix = r("vQuantParcelaPix") Else vVlrParcelasPix = 0: vQtdeVendasTotal = 0: vQtdeParcelasPix = 0
 
     'Detalhamento de Parcelas - Transferencia
     Dim vVlrParcelasTransferencia As Currency
     Dim vQtdeParcelasTransferencia As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaTransferencia, count(codigo) as vQuantParcelaTransferencia FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaTransferencia, count(codigo) as vQuantParcelaTransferencia FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasTransferencia = r("vValorParcelaTransferencia"): vQtdeParcelasTransferencia = r("vQuantParcelaTransferencia") Else vVlrParcelasTransferencia = 0: vQtdeParcelasTransferencia = 0
 
     'Detalhamento de Parcelas - Deposito
     Dim vVlrParcelasDeposito As Currency
     Dim vQtdeParcelasDeposito As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaDeposito, count(codigo) as vQuantParcelaDeposito FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaDeposito, count(codigo) as vQuantParcelaDeposito FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'DEPOSITO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasDeposito = r("vValorParcelaDeposito"): vQtdeParcelasDeposito = r("vQuantParcelaDeposito") Else vVlrParcelasDeposito = 0: vQtdeParcelasDeposito = 0
 
     'Detalhamento de Parcelas - Financeira
     Dim vVlrParcelasFinanceira As Currency
     Dim vQtdeParcelasFinanceira As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaFinanceira, count(codigo) as vQuantParcelaFinanceira FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaFinanceira, count(codigo) as vQuantParcelaFinanceira FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasFinanceira = r("vValorParcelaFinanceira"): vQtdeParcelasFinanceira = r("vQuantParcelaFinanceira") Else vVlrParcelasFinanceira = 0: vQtdeParcelasFinanceira = 0
 
     'Detalhamento de Parcelas - Cartão
     Dim vVlrParcelasCartao As Currency
     Dim vQtdeParcelasCartao As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaCartao, count(codigo) as vQuantParcelaCartao FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaCartao, count(codigo) as vQuantParcelaCartao FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'CARTAO' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasCartao = r("vValorParcelaCartao"): vQtdeParcelasCartao = r("vQuantParcelaCartao") Else vVlrParcelasCartao = 0: vQtdeParcelasCartao = 0
 
     'Detalhamento de Parcelas - Cheque
     Dim vVlrParcelasCheque As Currency
     Dim vQtdeParcelasCheque As Integer
-    SQL = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaCheque, count(codigo) as vQuantParcelaCheque FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+    sql = "SELECT ISNULL(SUM(parcelas.valor_final),0) as vValorParcelaCheque, count(codigo) as vQuantParcelaCheque FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "WHERE (parcelas.status = 1) AND (parcelas.codcaixa = " & StatusBar1.Panels(3).Text & ") and (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) and FORMA_PGTO = 'CHEQUE' " & Maquina_Parcela
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrParcelasCheque = r("vValorParcelaCheque"): vQtdeParcelasCheque = r("vQuantParcelaCheque") Else vVlrParcelasCheque = 0: vQtdeParcelasCheque = 0
 
 
     'HAVERES
     Dim vVlrHaveresTotal As Currency
     Dim vQtdeHaveresTotal As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresTotal, count(codigo) as vQuantHaveresTotal FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresTotal, count(codigo) as vQuantHaveresTotal FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresTotal = r("vValorHaveresTotal"): vQtdeHaveresTotal = r("vQuantHaveresTotal") Else vVlrHaveresTotal = 0: vQtdeHaveresTotal = 0
     
     'Detalhamento de Haveres - Dinheiro
     Dim vVlrHaveresDinheiro As Currency
     Dim vQtdeHaveresDinheiro As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresDinheiro, count(codigo) as vQuantHaveresDinheiro FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresDinheiro, count(codigo) as vQuantHaveresDinheiro FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'DINHEIRO' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresDinheiro = r("vValorHaveresDinheiro"): vQtdeHaveresDinheiro = r("vQuantHaveresDinheiro") Else vVlrHaveresDinheiro = 0: vQtdeHaveresDinheiro = 0
 
     'Detalhamento de Haveres - Pix
     Dim vVlrHaveresPix As Currency
     Dim vQtdeHaveresPix As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresPix, count(codigo) as vQuantHaveresPix FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresPix, count(codigo) as vQuantHaveresPix FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'PIX' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresPix = r("vValorHaveresPix"): vQtdeHaveresPix = r("vQuantHaveresPix") Else vVlrHaveresPix = 0: vQtdeHaveresPix = 0
 
     'Detalhamento de Haveres - Transferencia
     Dim vVlrHaveresTransferencia As Currency
     Dim vQtdeHaveresTransferencia As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresTransferencia, count(codigo) as vQuantHaveresTransferencia FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresTransferencia, count(codigo) as vQuantHaveresTransferencia FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'TRANSFERENCIA' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresTransferencia = r("vValorHaveresTransferencia"): vQtdeHaveresTransferencia = r("vQuantHaveresTransferencia") Else vVlrHaveresTransferencia = 0: vQtdeHaveresTransferencia = 0
 
     'Detalhamento de Haveres - Deposito
     Dim vVlrHaveresDeposito As Currency
     Dim vQtdeHaveresDeposito As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresDeposito, count(codigo) as vQuantHaveresDeposito FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresDeposito, count(codigo) as vQuantHaveresDeposito FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'DEPOSITO' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresDeposito = r("vValorHaveresDeposito"): vQtdeHaveresDeposito = r("vQuantHaveresDeposito") Else vVlrHaveresDeposito = 0: vQtdeHaveresDeposito = 0
 
     'Detalhamento de Haveres - Financeira
     Dim vVlrHaveresFinanceira As Currency
     Dim vQtdeHaveresFinanceira As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresFinanceira, count(codigo) as vQuantHaveresFinanceira FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresFinanceira, count(codigo) as vQuantHaveresFinanceira FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'FINANCEIRA' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresFinanceira = r("vValorHaveresFinanceira"): vQtdeHaveresFinanceira = r("vQuantHaveresFinanceira") Else vVlrHaveresFinanceira = 0: vQtdeHaveresFinanceira = 0
 
     'Detalhamento de Haveres - Cartão
     Dim vVlrHaveresCartao As Currency
     Dim vQtdeHaveresCartao As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresCartao, count(codigo) as vQuantHaveresCartao FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresCartao, count(codigo) as vQuantHaveresCartao FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'CARTAO' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresCartao = r("vValorHaveresCartao"): vQtdeHaveresCartao = r("vQuantHaveresCartao") Else vVlrHaveresCartao = 0: vQtdeHaveresCartao = 0
 
     'Detalhamento de Haveres - Cheque
     Dim vVlrHaveresCheque As Currency
     Dim vQtdeHaveresCheque As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresCheque, count(codigo) as vQuantHaveresCheque FROM parcelas_haver " & _
+    sql = "SELECT ISNULL(SUM(VALOR_HAVER),0) as vValorHaveresCheque, count(codigo) as vQuantHaveresCheque FROM parcelas_haver " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") and tipo = 'PARCELA' and FORMA_PGTO = 'CHEQUE' " & Maquina_Haver
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrHaveresCheque = r("vValorHaveresCheque"): vQtdeHaveresCheque = r("vQuantHaveresCheque") Else vVlrHaveresCheque = 0: vQtdeHaveresCheque = 0
 
 
     'SUPRIMENTO
     Dim vVlrSuprimento As Currency
     Dim vQtdeSuprimento As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR),0) as vValorSuprimentoTotal, count(codigo) as vQuantSuprimentoTotal FROM caixa_entrada " & _
+    sql = "SELECT ISNULL(SUM(VALOR),0) as vValorSuprimentoTotal, count(codigo) as vQuantSuprimentoTotal FROM caixa_entrada " & _
            "WHERE (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Suprimento
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrSuprimento = r("vValorSuprimentoTotal"): vQtdeSuprimento = r("vQuantSuprimentoTotal") Else vVlrSuprimento = 0: vQtdeSuprimento = 0
 
 
     'SANGRIA
     Dim vVlrSangria As Currency
     Dim vQtdeSangria As Integer
-    SQL = "SELECT ISNULL(SUM(VALOR),0) as vValorSangriaTotal, count(codigo) as vQuantSangriaTotal FROM caixa_saida " & _
+    sql = "SELECT ISNULL(SUM(VALOR),0) as vValorSangriaTotal, count(codigo) as vQuantSangriaTotal FROM caixa_saida " & _
            "WHERE FONTE = 'CAIXA ATUAL' AND (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Sangria
-    Set r = dbData.OpenRecordset(SQL)
+    Set r = dbData.OpenRecordset(sql)
     If Not r.EOF Then vVlrSangria = r("vValorSangriaTotal"): vQtdeSangria = r("vQuantSangriaTotal") Else vVlrSangria = 0: vQtdeSangria = 0
 
     
@@ -5064,9 +5064,9 @@ End If
 'Set r = Nothing
 
 'mostrar todas as saídas na folha
-SQL = "SELECT HORA as vSHora, SUBDESCRICAO + '/' + DESCRICAO as vSDescricao, COD_FUNCIONARIO as vSFunc, VALOR as vSValor FROM caixa_saida " & _
+sql = "SELECT HORA as vSHora, SUBDESCRICAO + '/' + DESCRICAO as vSDescricao, COD_FUNCIONARIO as vSFunc, VALOR as vSValor FROM caixa_saida " & _
        "WHERE FONTE = 'CAIXA ATUAL' AND (codcaixa = " & StatusBar1.Panels(3).Text & ") " & Maquina_Sangria
-Set r = dbData.OpenRecordset(SQL)
+Set r = dbData.OpenRecordset(sql)
 
 
 Me.Hide
@@ -5553,7 +5553,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.rows - 1
+   For i = 0 To var_Grid.Rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + ValMoeda(var_Grid.TextMatrix(i, Col))
       End If
@@ -5593,7 +5593,7 @@ End If
 End Sub
 
 Private Sub cmdTrocarCaixa_Click()
-If Grid.rows <= 1 Then Exit Sub
+If Grid.Rows <= 1 Then Exit Sub
 If lblCodCaixaAtual.Caption = "0" Or lblCodCaixaStatus.Caption = "FECHADO" Then MsgBox "O " & lblCaixaAtual.Caption & " ainda encontra fechado!", vbInformation, "Aviso do Sistema": Exit Sub
 
 i = Grid.Row
@@ -5780,7 +5780,7 @@ Private Sub FormatarGridResumido(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 3
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 3000
@@ -5803,15 +5803,15 @@ Private Sub FormatarGridResumido(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("vTipoResultado"))
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("vtotal"), ocMONEY)
+            .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("vTipoResultado"))
+            .TextMatrix(.Rows - 1, 2) = Format(rTabela("vtotal"), ocMONEY)
            
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
       
       'Deixar negrito quando vencido
 '      For i = 1 To .Rows - 1
@@ -5852,7 +5852,7 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 11
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 650
@@ -5892,22 +5892,22 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = Format(rTabela("varHora"), ocHRMN)
+            .TextMatrix(.Rows - 1, 1) = Format(rTabela("varHora"), ocHRMN)
             If rTabela("varCodPedido") = 0 Then
-                .TextMatrix(.rows - 1, 2) = ""
+                .TextMatrix(.Rows - 1, 2) = ""
             Else
-                .TextMatrix(.rows - 1, 2) = Format(rTabela("varCodPedido"), "000000")
+                .TextMatrix(.Rows - 1, 2) = Format(rTabela("varCodPedido"), "000000")
             End If
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("varTipoLanc"))
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("varCliente"))
+            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("varTipoLanc"))
+            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("varCliente"))
             
             If rTabela("varFormaPgto") <> "CARTAO" Then
-               .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto")
+               .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto")
             Else
                 If rTabela("vartipocartao") = "DÉBITO" Then
-                    .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto") & " DÉBITO"
+                    .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " DÉBITO"
                 Else
-                    .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto") & " CRÉDITO"
+                    .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " CRÉDITO"
                 End If
 
             '.TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " (" & rTabela("vartipocartao") & ")"
@@ -5915,30 +5915,30 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
                
             End If
             
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("varValorLanc"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("varValorSaida"), ocMONEY)
+            .TextMatrix(.Rows - 1, 6) = Format(rTabela("varValorLanc"), ocMONEY)
+            .TextMatrix(.Rows - 1, 7) = Format(rTabela("varValorSaida"), ocMONEY)
             
             m_Saldo = m_Saldo + CCur(ValidateNull(rTabela("varValorLanc"))) - CCur(rTabela("varValorSaida"))
-            .TextMatrix(.rows - 1, 8) = Format(m_Saldo, "##,##0.00")
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("varCodigo"), "000000")
-            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("varTipoPgto"))
+            .TextMatrix(.Rows - 1, 8) = Format(m_Saldo, "##,##0.00")
+            .TextMatrix(.Rows - 1, 9) = Format(rTabela("varCodigo"), "000000")
+            .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("varTipoPgto"))
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
       
       'mudar a cor da coluna
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          .Row = i
          .Col = 6:   .CellBackColor = &HC0FFFF
          .Col = 7:   .CellBackColor = &HC0C0FF
       Next
       
       'Deixar negrito quando vencido
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          For j = 0 To .Cols - 1
             .Col = j
             .Row = i
@@ -5981,7 +5981,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 'End If
 If vChamouCaixa = "PDV" Then
     Caixa_Controle_semOS.Hide
-    'PDV.Show  'desativei somente para geerar o online comerce
+    PDV.Show  'desativei somente para geerar o online comerce
 Else
     Caixa_Controle_semOS.Hide
     'PDV.Show 1
@@ -6153,7 +6153,7 @@ Private Sub mskData_LostFocus()
 End Sub
 
 Private Sub StatusBar1_PanelDblClick(ByVal Panel As MSComctlLib.Panel)
-   Select Case Panel.index
+   Select Case Panel.Index
       Case 1
          Exit Sub
       Case 2

@@ -319,7 +319,7 @@ Begin VB.Form Principal_Caixa
             AutoSize        =   1
             Object.Width           =   2699
             MinWidth        =   2117
-            TextSave        =   "18:19"
+            TextSave        =   "13:42"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -524,7 +524,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     If vEntradaJanelas = False Then
         Principal_Caixa.Hide
-        'PDV.Show 'desativei somente para geerar o online comerce
+        PDV.Show 'desativei somente para geerar o online comerce
     End If
 Else
 End If

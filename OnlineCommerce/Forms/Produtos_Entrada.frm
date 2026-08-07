@@ -63,7 +63,7 @@ Begin VB.Form Produtos_Entrada
       Tab(0).Control(9)=   "frmTransporte"
       Tab(0).Control(9).Enabled=   0   'False
       Tab(0).ControlCount=   10
-      TabCaption(1)   =   "HISTï¿½RICO"
+      TabCaption(1)   =   "HISTÓRICO"
       TabPicture(1)   =   "Produtos_Entrada.frx":23EE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Grid_Historico"
@@ -291,7 +291,7 @@ Begin VB.Form Produtos_Entrada
          Top             =   2340
          Width           =   12735
          Begin VB.Frame frmPrecos 
-            Caption         =   "Preï¿½os / Quantidade"
+            Caption         =   "Preços / Quantidade"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -355,7 +355,7 @@ Begin VB.Form Produtos_Entrada
                End
             End
             Begin VB.Frame Frame1 
-               Caption         =   "Varejo - ï¿½ vista"
+               Caption         =   "Varejo - à vista"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -446,7 +446,7 @@ Begin VB.Form Produtos_Entrada
                End
             End
             Begin VB.Frame Frame2 
-               Caption         =   "Varejo - ï¿½ Prazo"
+               Caption         =   "Varejo - à Prazo"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -499,7 +499,7 @@ Begin VB.Form Produtos_Entrada
                End
             End
             Begin VB.Frame Frame3 
-               Caption         =   "Atacado - ï¿½ Vista"
+               Caption         =   "Atacado - à Vista"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -552,7 +552,7 @@ Begin VB.Form Produtos_Entrada
                End
             End
             Begin VB.Frame Frame4 
-               Caption         =   "Atacado - ï¿½ Prazo"
+               Caption         =   "Atacado - à Prazo"
                BeginProperty Font 
                   Name            =   "MS Sans Serif"
                   Size            =   8.25
@@ -914,7 +914,7 @@ Begin VB.Form Produtos_Entrada
          Begin VB.Label lblCodFabrica 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Cï¿½d. de Barra"
+            Caption         =   "Cód. de Barra"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -933,7 +933,7 @@ Begin VB.Form Produtos_Entrada
          Begin VB.Label Label3 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Descriï¿½ï¿½o"
+            Caption         =   "Descrição"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -1009,7 +1009,7 @@ Begin VB.Form Produtos_Entrada
          Top             =   420
          Width           =   12735
          Begin VB.Frame Frame8 
-            Caption         =   "Saï¿½da"
+            Caption         =   "Saída"
             Height          =   615
             Left            =   3540
             TabIndex        =   97
@@ -1080,7 +1080,7 @@ Begin VB.Form Produtos_Entrada
             End
          End
          Begin VB.Frame Frame7 
-            Caption         =   "Emissï¿½o"
+            Caption         =   "Emissão"
             Height          =   615
             Left            =   2160
             TabIndex        =   96
@@ -1518,7 +1518,7 @@ Begin VB.Form Produtos_Entrada
             Width           =   885
          End
          Begin VB.Label Label2 
-            Caption         =   "Critï¿½rio:"
+            Caption         =   "Critério:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -1535,7 +1535,7 @@ Begin VB.Form Produtos_Entrada
             Width           =   1155
          End
          Begin VB.Label lblConsDescricao 
-            Caption         =   "Descriï¿½ï¿½o"
+            Caption         =   "Descrição"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -2064,7 +2064,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin VB.Label Label25 
          AutoSize        =   -1  'True
-         Caption         =   "Dï¿½ um duplo-clique para ver mais informaï¿½ï¿½es"
+         Caption         =   "Dá um duplo-clique para ver mais informações"
          ForeColor       =   &H00008000&
          Height          =   195
          Left            =   180
@@ -2391,7 +2391,7 @@ Dim r As ADODB.Recordset
 Dim vrVenda As Currency
 If txtCodProduto.Text = "" Then Exit Sub
 
-'mostrar o ultimo preï¿½o de compra
+'mostrar o ultimo preço de compra
 sSQL = "SELECT TOP 1 VALOR_VV FROM Produtos_Precos WHERE (cod_produto = " & txtCodProduto & ") ORDER BY codigo DESC;"
 Set r = dbData.OpenRecordset(sSQL)
 
@@ -2421,7 +2421,7 @@ If cboConsulta.Text = "DETALHADO" Then
            cboConsAno.AddItem ValidateNull(r("fabricante"))
            r.MoveNext
         Loop
-    ElseIf cboConsDescricao.Text = "REFERï¿½NCIA" Then
+    ElseIf cboConsDescricao.Text = "REFERÊNCIA" Then
         sSQL = "SELECT DISTINCT REF FROM produtos ORDER BY REF;"
         Set r = dbData.OpenRecordset(sSQL)
         
@@ -2509,7 +2509,7 @@ ElseIf cboConsulta.Text = "FABRICANTE" Then
    
    moCombo.AttachTo cboConsDescricao
 
-ElseIf cboConsulta.Text = "REFERï¿½NCIA" Then
+ElseIf cboConsulta.Text = "REFERÊNCIA" Then
    cboConsDescricao.Clear
    
    sSQL = "SELECT DISTINCT ref FROM produtos ORDER BY ref;"
@@ -2580,12 +2580,12 @@ Private Sub cboConsulta_GotFocus()
 cboConsulta.Clear
 cboConsulta.AddItem "TODOS"
 cboConsulta.AddItem "MENSAL"
-cboConsulta.AddItem "PERï¿½ODO"
+cboConsulta.AddItem "PERÍODO"
 cboConsulta.AddItem "NOTA FISCAL"
 cboConsulta.AddItem "FORNECEDOR"
 cboConsulta.AddItem "PRODUTO"
-cboConsulta.AddItem "Cï¿½D. BARRA"
-cboConsulta.AddItem "REFERï¿½NCIA"
+cboConsulta.AddItem "CÓD. BARRA"
+cboConsulta.AddItem "REFERÊNCIA"
 cboConsulta.AddItem "FABRICANTE"
 
 moCombo.AttachTo cboConsulta
@@ -2602,7 +2602,7 @@ If cboConsulta.Text = "TODOS" Then
     cmdConNotaCal1.Visible = False
     cmdConNotaCal2.Visible = False
     lblFinal.Visible = False
-ElseIf cboConsulta.Text = "PERï¿½ODO" Then
+ElseIf cboConsulta.Text = "PERÍODO" Then
     cboConsDescricao.Visible = False
     cboConsAno.Visible = False
     lblConsDescricao.Visible = True
@@ -2638,7 +2638,7 @@ ElseIf cboConsulta.Text = "MENSAL" Then
     cboConsDescricao.Visible = True
     cboConsAno.Visible = True
     lblConsDescricao.Visible = True
-    lblConsDescricao.Caption = "Mï¿½s/Ano"
+    lblConsDescricao.Caption = "Mês/Ano"
     cboConsDescricao.Width = 1815
     mskInicial.Visible = False
     mskFinal.Visible = False
@@ -2667,22 +2667,22 @@ ElseIf cboConsulta.Text = "FABRICANTE" Then
     cmdConNotaCal1.Visible = False
     cmdConNotaCal2.Visible = False
     lblFinal.Visible = False
-ElseIf cboConsulta.Text = "REFERï¿½NCIA" Then
+ElseIf cboConsulta.Text = "REFERÊNCIA" Then
     cboConsDescricao.Visible = True
     cboConsAno.Visible = False
     lblConsDescricao.Visible = True
-    lblConsDescricao.Caption = "Referï¿½ncia"
+    lblConsDescricao.Caption = "Referência"
     cboConsDescricao.Width = 4095
     mskInicial.Visible = False
     mskFinal.Visible = False
     cmdConNotaCal1.Visible = False
     cmdConNotaCal2.Visible = False
     lblFinal.Visible = False
-ElseIf cboConsulta.Text = "Cï¿½D. BARRA" Then
+ElseIf cboConsulta.Text = "CÓD. BARRA" Then
     cboConsDescricao.Visible = True
     cboConsAno.Visible = False
     lblConsDescricao.Visible = True
-    lblConsDescricao.Caption = "Cï¿½d. Barra"
+    lblConsDescricao.Caption = "Cód. Barra"
     cboConsDescricao.Width = 4095
     mskInicial.Visible = False
     mskFinal.Visible = False
@@ -2693,7 +2693,7 @@ ElseIf cboConsulta.Text = "DETALHADO" Then
     cboConsDescricao.Visible = True
     cboConsAno.Visible = True
     lblConsDescricao.Visible = True
-    lblConsDescricao.Caption = "Critï¿½rio"
+    lblConsDescricao.Caption = "Critério"
     mskInicial.Visible = False
     mskFinal.Visible = False
     cmdConNotaCal1.Visible = False
@@ -2703,7 +2703,7 @@ ElseIf cboConsulta.Text = "DETALHADO + MENSAL" Then
     cboConsDescricao.Visible = True
     cboConsAno.Visible = True
     lblConsDescricao.Visible = True
-    lblConsDescricao.Caption = "Mï¿½s/Ano"
+    lblConsDescricao.Caption = "Mês/Ano"
     cboConsDescricao.Width = 1815
     mskInicial.Visible = False
     mskFinal.Visible = False
@@ -2765,7 +2765,7 @@ If lblTipoConsulta.Caption = "0" Or lblTipoConsulta.Caption = "2" Then
       lblTipoConsulta.Caption = "2"
       txtCodBarra.Locked = True
    Else
-       ShowMsg "Produto nï¿½o cadastrado.", vbExclamation
+       ShowMsg "Produto não cadastrado.", vbExclamation
        lblTipoConsulta.Caption = "0"
        cboDescricao.Text = ""
        txtCodBarra.Text = ""
@@ -2775,7 +2775,7 @@ If lblTipoConsulta.Caption = "0" Or lblTipoConsulta.Caption = "2" Then
     MostrarValorVenda
     txtQuant.SetFocus
 
-   If r.BOF Then ShowMsg "Produto nï¿½o cadastrado.", vbExclamation
+   If r.BOF Then ShowMsg "Produto não cadastrado.", vbExclamation
    If r.State <> 0 Then r.Close
 End If
 End Sub
@@ -2906,15 +2906,15 @@ Private Sub chameleonButton1_Click()
 Dim varData As Variant
 Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variï¿½vel
+varData = Empty                    'Inicializa a variável
 
-Set fCal = New Calendario      'Cria o form de calendï¿½rio
+Set fCal = New Calendario      'Cria o form de calendário
 fCal.Show vbModal
 
 varData = fCal.DateSelected    'Recupera a data selecionada
 
 Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrï¿½i a variï¿½vel
+Set fCal = Nothing                   'Destrói a variável
 
 If Not IsDate(varData) Then Exit Sub   'Valida a data
 If varData = 0 Then Exit Sub
@@ -2926,15 +2926,15 @@ Private Sub chameleonButton2_Click()
 Dim varData As Variant
 Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variï¿½vel
+varData = Empty                    'Inicializa a variável
 
-Set fCal = New Calendario      'Cria o form de calendï¿½rio
+Set fCal = New Calendario      'Cria o form de calendário
 fCal.Show vbModal
 
 varData = fCal.DateSelected    'Recupera a data selecionada
 
 Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrï¿½i a variï¿½vel
+Set fCal = Nothing                   'Destrói a variável
 
 If Not IsDate(varData) Then Exit Sub   'Valida a data
 If varData = 0 Then Exit Sub
@@ -2954,15 +2954,15 @@ Private Sub cmdCal1_Click()
 Dim varData As Variant
 Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variï¿½vel
+varData = Empty                    'Inicializa a variável
 
-Set fCal = New Calendario      'Cria o form de calendï¿½rio
+Set fCal = New Calendario      'Cria o form de calendário
 fCal.Show vbModal
 
 varData = fCal.DateSelected    'Recupera a data selecionada
 
 Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrï¿½i a variï¿½vel
+Set fCal = Nothing                   'Destrói a variável
 
 If Not IsDate(varData) Then Exit Sub   'Valida a data
 If varData = 0 Then Exit Sub
@@ -2974,15 +2974,15 @@ Private Sub cmdConNotaCal1_Click()
 Dim varData As Variant
 Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variï¿½vel
+varData = Empty                    'Inicializa a variável
 
-Set fCal = New Calendario      'Cria o form de calendï¿½rio
+Set fCal = New Calendario      'Cria o form de calendário
 fCal.Show vbModal
 
 varData = fCal.DateSelected    'Recupera a data selecionada
 
 Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrï¿½i a variï¿½vel
+Set fCal = Nothing                   'Destrói a variável
 
 If Not IsDate(varData) Then Exit Sub   'Valida a data
 If varData = 0 Then Exit Sub
@@ -2994,15 +2994,15 @@ Private Sub cmdConNotaCal2_Click()
 Dim varData As Variant
 Dim fCal As Calendario
 
-varData = Empty                    'Inicializa a variï¿½vel
+varData = Empty                    'Inicializa a variável
 
-Set fCal = New Calendario      'Cria o form de calendï¿½rio
+Set fCal = New Calendario      'Cria o form de calendário
 fCal.Show vbModal
 
 varData = fCal.DateSelected    'Recupera a data selecionada
 
 Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrï¿½i a variï¿½vel
+Set fCal = Nothing                   'Destrói a variável
 
 If Not IsDate(varData) Then Exit Sub   'Valida a data
 If varData = 0 Then Exit Sub
@@ -3052,7 +3052,7 @@ Private Sub Command1_Click()
       Dim totalSaida As Double
       
       If Not ExistInList(cboConsDescricao) Then
-         ShowMsg "Selecione o mï¿½s na lista.", vbExclamation
+         ShowMsg "Selecione o mês na lista.", vbExclamation
          Exit Sub
       End If
       
@@ -3061,12 +3061,12 @@ Private Sub Command1_Click()
          Exit Sub
       End If
       
-      'Perï¿½odo da pesquisa
+      'Período da pesquisa
       strData = "01/" & Format$(cboConsDescricao.ListIndex + 1, "00") & "/" & Format$(cboConsAno, "0000")
       dIni = CDate(strData)
       dFim = DateAdd("d", -1, DateAdd("m", 1, dIni))
       
-      'Consulta o saldo inicial do perï¿½do
+      'Consulta o saldo inicial do período
       sSQL = "SELECT codigo, descricao, " & _
          "(SELECT ISNULL(SUM(produtos_entrada_itens.QuantidadeTributavel), 0) FROM produtos_entrada_itens " & _
          "INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo " & _
@@ -3087,7 +3087,7 @@ Private Sub Command1_Click()
       pInd = 1
       
       For DIA = dIni To dFim
-         'Inicializa as variï¿½veis
+         'Inicializa as variáveis
          totalEntr = 0
          totalSaida = 0
          
@@ -3105,7 +3105,7 @@ Private Sub Command1_Click()
          Set r = dbData.OpenRecordset(sSQL)
          
          If Not r.BOF Then
-            'Atribui os saldo para as variï¿½veis
+            'Atribui os saldo para as variáveis
             totalEntr = r("total_entrada")
             totalSaida = r("total_saida")
          End If
@@ -3161,20 +3161,20 @@ If txtCodigo.Text = "" Then Exit Sub
 If txtCodProduto.Text = "" Then Exit Sub
 
 If txtQuant.Text = "" Or txtQuant.Text = "0" Then
-   ShowMsg "Insira uma quantidade vï¿½lida!", vbExclamation
+   ShowMsg "Insira uma quantidade válida!", vbExclamation
    txtQuant.SetFocus
    Exit Sub
 End If
 
 If txtCusto.Text = "" Or txtCusto.Text = "0" Then
-   ShowMsg "Insira um custo de produto vï¿½lido!", vbExclamation
+   ShowMsg "Insira um custo de produto válido!", vbExclamation
    txtCusto.SetFocus
    Exit Sub
 End If
 
 Dim var_COD_ITENS As Long
 
-'AUTONUMERAï¿½ï¿½O
+'AUTONUMERAÇÃO
 sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_entrada_itens;"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then var_COD_ITENS = r("cod_itens") + 1
@@ -3225,7 +3225,7 @@ Dim r As ADODB.Recordset
 'If cmdSalvar.Enabled = True Then
    Dim AutoNumeracao As Long
    
-   'AUTONUMERAï¿½ï¿½O
+   'AUTONUMERAÇÃO
    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant;"
    Set r = dbData.OpenRecordset(sSQL)
    
@@ -3234,7 +3234,7 @@ Dim r As ADODB.Recordset
    Set r = Nothing
    
    sSQL = "INSERT INTO produtos_quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
-      AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & txtCodigo.Text & ", 'ENTRADA', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", 'ADIï¿½ï¿½O', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CDbl(txtQuantAtual.Text), ",", ".") & ");"
+      AutoNumeracao & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & txtCodigo.Text & ", 'ENTRADA', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", 'ADIÇÃO', '" & Format(Now, ocHRMN) & "', " & txtCodUsuario.Text & ", " & Replace(CDbl(txtQuantAtual.Text), ",", ".") & ");"
    dbData.Execute sSQL
 'End If
 End Sub
@@ -3243,16 +3243,16 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 
 If txtCodigo.Text = "" Then
-   MsgBox "FORMULï¿½RIO INCOMPLETO!" & vbCrLf & "Consulte a NOTA FISCAL na guia CONSULTA.", vbInformation, "Aviso do Sistema"
+   MsgBox "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Consulte a NOTA FISCAL na guia CONSULTA.", vbInformation, "Aviso do Sistema"
    Exit Sub
 End If
 
-'Nï¿½o ï¿½ necessï¿½rio consulta o registro antes de atualiza-lo
+'Não é necessário consulta o registro antes de atualiza-lo
 sSQL = "SELECT * FROM produtos_entrada WHERE (codigo = " & txtCodigo.Text & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not Atualizar_Dados Then
-   ShowMsg "Nï¿½o foi possï¿½vel atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
+   ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
    Exit Sub
 End If
 
@@ -3273,7 +3273,7 @@ Private Sub cmdCadProdutos_Click()
    'Dim oCfg As ConfigItem
    'Dim iOpcao As Integer
    
-   'Substituiu a abertura da tabela de configuraï¿½ï¿½o
+   'Substituiu a abertura da tabela de configuração
    
    'Set oCfg = sysConfig("PRODUTO")
    'iOpcao = oCfg.Value
@@ -3295,7 +3295,7 @@ Dim i As Integer
 If txtCodigo.Text = "" Then Exit Sub
 
 If cmdAlterar.Enabled = True Then
-    MsgBox "Entrada jï¿½ gravada nï¿½o pode ser cancelada!", vbInformation, "Aviso do Sistema"
+    MsgBox "Entrada já gravada não pode ser cancelada!", vbInformation, "Aviso do Sistema"
 Else
     If ShowMsg("Existe uma nota fiscal em aberto. Deseja sair e cancelar a entrada?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then
        'Cancel = 1
@@ -3331,7 +3331,7 @@ Dim r As ADODB.Recordset
 'If cmdSalvar.Enabled = True Then
    Dim AutoNumeracao As Long
    
-   'AUTONUMERAï¿½ï¿½O
+   'AUTONUMERAÇÃO
    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_precos;"
    Set r = dbData.OpenRecordset(sSQL)
    
@@ -3357,10 +3357,10 @@ End Sub
 Private Sub cmdExcluir_Click()
 Dim i As Integer
 
-'If Tela_Principal.txtNivel.Text <> "1" Then MsgBox "Seu nï¿½vel de acesso nï¿½o permite a essa operaï¿½ï¿½o!", vbInformation, "Aviso do Sistema": Exit Sub
+'If Tela_Principal.txtNivel.Text <> "1" Then MsgBox "Seu nível de acesso não permite a essa operação!", vbInformation, "Aviso do Sistema": Exit Sub
 
 If txtCodigo.Text = "" Then
-   ShowMsg "FORMULï¿½RIO INCOMPLETO!" & vbCrLf & "Consulte Nota Fiscal na guia CONSULTA", vbInformation
+   ShowMsg "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Consulte Nota Fiscal na guia CONSULTA", vbInformation
    Exit Sub
 End If
 
@@ -3435,14 +3435,14 @@ ElseIf cboConsulta.Text = "PRODUTO" Then
           "WHERE (produtos_entrada_itens.NomeProduto = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
 
-ElseIf cboConsulta.Text = "Cï¿½D. BARRA" Then
+ElseIf cboConsulta.Text = "CÓD. BARRA" Then
   If cboConsDescricao.Text = "" Then Exit Sub
    sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
           "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
           "WHERE (cod_barra = '" & cboConsDescricao.Text & "') " & _
           "ORDER BY " & INDICE
           
-ElseIf cboConsulta.Text = "REFERï¿½NCIA" Then
+ElseIf cboConsulta.Text = "REFERÊNCIA" Then
   If cboConsDescricao.Text = "" Then Exit Sub
    sSQL = "SELECT produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML, produtos_entrada_itens.* " & _
           "FROM produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.codigo_entrada = produtos_entrada.codigo INNER JOIN produtos ON produtos_entrada_itens.codigo_produto = produtos.codigo " & _
@@ -3458,7 +3458,7 @@ ElseIf cboConsulta.Text = "FABRICANTE" Then
 
 ElseIf cboConsulta.Text = "MENSAL" Then
    If Not ExistInList(cboConsDescricao) Then
-      ShowMsg "Selecione o mï¿½s na lista.", vbExclamation
+      ShowMsg "Selecione o mês na lista.", vbExclamation
       Exit Sub
    End If
    
@@ -3471,7 +3471,7 @@ ElseIf cboConsulta.Text = "MENSAL" Then
           "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
           "WHERE (MONTH(data_entrada) = " & cboConsDescricao.ListIndex + 1 & ") AND (YEAR(data_entrada) = " & cboConsAno & ")  " & _
           "ORDER BY " & INDICE
-ElseIf cboConsulta.Text = "PERï¿½ODO" Then
+ElseIf cboConsulta.Text = "PERÍODO" Then
 
    sSQL = "SELECT fornecedor.codigo, fornecedor.razao, produtos_entrada.codigo AS var_codent, produtos_entrada.data_entrada, produtos_entrada.NumeroNota, produtos_entrada.DataEmissao, produtos_entrada.ValorFrete, produtos_entrada.ValorNota, (CASE WHEN XML = 1 THEN 'XML' ELSE 'MANUAL' END) AS vXML  " & _
           "FROM produtos_entrada INNER JOIN fornecedor ON produtos_entrada.CodigoCorrentista = fornecedor.codigo " & _
@@ -3482,10 +3482,10 @@ End If
 'Abre a consulta
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
-'===FUNï¿½ï¿½O DE CONTAR REGISTROS
+'===FUNÇÃO DE CONTAR REGISTROS
 lblQuant.Caption = Format(totalRegistros, "00")
 
-If cboConsulta.Text = "TODOS" Or cboConsulta.Text = "NOTA FISCAL" Or cboConsulta.Text = "FORNECEDOR" Or cboConsulta.Text = "MENSAL" Or cboConsulta.Text = "PERï¿½ODO" Then
+If cboConsulta.Text = "TODOS" Or cboConsulta.Text = "NOTA FISCAL" Or cboConsulta.Text = "FORNECEDOR" Or cboConsulta.Text = "MENSAL" Or cboConsulta.Text = "PERÍODO" Then
     FormatarGrid r
 Else
     FormatarGridConsProdutos r
@@ -3498,7 +3498,7 @@ printSQL = sSQL
 End Sub
 Private Sub cmdFechar_Click()
    If txtCodigo.Text <> "" And cmdSalvar.Enabled = True Then
-      ShowMsg "ENTRADA EM ABERTO!" & vbCrLf & "Clique no botï¿½o SALVAR ou no CANCELAR.", vbInformation
+      ShowMsg "ENTRADA EM ABERTO!" & vbCrLf & "Clique no botão SALVAR ou no CANCELAR.", vbInformation
       Exit Sub
    Else
       Unload Me
@@ -3521,19 +3521,19 @@ Me.Hide
 
 Set r = dbData.OpenRecordset(printSQL)
 
-If cboConsulta.Text = "TODOS" Or cboConsulta.Text = "NOTA FISCAL" Or cboConsulta.Text = "FORNECEDOR" Or cboConsulta.Text = "MENSAL" Or cboConsulta.Text = "PERï¿½ODO" Then
+If cboConsulta.Text = "TODOS" Or cboConsulta.Text = "NOTA FISCAL" Or cboConsulta.Text = "FORNECEDOR" Or cboConsulta.Text = "MENSAL" Or cboConsulta.Text = "PERÍODO" Then
    Set REL_Prod_Entrada_Nota.Relatorio.Recordset = r
    REL_Prod_Entrada_Nota.dfQuant.Caption = lblQuant.Caption
    REL_Prod_Entrada_Nota.dfBruto.Caption = lblValor.Caption
    
    If cboConsulta.Text = "MENSAL" Then
-      REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Mï¿½s = " & cboConsDescricao.Text & "/" & cboConsAno.Text
-   ElseIf cboConsulta.Text = "PERï¿½ODO" Then
-      REL_Prod_Entrada_Nota.dfTipo.Caption = "Perï¿½odo: " & mskInicial.Text & " atï¿½ " & mskFinal.Text
+      REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Mês = " & cboConsDescricao.Text & "/" & cboConsAno.Text
+   ElseIf cboConsulta.Text = "PERÍODO" Then
+      REL_Prod_Entrada_Nota.dfTipo.Caption = "Período: " & mskInicial.Text & " até " & mskFinal.Text
    ElseIf cboConsulta.Text = "FORNECEDOR" Then
       REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Fornecedor = " & cboConsDescricao.Text & ""
    ElseIf cboConsulta.Text = "NOTA FISCAL" Then
-      REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Nota Fiscal Nï¿½ " & cboConsDescricao.Text & ""
+      REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Nota Fiscal Nº " & cboConsDescricao.Text & ""
    Else
       REL_Prod_Entrada_Nota.dfTipo.Caption = "Tipo: Todas as notas"
    End If
@@ -3549,10 +3549,10 @@ Else
       REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Produto = " & cboConsDescricao.Text & ""
    ElseIf cboConsulta.Text = "FABRICANTE" Then
       REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Fabricante = " & cboConsDescricao.Text & ""
-   ElseIf cboConsulta.Text = "REFERï¿½NCIA" Then
-      REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Referï¿½ncia " & cboConsDescricao.Text & ""
-   ElseIf cboConsulta.Text = "Cï¿½D. BARRA" Then
-      REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Cï¿½d. de Barra " & cboConsDescricao.Text & ""
+   ElseIf cboConsulta.Text = "REFERÊNCIA" Then
+      REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Referência " & cboConsDescricao.Text & ""
+   ElseIf cboConsulta.Text = "CÓD. BARRA" Then
+      REL_Prod_Entrada_PorProduto.dfTipo.Caption = "Tipo: Cód. de Barra " & cboConsDescricao.Text & ""
    End If
    
    REL_Prod_Entrada_PorProduto.Relatorio.Ativar
@@ -3609,7 +3609,7 @@ If txtCodigo.Text = "" Or cboFornecedor.Text = "" Or txtNotaFiscal.Text = "" Or 
 End If
 
 If Not Inserir_Dados Then
-   ShowMsg "Nï¿½o foi possï¿½vel cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
+   ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
    Exit Sub
 End If
 
@@ -3628,7 +3628,7 @@ Dim varValorFrete As Currency
 
 If txtFreteTotal.Text = "" Then varValorFrete = CCur(0) Else varValorFrete = CCur(txtFreteTotal.Text)
 
-'Comando de atualizaï¿½ï¿½o
+'Comando de atualização
 sSQL = "UPDATE produtos_entrada SET " & _
    "data_entrada = CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), " & _
    "hora_entrada = '" & Format$(mskHora.Text, ocHORA) & "', " & _
@@ -3642,10 +3642,10 @@ sSQL = "UPDATE produtos_entrada SET " & _
    "ValorFrete = " & FSQL(varValorFrete) & "  , " & _
    "valor = " & Replace(CCur(txtValor.Text), ",", ".")
 
-'Condiï¿½ï¿½o para atualizaï¿½ï¿½o
+'Condição para atualização
 sSQL = sSQL & " WHERE (codigo = " & txtCodigo.Text & ");"
 
-'Retorna o resultado da atualizaï¿½ï¿½o
+'Retorna o resultado da atualização
 Atualizar_Dados = dbData.Execute(sSQL)
 End Function
 
@@ -3701,7 +3701,7 @@ Else
    If IsDate(mskDataEmissao.Text) Then
       Exit Sub
    Else
-      ShowMsg "DATA INVï¿½LIDA!" & vbCrLf & "A data digitada estï¿½ incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
       mskDataEmissao.SetFocus
    End If
 End If
@@ -3726,7 +3726,7 @@ Else
    If IsDate(mskDataSaida.Text) Then
       Exit Sub
    Else
-      ShowMsg "DATA INVï¿½LIDA!" & vbCrLf & "A data digitada estï¿½ incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
       mskDataSaida.SetFocus
    End If
 End If
@@ -3749,7 +3749,7 @@ Else
    If IsDate(mskFinal.Text) Then
       'cmdLocalizar.SetFocus
    Else
-      ShowMsg "DATA INVï¿½LIDA!" & vbCrLf & "A data digitada estï¿½ incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
       mskFinal.SetFocus
       SelectControl mskFinal
    End If
@@ -3802,7 +3802,7 @@ Else
    If IsDate(mskInicial.Text) Then
       'cmdLocalizar.SetFocus
    Else
-      ShowMsg "DATA INVï¿½LIDA!" & vbCrLf & "A data digitada estï¿½ incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
       mskInicial.SetFocus
       SelectControl mskInicial
    End If
@@ -4095,17 +4095,17 @@ With Grid
    .ColWidth(8) = 1200
    .ColWidth(9) = 1000
    
-   .TextMatrix(0, 1) = "Cï¿½D."
+   .TextMatrix(0, 1) = "CÓD."
    .TextMatrix(0, 2) = "CADASTRO"
    .TextMatrix(0, 3) = "NO. NOTA"
-   .TextMatrix(0, 4) = "EMISSï¿½O"
+   .TextMatrix(0, 4) = "EMISSÃO"
    .TextMatrix(0, 5) = "PRODUTO"
    .TextMatrix(0, 6) = "QUANT"
    .TextMatrix(0, 7) = "CUSTO"
    .TextMatrix(0, 8) = "VENDA VV"
    .TextMatrix(0, 9) = "CUSTO"
    
-   'colocar os cabeï¿½alho em negrito
+   'colocar os cabeçalho em negrito
    For x = 0 To .Cols - 1
       .Col = x
       .Row = 0
@@ -4180,16 +4180,16 @@ With Grid
    .ColWidth(7) = 1200
    .ColWidth(8) = 1500
    
-   .TextMatrix(0, 1) = "Cï¿½D."
+   .TextMatrix(0, 1) = "CÓD."
    .TextMatrix(0, 2) = "ENTRADA"
    .TextMatrix(0, 3) = "NO. NOTA"
-   .TextMatrix(0, 4) = "EMISSï¿½O"
+   .TextMatrix(0, 4) = "EMISSÃO"
    .TextMatrix(0, 5) = "FORNECEDOR"
    .TextMatrix(0, 6) = "FRETE"
    .TextMatrix(0, 7) = "VALOR"
    .TextMatrix(0, 8) = "TIPO ENTRADA"
    
-   'colocar os cabeï¿½alho em negrito
+   'colocar os cabeçalho em negrito
    For x = 0 To .Cols - 1
       .Col = x
       .Row = 0
@@ -4263,10 +4263,10 @@ Private Sub FormatarGrid2(ByVal SaldoAnterior As Double, Movimento() As String)
       .TextMatrix(0, 1) = "COD"
       .TextMatrix(0, 2) = "DATA"
       .TextMatrix(0, 3) = "ENTRADAS"
-      .TextMatrix(0, 4) = "SAï¿½DAS"
+      .TextMatrix(0, 4) = "SAÍDAS"
       .TextMatrix(0, 5) = "SALDO ATUAL"
       
-      'colocar os cabeï¿½alho em negrito
+      'colocar os cabeçalho em negrito
       For x = 0 To .Cols - 1
           .Col = x
           .Row = 0
@@ -4370,8 +4370,8 @@ With Grid_Cadastro
     .TextMatrix(0, 1) = "COD"
     .TextMatrix(0, 2) = "COD_ENTRADA"
     .TextMatrix(0, 3) = "COD_BARRA"
-    .TextMatrix(0, 4) = "Cï¿½D."
-    .TextMatrix(0, 5) = "DESCRIï¿½ï¿½O"
+    .TextMatrix(0, 4) = "CÓD."
+    .TextMatrix(0, 5) = "DESCRIÇÃO"
     .TextMatrix(0, 6) = "QTDE"
     .TextMatrix(0, 7) = "CUSTO"
     .TextMatrix(0, 8) = "% VV"
@@ -4384,7 +4384,7 @@ With Grid_Cadastro
     .TextMatrix(0, 15) = "VALOR"
     .TextMatrix(0, 16) = "SUBTOTAL"
     
-   'colocar os cabeï¿½alho em negrito
+   'colocar os cabeçalho em negrito
    For x = 0 To .Cols - 1
       .Col = x
       .Row = 0
@@ -4537,7 +4537,7 @@ Sub PreencheProdutos()
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-'CHECAR SE O PEDIDO ESTï¿½ FECHADO
+'CHECAR SE O PEDIDO ESTÁ FECHADO
 If txtCodigo.Text = "" Then Exit Sub
 If Grid_Cadastro.rows >= 1 And cmdNovo.Enabled = False Then cmdCancelar_Click
 Set moCombo = Nothing
@@ -4549,7 +4549,7 @@ Private Sub Grid_DblClick()
 If Grid.rows <= 1 Then Exit Sub
 
 If Grid.TextMatrix(Grid.Row, 8) = "XML" Then
-    MsgBox "Nï¿½o ï¿½ permitida a visualizaï¿½ï¿½o de uma nota fiscal com tipo de entrada igual a XML por aqui!", vbInformation, "Aviso do Sistema"
+    MsgBox "Não é permitida a visualização de uma nota fiscal com tipo de entrada igual a XML por aqui!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
 
@@ -4583,7 +4583,7 @@ Else
    If IsDate(mskData.Text) Then
       Exit Sub
    Else
-      ShowMsg "DATA INVï¿½LIDA!" & vbCrLf & "A data digitada estï¿½ incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
+      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
       mskData.SetFocus
    End If
 End If
@@ -4702,7 +4702,7 @@ Dim varValorCusto As Currency
 If txtCusto.Text = "" Then Exit Sub
 varValorCusto = txtCusto.Text
 
-'CALCULAR PREï¿½O - VAREJO A VISTA
+'CALCULAR PREÇO - VAREJO A VISTA
 Dim varMargemVV As Currency
 Dim varValorVV As Currency
 
@@ -4714,7 +4714,7 @@ varValorVV = (varValorCusto * varMargemVV) / 100
 varValorVV = varValorCusto + varValorVV
 txtValorVV.Text = Format(varValorVV, ocMONEY)
 
-'CALCULAR PREï¿½O - VAREJO A PRAZO
+'CALCULAR PREÇO - VAREJO A PRAZO
 Dim varMargemVP As Currency
 Dim varValorVP As Currency
 
@@ -4726,7 +4726,7 @@ varValorVP = (varValorCusto * varMargemVP) / 100
 varValorVP = varValorCusto + varValorVP
 txtValorVP.Text = Format(varValorVP, ocMONEY)
 
-'CALCULAR PREï¿½O - ATACADO A VISTA
+'CALCULAR PREÇO - ATACADO A VISTA
 Dim varMargemAV As Currency
 Dim varValorAV As Currency
 
@@ -4738,7 +4738,7 @@ varValorAV = (varValorCusto * varMargemAV) / 100
 varValorAV = varValorCusto + varValorAV
 txtValorAV.Text = Format(varValorAV, ocMONEY)
 
-'CALCULAR PREï¿½O - ATACADO A PRAZO
+'CALCULAR PREÇO - ATACADO A PRAZO
 Dim varMargemAP As Currency
 Dim varValorAP As Currency
 

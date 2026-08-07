@@ -1,15 +1,15 @@
 Attribute VB_Name = "NFe_DLL"
 'usado no Projeto OnlineCommerce
-'* Sistema...: Mï¿½dulo NFe/NFCe
+'* Sistema...: Módulo NFe/NFCe
 '* Empresa...: EkklesiaSoft Tecnologia em Sistemas
-'* Mï¿½dulo....: NFe_DLL
-'* Funï¿½ï¿½o....: Mï¿½dulo de funï¿½ï¿½es da Nota Fiscal Eletrï¿½nica e Nota Fiscal Consumidor Eletrï¿½nica
+'* Módulo....: NFe_DLL
+'* Função....: Módulo de funções da Nota Fiscal Eletrônica e Nota Fiscal Consumidor Eletrônica
 '* CopyRight.: (C)2015 EkklesiaSoft Tecnologia em Sistemas
-'* Criaï¿½ï¿½o...: EkklesiaSoft Tecnologia em Sistemas
+'* Criação...: EkklesiaSoft Tecnologia em Sistemas
 '* Data......: 16/01/2014 07:49:46
 '* * * * * * *
 
-Option Explicit                                   'requer variï¿½veis explicitamente declaradas
+Option Explicit                                   'requer variáveis explicitamente declaradas
 
 Private Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Long) As Long
 Private Declare Function RegCreateKey Lib "advapi32.dll" Alias "RegCreateKeyA" (ByVal hKey As Long, ByVal lpSubKey As String, phkResult As Long) As Long
@@ -63,7 +63,7 @@ Dim ComandoSQL As String
    'MsgBox ComandoSQL
    If Modelo = 65 Then
       If SQLExecutaRetorno(ComandoSQL, "NFCeOffline", False) Then
-         TipoEmissao = "9 - Contingï¿½ncia off-line da NFC-e"
+         TipoEmissao = "9 - Contingência off-line da NFC-e"
       ElseIf Left(TipoEmissao, 1) = "9" Then
          TipoEmissao = "1 - Normal"
       End If
@@ -99,8 +99,8 @@ Dim ComandoSQL As String
    objNFeNFCe.certificadoAvisaVencimento = False
    objNFeNFCe.certificadoDiasAviso = 10
    
-   'coloco false para nï¿½o exibir msg
-   objNFeNFCe.exibirAvisos = True
+   'coloco false para não exibir msg
+   objNFeNFCe.exibirAvisos = False
    
    iRetorno = objNFeNFCe.CarregarConfiguracoes
    
@@ -113,7 +113,23 @@ deuErro:
    Err.Clear
 End Function
 
-Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Funï¿½ï¿½o que monta o arquivo XML e faz o envio para a Receita
+Public Function FormatarMensagemRejeicao(ByVal Motivo As String, ByVal NumeroDocumento As Variant, ByVal EhNFCe As Boolean) As String
+Dim vTipoDoc As String
+    If EhNFCe Then
+       vTipoDoc = "NFCe (cupom fiscal)"
+    Else
+       vTipoDoc = "NFe"
+    End If
+    
+    If InStr(Motivo, "Duplicidade de NF-e") > 0 Then
+       FormatarMensagemRejeicao = "Rejeição: Duplicidade de " & vTipoDoc & "." & vbNewLine & vbNewLine & _
+          "Motivo: Já existe um " & vTipoDoc & " emitido anteriormente com o mesmo número que você está tentando emitir novamente agora. " & vTipoDoc & " Nº " & NumeroDocumento & "."
+    Else
+       FormatarMensagemRejeicao = Motivo
+    End If
+End Function
+
+Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
 Dim txtNumerado As String, Retorno As String, vsNFe As String, dhEmi As String, dhProtocolo As String
 Dim Parametros As New ADODB.Recordset, Destinatario As New ADODB.Recordset, Produtos As New ADODB.Recordset
 Dim NFe As New ADODB.Recordset, NFeItens As New ADODB.Recordset, NFeParcelas As New ADODB.Recordset, NFeOBS As New ADODB.Recordset, NFeAutorizados As New ADODB.Recordset, NFeReferenciadas As New ADODB.Recordset
@@ -190,13 +206,13 @@ Screen.MousePointer = vbHourglass
     RsOpen Destinatario, vsSQL
     
     If Destinatario.RecordCount = 0 Then
-       NFeMotivo = "CLIENTE/DESTINATï¿½RIO Nï¿½O ENCONTRADO!"
+       NFeMotivo = "CLIENTE/DESTINATÁRIO NÃO ENCONTRADO!"
        GoTo Caifora
     End If
     
     'EMITIENTE COM CPF
     If Len(Parametros!CNPJ) = 18 Then
-      yCNPJ = Trim(Parametros!CNPJ)                                   ' CNPJ do destinatario sem mï¿½scara de formataï¿½ï¿½o
+      yCNPJ = Trim(Parametros!CNPJ)                                   ' CNPJ do destinatario sem máscara de formatação
       yCPF = ""
     Else
       yCPF = Trim(Parametros!CNPJ)                                   ' CPF do destinatario, uso exclusivo do Fisco
@@ -205,28 +221,28 @@ Screen.MousePointer = vbHourglass
     
     iRetorno = sistNFe.IncluirNF(mensagemAlerta, mensagemErro)
     
-    '===================grupo de identificaï¿½ï¿½o do emitente (grupo B do Manual de integraï¿½ï¿½o - pï¿½ginas 90)=======================
+    '===================grupo de identificação do emitente (grupo B do Manual de integração - páginas 90)=======================
     'iRetorno = sistNFe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), Parametros!CNPJ, "", Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!Telefone, mensagemAlerta, mensagemErro)
     iRetorno = sistNFe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), yCNPJ, yCPF, Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!telefone, mensagemAlerta, mensagemErro)
 
-    '======= grupo de identificaï¿½ï¿½o da NF-e - grupo B do Manual de integraï¿½ï¿½o - pï¿½ginas 86 a 89
+    '======= grupo de identificação da NF-e - grupo B do Manual de integração - páginas 86 a 89
     Dim dhContingencia As String, justContingencia As String
     If Left(NFe!FormatoEmissaoNFe, 1) <> "1" Then
        dhContingencia = NFe!ContingenciaDataHora                                        'v2.03 - dhCont  AAAA-MM-DDTHH:MM:SS
-       justContingencia = NFe!ContingenciaJustificativa                                 'v2.03 - xJust Justificativa da entrada em contingï¿½ncia
+       justContingencia = NFe!ContingenciaJustificativa                                 'v2.03 - xJust Justificativa da entrada em contingência
     End If
 
     If Not Vazio(Destinatario!IE) Then destIE = Destinatario!IE
     If Vazio(destIE) Then NFe!IndicadorIEDestinatario = "9"
     Dim indFinal As Integer
     indFinal = 0
-    If Len(Destinatario!CPF) = 18 And Len(destIE) = 0 Then   '18 ï¿½ cnpj
+    If Len(Destinatario!CPF) = 18 And Len(destIE) = 0 Then   '18 é cnpj
         indFinal = 1
-    ElseIf Len(Destinatario!CPF) = 14 And Len(destIE) = 0 Then   '14 ï¿½ cpf
+    ElseIf Len(Destinatario!CPF) = 14 And Len(destIE) = 0 Then   '14 é cpf
         indFinal = 1
     ElseIf Len(destIE) > 0 Then
         indFinal = 0
-    End If                          'Indica operaï¿½ï¿½o com Consumidor final
+    End If                          'Indica operação com Consumidor final
     
     If NFe!ConsumidorFinal Then
        indFinal = 1
@@ -256,7 +272,7 @@ Screen.MousePointer = vbHourglass
     If NFeReferenciadas.RecordCount > 0 Then
        If NFeReferenciadas!ProdutorRural Then          'NFe Referenciada -> NF de Produtor referenciada
           iRetorno = sistNFe.GerarNotasReferenciadas("NFP", NFeReferenciadas!NumeroNF, NFeReferenciadas!SerieNFRef, NFeReferenciadas!ModeloNF, NFeReferenciadas!CodigoUF, NFeReferenciadas!AnoMesEmissaoNFe, "", NFeReferenciadas!CNPJ_CPF, NFeReferenciadas!InscricaoEstadual, mensagemAlerta, mensagemErro)
-       ElseIf NFeReferenciadas!ModeloNF = "55" Or NFeReferenciadas!ModeloNF = "65" Then   'NFe Referenciada -> NFe Complementar, Devoluï¿½ï¿½o, Retorno
+       ElseIf NFeReferenciadas!ModeloNF = "55" Or NFeReferenciadas!ModeloNF = "65" Then   'NFe Referenciada -> NFe Complementar, Devolução, Retorno
           iRetorno = sistNFe.GerarNotasReferenciadas("NFe", NFeReferenciadas!ChavedeAcesso, 0, "", "", "", "", "", "", mensagemAlerta, mensagemErro)
        ElseIf NFeReferenciadas!ModeloNF = "57" Then    'NFe Referenciada -> CTe
           iRetorno = sistNFe.GerarNotasReferenciadas("CTe", NFeReferenciadas!ChaveCTe, 0, "", "", "", "", "", "", mensagemAlerta, mensagemErro)
@@ -265,11 +281,11 @@ Screen.MousePointer = vbHourglass
        End If
     End If
    
-    '================grupo de identificaï¿½ï¿½o do destinatario (grupo E do Manual de integraï¿½ï¿½o - pï¿½ginas 92)=======================
+    '================grupo de identificação do destinatario (grupo E do Manual de integração - páginas 92)=======================
     Dim xRazaoSocial As String, xTelefone As String
     'CLIENTE COM CPF
     If Len(Destinatario!CPF) = 18 Then
-      xCNPJ = Trim(Destinatario!CPF)                                   ' CNPJ do destinatario sem mï¿½scara de formataï¿½ï¿½o
+      xCNPJ = Trim(Destinatario!CPF)                                   ' CNPJ do destinatario sem máscara de formatação
       xCPF = ""
     Else
       xCPF = Trim(Destinatario!CPF)                                   ' CPF do destinatario, uso exclusivo do Fisco
@@ -277,11 +293,11 @@ Screen.MousePointer = vbHourglass
     End If
 
     If NFe!TipoCliente = "FORNECEDOR" Then
-        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!Razao, 60)))           ' Razï¿½o social do destinatario, evitar caracteres acentuados e &
-        xTelefone = Trim(Retira(ValidateNull(Destinatario!telefone), "()-. ", UM_A_UM))     ' nï¿½mero do telefone sem mï¿½scara
+        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!Razao, 60)))           ' Razão social do destinatario, evitar caracteres acentuados e &
+        xTelefone = Trim(Retira(ValidateNull(Destinatario!telefone), "()-. ", UM_A_UM))     ' número do telefone sem máscara
     Else
-        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!nome, 60)))           ' Razï¿½o social do destinatario, evitar caracteres acentuados e &
-        xTelefone = Trim(Retira(ValidateNull(Destinatario!Telefone1), "()-. ", UM_A_UM))   ' nï¿½mero do telefone sem mï¿½scara
+        xRazaoSocial = RemoveAcento(Trim(Left(Destinatario!nome, 60)))           ' Razão social do destinatario, evitar caracteres acentuados e &
+        xTelefone = Trim(Retira(ValidateNull(Destinatario!Telefone1), "()-. ", UM_A_UM))   ' número do telefone sem máscara
     End If
       
 If Parametros!AmbienteNF = 2 Then
@@ -296,8 +312,8 @@ End If
     
     iRetorno = sistNFe.GerarDestinatario(4, xRazaoSocial, xCNPJ, xCPF, "", destIE, NFe!InscricaoMunicipal, Left$(NFe!IndicadorIEDestinatario, 1), "", RemoveAcento(Destinatario!Endereco), Destinatario!Numero, RemoveAcento(ValidateNull(Destinatario!Ponto_de_referencia)), RemoveAcento(Destinatario!bairro), Destinatario!CodigoIBGE, RemoveAcento(Destinatario!Cidade), Destinatario!Estado, Retira(Destinatario!CEP, ".- ", UM_A_UM), 1058, "BRASIL", xTelefone, ValidateNull(Destinatario!Correio_eletronico), mensagemAlerta, mensagemErro)
     
-    'Grupo de identificaï¿½ï¿½o do Local de RETIRADA
-    'Informar apenas quando for diferente do endereï¿½o do remetente.
+    'Grupo de identificação do Local de RETIRADA
+    'Informar apenas quando for diferente do endereço do remetente.
     'dest(29) a dest(36)
     'dest(29) = CNPJ ou CPF
     'dest(30) = xLgr
@@ -308,8 +324,8 @@ End If
     'dest(35) = xMun
     'dest(36) = UF
         
-    'Grupo de identificaï¿½ï¿½o do Local de ENTREGA
-    'Informar apenas quando for diferente do endereï¿½o do remetente.
+    'Grupo de identificação do Local de ENTREGA
+    'Informar apenas quando for diferente do endereço do remetente.
     'dest(37) a dest(44)
     'dest(37) = CNPJ ou CPF
     'dest(38) = xLgr
@@ -371,20 +387,20 @@ End If
         RsOpen Produtos, vsSQL
         
         If Produtos.RecordCount = 0 Then
-           NFeMotivo = "CADASTRO DO PRODUTO Nï¿½O ENCONTRADO!" & vbNewLine & vbNewLine & "PRODUTO: " & NFeItens!NomeProduto
+           NFeMotivo = "CADASTRO DO PRODUTO NÃO ENCONTRADO!" & vbNewLine & vbNewLine & "PRODUTO: " & NFeItens!NomeProduto
            GoTo Caifora
         End If
         
-        '================grupo de detalhe do produto (grupo I01 do Manual de integraï¿½ï¿½o - pï¿½ginas 95)=======================
+        '================grupo de detalhe do produto (grupo I01 do Manual de integração - páginas 95)=======================
         Dim infAdiProd As String
         If NFeItens!ValorTributos > 0 Then
-           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informaï¿½ï¿½es adicionais do produto
+           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informações adicionais do produto
            vlTrib = vlTrib + NFeItens!ValorTributos
         Else
-           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 500)))     ' informaï¿½ï¿½es adicionais do produto
+           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 500)))     ' informações adicionais do produto
         End If
         
-        If NFeItens!TipoProduto = "Combustï¿½vel" Then infAdiProd = "ICMS monofasico sobre combustiveis cobrado anteriormente conforme Convenio ICMS 199/2022. " + infAdiProd
+        If NFeItens!TipoProduto = "Combustível" Then infAdiProd = "ICMS monofasico sobre combustiveis cobrado anteriormente conforme Convenio ICMS 199/2022. " + infAdiProd
         
         infAdiProd = Trim(infAdiProd)
         
@@ -392,9 +408,9 @@ End If
                                       NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
                                       NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, 0, CLng(NFeItens!Item_pedido)), IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, "", CStr(NFeItens!Cod_Pedido)), "", "", "", "", 1, infAdiProd, 0, "", 0, mensagemAlerta, mensagemErro)
 
-'ESSE PONTO DO DEPOSITO DE Gï¿½S
+'ESSE PONTO DO DEPOSITO DE GÁS
 
-        Select Case NFeItens!TipoProduto     'Veï¿½culo|Medicamento|Armamento|Combustï¿½vel
+        Select Case NFeItens!TipoProduto     'Veículo|Medicamento|Armamento|Combustível
           Case "Armamento"
 '            vsSQL = "SELECT * " & _
 '                    "FROM NotaFiscalItensArmamento " & _
@@ -408,7 +424,7 @@ End If
 '            End If
 '
 '
-          Case "Combustï¿½vel"
+          Case "Combustível"
                 vsSQL = "SELECT Cod_Produto, CODIF, cProdANP, descricaoANP, pGLP, pGNi, pGNn, pMixGN, ValorPartida " & _
                         "FROM Produtos_Gas " & _
                         "WHERE Cod_Produto = " & NFeItens!CodigoProduto
@@ -434,7 +450,7 @@ End If
 '                NFeMedicamentos.MoveNext
 '              Loop
 '            End If
-          Case "Veï¿½culo"
+          Case "Veículo"
 '            vsSQL = "SELECT * " & _
 '                    "FROM NotaFiscalItensVeiculos " & _
 '                    "WHERE (NumeroNota = " & NumeroNota & " AND SerieNF = " & SerieNF & ") AND (CodigoProduto = '" & NFeItens!CodigoProduto & "') "
@@ -455,7 +471,7 @@ End If
         
 'FIM DO PONTO DO DEPOSITO DE GAS
         
-        '=========dados do ICMS (grupo N01 do Manual de integraï¿½ï¿½o - pï¿½ginas 100)=====================
+        '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
         Dim sCSOSNCheck As String
         sCSOSNCheck = Right(Format(NFeItens!CST, "@"), 3)
         Dim dblPCredSN As Double
@@ -478,7 +494,7 @@ End If
            'If Len(NFeItens!CST) > 2 Then icmsCST = NFeItens!CST
         End If
         
-        If NFeItens!TipoProduto <> "Combustï¿½vel" Then
+        If NFeItens!TipoProduto <> "Combustível" Then
             'acrescentei um zero antes da mensagemAlerta: NFeItens!vBC, 0, 0, mensagemAlerta,
            iRetorno = sistNFe.GerarItensImpostoEstadual(NFeItens!ValorTributos, "0", ICMSCST, IIf(Vazio(NFeItens!modBC), 3, Left$(NFeItens!modBC, 1)), NFeItens!vBC, NFeItens!pICMS, NFeItens!vICMS, NFeItens!pRedBC, 0, 0, 0, _
                                                         IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, dblPCredSN, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
@@ -520,7 +536,7 @@ End If
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
            
-           'iRetorno = sistNFe.GerarItensObservacao("CST61", "ICMS monofï¿½sico sobre combustï¿½veis cobrado anteriormente conforme Convï¿½nio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
+           'iRetorno = sistNFe.GerarItensObservacao("CST61", "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
            
                       ' IBS/CBS: todos os regimes
            vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
@@ -570,7 +586,7 @@ End If
                                                     IIf(Vazio(NFeItens!PISCST) Or IsNull(NFeItens!PISCST), "99", NFeItens!PISCST), NFeItens!PISvBC, NFeItens!PISpPIS, NFeItens!PISvPIS, 0, 0, _
                                                     IIf(Vazio(NFeItens!IPICST), "50", NFeItens!IPICST), NFeItens!IPIvBC, NFeItens!IPIpIPI, NFeItens!IPIvIPI, 0, 0, 999, "", "", "", 0, mensagemAlerta, mensagemErro)
 
-        '   gera grupo do II - Importaï¿½ï¿½o
+        '   gera grupo do II - Importação
         If (NFeItens!IIvBC > 0) Then
            iRetorno = sistNFe.GerarItensImpostoII(NFeItens!IIvBC, NFeItens!IIvDespAdu, NFeItens!IIvII, NFeItens!IIvIOF, mensagemAlerta, mensagemErro)
         End If
@@ -586,7 +602,7 @@ End If
         NFeItens.MoveNext
     Next
 
-    'atualizaï¿½ï¿½o de total
+    'atualização de total
     iRetorno = sistNFe.GerarTotalProdutos(NFe!BaseICMS, NFe!ValorICMS, NFe!BaseICMSST, NFe!ValorICMSST, NFe!ValorCOFINS, NFe!ValorPIS, NFe!ValorIPI, NFe!ValorDesconto, NFe!ValorSeguro, NFe!ValorFrete, NFe!ValorOutrasDespesas, 0, 0, 0, NFe!vFCPUFDest, 0, NFe!vICMSUFDest, NFe!vICMSUFRemet, _
                                           NFe!ValorImportacao, 0, NFe!ValorProdutos, NFe!ValorNota, vlTrib, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
 
@@ -611,7 +627,7 @@ End If
                                        xCNPJ, xCPF, NFe!TranspInscricaoEstadual, RemoveAcento(Trim(NFe!TranspNome)), RemoveAcento(Trim(NFe!TranspEndereco)), RemoveAcento(Trim(NFe!TranspMunicipio)), NFe!TranspUF, _
                                        NFe!TranspPlaca, NFe!TranspRNTC, NFe!TranspPlacaUF, mensagemAlerta, mensagemErro)
     'parcelas e pagamentos
-    If Left(NFe!FinalidadeEmissaoNFe, 1) = 4 Then  'devoluï¿½ï¿½o
+    If Left(NFe!FinalidadeEmissaoNFe, 1) = 4 Then  'devolução
         iRetorno = sistNFe.GerarPagamentos(0, 90, 0, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)
     ElseIf Left(NFe!FinalidadeEmissaoNFe, 1) = 3 Then       'nota de ajuste
         iRetorno = sistNFe.GerarPagamentos(0, 90, 0, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)
@@ -624,7 +640,7 @@ End If
         'iRetorno = sistNFe.GerarCobranca(NFe!NumeroNota, 0, NFe!ValorNota, NFe!ValorNota, mensagemAlerta, mensagemErro)
         iRetorno = sistNFe.GerarCobranca(NFe!NumeroNota, NFe!ValorDesconto, NFe!ValorProdutos, NFe!ValorProdutos - NFe!ValorDesconto, mensagemAlerta, mensagemErro)
         
-        If NFeParcelas.RecordCount > 0 Then     'se tem duplicatas ï¿½ prazo
+        If NFeParcelas.RecordCount > 0 Then     'se tem duplicatas à prazo
            For i = 0 To NFeParcelas.RecordCount - 1
                iRetorno = sistNFe.GerarCobrancaDuplicatas(LPad(i + 1, 3, "0"), NFeParcelas!Vencimento, NFeParcelas!ValorDocumento, mensagemAlerta, mensagemErro)
                iRetorno = sistNFe.GerarPagamentos(1, 15, NFeParcelas!ValorDocumento, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)
@@ -641,27 +657,27 @@ End If
                        Case "02"
                            iRetorno = sistNFe.GerarPagamentos(1, 2, NFe!ValorNota, 0, 0, 0, "", "", "Cheque", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "03"
-                           iRetorno = sistNFe.GerarPagamentos(1, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartï¿½o de Crï¿½dito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "04"
-                           iRetorno = sistNFe.GerarPagamentos(1, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartï¿½o de Crï¿½dito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "05"
-                           iRetorno = sistNFe.GerarPagamentos(1, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crï¿½dito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crédito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "10"
-                           iRetorno = sistNFe.GerarPagamentos(1, 10, NFe!ValorNota, 0, 0, 0, "", "", "Vale Alimentaï¿½ï¿½o", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 10, NFe!ValorNota, 0, 0, 0, "", "", "Vale Alimentação", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "11"
-                           iRetorno = sistNFe.GerarPagamentos(1, 11, NFe!ValorNota, 0, 0, 0, "", "", "Vale Refeiï¿½ï¿½o", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 11, NFe!ValorNota, 0, 0, 0, "", "", "Vale Refeição", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "12"
                            iRetorno = sistNFe.GerarPagamentos(1, 12, NFe!ValorNota, 0, 0, 0, "", "", "Vale Presente", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "13"
-                           iRetorno = sistNFe.GerarPagamentos(1, 13, NFe!ValorNota, 0, 0, 0, "", "", "Vale Combustï¿½vel", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 13, NFe!ValorNota, 0, 0, 0, "", "", "Vale Combustível", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "14"
                            iRetorno = sistNFe.GerarPagamentos(1, 14, NFe!ValorNota, 0, 0, 0, "", "", "Duplicata Mercantil", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "15"
-                           iRetorno = sistNFe.GerarPagamentos(1, 15, NFe!ValorNota, 0, 0, 0, "", "", "Boleto Bancï¿½rio", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 15, NFe!ValorNota, 0, 0, 0, "", "", "Boleto Bancário", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "16"
-                           iRetorno = sistNFe.GerarPagamentos(1, 16, NFe!ValorNota, 0, 0, 0, "", "", "Depï¿½sito Bancï¿½rio", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 16, NFe!ValorNota, 0, 0, 0, "", "", "Depósito Bancário", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "18"
-                           iRetorno = sistNFe.GerarPagamentos(1, 18, NFe!ValorNota, 0, 0, 0, "", "", "Transferï¿½ncia bancï¿½ria", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 18, NFe!ValorNota, 0, 0, 0, "", "", "Transferência bancária", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "19"
                            iRetorno = sistNFe.GerarPagamentos(1, 19, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "20"
@@ -674,7 +690,7 @@ End If
                Case 2
                   iRetorno = sistNFe.GerarPagamentos(2, 99, NFe!ValorNota, 0, 0, 0, "", "", "OUTROS", "", "", "", "", "", mensagemAlerta, mensagemErro)
                Case Else
-                  'desativei essa linha para gerar as parcelas ï¿½ vista com varias formas de pagamento
+                  'desativei essa linha para gerar as parcelas à vista com varias formas de pagamento
                   'iRetorno = sistNFe.GerarPagamentos(0, 1, NFe!ValorNota, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)
                     Select Case Left(NFe!FormaPagamento, 2)
                        Case "01"
@@ -682,27 +698,27 @@ End If
                        Case "02"
                            iRetorno = sistNFe.GerarPagamentos(0, 2, NFe!ValorNota, 0, 0, 0, "", "", "Cheque", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "03"
-                           iRetorno = sistNFe.GerarPagamentos(0, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartï¿½o de Crï¿½dito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "04"
-                           iRetorno = sistNFe.GerarPagamentos(0, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartï¿½o de Crï¿½dito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "05"
-                           iRetorno = sistNFe.GerarPagamentos(0, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crï¿½dito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crédito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "10"
-                           iRetorno = sistNFe.GerarPagamentos(0, 10, NFe!ValorNota, 0, 0, 0, "", "", "Vale Alimentaï¿½ï¿½o", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 10, NFe!ValorNota, 0, 0, 0, "", "", "Vale Alimentação", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "11"
-                           iRetorno = sistNFe.GerarPagamentos(0, 11, NFe!ValorNota, 0, 0, 0, "", "", "Vale Refeiï¿½ï¿½o", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 11, NFe!ValorNota, 0, 0, 0, "", "", "Vale Refeição", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "12"
                            iRetorno = sistNFe.GerarPagamentos(0, 12, NFe!ValorNota, 0, 0, 0, "", "", "Vale Presente", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "13"
-                           iRetorno = sistNFe.GerarPagamentos(0, 13, NFe!ValorNota, 0, 0, 0, "", "", "Vale Combustï¿½vel", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 13, NFe!ValorNota, 0, 0, 0, "", "", "Vale Combustível", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "14"
                            iRetorno = sistNFe.GerarPagamentos(0, 14, NFe!ValorNota, 0, 0, 0, "", "", "Duplicata Mercantil", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "15"
-                           iRetorno = sistNFe.GerarPagamentos(0, 15, NFe!ValorNota, 0, 0, 0, "", "", "Boleto Bancï¿½rio", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 15, NFe!ValorNota, 0, 0, 0, "", "", "Boleto Bancário", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "16"
-                           iRetorno = sistNFe.GerarPagamentos(0, 16, NFe!ValorNota, 0, 0, 0, "", "", "Depï¿½sito Bancï¿½rio", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 16, NFe!ValorNota, 0, 0, 0, "", "", "Depósito Bancário", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "18"
-                           iRetorno = sistNFe.GerarPagamentos(0, 18, NFe!ValorNota, 0, 0, 0, "", "", "Transferï¿½ncia bancï¿½ria", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 18, NFe!ValorNota, 0, 0, 0, "", "", "Transferência bancária", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "19"
                            iRetorno = sistNFe.GerarPagamentos(0, 19, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "20"
@@ -720,7 +736,7 @@ End If
 
         End If
     End If
-    '============= informaï¿½ï¿½es adcionais
+    '============= informações adcionais
 
     vsSQL = "SELECT ObservacoesNFe.Observacao " & _
             "FROM NotaFiscalObservacoes INNER JOIN ObservacoesNFe ON NotaFiscalObservacoes.CodigoObservacao = ObservacoesNFe.CodigoObservacao " & _
@@ -746,7 +762,7 @@ dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
 
 'gera a chave da nfe
 Dim id_chave As String, numero_nfe_gerado As String
-'pega o endereï¿½o do arquivo a ser gerado
+'pega o endereço do arquivo a ser gerado
 If Not Existe(dirXML) Then MkDir dirXML
 'If iRetorno = -1 Then GoTo NaoEnviou
 iRetorno = sistNFe.GerarXML(numero_nfe_gerado, xCaminhoXML, True, xCaminhoXMLAuxiliar, mensagemAlerta, mensagemErro)
@@ -773,8 +789,8 @@ If cStat = 104 Then
    NFeMotivo = sistNFe.retEnvio.protNFe.infProt.xMotivo
 End If
 
-If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
-   MsgBox "*** Aparentemente Ocorreram Erros na Recepï¿½ï¿½o do Lote (nfeAutorizacao)***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeAutorizacao"
+If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
+   MsgBox "*** Aparentemente Ocorreram Erros na Recepção do Lote (nfeAutorizacao)***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeAutorizacao"
    GoTo Caifora
 End If
 
@@ -800,12 +816,12 @@ consultaNFe:
     cStat = sistNFe.retConsRec.cStat
     NFeMotivo = sistNFe.retConsRec.xMotivo
     
-    If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
-       MsgBox NFeMotivo, vbExclamation, "Retorno Autorizaï¿½ï¿½o"
+    If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
+       MsgBox NFeMotivo, vbExclamation, "Retorno Autorização"
        GoTo Caifora
     End If
 
-    ' Testa erro 217-Rejeiï¿½ï¿½o: NF-e nï¿½o consta na base de dados da SEFAZ <dhRecbto xmlns="http://www.portalfiscal.inf.br/nfe">2015-03-29T09:56:36-03:00
+    ' Testa erro 217-Rejeição: NF-e não consta na base de dados da SEFAZ <dhRecbto xmlns="http://www.portalfiscal.inf.br/nfe">2015-03-29T09:56:36-03:00
     If cStat = 217 Then
             Sleep 3000 ' Aguarda mais 3 segundos
             On Error Resume Next
@@ -816,7 +832,7 @@ consultaNFe:
                cStat2 = sistNFe.retConsRec.protNFe.infProt.cStat
                NFeMotivo = sistNFe.retConsRec.protNFe.infProt.xMotivo
             End If
-            If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
+            If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
                MsgBox "*** Aparentemente Ocorreram Erros na Consulta do Lote (nfeRetAutorizacao)***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeRetAutorizacao"
                GoTo Caifora
             End If
@@ -865,7 +881,7 @@ buscaNFe:
       cStat = sistNFe.retConsulta.cStat
       NFeMotivo = sistNFe.retConsulta.xMotivo
          
-      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
+      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
          MsgBox "*** Aparentemente Ocorreram Erros na Consulta do Lote ***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeConsulta"
          GoTo Caifora
       End If
@@ -881,7 +897,7 @@ buscaNFe:
    
    DoEvents
 
-   If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
+   If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeição") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
   
    If cStat = 204 Or cStat = 539 Then
       NFeChaveAcesso = Mid(nfeRetorno, InStr(nfeRetorno, "chNFe:") + 6, 44)
@@ -999,7 +1015,7 @@ NaoEnviou:
     Resume
     
 Caifora:
-    If Not Vazio(NFeMotivo) Then MsgBox NFeMotivo, vbCritical + vbOKOnly
+    If Not Vazio(NFeMotivo) Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeroNota, False), vbCritical + vbOKOnly
     
     Set sistNFe = Nothing
     Set Parametros = Nothing
@@ -1028,7 +1044,7 @@ Caifora:
 '    TransmitirNFe = False
 End Function
 
-Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65") As Boolean  'Funï¿½ï¿½o que monta o arquivo XML e faz o envio para a Receita
+Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65") As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
  Dim txtNumerado As String, Retorno As String, vsNFe As String, empUF As String, sql As String
  Dim Parametros As New ADODB.Recordset
  Dim NFe As New ADODB.Recordset, NFeItens As New ADODB.Recordset, NFeParcelas As New ADODB.Recordset
@@ -1080,7 +1096,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     NFeChaveAcesso = NFe!NFCeChaveAcesso
     dirXML = Parametros!DiretorioXML
     dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
-    'pega o endereï¿½o do arquivo a ser gerado
+    'pega o endereço do arquivo a ser gerado
     If Not Existe(dirXML) Then MkDir dirXML
     
     xCaminhoXML = dirXML & "\nfe\arquivos\assinado\NFe" & NFeChaveAcesso & "-assinado.xml"
@@ -1095,29 +1111,29 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
  If NFe.RecordCount > 0 Then
     NFe.MoveFirst
     iRetorno = ConfiguraDLLNFeNFCe(65, "1", sistNFCe)
-    sistNFCe.exibirAvisos = True
-    '===================grupo de identificaï¿½ï¿½o do emitente (grupo B do Manual de integraï¿½ï¿½o - pï¿½ginas 90)=======================
+    sistNFCe.exibirAvisos = False
+    '===================grupo de identificação do emitente (grupo B do Manual de integração - páginas 90)=======================
     iRetorno = sistNFCe.IncluirNF(mensagemAlerta, mensagemErro)
     
-    '===================grupo de identificaï¿½ï¿½o do emitente (grupo B do Manual de integraï¿½ï¿½o - pï¿½ginas 90)=======================
+    '===================grupo de identificação do emitente (grupo B do Manual de integração - páginas 90)=======================
     iRetorno = sistNFCe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), Parametros!CNPJ, "", Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!Celular, mensagemAlerta, mensagemErro)
 
-    '======= grupo de identificaï¿½ï¿½o da NF-e - grupo B do Manual de integraï¿½ï¿½o - pï¿½ginas 86 a 89
+    '======= grupo de identificação da NF-e - grupo B do Manual de integração - páginas 86 a 89
     Dim dhContingencia As String, justContingencia As String
     If Left(NFe!NFeTipoEmissao, 1) <> "1" Then
        dhContingencia = NFe!NFCeDataHoraContingencia & UTC 'v2.03 - dhCont  AAAA-MM-DDTHH:MM:SS
-       justContingencia = NFe!NFCeJustificativaContingencia                                 'v2.03 - xJust Justificativa da entrada em contingï¿½ncia
+       justContingencia = NFe!NFCeJustificativaContingencia                                 'v2.03 - xJust Justificativa da entrada em contingência
     End If
     
     Dim indFinal As Integer
     indFinal = 0
-    If Len(NFe!CPF_CNPJ) = 18 And Len(NFe!InscEst) = 0 Then   '18 ï¿½ cnpj
+    If Len(NFe!CPF_CNPJ) = 18 And Len(NFe!InscEst) = 0 Then   '18 é cnpj
         indFinal = 1
-    ElseIf Len(NFe!CPF_CNPJ) = 14 And Len(NFe!InscEst) = 0 Then   '14 ï¿½ cpf
+    ElseIf Len(NFe!CPF_CNPJ) = 14 And Len(NFe!InscEst) = 0 Then   '14 é cpf
         indFinal = 1
     ElseIf Len(NFe!InscEst) > 0 Then
         indFinal = 0
-    End If                          'Indica operaï¿½ï¿½o com Consumidor final
+    End If                          'Indica operação com Consumidor final
     
     If NFe!NFeConsumidorFinal Then
        indFinal = 1
@@ -1129,11 +1145,11 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     If Not IsNull(NFe!DataSaidaEntrada) Then dhEmiSaiEnt = Format(NFe!DataSaidaEntrada, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC
     iRetorno = sistNFCe.GeraIdentificacao(NFe!NFeCodigoNota, NFe!NaturezaOperacao, 65, CLng(NFe!SerieNF), NFe!NumeNota, Format(NFe!DataEmissao, "yyyy-mm-dd") & "T" & Format(Time, "hh:mm:ss") & UTC, dhEmiSaiEnt, 1, 0, Left(NFe!NFeIdentificadorDestino, 1), Parametros!CodigoIBGE, 4, Left(NFe!NFeTipoEmissao, 1), 1, indFinal, Left(NFe!NFeIndicadorPresencaComprador, 1), Left$("ONLINE COMMERCE - v." & CStr(App.Major) & "." & CStr(App.Minor) & "." & CStr(App.Revision), 20), dhContingencia, justContingencia, 0, 0, "", "", mensagemAlerta, mensagemErro)
     
-    '================grupo de identificaï¿½ï¿½o do destinatario (grupo E do Manual de integraï¿½ï¿½o - pï¿½ginas 92)=======================
+    '================grupo de identificação do destinatario (grupo E do Manual de integração - páginas 92)=======================
     Dim xRazaoSocial As String, xCNPJ As String, xCPF As String, xTelefone As String
     'CLIENTE COM CPF
     If Len(NFe!CPF_CNPJ) = 18 Then
-      xCNPJ = Trim(NFe!CPF_CNPJ)                                   ' CNPJ do destinatario sem mï¿½scara de formataï¿½ï¿½o
+      xCNPJ = Trim(NFe!CPF_CNPJ)                                   ' CNPJ do destinatario sem máscara de formatação
       xCPF = ""
     Else
       xCPF = Trim(NFe!CPF_CNPJ)                                    ' CPF do destinatario, uso exclusivo do Fisco 'aqui
@@ -1152,7 +1168,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        iRetorno = sistNFCe.GerarDestinatario(4, xRazaoSocial, xCNPJ, xCPF, "", Retira(NFe!InscEst, ".,-/", UM_A_UM), "", Left$(NFe!NFeIndicadorIEDestinatario, 1), "", RemoveAcento(NFe!Endereco), NFe!Num, "", RemoveAcento(NFe!bairro), NFe!CodigoIBGE, RemoveAcento(NFe!Municipio), NFe!UF, Retira(NFe!CEP, ".- ", UM_A_UM), 1058, "BRASIL", NFe!Fone, "", mensagemAlerta, mensagemErro)
     End If
     
-    'desabilitei pq o campo tipo_produto tï¿½ dando erro na consulta
+    'desabilitei pq o campo tipo_produto tá dando erro na consulta
     vsSQL = "SELECT TbNFCe_Itens.IdNFProd, TbNFCe_Itens.IdNFProd_Item, TbNFCe_Itens.CodProduto, TbNFCe_Itens.IdProduto, TbNFCe_Itens.DescricaoProduto, TbNFCe_Itens.ValorOutras, TbNFCe_Itens.TipoProduto, " & _
             "TbNFCe_Itens.CodBarras, TbNFCe_Itens.UN, TbNFCe_Itens.CFOP, TbNFCe_Itens.QtdeMov, TbNFCe_Itens.ValorUnit, TbNFCe_Itens.Desconto, TbNFCe_Itens.Aliq_Icms AS Aliquota, " & _
             "TbNFCe_Itens.Bc_Icms, TbNFCe_Itens.Bc_AliquotaReducao, TbNFCe_Itens.Vlr_Icms, TbNFCe_Itens.Aliq_IPI As AliqIPI, TbNFCe_Itens.Vlr_IPI As ValorIPI, TbNFCe_Itens.Valor_Frete As ValorFrete, " & _
@@ -1162,7 +1178,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
             "WHERE TbNFCe_Itens.IdNFProd = " & NumeroNota & " " & _
             "ORDER BY TbNFCe_Itens.IdNFProd_Item"
         
-        'desabilitei para ver sobre o campo que estava dando erro... sql abaixo tï¿½ funcionando para emissï¿½o todas menos gï¿½s
+        'desabilitei para ver sobre o campo que estava dando erro... sql abaixo tá funcionando para emissão todas menos gás
         'vsSQL = "SELECT TbNFCe_Itens.IdNFProd, TbNFCe_Itens.IdNFProd_Item, TbNFCe_Itens.CodProduto, TbNFCe_Itens.IdProduto, TbNFCe_Itens.DescricaoProduto, TbNFCe_Itens.ValorOutras, " & _
             "TbNFCe_Itens.CodBarras, TbNFCe_Itens.UN, TbNFCe_Itens.CFOP, TbNFCe_Itens.QtdeMov, TbNFCe_Itens.ValorUnit, TbNFCe_Itens.Desconto, TbNFCe_Itens.Aliq_Icms AS Aliquota, " & _
             "TbNFCe_Itens.Bc_Icms, TbNFCe_Itens.Bc_AliquotaReducao, TbNFCe_Itens.Vlr_Icms, TbNFCe_Itens.Aliq_IPI As AliqIPI, TbNFCe_Itens.Vlr_IPI As ValorIPI, TbNFCe_Itens.Valor_Frete As ValorFrete, " & _
@@ -1177,10 +1193,10 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     'Set NFeItens = vgDb.OpenRecordset(vsSQL)
     'Debug.Print vsSQL
 
-    'parte do gï¿½s que estava desabilitada por erro
+    'parte do gás que estava desabilitada por erro
     Dim vGasCounter As Integer
     vGasCounter = 0
-    If NFeItens!TipoProduto = "Combustï¿½vel" Then    'coloquei pq Lider tava dando erro ao localizar isso, sem precisar
+    If NFeItens!TipoProduto = "Combustível" Then    'coloquei pq Lider tava dando erro ao localizar isso, sem precisar
         vsSQL = "SELECT Cod_Produto, CODIF, cProdANP, descricaoANP, pGLP, pGNi, pGNn, pMixGN, ValorPartida " & _
                 "FROM Produtos_Gas " & _
                 "WHERE Cod_Produto = " & NFeItens!IDProduto
@@ -1201,24 +1217,24 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     End If
 
     For i = 1 To NFeItens.RecordCount
-        '================grupo de detalhe do produto (grupo I01 do Manual de integraï¿½ï¿½o - pï¿½ginas 95)=======================
+        '================grupo de detalhe do produto (grupo I01 do Manual de integração - páginas 95)=======================
         Dim infAdProd As String, pAliqSN As Double, vCredSN As Double, vlCredICMSSN As Double
         If NFeItens!ValorTributos > 0 Then
-           infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informaï¿½ï¿½es adicionais do produto
+           infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informações adicionais do produto
            vlTrib = vlTrib + NFeItens!ValorTributos
         Else
-           infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 500)))     ' informaï¿½ï¿½es adicionais do produto
+           infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 500)))     ' informações adicionais do produto
         End If
         
         'desativei pq nao encontrei o campo TipoProduto na tabela de NFCeItens
-        'If NFeCombustivel.RecordCount > 0 Then infAdProd = "ICMS monofï¿½sico sobre combustï¿½veis cobrado anteriormente conforme Convï¿½nio ICMS 199/2022. " + infAdProd
+        'If NFeCombustivel.RecordCount > 0 Then infAdProd = "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022. " + infAdProd
        
         infAdProd = Trim(infAdProd)
        
         iRetorno = sistNFCe.GerarItens(i, Trim$(NFeItens!IDProduto), RemoveAcento(NFeItens!DescricaoProduto), NFeItens!NCM, "", "", NFeItens!CodBarras, NFeItens!CodBarras, _
                                        NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, 0, "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, mensagemAlerta, mensagemErro)
         
-        '=========dados do ICMS (grupo N01 do Manual de integraï¿½ï¿½o - pï¿½ginas 100)=====================
+        '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
         'Parametros!
         If Left(Parametros!CRT, 1) = 1 Then
            If (Right(NFeItens!ICMSCST, 3) = "101" Or Right(NFeItens!ICMSCST, 3) = "201") Then
@@ -1242,8 +1258,8 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
                iRetorno = sistNFCe.GerarCombustivel(NFeCombustivel!CODIF, NFeCombustivel!cProdANP, NFeCombustivel!descricaoANP, NFeCombustivel!pGLP, NFeCombustivel!pGNi, NFeCombustivel!pGNn, NFeCombustivel!pMixGN, 0, Parametros!Estado, NFeCombustivel!ValorPartida, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, "", 0, mensagemAlerta, mensagemErro)
                
                iRetorno = sistNFCe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
-               ''iRetorno = sistNFCe.GerarItensObservacao("CST61", "ICMS monofï¿½sico sobre combustï¿½veis cobrado anteriormente conforme Convï¿½nio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
-               infAdProd = "ICMS monofï¿½sico sobre combustï¿½veis cobrado anteriormente conforme Convï¿½nio ICMS 199/2022. " + infAdProd
+               ''iRetorno = sistNFCe.GerarItensObservacao("CST61", "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
+               infAdProd = "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022. " + infAdProd
             End If
         Else
             iRetorno = sistNFCe.GerarItensImpostoEstadual(NFeItens!ValorTributos, Left(NFeItens!ICMSCST, 1), Right(NFeItens!ICMSCST, IIf(Left(Parametros!CRT, 1) = 1, 3, 2)), 3, NFeItens!Bc_Icms, NFeItens!Aliquota, NFeItens!Vlr_Icms, NFeItens!Bc_AliquotaReducao, _
@@ -1285,7 +1301,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         NFeItens.MoveNext
     Next
     
-    ' atualizaï¿½ï¿½o de total
+    ' atualização de total
      'vsSQL = "SELECT ISNULL(SUM(Bc_Icms), 0) AS vValorBC, ISNULL(SUM(Vlr_Icms), 0) AS vValorTotalICMS FROM TbNFCe_Itens WHERE (Aliq_Icms <> '0.00') and IdNFProd = " & NumeroNota
     'RsOpen Totais, vsSQL
     
@@ -1336,7 +1352,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        'Set NFeParcelas = vgDb.OpenRecordset(vsSQL)
        vTotalNF = vlNF
        Do While Not NFeParcelas.EOF
-          '01 - Dinheiro|02 - Cheque|03 - Cartï¿½o de Crï¿½dito|04 - Cartï¿½o de Dï¿½bito|05 - Crï¿½dito Loja|10 - Vale Alimentaï¿½ï¿½o|11 - Vale Refeiï¿½ï¿½o|12 - Vale Presente|13 - Vale Combustï¿½vel| 17 - PIX - 99 - Outros
+          '01 - Dinheiro|02 - Cheque|03 - Cartão de Crédito|04 - Cartão de Débito|05 - Crédito Loja|10 - Vale Alimentação|11 - Vale Refeição|12 - Vale Presente|13 - Vale Combustível| 17 - PIX - 99 - Outros
           Select Case NFeParcelas!TipoPgto
                  Case "DH": iRetorno = sistNFCe.GerarPagamentos(0, 1, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)               'pag <tPag>
                  Case "CH": iRetorno = sistNFCe.GerarPagamentos(1, 2, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
@@ -1360,7 +1376,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        iRetorno = sistNFCe.GerarPagamentos(0, 1, vlNF, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
     End If
 
-    '============= informaï¿½ï¿½es adcionais
+    '============= informações adcionais
     Dim obsAdic As String, obsCpl As String
     obsAdic = ""   'RemoveAcento(Trim(NFe!InformacoesAdicionais))
     obsCpl = RemoveAcento(Trim(NFe!Linha1))
@@ -1406,7 +1422,7 @@ iRetorno = sistNFCe.EnviarNFe(NFe!NumeNota, 1, False)
 NFeResposta = sistNFCe.retEnvio.protNFe.infProt.xMotivo
 
 If Not iRetorno Then
-   MsgBox "*** Aparentemente Ocorreram Erros na Recepï¿½ï¿½o do Lote (nfeAutorizacao)***" & vbLf & NFeResposta, vbExclamation, "PROCESSO INTERROMPIDO - NfeAutorizacao"
+   MsgBox "*** Aparentemente Ocorreram Erros na Recepção do Lote (nfeAutorizacao)***" & vbLf & NFeResposta, vbExclamation, "PROCESSO INTERROMPIDO - NfeAutorizacao"
    GoTo Caifora
 End If
 
@@ -1415,7 +1431,7 @@ If Not iRetorno Then GoTo Caifora
 cStat = sistNFCe.retEnvio.protNFe.infProt.cStat
 NFeMotivo = sistNFCe.retEnvio.protNFe.infProt.xMotivo
 If cStat = 103 Then NFeNumeroRecibo = sistNFCe.retEnvio.infRec.nRec  'Parse(NFeResposta, "#")
-If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
+If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeição") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
 
 If cStat <> 103 Then
    If cStat = 104 Or cStat = 100 And Vazio(NFeNumeroRecibo) Then GoTo buscaNFe
@@ -1437,8 +1453,8 @@ consultaNFe:
    cStat = sistNFCe.retConsRec.cStat
    NFeMotivo = sistNFCe.retConsRec.xMotivo
    
-   If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
-      MsgBox NFeMotivo, vbExclamation, "Retorno Autorizaï¿½ï¿½o"
+   If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
+      MsgBox NFeMotivo, vbExclamation, "Retorno Autorização"
       GoTo Caifora
    End If
 
@@ -1451,7 +1467,7 @@ consultaNFe:
       cStat = sistNFCe.retConsRec.cStat
       NFeMotivo = sistNFCe.retConsRec.xMotivo
       
-      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
+      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
          MsgBox "*** Aparentemente Ocorreram Erros na Consulta do Lote (nfeRetAutorizacao)***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeRetAutorizacao"
          GoTo Caifora
       End If
@@ -1463,7 +1479,7 @@ consultaNFe:
       NFeValidate = sistNFCe.retConsRec.protNFe.infProt.xMotivo
    End If
  
-   If InStr(NFeValidate, "Erro") > 0 Or InStr(NFeValidate, "Rejeicao") > 0 Or InStr(NFeValidate, "Rejeiï¿½ï¿½o") > 0 Then
+   If InStr(NFeValidate, "Erro") > 0 Or InStr(NFeValidate, "Rejeicao") > 0 Or InStr(NFeValidate, "Rejeição") > 0 Then
       MsgBox "*** Aparentemente Ocorreram Erros na Consulta do Lote (nfeRetAutorizacao)***" & vbLf & CStr(cStat2) & " - " & NFeValidate, vbExclamation, "PROCESSO INTERROMPIDO - NfeRetAutorizacao"
       NFeMotivo = CStr(cStat2) & " - " & NFeValidate
       GoTo Caifora
@@ -1486,7 +1502,7 @@ buscaNFe:
       cStat = sistNFCe.retConsulta.cStat
       NFeMotivo = sistNFCe.retConsulta.xMotivo
 
-      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Then
+      If InStr(NFeMotivo, "Erro") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0 Or InStr(NFeMotivo, "Rejeição") > 0 Then
          MsgBox "*** Aparentemente Ocorreram Erros na Consulta do Lote ***" & vbLf & NFeMotivo, vbExclamation, "PROCESSO INTERROMPIDO - NfeConsulta"
          GoTo Caifora
       End If
@@ -1509,7 +1525,7 @@ buscaNFe:
       cStat2 = 0
    End If
    
-    If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
+    If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeição") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then GoTo Caifora
 
     If cStat2 = 204 Or cStat2 = 539 Then
        NFeChaveAcesso = Mid(nfeRetorno, InStr(nfeRetorno, "chNFe:") + 6, 44)
@@ -1587,8 +1603,7 @@ Exit Function
 Resume
 
 Caifora:
-    If Not Vazio(NFeMotivo) Then MsgBox NFeMotivo, vbCritical + vbOKOnly
-    If Not Vazio(NFeResposta) Then MsgBox NFeResposta, vbCritical + vbOKOnly
+    If Not Vazio(NFeMotivo) Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeNota, True), vbCritical + vbOKOnly
     
     Set sistNFCe = Nothing
     
@@ -1607,8 +1622,8 @@ deuErro:
 '       'MsgBox Err.Description, vbCritical + vbOKOnly
 '    End If
 
-    If InStr(1, sistNFCe.xMotivo, "Erros na validaï¿½ï¿½o") > 0 Then
-       MsgBox TrataErroValidacao(sistNFCe.xMotivo), vbExclamation + vbOKOnly, "ERRO VALIDAï¿½ï¿½O XML"
+    If InStr(1, sistNFCe.xMotivo, "Erros na validação") > 0 Then
+       MsgBox TrataErroValidacao(sistNFCe.xMotivo), vbExclamation + vbOKOnly, "ERRO VALIDAÇÃO XML"
     ElseIf Not Vazio(sistNFCe.xMotivo) Then
        MsgBox sistNFCe.xMotivo, vbExclamation + vbOKOnly, "ERRO"
     End If
@@ -1625,13 +1640,13 @@ deuErro:
 TransmitirNFCe_Error:    'reativei dia 06/03/26 para ver
     'Screen.MousePointer = vbDefault
     'MsgBox "ERRO AO TRANSMITIR A NFCe." & vbNewLine & "Confira os produtos e tente transferir novamente!", vbCritical, "Falha"
-    'MsgBox "Falha (" & Err.Description & ")" & vbNewLine & "Em TransmitirNFCe no Mï¿½dulo NFe_DLL", vbCritical, "Falha"
+    'MsgBox "Falha (" & Err.Description & ")" & vbNewLine & "Em TransmitirNFCe no Módulo NFe_DLL", vbCritical, "Falha"
     'MsgBox CStr(sistNFCe.cStat) & " - " & sistNFCe.xMotivo, vbCritical, "Falha"
     'Set sistNFCe = Nothing
     'Err.Clear
 End Function
 
-Public Function CancelaNFe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Funï¿½ï¿½o para envio do cancelamento da NFe
+Public Function CancelaNFe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Função para envio do cancelamento da NFe
 Dim IdLote As Long, dhEvento As String, CNPJ As String
 Dim sistNFe As snfe.Util
    
@@ -1696,7 +1711,7 @@ Caifora:
    CancelaNFe = False
 End Function
 
-Public Function CancelaNFCe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Funï¿½ï¿½o para envio do cancelamento da NFe
+Public Function CancelaNFCe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Função para envio do cancelamento da NFe
 Dim IdLote As Long, dhEvento As String, CNPJ As String
 Dim sistNFCe As snfe.Util
    
@@ -1790,7 +1805,7 @@ buscaNFe:
   ElseIf cStat = 106 Then
      msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
-     NFeValidate = "NFe/NFCe Nï¿½O LOCALIZADA"
+     NFeValidate = "NFe/NFCe NÃO LOCALIZADA"
      iRetorno = sistNFe.ConsultarProtocolo(ChaveAcesso)
     
      If Not iRetorno Then
@@ -1847,7 +1862,7 @@ buscaNFe:
      ChaveAcesso = NFeValidate
      NFeChaveAcesso = ChaveAcesso
   End If
-  If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then iRetorno = 1
+  If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeição") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then iRetorno = 1
 
   If nroRecibo = 204 Or nroRecibo = 539 Then
      ChaveAcesso = Mid(nfeRetorno, InStr(nfeRetorno, "chNFe:") + 6, 44)
@@ -1979,7 +1994,7 @@ buscaNFe:
   ElseIf cStat = 106 Then
      msgResultado = Str$(cStat) + " - " + NFeMotivo
      NFeChaveAcesso = ChaveAcesso
-     NFeValidate = "NFe/NFCe Nï¿½O LOCALIZADA"
+     NFeValidate = "NFe/NFCe NÃO LOCALIZADA"
      iRetorno = sistNFe.ConsultarProtocolo(ChaveAcesso)
     
      If Not iRetorno Then
@@ -2020,7 +2035,7 @@ buscaNFe:
   
   If ChaveAcesso = "" Then ChaveAcesso = NFeValidate
 
-  If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeiï¿½ï¿½o") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then iRetorno = 1
+  If InStr(NFeMotivo, "Erro") > 0 Or (InStr(NFeMotivo, "Rejeição") > 0 Or InStr(NFeMotivo, "Rejeicao") > 0) Then iRetorno = 1
 
   If nroRecibo = 204 Or nroRecibo = 539 Then
      ChaveAcesso = Mid(nfeRetorno, InStr(nfeRetorno, "chNFe:") + 6, 44)
@@ -2226,7 +2241,7 @@ Caifora:
    Screen.MousePointer = vbDefault
 End Sub
 
-Public Sub ConsultaStatus(Optional ModeloNF As Integer = 55)  'Sub que consulta o Status do Serviï¿½o da Receita
+Public Sub ConsultaStatus(Optional ModeloNF As Integer = 55)  'Sub que consulta o Status do Serviço da Receita
 Dim sistNFe As snfe.Util
    
    On Error GoTo deuErro
@@ -2258,7 +2273,7 @@ Dim sistNFe As snfe.Util
    
    Exit Sub
    
-deuErro:   'estava desabilitado, habilitei no dia que fui testar o aï¿½ougue uniao
+deuErro:   'estava desabilitado, habilitei no dia que fui testar o açougue uniao
    MsgBox Err.Description, vbCritical
    Err.Clear
    Set sistNFe = Nothing
@@ -2266,7 +2281,7 @@ deuErro:   'estava desabilitado, habilitei no dia que fui testar o aï¿½ougue uni
    Screen.MousePointer = vbDefault
 End Sub
 
-Public Function TransmitirCCe(ChaveAcesso As Variant, DATA As Variant, nProtocolo As Variant, SeqCorrecao As Variant, textoCorrecao As Variant) As Boolean  'Funï¿½ï¿½o para envio da carta de correï¿½ï¿½o da NFe
+Public Function TransmitirCCe(ChaveAcesso As Variant, DATA As Variant, nProtocolo As Variant, SeqCorrecao As Variant, textoCorrecao As Variant) As Boolean  'Função para envio da carta de correção da NFe
 Dim IdLote As Long, dhEvento As String, CNPJ As String
 Dim dirXML As String
 Dim sistNFe As snfe.Util
@@ -2328,7 +2343,7 @@ Caifora:
 End Function
 
 'Fornecedor!CNPJCPF, ChaveAcesso, DataHora, TipoEvento, Justificativa
-Public Function TransmitirManDest(CNPJ As Variant, ChaveAcesso As Variant, DATA As Variant, TipoEvento As Variant, Justificativa As Variant, Optional SemMSG As Boolean = False) As Boolean  'Funï¿½ï¿½o para envio da carta de correï¿½ï¿½o da NFe
+Public Function TransmitirManDest(CNPJ As Variant, ChaveAcesso As Variant, DATA As Variant, TipoEvento As Variant, Justificativa As Variant, Optional SemMSG As Boolean = False) As Boolean  'Função para envio da carta de correção da NFe
 Dim IdLote As Long, dhEvento As String
 Dim dirXML As String
 Dim sistNFe As snfe.Util
@@ -2369,7 +2384,7 @@ continua:
   msgResultado = msgResultado + "Data/Hora: " & NFeDataHora & vbCrLf
   msgResultado = msgResultado + "Resposta da Fazenda.: " + Str(cStat2) & " - " & NFeValidate
     
-  If Not SemMSG Then MsgBox msgResultado, vbInformation + vbOKOnly, "Envio Manifestaï¿½ï¿½o do Destinatï¿½rio"
+  If Not SemMSG Then MsgBox msgResultado, vbInformation + vbOKOnly, "Envio Manifestação do Destinatário"
   
   Screen.MousePointer = vbDefault
   Set sistNFe = Nothing
@@ -2469,12 +2484,12 @@ End Function
 
 
 
-'Retorna fï¿½rmula direta campo CHAVEDEACESSO, tabela NOTAFISCAL
+'Retorna fórmula direta campo CHAVEDEACESSO, tabela NOTAFISCAL
 Public Sub GeraChavedeAcesso(NumeroNota As Variant, SerieNF As Variant, DataEmissao As Variant)
 Dim sistNFe As snfe.Util
     Set sistNFe = New snfe.Util
 
-    NFecNF = sistNFe.GetHashCode  'Deve retornar um nï¿½mero
+    NFecNF = sistNFe.GetHashCode  'Deve retornar um número
 
     Set sistNFe = Nothing
 End Sub
@@ -2484,12 +2499,12 @@ Public Function GeraCodigoNota() As Double
 Dim sistNFe As snfe.Util
     Set sistNFe = New snfe.Util
 
-    GeraCodigoNota = sistNFe.GetHashCode  'Deve retornar um nï¿½mero
+    GeraCodigoNota = sistNFe.GetHashCode  'Deve retornar um número
 
     Set sistNFe = Nothing
 End Function
 
-'Converte a string para codificaï¿½ï¿½o UTF-8
+'Converte a string para codificação UTF-8
 'Este processo evita problemas de leitura via browser e principalmente no visualizador da RFB
 Private Function UTF8_Encode(ByVal sStr As String)
     Dim l As Long, lChar As Integer, sUtf8 As String
@@ -2525,23 +2540,23 @@ Public Function TrataErroValidacao(ByVal mensagemErro As String) As String
     Dim FimValor As Long
     
     InicioValor = InStr(mensagemErro, "O valor '") + 9
-    FimValor = InStr(InicioValor, mensagemErro, "' ï¿½ invï¿½lido")
+    FimValor = InStr(InicioValor, mensagemErro, "' é inválido")
     
     If InicioValor > 9 And FimValor > 0 Then
         Valor = Mid(mensagemErro, InicioValor, FimValor - InicioValor)
     End If
     
-    ' Montar mensagem amigï¿½vel
+    ' Montar mensagem amigável
     Select Case Campo
     
         Case "CFOP"
-            MsgFinal = "CFOP invï¿½lido." & vbCrLf & _
-                       "O cï¿½digo informado foi: " & Valor & vbCrLf & _
-                       "Verifique se o CFOP estï¿½ correto e permitido para esta operaï¿½ï¿½o."
+            MsgFinal = "CFOP inválido." & vbCrLf & _
+                       "O código informado foi: " & Valor & vbCrLf & _
+                       "Verifique se o CFOP está correto e permitido para esta operação."
         
         Case Else
-            MsgFinal = "Erro na validaï¿½ï¿½o da NF-e." & vbCrLf & _
-                       "Detalhes tï¿½cnicos: " & mensagemErro
+            MsgFinal = "Erro na validação da NF-e." & vbCrLf & _
+                       "Detalhes técnicos: " & mensagemErro
     End Select
     
     TrataErroValidacao = MsgFinal

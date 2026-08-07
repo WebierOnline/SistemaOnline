@@ -36,7 +36,7 @@ Begin VB.Form frmOpcaoConversao
       Width           =   1695
    End
    Begin VB.Label lblDesc3
-      Caption         =   "Nï¿½o converter"
+      Caption         =   "Não converter"
       ForeColor       =   &H00808080&
       Height          =   255
       Left            =   4080

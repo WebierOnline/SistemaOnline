@@ -24,6 +24,8 @@ Begin VB.Form PDV
    ScaleWidth      =   15375
    StartUpPosition =   2  'CenterScreen
    Begin VB.Timer Timer2 
+      Enabled         =   0   'False
+      Interval        =   5000
       Left            =   1080
       Top             =   10200
    End
@@ -2148,14 +2150,14 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2646
             MinWidth        =   2646
-            TextSave        =   "21/03/2026"
+            TextSave        =   "06/08/2026"
          EndProperty
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "16:02"
+            TextSave        =   "21:20"
          EndProperty
          BeginProperty Panel7 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3173,6 +3175,27 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label lblConexao 
+      Alignment       =   1  'Right Justify
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "CONECTADO"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00006400&
+      Height          =   210
+      Left            =   9345
+      TabIndex        =   162
+      Top             =   10500
+      Width           =   1005
+   End
    Begin VB.Label lblMSG1 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
@@ -3405,7 +3428,7 @@ Public vDescItensVenda As Currency  'valor de desconto para cada item
 
 Dim vFabBalanca As String    'balança
 Dim Retorno As Long          'balança
-Dim Peso As String * 5      'balança
+Dim peso As String * 5      'balança
 
 Dim NFCe_OK As Boolean   'verificar se os dados estao ok para emitir NFCe
 Dim PararFechamentoVenda As Boolean
@@ -3414,6 +3437,7 @@ Dim vBotaoOrcAtivo As Boolean
 
 Dim CAIXA_FECHADO As Boolean    'caixa
 Dim varCodCaixa As Long         'caixa
+Dim vBloqueadoPorFalhaConexao As Boolean    'controla se os botoes de aãço foram desabilitados por queda de conexao (Verificar_Caixa)
 
 Dim Msg_Prop As String
 Dim VERIFICAR_QUANTIDADE As Boolean
@@ -4470,7 +4494,7 @@ Private Function Autonumeracao_Cashback() As Long
 'Dim r As ADODB.Recordset
 'Dim lNovoCod As Long
 
-sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_Cashback FROM Pedidos_Cashback;"
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_Cashback FROM Pedidos_Cashback WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lNovoCod = r("ultimo_Cashback") + 1
 If r.State <> 0 Then r.Close
@@ -4484,7 +4508,7 @@ Private Function Autonumeracao_Parcelas() As Long
 'Dim r As ADODB.Recordset
 'Dim lNovoCod As Long
 
-sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultima_parcela FROM parcelas;"
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultima_parcela FROM parcelas WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lNovoCod = r("ultima_parcela") + 1
 If r.State <> 0 Then r.Close
@@ -5936,13 +5960,13 @@ Else
       'Else
          Dim ValorCompra As Currency
          Dim ValorKilo As Currency
-         Dim Peso As Double
+         Dim peso As Double
          
          ValorKilo = CCur(txtValor.Text)
          ValorCompra = CCur(Mid(txtCodBarraPeso, 8, 5)) / 100
-         Peso = ValorCompra / CDbl(ValorKilo)
+         peso = ValorCompra / CDbl(ValorKilo)
          
-         txtQuant = Peso
+         txtQuant = peso
          
       'End If
    End If
@@ -6097,7 +6121,7 @@ For i = 1 To r.RecordCount
         ProdutoCFOP = True
     End If
     
-    If Len(r!icmsCST) < 3 Or r!icmsCST = Empty Then
+    If Len(r!ICMSCST) < 3 Or r!ICMSCST = Empty Then
         MsgBox "Produto " & r!descricao & " nao tem CST ou não está incorreto"
         If ShowMsg("Deseja atualizar o produto " & r!descricao & " ?", vbInformation + vbYesNo) = vbYes Then
             Load Produtos_Cadastro
@@ -6145,6 +6169,8 @@ sSQL = "SELECT pedidos_itens.codigo, produtos.ref AS var_ref, produtos.tamanho A
    "WHERE (pedidos_itens.cod_pedido = " & txtCodPedido.Text & ") ORDER BY pedidos_itens.codigo DESC;"
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 'Debug.Print sSQL
+
+If dbData.FalhouPorConexao Then Exit Sub   'sem conexao - mantem o grid como esta, nao sobrescreve com resultado vazio
 
 'If Grid.Rows >= 2 Then
 '    If Not r.EOF Then
@@ -7270,6 +7296,42 @@ sSQL = "SELECT * " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and caixa_dia.status = 0;"
 Set r = dbData.OpenRecordset(sSQL)
 
+If dbData.FalhouPorConexao Then
+    'sem conexao - nao sabe se o caixa esta realmente aberto ou fechado, so bloqueia as acoes que dependem do banco
+    vBloqueadoPorFalhaConexao = True
+    Timer2.Enabled = True   'passa a verificar sozinho, em segundo plano, se a conexao volta
+    lblConexao.Caption = "DESCONECTADO"
+    lblConexao.ForeColor = RGB(139, 0, 0)   'vermelho escuro
+    cmdFinalizarAvista.Enabled = False
+    cmdFinalizarPrazo.Enabled = False
+    cmdOrçamento.Enabled = False
+    cmdCancelarPedido.Enabled = False
+    cmdRemover.Enabled = False
+    cmdAvancado.Enabled = False
+    cmdInfProduto.Enabled = False
+    txtCodBarra.Enabled = False
+    txtQuant.Enabled = False
+    txtValor.Enabled = False
+    Exit Sub
+End If
+
+If vBloqueadoPorFalhaConexao Then
+    'conexao voltou - devolve o controle desses botoes para a logica normal abaixo (que decide o estado real deles)
+    vBloqueadoPorFalhaConexao = False
+    lblConexao.Caption = "CONECTADO"
+    lblConexao.ForeColor = RGB(0, 100, 0)   'verde escuro
+    cmdFinalizarAvista.Enabled = True
+    cmdFinalizarPrazo.Enabled = True
+    cmdOrçamento.Enabled = True
+    cmdCancelarPedido.Enabled = True
+    cmdRemover.Enabled = True
+    cmdAvancado.Enabled = True
+    cmdInfProduto.Enabled = True
+    txtCodBarra.Enabled = True
+    txtQuant.Enabled = True
+    txtValor.Enabled = True
+End If
+
 If r.BOF Then
     varCodCaixa = CInt(0)
     StatusBar1.Panels(7).Text = Format(varCodCaixa, "0000")
@@ -7522,6 +7584,9 @@ EncerrarPrograma
 End Sub
 
 Private Sub cmdFinalizar_Click()
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerFinalizar
+
 If txtTotalGeral.Text = "" Then Exit Sub
 If txtCodPedido.Text = "" Then Exit Sub
 If cboTipoPgto.Text = "" Then Exit Sub
@@ -7873,6 +7938,8 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  '"RECEBIDO = " & Replace(CCur(txtRecebido.Text), ",", ".") & ", " & _
 
            'ATUALIZANDO A TABELA PEDIDOS
+            dbData.Execute "BEGIN TRANSACTION"
+            bTrans = True
             sSQL = "UPDATE pedidos SET " & _
                  "cod_pedido = " & txtCodPedido.Text & ", " & _
                  "cod_cliente = " & txtCodCliente.Text & ", " & _
@@ -8122,6 +8189,8 @@ If cboTipoPgto.Text = "À PRAZO" Then
                     dbData.Execute sSQL
             End If
         End If
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
     
         'inicio do CUPOM FISCAL
         If vConfImprimeNFCeLocal = "SIM" Then
@@ -8230,6 +8299,8 @@ CPFDigitadoErrado:
                         End If
                         
                         'coloca o cpf correto no cliente
+                        dbData.Execute "BEGIN TRANSACTION"
+                        bTrans = True
                         dbData.Execute "UPDATE cliente SET cpf = '" & vCPF & "' WHERE (codigo = " & txtCodCliente.Text & ")"
                         
                         'preenche a tabela de itens da NFCe
@@ -8309,8 +8380,8 @@ CPFDigitadoErrado:
                             If EncontroErroNFCe = True Then GoTo Continuar
                             
                             'ICMS CST..........
-                            If rNFCeItens!icmsCST <> Empty Then
-                                If Len(rNFCeItens!icmsCST) > 3 Or Len(rNFCeItens!icmsCST) < 3 Then
+                            If rNFCeItens!ICMSCST <> Empty Then
+                                If Len(rNFCeItens!ICMSCST) > 3 Or Len(rNFCeItens!ICMSCST) < 3 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8322,8 +8393,8 @@ CPFDigitadoErrado:
                             If EncontroErroNFCe = True Then GoTo Continuar
 
                             'PIS CST..........
-                            If rNFCeItens!pisCST <> Empty Then
-                                If Len(rNFCeItens!pisCST) > 2 Or Len(rNFCeItens!pisCST) < 2 Then
+                            If rNFCeItens!PISCST <> Empty Then
+                                If Len(rNFCeItens!PISCST) > 2 Or Len(rNFCeItens!PISCST) < 2 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8335,8 +8406,8 @@ CPFDigitadoErrado:
                             If EncontroErroNFCe = True Then GoTo Continuar
 
                             'COFINS CST..........
-                            If rNFCeItens!cofinsCST <> Empty Then
-                                If Len(rNFCeItens!cofinsCST) > 2 Or Len(rNFCeItens!cofinsCST) < 2 Then
+                            If rNFCeItens!COFINSCST <> Empty Then
+                                If Len(rNFCeItens!COFINSCST) > 2 Or Len(rNFCeItens!COFINSCST) < 2 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8377,6 +8448,8 @@ CPFDigitadoErrado:
                         Next
                        
 Continuar:
+                dbData.Execute "COMMIT TRANSACTION"
+                bTrans = False
                 'transmitir o cupom fiscal - NFCe
                 If EncontroErroNFCe = False Then
                        DoEvents
@@ -8448,6 +8521,8 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
            End If
            
            'ATUALIZANDO A TABELA PEDIDOS
+           dbData.Execute "BEGIN TRANSACTION"
+           bTrans = True
            sSQL = "UPDATE pedidos SET " & _
               "cod_pedido = " & txtCodPedido.Text & ", " & _
               "cod_cliente = " & txtCodCliente.Text & ", " & _
@@ -8688,6 +8763,8 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                 dbData.Execute sSQL
             End If
         End If
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
         
         
         'Inicio do CUPOM FISCAL - NFCe
@@ -8833,6 +8910,8 @@ PularInserirCPF:
                         End If
                         
                         'coloca o cpf correto no cliente
+                        dbData.Execute "BEGIN TRANSACTION"
+                        bTrans = True
                         dbData.Execute "UPDATE cliente SET cpf = '" & vCPF & "' WHERE (codigo = " & txtCodCliente.Text & ")"
 
                         sSQL = "EXEC NFCeIncluir " & txtCodPedido.Text
@@ -8916,8 +8995,8 @@ PularInserirCPF:
                             If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
                             
                             'ICMS CST..........
-                            If rNFCeItens!icmsCST <> Empty Then
-                                If Len(rNFCeItens!icmsCST) > 3 Or Len(rNFCeItens!icmsCST) < 3 Then
+                            If rNFCeItens!ICMSCST <> Empty Then
+                                If Len(rNFCeItens!ICMSCST) > 3 Or Len(rNFCeItens!ICMSCST) < 3 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8929,8 +9008,8 @@ PularInserirCPF:
                             If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
 
                             'PIS CST..........
-                            If rNFCeItens!pisCST <> Empty Then
-                                If Len(rNFCeItens!pisCST) > 2 Or Len(rNFCeItens!pisCST) < 2 Then
+                            If rNFCeItens!PISCST <> Empty Then
+                                If Len(rNFCeItens!PISCST) > 2 Or Len(rNFCeItens!PISCST) < 2 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8942,8 +9021,8 @@ PularInserirCPF:
                             If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
 
                             'COFINS CST..........
-                            If rNFCeItens!cofinsCST <> Empty Then
-                                If Len(rNFCeItens!cofinsCST) > 2 Or Len(rNFCeItens!cofinsCST) < 2 Then
+                            If rNFCeItens!COFINSCST <> Empty Then
+                                If Len(rNFCeItens!COFINSCST) > 2 Or Len(rNFCeItens!COFINSCST) < 2 Then
                                     EncontroErroNFCe = True
                                 Else
                                     EncontroErroNFCe = False
@@ -8984,6 +9063,8 @@ PularInserirCPF:
                         Next
                        
 ContinuarNFCeAV:
+                dbData.Execute "COMMIT TRANSACTION"
+                bTrans = False
                        'transmitir o cupom fiscal - NFCe
                 If EncontroErroNFCe = False Then
                        'transmitir o cupom NFCe
@@ -9061,6 +9142,8 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
   End If
   
     'pedido criando o pedido
+              dbData.Execute "BEGIN TRANSACTION"
+              bTrans = True
               sSQL = "UPDATE pedidos SET " & _
                  "cod_pedido = " & txtCodPedido.Text & ", " & _
                  "cod_cliente = " & txtCodCliente.Text & ", " & _
@@ -9133,6 +9216,8 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                 dbData.Execute sSQL
             End If
         End If
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
 
     If iCopiasORC <> 0 Then  'saber a quantidade de copias
        If bEntregaORC Then
@@ -9224,6 +9309,14 @@ Else
 End If
 
 vUsandoCashBack = False
+Exit Sub
+
+ErrHandlerFinalizar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao finalizar a venda: " & Err.Description, vbCritical, "Erro"
 End Sub
 Private Sub Verificar_Limite()
 'Dim sSQL As String
@@ -9671,15 +9764,15 @@ End Function
 Private Function PegarPesoToledo()
 On Error Resume Next
 
-Retorno = PegaPeso(0, Peso, "C:")
+Retorno = PegaPeso(0, peso, "C:")
 If Retorno = 1 Then
-    If Peso = "SSSSS" Then
+    If peso = "SSSSS" Then
         MsgBox "SOBRE PESO NA BALANÇA", vbInformation
-    ElseIf Peso = "IIIII" Or Peso = "00000" Then
+    ElseIf peso = "IIIII" Or peso = "00000" Then
         'PegarPesoToledo
         txtQuant.Text = Format(0, ocPESO)
     Else
-        txtQuant.Text = Val(Mid(Peso, 1, 2)) & "," & Mid(Peso, 3)
+        txtQuant.Text = Val(Mid(peso, 1, 2)) & "," & Mid(peso, 3)
     End If
 End If
 
@@ -10257,6 +10350,10 @@ erro:
    Exit Sub
 End Sub
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub cmdSenha_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -10273,9 +10370,9 @@ If txtSenha.Text = "" Then ShowMsg "ACESSO NEGADO!" & vbCrLf & "Senha obrigatóri
     
     If oCfg.Value = "NOME" Then
         If txtCodUsuario.Text = "" Then ShowMsg "ACESSO NEGADO!" & vbCrLf & "Usuário obrigatório", vbInformation: Exit Sub
-        sSQL = "SELECT codigo, password, nivel, login FROM Usuario WHERE (password = '" & txtSenha.Text & "') AND (codigo = " & txtCodUsuario.Text & ");"
+        sSQL = "SELECT codigo, password, nivel, login FROM Usuario WHERE (password = '" & EA(txtSenha.Text) & "') AND (codigo = " & Val(txtCodUsuario.Text) & ");"
     Else
-        sSQL = "SELECT codigo, password, nivel, cpf FROM Usuario WHERE (password = '" & txtSenha.Text & "') AND (cpf = '" & mskCPF.Text & "');"
+        sSQL = "SELECT codigo, password, nivel, cpf FROM Usuario WHERE (password = '" & EA(txtSenha.Text) & "') AND (cpf = '" & mskCPF.Text & "');"
     End If
     
    Set r = dbData.OpenRecordset(sSQL)
@@ -11319,7 +11416,11 @@ End Sub
 
 
 Private Sub Timer2_Timer()
-Timer2.Enabled = False
+Verificar_Caixa
+If Not dbData.FalhouPorConexao Then
+    Timer2.Enabled = False
+    MostrarGrid_Produtos   'restaura o grid com o estado real assim que a conexao volta
+End If
 End Sub
 
 Private Sub timerBackup_Timer()
@@ -11541,6 +11642,11 @@ If txtCodBarra.Text <> "" And IsNumeric(txtCodBarra.Text) = True Then          '
                 
             Set r = dbData.OpenRecordset(sSQL)
     
+            If dbData.FalhouPorConexao Then
+                Verificar_Caixa   'aplica na hora o bloqueio da queda de conexao
+                Exit Sub
+            End If
+    
             If Not r.BOF Then
                 txtCodProduto.Text = r("vCodProduto")
                 'txtUnidMed.Text = r("vUnid")
@@ -11576,6 +11682,11 @@ If txtCodBarra.Text <> "" And IsNumeric(txtCodBarra.Text) = True Then          '
             '" & varSeVendeNegativo & "
             'Debug.Print sSQL
         Set r = dbData.OpenRecordset(sSQL)
+        
+            If dbData.FalhouPorConexao Then
+                Verificar_Caixa   'aplica na hora o bloqueio da queda de conexao
+                Exit Sub
+            End If
         
             If Not r.BOF Then
                 If r("vCodProduto") <> 1 Then
@@ -11690,6 +11801,13 @@ Else                                                                            
         End If
     End If
             Set r = dbData.OpenRecordset(sSQL)
+
+            If dbData.FalhouPorConexao Then
+               lblInfoBusca.Visible = False   'sem isso, fica preso em PESQUISANDO PRODUTOS... para sempre
+               Screen.MousePointer = vbDefault
+               Verificar_Caixa   'aplica na hora o bloqueio da queda de conexao (desabilita botoes, atualiza lblConexao), sem esperar o Form_Activate
+               Exit Sub
+            End If
             
             If r.EOF Then
                vPedirPeso = False

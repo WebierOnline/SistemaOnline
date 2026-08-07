@@ -4032,11 +4032,15 @@ Set oCfg = Nothing
 '    Next
 'Next y
 End Sub
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub cmdSenha_Click()
 If txtSenha.Text = "" Then ShowMsg "ACESSO NEGADO!" & vbCrLf & "Senha obrigatória", vbInformation: Exit Sub
 If txtCodUsuario.Text = "" Then ShowMsg "ACESSO NEGADO!" & vbCrLf & "Usuário obrigatório", vbInformation: Exit Sub
 
-sSQL = "SELECT codigo, password, nivel, login FROM Usuario WHERE (password = '" & txtSenha.Text & "') AND (codigo = " & txtCodUsuario.Text & ");"
+sSQL = "SELECT codigo, password, nivel, login FROM Usuario WHERE (password = '" & EA(txtSenha.Text) & "') AND (codigo = " & Val(txtCodUsuario.Text) & ");"
 Set r = dbData.OpenRecordset(sSQL)
     If Not r.EOF Then
         lblCodUser1.Visible = True

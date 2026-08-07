@@ -1447,8 +1447,12 @@ Private Sub cmdSair_Click()
    Unload Me
 End Sub
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub cmdSenha_Click()
-sSQL = "SELECT * FROM usuario WHERE (password = '" & txtSenha.Text & "');"
+sSQL = "SELECT * FROM usuario WHERE (password = '" & EA(txtSenha.Text) & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then

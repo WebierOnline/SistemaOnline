@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Saida 
    BorderStyle     =   3  'Fixed Dialog
@@ -117,9 +117,9 @@ Begin VB.Form Caixa_Saida
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Caixa_Saida.frx":73B9
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblQuant"
+      Tab(1).Control(0)=   "frmConsulta"
       Tab(1).Control(1)=   "lblValor"
-      Tab(1).Control(2)=   "frmConsulta"
+      Tab(1).Control(2)=   "lblQuant"
       Tab(1).ControlCount=   3
       Begin VB.PictureBox Picture1 
          Appearance      =   0  'Flat
@@ -1079,7 +1079,7 @@ Private Function AutoNumeracao() As Long
    Dim lRet As Long
    
    lRet = 1
-   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_saida FROM caixa_saida;"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_saida FROM caixa_saida WITH (UPDLOCK, HOLDLOCK);"
    Set r = dbData.OpenRecordset(sSQL)
    If Not r.BOF Then lRet = r("cod_saida") + 1
    If r.State <> 0 Then r.Close
@@ -1339,7 +1339,7 @@ Dim vMes As Integer
 cboMES.Clear
 
 For vMes = 1 To 12
-   cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+   cboMES.AddItem StrConv(monthName(vMes), vbProperCase)
 Next
 
 moCombo.AttachTo cboMES
@@ -1455,8 +1455,10 @@ mskConsData = Format(varData, "dd/mm/yy")   'Exibe a data no campo
 End Sub
 
 Private Sub cmdExcluir_Click()
+On Error GoTo ErrHandlerExcluir
 'Dim sSQL As String
 Dim bRet As Boolean
+Dim bTrans As Boolean
 
 If txtCodigo.Text = "" Then Exit Sub
 
@@ -1474,18 +1476,18 @@ If cboFonte.Text = "CAIXA ATUAL" Then
     'verificar se é uma conta à pagar
     sSQL = "SELECT codigo, cod_conta FROM caixa_saida WHERE (cod_conta = " & txtCodConta.Text & ");"
     Set r = dbData.OpenRecordset(sSQL)
-    
+
     If Not r.BOF Then
         If r("cod_conta") <> 0 Then
             ShowMsg "Essa saída somente poderá ser excluída nas CONTAS À PAGAR!", vbExclamation
             Exit Sub
         End If
     End If
-    
+
     'excluir a sangria
     sSQL = "DELETE FROM caixa_saida WHERE (codigo = " & txtCodigo.Text & ");"
     bRet = dbData.Execute(sSQL)
-    
+
     If Not bRet Then
        ShowMsg "Não foi possível excluir o registro.", vbCritical
        Exit Sub
@@ -1494,15 +1496,15 @@ ElseIf cboFonte.Text = "SALDOS" Then
     'descobrir o codigo do saldo que  foi retirado o dinheiro
     sSQL = "SELECT COD_SALDO FROM caixa_saldo_retirada where TIPO = 'SANGRIA' AND COD_DESCRICAO = " & txtCodigo.Text & ";"
     Set r = dbData.OpenRecordset(sSQL)
-    
+
     Dim varCodSaldo As Integer
-    
+
     If Not r.BOF Then
         varCodSaldo = r("COD_SALDO")
     Else
         varCodSaldo = 0
     End If
-    
+
     'descobrir o valor do saldo para voltar a quantia retirada
     sSQL = "SELECT ISNULL(RETIRADA, 0) as Ret, ISNULL(SALDO_ATUAL, 0) AS Sald FROM caixa_saldo where CODIGO = " & varCodSaldo & ";"
     Set r = dbData.OpenRecordset(sSQL)
@@ -1511,7 +1513,7 @@ ElseIf cboFonte.Text = "SALDOS" Then
     Dim varValorRetNovas As Currency
     Dim varValorSaldoAtual As Currency
     Dim varValorSaldoNovo As Currency
-        
+
     If Not r.BOF Then
         varValorRetAtual = r("Ret")
         varValorSaldoAtual = r("Sald")
@@ -1519,29 +1521,41 @@ ElseIf cboFonte.Text = "SALDOS" Then
         varValorRetAtual = 0
         varValorSaldoAtual = 0
     End If
-    
-    
+
+
     varValorRetNovas = varValorRetAtual - txtValor.Text
     varValorSaldoNovo = varValorSaldoAtual + txtValor.Text
-    
-    'atualizar o valor da retirada e saldo (acrescentar)
+
+    'atualizar o valor da retirada e saldo (acrescentar), apagar retirada e apagar a sangria
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     dbData.Execute "UPDATE caixa_saldo SET RETIRADA = " & Replace(CCur(varValorRetNovas), ",", ".") & ", SALDO_ATUAL = " & Replace(CCur(varValorSaldoNovo), ",", ".") & " WHERE CODIGO = " & varCodSaldo & ";"
-    
+
     'apagar a retirada de saldo
     dbData.Execute "DELETE caixa_saldo_retirada WHERE COD_SALDO = " & varCodSaldo & " and COD_DESCRICAO = " & txtCodigo.Text & ";"
-    
+
     'apagar a sangria
     dbData.Execute "DELETE caixa_saida WHERE FONTE = 'SALDOS' AND CODIGO = " & txtCodigo.Text & ";"
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 End If
 vCodFunc = 0
 txtCodFunc.Text = ""
 cboFuncionario.Text = ""
 Campos_Brancos
 Form_Load
+Exit Sub
+
+ErrHandlerExcluir:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao excluir: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Function AutoNumeracao_Saldo_Retirada() As Long
-sSQL = "SELECT ISNULL(MAX(CODIGO), 0) AS cod FROM caixa_saldo_retirada;"
+sSQL = "SELECT ISNULL(MAX(CODIGO), 0) AS cod FROM caixa_saldo_retirada WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then varNovoCodSaldoRet = r("cod") + 1
@@ -1822,6 +1836,9 @@ Private Sub cboSubDesc_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmdSalvar_Click()
+On Error GoTo ErrHandlerSalvar
+Dim bTrans As Boolean
+
 If txtValor.Text = "" Or cboSubDesc.Text = "" Or cboDesc.Text = "" Or cboFonte.Text = "" Then
    ShowMsg "Formulário incompleto!", vbInformation
    cboSubDesc.SetFocus
@@ -1831,54 +1848,63 @@ End If
 If txtCodFunc.Text = "" Then txtCodFunc.Text = "0"
 
 Dim lNovoCod As Long
-   
+
 If cboFonte.Text = "CAIXA ATUAL" Then
     'verificar se o caixa está aberto
     If varCodCaixa = 0 Then
         MsgBox "O caixa ainda não foi aberto", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
-   
+
     'verificar o saldo do caixa
     Verificar_Valor_Saida
     If ULTRAPASSOU_VALOR = True Then Exit Sub
-    
+
     'criar uma sangria
-    'Dim lNovoCod As Long
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     lNovoCod = AutoNumeracao
-    
+
     'Faz a inserção de forma direta e verifica se houve algum erro
     If Not Inserir_Dados(lNovoCod) Then
+       dbData.Execute "ROLLBACK TRANSACTION"
+       bTrans = False
        ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
        Exit Sub
     End If
-      
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
+
 ElseIf cboFonte.Text = "SALDOS" Then
     'pegar o valor do ultimo do saldos
     sSQL = "SELECT top 1 SALDO_ATUAL FROM caixa_saldo order by codigo desc;"
     Set r = dbData.OpenRecordset(sSQL)
-    
+
     Dim varValorUltimoSaldo As Currency
     If Not r.BOF Then varValorUltimoSaldo = r("SALDO_ATUAL")
-    
+
     Dim varValorSaida As Currency
     varValorSaida = txtValor.Text
-    
+
     If varValorSaida > varValorUltimoSaldo Then MsgBox "O valor da sangria é maior que seu saldo atual", vbInformation, "Aviso do Sistema": Exit Sub
-    
+
     'criar uma sangria
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     lNovoCod = AutoNumeracao
-    
+
     'inserir dados na tabela caixa_saida
     If Not Inserir_Dados(lNovoCod) Then
+       dbData.Execute "ROLLBACK TRANSACTION"
+       bTrans = False
        ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
        Exit Sub
     End If
-    
+
     'pegar o ultimo codigo do saldos
-    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod FROM caixa_saldo;"
+    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod FROM caixa_saldo WITH (UPDLOCK, HOLDLOCK);"
     Set r = dbData.OpenRecordset(sSQL)
-    
+
     Dim varCodSaldo As Integer
     If Not r.BOF Then varCodSaldo = r("cod")
 
@@ -1888,14 +1914,15 @@ ElseIf cboFonte.Text = "SALDOS" Then
     dbData.Execute "INSERT INTO caixa_saldo_retirada (codigo, cod_saldo, tipo, data, cod_descricao, valor, descricao) VALUES (" & _
        varNovoCodSaldoRet & ", " & varCodSaldo & ", 'SANGRIA', CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), " & _
        lNovoCod & ", " & Replace(CCur(txtValor.Text), ",", ".") & ", '" & cboSubDesc.Text & " / " & cboDesc.Text & "');"
-    
+
     sSQL = "UPDATE caixa_saldo SET " & _
        "RETIRADA = RETIRADA + " & Replace(CCur(txtValor), ",", ".") & ", " & _
        "SALDO_ATUAL = SALDO_ANTERIOR + ENTRADA - (RETIRADA + " & Replace(CCur(txtValor), ",", ".") & ")" & _
        " WHERE (codigo = " & varCodSaldo & ") ;"
      'Debug.Print sSQL
     dbData.Execute sSQL
-
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 
 End If
 
@@ -1911,6 +1938,14 @@ txtCodFunc.Text = ""
 cboFuncionario.Text = ""
 Campos_Brancos
 Form_Load
+Exit Sub
+
+ErrHandlerSalvar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao salvar: " & Err.Description, vbCritical, "Erro"
 End Sub
 Private Sub Imprimir_ReciboFolha()
 Dim rUsuario As ADODB.Recordset
@@ -1936,7 +1971,7 @@ With REL_ReciboSangria
     .txtValor.Caption = UCase(NumeroExtenso(txtValor.Text, True))
     .txthead.Caption = "R$ " & Format(txtValor.Text, "##,##0.00")
     '.txtProveniente.Caption = "Pagamento da " & txtNumParcela.Text & "ª parcela do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
-    .txtData.Caption = "" & vCidadeUF & ", " & Day(mskData) & " de " & MonthName(Month(mskData)) & " de " & Year(mskData)
+    .txtData.Caption = "" & vCidadeUF & ", " & Day(mskData) & " de " & monthName(Month(mskData)) & " de " & Year(mskData)
     
     .Relatorio.NumeroRegistros = 1
     .Relatorio.NomeImpressora = var_ImpNormal
@@ -2210,7 +2245,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.rows - 1
+   For i = 0 To var_Grid.Rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CCur(var_Grid.TextMatrix(i, Col))
       End If
@@ -2225,7 +2260,7 @@ Dim i As Integer
 With GridSaidas
     .Clear
     .Cols = 11
-    .rows = 2
+    .Rows = 2
         
     .ColWidth(0) = 0
     .ColWidth(1) = 0
@@ -2259,32 +2294,32 @@ With GridSaidas
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.rows - 1, 1) = rTabela("codigo")
-         .TextMatrix(.rows - 1, 2) = Format(rTabela("data"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = Format(rTabela("hora"), ocHRMN)
-         .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("COD_FUNCIONARIO"))
-         .TextMatrix(.rows - 1, 5) = rTabela("subdescricao")
-         .TextMatrix(.rows - 1, 6) = rTabela("descricao")
-         .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("CAIXA"))
-         .TextMatrix(.rows - 1, 8) = Format(rTabela("CODCAIXA"), "000000")
-         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("FONTE"))
-         .TextMatrix(.rows - 1, 10) = Format(rTabela("valor"), ocMONEY)
+         .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
+         .TextMatrix(.Rows - 1, 2) = Format(rTabela("data"), "dd/mm/yy")
+         .TextMatrix(.Rows - 1, 3) = Format(rTabela("hora"), ocHRMN)
+         .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("COD_FUNCIONARIO"))
+         .TextMatrix(.Rows - 1, 5) = rTabela("subdescricao")
+         .TextMatrix(.Rows - 1, 6) = rTabela("descricao")
+         .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("CAIXA"))
+         .TextMatrix(.Rows - 1, 8) = Format(rTabela("CODCAIXA"), "000000")
+         .TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("FONTE"))
+         .TextMatrix(.Rows - 1, 10) = Format(rTabela("valor"), ocMONEY)
          
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
          i = i + 1
       Loop
    End If
    
    'MUDAR COR DE FONTE DA COLUNA
-   For i = 1 To .rows - 1
+   For i = 1 To .Rows - 1
       .Row = i
       .Col = 9
       .CellForeColor = &HC0&
       .CellFontBold = True
    Next
    
-   .rows = .rows - 1
+   .Rows = .Rows - 1
    .Redraw = True
 End With
 
@@ -2294,7 +2329,7 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Me.Hide
-    'PDV.Show  'desativei somente para geerar o online comerce
+    PDV.Show  'desativei somente para geerar o online comerce
 Else
     Me.Hide
     'PDV.Show 1

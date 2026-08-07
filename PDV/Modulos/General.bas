@@ -198,7 +198,14 @@ appPathIni = appPathApp & ocArqvINI     'Armazena o arquivo ini
 appEXEName = App.EXEName & ".exe"
 
 'Inicializa o sistema
+Load frmConectando   'feedback visual enquanto tenta conectar, pois o VB6 nao mostra nada proprio antes da 1a janela
+frmConectando.Show
+frmConectando.Refresh
+DoEvents
+
 IniciarPrograma True
+
+Unload frmConectando
 
 'Armazena as configurações do sistema
 LerConfiguracao
@@ -299,7 +306,8 @@ Public Function IniciarPrograma(ExibirStatus As Boolean) As Boolean
    'Abre a conexão com os bancos de dados, em caso de falha
    'exibe uma mensagem de alerta e finaliza o sistema
    If Not AbrirConexaoBD Then
-      ShowMsg "Não foi possível estabelecer uma conexão com o banco de dados.", vbCritical
+      ShowMsg "CONEXÃO COM O SERVIDOR FOI PERDIDA!" & vbCr & _
+         "Verifique se o servidor está ligado e se a rede está conectada.", vbCritical
       End
       Exit Function
    End If
@@ -404,7 +412,7 @@ vgServerName = var_IP
 AbrirConexaoBD = False
 
 'Conexão padrão do MySql
-cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=600;TRUSTED_CONNECTION=NO"
+cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=15;TRUSTED_CONNECTION=NO"
 'cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
 Set dbData = New Database
 

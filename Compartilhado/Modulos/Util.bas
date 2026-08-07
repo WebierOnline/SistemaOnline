@@ -2168,7 +2168,7 @@ Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0, Optio
     Dim x As String
     On Error GoTo deuErro
     AbreBancoDeDados = False
-    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=" + NomeBanco + ";Connect Timeout=600;TRUSTED_CONNECTION=NO"
+    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=" + NomeBanco + ";Connect Timeout=15;TRUSTED_CONNECTION=NO"
     'x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
     vgDb.ConnectionString = x$
     vgDb.CursorLocation = adUseClient

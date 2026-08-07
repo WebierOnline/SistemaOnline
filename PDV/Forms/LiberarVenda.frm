@@ -114,6 +114,10 @@ Private mGerente As Long
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Public Property Get Cancelled() As Boolean
    Cancelled = mCancelled
 End Property
@@ -162,7 +166,7 @@ End If
 mGerente = cboGerente.ItemData(cboGerente.ListIndex)
 'MsgBox cboGerente.ItemData(cboGerente.ListIndex)
 
-sSQL = "SELECT * FROM usuario WHERE (codigo = " & mGerente & ") AND (password = '" & txtSenha & "');"
+sSQL = "SELECT * FROM usuario WHERE (codigo = " & mGerente & ") AND (password = '" & EA(txtSenha) & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 If r.BOF Then

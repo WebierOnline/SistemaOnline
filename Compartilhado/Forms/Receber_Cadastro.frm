@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Receber_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
@@ -128,17 +128,17 @@ Begin VB.Form Receber_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Receber_Cadastro.frx":2BDA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label7"
-      Tab(1).Control(1)=   "Label23"
-      Tab(1).Control(2)=   "Label12"
-      Tab(1).Control(3)=   "Label13"
-      Tab(1).Control(4)=   "cmdImprimirConsulta"
+      Tab(1).Control(0)=   "txtCONtotal"
+      Tab(1).Control(1)=   "txtCONquant"
+      Tab(1).Control(2)=   "Picture3"
+      Tab(1).Control(3)=   "txtCONValor"
+      Tab(1).Control(4)=   "txtCONHaver"
       Tab(1).Control(5)=   "GridConsulta"
-      Tab(1).Control(6)=   "txtCONHaver"
-      Tab(1).Control(7)=   "txtCONValor"
-      Tab(1).Control(8)=   "Picture3"
-      Tab(1).Control(9)=   "txtCONquant"
-      Tab(1).Control(10)=   "txtCONtotal"
+      Tab(1).Control(6)=   "cmdImprimirConsulta"
+      Tab(1).Control(7)=   "Label13"
+      Tab(1).Control(8)=   "Label12"
+      Tab(1).Control(9)=   "Label23"
+      Tab(1).Control(10)=   "Label7"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtCONtotal 
          Alignment       =   1  'Right Justify
@@ -1583,7 +1583,7 @@ Begin VB.Form Receber_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "18:19"
+            TextSave        =   "13:42"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1682,7 +1682,7 @@ Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
    With GridConsulta
       .Clear
       .Cols = 13
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -1731,51 +1731,51 @@ Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("cod"))
-            .TextMatrix(.rows - 1, 2) = rTabela("campo00")
-            .TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
-            .TextMatrix(.rows - 1, 4) = rTabela("nome")
-            .TextMatrix(.rows - 1, 5) = rTabela("campo02")
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
-            .TextMatrix(.rows - 1, 8) = rTabela("var_atrazo")
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("var_juros"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = Format(rTabela("var_total"), ocMONEY)
+            .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("cod"))
+            .TextMatrix(.Rows - 1, 2) = rTabela("campo00")
+            .TextMatrix(.Rows - 1, 3) = Format(rTabela("campo01"), "000000")
+            .TextMatrix(.Rows - 1, 4) = rTabela("nome")
+            .TextMatrix(.Rows - 1, 5) = rTabela("campo02")
+            .TextMatrix(.Rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
+            .TextMatrix(.Rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
+            .TextMatrix(.Rows - 1, 8) = rTabela("var_atrazo")
+            .TextMatrix(.Rows - 1, 9) = Format(rTabela("var_juros"), ocMONEY)
+            .TextMatrix(.Rows - 1, 10) = Format(rTabela("var_total"), ocMONEY)
             '.TextMatrix(.Rows - 1, 11) = Format(RS!CAMPO06, "##,##0.00")
             '.TextMatrix(.Rows - 1, 12) = Format(RS!CAMPO07, "##,##0.00")
             
             If Not IsNull(rTabela("campo06")) Then
-               .TextMatrix(.rows - 1, 11) = Format(rTabela("campo06"), ocMONEY)
-               .TextMatrix(.rows - 1, 12) = Format(rTabela("campo07"), ocMONEY)
+               .TextMatrix(.Rows - 1, 11) = Format(rTabela("campo06"), ocMONEY)
+               .TextMatrix(.Rows - 1, 12) = Format(rTabela("campo07"), ocMONEY)
             Else
-               .TextMatrix(.rows - 1, 11) = Format(0, ocMONEY)
-               .TextMatrix(.rows - 1, 12) = Format(rTabela("var_total"), ocMONEY)
+               .TextMatrix(.Rows - 1, 11) = Format(0, ocMONEY)
+               .TextMatrix(.Rows - 1, 12) = Format(rTabela("var_total"), ocMONEY)
             End If
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
       .Redraw = True
-      .rows = .rows - 1
+      .Rows = .Rows - 1
 
         'mudar a cor da coluna
-        For i = 1 To .rows - 1
+        For i = 1 To .Rows - 1
            .Row = i
            .Col = 10
            .CellBackColor = &HC0FFFF
         Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          .Row = i
          .Col = 2
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
       
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          .Row = i
          .Col = 9
          .CellForeColor = &HC0&
@@ -1792,7 +1792,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.rows - 1
+   For i = 0 To var_Grid.Rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
       End If
@@ -1807,7 +1807,7 @@ Private Sub FormatarGridProdutos(rTabela As ADODB.Recordset)
    With GridProdutos
       .Clear
       .Cols = 6
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 0
@@ -1836,32 +1836,32 @@ Private Sub FormatarGridProdutos(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            For i = 1 To .rows - 1
+            For i = 1 To .Rows - 1
                GridProdutos.Row = i
                'GridProdutos.Col = 1:   GridProdutos.CellBackColor = vbYellow
                'GridProdutos.Col = 5:   GridProdutos.CellBackColor = vbYellow
             Next
             
-            .TextMatrix(.rows - 1, 1) = rTabela("codigo")
-            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("descricao"))
-            .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("PRECO"), 2)
-            .TextMatrix(.rows - 1, 4) = rTabela("QUANTIDADE")
-            .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("TOTAL"), 2)
+            .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
+            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("descricao"))
+            .TextMatrix(.Rows - 1, 3) = FormatNumber(rTabela("PRECO"), 2)
+            .TextMatrix(.Rows - 1, 4) = rTabela("QUANTIDADE")
+            .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("TOTAL"), 2)
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          .Row = i
          .Col = 5
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
       .Redraw = True
    End With
    
@@ -1874,7 +1874,7 @@ Private Sub LimparGridProdutos()
    With GridProdutos
       .Clear
       .Cols = 4
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 0
@@ -1920,8 +1920,14 @@ End Sub
 
 Private Function Atualizar_Dados() As Boolean
 Dim sSQL As String
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerAtualizarDados
+
+Atualizar_Dados = False
 
 'ATUALIZA TABELA PEDIDOS
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 sSQL = "UPDATE pedidos SET " & _
         "cod_cliente = " & txtCodCliente.Text & ", " & _
         "data_compra = CONVERT(DATETIME, '" & Format(mskCompra.Text, ocDATA) & "', 103), " & _
@@ -1930,7 +1936,7 @@ sSQL = "UPDATE pedidos SET " & _
 
 sSQL = sSQL & "WHERE (cod_PEDIDO = " & lblCodigo.Caption & ");"
 
-Atualizar_Dados = dbData.Execute(sSQL)
+dbData.Execute sSQL
 
 'ATUALIZA TABELA PARCELAS
 sSQL = "UPDATE PARCELAS SET " & _
@@ -1939,7 +1945,18 @@ sSQL = "UPDATE PARCELAS SET " & _
 
 sSQL = sSQL & "WHERE (cod_PEDIDO = " & lblCodigo.Caption & ");"
 
-Atualizar_Dados = dbData.Execute(sSQL)
+dbData.Execute sSQL
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+Atualizar_Dados = True
+Exit Function
+
+ErrHandlerAtualizarDados:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   Atualizar_Dados = False
 End Function
 
 Private Function Inserir_Dados() As Boolean
@@ -1963,7 +1980,7 @@ Private Sub AutoNumeracao_Pedidos()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo FROM pedidos;"
+sSQL = "SELECT ISNULL(MAX(cod_pedido), 0) AS ultimo FROM pedidos WITH (UPDLOCK, HOLDLOCK);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lblCodigo.Caption = Format(r("ultimo") + 1, "000000")
 If r.State <> 0 Then r.Close
@@ -2147,7 +2164,7 @@ Private Sub cboMes_GotFocus()
    cboMES.Clear
    
    For vMes = 1 To 12
-      cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+      cboMES.AddItem StrConv(monthName(vMes), vbProperCase)
    Next
    
    moCombo.AttachTo cboMES
@@ -2483,8 +2500,15 @@ If varData = 0 Then Exit Sub
 mskCompra = Format(varData, "dd/mm/yy")   'Exibe a data no campo
 End Sub
 Private Sub cmdCancelar_Click()
+On Error GoTo ErrHandlerCancelar
+Dim bTrans As Boolean
+
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & lblCodigo.Caption & ");"
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 frmCliente.Enabled = False
 frmReferente.Enabled = False
@@ -2501,6 +2525,14 @@ cmdRemoverProduto.Enabled = False
 Limpar_Objetos
 LimparGridProdutos
 Form_Load
+Exit Sub
+
+ErrHandlerCancelar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao cancelar: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Public Function Verifica_Dia(DIA, var_Mes)
@@ -2543,7 +2575,7 @@ Private Function Autonumeracao_Parcelas() As Long
    Dim lRet As Long
    
    lRet = 0
-   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultima_parcela FROM parcelas;"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultima_parcela FROM parcelas WITH (UPDLOCK, HOLDLOCK);"
    Set r = dbData.OpenRecordset(sSQL)
    If Not r.BOF Then lRet = r("ultima_parcela") + 1
    If r.State <> 0 Then r.Close
@@ -2553,6 +2585,8 @@ Private Function Autonumeracao_Parcelas() As Long
 End Function
 
 Private Sub cmdExcluir_Click()
+On Error GoTo ErrHandlerExcluirConta
+Dim bTrans As Boolean
 'If Tela_Principal.txtNivel.Text <> "1" Then MsgBox "Seu nível de acesso não permite essa operação!", vbInformation, "Aviso do Sistema": Exit Sub
 
 If lblCodigo.Caption = "" Then Exit Sub
@@ -2571,8 +2605,12 @@ If r.RecordCount > 0 Then
 End If
 If r.State <> 0 Then r.Close
 
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & lblCodigo.Caption & ");"
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 frmCliente.Enabled = False
 frmReferente.Enabled = False
@@ -2590,6 +2628,14 @@ Limpar_Objetos
 LimparGridProdutos
 Form_Load
 cmdExibirConsulta_Click
+Exit Sub
+
+ErrHandlerExcluirConta:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao excluir: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdExibirConsulta_Click()
@@ -2798,12 +2844,18 @@ Mask1 = Format(varData, "dd/mm/yy")   'Exibe a data no campo
 End Sub
 
 Private Sub cmdNovo_Click()
+On Error GoTo ErrHandlerNovo
+Dim bTrans As Boolean
 Limpar_Objetos
 LimparGridProdutos
 SSTab1.Tab = 0
 
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
 AutoNumeracao_Pedidos
 dbData.Execute "INSERT INTO pedidos (cod_pedido, tipo_pedido, status_pedido) VALUES (" & lblCodigo.Caption & ", 'RECEBER', 0);"
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 frmCliente.Enabled = True
 frmReferente.Enabled = True
@@ -2818,6 +2870,14 @@ cmdAdicionarProduto.Enabled = True
 cmdRemoverProduto.Enabled = True
 optPorQuant_Click
 mskCompra.SetFocus
+Exit Sub
+
+ErrHandlerNovo:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao criar novo registro: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Function AutoNumeracao_Itens() As Long
@@ -2851,25 +2911,39 @@ PreencherGridProdutos
 End Sub
 
 Private Sub cmdSalvar_Click()
+   On Error GoTo ErrHandlerSalvarConta
+   Dim bTrans As Boolean
    If lblCodigo.Caption = "" Or txtCliente.Text = "" Or txtParc.Text = "" Then Exit Sub
-   
+
    If mskInicio.Text = "" Then
       ShowMsg "Falta a data de vencimento!", vbInformation
       mskInicio.SetFocus
       Exit Sub
    End If
-   
+
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
       dbData.Execute "UPDATE pedidos SET cod_pedido = " & lblCodigo.Caption & ", cod_cliente = " & txtCodCliente.Text & ", " & _
       "data_compra = CONVERT(DATETIME, '" & Format(mskCompra.Text, ocDATA) & "', 103), tipo_desc = 'R', valor_desc = 0, " & _
       "subtotal = " & Replace(CCur(txtTotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotal.Text), ",", ".") & ", " & _
       "tipo_pagamento = 'À Prazo', pagamento = 'AVULSO', tipo_pedido = 'RECEBER', " & _
       "status_pedido = 1, " & _
       "maquina = 'CAIXA01' WHERE (cod_pedido = " & lblCodigo.Caption & ");"
-      
+
    Gerar_Parcelas
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
    Limpar_Objetos
    Form_Load
    cmdExibirConsulta_Click
+   Exit Sub
+
+ErrHandlerSalvarConta:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao salvar: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub Calcular_Prazo()
@@ -2918,7 +2992,7 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Me.Hide
-    'PDV.Show  'desativei somente para geerar o online comerce
+    PDV.Show  'desativei somente para geerar o online comerce
 Else
     Me.Hide
     'PDV.Show 1

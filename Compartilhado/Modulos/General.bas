@@ -174,21 +174,28 @@ If App.PrevInstance Then
     End
 End If
 
-ChDir App.Path                         'Muda o diretório padrão para onde está o sistema
-appPathApp = App.Path                  'Armazena o diretório do sistema
+ChDir App.path                         'Muda o diretório padrão para onde está o sistema
+appPathApp = App.path                  'Armazena o diretório do sistema
 NormalizePath appPathApp               'Normaliza o diretório
 appPathIni = appPathApp & ocArqvINI    'Armazena o arquivo ini
 appEXEName = App.EXEName & ".exe"
 
 'Inicializa o sistema
+Load frmConectando   'feedback visual enquanto tenta conectar, pois o VB6 nao mostra nada proprio antes da 1a janela
+frmConectando.Show
+frmConectando.Refresh
+DoEvents
+
 IniciarPrograma True
+
+Unload frmConectando
 
 'Armazena as configurações do sistema
 LerConfiguracao
 'Produtos_Estoque_Simples.Show
 'Configuracao_Geral.Show
-Sistema_Financeiro.Show
-'OS_Recapadora.Show
+'Sistema_Financeiro.Show
+'Senha_OS.Show   'pede login antes de abrir o OS_Recapadora (Senha_OS ja chama OS_Recapadora.Show internamente apos validar)
 'Produtos_Cadastro.Show
 'NFe_Completa.Show
 'Tela_Principal.Show
@@ -200,7 +207,8 @@ Sistema_Financeiro.Show
 'Entrada_Estoque.Show
 'Vendas_Consulta_Lucro.Show
 'Vendas_Consulta_PorProdutos.Show
-'Senha.Show
+Entrada_Estoque.Show
+Senha.Show
 End Sub
 
 'Recupera a configuração do sistema
@@ -285,7 +293,8 @@ Public Function IniciarPrograma(ExibirStatus As Boolean) As Boolean
    'Abre a conexão com os bancos de dados, em caso de falha
    'exibe uma mensagem de alerta e finaliza o sistema
    If Not AbrirConexaoBD Then
-      ShowMsg "Não foi possível estabelecer uma conexão com o banco de dados.", vbCritical
+      ShowMsg "CONEXÃO COM O SERVIDOR FOI PERDIDA!" & vbCr & _
+         "Verifique se o servidor está ligado e se a rede está conectada.", vbCritical
       End
       Exit Function
    End If
@@ -397,7 +406,7 @@ Public Function AbrirConexaoBD() As Boolean
    
    'Conexão padrão do SQL Server
    'Dim BC As String
-   cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=" + vNomeBanco + ";Connect Timeout=600;TRUSTED_CONNECTION=NO"
+   cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=" + vNomeBanco + ";Connect Timeout=15;TRUSTED_CONNECTION=NO"
    'Set BC = ws.OpenDatabase("", dbDriverComplete, False, "Driver={SQL Server Native Client 10.0};Server=" + var_IP + ";uid=sa;pwd=190106web;Database=cyber_base;Trusted_Connection=yes")
     
     'Instancia os objetos

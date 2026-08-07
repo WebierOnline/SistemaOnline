@@ -833,6 +833,10 @@ Limpar_Objetos
 Form_Load
 End Sub
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub cmdSalvarSenha_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -841,7 +845,7 @@ If txtSenha1.Text = "" Or txtSenha2.Text = "" Or txtCodUsuario.Text = "" Then Ex
 
 If txtCodUsuario.Text = "" Then Exit Sub
 
-sSQL = "SELECT codigo, password FROM usuario WHERE (codigo = " & txtCodUsuario.Text & ");"
+sSQL = "SELECT codigo, password FROM usuario WHERE (codigo = " & Val(txtCodUsuario.Text) & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
 If r.BOF Then
@@ -859,7 +863,7 @@ If Not r Is Nothing Then
             txtSenha1.SetFocus
             Exit Sub
         End If
-        dbData.Execute "UPDATE usuario SET password = '" & txtSenha1.Text & "' WHERE (codigo = " & txtCodUsuario.Text & ");"
+        dbData.Execute "UPDATE usuario SET password = '" & EA(txtSenha1.Text) & "' WHERE (codigo = " & Val(txtCodUsuario.Text) & ");"
     Else
     
         If r("password") <> txtSenha1.Text Then
@@ -877,7 +881,7 @@ If Not r Is Nothing Then
             Exit Sub
         End If
             
-        dbData.Execute "UPDATE usuario SET password = '" & txtSenha3.Text & "' WHERE (codigo = " & txtCodUsuario.Text & ");"
+        dbData.Execute "UPDATE usuario SET password = '" & EA(txtSenha3.Text) & "' WHERE (codigo = " & Val(txtCodUsuario.Text) & ");"
     End If
 
 txtSenha1.Visible = True

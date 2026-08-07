@@ -546,6 +546,7 @@ Dim vPed As Long
 Dim cCfg As ConfigItem
 Dim tipoEmpresa As Integer
 Private iRow As Long, iCol As Long, xCancelada As Boolean
+Dim vDescItensVenda As Currency  'compartilhada entre loadPedidos e Recalcular_Desconto
 
 'abrir site para consultar ncm
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
@@ -570,7 +571,6 @@ sSQL = "SELECT sum(Desconto) as varSomaDescItens " & _
       "WHERE (IdNFProd = " & Pedido & ")"
 Set r = dbData.OpenRecordset(sSQL)
 
-Dim vDescItensVenda As Currency
 vDescItensVenda = r("varSomaDescItens")
 
 
