@@ -65,7 +65,7 @@ Begin VB.Form Senha
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00404040&
+      ForeColor       =   &H00FFFFFF&
       Height          =   210
       Left            =   60
       TabIndex        =   6
@@ -88,7 +88,7 @@ Begin VB.Form Senha
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      ForeColor       =   &H00404040&
+      ForeColor       =   &H00FFFFFF&
       Height          =   210
       Left            =   4110
       TabIndex        =   5

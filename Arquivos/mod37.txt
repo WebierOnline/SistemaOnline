@@ -1,0 +1,13 @@
+1. Iniciei uma nova venda no pdv
+2. Adicionei um produto na venda (procurando pelo nome)
+3. Parei a estancia SQLEXPRESS2008 (para simular que a rede caiu)
+4. Digitei o nome de outro produto, dei um enter, passou um tempinho processando... depois apareceu a msg de 'sem conexao'. Cliquei no OK dessa mensagem. lstBusca apareceu...
+5. Apertei esc no teclado para ocultar a lstBusca... txtcodbarra foi limpo.
+6. Msg de 'sem conexao' apareceu novamente. cliquei em OK. demorou um tempinho, ai que os botões que deveriam desabilitar, foram desabilitados... em seguida (ou junto), apareceu novamente a Msg de 'sem conexao'. cliquei em OK
+Fatos relevantes:
+- Msg de 'sem conexao' aparece, clico no OK, depois de um tempinho ela volta.
+- Obs objetos que deveria se desabilitados, somente foram desabilitados depois das terceira ou quarta Msg de 'sem conexao'
+- Dessa vez os produtos da venda não desapareceu do grid.
+- Iniciei a estancia SQLEXPRESS2008 e até agora continua aparecendo Msg de 'sem conexao' com os objetos da tela desabilitados. Esperei 5 min... varios clique em OK das mensagens de sem conexao... ai por fim que veio funcionar(habilitou os objetos e a venda continuo).
+- Acrescentei um label chamado lblConexao... o caption dele atual é 'CONECTADO'(verde escuro), quando for percebido que a conexao caiu, a Msg de 'sem conexao' aparece, os objetos desabilitam e o caption do lblConexao muda para 'DESCONECTADO' (vermelho escuro)... porem não ficara aparecendo varias mensagem sem conexão seguidas na tela. Quando o timer detectar que voltou a conexao, voltar para 'CONECTADO'(verde escuro), habilita os objetos e a venda continua...
+

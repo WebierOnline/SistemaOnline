@@ -79,3 +79,5 @@
 079|Empresa - Modificações 2024.sql|GERAL
 080|AlterTable_NotaFiscal_Maquina.sql|GERAL
 081|AlterTable_Cliente_AddPK_Codigo.sql|GERAL
+082|AlterTable_Fornecedor_Complemento.sql|GERAL
+083|NFe - Modificações.sql|GERAL

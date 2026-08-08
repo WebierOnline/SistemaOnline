@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Receber_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
@@ -128,17 +128,17 @@ Begin VB.Form Receber_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Receber_Cadastro.frx":2BDA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtCONtotal"
-      Tab(1).Control(1)=   "txtCONquant"
-      Tab(1).Control(2)=   "Picture3"
-      Tab(1).Control(3)=   "txtCONValor"
-      Tab(1).Control(4)=   "txtCONHaver"
+      Tab(1).Control(0)=   "Label7"
+      Tab(1).Control(1)=   "Label23"
+      Tab(1).Control(2)=   "Label12"
+      Tab(1).Control(3)=   "Label13"
+      Tab(1).Control(4)=   "cmdImprimirConsulta"
       Tab(1).Control(5)=   "GridConsulta"
-      Tab(1).Control(6)=   "cmdImprimirConsulta"
-      Tab(1).Control(7)=   "Label13"
-      Tab(1).Control(8)=   "Label12"
-      Tab(1).Control(9)=   "Label23"
-      Tab(1).Control(10)=   "Label7"
+      Tab(1).Control(6)=   "txtCONHaver"
+      Tab(1).Control(7)=   "txtCONValor"
+      Tab(1).Control(8)=   "Picture3"
+      Tab(1).Control(9)=   "txtCONquant"
+      Tab(1).Control(10)=   "txtCONtotal"
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtCONtotal 
          Alignment       =   1  'Right Justify
@@ -1583,7 +1583,7 @@ Begin VB.Form Receber_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "13:42"
+            TextSave        =   "10:09"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1682,7 +1682,7 @@ Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
    With GridConsulta
       .Clear
       .Cols = 13
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -1731,51 +1731,51 @@ Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("cod"))
-            .TextMatrix(.Rows - 1, 2) = rTabela("campo00")
-            .TextMatrix(.Rows - 1, 3) = Format(rTabela("campo01"), "000000")
-            .TextMatrix(.Rows - 1, 4) = rTabela("nome")
-            .TextMatrix(.Rows - 1, 5) = rTabela("campo02")
-            .TextMatrix(.Rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
-            .TextMatrix(.Rows - 1, 8) = rTabela("var_atrazo")
-            .TextMatrix(.Rows - 1, 9) = Format(rTabela("var_juros"), ocMONEY)
-            .TextMatrix(.Rows - 1, 10) = Format(rTabela("var_total"), ocMONEY)
+            .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("cod"))
+            .TextMatrix(.rows - 1, 2) = rTabela("campo00")
+            .TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
+            .TextMatrix(.rows - 1, 4) = rTabela("nome")
+            .TextMatrix(.rows - 1, 5) = rTabela("campo02")
+            .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = rTabela("var_atrazo")
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("var_juros"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("var_total"), ocMONEY)
             '.TextMatrix(.Rows - 1, 11) = Format(RS!CAMPO06, "##,##0.00")
             '.TextMatrix(.Rows - 1, 12) = Format(RS!CAMPO07, "##,##0.00")
             
             If Not IsNull(rTabela("campo06")) Then
-               .TextMatrix(.Rows - 1, 11) = Format(rTabela("campo06"), ocMONEY)
-               .TextMatrix(.Rows - 1, 12) = Format(rTabela("campo07"), ocMONEY)
+               .TextMatrix(.rows - 1, 11) = Format(rTabela("campo06"), ocMONEY)
+               .TextMatrix(.rows - 1, 12) = Format(rTabela("campo07"), ocMONEY)
             Else
-               .TextMatrix(.Rows - 1, 11) = Format(0, ocMONEY)
-               .TextMatrix(.Rows - 1, 12) = Format(rTabela("var_total"), ocMONEY)
+               .TextMatrix(.rows - 1, 11) = Format(0, ocMONEY)
+               .TextMatrix(.rows - 1, 12) = Format(rTabela("var_total"), ocMONEY)
             End If
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
       .Redraw = True
-      .Rows = .Rows - 1
+      .rows = .rows - 1
 
         'mudar a cor da coluna
-        For i = 1 To .Rows - 1
+        For i = 1 To .rows - 1
            .Row = i
            .Col = 10
            .CellBackColor = &HC0FFFF
         Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 2
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
       
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 9
          .CellForeColor = &HC0&
@@ -1792,7 +1792,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.Rows - 1
+   For i = 0 To var_Grid.rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
       End If
@@ -1807,7 +1807,7 @@ Private Sub FormatarGridProdutos(rTabela As ADODB.Recordset)
    With GridProdutos
       .Clear
       .Cols = 6
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 0
@@ -1836,32 +1836,32 @@ Private Sub FormatarGridProdutos(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            For i = 1 To .Rows - 1
+            For i = 1 To .rows - 1
                GridProdutos.Row = i
                'GridProdutos.Col = 1:   GridProdutos.CellBackColor = vbYellow
                'GridProdutos.Col = 5:   GridProdutos.CellBackColor = vbYellow
             Next
             
-            .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
-            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("descricao"))
-            .TextMatrix(.Rows - 1, 3) = FormatNumber(rTabela("PRECO"), 2)
-            .TextMatrix(.Rows - 1, 4) = rTabela("QUANTIDADE")
-            .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("TOTAL"), 2)
+            .TextMatrix(.rows - 1, 1) = rTabela("codigo")
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("descricao"))
+            .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("PRECO"), 2)
+            .TextMatrix(.rows - 1, 4) = rTabela("QUANTIDADE")
+            .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("TOTAL"), 2)
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 5
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       .Redraw = True
    End With
    
@@ -1874,7 +1874,7 @@ Private Sub LimparGridProdutos()
    With GridProdutos
       .Clear
       .Cols = 4
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 150
       .ColWidth(1) = 0
@@ -2164,7 +2164,7 @@ Private Sub cboMes_GotFocus()
    cboMES.Clear
    
    For vMes = 1 To 12
-      cboMES.AddItem StrConv(monthName(vMes), vbProperCase)
+      cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
    
    moCombo.AttachTo cboMES
@@ -2992,7 +2992,7 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Me.Hide
-    PDV.Show  'desativei somente para geerar o online comerce
+    'PDV.Show  'desativei somente para geerar o online comerce
 Else
     Me.Hide
     'PDV.Show 1

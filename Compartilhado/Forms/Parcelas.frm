@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Parcelas 
    BorderStyle     =   4  'Fixed ToolWindow
@@ -94,15 +94,15 @@ Begin VB.Form Parcelas
       TabCaption(0)   =   "À PAGAR"
       TabPicture(0)   =   "Parcelas.frx":D7CE
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame2"
+      Tab(0).Control(0)=   "frmParcela"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Picture2"
+      Tab(0).Control(1)=   "txtCodParc"
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "frmPagamento"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "txtCodParc"
+      Tab(0).Control(3)=   "Picture2"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "frmParcela"
+      Tab(0).Control(4)=   "Frame2"
       Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "HAVER"
@@ -2664,7 +2664,7 @@ Begin VB.Form Parcelas
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "13:42"
+            TextSave        =   "10:09"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2798,7 +2798,7 @@ With REL_Recibo
       .txtProveniente.Caption = "Haver da " & rPedidos("vnumparc") & "ª parcela do PEDIDO Nº " & Format(rPedidos("vCodPedido"), "000000")
    'End If
 
-   .txtData.Caption = "" & vCidadeUF & ", " & Day(rPedidos("vDataHaver")) & " de " & monthName(Month(rPedidos("vDataHaver"))) & " de " & Year(rPedidos("vDataHaver"))
+   .txtData.Caption = "" & vCidadeUF & ", " & Day(rPedidos("vDataHaver")) & " de " & MonthName(Month(rPedidos("vDataHaver"))) & " de " & Year(rPedidos("vDataHaver"))
    .Relatorio.NumeroRegistros = 1
    .Relatorio.NomeImpressora = var_ImpNormal
    .Relatorio.Ativar
@@ -2835,7 +2835,7 @@ With REL_Recibo
       .txtProveniente.Caption = "Haver da " & txtNumParcela.Text & "ª parcela do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
    'End If
 
-   .txtData.Caption = "" & vCidadeUF & ", " & Day(mskDataHaver) & " de " & monthName(Month(mskDataHaver)) & " de " & Year(mskDataHaver)
+   .txtData.Caption = "" & vCidadeUF & ", " & Day(mskDataHaver) & " de " & MonthName(Month(mskDataHaver)) & " de " & Year(mskDataHaver)
    .Relatorio.NumeroRegistros = 1
    .Relatorio.NomeImpressora = var_ImpNormal
    .Relatorio.Ativar
@@ -2876,7 +2876,7 @@ With REL_Recibo
       .txtValor.Caption = UCase(NumeroExtenso(txtTotal.Text, True))
       .txthead.Caption = "R$ " & Format(txtTotal.Text, "##,##0.00")
       .txtProveniente.Caption = "Pagamento da " & txtNumParcela.Text & "ª parcela do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
-      .txtData.Caption = "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & monthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
+      .txtData.Caption = "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & MonthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
    Else
       Dim var_Parc As String
       Dim f As Integer
@@ -2884,7 +2884,7 @@ With REL_Recibo
       var_Parc = ""
       
       With Grid_Parcelas
-         For f = 1 To .Rows - 1
+         For f = 1 To .rows - 1
             .Col = 0
             .Row = f
 
@@ -2895,7 +2895,7 @@ With REL_Recibo
                   MsgBox "Tratar Repetido"
                Else
                   var_Parc = var_Parc & ", " & Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-                  If f = .Rows - 1 Then Exit For
+                  If f = .rows - 1 Then Exit For
                End If
             End If
          Next f
@@ -2904,7 +2904,7 @@ With REL_Recibo
       .txtValor.Caption = UCase(NumeroExtenso(lblTotalSel.Caption, True))
       .txthead.Caption = "R$ " & Format(lblTotalSel.Caption, "##,##0.00")
       .txtProveniente.Caption = "PEDIDO(S): " & var_Parc
-      .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & monthName(Month(Date)) & " de " & Year(Date)
+      .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
    End If
 
    .Relatorio.NumeroRegistros = 1
@@ -2973,7 +2973,7 @@ Private Sub FormatarGrid_HaverPagas(rTabela As ADODB.Recordset)
    With GridHaverPagas
       .Clear
       .Cols = 7
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -3008,25 +3008,25 @@ Private Sub FormatarGrid_HaverPagas(rTabela As ADODB.Recordset)
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             'mudar a cor da coluna
-            For i = 1 To .Rows - 1
+            For i = 1 To .rows - 1
                .Row = i
                .Col = 3
                .CellBackColor = &HC0C0FF
             Next
             
-            .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
-            .TextMatrix(.Rows - 1, 2) = Format(rTabela("haver"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 3) = Format(rTabela("valor_haver"), ocMONEY)
-            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("forma_pgto"))
-            .TextMatrix(.Rows - 1, 5) = Format(rTabela("CODCAIXA"), "000000")
-            .TextMatrix(.Rows - 1, 6) = ValidateNull(rTabela("CAIXA"))
+            .TextMatrix(.rows - 1, 1) = rTabela("codigo")
+            .TextMatrix(.rows - 1, 2) = Format(rTabela("haver"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 3) = Format(rTabela("valor_haver"), ocMONEY)
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("forma_pgto"))
+            .TextMatrix(.rows - 1, 5) = Format(rTabela("CODCAIXA"), "000000")
+            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("CAIXA"))
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       .Redraw = True
    End With
    
@@ -3040,7 +3040,7 @@ Private Sub FormatarGrid_Haver(rTabela As ADODB.Recordset)
    With Grid_Haver
       .Clear
       .Cols = 8
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -3079,25 +3079,25 @@ Private Sub FormatarGrid_Haver(rTabela As ADODB.Recordset)
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             'mudar a cor da coluna
-            For i = 1 To .Rows - 1
+            For i = 1 To .rows - 1
                .Row = i
                .Col = 4
                .CellBackColor = &HC0C0FF
             Next
             
-            .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
-            .TextMatrix(.Rows - 1, 2) = Format(rTabela("CODCAIXA"), "000000")
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("CAIXA"))
-            .TextMatrix(.Rows - 1, 4) = Format(rTabela("haver"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 5) = Format(rTabela("valor_haver"), ocMONEY)
-            .TextMatrix(.Rows - 1, 6) = ValidateNull(rTabela("forma_pgto"))
-            .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("COD_PARCELA"))
+            .TextMatrix(.rows - 1, 1) = rTabela("codigo")
+            .TextMatrix(.rows - 1, 2) = Format(rTabela("CODCAIXA"), "000000")
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("CAIXA"))
+            .TextMatrix(.rows - 1, 4) = Format(rTabela("haver"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 5) = Format(rTabela("valor_haver"), ocMONEY)
+            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("forma_pgto"))
+            .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("COD_PARCELA"))
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       .Redraw = True
    End With
    
@@ -3113,7 +3113,7 @@ Private Sub LimparGrid_Historico()
       
       .Clear
       .Cols = 9
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 300
       .ColWidth(1) = 500
@@ -3151,9 +3151,9 @@ Private Sub LimparGrid_Historico()
          .CellAlignment = flexAlignCenterCenter
       Next
       
-      .Rows = .Rows + 1
+      .rows = .rows + 1
       .Redraw = True
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       .Visible = True
    End With
 End Sub
@@ -3167,7 +3167,7 @@ With Grid_Historico
    
    .Clear
    .Cols = 17
-   .Rows = 2
+   .rows = 2
    
    .ColWidth(0) = 300
    .ColWidth(1) = 0 '0
@@ -3223,45 +3223,45 @@ With Grid_Historico
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          'mudar a cor da coluna
-         For i = 1 To .Rows - 1
+         For i = 1 To .rows - 1
             .Row = i
             .Col = 12
             .CellBackColor = &HC0FFFF
          Next
          
-         .TextMatrix(.Rows - 1, 1) = rTabela("cod")
-         .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("campo00"))
-         .TextMatrix(.Rows - 1, 3) = Format(rTabela("campo01"), "000000")
-         .TextMatrix(.Rows - 1, 4) = rTabela("varTipoLinha")
-         .TextMatrix(.Rows - 1, 5) = rTabela("campo02")
-         .TextMatrix(.Rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 7) = FormatNumber(rTabela("campo04"), 2)
-         .TextMatrix(.Rows - 1, 8) = FormatNumber(rTabela("var_juros"), 2)
-         .TextMatrix(.Rows - 1, 9) = FormatNumber(rTabela("subtotal"), 2)
-         .TextMatrix(.Rows - 1, 10) = FormatNumber(rTabela("vardesc"), 2)
-         .TextMatrix(.Rows - 1, 11) = FormatNumber(rTabela("varSomaHaveres"), 2)
-         .TextMatrix(.Rows - 1, 12) = FormatNumber(rTabela("vValorFinal"), 2)
-         .TextMatrix(.Rows - 1, 13) = Format(rTabela("campo06"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 14) = IIf(IsNull(rTabela("campoHora")) Or rTabela("campoHora") = "", "", Format(rTabela("campoHora"), "hh:nn"))
-         .TextMatrix(.Rows - 1, 15) = Format(rTabela("VARCODCAIXAPARC"), "000000")
-         .TextMatrix(.Rows - 1, 16) = ValidateNull(rTabela("varCaixaParc"))
+         .TextMatrix(.rows - 1, 1) = rTabela("cod")
+         .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("campo00"))
+         .TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
+         .TextMatrix(.rows - 1, 4) = rTabela("varTipoLinha")
+         .TextMatrix(.rows - 1, 5) = rTabela("campo02")
+         .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("campo04"), 2)
+         .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("var_juros"), 2)
+         .TextMatrix(.rows - 1, 9) = FormatNumber(rTabela("subtotal"), 2)
+         .TextMatrix(.rows - 1, 10) = FormatNumber(rTabela("vardesc"), 2)
+         .TextMatrix(.rows - 1, 11) = FormatNumber(rTabela("varSomaHaveres"), 2)
+         .TextMatrix(.rows - 1, 12) = FormatNumber(rTabela("vValorFinal"), 2)
+         .TextMatrix(.rows - 1, 13) = Format(rTabela("campo06"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 14) = IIf(IsNull(rTabela("campoHora")) Or rTabela("campoHora") = "", "", Format(rTabela("campoHora"), "hh:nn"))
+         .TextMatrix(.rows - 1, 15) = Format(rTabela("VARCODCAIXAPARC"), "000000")
+         .TextMatrix(.rows - 1, 16) = ValidateNull(rTabela("varCaixaParc"))
          rTabela.MoveNext
-         .Rows = .Rows + 1
+         .rows = .rows + 1
       Loop
    End If
    
    .Redraw = True
-   .Rows = .Rows - 1
+   .rows = .rows - 1
    
    'MUDAR COR DE FONTE DA COLUNA
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Row = i
       .Col = 2
       .CellForeColor = &HC0&
       .CellFontBold = True
    Next
    
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Row = i
       .Col = 11
       .CellForeColor = &HC0&
@@ -3269,14 +3269,14 @@ With Grid_Historico
    Next
    
    .Col = 0
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Row = i
       Set .CellPicture = imgDesmarcadaPAGAS
       .CellPictureAlignment = 4
    Next
    
    'linhas de HAVER em vermelho escuro
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 4) = "HAVER" Then
          For j = 0 To .Cols - 1
             .Row = i
@@ -3292,7 +3292,7 @@ End With
 
 Dim vTotalHist As Currency
 vTotalHist = 0
-For i = 1 To Grid_Historico.Rows - 1
+For i = 1 To Grid_Historico.rows - 1
    vTotalHist = vTotalHist + Grid_Historico.TextMatrix(i, 12)
 Next
 lblTotalHistorico.Caption = Format(vTotalHist, ocMONEY)
@@ -3306,7 +3306,7 @@ Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
    With Grid_Parcelas
       .Clear
       .Cols = 11
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -3350,39 +3350,39 @@ Private Sub FormatarGrid_Parcelas2(rTabela As ADODB.Recordset)
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             'mudar a cor da coluna
-            For i = 1 To .Rows - 1
+            For i = 1 To .rows - 1
                .Row = i
                .Col = 7:   .CellBackColor = &HC0FFFF
                .Col = 9:   .CellBackColor = &HC0C0FF
             Next
             
-            .TextMatrix(.Rows - 1, 1) = rTabela("cod")
-            .TextMatrix(.Rows - 1, 2) = rTabela("campo05")
-            .TextMatrix(.Rows - 1, 3) = rTabela("campo00")
-            .TextMatrix(.Rows - 1, 4) = Format(rTabela("campo01"), "000000")
-            .TextMatrix(.Rows - 1, 5) = rTabela("campo02")
-            .TextMatrix(.Rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
+            .TextMatrix(.rows - 1, 1) = rTabela("cod")
+            .TextMatrix(.rows - 1, 2) = rTabela("campo05")
+            .TextMatrix(.rows - 1, 3) = rTabela("campo00")
+            .TextMatrix(.rows - 1, 4) = Format(rTabela("campo01"), "000000")
+            .TextMatrix(.rows - 1, 5) = rTabela("campo02")
+            .TextMatrix(.rows - 1, 6) = Format(rTabela("campo03"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("campo04"), ocMONEY)
             varValorLinha = rTabela("campo04")
             
             If Not IsNull(rTabela("campo06")) Then
-               .TextMatrix(.Rows - 1, 8) = Format(rTabela("campo06"), ocMONEY)
+               .TextMatrix(.rows - 1, 8) = Format(rTabela("campo06"), ocMONEY)
                varHaverLinha = rTabela("campo06")
             Else
-               .TextMatrix(.Rows - 1, 8) = Format(0, ocMONEY)
+               .TextMatrix(.rows - 1, 8) = Format(0, ocMONEY)
                varHaverLinha = 0
             End If
             
-            .TextMatrix(.Rows - 1, 9) = Format(varValorLinha - varHaverLinha, ocMONEY)
-            .TextMatrix(.Rows - 1, 10) = rTabela("var_atrazo")
+            .TextMatrix(.rows - 1, 9) = Format(varValorLinha - varHaverLinha, ocMONEY)
+            .TextMatrix(.rows - 1, 10) = rTabela("var_atrazo")
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
       .Redraw = True
-      .Rows = .Rows - 1
+      .rows = .rows - 1
    End With
    
    lblSubtotal.Caption = Format(SomaGrid(Grid_Parcelas, 7), ocMONEY)
@@ -3399,7 +3399,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       
       .Clear
       .Cols = 13
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 300
       .ColWidth(1) = 0
@@ -3453,45 +3453,45 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("codparcela"))
-            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("campo00"))
-            .TextMatrix(.Rows - 1, 3) = Format(rTabela("campo01"), "000000")
-            .TextMatrix(.Rows - 1, 4) = rTabela("campo02")
-            .TextMatrix(.Rows - 1, 5) = Format(rTabela("data"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 6) = Format(rTabela("valor"), ocMONEY)
+            .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("codparcela"))
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("campo00"))
+            .TextMatrix(.rows - 1, 3) = Format(rTabela("campo01"), "000000")
+            .TextMatrix(.rows - 1, 4) = rTabela("campo02")
+            .TextMatrix(.rows - 1, 5) = Format(rTabela("data"), "dd/mm/yy")
+            .TextMatrix(.rows - 1, 6) = Format(rTabela("valor"), ocMONEY)
             
             If optJurosSim = True Then
-               .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("var_atrazo"))
-               .TextMatrix(.Rows - 1, 8) = Format(rTabela("var_juros"), ocMONEY)
-               .TextMatrix(.Rows - 1, 9) = Format(rTabela("varTotalComJuros"), ocMONEY)
-               .TextMatrix(.Rows - 1, 10) = Format(rTabela("varsomahaveres"), ocMONEY)
-               .TextMatrix(.Rows - 1, 11) = Format(rTabela("varTotalDevedor"), ocMONEY)
+               .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_atrazo"))
+               .TextMatrix(.rows - 1, 8) = Format(rTabela("var_juros"), ocMONEY)
+               .TextMatrix(.rows - 1, 9) = Format(rTabela("varTotalComJuros"), ocMONEY)
+               .TextMatrix(.rows - 1, 10) = Format(rTabela("varsomahaveres"), ocMONEY)
+               .TextMatrix(.rows - 1, 11) = Format(rTabela("varTotalDevedor"), ocMONEY)
             Else
-               .TextMatrix(.Rows - 1, 7) = Format(0, "0")
-               .TextMatrix(.Rows - 1, 8) = Format(0, ocMONEY)
-               .TextMatrix(.Rows - 1, 9) = Format(rTabela("valor"), ocMONEY)
-               .TextMatrix(.Rows - 1, 10) = Format(rTabela("varsomahaveres"), ocMONEY)
-               .TextMatrix(.Rows - 1, 11) = Format(rTabela("valor") - rTabela("varsomahaveres"), ocMONEY)
+               .TextMatrix(.rows - 1, 7) = Format(0, "0")
+               .TextMatrix(.rows - 1, 8) = Format(0, ocMONEY)
+               .TextMatrix(.rows - 1, 9) = Format(rTabela("valor"), ocMONEY)
+               .TextMatrix(.rows - 1, 10) = Format(rTabela("varsomahaveres"), ocMONEY)
+               .TextMatrix(.rows - 1, 11) = Format(rTabela("valor") - rTabela("varsomahaveres"), ocMONEY)
             End If
-            .TextMatrix(.Rows - 1, 12) = rTabela("vItem")
+            .TextMatrix(.rows - 1, 12) = rTabela("vItem")
 
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
             i = i + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 5
          .CellFontBold = True
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 6
          .CellForeColor = &HC0&
@@ -3499,7 +3499,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 9
          .CellForeColor = &HC00000
@@ -3507,7 +3507,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 10
          .CellForeColor = &H8000&
@@ -3515,7 +3515,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 11
          .CellForeColor = &H80&
@@ -3523,7 +3523,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       Next
       
       'Deixar negrito quando vencido
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          For j = 0 To .Cols - 1
             .Col = j
             .Row = i
@@ -3540,7 +3540,7 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
       'Grid_Parcelas.Rows = 11
       Grid_Parcelas.Col = 0
       
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          Grid_Parcelas.Row = i
          Set Grid_Parcelas.CellPicture = imgDesmarcada
          Grid_Parcelas.CellPictureAlignment = 4
@@ -3592,7 +3592,7 @@ Private Sub LimparGrid_Haver()
    With Grid_Haver
       .Clear
       .Cols = 4
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 1050
@@ -3621,9 +3621,9 @@ Private Sub LimparGrid_Haver()
       Next
       
       .Redraw = False
-      .Rows = .Rows + 1
+      .rows = .rows + 1
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
     .Redraw = True
    End With
    
@@ -3639,7 +3639,7 @@ Private Sub LimparGrid_Parcelas()
       
       .Clear
       .Cols = 12
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 300
       .ColWidth(1) = 0
@@ -3686,13 +3686,13 @@ Private Sub LimparGrid_Parcelas()
       .ColAlignment(2) = 3
       .ColAlignment(3) = 3
       .ColAlignment(5) = 3
-      .Rows = .Rows + 1
+      .rows = .rows + 1
       
       i = i + 1
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 2
          .CellForeColor = &HC0&
@@ -3700,7 +3700,7 @@ Private Sub LimparGrid_Parcelas()
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 3
          .CellForeColor = &HC0&
@@ -3708,7 +3708,7 @@ Private Sub LimparGrid_Parcelas()
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 9
          .CellForeColor = &HC00000
@@ -3716,7 +3716,7 @@ Private Sub LimparGrid_Parcelas()
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 10
          .CellForeColor = &H8000&
@@ -3724,7 +3724,7 @@ Private Sub LimparGrid_Parcelas()
       Next
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 11
          .CellForeColor = &H80&
@@ -3735,7 +3735,7 @@ Private Sub LimparGrid_Parcelas()
       'Grid_Parcelas.Rows = 11
       Grid_Parcelas.Col = 0
       
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          Grid_Parcelas.Row = i
          Set Grid_Parcelas.CellPicture = imgDesmarcada
          Grid_Parcelas.CellPictureAlignment = 4
@@ -3818,7 +3818,7 @@ mskPagamento.Text = ""
 End Sub
 
 Private Sub MostraHaveresPagas()
-If Grid_Historico.Rows >= 2 Then
+If Grid_Historico.rows >= 2 Then
     i = Grid_Historico.Row
         
     sSQL = "SELECT * FROM parcelas_haver WHERE (cod_parcela = " & Grid_Historico.TextMatrix(i, 1) & ") ORDER BY haver, codigo;"
@@ -3915,7 +3915,7 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 
 lblQuantHistorico.Caption = Format(totalRegistros, "00") & " registro(s)"
-cmdMarcarTodasREATIVAR.Enabled = Grid_Historico.Rows > 1
+cmdMarcarTodasREATIVAR.Enabled = Grid_Historico.rows > 1
 End Sub
 
 Private Sub MostrarGrid_Parcelas()
@@ -4002,9 +4002,9 @@ Set r = Nothing
 
 lblQuantParc.Caption = Format(totalRegistros, "00")
 
-cmdMarcarCheck.Enabled = Grid_Parcelas.Rows > 1
+cmdMarcarCheck.Enabled = Grid_Parcelas.rows > 1
 
-If Grid_Parcelas.Rows > 1 Then
+If Grid_Parcelas.rows > 1 Then
     cmdQuitarAutomatico.Visible = True
 Else
     cmdQuitarAutomatico.Visible = False
@@ -4023,7 +4023,7 @@ vValorTotal = 0
 vQtdMarcadas = 0
 var_Parc = ""
 
-For f = 1 To Grid_Historico.Rows - 1
+For f = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
@@ -4070,13 +4070,13 @@ With REL_Recibo
     .txthead.Caption = "R$ " & Format(vValorTotal, "##,##0.00")
     If vQtdMarcadas > 1 Then
         .txtProveniente.Caption = "PEDIDO(S): " & var_Parc
-        .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & monthName(Month(Date)) & " de " & Year(Date)
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
     ElseIf vTipoImp = "HAVER" Then
         .txtProveniente.Caption = "Haver da " & vNumParc & "ª parcela do PEDIDO Nº " & Format(vCodPed, "000000")
-        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & monthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
     Else
         .txtProveniente.Caption = "Pagamento da " & vNumParc & "ª parcela do PEDIDO Nº " & Format(vCodPed, "000000")
-        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & monthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+        .txtData.Caption = "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
     End If
 
    .Relatorio.NumeroRegistros = 1
@@ -4091,7 +4091,7 @@ Public Function SomaGrid(Grid As MSFlexGrid, Col As Integer) As Currency
 Dim i As Integer, Valor As Currency
 
 Valor = 0
-For i = 0 To Grid.Rows - 1
+For i = 0 To Grid.rows - 1
    If IsNumeric(Grid.TextMatrix(i, Col)) Then
       Valor = Valor + CCur(Grid.TextMatrix(i, Col))
    End If
@@ -4110,7 +4110,7 @@ varContarSelecionadas = 0
 
 With Grid_Historico
     If .TextMatrix(.Row, 12) = "" Then Exit Sub
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Col = 0
       .Row = i
       
@@ -4138,7 +4138,7 @@ varContarSelecionadas = 0
 
 With Grid_Parcelas
     If .TextMatrix(.Row, 9) = "" Then Exit Sub
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Col = 0
       .Row = i
       
@@ -4383,7 +4383,7 @@ Dim varValorHaver As Currency
 
 Dim f As Integer
 
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -4551,7 +4551,7 @@ lblPgto.Caption = "Vencimento"
 frmPagamento.Caption = "Vencimento"
 cboCliente.Locked = True
 
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -4591,7 +4591,7 @@ If cmdQuitarTodas.Visible = True Then
 
     Grid_Parcelas.Col = 0
    
-    For i = 1 To Grid_Parcelas.Rows - 1
+    For i = 1 To Grid_Parcelas.rows - 1
       Grid_Parcelas.Row = i
         Set Grid_Parcelas.CellPicture = imgDesmarcada
     Next
@@ -4609,7 +4609,7 @@ End If
 
 Grid_Parcelas.Col = 0
 
-For i = 1 To Grid_Parcelas.Rows - 1
+For i = 1 To Grid_Parcelas.rows - 1
   Grid_Parcelas.Row = i
     Set Grid_Parcelas.CellPicture = imgDesmarcada
 Next
@@ -4629,7 +4629,7 @@ Private Sub cmdHabilitarHaver_Click()
 frmHaver.Enabled = True
 mskDataHaver.Text = Format(Date, "dd/mm/yy")
 
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -4683,7 +4683,7 @@ End Sub
 
 
 Private Sub cmdMostrarHaveres_Click()
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -4733,7 +4733,7 @@ cboForma.SetFocus
 End Sub
 
 Private Sub cmdQuitaruma_Click()
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -4783,7 +4783,7 @@ vTipoRea = ""
 vCodPedidoRea = ""
 vNumParcelaRea = ""
 
-For f = 0 To Grid_Historico.Rows - 1
+For f = 0 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
@@ -4997,7 +4997,7 @@ Private Sub Reimprimir_HaverCupom()
       Next
      
       Fonte 8, False, False
-      Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(rPedidos("vDataHaver")) & " de " & monthName(Month(rPedidos("vDataHaver"))) & " de " & Year(rPedidos("vDataHaver"))
+      Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(rPedidos("vDataHaver")) & " de " & MonthName(Month(rPedidos("vDataHaver"))) & " de " & Year(rPedidos("vDataHaver"))
       
       For i = 1 To 3
             Printer.Print " "
@@ -5166,7 +5166,7 @@ Private Sub Imprimir_HaverCupom()
       Next
      
       Fonte 8, False, False
-      Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(mskDataHaver) & " de " & monthName(Month(mskDataHaver)) & " de " & Year(mskDataHaver)
+      Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(mskDataHaver) & " de " & MonthName(Month(mskDataHaver)) & " de " & Year(mskDataHaver)
       
       For i = 1 To 3
             Printer.Print " "
@@ -5203,7 +5203,7 @@ vValorTotal = 0
 vQtdMarcadas = 0
 var_Parc = ""
 
-For f = 1 To Grid_Historico.Rows - 1
+For f = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
@@ -5357,9 +5357,9 @@ Next
      
       Fonte 8, False, False
       If vQtdMarcadas > 1 Then
-         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & monthName(Month(Date)) & " de " & Year(Date)
+         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
       Else
-         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & monthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
+         Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(vDataPgto) & " de " & MonthName(Month(vDataPgto)) & " de " & Year(vDataPgto)
       End If
       
       For i = 1 To 3
@@ -5542,7 +5542,7 @@ Private Sub Imprimir_ReciboCupom()
              var_Parc = ""
              
              With Grid_Parcelas
-                For y = 1 To .Rows - 1
+                For y = 1 To .rows - 1
                    .Col = 0
                    .Row = y
     
@@ -5553,7 +5553,7 @@ Private Sub Imprimir_ReciboCupom()
                          MsgBox "Tratar Repetido"
                       Else
                          var_Parc = var_Parc & ", " & Format(.TextMatrix(.Row, 3), "00000") & "/" & Format(.TextMatrix(.Row, 4), "00")
-                         If y = .Rows - 1 Then Exit For
+                         If y = .rows - 1 Then Exit For
                       End If
                    End If
                 Next y
@@ -5594,9 +5594,9 @@ Private Sub Imprimir_ReciboCupom()
         
          Fonte 8, False, False
          If vQuitarUma = True Then
-            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & monthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
+            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(mskPagamento) & " de " & MonthName(Month(mskPagamento)) & " de " & Year(mskPagamento)
         Else
-            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & monthName(Month(Date)) & " de " & Year(Date)
+            Printer.Print Tab(10); "" & vCidadeUF & ", " & Day(Date) & " de " & MonthName(Month(Date)) & " de " & Year(Date)
         End If
          
          For i = 1 To 3
@@ -5682,7 +5682,7 @@ End Sub
 Private Sub cmdMostrarProdutos_Click()
 Dim f As Integer
 
-For f = 0 To Grid_Parcelas.Rows - 1
+For f = 0 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = f
    Grid_Parcelas.Col = 0
    
@@ -5696,7 +5696,7 @@ End Sub
 Private Sub cmdMostrarProdutosREATIVAR_Click()
 'Dim f As Integer
    
-For f = 0 To Grid_Historico.Rows - 1
+For f = 0 To Grid_Historico.rows - 1
    Grid_Historico.Row = f
    Grid_Historico.Col = 0
    
@@ -5767,7 +5767,7 @@ dbData.Execute "BEGIN TRANSACTION"
 bTrans = True
 
 With Grid_Parcelas
-   For f = 1 To .Rows - 1
+   For f = 1 To .rows - 1
       .Col = 0
       .Row = f
       If .CellPicture = ImgMarcada Then
@@ -6069,7 +6069,7 @@ Private Sub cmdSalvarAutomatico_Click()
 If cboForma.Text = "" Then MsgBox "Selecione uma forma de pagamento!", vbInformation, "Aviso do Sistema": cboForma.SetFocus: Exit Sub
 If txtValorAutomatico.Text = "" Or txtValorAutomatico.Text = "0,00" Then MsgBox "Valor incorreto!", vbInformation, "Aviso do Sistema": txtValorAutomatico.SetFocus: Exit Sub
 
-If Grid_Parcelas.Rows <= 1 Then MsgBox "Nenhuma parcela disponível para quitar!", vbInformation, "Aviso do Sistema": Exit Sub
+If Grid_Parcelas.rows <= 1 Then MsgBox "Nenhuma parcela disponível para quitar!", vbInformation, "Aviso do Sistema": Exit Sub
 
 frmPagamento.Visible = True
 varPgtoAutomatico = True
@@ -6100,7 +6100,7 @@ If varValorParaAbater < vValorPrimeiraLinha Then
     varSobra = varValorParaAbater
 Else
     With Grid_Parcelas
-        For i = 1 To .Rows - 1
+        For i = 1 To .rows - 1
             .Col = 0
             .Row = i
             
@@ -6130,7 +6130,7 @@ varLinhaMarcada = False
 
 If varSobra > 0 Then
 With Grid_Parcelas
-    For i = 1 To .Rows - 1
+    For i = 1 To .rows - 1
         .Col = 0
         .Row = i
         
@@ -6321,7 +6321,7 @@ Grid_Historico.Col = 0
 Dim vTipoMarcado As String
 var_Contador = 0
 vTipoMarcado = ""
-For i = 1 To Grid_Historico.Rows - 1
+For i = 1 To Grid_Historico.rows - 1
    Grid_Historico.Row = i
    If OP = MarcarTodos Then Set Grid_Historico.CellPicture = ImgMarcadaPAGAS
    If OP = DesmarcarTodos Then Set Grid_Historico.CellPicture = imgDesmarcadaPAGAS
@@ -6384,7 +6384,7 @@ Dim var_Contador As Integer
 
 Grid_Parcelas.Col = 0
 
-For i = 1 To Grid_Parcelas.Rows - 1
+For i = 1 To Grid_Parcelas.rows - 1
    Grid_Parcelas.Row = i
    If OP = MarcarTodos Then Set Grid_Parcelas.CellPicture = ImgMarcada
    If OP = DesmarcarTodos Then Set Grid_Parcelas.CellPicture = imgDesmarcada
@@ -6604,7 +6604,7 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Parcelas.Hide
-    PDV.Show 'desativei somente para geerar o online comerce
+    'PDV.Show 'desativei somente para geerar o online comerce
 Else
     Parcelas.Hide
     'If FormExists("PDV") Then
@@ -6635,7 +6635,7 @@ If Grid_Haver.TextMatrix(i, 2) = varCodCaixa Then cmdRemoverHaver.Enabled = True
 End Sub
 
 Private Sub Grid_Historico_Click()
-If Grid_Historico.Rows <= 1 Then Exit Sub
+If Grid_Historico.rows <= 1 Then Exit Sub
 'Dim i As Long
 Dim vCodParc As Long
 vCodParc = 0
@@ -6659,7 +6659,7 @@ AcaoGridREATIVAR
 If var_Contador = 1 Then
     'If Grid_Historico.Rows >= 2 Then
     'i = Grid_Historico.Row
-    For f = 0 To Grid_Historico.Rows - 1
+    For f = 0 To Grid_Historico.rows - 1
        Grid_Historico.Row = f
        Grid_Historico.Col = 0
        

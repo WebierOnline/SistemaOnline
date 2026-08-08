@@ -1,7 +1,7 @@
 VERSION 5.00
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Controle_semOS 
    BorderStyle     =   3  'Fixed Dialog
@@ -2593,7 +2593,7 @@ Begin VB.Form Caixa_Controle_semOS
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
-            TextSave        =   "13:42"
+            TextSave        =   "10:09"
             Object.ToolTipText     =   "Hora"
          EndProperty
       EndProperty
@@ -3239,7 +3239,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
    With Grid
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          If .TextMatrix(i, 5) = "CHEQUE" And IsNumeric(.TextMatrix(i, 6)) Then
             soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3263,7 +3263,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DEPOSITO" Or .TextMatrix(i, 5) = "TRANSFERENCIA" Or .TextMatrix(i, 5) = "BOLETO" Or .TextMatrix(i, 5) = "FINANCEIRA" Or .TextMatrix(i, 5) = "PIX" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3289,7 +3289,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
    With Grid
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
             soma = soma + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
@@ -3313,7 +3313,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If Left(.TextMatrix(i, 5), 6) = "CARTAO" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3349,7 +3349,7 @@ Dim i As Integer
 somaVendas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "VENDA" And .TextMatrix(i, 10) <> "À Prazo" And IsNumeric(.TextMatrix(i, 6)) Then
          somaVendas = somaVendas + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3364,7 +3364,7 @@ txtF1.Text = Format(QUANT, "000")
 somaParcelas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "PARCELA" Or .TextMatrix(i, 3) = "ALUGUEL" Or .TextMatrix(i, 3) = "OS" Then
         If IsNumeric(.TextMatrix(i, 6)) Then
             somaParcelas = somaParcelas + ValMoeda(.TextMatrix(i, 6))
@@ -3381,7 +3381,7 @@ txtF2.Text = Format(QUANT, "000")
 somaHaveres = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
          somaHaveres = somaHaveres + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3396,7 +3396,7 @@ txtF3.Text = Format(QUANT, "000")
 somaSuprimentos = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
          somaSuprimentos = somaSuprimentos + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3442,7 +3442,7 @@ txtF4.Text = Format(QUANT, "000")
 somaSaidas = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 3) = "SANGRIA" And IsNumeric(.TextMatrix(i, 7)) Then
          somaSaidas = somaSaidas + ValMoeda(.TextMatrix(i, 7))
          QUANT = QUANT + 1
@@ -3474,7 +3474,7 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "VENDA" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3488,7 +3488,7 @@ txtQuantDinheiro.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "PARCELA" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3503,7 +3503,7 @@ txtQuantDinheiroParcelas.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "HAVER" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3517,7 +3517,7 @@ txtQuantDinheiroHaveres.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "SUPRIMENTO" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3532,7 +3532,7 @@ txtQuantDinheiroSuprimento.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "OS" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -3547,7 +3547,7 @@ txtQuantDinheiroOS.Text = Format(QUANT, "000")
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       If .TextMatrix(i, 5) = "DINHEIRO" And .TextMatrix(i, 3) = "ALUGUEL" And IsNumeric(.TextMatrix(i, 6)) Then
          soma = soma + ValMoeda(.TextMatrix(i, 6))
          QUANT = QUANT + 1
@@ -4364,7 +4364,7 @@ mskData = Format(varData, "dd/mm/yyyy")   'Exibe a data no campo
 End Sub
 
 Private Sub cmdDetalhar_Click()
-If Grid.Rows <= 1 Then Exit Sub
+If Grid.rows <= 1 Then Exit Sub
 If Not IsNumeric(Grid.TextMatrix(Grid.Row, 2)) = True Then Exit Sub
 If Grid.TextMatrix(Grid.Row, 2) = "" Or Grid.TextMatrix(Grid.Row, 3) = "" Then Exit Sub
 
@@ -5553,7 +5553,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.Rows - 1
+   For i = 0 To var_Grid.rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + ValMoeda(var_Grid.TextMatrix(i, Col))
       End If
@@ -5593,7 +5593,7 @@ End If
 End Sub
 
 Private Sub cmdTrocarCaixa_Click()
-If Grid.Rows <= 1 Then Exit Sub
+If Grid.rows <= 1 Then Exit Sub
 If lblCodCaixaAtual.Caption = "0" Or lblCodCaixaStatus.Caption = "FECHADO" Then MsgBox "O " & lblCaixaAtual.Caption & " ainda encontra fechado!", vbInformation, "Aviso do Sistema": Exit Sub
 
 i = Grid.Row
@@ -5780,7 +5780,7 @@ Private Sub FormatarGridResumido(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 3
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 3000
@@ -5803,15 +5803,15 @@ Private Sub FormatarGridResumido(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("vTipoResultado"))
-            .TextMatrix(.Rows - 1, 2) = Format(rTabela("vtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("vTipoResultado"))
+            .TextMatrix(.rows - 1, 2) = Format(rTabela("vtotal"), ocMONEY)
            
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       
       'Deixar negrito quando vencido
 '      For i = 1 To .Rows - 1
@@ -5852,7 +5852,7 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 11
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 650
@@ -5892,22 +5892,22 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = Format(rTabela("varHora"), ocHRMN)
+            .TextMatrix(.rows - 1, 1) = Format(rTabela("varHora"), ocHRMN)
             If rTabela("varCodPedido") = 0 Then
-                .TextMatrix(.Rows - 1, 2) = ""
+                .TextMatrix(.rows - 1, 2) = ""
             Else
-                .TextMatrix(.Rows - 1, 2) = Format(rTabela("varCodPedido"), "000000")
+                .TextMatrix(.rows - 1, 2) = Format(rTabela("varCodPedido"), "000000")
             End If
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("varTipoLanc"))
-            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("varCliente"))
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("varTipoLanc"))
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("varCliente"))
             
             If rTabela("varFormaPgto") <> "CARTAO" Then
-               .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto")
+               .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto")
             Else
                 If rTabela("vartipocartao") = "DÉBITO" Then
-                    .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " DÉBITO"
+                    .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto") & " DÉBITO"
                 Else
-                    .TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " CRÉDITO"
+                    .TextMatrix(.rows - 1, 5) = rTabela("varFormaPgto") & " CRÉDITO"
                 End If
 
             '.TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " (" & rTabela("vartipocartao") & ")"
@@ -5915,30 +5915,30 @@ Private Sub FormatarGridEntrada(rTabela As ADODB.Recordset)
                
             End If
             
-            .TextMatrix(.Rows - 1, 6) = Format(rTabela("varValorLanc"), ocMONEY)
-            .TextMatrix(.Rows - 1, 7) = Format(rTabela("varValorSaida"), ocMONEY)
+            .TextMatrix(.rows - 1, 6) = Format(rTabela("varValorLanc"), ocMONEY)
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("varValorSaida"), ocMONEY)
             
             m_Saldo = m_Saldo + CCur(ValidateNull(rTabela("varValorLanc"))) - CCur(rTabela("varValorSaida"))
-            .TextMatrix(.Rows - 1, 8) = Format(m_Saldo, "##,##0.00")
-            .TextMatrix(.Rows - 1, 9) = Format(rTabela("varCodigo"), "000000")
-            .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("varTipoPgto"))
+            .TextMatrix(.rows - 1, 8) = Format(m_Saldo, "##,##0.00")
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("varCodigo"), "000000")
+            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("varTipoPgto"))
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       
       'mudar a cor da coluna
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
          .Col = 6:   .CellBackColor = &HC0FFFF
          .Col = 7:   .CellBackColor = &HC0C0FF
       Next
       
       'Deixar negrito quando vencido
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          For j = 0 To .Cols - 1
             .Col = j
             .Row = i
@@ -5981,7 +5981,7 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 'End If
 If vChamouCaixa = "PDV" Then
     Caixa_Controle_semOS.Hide
-    PDV.Show  'desativei somente para geerar o online comerce
+    'PDV.Show  'desativei somente para geerar o online comerce
 Else
     Caixa_Controle_semOS.Hide
     'PDV.Show 1
@@ -6153,7 +6153,7 @@ Private Sub mskData_LostFocus()
 End Sub
 
 Private Sub StatusBar1_PanelDblClick(ByVal Panel As MSComctlLib.Panel)
-   Select Case Panel.Index
+   Select Case Panel.index
       Case 1
          Exit Sub
       Case 2

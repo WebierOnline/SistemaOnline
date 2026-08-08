@@ -4,39 +4,39 @@ BEGIN
     (UF_Destino, AliquotaInterna, AliquotaFCP, DataInicioVigencia, TipoCalculo, FCPCompoeBase, Observacao)
     VALUES 
     -- Norte
-    ('AC', 19.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Acre'),
-    ('AM', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Amazonas'),
-    ('AP', 18.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Amap·'),
-    ('PA', 19.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Par·'),
-    ('RO', 21.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal RondÙnia (Majorada)'),
-    ('RR', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Roraima'),
-    ('TO', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Tocantins (Majorada)'),
+    ('AC', 19.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Acre'),
+    ('AM', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Amazonas'),
+    ('AP', 18.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Amap√°'),
+    ('PA', 19.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Par√°'),
+    ('RO', 21.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Rond√¥nia (Majorada)'),
+    ('RR', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Roraima'),
+    ('TO', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Tocantins (Majorada)'),
 
     -- Nordeste
     ('AL', 20.50, 0.00, '2026-04-01', 2, 1, 'Aumento para 20,5% em Abr/2026'),
-    ('BA', 20.50, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Bahia'),
-    ('CE', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Cear·'),
-    ('MA', 22.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Maranh„o'),
-    ('PB', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal ParaÌba'),
-    ('PE', 20.50, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Pernambuco'),
+    ('BA', 20.50, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Bahia'),
+    ('CE', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Cear√°'),
+    ('MA', 22.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Maranh√£o'),
+    ('PB', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Para√≠ba'),
+    ('PE', 20.50, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Pernambuco'),
     ('PI', 22.50, 0.00, '2026-04-01', 2, 1, 'Aumento para 22,5% em Abr/2026'),
-    ('RN', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Rio G. do Norte'),
-    ('SE', 19.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Sergipe'),
+    ('RN', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Rio G. do Norte'),
+    ('SE', 19.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Sergipe'),
 
     -- Centro-Oeste
-    ('DF', 20.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Distrito Federal'),
-    ('GO', 19.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Goi·s'),
-    ('MT', 17.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Mato Grosso'),
-    ('MS', 17.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Mato Grosso do Sul'),
+    ('DF', 20.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Distrito Federal'),
+    ('GO', 19.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Goi√°s'),
+    ('MT', 17.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Mato Grosso'),
+    ('MS', 17.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Mato Grosso do Sul'),
 
     -- Sudeste
-    ('ES', 17.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal EspÌrito Santo'),
-    ('MG', 18.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Minas Gerais'),
-    ('RJ', 20.00, 2.00, '2026-01-01', 2, 1, 'AlÌquota 20% + 2% FCP'),
-    ('SP', 18.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal S„o Paulo'),
+    ('ES', 17.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Esp√≠rito Santo'),
+    ('MG', 18.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Minas Gerais'),
+    ('RJ', 20.00, 2.00, '2026-01-01', 2, 1, 'Al√≠quota 20% + 2% FCP'),
+    ('SP', 18.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal S√£o Paulo'),
 
     -- Sul
-    ('PR', 19.50, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Paran· (Majorada)'),
-    ('RS', 17.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Rio Grande do Sul'),
-    ('SC', 17.00, 0.00, '2026-01-01', 2, 1, 'AlÌquota modal Santa Catarina');
+    ('PR', 19.50, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Paran√° (Majorada)'),
+    ('RS', 17.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Rio Grande do Sul'),
+    ('SC', 17.00, 0.00, '2026-01-01', 2, 1, 'Al√≠quota modal Santa Catarina');
 END

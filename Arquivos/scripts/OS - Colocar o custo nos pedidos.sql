@@ -1,4 +1,4 @@
--- Executa o update e j· mostra quantos restaram logo em seguida
+-- Executa o update e j√° mostra quantos restaram logo em seguida
 UPDATE PI
 SET 
     PI.Custo = PP.CUSTO,
@@ -12,5 +12,5 @@ CROSS APPLY (
 ) PP
 WHERE PI.Custo = 0 OR PI.Custo IS NULL;
 
--- VerificaÁ„o imediata
+-- Verifica√ß√£o imediata
 SELECT COUNT(*) AS Restantes_Zerados FROM pedidos_itens WHERE Custo = 0;

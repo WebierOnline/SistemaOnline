@@ -3708,10 +3708,28 @@ End If
     
     frameAguarde.Visible = True
     DoEvents
+    Dim vQtdOK As Integer, vQtdFalha As Integer, vListaFalhas As String
+    vQtdOK = 0
+    vQtdFalha = 0
+    vListaFalhas = ""
     Do While Not r.EOF
-        iRetorno = TransmitirNFCe(r!IdNFProd, "1", True, "65")
+        iRetorno = TransmitirNFCe(r!IdNFProd, "1", True, "65", True)
+        If iRetorno Then
+            vQtdOK = vQtdOK + 1
+        Else
+            vQtdFalha = vQtdFalha + 1
+            vListaFalhas = vListaFalhas & "NFCe " & r!IdNFProd & ": " & NFeMotivo & vbCr
+        End If
         r.MoveNext
     Loop
+    frameAguarde.Visible = False
+    DoEvents
+    Screen.MousePointer = vbDefault
+    If vQtdFalha = 0 Then
+        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso.", vbInformation, "Transmissão em Lote"
+    Else
+        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso." & vbCr & vQtdFalha & " pulada(s) por erro:" & vbCr & vbCr & vListaFalhas, vbExclamation, "Transmissão em Lote"
+    End If
     
 Caifora:
     Set r = Nothing

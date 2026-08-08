@@ -1,8 +1,8 @@
--- Garantir que o campo n„o aceita Nulos
+-- Garantir que o campo n√£o aceita Nulos
 ALTER TABLE produtos 
 ALTER COLUMN Codigo INT NOT NULL;
 
--- Criar a Chave Prim·ria
+-- Criar a Chave Prim√°ria
 IF NOT EXISTS (SELECT 1 FROM sys.indexes WHERE object_id = OBJECT_ID('produtos') AND name = 'PK_produtos_Codigo')
 ALTER TABLE produtos
 ADD CONSTRAINT PK_produtos_Codigo PRIMARY KEY (Codigo);

@@ -1,40 +1,40 @@
--- 1. LIMPEZA E REGRA GERAL (AlÌquota Padr„o)
--- Define todos como IBS Padr„o (000001) e sem Imposto Seletivo
+-- 1. LIMPEZA E REGRA GERAL (Al√≠quota Padr√£o)
+-- Define todos como IBS Padr√£o (000001) e sem Imposto Seletivo
 UPDATE tbNCM SET 
     cClassTrib_IBS = '000001', 
     cClassTrib_IS = '', 
     tipo_calculo_is = 0;
 
--- 2. CESTA B¡SICA NACIONAL (AlÌquota Zero)
--- NCMs de Carnes (0201-0204), Peixes (0302-0305), Leite (0401), Feij„o (0713), Arroz (1006)
+-- 2. CESTA B√ÅSICA NACIONAL (Al√≠quota Zero)
+-- NCMs de Carnes (0201-0204), Peixes (0302-0305), Leite (0401), Feij√£o (0713), Arroz (1006)
 UPDATE tbNCM SET 
     cClassTrib_IBS = '400001' 
 WHERE NCM LIKE '0201%' OR NCM LIKE '0202%' OR NCM LIKE '0203%' OR NCM LIKE '0204%'
    OR NCM LIKE '0302%' OR NCM LIKE '0303%' OR NCM LIKE '0304%' OR NCM LIKE '0305%'
    OR NCM LIKE '0401%' OR NCM LIKE '0713%' OR NCM LIKE '1006%';
 
--- 3. CESTA B¡SICA COM REDU«√O (AlÌquota 60%)
--- Higiene (3401), Limpeza (3402), Hortifr˙ti processado (0710)
+-- 3. CESTA B√ÅSICA COM REDU√á√ÉO (Al√≠quota 60%)
+-- Higiene (3401), Limpeza (3402), Hortifr√∫ti processado (0710)
 UPDATE tbNCM SET 
     cClassTrib_IBS = '200001'
 WHERE NCM LIKE '3401%' OR NCM LIKE '3402%' OR NCM LIKE '0710%';
 
--- 4. IMPOSTO SELETIVO - BEBIDAS ALCO”LICAS (Ad Valorem %)
+-- 4. IMPOSTO SELETIVO - BEBIDAS ALCO√ìLICAS (Ad Valorem %)
 -- Cervejas (2203), Vinhos (2204), Aguardentes (2208)
 UPDATE tbNCM SET 
     cClassTrib_IS = '900001', 
     tipo_calculo_is = 1 
 WHERE NCM LIKE '2203%' OR NCM LIKE '2204%' OR NCM LIKE '2208%';
 
--- 5. IMPOSTO SELETIVO - BEBIDAS A«UCARADAS (Ad Rem R$/Litro)
--- Refrigerantes, Refrescos, IsotÙnicos (2202)
+-- 5. IMPOSTO SELETIVO - BEBIDAS A√áUCARADAS (Ad Rem R$/Litro)
+-- Refrigerantes, Refrescos, Isot√¥nicos (2202)
 UPDATE tbNCM SET 
     cClassTrib_IS = '900010', 
     tipo_calculo_is = 2 
 WHERE NCM LIKE '2202%';
 
--- 6. COMBUSTÕVEIS - REGIME MONOF¡SICO (G·s GLP)
--- NCM do GLP (27111910) - Usa cClassTrib 620006 e c·lculo Ad Rem
+-- 6. COMBUST√çVEIS - REGIME MONOF√ÅSICO (G√°s GLP)
+-- NCM do GLP (27111910) - Usa cClassTrib 620006 e c√°lculo Ad Rem
 UPDATE tbNCM SET 
     cClassTrib_IBS = '620006', 
     cClassTrib_IS = '',

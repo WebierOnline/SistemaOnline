@@ -14,7 +14,7 @@ BEGIN
 	Update Produtos Set DESCRICAO = REPLACE(DESCRICAO, '|',' ')
 	Update Produtos Set DESCRICAO = REPLACE(DESCRICAO, '*','')
 	Update Produtos Set DESCRICAO = REPLACE(DESCRICAO, '#','')
-	UPDATE Produtos SET DESCRICAO = REPLACE(DESCRICAO, 'Ç', 'C')
+	UPDATE Produtos SET DESCRICAO = REPLACE(DESCRICAO, 'Ã‡', 'C')
 	UPDATE Produtos SET DESCRICAO = REPLACE(REPLACE(DESCRICAO, '''', ''), '  ', ' ')
 	Update Produtos Set DESCRICAO = LTRIM(RTRIM(DESCRICAO))
 	Update Produtos Set DESCRICAO = REPLACE(DESCRICAO, '  ',' ')
@@ -26,6 +26,8 @@ BEGIN
 	Update Produtos Set CEST = LTRIM(RTRIM(CEST))
 	Update Produtos Set CEST = '0' WHERE (LEN(CEST) > 8)
 	Update Produtos Set CEST = '0' WHERE (LEN(CEST) < 8)
+
+	UPDATE produtos SET cClassTrib = '000001', IBSCBSCST = '000', ISCST = '99' WHERE cClassTrib IS NULL OR len(cClassTrib) < 6;
 
 	Update Produtos Set ICMSCST = 102 WHERE CFOP = 5102
 	Update Produtos Set ICMSCST = 500 WHERE CFOP = 5405
@@ -39,12 +41,12 @@ BEGIN
 	SET PISCST = '49', PISAliq = 0, COFINSCST = '49', COFINSAliq = 0
 	WHERE CFOP = '5102';
 
-	-- 2. Produtos Monofásicos/ST (CFOP 5405)
+	-- 2. Produtos MonofÃ¡sicos/ST (CFOP 5405)
 	UPDATE produtos 
 	SET PISCST = '04', PISAliq = 0, COFINSCST = '04', COFINSAliq = 0
 	WHERE CFOP = '5405';
 
-	-- 3. Outros casos (CFOP 5403 ou Devoluções)
+	-- 3. Outros casos (CFOP 5403 ou DevoluÃ§Ãµes)
 	UPDATE produtos 
 	SET PISCST = '49', PISAliq = 0, COFINSCST = '49', COFINSAliq = 0
 	WHERE CFOP NOT IN ('5102', '5405');
@@ -88,7 +90,7 @@ BEGIN
     -- 1. Normal (CFOP 5102)
     UPDATE produtos SET PISCST = '01', PISAliq = 0.65, COFINSCST = '01', COFINSAliq = 3.00 WHERE CFOP = '5102';
     
-    -- 2. Monofásico (CFOP 5405)
+    -- 2. MonofÃ¡sico (CFOP 5405)
     UPDATE produtos SET PISCST = '04', PISAliq = 0, COFINSCST = '04', COFINSAliq = 0 WHERE CFOP = '5405';
     
     -- 3. Isentos (CST 040, 041)

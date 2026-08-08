@@ -1,8 +1,8 @@
-/* SCRIPT DE ATUALIZA«√O GLOBAL - REFORMA TRIBUT¡RIA 
+/* SCRIPT DE ATUALIZA√á√ÉO GLOBAL - REFORMA TRIBUT√ÅRIA 
    Este script mapeia os CSOSN/CST atuais para a nova estrutura IBS/CBS.
 */
 
--- 1. CEN¡RIO PARA EMPRESAS DO SIMPLES NACIONAL (CRT <> 3)
+-- 1. CEN√ÅRIO PARA EMPRESAS DO SIMPLES NACIONAL (CRT <> 3)
 IF EXISTS (SELECT 1 FROM empresa WHERE CRT <> 3)
 BEGIN
     PRINT 'Atualizando produtos para SIMPLES NACIONAL...';
@@ -13,39 +13,39 @@ BEGIN
         CBSpAliq = 0.00,
         IBSUFpAliq = 0.00,
         IBSMunpAliq = 0.00,
-        ISCST = '00',     -- N„o incidente
+        ISCST = '00',     -- N√£o incidente
         ISpIS = 0.00
     WHERE ICMSCST IN ('101', '102', '103', '400', '900');
 
-    -- Regra para Produtos Monof·sicos/SubstituiÁ„o Tribut·ria (Ex: CSOSN 500, 201, 202, 203)
+    -- Regra para Produtos Monof√°sicos/Substitui√ß√£o Tribut√°ria (Ex: CSOSN 500, 201, 202, 203)
     UPDATE produtos 
-    SET IBSCBSCST = '02', -- Monof·sico (Equivalente ‡ ST na reforma)
+    SET IBSCBSCST = '02', -- Monof√°sico (Equivalente √† ST na reforma)
         CBSpAliq = 0.00,
         IBSUFpAliq = 0.00,
         IBSMunpAliq = 0.00,
-        ISCST = '00',     -- Padr„o n„o incidente (usu·rio altera manuamente se for bebida/fumo)
+        ISCST = '00',     -- Padr√£o n√£o incidente (usu√°rio altera manuamente se for bebida/fumo)
         ISpIS = 0.00
     WHERE ICMSCST IN ('500', '201', '202', '203');
 END
 
--- 2. CEN¡RIO PARA EMPRESAS DO REGIME NORMAL (CRT = 3)
+-- 2. CEN√ÅRIO PARA EMPRESAS DO REGIME NORMAL (CRT = 3)
 ELSE
 BEGIN
     PRINT 'Atualizando produtos para REGIME NORMAL...';
 
-    -- Regra para Produtos Tributados Integralmente ou com ReduÁ„o (CST 00, 20, 90)
+    -- Regra para Produtos Tributados Integralmente ou com Redu√ß√£o (CST 00, 20, 90)
     UPDATE produtos 
     SET IBSCBSCST = '01', 
-        CBSpAliq = 8.80,   -- AlÌquota estimada CBS
-        IBSUFpAliq = 17.70, -- AlÌquota estimada IBS (Estado + MunicÌpio)
-        IBSMunpAliq = 0.00, -- Geralmente o IBS È gerido pelo estado/conselho
+        CBSpAliq = 8.80,   -- Al√≠quota estimada CBS
+        IBSUFpAliq = 17.70, -- Al√≠quota estimada IBS (Estado + Munic√≠pio)
+        IBSMunpAliq = 0.00, -- Geralmente o IBS √© gerido pelo estado/conselho
         ISCST = '00',
         ISpIS = 0.00
     WHERE ICMSCST IN ('000', '020', '090');
 
     -- Regra para Produtos com ST ou Cobrados Anteriormente (CST 10, 60, 70)
     UPDATE produtos 
-    SET IBSCBSCST = '02', -- Monof·sico
+    SET IBSCBSCST = '02', -- Monof√°sico
         CBSpAliq = 0.00,
         IBSUFpAliq = 0.00,
         IBSMunpAliq = 0.00,
@@ -55,9 +55,9 @@ BEGIN
 END
 
 -- 3. AJUSTE PARA O IMPOSTO SELETIVO (Opcional - Baseado em NCM ou Categoria)
--- Se vocÍ quiser automatizar Refrigerantes e Cervejas (Exemplos de NCM)
+-- Se voc√™ quiser automatizar Refrigerantes e Cervejas (Exemplos de NCM)
 UPDATE produtos 
-SET ISCST = '01', -- IncidÍncia de Imposto Seletivo
-    ISpIS = 0.00  -- AlÌquota deixamos 0 para revenda
-WHERE NCM LIKE '2202%' -- ¡guas e Refrigerantes
+SET ISCST = '01', -- Incid√™ncia de Imposto Seletivo
+    ISpIS = 0.00  -- Al√≠quota deixamos 0 para revenda
+WHERE NCM LIKE '2202%' -- √Åguas e Refrigerantes
    OR NCM LIKE '2203%'; -- Cervejas

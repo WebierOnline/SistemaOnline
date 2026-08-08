@@ -58,13 +58,16 @@ Dim ComandoSQL As String
    Set objNFeNFCe = New snfe.Util
    
    ComandoSQL = "SELECT CNPJ, Razao, Cidade, Estado, CodigoIBGE, CRT, AmbienteNF, DiretorioXML, CertificadoDigital, " & _
-                "NFCeIDToken, NFCeCSC, LicencaDLL, Email, caminho, NFCeOffline " & _
+                "NFCeIDToken, NFCeCSC, LicencaDLL, Email, caminho, NFCeOffline, ContigenciaNFCe " & _
                 "FROM Empresa"
    'MsgBox ComandoSQL
    If Modelo = 65 Then
       If SQLExecutaRetorno(ComandoSQL, "NFCeOffline", False) Then
          TipoEmissao = "9 - Contingência off-line da NFC-e"
-      ElseIf Left(TipoEmissao, 1) = "9" Then
+      ElseIf SQLExecutaRetorno(ComandoSQL, "ContigenciaNFCe", False) Then
+         'SEFAZ autorizou contingência (ativado manualmente pelo usuário) - Piauí usa SVRS como autorizador normal, contingencia vai pro SVC-AN
+         TipoEmissao = "6 - Contingência SVC-AN"
+      ElseIf Left(TipoEmissao, 1) = "9" Or Left(TipoEmissao, 1) = "6" Then
          TipoEmissao = "1 - Normal"
       End If
    End If
@@ -1044,7 +1047,7 @@ Caifora:
 '    TransmitirNFe = False
 End Function
 
-Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65") As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
+Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65", Optional Silencioso As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
  Dim txtNumerado As String, Retorno As String, vsNFe As String, empUF As String, sql As String
  Dim Parametros As New ADODB.Recordset
  Dim NFe As New ADODB.Recordset, NFeItens As New ADODB.Recordset, NFeParcelas As New ADODB.Recordset
@@ -1060,7 +1063,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
  
  'On Error GoTo TransmitirNFCe_Error
  
- 'On Error GoTo deuErro
+ On Error GoTo deuErro
 
  Dim sistNFCe As snfe.Util
  Set sistNFCe = New snfe.Util
@@ -1592,7 +1595,7 @@ Resume
 NaoEnviou:
 Set sistNFCe = Nothing
 
-If Not NFCeContingenciaOFF And PodeEnviar Then MsgBox NFeMotivo, vbCritical + vbOKOnly
+If Not NFCeContingenciaOFF And PodeEnviar And Not Silencioso Then MsgBox NFeMotivo, vbCritical + vbOKOnly
 If NFCeContingenciaOFF And Not PodeEnviar Then
    TransmitirNFCe = True
    xCaminhoXML = xCaminhoXMLAuxiliar
@@ -1603,7 +1606,7 @@ Exit Function
 Resume
 
 Caifora:
-    If Not Vazio(NFeMotivo) Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeNota, True), vbCritical + vbOKOnly
+    If Not Vazio(NFeMotivo) And Not Silencioso Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeNota, True), vbCritical + vbOKOnly
     
     Set sistNFCe = Nothing
     
@@ -1622,10 +1625,18 @@ deuErro:
 '       'MsgBox Err.Description, vbCritical + vbOKOnly
 '    End If
 
+    Dim vErrDescTransmitir As String
+    vErrDescTransmitir = Err.Description
+    On Error Resume Next
+    NFeMotivo = sistNFCe.xMotivo
+    On Error GoTo 0
+    If Vazio(NFeMotivo) Then NFeMotivo = vErrDescTransmitir
+    If Not Silencioso Then
     If InStr(1, sistNFCe.xMotivo, "Erros na validação") > 0 Then
        MsgBox TrataErroValidacao(sistNFCe.xMotivo), vbExclamation + vbOKOnly, "ERRO VALIDAÇÃO XML"
     ElseIf Not Vazio(sistNFCe.xMotivo) Then
        MsgBox sistNFCe.xMotivo, vbExclamation + vbOKOnly, "ERRO"
+    End If
     End If
     
     Set sistNFCe = Nothing
@@ -1645,6 +1656,30 @@ TransmitirNFCe_Error:    'reativei dia 06/03/26 para ver
     'Set sistNFCe = Nothing
     'Err.Clear
 End Function
+
+Public Sub TransmitirTodasNFCePendentes()
+'chamado pelo TimerInternet (PDV.frm) quando a internet volta - envia em lote e silencioso, sem MsgBox de resumo
+Dim rPend As New ADODB.Recordset
+Dim vSQLPend As String
+Dim vContingenciaAtiva As Boolean
+
+vSQLPend = "SELECT TOP 1 ContigenciaNFCe FROM Empresa ORDER BY fantasia"
+RsOpen rPend, vSQLPend
+vContingenciaAtiva = False
+If Not rPend.EOF Then vContingenciaAtiva = rPend!ContigenciaNFCe
+If rPend.State <> 0 Then rPend.Close
+If vContingenciaAtiva Then Exit Sub   'admin bloqueou o envio manualmente, nao tenta
+
+vSQLPend = "SELECT IdNFProd FROM TbNFCe WHERE NFCeEnviada = 0 AND NFCeCancelada = 0 AND Inutilizada = 0 ORDER BY IdNFProd"
+RsOpen rPend, vSQLPend
+
+Do While Not rPend.EOF
+    TransmitirNFCe rPend!IdNFProd, "1", True, "65", True
+    rPend.MoveNext
+Loop
+
+If rPend.State <> 0 Then rPend.Close
+End Sub
 
 Public Function CancelaNFe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Função para envio do cancelamento da NFe
 Dim IdLote As Long, dhEvento As String, CNPJ As String
@@ -2241,7 +2276,7 @@ Caifora:
    Screen.MousePointer = vbDefault
 End Sub
 
-Public Sub ConsultaStatus(Optional ModeloNF As Integer = 55)  'Sub que consulta o Status do Serviço da Receita
+Public Sub ConsultaStatus(Optional ModeloNF As Integer = 55, Optional Silencioso As Boolean = False)  'Sub que consulta o Status do Serviço da Receita
 Dim sistNFe As snfe.Util
    
    On Error GoTo deuErro
@@ -2265,7 +2300,7 @@ Dim sistNFe As snfe.Util
       NFeResposta = CStr(sistNFe.retStatusWS.cStat) + " - " + sistNFe.retStatusWS.xMotivo
    End If
 
-   MsgBox "CONSULTA DE STATUS DO WS" & vbNewLine & vbNewLine & NFeResposta, vbInformation + vbOKOnly
+   If Not Silencioso Then MsgBox "CONSULTA DE STATUS DO WS" & vbNewLine & vbNewLine & NFeResposta, vbInformation + vbOKOnly
 
    Set sistNFe = Nothing
 
@@ -2274,7 +2309,7 @@ Dim sistNFe As snfe.Util
    Exit Sub
    
 deuErro:   'estava desabilitado, habilitei no dia que fui testar o açougue uniao
-   MsgBox Err.Description, vbCritical
+   If Not Silencioso Then MsgBox Err.Description, vbCritical
    Err.Clear
    Set sistNFe = Nothing
 

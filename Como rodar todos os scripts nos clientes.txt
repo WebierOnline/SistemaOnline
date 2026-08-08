@@ -1,0 +1,51 @@
+Descobrir o local do sqlcmd:
+where sqlcmd
+
+Passo a passo prático, assumindo que você já está na máquina do cliente com a pasta scripts em mãos
+  (pen drive, nuvem, etc.):
+
+  1. Copie a pasta inteira scripts pra máquina do cliente
+  Pode ser pra qualquer lugar (Área de Trabalho, C:\Temp, etc.) — leve a pasta toda, não só alguns
+  arquivos. Ela contém o _manifesto.txt, o Executar_Scripts.ps1 e todos os .sql.
+
+  2. Descubra o nome do servidor/instância e do banco daquele cliente
+  Não assuma que é .\SQLEXPRESS2008 (esse é só desta sua máquina). O jeito mais rápido: abra o Config.ini
+  do OnlineCommerce/PDV já instalado no cliente (mesma pasta do sistema) e veja a linha SERVER=... — é
+  exatamente o valor que você vai usar no -Server. O nome do banco geralmente é cyber_base também, mas
+  confira.
+
+  3. Abra o PowerShell como administrador
+  Clique direito no menu Iniciar → "Windows PowerShell (Admin)", ou procure "PowerShell", clique direito
+  → Executar como administrador.
+
+  4. Navegue até a pasta copiada (ajuste o caminho pra onde você colou)
+	cd\
+  	cd "C:\scripts"
+  	
+
+  5. Rode o script apontando pro servidor/banco do cliente:
+
+  .\Executar_Scripts.ps1 -Server ".\SQLEXPRESS2008" -Database "cyber_base" -User "sa" -Password "190106web"
+
+  Se o PowerShell reclamar de "execução de scripts desabilitada" (política de segurança padrão do Windows
+  bloqueia .ps1 não assinado), rode assim em vez disso:
+
+  powershell -ExecutionPolicy Bypass -File ".\Executar_Scripts.ps1" -Server ".\SQLEXPRESS2008" -Database "cyber_base" -User "sa" -Password "190106web"
+
+  6. Acompanhe a tela
+  Ele vai mostrar linha por linha qual script está rodando (001, 002, 003...). Se o sqlcmd não estiver
+  instalado, ele avisa e para logo no início — sem risco de rodar pela metade.
+
+  7. Se parar num erro no meio
+  Ele te diz exatamente qual número falhou e sugere o comando pra retomar depois de resolver, por
+  exemplo:
+
+  .\Executar_Scripts.ps1 -Server "..." -Database "..." -ContinuarApos 44
+  (isso pula os 44 primeiros, que já rodaram certinho, e continua do 45 em diante)
+
+  8. No final, confira o log
+  Fica salvo na mesma pasta, um arquivo execucao_AAAAMMDD_HHMMSS.log — dá pra revisar depois ou mandar
+  pra mim se algo der errado e você quiser que eu olhe.
+
+  9. Depois que terminar tudo com sucesso, é só instalar/atualizar o sistema
+  (OnlineCommerce/PDV/OrdemServico) normalmente naquele cliente, já com o banco no schema atualizado.

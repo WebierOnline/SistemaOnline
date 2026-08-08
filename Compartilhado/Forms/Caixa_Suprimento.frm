@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Suprimento 
    BorderStyle     =   3  'Fixed Dialog
@@ -111,9 +111,9 @@ Begin VB.Form Caixa_Suprimento
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Caixa_Suprimento.frx":2BD9
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblQuant"
+      Tab(1).Control(0)=   "frmConsulta"
       Tab(1).Control(1)=   "lblValor"
-      Tab(1).Control(2)=   "frmConsulta"
+      Tab(1).Control(2)=   "lblQuant"
       Tab(1).ControlCount=   3
       Begin VB.PictureBox Picture1 
          Height          =   4155
@@ -850,7 +850,7 @@ With REL_ReciboSuprimento
     .txtValor.Caption = UCase(NumeroExtenso(txtValor.Text, True))
     .txthead.Caption = "R$ " & Format(txtValor.Text, "##,##0.00")
     '.txtProveniente.Caption = "Pagamento da " & txtNumParcela.Text & "ª parcela do PEDIDO Nº " & Format(txtCodPedido.Text, "000000")
-    .txtData.Caption = "" & vCidadeUF & ", " & Day(mskData) & " de " & monthName(Month(mskData)) & " de " & Year(mskData)
+    .txtData.Caption = "" & vCidadeUF & ", " & Day(mskData) & " de " & MonthName(Month(mskData)) & " de " & Year(mskData)
     
     .Relatorio.NumeroRegistros = 1
     .Relatorio.NomeImpressora = var_ImpNormal
@@ -951,7 +951,7 @@ Private Sub cboMes_GotFocus()
    cboMES.Clear
    
    For vMes = 1 To 12
-      cboMES.AddItem StrConv(monthName(vMes), vbProperCase)
+      cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
    
    moCombo.AttachTo cboMES
@@ -1483,7 +1483,7 @@ Dim i As Integer
 With GridSuprimentos
    .Clear
    .Cols = 9
-   .Rows = 2
+   .rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
@@ -1513,30 +1513,30 @@ With GridSuprimentos
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
-         .TextMatrix(.Rows - 1, 2) = rTabela("caixa")
-         .TextMatrix(.Rows - 1, 3) = Format(rTabela("codcaixa"), "000000")
-         .TextMatrix(.Rows - 1, 4) = Format(rTabela("data"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 5) = Format(rTabela("hora"), ocHRMN)
-         .TextMatrix(.Rows - 1, 6) = rTabela("descricao")
-         .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("setor"))
-         .TextMatrix(.Rows - 1, 8) = Format(rTabela("valor"), ocMONEY)
+         .TextMatrix(.rows - 1, 1) = rTabela("codigo")
+         .TextMatrix(.rows - 1, 2) = rTabela("caixa")
+         .TextMatrix(.rows - 1, 3) = Format(rTabela("codcaixa"), "000000")
+         .TextMatrix(.rows - 1, 4) = Format(rTabela("data"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 5) = Format(rTabela("hora"), ocHRMN)
+         .TextMatrix(.rows - 1, 6) = rTabela("descricao")
+         .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("setor"))
+         .TextMatrix(.rows - 1, 8) = Format(rTabela("valor"), ocMONEY)
          
          rTabela.MoveNext
-         .Rows = .Rows + 1
+         .rows = .rows + 1
          i = i + 1
       Loop
    End If
    
    'MUDAR COR DE FONTE DA COLUNA
-   For i = 1 To .Rows - 1
+   For i = 1 To .rows - 1
       .Row = i
       .Col = 6
       .CellForeColor = &HC0&
       .CellFontBold = True
    Next
    
-   .Rows = .Rows - 1
+   .rows = .rows - 1
    .Redraw = True
 End With
 
@@ -1546,7 +1546,7 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Me.Hide
-    PDV.Show  'desativei somente para geerar o online comerce
+    'PDV.Show  'desativei somente para geerar o online comerce
 Else
     Me.Hide
     'PDV.Show 1
@@ -1562,7 +1562,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To var_Grid.Rows - 1
+   For i = 0 To var_Grid.rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CCur(var_Grid.TextMatrix(i, Col))
       End If

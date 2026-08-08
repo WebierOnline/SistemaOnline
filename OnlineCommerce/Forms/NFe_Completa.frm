@@ -6047,7 +6047,6 @@ flag = True
 
 Load_Data
 TbNotas.Update
-vgDb.CommitTrans
 
 Load_Controls
 
@@ -6686,7 +6685,6 @@ End Sub
 
 Sub Load_Data()
 On Error GoTo erro
-    vgDb.BeginTrans
     TbNotas("ChavedeAcessoAdicional") = Format(txtChaveReferenciada.Text, "@")
     If txtVolPesoBruto.Text = "" Then txtVolPesoBruto.Text = "0"
     If txtVolPesoLiquido.Text = "" Then txtVolPesoLiquido.Text = "0"
@@ -6805,7 +6803,6 @@ Resume
 
 erro:
     MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Online Commerce"
-    vgDb.RollbackTrans
     Exit Sub
 End Sub
 Public Sub Load_Controls()
@@ -11121,7 +11118,6 @@ If vTipoEdicaoNFe = "Novo" Then
     RsOpen TbNotas, "SELECT * FROM NotaFiscal WHERE CodigoNota = " & Val(txtCodNota.Text)
     Load_Data
     TbNotas.Update
-    vgDb.CommitTrans
 
 ElseIf vTipoEdicaoNFe = "Edicao" Then
         
@@ -11141,8 +11137,6 @@ ElseIf vTipoEdicaoNFe = "Edicao" Then
     
     Load_Data
     TbNotas.Update
-    
-    vgDb.CommitTrans
 
 End If
 

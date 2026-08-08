@@ -207,7 +207,7 @@ LerConfiguracao
 'Entrada_Estoque.Show
 'Vendas_Consulta_Lucro.Show
 'Vendas_Consulta_PorProdutos.Show
-Entrada_Estoque.Show
+'Entrada_Estoque.Show
 Senha.Show
 End Sub
 

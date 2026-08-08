@@ -6462,7 +6462,7 @@ sSQL = "INSERT INTO produtos (" & _
    cboCategoria.Text & "', '" & txtPrateleira.Text & "', " & Replace(CDbl(txtQuantMin.Text), ",", ".") & ", '" & _
    txtObs.Text & "', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", '" & txtRef.Text & "', '" & txtTam.Text & "', '" & IIf((cboCST.Text = ""), 0, cboCST.Text) & "', " & Replace(CDbl(txtICMSAliquota.Text), ",", ".") & ", '" & txtPISCST.Text & "', '" & _
    txtCOFINSCST.Text & "', '" & txtIPICST.Text & "', '" & IIf((txtNCM.Text = ""), 0, txtNCM.Text) & "', '" & txtCEST.Text & "', '" & IIf((cboCFOP.Text = ""), 0, cboCFOP.Text) & "', 0, " & Abs(chkPedirPeso.Value) & ", " & Replace(CDbl(txtIPIAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtCofinsAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtPisAliquota.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCAliquota.Text), ",", ".") & ", " & IIf((chkFracionado.Value = Checked), txtCodProdFracionado.Text, 0) & ", " & Replace(CDbl(IIf((chkFracionado.Value = Checked), txtQuantFracionado.Text, 0)), ",", ".") & ", " & _
-   vModBC & " , " & vModBCST & ", " & Replace(CDbl(txtMVA.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCST.Text), ",", ".") & ", " & Replace(CDbl(txtSTAliq.Text), ",", ".") & ", '" & Left(cboIBSCBSCST.Text, 3) & "', " & IIf(cboIBSCBSClasse.ListIndex >= 0, "'" & Trim(cboIBSCBSClasse.Text) & "'", "NULL") & ", '" & Left(cboISCST.Text, 2) & "', " & IIf(cboISClasse.ListIndex >= 0, "'" & Left(cboISClasse.Text, 6) & "'", "NULL") & ", " & IIf(cboTipoIS.ListIndex >= 0, Val(Left(cboTipoIS.Text, 1)), "NULL") & ", " & Replace(CStr(CDbl(IIf(Trim(txtISFatorConv.Text) = "", "0", txtISFatorConv.Text))), ",", ".") & ", " & IIf(Trim(cboTAGs.Text) = "", "NULL", "'" & Replace(Trim(cboTAGs.Text), "'", "''") & "'") & ", '" & txtEANCaixa.Text & "', " & Replace(CDbl(txtFracao.Text), ",", ".") & ");"
+   vModBC & " , " & vModBCST & ", " & Replace(CDbl(txtMVA.Text), ",", ".") & ", " & Replace(CDbl(txtRedBCST.Text), ",", ".") & ", " & Replace(CDbl(txtSTAliq.Text), ",", ".") & ", '" & Left(cboIBSCBSCST.Text, 3) & "', " & IIf(cboIBSCBSClasse.ListIndex >= 0, "'" & Trim(cboIBSCBSClasse.Text) & "'", "NULL") & ", '" & Left(cboISCST.Text, 2) & "', " & IIf(cboISClasse.ListIndex >= 0, "'" & Left(cboISClasse.Text, 6) & "'", "NULL") & ", " & IIf(cboTipoIS.ListIndex >= 0, Val(Left(cboTipoIS.Text, 1)), "NULL") & ", " & Replace(CStr(CDbl(IIf(Trim(txtISFatorConv.Text) = "", "0", txtISFatorConv.Text))), ",", ".") & ", " & IIf(Trim(cboTAGs.Text) = "", "NULL", "'" & Replace(Trim(cboTAGs.Text), "'", "''") & "'") & ", '" & IIf(txtEANCaixa.Text = "SEM GTIN", "", txtEANCaixa.Text) & "', " & Replace(CDbl(txtFracao.Text), ",", ".") & ");"
 'Debug.Print sSQL
 'Retorna o resultado da inclusão
 Inserir_Dados = dbData.Execute(sSQL)
@@ -6564,7 +6564,7 @@ Private Function Atualizar_Dados() As Boolean
     sSQL = sSQL & "pedirpeso = " & Abs(chkPedirPeso.Value) & ", "
     sSQL = sSQL & "cod_barra = '" & txtCodBarra.Text & "', "
     sSQL = sSQL & "ean = '" & txtEAN.Text & "', "
-    sSQL = sSQL & "EANEmbalagem = '" & txtEANCaixa.Text & "', "
+    sSQL = sSQL & "EANEmbalagem = '" & IIf(txtEANCaixa.Text = "SEM GTIN", "", txtEANCaixa.Text) & "', "
     sSQL = sSQL & "Fracionamento = '" & txtFracao.Text & "', "
     sSQL = sSQL & "descricao = '" & txtDescricao.Text & "', "
     sSQL = sSQL & "fabricante = '" & cboFabricante.Text & "', "

@@ -1348,9 +1348,8 @@ Begin VB.Form PDV
       Visible         =   0   'False
       Width           =   1455
    End
-   Begin VB.Timer timerBackup 
-      Enabled         =   0   'False
-      Interval        =   60000
+   Begin VB.Timer TimerInternet 
+      Interval        =   15000
       Left            =   120
       Top             =   10200
    End
@@ -2150,14 +2149,14 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2646
             MinWidth        =   2646
-            TextSave        =   "06/08/2026"
+            TextSave        =   "08/08/2026"
          EndProperty
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "21:20"
+            TextSave        =   "12:16"
          EndProperty
          BeginProperty Panel7 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3175,6 +3174,27 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label lblConexaoInternet 
+      Alignment       =   1  'Right Justify
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "CONECTADO"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00006400&
+      Height          =   210
+      Left            =   9060
+      TabIndex        =   163
+      Top             =   8640
+      Width           =   1005
+   End
    Begin VB.Label lblConexao 
       Alignment       =   1  'Right Justify
       AutoSize        =   -1  'True
@@ -3191,9 +3211,9 @@ Begin VB.Form PDV
       EndProperty
       ForeColor       =   &H00006400&
       Height          =   210
-      Left            =   9345
+      Left            =   9060
       TabIndex        =   162
-      Top             =   10500
+      Top             =   8460
       Width           =   1005
    End
    Begin VB.Label lblMSG1 
@@ -3405,7 +3425,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Private moCombo As New cComboHelper
-
+Private vAguardandoEnvioNFCeAuto As Boolean   'internet voltou, esperando a venda atual (se houver) terminar pra disparar o envio automatico
 Dim varValorRealDesc As Currency    'impressão do valor do desconto em dinheiro na impressão do pedido
 Dim varValorRealAcresc As Currency  'impressão do valor do acrescimo em dinheiro na impressão do pedido
 
@@ -3563,6 +3583,109 @@ Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" _
     ByVal nShowCmd As Long) As Long
 
 Private Const SW_SHOWNORMAL = 1
+
+'usado pelo lblConexaoInternet - verifica conexao com a internet da maquina (nao tem relacao com o banco de dados)
+Private Declare Function InternetGetConnectedState Lib "wininet.dll" (ByRef lpdwFlags As Long, ByVal dwReserved As Long) As Long
+
+Private Function TemConexaoInternet() As Boolean
+Dim vFlags As Long
+TemConexaoInternet = (InternetGetConnectedState(vFlags, 0) <> 0)
+End Function
+
+Private Sub AtualizarLabelConexaoInternet()
+If TemConexaoInternet() Then
+    lblConexaoInternet.Caption = "CONECTADO"
+    lblConexaoInternet.ForeColor = RGB(0, 100, 0)
+Else
+    lblConexaoInternet.Caption = "DESCONECTADO"
+    lblConexaoInternet.ForeColor = RGB(139, 0, 0)
+End If
+End Sub
+
+
+
+Private Function VendaEmAndamentoComProdutos() As Boolean
+VendaEmAndamentoComProdutos = (Val(txtCodPedido.Text) > 0 And Grid.Rows > 1)
+End Function
+
+Private Sub EnviarNFCePendentesAutomatico()
+'envio automatico e silencioso das NFCe de contingência pendentes - sem MsgBox de resumo, tem que ser rapido
+dbData.Execute "UPDATE Empresa SET NFCeOffline = 0"   'internet voltou - desliga o modo offline antes de reenviar as pendentes
+Dim vCaptionOriginal As String
+vCaptionOriginal = lblInfoBusca.Caption
+lblInfoBusca.Caption = "TRANSMITINDO CUPONS FISCAIS PENDENTES. AGUARDE..."
+lblInfoBusca.Visible = True
+lblInfoBusca.Refresh
+
+cmdFinalizar.Enabled = False
+If CAIXA_FECHADO = True Then
+Else
+    cmdFinalizarAvista.Enabled = False
+    cmdFinalizarPrazo.Enabled = False
+    cmdOrçamento.Enabled = False
+    cmdCancelarPedido.Enabled = False
+    cmdRemover.Enabled = False
+    cmdAvancado.Enabled = False
+    cmdInfProduto.Enabled = False
+    Grid.Enabled = False
+    txtCodBarra.Enabled = False
+    txtValor.Enabled = False
+    txtQuant.Enabled = False
+    txtTotal.Enabled = False
+End If
+DoEvents
+
+TransmitirTodasNFCePendentes
+
+cmdFinalizar.Enabled = True
+If CAIXA_FECHADO = True Then
+Else
+    cmdFinalizarAvista.Enabled = True
+    cmdFinalizarPrazo.Enabled = True
+    cmdOrçamento.Enabled = True
+    cmdCancelarPedido.Enabled = True
+    cmdRemover.Enabled = True
+    cmdAvancado.Enabled = True
+    cmdInfProduto.Enabled = True
+    Grid.Enabled = True
+    txtCodBarra.Enabled = True
+    txtValor.Enabled = True
+    txtQuant.Enabled = True
+    txtTotal.Enabled = True
+End If
+
+lblInfoBusca.Visible = False
+lblInfoBusca.Caption = vCaptionOriginal
+End Sub
+
+Private Sub VerificarConexaoParaNFCe(ByRef pNFCeContingencia As Boolean)
+'chamado antes de NFCe_OK = True - confere a internet na hora exata (nao usa o Caption do
+'lblConexaoInternet, que so atualiza a cada 15s via TimerInternet e pode estar desatualizado)
+If Not TemConexaoInternet() Then
+    pNFCeContingencia = True
+    dbData.Execute "UPDATE Empresa SET NFCeOffline = 1"   'grava no banco de verdade - ConfiguraDLLNFeNFCe le esse campo ao vivo pra decidir o tpEmis
+    MsgBox "Sem conexão com a internet nesta máquina." & vbCr & "O cupom fiscal será gerado em modo CONTINGÊNCIA (offline) e transmitido à SEFAZ assim que a conexão for restabelecida.", vbExclamation, "NFCe - Sem Internet"
+End If
+End Sub
+
+Private Sub SugerirContingenciaSeSefazCaida()
+'chamado quando TransmitirNFCe falha com internet ok e produtos validos (EncontroErroNFCe=False) -
+'confere o status do servico da SEFAZ (NFCe) e sugere ativar a contingência manual se ela estiver fora do ar
+If Not TemConexaoInternet() Then Exit Sub
+NFeResposta = ""   'limpa antes - se ConsultaStatus também falhar (ex: erro de DNS), nao queremos ler um valor antigo
+ConsultaStatus 65, True
+If NFeResposta = "" Then
+    MsgBox "A transmissão da NFCe falhou mesmo com internet nesta máquina, e não foi possível nem consultar o status da SEFAZ." & vbCr & vbCr & _
+       "Pode ser um problema de rede local ou da SEFAZ. Se persistir, considere ativar o modo CONTINGÊNCIA (ContigenciaNFCe) no cadastro da empresa.", _
+       vbExclamation, "NFCe - Falha de Comunicação"
+ElseIf Left(NFeResposta, 3) <> "107" Then
+    MsgBox "A transmissão da NFCe falhou mesmo com internet nesta máquina." & vbCr & vbCr & _
+       "Status da SEFAZ: " & NFeResposta & vbCr & vbCr & _
+       "Pode ser que a SEFAZ esteja fora do ar. Se confirmar, ative o modo CONTINGÊNCIA (ContigenciaNFCe) no cadastro da empresa.", _
+       vbExclamation, "NFCe - Possível Contingência SEFAZ"
+End If
+End Sub
+
 Private Sub BuscarClienteConsumidor()
 If lblEstornar.Caption <> "ESTORNO" And lblEstornar.Caption <> "REIMPRESSÃO" Then
     'If cboCliente.Text = "" Then
@@ -7680,6 +7803,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
                             NFCe_OK = False
                             Exit Sub
                         Else
+                            VerificarConexaoParaNFCe NFCeContingencia
                             NFCe_OK = True
                         End If
                     Else
@@ -7694,6 +7818,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
                     NFCe_OK = False
                     Exit Sub
                 Else
+                    VerificarConexaoParaNFCe NFCeContingencia
                     NFCe_OK = True
                 End If
             End If
@@ -7706,6 +7831,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
                                 NFCe_OK = False
                                 Exit Sub
                             Else
+                                VerificarConexaoParaNFCe NFCeContingencia
                                 NFCe_OK = True
                             End If
                         Else
@@ -7720,6 +7846,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
                         NFCe_OK = False
                         Exit Sub
                     Else
+                        VerificarConexaoParaNFCe NFCeContingencia
                         NFCe_OK = True
                     End If
                 End If
@@ -8453,7 +8580,8 @@ Continuar:
                 'transmitir o cupom fiscal - NFCe
                 If EncontroErroNFCe = False Then
                        DoEvents
-                       iRetorno = TransmitirNFCe(rNFCe!IdNFProd, "1", Not NFCeContingencia, "65")
+                       iRetorno = TransmitirNFCe(rNFCe!IdNFProd, "1", Not NFCeContingencia, "65", True)
+                       If Not iRetorno And Not NFCeContingencia Then SugerirContingenciaSeSefazCaida
                        
                        If iRetorno Then
                           Set sistNFe = New snfe.Util
@@ -8820,7 +8948,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                                     End If
 
                             Else
-                                vCPF = RetirarMascaras(rCliente!CPF)
+                                vCPF = RetirarMascaras(ValidateNull(rCliente!CPF))
                             End If
                         Else
                             vCPF = ""
@@ -9068,7 +9196,8 @@ ContinuarNFCeAV:
                        'transmitir o cupom fiscal - NFCe
                 If EncontroErroNFCe = False Then
                        'transmitir o cupom NFCe
-                       iRetorno = TransmitirNFCe(rNFCe!IdNFProd, "1", Not NFCeContingencia, "65")
+                       iRetorno = TransmitirNFCe(rNFCe!IdNFProd, "1", Not NFCeContingencia, "65", True)
+                       If Not iRetorno And Not NFCeContingencia Then SugerirContingenciaSeSefazCaida
                        
                        'impressão da DANFe
                        If iRetorno Then
@@ -9317,6 +9446,24 @@ ErrHandlerFinalizar:
       bTrans = False
    End If
    MsgBox "Erro ao finalizar a venda: " & Err.Description, vbCritical, "Erro"
+   
+   'Reabilita os controles - sem isso, qualquer erro aqui deixava o PDV travado ate reiniciar
+   cmdFinalizar.Enabled = True
+   If CAIXA_FECHADO = True Then
+   Else
+       cmdFinalizarAvista.Enabled = True
+       cmdFinalizarPrazo.Enabled = True
+       cmdOrçamento.Enabled = True
+       cmdCancelarPedido.Enabled = True
+       cmdRemover.Enabled = True
+       cmdAvancado.Enabled = True
+       cmdInfProduto.Enabled = True
+       Grid.Enabled = True
+       txtCodBarra.Enabled = True
+       txtValor.Enabled = True
+       txtQuant.Enabled = True
+       txtTotal.Enabled = True
+   End If
 End Sub
 Private Sub Verificar_Limite()
 'Dim sSQL As String
@@ -11240,6 +11387,8 @@ Verificar_NFCe
 'MsgBox vTempo
 
 Randomize Timer   'ver depois, peguei do form de pegar peso da balança
+
+AtualizarLabelConexaoInternet   'estado inicial do lblConexaoInternet, sem esperar o primeiro tick do TimerInternet
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -11423,68 +11572,26 @@ If Not dbData.FalhouPorConexao Then
 End If
 End Sub
 
-Private Sub timerBackup_Timer()
-'MsgBox "Timer ativo"
-Dim DataHora As Date, xCaminhoBK As String
-Dim nomeArquivoBK As String
-Dim IniciouProcesso As Boolean
+Private Sub TimerInternet_Timer()
+Dim vTinhaInternet As Boolean
+vTinhaInternet = (lblConexaoInternet.Caption = "CONECTADO")
 
-   'picAguarde.Visible = False
-   DoEvents
-   mensagemErro = ""
-   iRetorno = False
-   IniciouProcesso = False
-   
-   If IniciouProcesso = False And 1 = 2 Then
-        sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-        Set r = dbData.OpenRecordset(sSQL)
-        
-        If Not r.EOF Then
-           dirXML = IIf(Right(r!DiretorioXML, 1) = "\", r!DiretorioXML, r!DiretorioXML & "\")
-        Else
-           Exit Sub
-        End If
-        
-        xCaminhoBK = dirXML & "backup"
-        
-        nomeArquivoBK = Retira(r!CNPJ, ".-/ ", UM_A_UM) & ".rar"
-        
-        DataHora = Now
-        
-        If Not Existe(xCaminhoBK & "\" & nomeArquivoBK) Then Exit Sub
-        
-        If Vazio(r!BackupDataHora) Then
-            IniciouProcesso = True
-           'picAguarde.Visible = True
-           DoEvents
-           iRetorno = GoogleEnviarArquivo(xCaminhoBK & "\" & nomeArquivoBK)
-           'picAguarde.Visible = False
-           DoEvents
-        ElseIf Day(r!BackupDataHora) < Day(DataHora) Then
-            IniciouProcesso = True
-           'picAguarde.Visible = True
-           DoEvents
-           iRetorno = GoogleEnviarArquivo(xCaminhoBK & "\" & nomeArquivoBK)
-           'picAguarde.Visible = False
-           DoEvents
-        ElseIf Format(DataHora, "hh:mm:ss") = CDate("12:30:00") Then
-            IniciouProcesso = True
-           'picAguarde.Visible = True
-           DoEvents
-           iRetorno = GoogleEnviarArquivo(xCaminhoBK & "\" & nomeArquivoBK)
-           'picAguarde.Visible = False
-           DoEvents
-        Else
-           Exit Sub
-        End If
-        
-        If iRetorno Then
-           sSQL = "UPDATE empresa SET BackupDataHora = " & FdthrSQL(DataHora)
-           SQLExecuta sSQL
-        End If
+AtualizarLabelConexaoInternet
+
+If lblConexaoInternet.Caption = "DESCONECTADO" And vTinhaInternet Then
+    dbData.Execute "UPDATE Empresa SET NFCeOffline = 1"   'internet acabou de cair - liga o modo offline pra valer no banco
+End If
+
+If lblConexaoInternet.Caption = "CONECTADO" And Not vTinhaInternet Then
+    vAguardandoEnvioNFCeAuto = True
+End If
+
+If vAguardandoEnvioNFCeAuto And lblConexaoInternet.Caption = "CONECTADO" Then
+    If Not VendaEmAndamentoComProdutos() Then
+        vAguardandoEnvioNFCeAuto = False
+        EnviarNFCePendentesAutomatico
     End If
-    
-    IniciouProcesso = False
+End If
 End Sub
 
 

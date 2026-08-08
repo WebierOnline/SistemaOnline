@@ -313,15 +313,22 @@ Public Function Execute(ByVal CommandText As String, Optional ByRef RecordsAffec
    Exit Function
    
 errHandle:
-   Debug.Print Err.Number & vbTab & Err.Description
+   Dim vErrNum As Long, vErrDesc As String
+   vErrNum = Err.Number
+   vErrDesc = Err.Description
+   Debug.Print vErrNum & vbTab & vErrDesc
    'Se há uma conexão existente
    If Not mConn Is Nothing Then
       RollbackTransaction           'Desfaz as alterações
    End If
    
-   If Err.Number = -2147467259 Then Set mConn = Nothing   'forca reconexao na proxima chamada
+   If vErrNum = -2147467259 Then Set mConn = Nothing   'forca reconexao na proxima chamada
    
-   msgErro "Database", "Execute", Err.Number, CommandText, Erl, vbCritical, 2
+   If InStr(1, vErrDesc, "PRIMARY KEY", vbTextCompare) > 0 Or InStr(1, vErrDesc, "UNIQUE KEY", vbTextCompare) > 0 Or InStr(1, vErrDesc, "duplicate key", vbTextCompare) > 0 Then
+      msgErro "Database", "Execute", vErrNum, "Este registro já existe (duplicado). A operação foi cancelada.", Erl, vbCritical, 2
+   Else
+      msgErro "Database", "Execute", vErrNum, vErrDesc, Erl, vbCritical, 2
+   End If
 End Function
 
 Public Function GetDateTime() As Date

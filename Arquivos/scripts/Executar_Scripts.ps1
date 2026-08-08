@@ -169,7 +169,7 @@ foreach ($linha in $linhas) {
 
     Log ("{0:D3} | Executando [{1}]: {2}" -f $numero, $categoria, $nomeArquivo)
 
-    $saida = & sqlcmd -S $Server -d $Database -U $User -P $Password -i "$caminhoScript" -b
+    $saida = & sqlcmd -S $Server -d $Database -U $User -P $Password -i "$caminhoScript" -f 65001 -b
     $saida | ForEach-Object { Add-Content -Path $LogFile -Value $_ -Encoding UTF8 }
     $saida | ForEach-Object { Write-Host $_ }
 

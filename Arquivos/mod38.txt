@@ -1,0 +1,8 @@
+Tudo quase está funcionando certinho... precisamos fazer um ajuste fino num detalhe.
+Quando digito um nome no txtcodbarra, exemplo 'ARROZ' e dou um ENTER, filtra todos os produtos que tem 'ARROZ' na descricao.... exibe o lstBusca, com todos os produtos daquele filtro... voltando a nossa questão anterior.
+1. Iniciei uma nova venda no pdv
+2. Adicionei um produto na venda (procurando pelo nome)
+3. Parei a estancia SQLEXPRESS2008 (para simular que a rede caiu)
+4. Digitei o nome de outro produto, dei um enter, apareceu a msg de 'sem conexao'. Cliquei no OK dessa mensagem. lstBusca apareceu...
+Enquanto o lstBusca está aberto (sem nenhum produto), nada acontece (todos os objetos ficam habilitados, lblconexao = CONECTADO, tudo exibido normal como se tivesse conexao... Ai pressiono a tecla ESC (configurei o ESC para ser a tecla que oculta o lstBusca) e o lstBusca some... ai que vai desabilitar os objetos, lblconexao = DESCONECTADO, etc.
+Seria interessante que após o primeiro 'msg de 'sem conexao'', que der o OK, o lstBusca não fosse carregado/exibido.

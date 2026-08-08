@@ -1,0 +1,7 @@
+O form NFCe_Consultar é o local onde vejo as NFCe emitidas (ou não), corrigo, transmito, cancelo, etc.
+Quando consulto cboStatus.text = "NÃO ENVIADAS", os botões cmdConsultarTodas, cmdTransmitirTodas e cmdInutilizarTodas ficam visíveis...
+Digamos que em um dia caiu a internet na metade do dia e ficam 300 nfe sem transmitir... o cmdTransmitirTodas iria transmitir todas, sem perguntar nada.
+Teoricamente se ele encontrar uma NFCe com produtos cadastrados errados(ncm, cfop, ean, etc) é para ela não falar nada e pular para próxima (transmitir as que estão validas)... obs: as vezes aparece NFCe com produtos errados e acaba aparecendo uma msg bem tecnica e para a operção naquela NFCe... ai tenho que corrigir aquela NFCe, para só assim clicar em cmdTransmitirTodas e ela continuar com a transmissão de todas não transmitidas.
+2 Fatores que quero ver:
+- Analisar os botões cmdConsultarTodas, cmdTransmitirTodas e cmdInutilizarTodas e ver se tem algo errado ou que pode melhorar.
+- Quando cmdTransmitirTodas estiver 100% (transmitindo todas as nfce validas e ignorando as erradas), porque não usarmos essa ideia no 'envio automatico) das notas offilines quando houver internet.

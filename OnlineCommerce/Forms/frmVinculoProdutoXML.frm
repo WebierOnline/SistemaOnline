@@ -1129,13 +1129,39 @@ Private Sub cmdCadastrar_Click()
           Produtos_Cadastro.txtEAN.Text = Item.sEAN
       End If
       Produtos_Cadastro.txtDescricao.Text = Item.Nome
-      Produtos_Cadastro.cboUnidMedida.Text = ConverterUnidade(Item.uCom, False)
+      Dim sUnidadeCad As String
+      sUnidadeCad = ConverterUnidade(Item.uCom, False)
+      Produtos_Cadastro.cboUnidMedida.ListIndex = -1
+      Dim kUnid As Integer
+      For kUnid = 0 To Produtos_Cadastro.cboUnidMedida.ListCount - 1
+          If Produtos_Cadastro.cboUnidMedida.List(kUnid) = sUnidadeCad Then
+              Produtos_Cadastro.cboUnidMedida.ListIndex = kUnid: Exit For
+          End If
+      Next kUnid
+      If Produtos_Cadastro.cboUnidMedida.ListIndex = -1 Then
+          'unidade da XML nao existe na lista - usa UN como padrao
+          For kUnid = 0 To Produtos_Cadastro.cboUnidMedida.ListCount - 1
+              If Produtos_Cadastro.cboUnidMedida.List(kUnid) = "UN" Then
+                  Produtos_Cadastro.cboUnidMedida.ListIndex = kUnid: Exit For
+              End If
+          Next kUnid
+      End If
       Produtos_Cadastro.txtNCM.Text = Item.NCM
       Produtos_Cadastro.txtCEST.Text = Item.CEST
 
       ' CFOP e CST ja convertidos pelo regime
-      Produtos_Cadastro.cboCFOP.Text = sCFOPSaida
-      Produtos_Cadastro.cboCST.Text = sICMSCST
+      Produtos_Cadastro.cboCFOP.ListIndex = -1
+      For kUnid = 0 To Produtos_Cadastro.cboCFOP.ListCount - 1
+          If Produtos_Cadastro.cboCFOP.List(kUnid) = sCFOPSaida Then
+              Produtos_Cadastro.cboCFOP.ListIndex = kUnid: Exit For
+          End If
+      Next kUnid
+      Produtos_Cadastro.cboCST.ListIndex = -1
+      For kUnid = 0 To Produtos_Cadastro.cboCST.ListCount - 1
+          If Produtos_Cadastro.cboCST.List(kUnid) = sICMSCST Then
+              Produtos_Cadastro.cboCST.ListIndex = kUnid: Exit For
+          End If
+      Next kUnid
 
       ' ICMS
       Produtos_Cadastro.txtICMSAliquota.Text = FormatNumber(dICMSAliq, 2)

@@ -1,0 +1,7 @@
+Criei algumas NFCe com produtos cadastrados com erros em cfop, icms cst, ncm, unid_medida e EAN de proposito para teste.
+Finalizei a venda, coloquei sim em 'impressora está pronta?', coloquei não em 'colocar o cpf na nfce?'... e apareceu a rejeição da image165... após o OK nela continuar normal (gera o cupom não-fiscal, e o cupom fiscal fica esperando eu corrigir ele para ai sim poder transmitir)... tudo certo até aqui!
+Mesma aconteceu com outras vendas com produtos com cfop, icms cst, ncm errados.
+Quando o produto possue o EAN ou unid_medida errado, a msg ficou diferente... image165
+Fator 1:
+Como o processo de venda no caixa precisa ser algo rápido, preciso que quando encontrar algum produto errado, não precisa avisar, somente segue o fluxo... imprime o não fiscal e deixa a NFCe para ser corrigida posteriores pelo usuário no form NFCe_Consultar.
+NFCe_Consultar = Aqui sim, quando clicar em consulta ou transmitir, tem que aparecer o motivo ao qual não foi transmitido, para o usuário ler e poder corrigir
