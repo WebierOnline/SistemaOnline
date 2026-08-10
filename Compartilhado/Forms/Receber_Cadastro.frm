@@ -2549,24 +2549,31 @@ Public Function Verifica_Dia(DIA, var_Mes)
 End Function
 
 Private Sub Gerar_Parcelas()
+'gera as N parcelas do carne num unico INSERT multi-linha (era 1 SELECT (numeracao) + 1 INSERT por parcela)
+'roda dentro da transacao ja aberta pelo cmdSalvar_Click - a mesma que ja tem rollback em caso de erro
 Dim i As Integer
-Dim lNovoCod As Long
+Dim lCodInicial As Long
 Dim var_Vencimento As Date
 Dim Var_NumParc As Integer
+Dim vQtdParc As Integer
+Dim sValoresInsert As String
 
+vQtdParc = CInt(cboQuantParc)
 var_Vencimento = CDate(mskInicio.Text)
-Var_NumParc = 1
 
-For i = 1 To CInt(cboQuantParc)
-   lNovoCod = Autonumeracao_Parcelas
-   
-   dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, numero, data, status, valor, VALOR_FINAL) VALUES (" & _
-      lNovoCod & ", " & lblCodigo.Caption & ", " & Var_NumParc & ", CONVERT(DATETIME, '" & Format(var_Vencimento, ocDATA) & "', 103), 0, " & _
-      Replace(CCur(txtParc.Text), ",", ".") & ", " & Replace(CCur(txtParc.Text), ",", ".") & ");"
-   
+lCodInicial = Autonumeracao_Parcelas   'reserva o primeiro codigo (WITH UPDLOCK, HOLDLOCK) - os demais sao sequenciais
+
+sValoresInsert = ""
+Var_NumParc = 1
+For i = 0 To vQtdParc - 1
+   If sValoresInsert <> "" Then sValoresInsert = sValoresInsert & ", "
+   sValoresInsert = sValoresInsert & "(" & (lCodInicial + i) & ", " & lblCodigo.Caption & ", " & Var_NumParc & ", CONVERT(DATETIME, '" & Format(var_Vencimento, ocDATA) & "', 103), 0, " & _
+      Replace(CCur(txtParc.Text), ",", ".") & ", " & Replace(CCur(txtParc.Text), ",", ".") & ")"
    var_Vencimento = Format(DateAdd("m", Val(1), var_Vencimento), "dd/mm/yy")
    Var_NumParc = Var_NumParc + 1
 Next
+
+dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, numero, data, status, valor, VALOR_FINAL) VALUES " & sValoresInsert & ";"
 End Sub
 
 Private Function Autonumeracao_Parcelas() As Long

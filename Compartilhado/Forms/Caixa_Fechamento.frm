@@ -990,9 +990,7 @@ Next
            "FROM caixa_saida WHERE (caixa_saida.codcaixa = " & txtCodCaixa.Text & ")  " & Maquina_Sangria & var_Setor & _
            " ORDER BY 2"
         
-        Set r = dbData.OpenRecordset(sSQL)
-        
-        printSQL = sSQL
+        printSQL = sSQL   'a query so precisa rodar uma vez (linha abaixo) - rodava 2x sem motivo
         
         '=========== DEFINIR A IMPRESSORA
         'Dim var_Impressora As String

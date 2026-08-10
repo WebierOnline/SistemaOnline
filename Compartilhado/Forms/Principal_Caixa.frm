@@ -466,42 +466,25 @@ Private Sub Form_Load()
 StatusBar1.Panels(2).Text = Format(Date, "dd/mm/yy")
 vCodUsuario = vCodFunc
 
-'permissões
-If LerPermissoesUsuario(vCodUsuario, 13) = True Then
-    cmdCaixaParcelas.Enabled = True
-Else
-    cmdCaixaParcelas.Enabled = False
-End If
+'permissões - 1 consulta so em vez de 6 (LerPermissoesUsuario continua igual, usada por outras telas)
+Dim rPerm As ADODB.Recordset
+Dim vPermissoesSet As Object
+Set vPermissoesSet = CreateObject("Scripting.Dictionary")
+sSQL = "SELECT Cod_Permissao FROM Usuario_Acessos WHERE (Cod_Usuario = " & vCodUsuario & ") AND Cod_Permissao IN (13,14,15,16,17,18)"
+Set rPerm = dbData.OpenRecordset(sSQL)
+Do While Not rPerm.EOF
+    vPermissoesSet(CStr(rPerm("Cod_Permissao"))) = True
+    rPerm.MoveNext
+Loop
+If rPerm.State <> 0 Then rPerm.Close
+Set rPerm = Nothing
 
-If LerPermissoesUsuario(vCodUsuario, 14) = True Then
-    cmdCaixaRetroativa.Enabled = True
-Else
-    cmdCaixaRetroativa.Enabled = False
-End If
-
-If LerPermissoesUsuario(vCodUsuario, 15) = True Then
-    cmdCaixaSangria.Enabled = True
-Else
-    cmdCaixaSangria.Enabled = False
-End If
-
-If LerPermissoesUsuario(vCodUsuario, 16) = True Then
-    ccmdCaixaRetirada.Enabled = True
-Else
-    ccmdCaixaRetirada.Enabled = False
-End If
-
-If LerPermissoesUsuario(vCodUsuario, 17) = True Then
-    cmdCaixaSuprimento.Enabled = True
-Else
-    cmdCaixaSuprimento.Enabled = False
-End If
-
-If LerPermissoesUsuario(vCodUsuario, 18) = True Then
-    cmdCaixaLivro.Enabled = True
-Else
-    cmdCaixaLivro.Enabled = False
-End If
+cmdCaixaParcelas.Enabled = vPermissoesSet.Exists("13")
+cmdCaixaRetroativa.Enabled = vPermissoesSet.Exists("14")
+cmdCaixaSangria.Enabled = vPermissoesSet.Exists("15")
+ccmdCaixaRetirada.Enabled = vPermissoesSet.Exists("16")
+cmdCaixaSuprimento.Enabled = vPermissoesSet.Exists("17")
+cmdCaixaLivro.Enabled = vPermissoesSet.Exists("18")
 
 
 
