@@ -153,7 +153,7 @@ Dim xCNPJ As String, xCPF As String
 Dim yCNPJ As String, yCPF As String
 Screen.MousePointer = vbHourglass
 
-''On Error GoTo DeuErro
+On Error GoTo DeuErro
 
  'instancia o componente
  Dim sistNFe As snfe.Util
@@ -1040,11 +1040,30 @@ Caifora:
     
     Resume
     
-'DeuErro:
-'    MsgBox Err.Description, vbCritical
-'    Err.Clear
-'    Screen.MousePointer = vbDefault
-'    TransmitirNFe = False
+DeuErro:
+    Dim vErrDescTransmitirNFe As String
+    vErrDescTransmitirNFe = Err.Description
+    NFeMotivo = vErrDescTransmitirNFe
+
+    MsgBox vErrDescTransmitirNFe, vbCritical
+
+    Set sistNFe = Nothing
+    Set Parametros = Nothing
+    Set Destinatario = Nothing
+    Set Produtos = Nothing
+    Set NFe = Nothing
+    Set NFeItens = Nothing
+    Set NFeParcelas = Nothing
+    Set NFeOBS = Nothing
+    Set NFeArmamento = Nothing
+    Set NFeCombustivel = Nothing
+    Set NFeMedicamentos = Nothing
+    Set NFeVeiculos = Nothing
+
+    Err.Clear
+    Screen.MousePointer = vbDefault
+    TransmitirNFe = False
+    Exit Function
 End Function
 
 Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65", Optional Silencioso As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita

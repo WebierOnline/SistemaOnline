@@ -1211,6 +1211,12 @@ If txtValor.Text = "" Or cboDesc.Text = "" Or cboForma.Text = "" Then
    Exit Sub
 End If
 
+If Not IsNumeric(txtValor.Text) Or CCur(txtValor.Text) <= 0 Then
+   ShowMsg "Informe um valor válido (maior que zero)!", vbInformation
+   txtValor.SetFocus
+   Exit Sub
+End If
+
 'ADICIONAR REGISTRO
 dbData.Execute "BEGIN TRANSACTION"
 bTrans = True

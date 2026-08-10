@@ -887,7 +887,7 @@ Begin VB.Form NFCe_Consultar
    End
    Begin ChamaleonBtn.chameleonButton cmdCancelar 
       Height          =   375
-      Left            =   4500
+      Left            =   4200
       TabIndex        =   4
       Top             =   8220
       Width           =   1335
@@ -952,14 +952,14 @@ Begin VB.Form NFCe_Consultar
             Alignment       =   1
             Object.Width           =   2999
             MinWidth        =   2999
-            TextSave        =   "23/07/2026"
+            TextSave        =   "10/08/2026"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "07:59"
+            TextSave        =   "07:16"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 

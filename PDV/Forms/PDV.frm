@@ -8289,10 +8289,22 @@ If cboTipoPgto.Text = "À PRAZO" Then
             End If
         End If
         
-        'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid
-        For i = 1 To Grid.Rows - 1
-           dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
-        Next
+        'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
+        If Grid.Rows > 1 Then
+            Dim sBaixaEstoque As String
+            sBaixaEstoque = ""
+            For i = 1 To Grid.Rows - 1
+                If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
+                sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
+            Next
+            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
+            Dim vQtdCodigosEstoque As Long, vRegAfetadosEstoque As Long
+            vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
+            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
+            If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
+                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+            End If
+        End If
         
         'CASHBACK
         If txtCodCliente.Text <> "1" Then
@@ -8864,10 +8876,20 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
             End If
         End If
         
-        'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid
-        For i = 1 To Grid.Rows - 1
-           dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
-        Next
+        'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
+        If Grid.Rows > 1 Then
+                        sBaixaEstoque = ""
+            For i = 1 To Grid.Rows - 1
+                If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
+                sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
+            Next
+            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
+            vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
+            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
+            If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
+                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+            End If
+        End If
         
         'CASHBACK
         If txtCodCliente.Text <> "1" Then
@@ -9302,9 +9324,21 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
         dbData.Execute sSQL
         
         If cboTipoPgto.Text = "CONSIGNADO" Then
-            For i = 1 To Grid.Rows - 1
-              dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
-            Next
+            If Grid.Rows > 1 Then
+                Dim sBaixaEstoqueCons As String
+                sBaixaEstoqueCons = ""
+                For i = 1 To Grid.Rows - 1
+                    If sBaixaEstoqueCons <> "" Then sBaixaEstoqueCons = sBaixaEstoqueCons & " UNION ALL "
+                    sBaixaEstoqueCons = sBaixaEstoqueCons & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
+                Next
+                dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
+                Dim vQtdCodigosEstoqueCons As Long, vRegAfetadosEstoqueCons As Long
+                vQtdCodigosEstoqueCons = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoqueCons & ") t", "r", 0)
+                dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoqueCons
+                If Not bEstNeg And vRegAfetadosEstoqueCons < vQtdCodigosEstoqueCons Then
+                    Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+                End If
+            End If
         End If
         
         If vDescItensVenda <> "0,00" Then
@@ -11919,6 +11953,28 @@ Else                                                                            
             If r.EOF Then
                vPedirPeso = False
             End If
+            
+            Dim dictComp As Object
+            Dim sSQL_Comp As String
+            Dim rS2 As ADODB.Recordset
+            If tipoEmpresa = 5 Then
+                'compatibilidade veicular pre-buscada de uma vez so (era 1 consulta por linha do resultado)
+                Set dictComp = CreateObject("Scripting.Dictionary")
+                sSQL_Comp = "SELECT pc.COD_PRODUTO, pc.MODELO, pc.ANO FROM PRODUTOS_COMP pc INNER JOIN produtos p ON p.codigo = pc.COD_PRODUTO WHERE (p.descricao LIKE '%" & txtCodBarra.Text & "%') AND (p.ativo = 1)"
+                Set rS2 = dbData.OpenRecordset(sSQL_Comp)
+                Dim vChaveComp As String
+                Do While Not rS2.EOF
+                    vChaveComp = CStr(rS2("COD_PRODUTO"))
+                    If dictComp.Exists(vChaveComp) Then
+                        dictComp(vChaveComp) = dictComp(vChaveComp) & rS2("MODELO") & "(" & rS2("ANO") & "),  "
+                    Else
+                        dictComp.Add vChaveComp, rS2("MODELO") & "(" & rS2("ANO") & "),  "
+                    End If
+                    rS2.MoveNext
+                Loop
+                If rS2.State <> 0 Then rS2.Close
+                Set rS2 = Nothing
+            End If
       
   'End If
       'carrega a caixa de buscar
@@ -11958,21 +12014,10 @@ Else                                                                            
                   If Not IsNull(r("var_quant")) Then ItemLst.SubItems(3) = ValidateNull(r("var_quant"))
                   If Not IsNull(r("venda")) Then ItemLst.SubItems(6) = Format(ValidateNull(r("venda")), ocMONEY)
                   If Not IsNull(r("var_local")) Then ItemLst.SubItems(5) = ValidateNull(r("var_local"))
-                      'Compartibilidade
-                        Dim sSQL_Comp As String
-                        Dim var_Comp As String
-                        Dim rS2 As ADODB.Recordset
-                        
-                        sSQL_Comp = "Select MODELO, ANO From PRODUTOS_COMP Where COD_PRODUTO = " & r("var_cod")
-                        Set rS2 = dbData.OpenRecordset(sSQL_Comp)
-                        
-                        Do While Not rS2.EOF
-                        var_Comp = var_Comp & rS2!Modelo & "(" & rS2!Ano & "),  "
-                        rS2.MoveNext
-                        Loop
-                        
-                        If Not IsNull(var_Comp) Then ItemLst.SubItems(4) = var_Comp
-                        var_Comp = ""
+                      'Compartibilidade (pre-buscada em lote antes do loop, evita 1 consulta por linha)
+                        If dictComp.Exists(CStr(r("var_cod"))) Then
+                            ItemLst.SubItems(4) = dictComp(CStr(r("var_cod")))
+                        End If
                   
                Else     'outros tipos de empresas
                   ItemLst.SubItems(2) = ValidateNull(r("var_desc")) & " /  " & ValidateNull(r("var_fab"))

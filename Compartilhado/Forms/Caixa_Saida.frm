@@ -1140,14 +1140,14 @@ Ent_Parcelas = 0
 Ent_Entradas = 0
 
 'parcelas
-sSQL = "SELECT ISNULL(SUM(valor_final), 0) AS var_total FROM parcelas WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO IN ('DINHEIRO', 'CHEQUE'));"
+sSQL = "SELECT ISNULL(SUM(valor_final), 0) AS var_total FROM parcelas WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO = 'DINHEIRO');"
 'Debug.Print sSQL
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then Ent_Parcelas = r("var_total")
 
  'haveres
-sSQL = "SELECT ISNULL(SUM(VALOR_HAVER), 0) AS varTotalHaver FROM parcelas_haver WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO IN ('DINHEIRO', 'CHEQUE'));"
+sSQL = "SELECT ISNULL(SUM(VALOR_HAVER), 0) AS varTotalHaver FROM parcelas_haver WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO = 'DINHEIRO');"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then Ent_Haveres = r("varTotalHaver")
@@ -1842,6 +1842,12 @@ Dim bTrans As Boolean
 If txtValor.Text = "" Or cboSubDesc.Text = "" Or cboDesc.Text = "" Or cboFonte.Text = "" Then
    ShowMsg "Formulário incompleto!", vbInformation
    cboSubDesc.SetFocus
+   Exit Sub
+End If
+
+If Not IsNumeric(txtValor.Text) Or CCur(txtValor.Text) <= 0 Then
+   ShowMsg "Informe um valor válido (maior que zero)!", vbInformation
+   txtValor.SetFocus
    Exit Sub
 End If
 

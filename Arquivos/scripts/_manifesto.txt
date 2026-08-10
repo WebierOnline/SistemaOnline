@@ -81,3 +81,4 @@
 081|AlterTable_Cliente_AddPK_Codigo.sql|GERAL
 082|AlterTable_Fornecedor_Complemento.sql|GERAL
 083|NFe - Modificações.sql|GERAL
+084|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL

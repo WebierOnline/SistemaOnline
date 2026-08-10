@@ -1425,10 +1425,72 @@ Private Sub cboSubDesc_KeyPress(KeyAscii As Integer)
    KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
+Private Sub Verificar_Valor_Retirada()
+Dim sSQLVR As String
+Dim rVR As ADODB.Recordset
+
+Dim Ent_Parcelas As Currency
+Dim Ent_Haveres As Currency
+Dim Ent_Entradas As Currency
+Dim Soma_Entradas As Currency
+Dim TotalSaidas As Currency
+Dim TotalRetiradas As Currency
+Dim Valor_Retirada As Currency
+
+'retirada e sempre em dinheiro (recibo fixa FORMA_PGTO = DINHEIRO) - conta so entradas em dinheiro
+sSQLVR = "SELECT ISNULL(SUM(valor_final), 0) AS var_total FROM parcelas WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') AND (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO = 'DINHEIRO');"
+Set rVR = dbData.OpenRecordset(sSQLVR)
+Ent_Parcelas = 0
+If Not rVR.BOF Then Ent_Parcelas = rVR("var_total")
+
+sSQLVR = "SELECT ISNULL(SUM(VALOR_HAVER), 0) AS varTotalHaver FROM parcelas_haver WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') AND (CODCAIXA = '" & varCodCaixa & "') AND (FORMA_PGTO = 'DINHEIRO');"
+Set rVR = dbData.OpenRecordset(sSQLVR)
+Ent_Haveres = 0
+If Not rVR.BOF Then Ent_Haveres = rVR("varTotalHaver")
+
+sSQLVR = "SELECT ISNULL(SUM(valor), 0) AS varTotalSuprimentos FROM caixa_entrada WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') AND (CODCAIXA = '" & varCodCaixa & "');"
+Set rVR = dbData.OpenRecordset(sSQLVR)
+Ent_Entradas = 0
+If Not rVR.BOF Then Ent_Entradas = rVR("varTotalSuprimentos")
+
+'saidas (sangria) ja feitas no caixa atual
+sSQLVR = "SELECT ISNULL(SUM(valor), 0) AS varTotalSaidas FROM caixa_saida WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') AND (CODCAIXA = '" & varCodCaixa & "') AND (FONTE = 'CAIXA ATUAL');"
+Set rVR = dbData.OpenRecordset(sSQLVR)
+TotalSaidas = 0
+If Not rVR.BOF Then TotalSaidas = rVR("varTotalSaidas")
+
+'retiradas ja feitas no caixa atual
+sSQLVR = "SELECT ISNULL(SUM(valor), 0) AS varTotalRetiradas FROM caixa_retirada WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') AND (codcaixa = " & varCodCaixa & ");"
+Set rVR = dbData.OpenRecordset(sSQLVR)
+TotalRetiradas = 0
+If Not rVR.BOF Then TotalRetiradas = rVR("varTotalRetiradas")
+
+If rVR.State <> 0 Then rVR.Close
+Set rVR = Nothing
+
+Soma_Entradas = Ent_Parcelas + Ent_Entradas + Ent_Haveres
+
+Valor_Retirada = CCur(txtValor.Text) + TotalSaidas + TotalRetiradas
+
+ULTRAPASSOU_VALOR = False
+If Valor_Retirada > Soma_Entradas Then
+   ShowMsg "O valor da retirada ultrapassou o saldo dispon" + "ó" + "vel em dinheiro no caixa atual!", vbInformation
+   ULTRAPASSOU_VALOR = True
+End If
+End Sub
+
 Private Sub cmdSalvar_Click()
+On Error GoTo TrataErro
+
 If txtValor.Text = "" Or cboSubDesc.Text = "" Or cboFuncionario.Text = "" Then
    ShowMsg "Formulário incompleto!", vbInformation
    cboSubDesc.SetFocus
+   Exit Sub
+End If
+
+If Not IsNumeric(txtValor.Text) Or CCur(txtValor.Text) <= 0 Then
+   ShowMsg "Informe um valor válido (maior que zero)!", vbInformation
+   txtValor.SetFocus
    Exit Sub
 End If
 
@@ -1439,6 +1501,10 @@ Dim lNovoCod As Long
      MsgBox "O caixa ainda não foi aberto", vbInformation, "Aviso do Sistema"
      Exit Sub
  End If
+
+ 'verificar se ha saldo em dinheiro suficiente pra retirada
+ Verificar_Valor_Retirada
+ If ULTRAPASSOU_VALOR = True Then Exit Sub
 
  'criar uma retirada
  lNovoCod = AutoNumeracao
@@ -1462,6 +1528,10 @@ cboFuncionario.Clear
 txtCodFunc.Text = ""
 Campos_Brancos
 Form_Load
+Exit Sub
+
+TrataErro:
+   MsgBox "Erro ao salvar a retirada: " & Err.Description, vbCritical, "Erro"
 End Sub
 Private Sub Imprimir_ReciboFolha()
 Dim rUsuario As ADODB.Recordset

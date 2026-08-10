@@ -3264,9 +3264,11 @@ soma = 0
 QUANT = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 5) = "DEPOSITO" Or .TextMatrix(i, 5) = "TRANSFERENCIA" Or .TextMatrix(i, 5) = "BOLETO" Or .TextMatrix(i, 5) = "FINANCEIRA" Or .TextMatrix(i, 5) = "PIX" And IsNumeric(.TextMatrix(i, 6)) Then
-         soma = soma + ValMoeda(.TextMatrix(i, 6))
-         QUANT = QUANT + 1
+      If .TextMatrix(i, 5) = "DEPOSITO" Or .TextMatrix(i, 5) = "TRANSFERENCIA" Or .TextMatrix(i, 5) = "BOLETO" Or .TextMatrix(i, 5) = "FINANCEIRA" Or .TextMatrix(i, 5) = "PIX" Then
+         If IsNumeric(.TextMatrix(i, 6)) Then
+            soma = soma + ValMoeda(.TextMatrix(i, 6))
+            QUANT = QUANT + 1
+         End If
       End If
    Next
 End With
