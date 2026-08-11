@@ -35,10 +35,10 @@ Begin VB.Form NFCe_Consultar
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   735
+         Height          =   1100
          Left            =   1920
          TabIndex        =   67
-         Top             =   660
+         Top             =   500
          Width           =   5055
       End
    End
@@ -3700,7 +3700,7 @@ End If
         varStatus = " and TbNFCe.NFCeEnviada = 0 and TbNFCe.NFCeCancelada = 0 and TbNFCe.Inutilizada = 1"
     End If
     
-    sSQL = "SELECT IdNFProd " & _
+    sSQL = "SELECT IdNFProd, NFCeEnviada " & _
            "FROM TbNFCe "
     sSQL = sSQL & "" & varCriterio & " " & varStatus & " ORDER BY " & varIndice
         
@@ -3708,27 +3708,40 @@ End If
     
     frameAguarde.Visible = True
     DoEvents
-    Dim vQtdOK As Integer, vQtdFalha As Integer, vListaFalhas As String
+    Dim vQtdOK As Integer, vQtdFalha As Integer, vQtdPulada As Integer, vListaFalhas As String
+    Dim vTotalNotas As Long, vProcessadas As Long
     vQtdOK = 0
     vQtdFalha = 0
+    vQtdPulada = 0
     vListaFalhas = ""
+    vTotalNotas = r.RecordCount
+    vProcessadas = 0
     Do While Not r.EOF
-        iRetorno = TransmitirNFCe(r!IdNFProd, "1", True, "65", True)
-        If iRetorno Then
-            vQtdOK = vQtdOK + 1
+        vProcessadas = vProcessadas + 1
+        Label7.Caption = "Por favor, aguarde..." & vbCrLf & "Transmitindo " & vProcessadas & " de " & vTotalNotas
+        DoEvents
+        If ValidateNull(r("NFCeEnviada")) = 1 Then
+            'ja enviada - pular (o filtro TODAS reenviava notas ja autorizadas sem necessidade)
+            vQtdPulada = vQtdPulada + 1
         Else
-            vQtdFalha = vQtdFalha + 1
-            vListaFalhas = vListaFalhas & "NFCe " & r!IdNFProd & ": " & NFeMotivo & vbCr
+            iRetorno = TransmitirNFCe(r!IdNFProd, "1", True, "65", True)
+            If iRetorno Then
+                vQtdOK = vQtdOK + 1
+            Else
+                vQtdFalha = vQtdFalha + 1
+                vListaFalhas = vListaFalhas & "NFCe " & r!IdNFProd & ": " & NFeMotivo & vbCr
+            End If
         End If
         r.MoveNext
     Loop
     frameAguarde.Visible = False
+    Label7.Caption = "Por favor, aguarde..."
     DoEvents
     Screen.MousePointer = vbDefault
     If vQtdFalha = 0 Then
-        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso.", vbInformation, "Transmissão em Lote"
+        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso." & IIf(vQtdPulada > 0, vbCr & vQtdPulada & " já estavam enviadas e foram puladas.", ""), vbInformation, "Transmissão em Lote"
     Else
-        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso." & vbCr & vQtdFalha & " pulada(s) por erro:" & vbCr & vbCr & vListaFalhas, vbExclamation, "Transmissão em Lote"
+        MsgBox vQtdOK & " NFCe transmitida(s) com sucesso." & IIf(vQtdPulada > 0, vbCr & vQtdPulada & " já estavam enviadas e foram puladas.", "") & vbCr & vQtdFalha & " pulada(s) por erro:" & vbCr & vbCr & vListaFalhas, vbExclamation, "Transmissão em Lote"
     End If
     
 Caifora:

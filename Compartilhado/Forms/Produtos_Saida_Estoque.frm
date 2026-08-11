@@ -958,6 +958,7 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Private moCombo As cComboHelper
 Dim i As Integer, j As Integer
+Dim vCatalogoProdutosCarregado As Boolean   'evita recarregar TODOS os produtos toda vez que cboConsulta recebe foco
 
 Private Function Inserir_Dados() As Boolean
 Dim sSQL As String
@@ -1165,19 +1166,22 @@ Private Sub cboConsulta_GotFocus()
 Dim var_cboTexto As String
    
    If optProduto.Value = True Then
-      sSQL = "SELECT DISTINCT descricao, codigo FROM produtos ORDER BY descricao;"
-      Set r = dbData.OpenRecordset(sSQL)
-      
-      If cboConsulta.Text <> "" Then var_cboTexto = cboConsulta.Text
-      cboConsulta.Clear
-      
-      Do While Not r.EOF
-         cboConsulta.AddItem r("descricao")
-         cboConsulta.ItemData(cboConsulta.NewIndex) = r("codigo")
-         r.MoveNext
-      Loop
-      
-      cboConsulta.Text = var_cboTexto
+      If Not vCatalogoProdutosCarregado Then
+         sSQL = "SELECT DISTINCT descricao, codigo FROM produtos ORDER BY descricao;"
+         Set r = dbData.OpenRecordset(sSQL)
+         
+         If cboConsulta.Text <> "" Then var_cboTexto = cboConsulta.Text
+         cboConsulta.Clear
+         
+         Do While Not r.EOF
+            cboConsulta.AddItem r("descricao")
+            cboConsulta.ItemData(cboConsulta.NewIndex) = r("codigo")
+            r.MoveNext
+         Loop
+         
+         cboConsulta.Text = var_cboTexto
+         vCatalogoProdutosCarregado = True
+      End If
       moCombo.AttachTo cboConsulta
    
    Else

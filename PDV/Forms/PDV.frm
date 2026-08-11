@@ -8606,6 +8606,15 @@ Continuar:
                                    Call sistNFe.DANFCeOFFImprimir(xCaminhoXML, True, var_ImpNFCe, True, xCaminhoPDF, 0, False, False, "")
                                 End If
                             End If
+                       Else
+                          'NFCe nao foi transmitida (rejeitada pela SEFAZ) - imprime o cupom NAO fiscal local, igual ja fazia quando o erro era encontrado antes de tentar transmitir
+                          If vNFCeCombinarImp = "NÃO" Then
+                             If NFCe_OK = True Then
+                                ImprimirVendaAPsemPergunta
+                             Else
+                                ImprimirVendaAP
+                             End If
+                          End If
                        End If
                     'End If
                 Else
@@ -9232,6 +9241,15 @@ ContinuarNFCeAV:
                                 Else
                                    Call sistNFe.DANFCeOFFImprimir(xCaminhoXML, True, var_ImpNFCe, True, xCaminhoPDF, 0, False, False, "")
                                 End If
+                          End If
+                       Else
+                          'NFCe nao foi transmitida (rejeitada pela SEFAZ) - imprime o cupom NAO fiscal local, igual ja fazia quando o erro era encontrado antes de tentar transmitir
+                          If vNFCeCombinarImp = "NÃO" Then
+                             If NFCe_OK = True Then
+                                ImprimirVendaAVsemPergunta
+                             Else
+                                ImprimirVendaAV
+                             End If
                           End If
                        End If
                     'End If

@@ -40,6 +40,17 @@ Public retornotpNF() As String, retornovNF() As String, retornoxNome() As String
 Dim nroRecibo As String, nroProtocolo As String
 Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
 
+Private Sub SleepComDoEvents(ByVal MilissegundosTotais As Long)
+'espera o tempo pedido em pedacos de 200ms com DoEvents entre eles - Sleep puro (API) trava a tela inteira (fica 'Nao Respondendo' no Windows) durante a espera da SEFAZ
+Dim vRestante As Long
+vRestante = MilissegundosTotais
+Do While vRestante > 0
+   Sleep 200
+   DoEvents
+   vRestante = vRestante - 200
+Loop
+End Sub
+
 Public Function FormExists(ByVal pstrFormName As String) As Form
 Dim frmForm As Form
    For Each frmForm In Forms
@@ -52,6 +63,7 @@ Dim frmForm As Form
 End Function
 Public Function ConfiguraDLLNFeNFCe(Modelo As Integer, TipoEmissao As String, ByRef objNFeNFCe As snfe.Util) As Boolean
 Dim ComandoSQL As String
+Dim iRetornoLocal As Long   'NAO usar a global iRetorno aqui - essa funcao e chamada de todo lugar, sujar a global vaza resultado errado pro chamador
    
    On Error GoTo deuErro
    
@@ -74,7 +86,7 @@ Dim ComandoSQL As String
    
    dirXML = SQLExecutaRetorno(ComandoSQL, "DiretorioXML", App.Path)
    dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
-   iRetorno = objNFeNFCe.ConfigurarDLL("", _
+   iRetornoLocal = objNFeNFCe.ConfigurarDLL("", _
                                        SQLExecutaRetorno(ComandoSQL, "CertificadoDigital", ""), _
                                        "", _
                                        1, _
@@ -95,9 +107,9 @@ Dim ComandoSQL As String
                                        SQLExecutaRetorno(ComandoSQL, "LicencaDLL", ""))
                                        
                                           
-   iRetorno = objNFeNFCe.ConfigurarEmail("mail.ekklesiasoft.com.br", 587, 100000, True, "dev@ekklesiasoft.com.br", "Ekk29639780", True, SQLExecutaRetorno(ComandoSQL, "Email", "financeiroonlineinfo@gmail.com"), SQLExecutaRetorno(ComandoSQL, "Razao", "OnLine Info"))
+   iRetornoLocal = objNFeNFCe.ConfigurarEmail("mail.ekklesiasoft.com.br", 587, 100000, True, "dev@ekklesiasoft.com.br", "Ekk29639780", True, SQLExecutaRetorno(ComandoSQL, "Email", "financeiroonlineinfo@gmail.com"), SQLExecutaRetorno(ComandoSQL, "Razao", "OnLine Info"))
    
-   iRetorno = objNFeNFCe.ConfigurarDANFe(SQLExecutaRetorno(ComandoSQL, "caminho", ""), True, False, True, False)
+   iRetornoLocal = objNFeNFCe.ConfigurarDANFe(SQLExecutaRetorno(ComandoSQL, "caminho", ""), True, False, True, False)
    
    objNFeNFCe.certificadoAvisaVencimento = False
    objNFeNFCe.certificadoDiasAviso = 10
@@ -105,7 +117,7 @@ Dim ComandoSQL As String
    'coloco false para não exibir msg
    objNFeNFCe.exibirAvisos = False
    
-   iRetorno = objNFeNFCe.CarregarConfiguracoes
+   iRetornoLocal = objNFeNFCe.CarregarConfiguracoes
    
    ConfiguraDLLNFeNFCe = True
    
@@ -182,7 +194,7 @@ On Error GoTo DeuErro
        NFeDataHora = ""
        NFeNumeroProtocolo = ""
        If cStat = 100 Or cStat = 101 Or cStat = 110 Then
-          Sleep 10000
+          SleepComDoEvents 10000
           NFeDataHora = sistNFe.retConsulta.protNFe.infProt.ProxyDhRecbto
           NFeNumeroProtocolo = sistNFe.retConsulta.protNFe.infProt.nProt
           GoTo buscaNFe
@@ -826,7 +838,7 @@ consultaNFe:
 
     ' Testa erro 217-Rejeição: NF-e não consta na base de dados da SEFAZ <dhRecbto xmlns="http://www.portalfiscal.inf.br/nfe">2015-03-29T09:56:36-03:00
     If cStat = 217 Then
-            Sleep 3000 ' Aguarda mais 3 segundos
+            SleepComDoEvents 3000 ' Aguarda mais 3 segundos
             On Error Resume Next
             iRetorno = sistNFe.ConsultarReciboDeEnvio(NFeNumeroRecibo) 'refaz a consulta
             cStat = sistNFe.retConsRec.cStat
@@ -850,7 +862,7 @@ consultaNFe:
           vgDb.Execute vsSQL
           GoTo PodeSair
        End If
-       Sleep 10000
+       SleepComDoEvents 10000
        GoTo buscaNFe
     End If
     NFeNumeroProtocolo = sistNFe.retConsRec.protNFe.infProt.nProt
@@ -879,7 +891,7 @@ buscaNFe:
    NFeMotivo = sistNFe.retConsulta.xMotivo
    
    If cStat = 217 Then
-      Sleep 3000 ' aguarda mais 3 segundos
+      SleepComDoEvents 3000 ' aguarda mais 3 segundos
       iRetorno = sistNFe.ConsultarProtocolo(NFeChaveAcesso)
       cStat = sistNFe.retConsulta.cStat
       NFeMotivo = sistNFe.retConsulta.xMotivo
@@ -1481,7 +1493,7 @@ consultaNFe:
    End If
 
    If cStat = 217 Then
-      Sleep 3000 ' Aguarda mais 3 segundos
+      SleepComDoEvents 3000 ' Aguarda mais 3 segundos
       On Error Resume Next
       iRetorno = sistNFCe.ConsultarReciboDeEnvio(NFeNumeroRecibo)
       On Error GoTo TransmitirNFCe_Error
@@ -1518,7 +1530,7 @@ buscaNFe:
    NFeMotivo = sistNFCe.retConsulta.xMotivo
    
    If cStat = 217 Then
-      Sleep 3000 ' aguarda mais 3 segundos
+      SleepComDoEvents 3000 ' aguarda mais 3 segundos
       iRetorno = sistNFCe.ConsultarProtocolo(NFeChaveAcesso)
       
       cStat = sistNFCe.retConsulta.cStat
@@ -1566,10 +1578,7 @@ buscaNFe:
           vgDb.Execute vsSQL
        End If
        GoTo buscaNFe
-    ElseIf cStat2 <> 100 And cStat2 <> 301 Then
-        NFeMotivo = nroRecibo + " - " + nfeRetorno
-        GoTo NaoEnviou
-    ElseIf cStat2 = 105 And cStat2 = 217 Then
+    ElseIf cStat2 = 105 Or cStat2 = 217 Then
         GoTo consultaNFe
     ElseIf cStat2 = 100 Then
         nfeRetorno = "Nota Fiscal de Consumidor Eletronica Autorizado o Uso."
@@ -1592,6 +1601,10 @@ buscaNFe:
                 "NFCeProtocoloDataHora = '" & NFeDataHora & "' " & _
                 "WHERE IdNFProd = " & NumeroNota
         vgDb.Execute vsSQL
+    Else
+        'qualquer status nao tratado explicitamente (ex: 301 - Denegado) cai aqui, nunca mais passa direto como se fosse sucesso
+        NFeMotivo = nroRecibo + " - " + nfeRetorno
+        GoTo NaoEnviou
     End If
 
     'xCaminhoXML = dirXML & "\arquivos\procNFe\" & NFeChaveAcesso & "-procNFe.xml"
@@ -1854,7 +1867,7 @@ buscaNFe:
         NFeValidate = "NFe/NFCe PROCESSAMENTO"
         GoTo Caifora
      End If
-     Sleep 10000
+     SleepComDoEvents 10000
      GoTo buscaNFe
   ElseIf cStat = 106 Then
      msgResultado = Str$(cStat) + " - " + NFeMotivo
@@ -2043,7 +2056,7 @@ buscaNFe:
         NFeValidate = "NFe/NFCe PROCESSAMENTO"
         GoTo Caifora
      End If
-     Sleep 10000
+     SleepComDoEvents 10000
      GoTo buscaNFe
   ElseIf cStat = 106 Then
      msgResultado = Str$(cStat) + " - " + NFeMotivo
@@ -2297,6 +2310,7 @@ End Sub
 
 Public Sub ConsultaStatus(Optional ModeloNF As Integer = 55, Optional Silencioso As Boolean = False)  'Sub que consulta o Status do Serviço da Receita
 Dim sistNFe As snfe.Util
+Dim iRetornoLocal As Long   'NAO usar a global iRetorno aqui - SugerirContingenciaSeSefazCaida chama essa Sub logo apos TransmitirNFCe falhar, e sobrescrever a global fazia o chamador ler sucesso errado
    
    On Error GoTo deuErro
    
@@ -2304,18 +2318,18 @@ Dim sistNFe As snfe.Util
 
    Screen.MousePointer = vbHourglass
    
-   iRetorno = ConfiguraDLLNFeNFCe(ModeloNF, "1", sistNFe)
+   iRetornoLocal = ConfiguraDLLNFeNFCe(ModeloNF, "1", sistNFe)
 
    sistNFe.exibirAvisos = False
 
    'NFe
    If ModeloNF = 55 Then
-      iRetorno = sistNFe.ConsultarStatusServico
+      iRetornoLocal = sistNFe.ConsultarStatusServico
       NFeResposta = CStr(sistNFe.retStatusWS.cStat) + " - " + sistNFe.retStatusWS.xMotivo
     End If
    'NFCe
    If ModeloNF = 65 Then
-      iRetorno = sistNFe.ConsultarStatusServico
+      iRetornoLocal = sistNFe.ConsultarStatusServico
       NFeResposta = CStr(sistNFe.retStatusWS.cStat) + " - " + sistNFe.retStatusWS.xMotivo
    End If
 

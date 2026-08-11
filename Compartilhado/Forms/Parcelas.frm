@@ -5999,6 +5999,8 @@ If txtDias.Visible = True Then
         vOrigem = "ALUGUEL"
     ElseIf txtOrigem.Text = "VENDA" Then
         vOrigem = "PARCELA"
+    ElseIf txtOrigem.Text = "OFICINA" Then
+        vOrigem = "OS"   'faltava esse caso - parcela de OS ficava com tipo em branco (nao contava no fechamento de caixa)
     End If
 
     If txtItem.Text = "0" Then

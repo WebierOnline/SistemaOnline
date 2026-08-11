@@ -1120,22 +1120,16 @@ Private Sub AtualizarGrid_Itens()
 Dim i As Integer
 Dim sSQL As String
 'Dim varCodBarra As String
-   
-For i = 1 To Grid.Rows - 1
-'    If Grid.TextMatrix(i, 2) = "" Then
-'        varCodBarra = 0
-'    Else
-'        varCodBarra = Grid.TextMatrix(i, 2)
-'    End If
 
- 
+'atualiza so a linha editada (iRow, mesma variavel de modulo ja usada no LostFocus) - era um loop refazendo tudo em TODAS as linhas a cada edicao de 1 celula
+i = iRow
+
    If Grid.TextMatrix(i, 1) <> "" Then
       'dbData.Execute "UPDATE NotaFiscalItens SET CFOP = " & Grid.TextMatrix(i, 7) & ", CST = '" & Grid.TextMatrix(i, 6) & "', NCM = '" & Grid.TextMatrix(i, 5) & "'  WHERE CodigoNota = " & txtCodNota.Text & " AND ITEM = " & Grid.TextMatrix(i, 1) & ""
-      dbData.Execute "UPDATE TbNFCe_Itens SET CodBarras = '" & Grid.TextMatrix(i, 3) & "', UN = '" & Grid.TextMatrix(i, 4) & "', CFOP = " & Grid.TextMatrix(i, 6) & ", ICMSCST = '" & Grid.TextMatrix(i, 7) & "', CodNcm = '" & Grid.TextMatrix(i, 5) & "', Aliq_Icms = " & fSQL(Grid.TextMatrix(i, 8), 2) & ", cofinsCST = '" & Grid.TextMatrix(i, 10) & "', pisCST = '" & Grid.TextMatrix(i, 13) & "', Aliq_COFINS  = " & fSQL(Grid.TextMatrix(i, 11), 2) & ", Aliq_PIS  = " & fSQL(Grid.TextMatrix(i, 14), 2) & ", Vlr_Icms = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 8), 2) & "), vlr_COFINS = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 11), 2) & "), vlr_PIS   = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 14), 2) & ")  WHERE IdNFProd = " & Grid.TextMatrix(i, 21) & " AND  IdNFProd_Item = " & Grid.TextMatrix(i, 22) & ""
+      dbData.Execute "UPDATE TbNFCe_Itens SET CodBarras = '" & Grid.TextMatrix(i, 3) & "', UN = '" & Grid.TextMatrix(i, 4) & "', CFOP = " & Val(Grid.TextMatrix(i, 6)) & ", ICMSCST = '" & Grid.TextMatrix(i, 7) & "', CodNcm = '" & Grid.TextMatrix(i, 5) & "', Aliq_Icms = " & fSQL(Grid.TextMatrix(i, 8), 2) & ", cofinsCST = '" & Grid.TextMatrix(i, 10) & "', pisCST = '" & Grid.TextMatrix(i, 13) & "', Aliq_COFINS  = " & fSQL(Grid.TextMatrix(i, 11), 2) & ", Aliq_PIS  = " & fSQL(Grid.TextMatrix(i, 14), 2) & ", Vlr_Icms = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 8), 2) & "), vlr_COFINS = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 11), 2) & "), vlr_PIS   = ((" & fSQL(Grid.TextMatrix(i, 20), 2) & " /100) * " & fSQL(Grid.TextMatrix(i, 14), 2) & ")  WHERE IdNFProd = " & Grid.TextMatrix(i, 21) & " AND  IdNFProd_Item = " & Grid.TextMatrix(i, 22) & ""
       dbData.Execute "UPDATE TbNFCe SET BaseCalc_ICMS = (SELECT ISNULL(SUM(Bc_Icms), 0) AS vTotalBCI FROM TbNFCe_Itens WHERE (IdNFProd = " & Grid.TextMatrix(i, 21) & ") AND (Aliq_Icms <> '0.00')), Valor_ICMS = (SELECT ISNULL(SUM(Vlr_Icms), 0) AS vValorICMS FROM TbNFCe_Itens AS TbNFCe_Itens_1 WHERE (IdNFProd = " & Grid.TextMatrix(i, 21) & ") AND (Aliq_Icms <> '0.00')) WHERE (IdNFProd = " & Grid.TextMatrix(i, 21) & ")"
-      dbData.Execute "UPDATE Produtos SET EAN = '" & Grid.TextMatrix(i, 3) & "', UNID_MEDIDA = '" & Grid.TextMatrix(i, 4) & "', NCM = '" & Grid.TextMatrix(i, 5) & "', CFOP = " & Grid.TextMatrix(i, 6) & ", icmsCST = '" & Grid.TextMatrix(i, 7) & "', cofinsCST = '" & Grid.TextMatrix(i, 10) & "', pisCST = '" & Grid.TextMatrix(i, 13) & "'  WHERE CODIGO = " & Grid.TextMatrix(i, 1) & ""
+      dbData.Execute "UPDATE Produtos SET EAN = '" & Grid.TextMatrix(i, 3) & "', UNID_MEDIDA = '" & Grid.TextMatrix(i, 4) & "', NCM = '" & Grid.TextMatrix(i, 5) & "', CFOP = " & Val(Grid.TextMatrix(i, 6)) & ", icmsCST = '" & Grid.TextMatrix(i, 7) & "', cofinsCST = '" & Grid.TextMatrix(i, 10) & "', pisCST = '" & Grid.TextMatrix(i, 13) & "'  WHERE CODIGO = " & Grid.TextMatrix(i, 1) & ""
    End If
-Next
 End Sub
 
 Private Sub cmdFechar_Click()

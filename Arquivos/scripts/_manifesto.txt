@@ -82,3 +82,5 @@
 082|AlterTable_Fornecedor_Complemento.sql|GERAL
 083|NFe - Modificações.sql|GERAL
 084|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL
+085|Fix_Parcelas_TIPO_OS_vazio.sql|OS
+086|AlterTable_Produtos_Cliente_Indices_Busca.sql|GERAL

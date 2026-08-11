@@ -1034,7 +1034,7 @@ End If
 '===========================CALCULO DOS TOTAIS
 
 'VENDAS DINHEIRO============
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaVendas " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaVendas, COUNT(*) AS varQtdVendas " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'VENDA')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1047,17 +1047,11 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfDinheiro.Caption = Format(varTotalDinheiroVenda, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'VENDA')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfDinheiroQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfDinheiroQuant.Caption = Format(ValidateNull(r("varQtdVendas")), "000") & " "
 
 
 'PARCELAS DINHEIRO============
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaParcelas " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaParcelas, COUNT(*) AS varQtdParcelas " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'PARCELA')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1070,16 +1064,10 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfParcelas.Caption = Format(varTotalDinheiroParcela, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'PARCELA')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfParcelasQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfParcelasQuant.Caption = Format(ValidateNull(r("varQtdParcelas")), "000") & " "
 
 'PARCELAS HAVER============
-sSQL = "SELECT SUM(VALOR_HAVER) AS varSomaHaveres " & _
+sSQL = "SELECT SUM(VALOR_HAVER) AS varSomaHaveres, COUNT(*) AS varQtdHaveres " & _
        "FROM parcelas_haver " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1092,19 +1080,13 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfHaveres.Caption = Format(varValorHaveres, "#,##0.00") & " "
-
-sSQL = "SELECT CODIGO " & _
-       "FROM parcelas_haver " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfHaveresQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfHaveresQuant.Caption = Format(ValidateNull(r("varQtdHaveres")), "000") & " "
 
 
 
 
 'ALUGUEL DINHEIRO============
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaAluguel " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaAluguel, COUNT(*) AS varQtdAluguel " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'ALUGUEL')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1117,17 +1099,11 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfAluguel.Caption = Format(varTotalDinheiroAluguel, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'ALUGUEL')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfAluguelQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfAluguelQuant.Caption = Format(ValidateNull(r("varQtdAluguel")), "000") & " "
 
 
 'OS DINHEIRO============
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaOS " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaOS, COUNT(*) AS varQtdOS " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'OS')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1140,13 +1116,7 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfOS.Caption = Format(varTotalDinheiroOS, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DINHEIRO') AND (TIPO = 'OS')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfOSQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfOSQuant.Caption = Format(ValidateNull(r("varQtdOS")), "000") & " "
 
 
 
@@ -1155,7 +1125,7 @@ REL_Caixa_Fech_Imp_Todos.rfOSQuant.Caption = Format(r.RecordCount, "000") & " "
 
 
 'CARTÃO============
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaCartao1 " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaCartao1, COUNT(*) AS varQtdCartao1 " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CARTAO')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1163,7 +1133,11 @@ Set r = dbData.OpenRecordset(sSQL)
 Dim varTotalCartao As Currency
 varTotalCartao = Format(ValidateNull(r("varSomaCartao1")))
 
-sSQL = "SELECT SUM(VALOR_HAVER) AS varSomaCartao2 " & _
+Dim ContaCartao1 As Integer
+Dim ContaCartao2 As Integer
+ContaCartao1 = ValidateNull(r("varQtdCartao1"))
+
+sSQL = "SELECT SUM(VALOR_HAVER) AS varSomaCartao2, COUNT(*) AS varQtdCartao2 " & _
        "FROM parcelas_HAVER " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CARTAO') "
 Set r = dbData.OpenRecordset(sSQL)
@@ -1172,6 +1146,7 @@ Dim varTotalCartao2 As Currency
 varTotalCartao2 = Format(ValidateNull(r("varSomaCartao2")))
 
 varTotalCartao = varTotalCartao + varTotalCartao2
+ContaCartao2 = ContaCartao1 + ValidateNull(r("varQtdCartao2"))
 
 'If Not r.EOF Then
 '    varTotalCartao = ValidateNull(r("varTotalCartao"))
@@ -1180,28 +1155,11 @@ varTotalCartao = varTotalCartao + varTotalCartao2
 'End If
 
 REL_Caixa_Fech_Imp_Todos.rfCartao.Caption = Format(varTotalCartao, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CARTAO')"
-Set r = dbData.OpenRecordset(sSQL)
-
-Dim ContaCartao1 As Integer
-Dim ContaCartao2 As Integer
-ContaCartao1 = r.RecordCount
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas_haver " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CARTAO')"
-Set r = dbData.OpenRecordset(sSQL)
-
-ContaCartao2 = ContaCartao1 + r.RecordCount
-
 REL_Caixa_Fech_Imp_Todos.rfCartaoQuant.Caption = Format(ContaCartao2, "000") & " "
 
 'CHEQUE============
 
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaCheque " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaCheque, COUNT(*) AS varQtdCheque " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CHEQUE')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1215,17 +1173,11 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfCheque.Caption = Format(varTotalCheque, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'CHEQUE')"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfChequeQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfChequeQuant.Caption = Format(ValidateNull(r("varQtdCheque")), "000") & " "
 
 'DEPOSITO/TRANSFERENCIA/BOLETO/FINANCEIRA============
 'boleto
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaBoleto " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaBoleto, COUNT(*) AS varQtdBoleto " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'BOLETO')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1237,16 +1189,11 @@ Else
     varTotalBoleto = 0
 End If
 
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'BOLETO')"
-Set r = dbData.OpenRecordset(sSQL)
-
 Dim contaBoleto As Integer
-contaBoleto = Format(r.RecordCount, "000")
+contaBoleto = Format(ValidateNull(r("varQtdBoleto")), "000")
 
 'transferencia
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaTransferencia " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaTransferencia, COUNT(*) AS varQtdTransferencia " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'TRANSFERENCIA')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1258,16 +1205,11 @@ Else
     varTotalTransferencia = 0
 End If
 
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'TRANSFERENCIA')"
-Set r = dbData.OpenRecordset(sSQL)
-
 Dim contaTransferencia As Integer
-contaTransferencia = Format(r.RecordCount, "000")
+contaTransferencia = Format(ValidateNull(r("varQtdTransferencia")), "000")
 
 'deposito
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaDeposito " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaDeposito, COUNT(*) AS varQtdDeposito " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DEPOSITO')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1279,16 +1221,11 @@ Else
     varTotalDeposito = 0
 End If
 
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'DEPOSITO')"
-Set r = dbData.OpenRecordset(sSQL)
-
 Dim contaDeposito As Integer
-contaDeposito = Format(r.RecordCount, "000")
+contaDeposito = Format(ValidateNull(r("varQtdDeposito")), "000")
 
 'financeira
-sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaFinanceira " & _
+sSQL = "SELECT SUM(VALOR_FINAL) AS varSomaFinanceira, COUNT(*) AS varQtdFinanceira " & _
        "FROM parcelas " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'FINANCEIRA')"
 Set r = dbData.OpenRecordset(sSQL)
@@ -1300,10 +1237,8 @@ Else
     varTotalFinanceira = 0
 End If
 
-sSQL = "SELECT codigo " & _
-       "FROM parcelas " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") AND (FORMA_PGTO = 'FINANCEIRA')"
-Set r = dbData.OpenRecordset(sSQL)
+Dim contaFinanceira As Integer
+contaFinanceira = Format(ValidateNull(r("varQtdFinanceira")), "000")
 
 'soma
 Dim varTotalBTD As Currency
@@ -1311,16 +1246,13 @@ varTotalBTD = varTotalBoleto + varTotalTransferencia + varTotalDeposito + varTot
 
 REL_Caixa_Fech_Imp_Todos.rfOutros.Caption = Format(varTotalBTD, "#,##0.00") & " "
 
-Dim contaFinanceira As Integer
-contaFinanceira = Format(r.RecordCount, "000")
-
 Dim ContaOutros As Integer
 ContaOutros = contaFinanceira + contaDeposito + contaTransferencia + contaBoleto
 
 REL_Caixa_Fech_Imp_Todos.rfOutrosQuant.Caption = Format(ContaOutros, "000") & " "
 
 'SANGRIA============
-sSQL = "SELECT SUM(VALOR) AS varSomaSangria " & _
+sSQL = "SELECT SUM(VALOR) AS varSomaSangria, COUNT(*) AS varQtdSangria " & _
        "FROM caixa_saida " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") and (FONTE = 'CAIXA ATUAL') "
 Set r = dbData.OpenRecordset(sSQL)
@@ -1334,16 +1266,10 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfSaida.Caption = Format(varTotalSangria, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM caixa_saida " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") and (FONTE = 'CAIXA ATUAL') "
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfSaidaQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfSaidaQuant.Caption = Format(ValidateNull(r("varQtdSangria")), "000") & " "
 
 'SUPRIMENTO============
-sSQL = "SELECT SUM(VALOR) AS varSomaSuprimento " & _
+sSQL = "SELECT SUM(VALOR) AS varSomaSuprimento, COUNT(*) AS varQtdSuprimento " & _
        "FROM caixa_entrada " & _
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") "
 Set r = dbData.OpenRecordset(sSQL)
@@ -1357,13 +1283,7 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfSuprimentos.Caption = Format(varTotalSuprimento, "#,##0.00") & " "
-
-sSQL = "SELECT codigo " & _
-       "FROM caixa_entrada " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & txtCodCaixa.Text & ") "
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfSuprimentosQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfSuprimentosQuant.Caption = Format(ValidateNull(r("varQtdSuprimento")), "000") & " "
 
 'TROCO============
 sSQL = "SELECT SUM(VALOR) AS varSomaTROCO " & _
@@ -1378,7 +1298,7 @@ Set r = dbData.OpenRecordset(sSQL)
 'End If
 
 'VENDA A PRAZO ================
-sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL), 0) AS varSomaPrazo " & _
+sSQL = "SELECT ISNULL(SUM(parcelas.VALOR_FINAL), 0) AS varSomaPrazo, COUNT(*) AS varQtdPrazo " & _
        "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
        "WHERE (pedidos.codcaixa = " & txtCodCaixa.Text & ") AND pedidos.caixa = '" & StatusBar1.Panels(2).Text & "' AND (pedidos.tipo_pagamento = 'À Prazo') AND (parcelas.STATUS = 0)"
 'Debug.Print sSQL
@@ -1393,13 +1313,7 @@ Else
 End If
 
 REL_Caixa_Fech_Imp_Todos.rfPrazo.Caption = Format(varTotalPrazo, "#,##0.00") & " "
-
-sSQL = "SELECT parcelas.cod_pedido " & _
-       "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-       "WHERE (pedidos.codcaixa = " & txtCodCaixa.Text & ") AND pedidos.caixa = '" & StatusBar1.Panels(2).Text & "' AND (pedidos.tipo_pagamento = 'À Prazo') AND (parcelas.STATUS = 0)"
-Set r = dbData.OpenRecordset(sSQL)
-
-REL_Caixa_Fech_Imp_Todos.rfPrazoQuant.Caption = Format(r.RecordCount, "000") & " "
+REL_Caixa_Fech_Imp_Todos.rfPrazoQuant.Caption = Format(ValidateNull(r("varQtdPrazo")), "000") & " "
 
 'CALCULAR TOTAIS================
 Dim varTotaisEntrada As Currency
@@ -2385,9 +2299,11 @@ If Not IsNumeric(txtDinheiroContado.Text) Then
 End If
 
 Dim vDivergenciaCaixa As Currency
-vDivergenciaCaixa = CCur(txtDinheiroContado.Text) - CCur(lblTotal.Caption)
+Dim vSaldoFisicoEsperado As Currency
+vSaldoFisicoEsperado = CCur(Caixa_Controle_semOS.txtSaldoFisico.Text)   'so dinheiro/cheque/etc, NAO o total geral (lblTotal inclui pix/cartao/transferencia)
+vDivergenciaCaixa = CCur(txtDinheiroContado.Text) - vSaldoFisicoEsperado
 If Abs(vDivergenciaCaixa) > 0.01 Then
-   MsgBox "O valor contado (" & Format(CCur(txtDinheiroContado.Text), ocMONEY) & ") não bate com o valor calculado pelo sistema (" & Format(CCur(lblTotal.Caption), ocMONEY) & ")." & vbCrLf & _
+   MsgBox "O valor contado (" & Format(CCur(txtDinheiroContado.Text), ocMONEY) & ") não bate com o valor calculado pelo sistema (" & Format(vSaldoFisicoEsperado, ocMONEY) & ")." & vbCrLf & _
       "Diferença: " & Format(vDivergenciaCaixa, ocMONEY) & vbCrLf & vbCrLf & _
       "Confira o dinheiro na gaveta e o valor digitado antes de fechar o caixa.", vbCritical, "Divergência no Fechamento de Caixa"
    txtDinheiroContado.SetFocus
@@ -2640,7 +2556,7 @@ End Sub
 
 
 Private Sub txtTroco_LostFocus()
-If txtTroco.Text = "" Then txtTroco.Text = Format(0, ocMONEY)
+If txtTroco.Text = "" Or Not IsNumeric(txtTroco.Text) Then txtTroco.Text = Format(0, ocMONEY)
 txtTroco.Text = Format(txtTroco.Text, ocMONEY)
 End Sub
 

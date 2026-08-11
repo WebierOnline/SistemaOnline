@@ -2561,7 +2561,7 @@ Private Sub cmdExibir_Click()
       
    ElseIf chkNome.Value = 1 Then
       If cboNome.Text = "" Then Exit Sub
-      sSQL = sSQL & "(nome LIKE '%" & cboNome.Text & "%') AND "     'O sinal de % é o caracter curinga que no ACCESS era *
+      sSQL = sSQL & "(nome LIKE '" & cboNome.Text & "%') AND "     'mudado pra 'comeca com' (sem % no inicio) para poder usar indice
       
    ElseIf chkCidade.Value = 1 Then
       If cboConsCidade.Text = "" Then Exit Sub

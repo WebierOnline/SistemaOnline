@@ -7231,7 +7231,7 @@ vDescricao = ""
 If optCompleto.Value = True Then
     vDescricao = "(produtos.descricao = '" & cboConsProduto.Text & "')"
 ElseIf optPorIniciais.Value = True Then
-    vDescricao = "(produtos.descricao  LIKE '%" & cboConsProduto.Text & "')"
+    vDescricao = "(produtos.descricao  LIKE '" & cboConsProduto.Text & "%')"   'wildcard estava no lado errado - 'Iniciais' buscava quem TERMINA com o texto, nao quem COMECA
 ElseIf optPorPalavra.Value = True Then
     vDescricao = "(produtos.descricao  LIKE  '%" & cboConsProduto.Text & "%')"
 ElseIf optPalavrasDuplas.Value = True Then
@@ -7650,7 +7650,7 @@ StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 ' Fazemos um INNER JOIN entre a Empresa e a tabela de Alíquotas pela UF
 sSQL = "SELECT E.CRT, E.RegimeTributario, E.ESTADO, T.AliquotaInterna " & _
        "FROM Empresa E " & _
-       "INNER JOIN TribRegraDifalUF T ON E.ESTADO = T.UF_Destino"
+       "LEFT JOIN TribRegraDifalUF T ON E.ESTADO = T.UF_Destino"   'LEFT JOIN - CRT/Regime da empresa nao pode depender de existir regra de DIFAL pra UF
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.EOF Then
