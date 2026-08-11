@@ -6425,29 +6425,6 @@ End If
 
 End Sub
 
-Private Sub Verificar_Backup()
-'desativei para ver colocar no online commerce
-'If TimeValue(Now) > TimeValue("12:30:00") Then
-'    Dim DataHora As Date
-'    MensagemErro = ""
-   
-'   sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-'   Set r = dbData.OpenRecordset(sSQL)
-   
-'   DataHora = Now
-   
-'   If Vazio(r!BackupDataHora) Then
-'        timerBackup.Enabled = True
-'   ElseIf Day(r!BackupDataHora) < Day(DataHora) Then
-'        timerBackup.Enabled = True
-'   ElseIf Day(r!BackupDataHora) = Day(DataHora) Then
-'        timerBackup.Enabled = False
-'   ElseIf Day(r!BackupDataHora) > Day(DataHora) Then
-'        timerBackup.Enabled = False
-'   End If
-'End If
-End Sub
-
 Private Sub Verificar_NFCe()
 'Dim sSQL As String
 'Dim r As ADODB.Recordset
@@ -10728,7 +10705,6 @@ End If
 
 Verificar_Caixa
 Verificar_NFCe
-'Verificar_Backup 'desativei para colocar no online commerce
 End Sub
 Private Sub Calcular_Prazo()
 If cboPrazo.Text = "" Then Exit Sub

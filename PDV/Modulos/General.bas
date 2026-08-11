@@ -315,8 +315,14 @@ Public Function IniciarPrograma(ExibirStatus As Boolean) As Boolean
    'Exibe mensagem de andamento
    'If ExibirStatus Then MsgInfo "Conectado ao servidor de banco de dados"
    
-   'Realiza uma pausa de 1 segundo
-   Sleep 1000
+   'Realiza uma pausa de 1 segundo (em pedacos de 200ms com DoEvents - Sleep puro trava a tela toda)
+   Dim vRestanteSleep As Long
+   vRestanteSleep = 1000
+   Do While vRestanteSleep > 0
+      Sleep 200
+      DoEvents
+      vRestanteSleep = vRestanteSleep - 200
+   Loop
    
    'Exibe mensagem de andamento
    'If ExibirStatus Then MsgInfo "Verificando usuário e senha..."

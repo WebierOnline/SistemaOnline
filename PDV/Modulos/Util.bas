@@ -1818,7 +1818,7 @@ Public Function AbreBancoDeDados(Optional ByVal vgIgnoraErros As Long = 0) As In
     Dim x As String
     On Error GoTo deuErro
     AbreBancoDeDados = False
-    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
+    x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=15;TRUSTED_CONNECTION=NO"
     'x$ = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + vgServerName + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
     vgDb.ConnectionString = x$
     vgDb.CursorLocation = adUseClient
@@ -1922,7 +1922,7 @@ Public Sub RsOpen(ByRef vgRs As ADODB.Recordset, ByVal vgSQL As String)
 
     'abre o recordset
 AbreRecordset:
-    vgRs.Open vgSQL$, vgDb, adOpenDynamic, adLockPessimistic, adCmdText
+    vgRs.Open vgSQL$, vgDb, adOpenKeyset, adLockOptimistic, adCmdText   'era adOpenDynamic+adLockPessimistic - cursor mais caro e lock que travava a linha o tempo todo aberto
     vgRs.Properties("Update Criteria").Value = adCriteriaKey
 End Sub
 

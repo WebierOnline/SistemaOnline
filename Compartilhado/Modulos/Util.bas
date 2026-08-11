@@ -2273,7 +2273,7 @@ Public Sub RsOpen(ByRef vgRs As ADODB.Recordset, ByVal vgSQL As String)
 
     'abre o recordset
 AbreRecordset:
-    vgRs.Open vgSQL$, vgDb, adOpenDynamic, adLockPessimistic, adCmdText
+    vgRs.Open vgSQL$, vgDb, adOpenKeyset, adLockOptimistic, adCmdText   'era adOpenDynamic+adLockPessimistic - cursor mais caro e lock que travava a linha o tempo todo aberto
     vgRs.Properties("Update Criteria").Value = adCriteriaKey
 End Sub
 
