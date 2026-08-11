@@ -8274,7 +8274,6 @@ If cboTipoPgto.Text = "À PRAZO" Then
                 If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
                 sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
             Next
-            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
             Dim vQtdCodigosEstoque As Long, vRegAfetadosEstoque As Long
             vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
             dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
@@ -8869,7 +8868,6 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                 If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
                 sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
             Next
-            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
             vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
             dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
             If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
@@ -9326,7 +9324,6 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                     If sBaixaEstoqueCons <> "" Then sBaixaEstoqueCons = sBaixaEstoqueCons & " UNION ALL "
                     sBaixaEstoqueCons = sBaixaEstoqueCons & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
                 Next
-                dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo;"
                 Dim vQtdCodigosEstoqueCons As Long, vRegAfetadosEstoqueCons As Long
                 vQtdCodigosEstoqueCons = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoqueCons & ") t", "r", 0)
                 dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoqueCons
