@@ -7872,6 +7872,167 @@ If txtCodCliente.Text <> "1" Then
 End If
 End Sub
 
+Private Function ValidarCPFCNPJCliente(ByVal pPermitirClienteAvulso As Boolean) As String
+'consulta e valida/formata o CPF ou CNPJ do cliente pra NFCe (mesma logica em A VISTA e A PRAZO). Preserva os GoTo/labels de retry originais
+'de proposito (nao virou Do/Loop): dentro do Case 11, se o usuario digitar um CNPJ invalido, o GoTo pula pro label do Case 14 (CNPJDigitadoErrado2)
+'e vice-versa - um Do/Loop separado por Case quebraria esse cruzamento. Preenche rCliente (module-level) igual o codigo original fazia.
+'pPermitirClienteAvulso=True ativa o fluxo extra do cliente Codigo=1 (input de CPF na hora) - so existia no A VISTA; A PRAZO chama com False
+'porque cliente Codigo=1 ja e bloqueado antes, no inicio de cmdFinalizar_Click.
+Dim vCPF As String
+Dim vJaTratadoAvulso As Boolean
+
+sSQL2 = "SELECT CPF, CODIGO FROM cliente WHERE (codigo = " & txtCodCliente.Text & ");"
+Set rCliente = dbData.OpenRecordset(sSQL2)
+
+If Not rCliente.EOF Then
+    If pPermitirClienteAvulso And rCliente!Codigo = 1 Then
+        vJaTratadoAvulso = True
+        If vNFCeConfCPF = "SIM" Then
+            If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+                vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
+                If Not Vazio(vCPF) Then
+                    If Len(vCPF) = 11 Then
+                        If Validar_CPF(vCPF) = False Then
+                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                            GoTo CPFDigitadoErrado2
+                        Else
+                            vCPF = RetirarMascaras(vCPF)
+                            GoTo PularInserirCPF
+                        End If
+                    ElseIf Len(vCPF) = 14 Then
+                        If Validar_CNPJ(vCPF) = False Then
+                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                            GoTo CNPJDigitadoErrado2
+                        Else
+                            vCPF = RetirarMascaras(vCPF)
+                            GoTo PularInserirCPF
+                        End If
+                    End If
+                Else
+                    vCPF = ""
+                End If
+            Else
+                vCPF = ""
+            End If
+        End If
+    Else
+        vCPF = RetirarMascaras(ValidateNull(rCliente!CPF))
+    End If
+Else
+    vCPF = ""
+End If
+
+'validar CPF
+Select Case Len(vCPF)
+    Case 0
+        If Not vJaTratadoAvulso And vNFCeConfCPF = "SIM" Then
+            If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+                vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
+                If Not Vazio(vCPF) Then
+                    If Len(vCPF) = 11 Then
+                        If Validar_CPF(vCPF) = False Then
+                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                            GoTo CPFDigitadoErrado2
+                        Else
+                            vCPF = RetirarMascaras(vCPF)
+                            GoTo PularInserirCPF
+                        End If
+                    ElseIf Len(vCPF) = 14 Then
+                        If Validar_CNPJ(vCPF) = False Then
+                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                            GoTo CNPJDigitadoErrado2
+                        Else
+                            vCPF = RetirarMascaras(vCPF)
+                            GoTo PularInserirCPF
+                        End If
+                    Else
+                        vCPF = ""
+                    End If
+                Else
+                    vCPF = ""
+                End If
+            Else
+                vCPF = ""
+            End If
+        Else
+            vCPF = Empty
+        End If
+    Case 14
+CNPJDigitadoErrado2:
+        If Validar_CNPJ(vCPF) = False Then
+            If vNFCeConfCPF = "SIM" Then
+                If ShowMsg("Deseja inserir o CNPJ no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+                    vCPF = InputBox("Informe o CNPJ do cliente:", "EMISSÃO DE NFCe", "")
+                    If Not Vazio(vCPF) Then
+                        If Len(vCPF) = 11 Then
+                            If Validar_CPF(vCPF) = False Then
+                                MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                                GoTo CPFDigitadoErrado2
+                            Else
+                                vCPF = Format(vCPF, "000\.000\.000\-00")
+                            End If
+                        ElseIf Len(vCPF) = 14 Then
+                            If Validar_CNPJ(vCPF) = False Then
+                                MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                                GoTo CNPJDigitadoErrado2
+                            Else
+                                vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
+                            End If
+                        End If
+                    Else
+                        vCPF = ""
+                    End If
+                Else
+                    vCPF = ""
+                End If
+            End If
+        End If
+    Case 11
+CPFDigitadoErrado2:
+        If Validar_CPF(vCPF) = False Then
+            If vNFCeConfCPF = "SIM" Then
+                If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+                    vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
+                    If Not Vazio(vCPF) Then
+                        If Len(vCPF) = 11 Then
+                            If Validar_CPF(vCPF) = False Then
+                                MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                                GoTo CPFDigitadoErrado2
+                            Else
+                                vCPF = Format(vCPF, "000\.000\.000\-00")
+                            End If
+                        ElseIf Len(vCPF) = 14 Then
+                            If Validar_CNPJ(vCPF) = False Then
+                                MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
+                                GoTo CNPJDigitadoErrado2
+                            Else
+                                vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
+                            End If
+                        End If
+                    Else
+                        vCPF = ""
+                    End If
+                Else
+                    vCPF = ""
+                End If
+            End If
+        End If
+    Case Is < 11
+        'menos de 11 digitos - sem acao (mesmo do original)
+End Select
+
+PularInserirCPF:
+If Len(vCPF) = 11 Then
+    vCPF = Format(vCPF, "000\.000\.000\-00")
+ElseIf Len(vCPF) = 14 Then
+    vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
+Else
+    vCPF = ""
+End If
+
+ValidarCPFCNPJCliente = vCPF
+End Function
+
 Private Sub cmdFinalizar_Click()
 Dim bTrans As Boolean
 On Error GoTo ErrHandlerFinalizar
@@ -8419,98 +8580,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                         GoTo SemGerarNFCe
                     Else  'se nao existir nfce
            
-                        'consultar o cpf/cnpj do cliente
-                        sSQL2 = "SELECT CPF, CODIGO FROM cliente WHERE (codigo = " & txtCodCliente.Text & ");"
-                        Set rCliente = dbData.OpenRecordset(sSQL2)
-                        
-                        If Not rCliente.EOF Then
-                            vCPF = RetirarMascaras(ValidateNull(rCliente!CPF))
-                            'vCPF = rCliente!CPF
-                        Else
-                            vCPF = ""
-                        End If
-                        
-                        'validar CPF
-                        Select Case Len(vCPF)
-                            Case 0
-                                If Len(vCPF) = 0 Then
-                                    vCPF = Empty
-                                Else
-                                    vCPF = ""
-                                End If
-                                'KeyCode = 0
-                            Case 14
-CNPJDigitadoErrado:
-                                If Validar_CNPJ(vCPF) = False Then
-                                        If vNFCeConfCPF = "SIM" Then
-                                            If ShowMsg("Deseja inserir o CNPJ no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                                                vCPF = InputBox("Informe o CNPJ do cliente:", "EMISSÃO DE NFCe", "")
-                                                If Not Vazio(vCPF) Then
-                                                    If Len(vCPF) = 11 Then
-                                                        If Validar_CPF(vCPF) = False Then
-                                                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CPFDigitadoErrado
-                                                        Else
-                                                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                                                        End If
-                                                    ElseIf Len(vCPF) = 14 Then
-                                                        If Validar_CNPJ(vCPF) = False Then
-                                                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CNPJDigitadoErrado
-                                                        Else
-                                                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                                                        End If
-                                                    End If
-                                                Else
-                                                    vCPF = ""
-                                                End If
-                                            Else
-                                                vCPF = ""           'se na msgbox colocar NÃO quer colocar cpf
-                                            End If
-                                        End If
-                                End If
-                            Case 11
-CPFDigitadoErrado:
-                                If Validar_CPF(vCPF) = False Then
-                                        If vNFCeConfCPF = "SIM" Then
-                                            If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                                                vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
-                                                If Not Vazio(vCPF) Then
-                                                    If Len(vCPF) = 11 Then
-                                                        If Validar_CPF(vCPF) = False Then
-                                                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CPFDigitadoErrado
-                                                        Else
-                                                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                                                        End If
-                                                    ElseIf Len(vCPF) = 14 Then
-                                                        If Validar_CNPJ(vCPF) = False Then
-                                                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CNPJDigitadoErrado
-                                                        Else
-                                                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                                                        End If
-                                                    End If
-                                                Else
-                                                    vCPF = ""       'se o cpf for vazio
-                                                End If
-                                            Else
-                                                vCPF = ""           'se na msgbox colocar NÃO quer colocar cpf
-                                            End If
-                                        End If
-                                End If
-                            Case Is < 11
-                                'MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                'mskCNPJ.SetFocus
-                        End Select
-                       
-                        If Len(vCPF) = 11 Then
-                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                        ElseIf Len(vCPF) = 14 Then
-                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                        Else
-                            vCPF = ""
-                        End If
+                        vCPF = ValidarCPFCNPJCliente(False)
                         
                         'coloca o cpf correto no cliente
                         dbData.Execute "BEGIN TRANSACTION"
@@ -8827,134 +8897,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                         GoTo SemGerarNFCeAV
                     Else    'se nao existir nfce
                        
-                        'consultar o cpf/cnpj do cliente
-                        sSQL2 = "SELECT CPF, CODIGO FROM cliente WHERE (codigo = " & txtCodCliente.Text & ");"
-                        Set rCliente = dbData.OpenRecordset(sSQL2)
-                        
-                        If Not rCliente.EOF Then
-                            If rCliente!Codigo = 1 Then
-                            
-                            
-                                    If vNFCeConfCPF = "SIM" Then
-                                            If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                                                vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
-                                                    If Not Vazio(vCPF) Then
-                                                            If Len(vCPF) = 11 Then
-                                                                    If Validar_CPF(vCPF) = False Then
-                                                                        MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                                        GoTo CPFDigitadoErrado2
-                                                                    Else
-                                                                        'vCPF = Format(vCPF, "000\.000\.000\-00")
-                                                                        vCPF = RetirarMascaras(vCPF)
-                                                                        GoTo PularInserirCPF
-                                                                    End If
-                                                            ElseIf Len(vCPF) = 14 Then
-                                                                    If Validar_CNPJ(vCPF) = False Then
-                                                                        MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                                        GoTo CNPJDigitadoErrado2
-                                                                    Else
-                                                                        'vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                                                                        vCPF = RetirarMascaras(vCPF)
-                                                                        GoTo PularInserirCPF
-                                                                    End If
-                                                            End If
-                                                    Else
-                                                        vCPF = ""       'se o cpf for vazio
-                                                    End If
-                                            Else
-                                                vCPF = ""           'se na msgbox colocar NÃO quer colocar cpf
-                                            End If
-                                    End If
-
-                            Else
-                                vCPF = RetirarMascaras(ValidateNull(rCliente!CPF))
-                            End If
-                        Else
-                            vCPF = ""
-                        End If
-                        
-                        'validar CPF
-                        Select Case Len(vCPF)
-                            Case 0
-                                If Len(vCPF) = 0 Then
-                                    vCPF = Empty
-                                Else
-                                    vCPF = ""
-                                End If
-                                'KeyCode = 0
-                            Case 14
-CNPJDigitadoErrado2:
-                                If Validar_CNPJ(vCPF) = False Then
-                                        If vNFCeConfCPF = "SIM" Then
-                                            If ShowMsg("Deseja inserir o CNPJ no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                                                vCPF = InputBox("Informe o CNPJ do cliente:", "EMISSÃO DE NFCe", "")
-                                                If Not Vazio(vCPF) Then
-                                                    If Len(vCPF) = 11 Then
-                                                        If Validar_CPF(vCPF) = False Then
-                                                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CPFDigitadoErrado2
-                                                        Else
-                                                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                                                        End If
-                                                    ElseIf Len(vCPF) = 14 Then
-                                                        If Validar_CNPJ(vCPF) = False Then
-                                                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CNPJDigitadoErrado2
-                                                        Else
-                                                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                                                        End If
-                                                    End If
-                                                Else
-                                                    vCPF = ""
-                                                End If
-                                            Else
-                                                vCPF = ""           'se na msgbox colocar NÃO quer colocar cpf
-                                            End If
-                                        End If
-                                End If
-                            Case 11
-CPFDigitadoErrado2:
-                                If Validar_CPF(vCPF) = False Then
-                                        If vNFCeConfCPF = "SIM" Then
-                                            If ShowMsg("Deseja inserir o CPF no NFCe?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                                                vCPF = InputBox("Informe o CPF do cliente:", "EMISSÃO DE NFCe", "")
-                                                If Not Vazio(vCPF) Then
-                                                    If Len(vCPF) = 11 Then
-                                                        If Validar_CPF(vCPF) = False Then
-                                                            MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CPFDigitadoErrado2
-                                                        Else
-                                                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                                                        End If
-                                                    ElseIf Len(vCPF) = 14 Then
-                                                        If Validar_CNPJ(vCPF) = False Then
-                                                            MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                                            GoTo CNPJDigitadoErrado2
-                                                        Else
-                                                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                                                        End If
-                                                    End If
-                                                Else
-                                                    vCPF = ""       'se o cpf for vazio
-                                                End If
-                                            Else
-                                                vCPF = ""           'se na msgbox colocar NÃO quer colocar cpf
-                                            End If
-                                        End If
-                                End If
-                            Case Is < 11
-                                'MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                                'mskCNPJ.SetFocus
-                        End Select
-                        
-PularInserirCPF:
-                        If Len(vCPF) = 11 Then
-                            vCPF = Format(vCPF, "000\.000\.000\-00")
-                        ElseIf Len(vCPF) = 14 Then
-                            vCPF = Format(vCPF, "00\.000\.000\/0000\-00")
-                        Else
-                            vCPF = ""
-                        End If
+                        vCPF = ValidarCPFCNPJCliente(True)
                         
                         'coloca o cpf correto no cliente
                         dbData.Execute "BEGIN TRANSACTION"
