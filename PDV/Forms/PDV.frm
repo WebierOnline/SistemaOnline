@@ -7683,6 +7683,195 @@ End If
 EncerrarPrograma
 End Sub
 
+Private Sub RemoverParcelaDuplicadaNumero1()
+'remove a parcela numero=1 duplicada do pedido atual, se existirem 2 (mesma logica usada em A VISTA e A PRAZO)
+sSQL = "SELECT CODIGO, COD_PEDIDO, NUMERO FROM parcelas " & _
+       "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
+Set r = dbData.OpenRecordset(sSQL)
+
+If Not r.EOF Then
+    If r.RecordCount = 2 Then
+        dbData.Execute "DELETE FROM parcelas WHERE (CODIGO =(SELECT MAX(CODIGO) FROM parcelas WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1)) );"
+    End If
+End If
+End Sub
+
+Private Sub RatearDescontoItensPedido()
+'aplica o desconto no pedido_itens e ajusta o item de maior codigo para bater o valor exato (mesma logica em A VISTA e A PRAZO)
+Dim vSomaDescItens As Currency
+Dim vValorDescVenda As Currency
+Dim vValorSobraDesc As Currency
+
+        If vDescItensVenda <> "0,00" Then
+            'adiciona em cada item do pedido o valor do desconto
+            sSQL = "UPDATE pedidos_itens SET desconto = (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), total = subtotal - (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
+            dbData.Execute sSQL
+            
+            'soma todos os descontos dos itens da venda em real
+            sSQL = "SELECT SUM(Desconto) AS varSomaDescItens FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+            
+            If Not r.EOF Then
+                vSomaDescItens = FormatNumber(ValidateNull(r("varSomaDescItens")), 2)
+            End If
+            
+            'consulto quanto é para ser o valor do desconto em real
+            sSQL = "SELECT ValorDescReal FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+            
+            If Not r.EOF Then
+                vValorDescVenda = FormatNumber(ValidateNull(r("ValorDescReal")), 2)
+            End If
+            
+            'se o valor total do desconto for maior que a soma dos desconto dos itens da venda
+            If vValorDescVenda < vSomaDescItens Then
+                vValorSobraDesc = CCur(vSomaDescItens - vValorDescVenda)
+                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto - " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total + " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            ElseIf vValorDescVenda > vSomaDescItens Then
+                vValorSobraDesc = CCur(vValorDescVenda - vSomaDescItens)
+                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto + " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total - " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            End If
+        Else
+            If lblEstornar.Caption = "ESTORNO" Then
+                sSQL = "UPDATE pedidos_itens SET Desconto = '0.00', Total = Subtotal " & _
+                        "WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+                dbData.Execute sSQL
+            End If
+        End If
+End Sub
+
+Private Sub BaixarEstoqueItensPedido()
+'baixa o estoque dos itens do grid em lote (UNION ALL agregado) + guarda contra estoque negativo/corrida (mesma logica em A VISTA e A PRAZO)
+
+        If Grid.Rows > 1 Then
+            Dim sBaixaEstoque As String
+            sBaixaEstoque = ""
+            For i = 1 To Grid.Rows - 1
+                If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
+                sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
+            Next
+            Dim vQtdCodigosEstoque As Long, vRegAfetadosEstoque As Long
+            vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
+            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
+            If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
+                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+            End If
+        End If
+End Sub
+
+Private Function NFCeJaExisteParaPedido(ByVal pCodPedido As String) As Boolean
+'confere se ja existe uma NFCe emitida para esse pedido (mesma checagem em A VISTA e A PRAZO, so nomes de recordset diferiam)
+Dim rChecaNFCe As ADODB.Recordset
+Dim vSQLChecaNFCe As String
+vSQLChecaNFCe = "SELECT Num_OS_VD_Origem FROM TbNFCe WHERE (Num_OS_VD_Origem = " & pCodPedido & ");"
+Set rChecaNFCe = dbData.OpenRecordset(vSQLChecaNFCe)
+NFCeJaExisteParaPedido = Not rChecaNFCe.BOF
+End Function
+
+Private Function ValidarItensNFCe(ByVal rItens As ADODB.Recordset) As Boolean
+'valida NCM/CFOP/CST ICMS/PIS/COFINS/UN de cada item do pedido; para no primeiro item com erro (mesma logica em A VISTA e A PRAZO). Retorna True se encontrou erro.
+Dim vEncontrouErro As Boolean
+Dim vI As Long
+
+vEncontrouErro = False
+
+For vI = 1 To rItens.RecordCount
+    'NCM (GTIN)..........
+    If rItens!CodBarras <> "SEM GTIN" Then
+        If Len(rItens!CodBarras) > 13 Or Len(rItens!CodBarras) < 8 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'CFOP..........
+    If rItens!CFOP <> Empty Then
+        If Len(rItens!CFOP) > 4 Or Len(rItens!CFOP) < 4 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'ICMS CST..........
+    If rItens!ICMSCST <> Empty Then
+        If Len(rItens!ICMSCST) > 3 Or Len(rItens!ICMSCST) < 3 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'PIS CST..........
+    If rItens!PISCST <> Empty Then
+        If Len(rItens!PISCST) > 2 Or Len(rItens!PISCST) < 2 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'COFINS CST..........
+    If rItens!COFINSCST <> Empty Then
+        If Len(rItens!COFINSCST) > 2 Or Len(rItens!COFINSCST) < 2 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'NCM..........
+    If rItens!CodNcm <> Empty Then
+        If Len(rItens!CodNcm) > 8 Or Len(rItens!CodNcm) < 8 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    'UNIDADE DE MEDIDA..........
+    If rItens!UN <> Empty Then
+        If Len(rItens!UN) > 2 Or Len(rItens!UN) < 1 Then
+            vEncontrouErro = True
+        End If
+    End If
+    If vEncontrouErro Then Exit For
+
+    rItens.MoveNext
+Next
+
+ValidarItensNFCe = vEncontrouErro
+End Function
+
+Private Sub AplicarCashbackVenda(ByVal pCashbackHabilitado As String, ByVal pCashbackPercentual As String)
+'da baixa no cashback anterior (se usado na venda) e cria o cashback dessa venda; recebe a config de A VISTA (vCashbackAV/vCashbackValorAV) ou A PRAZO (vCashbackAP/vCashbackValorAP) como parametro
+Dim vValorVenda As Currency
+Dim ValorCash As Currency
+Dim vCashbackValidade As Date
+
+If txtCodCliente.Text <> "1" Then
+    If pCashbackHabilitado = "SIM" Then
+        'Cashback dar baixa
+        If vUsandoCashBack = True Then
+            dbData.Execute "UPDATE Pedidos_Cashback SET VALOR_ABATIDO = VALOR_CASHBACK, ABATIDO = 1, DATA_ABATIDO = '" & Format$(Date, "yyyy-dd-MM") & "', COD_PEDIDOABATIDO = " & txtCodPedido.Text & ", COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (COD_CLIENTE = " & txtCodCliente.Text & ") and ABATIDO = 0 and INVALIDO = 0;"
+        End If
+        
+        'valor do cashback
+        vValorVenda = CCur(txtTotalDesc.Text)
+        ValorCash = (vValorVenda * pCashbackPercentual) / 100
+        
+        'validade do cashback
+        vCashbackValidade = Format(DateAdd("d", Val(vCashbackLimite), Date), "dd/mm/yy")
+        
+        lNovoCod = Autonumeracao_Cashback
+        sSQL = "INSERT INTO Pedidos_Cashback (CODIGO, COD_PEDIDO, VALOR_VENDA, VALOR_CASHBACK, VALOR_ABATIDO, ABATIDO, VALIDADE, INVALIDO, COD_FUNCIONARIO, COD_CLIENTE) VALUES (" & _
+        lNovoCod & ", " & txtCodPedido.Text & ", " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & Replace(CCur(ValorCash), ",", ".") & ", 0, 0, '" & Format$(vCashbackValidade, "yyyy-dd-MM") & "', 0, " & txtCodFuncAP.Text & ", " & txtCodCliente.Text & ");"
+        dbData.Execute sSQL
+    End If
+End If
+End Sub
+
 Private Sub cmdFinalizar_Click()
 Dim bTrans As Boolean
 On Error GoTo ErrHandlerFinalizar
@@ -8142,18 +8331,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                 Next
            End If
            
-            'verificar duplicidade de parcelas
-            sSQL = "SELECT CODIGO, COD_PEDIDO, NUMERO FROM parcelas " & _
-                   "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'Dim vSomaDescItens As Currency
-            If Not r.EOF Then
-                If r.RecordCount = 2 Then
-                    'MsgBox "tem 2"
-                    dbData.Execute "DELETE FROM parcelas WHERE (CODIGO =(SELECT MAX(CODIGO) FROM parcelas WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1)) );"
-                End If
-            End If
+            RemoverParcelaDuplicadaNumero1
            
             'compra com estorno pega a data e hora do estorno
             If lblEstornar.Caption = "ESTORNO" Then
@@ -8221,89 +8399,13 @@ If cboTipoPgto.Text = "À PRAZO" Then
         'dbData.Execute sSQL
     
         'calcular desconto de cada item
-        If vDescItensVenda <> "0,00" Then
-            'adiciona em cada item do pedido o valor do desconto
-            sSQL = "UPDATE pedidos_itens SET desconto = (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), total = subtotal - (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
-            dbData.Execute sSQL
-            
-            'soma todos os descontos dos itens da venda em real
-            sSQL = "SELECT SUM(Desconto) AS varSomaDescItens FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'Dim vSomaDescItens As Currency
-            If Not r.EOF Then
-                vSomaDescItens = FormatNumber(ValidateNull(r("varSomaDescItens")), 2)
-            End If
-            
-            'consulto quanto é para ser o valor do desconto em real
-            sSQL = "SELECT ValorDescReal FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'Dim vValorDescVenda As Currency
-            If Not r.EOF Then
-                vValorDescVenda = FormatNumber(ValidateNull(r("ValorDescReal")), 2)
-            End If
-            
-            'se o valor total do desconto for maior que a soma dos desconto dos itens da venda
-            If vValorDescVenda < vSomaDescItens Then
-                vValorSobraDesc = CCur(vSomaDescItens - vValorDescVenda)
-                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto - " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total + " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
-                        "WHERE (CODIGO = " & _
-                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
-                dbData.Execute sSQL
-            ElseIf vValorDescVenda > vSomaDescItens Then
-                vValorSobraDesc = CCur(vValorDescVenda - vSomaDescItens)
-                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto + " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total - " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
-                        "WHERE (CODIGO = " & _
-                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
-                dbData.Execute sSQL
-            End If
-        Else
-            If lblEstornar.Caption = "ESTORNO" Then
-                sSQL = "UPDATE pedidos_itens SET Desconto = '0.00', Total = Subtotal " & _
-                        "WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-                dbData.Execute sSQL
-            End If
-        End If
+        RatearDescontoItensPedido
         
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
-        If Grid.Rows > 1 Then
-            Dim sBaixaEstoque As String
-            sBaixaEstoque = ""
-            For i = 1 To Grid.Rows - 1
-                If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
-                sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
-            Next
-            Dim vQtdCodigosEstoque As Long, vRegAfetadosEstoque As Long
-            vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
-            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
-            If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
-                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
-            End If
-        End If
+        BaixarEstoqueItensPedido
         
         'CASHBACK
-        If txtCodCliente.Text <> "1" Then
-            If vCashbackAP = "SIM" Then
-                'Cashback dar baixa
-                If vUsandoCashBack = True Then
-                    dbData.Execute "UPDATE Pedidos_Cashback SET VALOR_ABATIDO = VALOR_CASHBACK, ABATIDO = 1, DATA_ABATIDO = '" & Format$(Date, "yyyy-dd-MM") & "', COD_PEDIDOABATIDO = " & txtCodPedido.Text & ", COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (COD_CLIENTE = " & txtCodCliente.Text & ") and ABATIDO = 0 and INVALIDO = 0;"
-                End If
-                
-                'criar novo cashback
-                'valor do cashback
-                vValorVenda = CCur(txtTotalDesc.Text)
-                ValorCash = (vValorVenda * vCashbackValorAP) / 100
-                
-                'validade do cashback
-                vCashbackValidade = Format(DateAdd("d", Val(vCashbackLimite), Date), "dd/mm/yy")
-                
-                    lNovoCod = Autonumeracao_Cashback
-                    sSQL = "INSERT INTO Pedidos_Cashback (CODIGO, COD_PEDIDO, VALOR_VENDA, VALOR_CASHBACK, VALOR_ABATIDO, ABATIDO, VALIDADE, INVALIDO, COD_FUNCIONARIO, COD_CLIENTE) VALUES (" & _
-                    lNovoCod & ", " & txtCodPedido.Text & ", " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & Replace(CCur(ValorCash), ",", ".") & ", 0, 0, '" & Format$(vCashbackValidade, "yyyy-dd-MM") & "', 0, " & txtCodFuncAP.Text & ", " & txtCodCliente.Text & ");"
-                    dbData.Execute sSQL
-            End If
-        End If
+        AplicarCashbackVenda vCashbackAP, vCashbackValorAP
         dbData.Execute "COMMIT TRANSACTION"
         bTrans = False
     
@@ -8312,10 +8414,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
             If NFCe_OK = True Then
             
                     'verifica se já existe um cupom emitdo para esse pedido
-                    sSQL2 = "SELECT Num_OS_VD_Origem FROM TbNFCe WHERE (Num_OS_VD_Origem = " & txtCodPedido & ");"
-                    Set r2 = dbData.OpenRecordset(sSQL2)
-                    
-                    If Not r2.BOF Then
+                    If NFCeJaExisteParaPedido(txtCodPedido.Text) Then
                         MsgBox "NFCe para esse pedido já foi criada"
                         GoTo SemGerarNFCe
                     Else  'se nao existir nfce
@@ -8430,9 +8529,6 @@ CPFDigitadoErrado:
                     If rCliente.State <> 0 Then rCliente.Close
                     Set rCliente = Nothing
                     
-                    If r2.State <> 0 Then r2.Close
-                    Set r2 = Nothing
-                    
                     'criando as parcelas
                     sSQL = "SELECT IdNFProd FROM TbNFCe WHERE Num_OS_VD_Origem  = " & txtCodPedido.Text
                     Set rNFCe = dbData.OpenRecordset(sSQL)
@@ -8464,105 +8560,7 @@ CPFDigitadoErrado:
                        Set rNFCeItens = dbData.OpenRecordset(sSQL)
                        
                        'Dim EncontroErroNFCe As Boolean
-                       EncontroErroNFCe = False
-                       
-                        For i = 1 To rNFCeItens.RecordCount
-                            
-                            'NCM..........
-                            If rNFCeItens!CodBarras <> "SEM GTIN" Then
-                                If Len(rNFCeItens!CodBarras) > 13 Or Len(rNFCeItens!CodBarras) < 8 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-                                                        
-                            'CFOP..........
-                            If rNFCeItens!CFOP <> Empty Then
-                                If Len(rNFCeItens!CFOP) > 4 Or Len(rNFCeItens!CFOP) < 4 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-                            
-                            'ICMS CST..........
-                            If rNFCeItens!ICMSCST <> Empty Then
-                                If Len(rNFCeItens!ICMSCST) > 3 Or Len(rNFCeItens!ICMSCST) < 3 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-
-                            'PIS CST..........
-                            If rNFCeItens!PISCST <> Empty Then
-                                If Len(rNFCeItens!PISCST) > 2 Or Len(rNFCeItens!PISCST) < 2 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-
-                            'COFINS CST..........
-                            If rNFCeItens!COFINSCST <> Empty Then
-                                If Len(rNFCeItens!COFINSCST) > 2 Or Len(rNFCeItens!COFINSCST) < 2 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-                            
-                            'NCM..........
-                            If rNFCeItens!CodNcm <> Empty Then
-                                If Len(rNFCeItens!CodNcm) > 8 Or Len(rNFCeItens!CodNcm) < 8 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-                            
-                            'UNIDADE DE MEDIDA..........
-                            If rNFCeItens!UN <> Empty Then
-                                If Len(rNFCeItens!UN) > 2 Or Len(rNFCeItens!UN) < 1 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo Continuar
-                        
-                        rNFCeItens.MoveNext
-                        Next
-                       
-Continuar:
+                       EncontroErroNFCe = ValidarItensNFCe(rNFCeItens)
                 dbData.Execute "COMMIT TRANSACTION"
                 bTrans = False
                 'transmitir o cupom fiscal - NFCe
@@ -8803,100 +8801,18 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                             txtHoraCompra.Text = ""
                         End If      'fim das opções de 1 e 2 parcelas
                         
-            'verificar duplicidade de parcelas
-            sSQL = "SELECT CODIGO, COD_PEDIDO, NUMERO FROM parcelas " & _
-                   "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'Dim vSomaDescItens As Currency
-            If Not r.EOF Then
-                If r.RecordCount = 2 Then
-                    dbData.Execute "DELETE FROM parcelas WHERE (CODIGO =(SELECT MAX(CODIGO) FROM parcelas WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1)) );"
-                End If
-            End If
+            RemoverParcelaDuplicadaNumero1
            
            'autonumeração das parcelas
         
         'calcular desconto de cada item
-        If vDescItensVenda <> "0,00" Then
-            'adiciona em cada item do pedido o valor do desconto
-            sSQL = "UPDATE pedidos_itens SET desconto = (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), total = subtotal - (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
-            dbData.Execute sSQL
-            
-            'soma todos os descontos dos itens da venda em real
-            sSQL = "SELECT SUM(Desconto) AS varSomaDescItens FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            If Not r.EOF Then
-                vSomaDescItens = FormatNumber(ValidateNull(r("varSomaDescItens")), 2)
-            End If
-            
-            'consulto quanto é para ser o valor do desconto em real
-            sSQL = "SELECT ValorDescReal FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-            Set r = dbData.OpenRecordset(sSQL)
-
-            If Not r.EOF Then
-                vValorDescVenda = FormatNumber(ValidateNull(r("ValorDescReal")), 2)
-            End If
-            
-            'se o valor total do desconto for maior que a soma dos desconto dos itens da venda
-            If vValorDescVenda < vSomaDescItens Then
-                vValorSobraDesc = CCur(vSomaDescItens - vValorDescVenda)
-                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto - " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total + " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
-                        "WHERE (CODIGO = " & _
-                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
-                dbData.Execute sSQL
-            ElseIf vValorDescVenda > vSomaDescItens Then
-                vValorSobraDesc = CCur(vValorDescVenda - vSomaDescItens)
-                sSQL = "UPDATE pedidos_itens SET Desconto = Desconto + " & Replace(CCur(vValorSobraDesc), ",", ".") & ", Total = Total - " & Replace(CCur(vValorSobraDesc), ",", ".") & " " & _
-                        "WHERE (CODIGO = " & _
-                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
-                dbData.Execute sSQL
-            End If
-        Else
-            If lblEstornar.Caption = "ESTORNO" Then
-                sSQL = "UPDATE pedidos_itens SET Desconto = '0.00', Total = Subtotal " & _
-                        "WHERE (cod_pedido = " & txtCodPedido.Text & ")"
-                dbData.Execute sSQL
-            End If
-        End If
+        RatearDescontoItensPedido
         
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
-        If Grid.Rows > 1 Then
-                        sBaixaEstoque = ""
-            For i = 1 To Grid.Rows - 1
-                If sBaixaEstoque <> "" Then sBaixaEstoque = sBaixaEstoque & " UNION ALL "
-                sBaixaEstoque = sBaixaEstoque & "SELECT " & Grid.TextMatrix(i, 2) & " AS codigo, " & Replace(CDbl(Grid.TextMatrix(i, 5)), ",", ".") & " AS qtd"
-            Next
-            vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
-            dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
-            If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
-                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
-            End If
-        End If
+        BaixarEstoqueItensPedido
         
         'CASHBACK
-        If txtCodCliente.Text <> "1" Then
-            If vCashbackAV = "SIM" Then
-            
-            'Cashback dar baixa
-            If vUsandoCashBack = True Then
-                dbData.Execute "UPDATE Pedidos_Cashback SET VALOR_ABATIDO = VALOR_CASHBACK, ABATIDO = 1, DATA_ABATIDO = '" & Format$(Date, "yyyy-dd-MM") & "', COD_PEDIDOABATIDO = " & txtCodPedido.Text & ", COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (COD_CLIENTE = " & txtCodCliente.Text & ") and ABATIDO = 0 and INVALIDO = 0;"
-            End If
-            
-            'valor do cashback
-            vValorVenda = CCur(txtTotalDesc.Text)
-            ValorCash = (vValorVenda * vCashbackValorAV) / 100
-            
-            'validade do cashback
-            vCashbackValidade = Format(DateAdd("d", Val(vCashbackLimite), Date), "dd/mm/yy")
-            
-                lNovoCod = Autonumeracao_Cashback
-                sSQL = "INSERT INTO Pedidos_Cashback (CODIGO, COD_PEDIDO, VALOR_VENDA, VALOR_CASHBACK, VALOR_ABATIDO, ABATIDO, VALIDADE, INVALIDO, COD_FUNCIONARIO, COD_CLIENTE) VALUES (" & _
-                lNovoCod & ", " & txtCodPedido.Text & ", " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & Replace(CCur(ValorCash), ",", ".") & ", 0, 0, '" & Format$(vCashbackValidade, "yyyy-dd-MM") & "', 0, " & txtCodFuncAP.Text & ", " & txtCodCliente.Text & ");"
-                dbData.Execute sSQL
-            End If
-        End If
+        AplicarCashbackVenda vCashbackAV, vCashbackValorAV
         dbData.Execute "COMMIT TRANSACTION"
         bTrans = False
         
@@ -8906,10 +8822,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
             If NFCe_OK = True Then              'SE dei SIM para imprimir NFCE
                 
                     'verificar se o nfce foi gravado
-                    sSQL = "SELECT Num_OS_VD_Origem FROM TbNFCe WHERE (Num_OS_VD_Origem = " & txtCodPedido & ");"
-                    Set rNFCe = dbData.OpenRecordset(sSQL)
-                    
-                    If Not rNFCe.BOF Then
+                    If NFCeJaExisteParaPedido(txtCodPedido.Text) Then
                         MsgBox "NFCe para esse pedido já foi criada"
                         GoTo SemGerarNFCeAV
                     Else    'se nao existir nfce
@@ -9052,9 +8965,6 @@ PularInserirCPF:
                         dbData.Execute sSQL
                     End If
                     
-                    If rNFCe.State <> 0 Then rNFCe.Close
-                    Set rNFCe = Nothing
-                    
                     If rCliente!Codigo = 1 Then
                         dbData.Execute "UPDATE cliente SET cpf = '' WHERE (codigo = 1)"
                     End If
@@ -9098,105 +9008,7 @@ PularInserirCPF:
                        Set rNFCeItens = dbData.OpenRecordset(sSQL)
                        'Debug.Print sSQL
                        
-                       EncontroErroNFCe = False
-                       
-                        For i = 1 To rNFCeItens.RecordCount
-                            
-                            'NCM..........
-                            If rNFCeItens!CodBarras <> "SEM GTIN" Then
-                                If Len(rNFCeItens!CodBarras) > 13 Or Len(rNFCeItens!CodBarras) < 8 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-                                                        
-                            'CFOP..........
-                            If rNFCeItens!CFOP <> Empty Then
-                                If Len(rNFCeItens!CFOP) > 4 Or Len(rNFCeItens!CFOP) < 4 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-                            
-                            'ICMS CST..........
-                            If rNFCeItens!ICMSCST <> Empty Then
-                                If Len(rNFCeItens!ICMSCST) > 3 Or Len(rNFCeItens!ICMSCST) < 3 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-
-                            'PIS CST..........
-                            If rNFCeItens!PISCST <> Empty Then
-                                If Len(rNFCeItens!PISCST) > 2 Or Len(rNFCeItens!PISCST) < 2 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-
-                            'COFINS CST..........
-                            If rNFCeItens!COFINSCST <> Empty Then
-                                If Len(rNFCeItens!COFINSCST) > 2 Or Len(rNFCeItens!COFINSCST) < 2 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-                            
-                            'NCM..........
-                            If rNFCeItens!CodNcm <> Empty Then
-                                If Len(rNFCeItens!CodNcm) > 8 Or Len(rNFCeItens!CodNcm) < 8 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-                            
-                            'UNIDADE DE MEDIDA..........
-                            If rNFCeItens!UN <> Empty Then
-                                If Len(rNFCeItens!UN) > 2 Or Len(rNFCeItens!UN) < 1 Then
-                                    EncontroErroNFCe = True
-                                Else
-                                    EncontroErroNFCe = False
-                                End If
-                            Else
-                                EncontroErroNFCe = False
-                            End If
-                            
-                            If EncontroErroNFCe = True Then GoTo ContinuarNFCeAV
-                        
-                        rNFCeItens.MoveNext
-                        Next
-                       
-ContinuarNFCeAV:
+                       EncontroErroNFCe = ValidarItensNFCe(rNFCeItens)
                 dbData.Execute "COMMIT TRANSACTION"
                 bTrans = False
                        'transmitir o cupom fiscal - NFCe
