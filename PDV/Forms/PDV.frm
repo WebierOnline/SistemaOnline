@@ -7760,7 +7760,13 @@ Private Sub BaixarEstoqueItensPedido()
             vQtdCodigosEstoque = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoque & ") t", "r", 0)
             dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoque
             If Not bEstNeg And vRegAfetadosEstoque < vQtdCodigosEstoque Then
-                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+                Dim rProdSemEstoque As ADODB.Recordset, vMsgProdSemEstoque As String
+                Set rProdSemEstoque = dbData.OpenRecordset("SELECT p.descricao FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoque & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo WHERE p.quant_estoque < agg.qtd")
+                Do While Not rProdSemEstoque.EOF
+                    vMsgProdSemEstoque = vMsgProdSemEstoque & "- " & rProdSemEstoque!descricao & vbCrLf
+                    rProdSemEstoque.MoveNext
+                Loop
+                Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Estoque insuficiente pra finalizar a venda. Remova o(s) produto(s) abaixo do carrinho e tente novamente:" & vbCrLf & vMsgProdSemEstoque
             End If
         End If
 End Sub
@@ -8033,6 +8039,106 @@ End If
 ValidarCPFCNPJCliente = vCPF
 End Function
 
+Private Function DecidirGeracaoNFCe(ByRef pNFCeContingencia As Boolean) As String
+'decide se a venda vai gerar NFCe (mesma logica em A VISTA e A PRAZO, A PRAZO tem o gate extra vNFCeConfPrazo).
+'retorna "OK" (NFCe_OK=True), "NAO_GERAR" (segue a venda sem NFCe) ou "ABORTAR" (PararFechamentoVenda=True -
+'cmdFinalizar_Click deve dar Exit Sub, ainda antes do BEGIN TRANSACTION).
+DecidirGeracaoNFCe = "NAO_GERAR"
+
+If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
+    If vConfImprimeNFCeLocal = "SIM" Then    'se essa maquina irá imprimir nfce localmente
+        'definir a impressora da nfce
+        'Dim oIni As Ini 'desativei aqui 09/11/22
+        Set oIni = New Ini
+        oIni.Arquivo = appPathApp & "config.ini"
+        var_ImpNFCe = oIni.LerTexto("IMPRESSORA_NFCE", "impressora")
+        Set oIni = Nothing
+        
+        Dim Prt As Printer
+        Dim oldPrinter As String
+        
+        oldPrinter = Printer.DeviceName
+        
+        For Each Prt In Printers
+           If Prt.DeviceName = var_ImpNFCe Then
+              Set Printer = Prt
+              Exit For
+           End If
+        Next
+        
+        If cboTipoPgto.Text = "À VISTA" Then    'vendas à vista
+            If vNFCeConfImp = "SIM" Then
+                If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
+                    If txtAcresc.Text = "0,00" Then
+                        If PararFechamentoVenda = True Then
+                            NFCe_OK = False
+                            DecidirGeracaoNFCe = "ABORTAR"
+                            Exit Function
+                        Else
+                            VerificarConexaoParaNFCe pNFCeContingencia
+                            NFCe_OK = True
+                            DecidirGeracaoNFCe = "OK"
+                        End If
+                    Else
+                        MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
+                        NFCe_OK = False
+                    End If
+                Else
+                    NFCe_OK = False
+                End If
+            Else
+                If PararFechamentoVenda = True Then
+                    NFCe_OK = False
+                    DecidirGeracaoNFCe = "ABORTAR"
+                    Exit Function
+                Else
+                    VerificarConexaoParaNFCe pNFCeContingencia
+                    NFCe_OK = True
+                    DecidirGeracaoNFCe = "OK"
+                End If
+            End If
+        Else                                    'vendas à prazo
+            If vNFCeConfPrazo = "SIM" Then
+                If vNFCeConfImp = "SIM" Then
+                    If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
+                        If txtAcresc.Text = "0,00" Then
+                            If PararFechamentoVenda = True Then
+                                NFCe_OK = False
+                                DecidirGeracaoNFCe = "ABORTAR"
+                                Exit Function
+                            Else
+                                VerificarConexaoParaNFCe pNFCeContingencia
+                                NFCe_OK = True
+                                DecidirGeracaoNFCe = "OK"
+                            End If
+                        Else
+                            MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
+                            NFCe_OK = False
+                        End If
+                    Else
+                        NFCe_OK = False
+                    End If
+                Else
+                    If PararFechamentoVenda = True Then
+                        NFCe_OK = False
+                        DecidirGeracaoNFCe = "ABORTAR"
+                        Exit Function
+                    Else
+                        VerificarConexaoParaNFCe pNFCeContingencia
+                        NFCe_OK = True
+                        DecidirGeracaoNFCe = "OK"
+                    End If
+                End If
+            Else
+                NFCe_OK = False
+            End If
+        End If
+    Else
+        NFCe_OK = False
+    End If
+End If
+End Function
+
 Private Sub cmdFinalizar_Click()
 Dim bTrans As Boolean
 On Error GoTo ErrHandlerFinalizar
@@ -8101,90 +8207,7 @@ Set r = dbData.OpenRecordset(sSQL)
 NFCeContingencia = r!NFCeOffline
 
 
-If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
-    If vConfImprimeNFCeLocal = "SIM" Then    'se essa maquina irá imprimir nfce localmente
-        'definir a impressora da nfce
-        'Dim oIni As Ini 'desativei aqui 09/11/22
-        Set oIni = New Ini
-        oIni.Arquivo = appPathApp & "config.ini"
-        var_ImpNFCe = oIni.LerTexto("IMPRESSORA_NFCE", "impressora")
-        Set oIni = Nothing
-        
-        Dim Prt As Printer
-        Dim oldPrinter As String
-        
-        oldPrinter = Printer.DeviceName
-        
-        For Each Prt In Printers
-           If Prt.DeviceName = var_ImpNFCe Then
-              Set Printer = Prt
-              Exit For
-           End If
-        Next
-        
-        If cboTipoPgto.Text = "À VISTA" Then    'vendas à vista
-            If vNFCeConfImp = "SIM" Then
-                If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
-                    If txtAcresc.Text = "0,00" Then
-                        If PararFechamentoVenda = True Then
-                            NFCe_OK = False
-                            Exit Sub
-                        Else
-                            VerificarConexaoParaNFCe NFCeContingencia
-                            NFCe_OK = True
-                        End If
-                    Else
-                        MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
-                        NFCe_OK = False
-                    End If
-                Else
-                    NFCe_OK = False
-                End If
-            Else
-                If PararFechamentoVenda = True Then
-                    NFCe_OK = False
-                    Exit Sub
-                Else
-                    VerificarConexaoParaNFCe NFCeContingencia
-                    NFCe_OK = True
-                End If
-            End If
-        Else                                    'vendas à prazo
-            If vNFCeConfPrazo = "SIM" Then
-                If vNFCeConfImp = "SIM" Then
-                    If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
-                        If txtAcresc.Text = "0,00" Then
-                            If PararFechamentoVenda = True Then
-                                NFCe_OK = False
-                                Exit Sub
-                            Else
-                                VerificarConexaoParaNFCe NFCeContingencia
-                                NFCe_OK = True
-                            End If
-                        Else
-                            MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
-                            NFCe_OK = False
-                        End If
-                    Else
-                        NFCe_OK = False
-                    End If
-                Else
-                    If PararFechamentoVenda = True Then
-                        NFCe_OK = False
-                        Exit Sub
-                    Else
-                        VerificarConexaoParaNFCe NFCeContingencia
-                        NFCe_OK = True
-                    End If
-                End If
-            Else
-                NFCe_OK = False
-            End If
-        End If
-    Else
-        NFCe_OK = False
-    End If
-End If
+If DecidirGeracaoNFCe(NFCeContingencia) = "ABORTAR" Then Exit Sub
 
 If NFCe_OK = True Then
     Dim EncontroErroNFCe As Boolean
@@ -8749,7 +8772,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                             
                             'compra com estorno pega a data e hora do estorno
                             If lblEstornar.Caption = "ESTORNO" Then
-                                If txtHoraCompra.Text = "00:00" Then
+                                If txtHoraCompra.Text = "00:00" Or txtHoraCompra.Text = "" Then
                                     varHora = Format(Now, ocHORA)
                                 Else
                                     varHora = Format(txtHoraCompra, ocHORA)
@@ -8941,7 +8964,6 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                               "FROM [parcelas] " & _
                               "WHERE COD_PEDIDO = " & txtCodPedido.Text
                        dbData.Execute sSQL
-                    End If
                        DoEvents
                        
                     'verificando os itens do pedido
@@ -8996,6 +9018,9 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                     If vNFCeCombinarImp = "SIM" Then
                         ImprimirVendaAV
                     End If              'final de vNFCeCombinarImp = "SIM"
+                    Else                'rNFCe.RecordCount <= 0: NFCe nao foi criada, imprime so o cupom
+                        ImprimirVendaAV
+                    End If              'fim do rNFCe.RecordCount > 0
                 Else    'meio do NFCe_OK = false
                     ImprimirVendaAV
                 End If
@@ -9083,7 +9108,13 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                 vQtdCodigosEstoqueCons = SQLExecutaRetorno("SELECT COUNT(DISTINCT codigo) AS r FROM (" & sBaixaEstoqueCons & ") t", "r", 0)
                 dbData.Execute "UPDATE p SET p.quant_estoque = p.quant_estoque - agg.qtd FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo" & IIf(bEstNeg, "", " WHERE p.quant_estoque >= agg.qtd") & ";", vRegAfetadosEstoqueCons
                 If Not bEstNeg And vRegAfetadosEstoqueCons < vQtdCodigosEstoqueCons Then
-                    Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Um ou mais produtos ficaram sem estoque suficiente entre a adição no carrinho e a finalização da venda. Revise o carrinho e tente novamente."
+                    Dim rProdSemEstoqueCons As ADODB.Recordset, vMsgProdSemEstoqueCons As String
+                    Set rProdSemEstoqueCons = dbData.OpenRecordset("SELECT p.descricao FROM produtos p INNER JOIN (SELECT codigo, SUM(qtd) AS qtd FROM (" & sBaixaEstoqueCons & ") t GROUP BY codigo) agg ON agg.codigo = p.codigo WHERE p.quant_estoque < agg.qtd")
+                    Do While Not rProdSemEstoqueCons.EOF
+                        vMsgProdSemEstoqueCons = vMsgProdSemEstoqueCons & "- " & rProdSemEstoqueCons!descricao & vbCrLf
+                        rProdSemEstoqueCons.MoveNext
+                    Loop
+                    Err.Raise vbObjectError + 1, "cmdFinalizar_Click", "Estoque insuficiente pra finalizar a venda. Remova o(s) produto(s) abaixo do carrinho e tente novamente:" & vbCrLf & vMsgProdSemEstoqueCons
                 End If
             End If
         End If
@@ -11168,6 +11199,10 @@ Verificar_NFCe
 
 Randomize Timer   'ver depois, peguei do form de pegar peso da balança
 
+If TemConexaoInternet() Then
+    dbData.Execute "UPDATE Empresa SET NFCeOffline = 0"   'evita flag de contingência travada de sessao anterior quando a internet ja esta ok no load
+End If
+
 AtualizarLabelConexaoInternet   'estado inicial do lblConexaoInternet, sem esperar o primeiro tick do TimerInternet
 End Sub
 
@@ -12424,8 +12459,16 @@ If KeyAscii = 13 Then
                 If varQuantAdicionada > vQtde Then
                     MsgBox "Quantidade não disponivel!", vbInformation, "Aviso do Sistema"
                     LimparObjetos_Produto
+                    txtQuant.BackColor = &H80000005
                     cmdAlterar.Enabled = False
                     txtCodBarra.Enabled = True
+                    cmdFinalizarAvista.Enabled = True
+                    cmdFinalizarPrazo.Enabled = True
+                    cmdOrçamento.Enabled = True
+                    cmdCancelarPedido.Enabled = True
+                    cmdRemover.Enabled = True
+                    cmdAvancado.Enabled = True
+                    cmdInfProduto.Enabled = True
                     txtCodBarra.SetFocus
                     Exit Sub
                 End If
