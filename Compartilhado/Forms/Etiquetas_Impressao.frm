@@ -966,7 +966,7 @@ Private Sub cmdImprimirEtiqueta_Click()
     Dim objB As Object
     Set objB = CreateObject("ImpressaoDeEtiquetas.GeradorDeEtiquetas")
         
-    ReDim arrayDeDados(0 To 0, 0 To 4)
+    ReDim arrayDeDados(0 To tamanhoGrid, 0 To 4)
         
     chamandoImpressao = True
        
@@ -975,10 +975,6 @@ Private Sub cmdImprimirEtiqueta_Click()
         For i = 1 To .rows - 1
             .Row = i
             If Grid.CellPicture = picChecked Then
-                                
-                If indiceDeInsercaoArray > 0 Then
-                    ReDimPreserve arrayDeDados, UBound(arrayDeDados, 1) + 1, UBound(arrayDeDados, 2)
-                End If
                                 
                 arrayDeDados(indiceDeInsercaoArray, 0) = CInt(.TextMatrix(i, 4))
                 arrayDeDados(indiceDeInsercaoArray, 1) = .TextMatrix(i, 6)
@@ -990,6 +986,12 @@ Private Sub cmdImprimirEtiqueta_Click()
             End If
         Next
     End With
+    
+    'array foi dimensionado pro pior caso (tamanhoGrid); corta pro tamanho realmente usado numa unica vez
+    Dim ultimoIndiceUsado As Long
+    ultimoIndiceUsado = indiceDeInsercaoArray - 1
+    If ultimoIndiceUsado < 0 Then ultimoIndiceUsado = 0
+    ReDimPreserve arrayDeDados, ultimoIndiceUsado, UBound(arrayDeDados, 2)
     
     objB.ExibirModalConfiguracaoImpressao (arrayDeDados)
     chamandoImpressao = False

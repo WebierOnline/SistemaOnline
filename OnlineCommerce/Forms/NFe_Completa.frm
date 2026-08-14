@@ -53,54 +53,54 @@ Begin VB.Form NFe_Completa
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtCodObservacao"
+      Tab(1).Control(0)=   "cmdEnviarXML"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "frmCorreção"
+      Tab(1).Control(1)=   "cmdEspelho"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "picAguarde"
+      Tab(1).Control(2)=   "cmdEditar"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lvwTotais"
+      Tab(1).Control(3)=   "cmdCartaCorrecao"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "Frame4"
+      Tab(1).Control(4)=   "cmdInutilizar"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "GridNotas"
+      Tab(1).Control(5)=   "cmdDuplicar"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cmdCopiarChave"
+      Tab(1).Control(6)=   "cmdConsultar"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cmdImprimir"
+      Tab(1).Control(7)=   "cmdCancelarNota"
       Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "cmdTransmitir"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "cmdCancelarNota"
+      Tab(1).Control(9)=   "cmdImprimir"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "cmdConsultar"
+      Tab(1).Control(10)=   "cmdCopiarChave"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "cmdDuplicar"
+      Tab(1).Control(11)=   "GridNotas"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "cmdInutilizar"
+      Tab(1).Control(12)=   "Frame4"
       Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "cmdCartaCorrecao"
+      Tab(1).Control(13)=   "lvwTotais"
       Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "cmdEditar"
+      Tab(1).Control(14)=   "picAguarde"
       Tab(1).Control(14).Enabled=   0   'False
-      Tab(1).Control(15)=   "cmdEspelho"
+      Tab(1).Control(15)=   "frmCorreção"
       Tab(1).Control(15).Enabled=   0   'False
-      Tab(1).Control(16)=   "cmdEnviarXML"
+      Tab(1).Control(16)=   "txtCodObservacao"
       Tab(1).Control(16).Enabled=   0   'False
       Tab(1).ControlCount=   17
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblQuantPedidos"
-      Tab(2).Control(1)=   "ImgMarcada"
-      Tab(2).Control(2)=   "imgDesmarcada"
-      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
-      Tab(2).Control(4)=   "ImgMarcadaTODAS"
-      Tab(2).Control(5)=   "lblCodFabrica(9)"
-      Tab(2).Control(6)=   "cmdConverterNFe"
-      Tab(2).Control(7)=   "GridPedidos"
-      Tab(2).Control(8)=   "frmFiltrosPedidos"
-      Tab(2).Control(9)=   "picAguarde2"
+      Tab(2).Control(0)=   "picAguarde2"
+      Tab(2).Control(1)=   "frmFiltrosPedidos"
+      Tab(2).Control(2)=   "GridPedidos"
+      Tab(2).Control(3)=   "cmdConverterNFe"
+      Tab(2).Control(4)=   "lblCodFabrica(9)"
+      Tab(2).Control(5)=   "ImgMarcadaTODAS"
+      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(7)=   "imgDesmarcada"
+      Tab(2).Control(8)=   "ImgMarcada"
+      Tab(2).Control(9)=   "lblQuantPedidos"
       Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
@@ -1904,7 +1904,7 @@ Begin VB.Form NFe_Completa
          _ExtentY        =   8811
          _Version        =   393216
          Tabs            =   7
-         Tab             =   6
+         Tab             =   3
          TabsPerRow      =   7
          TabHeight       =   467
          TabMaxWidth     =   3351
@@ -1917,49 +1917,49 @@ Begin VB.Form NFe_Completa
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "cboModFrete"
+         Tab(1).Control(0)=   "Label71"
          Tab(1).Control(0).Enabled=   0   'False
          Tab(1).Control(1)=   "Tab_transp"
          Tab(1).Control(1).Enabled=   0   'False
-         Tab(1).Control(2)=   "Label71"
+         Tab(1).Control(2)=   "cboModFrete"
          Tab(1).Control(2).Enabled=   0   'False
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "cboFormaPgto"
+         Tab(2).Control(0)=   "Label15"
          Tab(2).Control(0).Enabled=   0   'False
-         Tab(2).Control(1)=   "frmDuplicata"
+         Tab(2).Control(1)=   "Label67"
          Tab(2).Control(1).Enabled=   0   'False
-         Tab(2).Control(2)=   "frmFatura"
+         Tab(2).Control(2)=   "cboIndicadorPagamento"
          Tab(2).Control(2).Enabled=   0   'False
-         Tab(2).Control(3)=   "cboIndicadorPagamento"
+         Tab(2).Control(3)=   "frmFatura"
          Tab(2).Control(3).Enabled=   0   'False
-         Tab(2).Control(4)=   "Label67"
+         Tab(2).Control(4)=   "frmDuplicata"
          Tab(2).Control(4).Enabled=   0   'False
-         Tab(2).Control(5)=   "Label15"
+         Tab(2).Control(5)=   "cboFormaPgto"
          Tab(2).Control(5).Enabled=   0   'False
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":20F4A
-         Tab(3).ControlEnabled=   0   'False
-         Tab(3).Control(0)=   "chkDadosBancarios"
+         Tab(3).ControlEnabled=   -1  'True
+         Tab(3).Control(0)=   "lblCodFabrica(10)"
          Tab(3).Control(0).Enabled=   0   'False
-         Tab(3).Control(1)=   "txtInfComple"
+         Tab(3).Control(1)=   "lblCodFabrica(11)"
          Tab(3).Control(1).Enabled=   0   'False
          Tab(3).Control(2)=   "txtInfAdicionais"
          Tab(3).Control(2).Enabled=   0   'False
-         Tab(3).Control(3)=   "lblCodFabrica(11)"
+         Tab(3).Control(3)=   "txtInfComple"
          Tab(3).Control(3).Enabled=   0   'False
-         Tab(3).Control(4)=   "lblCodFabrica(10)"
+         Tab(3).Control(4)=   "chkDadosBancarios"
          Tab(3).Control(4).Enabled=   0   'False
          Tab(3).ControlCount=   5
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboTipoEmissao"
+         Tab(4).Control(0)=   "cboFormatoDANFe"
          Tab(4).Control(0).Enabled=   0   'False
-         Tab(4).Control(1)=   "cboFormatoDANFe"
+         Tab(4).Control(1)=   "cboTipoEmissao"
          Tab(4).Control(1).Enabled=   0   'False
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
@@ -1968,21 +1968,21 @@ Begin VB.Form NFe_Completa
          Tab(5).ControlCount=   0
          TabCaption(6)   =   "Devolução"
          TabPicture(6)   =   "NFe_Completa.frx":20F9E
-         Tab(6).ControlEnabled=   -1  'True
+         Tab(6).ControlEnabled=   0   'False
          Tab(6).Control(0)=   "frmDevolucao"
          Tab(6).Control(0).Enabled=   0   'False
          Tab(6).ControlCount=   1
          Begin VB.CheckBox chkDadosBancarios 
             Caption         =   "Dados Bancários"
             Height          =   195
-            Left            =   -60180
+            Left            =   14820
             TabIndex        =   248
             Top             =   420
             Width           =   1515
          End
          Begin VB.TextBox txtInfComple 
             Height          =   2685
-            Left            =   -74880
+            Left            =   120
             MultiLine       =   -1  'True
             TabIndex        =   245
             Top             =   660
@@ -1990,7 +1990,7 @@ Begin VB.Form NFe_Completa
          End
          Begin VB.TextBox txtInfAdicionais 
             Height          =   1185
-            Left            =   -74880
+            Left            =   120
             MultiLine       =   -1  'True
             TabIndex        =   244
             Top             =   3660
@@ -2008,7 +2008,7 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             Height          =   915
-            Left            =   120
+            Left            =   -74880
             TabIndex        =   179
             Top             =   360
             Width           =   14295
@@ -3044,29 +3044,29 @@ Begin VB.Form NFe_Completa
             TabCaption(1)   =   "Volumes"
             TabPicture(1)   =   "NFe_Completa.frx":25794
             Tab(1).ControlEnabled=   0   'False
-            Tab(1).Control(0)=   "txtVolPesoBruto"
+            Tab(1).Control(0)=   "Label13"
             Tab(1).Control(0).Enabled=   0   'False
-            Tab(1).Control(1)=   "txtVolQuant"
+            Tab(1).Control(1)=   "Label12"
             Tab(1).Control(1).Enabled=   0   'False
-            Tab(1).Control(2)=   "txtVolEspecie"
+            Tab(1).Control(2)=   "Label10"
             Tab(1).Control(2).Enabled=   0   'False
-            Tab(1).Control(3)=   "txtVolMarca"
+            Tab(1).Control(3)=   "Label17"
             Tab(1).Control(3).Enabled=   0   'False
-            Tab(1).Control(4)=   "txtVolNumeracao"
+            Tab(1).Control(4)=   "Label18"
             Tab(1).Control(4).Enabled=   0   'False
-            Tab(1).Control(5)=   "txtVolPesoLiquido"
+            Tab(1).Control(5)=   "Label11"
             Tab(1).Control(5).Enabled=   0   'False
-            Tab(1).Control(6)=   "Label11"
+            Tab(1).Control(6)=   "txtVolPesoLiquido"
             Tab(1).Control(6).Enabled=   0   'False
-            Tab(1).Control(7)=   "Label18"
+            Tab(1).Control(7)=   "txtVolNumeracao"
             Tab(1).Control(7).Enabled=   0   'False
-            Tab(1).Control(8)=   "Label17"
+            Tab(1).Control(8)=   "txtVolMarca"
             Tab(1).Control(8).Enabled=   0   'False
-            Tab(1).Control(9)=   "Label10"
+            Tab(1).Control(9)=   "txtVolEspecie"
             Tab(1).Control(9).Enabled=   0   'False
-            Tab(1).Control(10)=   "Label12"
+            Tab(1).Control(10)=   "txtVolQuant"
             Tab(1).Control(10).Enabled=   0   'False
-            Tab(1).Control(11)=   "Label13"
+            Tab(1).Control(11)=   "txtVolPesoBruto"
             Tab(1).Control(11).Enabled=   0   'False
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
@@ -3334,7 +3334,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Informações Adicionais"
             Height          =   195
             Index           =   11
-            Left            =   -74880
+            Left            =   120
             TabIndex        =   247
             Top             =   3420
             Width           =   1635
@@ -3354,7 +3354,7 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   195
             Index           =   10
-            Left            =   -74880
+            Left            =   120
             TabIndex        =   246
             Top             =   420
             Width           =   2475
@@ -4181,7 +4181,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "17:25"
+            TextSave        =   "11:55"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4239,6 +4239,7 @@ Dim bSupressChkEvents As Boolean
 Dim vRegimeTributario As Integer
 Dim vIPICompoeDIFAL As Integer
 Dim vPCreditoSN     As Double
+Dim vUltimoTextoAutoInfComple As String
 Dim printSQL As String
 Dim TipoSelecaoConsulta As String
 
@@ -5375,24 +5376,26 @@ Private Sub AtualizarInfCompleCredSN()
     If Not rCred.EOF Then dblSomaCredSN = CDbl(rCred("total"))
     rCred.Close
     Set rCred = Nothing
+    Dim sNovoAuto As String
     If dblSomaCredSN > 0 Then
-        txtInfComple.Text = "DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL. " & _
-                            "PERMITE O APROVEITAMENTO DO CRÉDITO DE ICMS NO VALOR DE R$ " & Format(dblSomaCredSN, "#,##0.00") & _
-                            "; CORRESPONDENTE À ALÍQUOTA DE " & Format(vPCreditoSN, "0.00") & _
-                            "%, NOS TERMOS DO ART. 23 DA LEI COMPLEMENTAR Nº 123, DE 2006."
+        sNovoAuto = "DOCUMENTO EMITIDO POR ME OU EPP OPTANTE PELO SIMPLES NACIONAL. " & _
+                    "PERMITE O APROVEITAMENTO DO CRÉDITO DE ICMS NO VALOR DE R$ " & Format(dblSomaCredSN, "#,##0.00") & _
+                    "; CORRESPONDENTE À ALÍQUOTA DE " & Format(vPCreditoSN, "0.00") & _
+                    "%, NOS TERMOS DO ART. 23 DA LEI COMPLEMENTAR Nº 123, DE 2006."
     Else
-        txtInfComple.Text = sBaseSimples
+        sNovoAuto = sBaseSimples
     End If
     If chkDadosBancarios.Value = 1 Then
         Dim sBnk As String
         sBnk = GetDadosBancariosStr()
-        If Len(sBnk) > 0 Then
-            If Len(Trim(txtInfComple.Text)) > 0 Then
-                txtInfComple.Text = txtInfComple.Text & vbCrLf & sBnk
-            Else
-                txtInfComple.Text = sBnk
-            End If
-        End If
+        If Len(sBnk) > 0 Then sNovoAuto = sNovoAuto & vbCrLf & sBnk
+    End If
+
+    'so sobrescreve se o campo ainda tem exatamente o que a gente escreveu da ultima vez (ou esta vazio) -
+    'se o usuario customizou (ex: placa/modelo do veiculo), preserva o texto dele
+    If Trim(txtInfComple.Text) = "" Or Trim(txtInfComple.Text) = Trim(vUltimoTextoAutoInfComple) Then
+        txtInfComple.Text = sNovoAuto
+        vUltimoTextoAutoInfComple = sNovoAuto
     End If
 End Sub
 
@@ -10932,8 +10935,10 @@ If TbNotas.RecordCount > 0 Then totalRegistros = TbNotas.RecordCount
 
     If vTipoCRT = 3 Then
         txtInfComple.Text = ""
+        vUltimoTextoAutoInfComple = ""
     Else
         txtInfComple.Text = "EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS."
+        vUltimoTextoAutoInfComple = txtInfComple.Text
     End If
     
     Mostrar_AliqUF

@@ -84,3 +84,5 @@
 084|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL
 085|Fix_Parcelas_TIPO_OS_vazio.sql|OS
 086|AlterTable_Produtos_Cliente_Indices_Busca.sql|GERAL
+087|AlterTable_Pedidos_StatusPedido_BitParaSmallint.sql|GERAL
+088|CreateTable_pdvs.sql|GERAL

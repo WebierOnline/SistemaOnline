@@ -77,6 +77,7 @@ Sub pCriarGrade()
       .View = lvwReport
       .FullRowSelect = True
       .HideSelection = False
+      .LabelEdit = lvwManual
    End With
 End Sub
 

@@ -1989,7 +1989,7 @@ Private Sub cmdExibir_Click()
            "CASE parcelas.status WHEN 0 THEN (CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END) ELSE (parcelas.dias_atrazo) END AS varDiasJuros, " & _
            "CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS varValorJuros, " & _
            "CASE parcelas.status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varSituacaoPGTO, " & _
-           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, GETDATE(), parcelas.data) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
+           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
            "(CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + parcelas.valor as varParcComJuros,  " & _
            "(((CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + parcelas.valor) - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo))) AS varTotalLiquido " & _
            "FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
@@ -2002,7 +2002,7 @@ Private Sub cmdExibir_Click()
            "'0' AS varDiasJuros, " & _
            "'0' AS varValorJuros, " & _
            "CASE parcelas.status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varSituacaoPGTO, " & _
-           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, GETDATE(), parcelas.data) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
+           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
            "parcelas.valor as varParcComJuros,  " & _
            "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo))) AS varTotalLiquido " & _
            "FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _

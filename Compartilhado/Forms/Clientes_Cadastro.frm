@@ -1817,7 +1817,7 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
-'Option Explicit
+Option Explicit
 Dim printSQL As String
 Private moCombo As cComboHelper
 Dim sSQL As String
@@ -2472,11 +2472,11 @@ cboStatus.Text = "ATIVO"
 End Sub
 
 Private Sub cmdConsultarCNPJ_Click()
-ShellExecute hwnd, "open", "http://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp", vbNullString, vbNullString, conSwNo
+ShellExecute hwnd, "open", "http://servicos.receita.fazenda.gov.br/Servicos/cnpjreva/Cnpjreva_Solicitacao.asp", vbNullString, vbNullString, conSwNormal
 End Sub
 
 Private Sub cmdConsultarIE_Click()
-ShellExecute hwnd, "open", "https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", vbNullString, vbNullString, conSwNo
+ShellExecute hwnd, "open", "https://dfe-portal.svrs.rs.gov.br/Nfe/Ccc", vbNullString, vbNullString, conSwNormal
 End Sub
 
 Private Sub cmdExcluir_Click()
@@ -2934,18 +2934,18 @@ End Function
 
 Public Function ValidaCNPJ(CGC As String) As Boolean
 If CalculaCGC(Left(CGC, 12)) <> Mid(CGC, 13, 1) Then
-   ValidaCGC = False
+   ValidaCNPJ = False
    Exit Function
 End If
 
 If CalculaCGC(Left(CGC, 13)) <> Mid(CGC, 14, 1) Then
-    ValidaCGC = False
+    ValidaCNPJ = False
     MsgBox "CNPJ Inválido!", vbInformation, "Aviso do Sistema"
     mskCPF.SetFocus
     Exit Function
 End If
 
-ValidaCGC = True
+ValidaCNPJ = True
 
 End Function
 
@@ -2994,7 +2994,6 @@ If cboTipoCliente.Text = "CADASTRO" Then
                 Else
                     mskCPF.SetFocus
                 End If
-                KeyCode = 0
             Case 14
                 If Validar_CNPJ(vCPF) = False Then
                     MsgBox "CNPJ Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
@@ -3007,7 +3006,7 @@ If cboTipoCliente.Text = "CADASTRO" Then
                 End If
             Case Is < 11
                 MsgBox "CPF Informado não é valido", vbInformation, "ATENÇÃO! AVISO IMPORTANTE!"
-                mskCNPJ.SetFocus
+                mskCPF.SetFocus
     End Select
 End If
 End Sub

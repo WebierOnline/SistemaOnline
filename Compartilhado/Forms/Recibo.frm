@@ -482,8 +482,24 @@ Private Sub CboCliente_LostFocus()
 End Sub
 
 Private Sub cboParcela_Click()
-   'On Error Resume Next
-   'cboValor.ListIndex = cboParcela.ListIndex
+If cboPedido.Text = "NENHUM PEDIDO" Or cboParcela.Text = "" Or cboParcela.Text = "NENHUMA PARCELA ENCONTRADA" Then Exit Sub
+
+Dim Pedido As Long
+Pedido = Mid(cboPedido.Text, 1, InStr(1, cboPedido.Text, "->") - 1)
+
+Dim rParc As ADODB.Recordset
+sSQL = "SELECT *, parcelas.PAGAMENTO as var_DataPgto FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
+   "WHERE (status = 1) AND (pedidos.cod_pedido = " & Pedido & ") AND (parcelas.numero = " & cboParcela.Text & ");"
+Set rParc = dbData.OpenRecordset(sSQL)
+
+If Not rParc.BOF Then
+   txtValor.Text = rParc("VALOR_FINAL")
+   txtFormaPgto.Text = rParc("FORMA_PGTO")
+   txtDataPgto.Text = Format(rParc("var_DataPgto"), "dd/mm/yy")
+End If
+
+If rParc.State <> 0 Then rParc.Close
+Set rParc = Nothing
 End Sub
 
 Private Sub cboPedido_Click()
@@ -500,7 +516,7 @@ Else
 End If
 
 sSQL = "SELECT *, parcelas.PAGAMENTO as var_DataPgto FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
-   "WHERE (status = 1) AND (pedidos.cod_pedido = " & Pedido & ");"
+   "WHERE (status = 1) AND (pedidos.cod_pedido = " & Pedido & ") ORDER BY parcelas.numero;"
 
 Set r = dbData.OpenRecordset(sSQL)
 
@@ -512,9 +528,6 @@ If r.BOF Then
 Else
    Do Until r.EOF
       cboParcela.AddItem r("numero")
-      txtValor.Text = r("VALOR_FINAL")
-      txtFormaPgto.Text = r("FORMA_PGTO")
-      txtDataPgto.Text = Format(r("var_DataPgto"), "dd/mm/yy")
       r.MoveNext
    Loop
 End If
@@ -523,6 +536,7 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 
 cboParcela.ListIndex = 0
+cboParcela_Click
 End Sub
 
 

@@ -139,6 +139,10 @@ Sub pCriarGrid()
    lstBusca.ColumnHeaders.Add , , "VALOR", 800, 1
 End Sub
 
+Private Function EA(ByVal s As String) As String
+    EA = Replace(s, "'", "''")
+End Function
+
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
    If Shift = 0 Then
       If KeyCode = vbKeyEscape Then Unload Me
@@ -258,10 +262,10 @@ End If
    
    
    If optRef.Value = True Then
-      fSQL = "(ref LIKE '%" & txtDescricao.Text & "%')"
+      fSQL = "(ref LIKE '%" & EA(txtDescricao.Text) & "%')"
    
    ElseIf optFab.Value = True Then
-      fSQL = "(fabricante LIKE '%" & txtDescricao.Text & "%')"
+      fSQL = "(fabricante LIKE '%" & EA(txtDescricao.Text) & "%')"
    
    ElseIf optTam.Value = True Then
       fTam = MontarCriterios(txtDescricao)
@@ -274,7 +278,7 @@ End If
       fSQL = "(tamanho IN (" & fTam & "))"
    
    ElseIf optDesc.Value = True Then
-      fSQL = "(descricao LIKE '%" & txtDescricao.Text & "%')"
+      fSQL = "(descricao LIKE '%" & EA(txtDescricao.Text) & "%')"
    
    End If
    

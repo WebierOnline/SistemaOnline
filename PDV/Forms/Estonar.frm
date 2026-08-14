@@ -1707,23 +1707,118 @@ Dim varValorDescProc As Double
 Dim A As Currency
 Dim B As Currency
 
-Private Sub Cancelar_NFCe(vCodPedido As String)
-Dim sSQL As String, IdNFProd As Long
+Private Function ResolverNFCePendente(ByVal vCodPedido As String, ByVal vAcaoPedido As String, ByRef vJaConfirmado As Boolean) As Boolean
+'verifica se o pedido tem NFCe vinculada e resolve o estado dela na SEFAZ antes de liberar cancelar/reabrir:
+'cancela se Enviada, inutiliza a numeracao se nunca foi enviada (digitacao/contingencia), so desvincula se
+'ja estiver Cancelada/Inutilizada. vAcaoPedido e o texto da acao mostrado ao usuario ("cancelar o pedido"/"reabrir o pedido").
+Dim sSQL As String
+Dim r As ADODB.Recordset
+Dim IdNFProd As Long, vNumeroNFCe As String
+Dim vEnviada As Boolean, vCancelada As Boolean, vInutilizadaFlag As Boolean
 
-sSQL = "SELECT IdNFProd FROM TbNFCe WHERE Num_OS_VD_Origem  = " & vCodPedido
-IdNFProd = SQLExecutaRetorno(sSQL, "IdNFProd", 0)
-If IdNFProd > 0 Then
-   sSQL = "SELECT NFCeChaveAcesso, NFCeProtocolo, NFCeCancelada, NFCeCanceladaProtocolo, NFCeCanceladaJustificativa FROM TbNFCe WHERE IdNFProd = " & IdNFProd
-   NFeChaveAcesso = SQLExecutaRetorno(sSQL, "NFCeChaveAcesso", "")
-   NFeNumeroProtocolo = SQLExecutaRetorno(sSQL, "NFCeProtocolo", 0)
-   If Not Vazio(NFeChaveAcesso) And NFeNumeroProtocolo > 0 Then
-      If CancelaNFCe(NFeChaveAcesso, NFeNumeroProtocolo, "DESISTENCIA DE COMPRA", True) Then
-         sSQL = "UPDATE TbNFCe SET NFCeCancelada = 1, NFceCanceladaProtocolo = " & NFeNumeroProtocolo & ", NFCeCanceladaJustificativa = 'DESISTENCIA DE COMPRA' WHERE IDNFProd = " & IdNFProd
-         dbData.Execute sSQL
-      End If
-   End If
+sSQL = "SELECT IdNFProd, NumeNota, NFCeEnviada, NFCeCancelada, Inutilizada FROM TbNFCe WHERE Num_OS_VD_Origem = " & vCodPedido
+Set r = dbData.OpenRecordset(sSQL)
+
+If r.BOF Then
+    ResolverNFCePendente = True
+    Exit Function
 End If
-End Sub
+
+IdNFProd = r("IdNFProd")
+vNumeroNFCe = ValidateNull(r("NumeNota"))
+vEnviada = (ValidateNull(r("NFCeEnviada")) = True)
+vCancelada = (ValidateNull(r("NFCeCancelada")) = True)
+vInutilizadaFlag = (ValidateNull(r("Inutilizada")) = True)
+
+If vInutilizadaFlag Or (vEnviada And vCancelada) Then
+    'ja resolvida na SEFAZ - so tira o vinculo dessa venda
+    dbData.Execute "UPDATE TbNFCe SET Num_OS_VD_Origem = 0 WHERE IdNFProd = " & IdNFProd
+    ResolverNFCePendente = True
+
+ElseIf vEnviada Then
+    If MsgBox("Essa venda possui uma NFCe ENVIADA (número " & vNumeroNFCe & ") vinculada." & vbCrLf & vbCrLf & _
+              "Deseja " & vAcaoPedido & " mesmo assim? A NFCe será CANCELADA na SEFAZ.", vbQuestion + vbYesNo + vbDefaultButton2, "NFCe vinculada") = vbYes Then
+        If CancelarNFCePorId(IdNFProd) Then
+            ResolverNFCePendente = True
+            vJaConfirmado = True
+        ElseIf cStat2 = 501 Then
+            'prazo legal de cancelamento da NFCe expirado (geralmente 30 minutos apos a autorizacao) -
+            'nesse caso isolado, deixa prosseguir com o pedido mesmo sem conseguir cancelar a NFCe
+            If MsgBox("O prazo legal para cancelar essa NFCe já expirou (geralmente 30 minutos após a autorização)." & vbCrLf & vbCrLf & _
+                      "Deseja " & vAcaoPedido & " mesmo assim, deixando a NFCe ativa? Você vai precisar tratar isso manualmente com seu contador.", vbExclamation + vbYesNo + vbDefaultButton2, "Prazo de cancelamento expirado") = vbYes Then
+                ResolverNFCePendente = True
+                vJaConfirmado = True
+            Else
+                ResolverNFCePendente = False
+            End If
+        Else
+            MsgBox "Não foi possível cancelar a NFCe na SEFAZ. A operação foi interrompida.", vbExclamation, "Aviso do Sistema"
+            ResolverNFCePendente = False
+        End If
+    Else
+        ResolverNFCePendente = False
+    End If
+
+Else
+    If MsgBox("Essa venda possui uma NFCe EM DIGITAÇÃO (número " & vNumeroNFCe & ") vinculada." & vbCrLf & vbCrLf & _
+              "Deseja " & vAcaoPedido & " mesmo assim? A NFCe será INUTILIZADA na SEFAZ.", vbQuestion + vbYesNo + vbDefaultButton2, "NFCe vinculada") = vbYes Then
+        If InutilizarNFCePorId(IdNFProd) Then
+            ResolverNFCePendente = True
+            vJaConfirmado = True
+        Else
+            MsgBox "Não foi possível inutilizar a NFCe na SEFAZ. A operação foi interrompida.", vbExclamation, "Aviso do Sistema"
+            ResolverNFCePendente = False
+        End If
+    Else
+        ResolverNFCePendente = False
+    End If
+End If
+End Function
+
+Private Function CancelarNFCePorId(ByVal IdNFProd As Long) As Boolean
+Dim sSQL As String
+sSQL = "SELECT NFCeChaveAcesso, NFCeProtocolo FROM TbNFCe WHERE IdNFProd = " & IdNFProd
+NFeChaveAcesso = SQLExecutaRetorno(sSQL, "NFCeChaveAcesso", "")
+NFeNumeroProtocolo = SQLExecutaRetorno(sSQL, "NFCeProtocolo", 0)
+If Not Vazio(NFeChaveAcesso) And NFeNumeroProtocolo > 0 Then
+    If CancelaNFCe(NFeChaveAcesso, NFeNumeroProtocolo, "DESISTENCIA DE COMPRA", True, True) Then
+        dbData.Execute "UPDATE TbNFCe SET NFCeCancelada = 1, NFceCanceladaProtocolo = " & NFeNumeroProtocolo & ", NFCeCanceladaJustificativa = 'DESISTENCIA DE COMPRA', Num_OS_VD_Origem = 0 WHERE IDNFProd = " & IdNFProd
+        CancelarNFCePorId = True
+    Else
+        CancelarNFCePorId = False
+    End If
+Else
+    CancelarNFCePorId = False
+End If
+End Function
+
+Private Function InutilizarNFCePorId(ByVal IdNFProd As Long) As Boolean
+Dim sSQL As String, nNota As String, CNPJ As String
+Dim sistNFe As snfe.Util
+
+dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM Empresa", "DiretorioXML", App.Path)
+dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
+CNPJ = SQLExecutaRetorno("SELECT CNPJ FROM Empresa", "CNPJ", "")
+
+sSQL = "SELECT NumeNota FROM TbNFCe WHERE IdNFProd = " & IdNFProd
+nNota = SQLExecutaRetorno(sSQL, "NumeNota", "0")
+
+Set sistNFe = New snfe.Util
+iRetorno = ConfiguraDLLNFeNFCe(65, "1", sistNFe)
+iRetorno = sistNFe.InutilizarNumeracao(Format(Date, "yyyy"), CNPJ, "VENDA CANCELADA/REABERTA ANTES DO ENVIO DA NFCE", nNota, nNota, 1, xCaminhoXML)
+cStat = sistNFe.retInutilizacao.infInut.cStat
+NFeMotivo = sistNFe.retInutilizacao.infInut.xMotivo
+
+If cStat = 102 Then
+    dbData.Execute "UPDATE TbNFCe SET Inutilizada = 1, Num_OS_VD_Origem = 0 WHERE IdNFProd = " & IdNFProd
+    InutilizarNFCePorId = True
+Else
+    MsgBox CStr(cStat) & " - " & NFeMotivo, vbCritical + vbOKOnly, "ERRO - INUTILIZAÇÃO"
+    InutilizarNFCePorId = False
+End If
+
+Set sistNFe = Nothing
+End Function
 
 
 
@@ -1889,7 +1984,11 @@ Else
            "WHERE (caixa = '" & Grid.TextMatrix(Grid.Row, 18) & "') and (codcaixa = '" & Grid.TextMatrix(Grid.Row, 19) & "');"
     Set r = dbData.OpenRecordset(sSQL)
     
-    CAIXA_FECHADO = r("status")
+    If r.EOF Then
+       CAIXA_FECHADO = True   'sem registro em caixa_dia - trata como fechado (bloqueia a operacao em vez de estourar erro)
+    Else
+       CAIXA_FECHADO = r("status")
+    End If
 End If
 End Sub
 
@@ -2448,9 +2547,9 @@ If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
     Exit Sub
 End If
 
+Dim vNFCeJaConfirmou As Boolean
 If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
-    MsgBox "Não é possível cancelar um pedido que já emitiu NFCE!", vbInformation, "Aviso do Sistema"
-    Exit Sub
+    If Not ResolverNFCePendente(Grid.TextMatrix(Grid.Row, 2), "cancelar o pedido", vNFCeJaConfirmou) Then Exit Sub
 End If
 
 VerificarCaixa
@@ -2462,7 +2561,14 @@ If Grid.TextMatrix(Grid.Row, 1) <> "ORÇAMENTO" And Grid.TextMatrix(Grid.Row, 1) 
     End If
 End If
 
-If ShowMsg("Tem certeza que deseja cancelar o pedido " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
+Dim vConfirmouCancelamento As Boolean
+If vNFCeJaConfirmou Then
+    vConfirmouCancelamento = True
+Else
+    vConfirmouCancelamento = (ShowMsg("Tem certeza que deseja cancelar o pedido " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes)
+End If
+
+If vConfirmouCancelamento Then
     dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 1, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ");"
     'Retornar a quantidade de produtos ao estoque
     If cboStatus.Text <> "VAZIO" Then
@@ -2481,9 +2587,6 @@ If ShowMsg("Tem certeza que deseja cancelar o pedido " & Grid.TextMatrix(Grid.Ro
     'Apaga a venda
     'dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & Grid.TextMatrix(Grid.Row, 2) & ");"
     dbData.Execute "UPDATE pedidos SET cancelado = 1 WHERE (cod_pedido = " & Grid.TextMatrix(Grid.Row, 2) & ");"
-
-    
-    Cancelar_NFCe " & Grid.TextMatrix(Grid.Row, 2) & "
 End If
 
 Mostrar_Pedido
@@ -2843,9 +2946,9 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
+Dim vNFCeJaConfirmou As Boolean
 If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
-    MsgBox "Não é possível abrir um pedido que já emitiu NFCE!", vbInformation, "Aviso do Sistema"
-    Exit Sub
+    If Not ResolverNFCePendente(Grid.TextMatrix(Grid.Row, 2), "reabrir o pedido", vNFCeJaConfirmou) Then Exit Sub
 End If
 
 VerificarCaixa
@@ -2868,7 +2971,14 @@ ElseIf cboTipoPedido.Text = "ORÇAMENTO" Then
 Else
 
 End If
-If ShowMsg("Tem certeza que deseja reabrir o pedido " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
+Dim vConfirmouReabertura As Boolean
+If vNFCeJaConfirmou Then
+    vConfirmouReabertura = True
+Else
+    vConfirmouReabertura = (ShowMsg("Tem certeza que deseja reabrir o pedido " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes)
+End If
+
+If vConfirmouReabertura Then
     dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
     PDV.frmAvancado.Visible = False
     PDV.frmSenha.Visible = False
@@ -3465,7 +3575,7 @@ Private Sub cmdReimprimir_Click()
    Me.Hide
    PDV.lblEstornar.Caption = "REIMPRESSÃO"
    
-   If cboCriterios.Text = "Cod. Pedido" Then
+   If cboCriterios.Text = "CÓD. PEDIDO" Then
       If txtCodPedido.Text = "" Then Exit Sub
       PDV.txtCodPedido.Text = txtCodPedidoCerto.Text
    Else

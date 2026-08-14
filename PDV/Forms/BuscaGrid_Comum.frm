@@ -98,6 +98,7 @@ Private Sub lstBusca_KeyDown(KeyCode As Integer, Shift As Integer)
       
       If Not lstBusca.SelectedItem.Selected Then
          ShowMsg "Nenhum item foi selecionado.", vbExclamation
+         Exit Sub
       End If
       
       ReDim vInfo(1 To 4)

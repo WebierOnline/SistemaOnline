@@ -1843,7 +1843,7 @@ deuErro:
     End
   End If
   'Esse é o padrao
-  MsgBox Err.Number + " - " + Err.Description, vbCritical
+  MsgBox Err.Number & " - " & Err.Description, vbCritical
   Err.Clear
  End If
 End Function

@@ -1778,7 +1778,7 @@ Caifora:
    CancelaNFe = False
 End Function
 
-Public Function CancelaNFCe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean) As Boolean  'Função para envio do cancelamento da NFe
+Public Function CancelaNFCe(ChaveAcesso As Variant, Protocolo As Variant, Justificativa As Variant, GravaProtocolo As Boolean, Optional Silencioso As Boolean = False) As Boolean  'Função para envio do cancelamento da NFe
 Dim IdLote As Long, dhEvento As String, CNPJ As String
 Dim sistNFCe As snfe.Util
    
@@ -1814,7 +1814,7 @@ Dim sistNFCe As snfe.Util
    If cStat2 = 135 Or cStat2 = 155 Then
       GoTo continua
    Else
-      MsgBox CStr(cStat2) & " - " & NFeMotivo, vbInformation
+      MsgBox CStr(cStat2) & " - " & NFeValidate, vbInformation
      GoTo Caifora
    End If
    
@@ -1825,7 +1825,7 @@ continua:
    
    'msgResultado = NFeResposta
    
-   MsgBox msgResultado, vbInformation + vbOKOnly
+   If Not Silencioso Then MsgBox msgResultado, vbInformation + vbOKOnly
 
    Screen.MousePointer = vbDefault
    CancelaNFCe = True
@@ -2387,7 +2387,7 @@ Set sistNFe = New snfe.Util
    If cStat2 = 135 Or cStat2 = 155 Then
       GoTo continua
    Else
-      MsgBox CStr(cStat2) & " - " & NFeMotivo, vbInformation
+      MsgBox CStr(cStat2) & " - " & NFeValidate, vbInformation
       GoTo Caifora
    End If
    

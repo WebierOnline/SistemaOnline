@@ -177,7 +177,7 @@ Begin VB.Form PDV
       TabIndex        =   81
       Top             =   2340
       Visible         =   0   'False
-      Width           =   3135
+      Width           =   5235
       Begin ChamaleonBtn.chameleonButton cmdAvanClientes 
          CausesValidation=   0   'False
          Height          =   315
@@ -376,16 +376,15 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaReiniciar 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   960
+         Left            =   3180
          TabIndex        =   87
-         Top             =   4620
-         Visible         =   0   'False
-         Width           =   2775
-         _ExtentX        =   4895
+         Top             =   4140
+         Width           =   1995
+         _ExtentX        =   3519
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Reiniciar"
-         ENAB            =   0   'False
+         ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -416,16 +415,15 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaPausar 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   960
+         Left            =   3180
          TabIndex        =   90
-         Top             =   4260
-         Visible         =   0   'False
-         Width           =   2775
-         _ExtentX        =   4895
+         Top             =   3780
+         Width           =   1995
+         _ExtentX        =   3519
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Pausar"
-         ENAB            =   0   'False
+         ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -456,16 +454,15 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaTransferir 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   960
+         Left            =   3180
          TabIndex        =   91
-         Top             =   4980
-         Visible         =   0   'False
-         Width           =   2775
-         _ExtentX        =   4895
+         Top             =   4500
+         Width           =   1995
+         _ExtentX        =   3519
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Transferir"
-         ENAB            =   0   'False
+         ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -2149,14 +2146,14 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2646
             MinWidth        =   2646
-            TextSave        =   "08/08/2026"
+            TextSave        =   "13/08/2026"
          EndProperty
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "12:16"
+            TextSave        =   "17:41"
          EndProperty
          BeginProperty Panel7 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4903,11 +4900,11 @@ If txtRecebido.Text = "0,00" Or txtRecebido.Text = "" Then
 Else
    VAR_GERAL = txtTotalDesc.Text
    VAR_RECEBIDO = txtRecebido.Text
-    'If VAR_RECEBIDO > VAR_GERAL Then
+    If VAR_RECEBIDO > VAR_GERAL Then
         var_Troco = VAR_RECEBIDO - VAR_GERAL
-    'Else
-    '    var_Troco = 0
-    'End If
+    Else
+        var_Troco = 0
+    End If
    txtTroco.Text = Format(var_Troco, ocMONEY)
 End If
 End Sub
@@ -4982,489 +4979,6 @@ Private Sub FormatarGrid_Produtos(rTabela As ADODB.Recordset)
    End With
    
    txtTotalGeral.Text = Format(SomaGrid(Grid, 6), ocMONEY)
-End Sub
-Private Sub Imprimir_CupomRecibo()
-   'On Error GoTo Tratar_Erro
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   Dim rP As ADODB.Recordset
-   Dim rI As ADODB.Recordset
-   Dim rF As ADODB.Recordset
-   
-   Dim i As Integer
-   Dim f As Integer
-   
-   If txtCodPedido.Text = "" Then Exit Sub
-   
-   sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   'consultar funcionario do pedido
-   Set rP = dbData.OpenRecordset("SELECT cod_funcionario, TIPO_PAGAMENTO, PAGAMENTO FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");")
-   Set rF = dbData.OpenRecordset("SELECT codigo, nome FROM funcionario WHERE (codigo = " & rP("cod_funcionario") & ");")
-   
-   'Recupera um número de arquivo disponível
-   f = FreeFile()
-   
-   'pegar o nome da impressora no ini
-   'Dim oIni As Ini
-   'Dim var_Impressora As String
-   
-   'Set oIni = New Ini
-   'oIni.Arquivo = appPathApp & "config.ini"
-   'var_Impressora = oIni.LerTexto("IMPRESSORA_CUPOM", "impressora")
-   'Set oIni = Nothing
-   
-   Dim Prt As Printer
-   Dim oldPrinter As String
-   
-   'Armazena o nome da impressora atual
-   oldPrinter = Printer.DeviceName
-   
-   ' Find and use the printer just selected in the ListBox
-   For Each Prt In Printers
-      If Prt.DeviceName = var_ImpTermica Then
-         Set Printer = Prt
-         Exit For
-      End If
-   Next
-   
-   'Open "LPT1" For Output As #1
-   'Open "\\balcao04\TERMICA" For Output As #f
-      
-
-   'Open "LPT1" For Output As #1
-   'Open "\\CAIXAO1\termica" For Output As #1
-   
-      With Printer
-         .ScaleMode = vbPixels
-         .PaintPicture imLogoCupom.Picture, 100, 0, 372, 150
-         
-         For i = 1 To 6
-            Printer.Print " "
-         Next
-         
-         .ScaleMode = vbCentimeters
-         .FontName = "courier new"
-         '.PrintQuality = vbPRPQHigh
-         
-         Fonte 8, False, False
-         Printer.Print String(40, "-")
-         Fonte 10, True, False
-         Printer.Print Tab((35 - Len(r("fantasia"))) / 2); r("fantasia")   'Esse /2 é p/ centralizar
-         Fonte 10, False, False
-         Printer.Print Tab((35 - Len(r("razao"))) / 2); r("razao")
-         Fonte 8, False, False
-         Printer.Print r("endereco") & ", " & r("cidade") & "-" & r("estado")
-         Printer.Print "FONE: "; r("telefone")                                        '& " - (89) 9986-3739"
-         Fonte 8, False, False
-         Printer.Print "CNPJ:"; r("cnpj") & "  IE:" & r("ie")
-         Printer.Print " "
-         
-         Fonte 10, True, False
-         Printer.Print Tab(10); "CUPOM DE VENDA"
-         
-         Fonte 8, False, False
-         Printer.Print Tab(2); Format(Date, "dd/mm/yy"); " "; Format(Time, "hh:mm"); " "; "CÓD:"; Format(txtCodPedido.Text, "000000"); " "; rF("nome")
-
-         Fonte 8, False, False
-         Printer.Print Tab(2); "Tipo de Pgto:"; rP("TIPO_PAGAMENTO"); "  "; "Forma:"; rP("PAGAMENTO")
-
-         Fonte 8, False, False
-         Printer.Print String(40, "-")
-         Printer.Print Tab(0); "DESCRIÇÃO";
-         Printer.Print Tab(20); "PREÇO";
-         Printer.Print Tab(26); "QTDE";
-         Printer.Print Tab(35); "TOTAL"
-         Printer.Print String(40, "-")
-         
-         sSQL = "SELECT pedidos_itens.codigo, pedidos_itens.cod_pedido, pedidos_itens.preco, pedidos_itens.quantidade, (pedidos_itens.preco * pedidos_itens.quantidade) as total, produtos.descricao " & _
-            "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo " & _
-            "WHERE (pedidos_itens.cod_pedido = " & txtCodPedido.Text & ") ORDER BY pedidos_itens.codigo DESC;"
-         Set rI = dbData.OpenRecordset(sSQL)
-         
-         Do While Not rI.EOF
-            '---------------imprime os dados da tabela----------------------------
-            Printer.Print Tab(0); rI("descricao");
-            Printer.Print Tab(19); Format$(Format$(rI("preco"), "0.00"), "@@@@@@@");
-            Printer.Print Tab(26); Format$(Format$(rI("quantidade"), "0.000"), "@@@@@@@");
-            Printer.Print Tab(33); Format$(Format$(rI("total"), "0.00"), "@@@@@@@")
-            
-            rI.MoveNext                 'vai para o proximo registro
-         Loop
-         
-         Printer.Print String(40, "-")
-         
-         If frmVendaFechamento.Visible = True Then
-            'sub-total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "SubTotal: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
-            
-            'desconto
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Desc.: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtDesc.Text, "0.00"), "@@@@@@@@")
-            
-            'total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Total: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTotalDesc.Text, "0.00"), "@@@@@@@@")
-            
-         ElseIf cboTipoPgto.Text = "À VISTA" Then
-            'sub-total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "SubTotal: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
-            
-            'desconto
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Desc.: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtDesc.Text, "0.00"), "@@@@@@@@")
-            
-            'total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Total: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTotalDesc.Text, "0.00"), "@@@@@@@@")
-            
-            Printer.Print
-            
-            'Recebido
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Receb.: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtRecebido.Text, "0.00"), "@@@@@@@@")
-            
-            'Troco
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Troco: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTroco.Text, "0.00"), "@@@@@@@@")
-         End If
-         
-         Printer.Print
-         
-         Fonte 8, False, False
-         Printer.Print Tab((40 - Len("ESTE CUPOM NÃO TEM VALOR FISCAL")) / 2); "ESTE CUPOM NÃO TEM VALOR FISCAL"
-         Fonte 8, False, False
-         Printer.Print Tab((40 - Len("Obrigado pela preferência")) / 2); "Obrigado pela preferência"
-         
-         For i = 1 To 4
-               Printer.Print " "
-         Next
-         
-         Printer.Print Tab((40 - Len("______________________________________")) / 2); "______________________________________"
-         Printer.Print Tab((40 - Len(cboCliente.Text)) / 2); cboCliente.Text
-         Printer.Print Tab((40 - Len("VENCIMENTO:" & mskInicio.Text)) / 2); mskInicio.Text
-         
-         'For i = 1 To 10
-         'Print #f, ""
-         'Next
-        
-      Close #f
-      .EndDoc
-      'rsPedidos.Close
-      'rsFunc.Close
-      'RS.Close
-      'BD.Close
-   End With
-   
-Tratar_Erro:
-   ' Atribui a impressora inicial
-   'For Each Prt In Printers
-   '   If Prt.DeviceName = oldPrinter Then
-   '      Set Printer = Prt
-   '      Exit For
-   '   End If
-   'Next
-   
-   If Not r Is Nothing Then If r.State <> 0 Then r.Close
-   If Not rP Is Nothing Then If rP.State <> 0 Then rP.Close
-   If Not rI Is Nothing Then If rI.State <> 0 Then rI.Close
-   If Not rF Is Nothing Then If rF.State <> 0 Then rF.Close
-   
-   'If Err.Number = 52 Then
-    '  ShowMsg "Impressora não esta pronta ou está com problemas, Verifique !!!", vbInformation
-    '  Printer.KillDoc
-    '  Exit Sub
-   'End If
-End Sub
-
-Private Sub Imprimir_CupomGuilhotina2()
-   'On Error GoTo Tratar_Erro
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   Dim rP As ADODB.Recordset
-   Dim rI As ADODB.Recordset
-   Dim rF As ADODB.Recordset
-   
-   Dim i As Integer
-   Dim f As Integer
-   
-   If txtCodPedido.Text = "" Then Exit Sub
-   
-   sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   'consultar funcionario do pedido
-   Set rP = dbData.OpenRecordset("SELECT cod_funcionario, TIPO_PAGAMENTO, PAGAMENTO FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");")
-   Set rF = dbData.OpenRecordset("SELECT codigo, nome FROM funcionario WHERE (codigo = " & rP("cod_funcionario") & ");")
-   
-   'Recupera um número de arquivo disponível
-   f = FreeFile()
-   
-   'pegar o nome da impressora no ini
-   'Dim oIni As Ini 'desativei aqui 09/11/22
-   'Dim var_ImpTermica As String
-   
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
-   var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
-   Set oIni = Nothing
-   
-   Dim Prt As Printer
-   Dim oldPrinter As String
-   
-   'Armazena o nome da impressora atual
-   oldPrinter = Printer.DeviceName
-   
-   ' Find and use the printer just selected in the ListBox
-   For Each Prt In Printers
-      If Prt.DeviceName = var_ImpTermica Then
-         Set Printer = Prt
-         Exit For
-      End If
-   Next
-   
-   'Open "LPT1" For Output As #1
-   'Open "\\balcao04\TERMICA" For Output As #f
-      
-
-   'Open "LPT1" For Output As #1
-   'Open "\\CAIXAO1\termica" For Output As #1
-   
-      With Printer
-         .ScaleMode = vbPixels
-         .PaintPicture imLogoCupom.Picture, 100, 0, 372, 150
-         
-         For i = 1 To 6
-            Printer.Print " "
-         Next
-         
-         .ScaleMode = vbCentimeters
-         .FontName = "courier new"
-         '.PrintQuality = vbPRPQHigh
-         
-         Fonte 8, False, False
-         Printer.Print String(40, "-")
-         Fonte 10, True, False
-         Printer.Print Tab((35 - Len(r("fantasia"))) / 2); r("fantasia")   'Esse /2 é p/ centralizar
-         Fonte 10, False, False
-         'Printer.Print Tab((35 - Len(r("razao"))) / 2); r("razao")
-         Printer.Print " "
-         Fonte 8, False, False
-         Printer.Print r("endereco") & ", " & r("cidade") & "-" & r("estado")
-         Printer.Print "FONE: "; r("telefone")                                        '& " - (89) 9986-3739"
-         Fonte 8, False, False
-         Printer.Print "CNPJ:"; r("cnpj") & "  IE:" & r("ie")
-         Printer.Print " "
-         
-         Fonte 10, True, False
-         If cboTipoPgto.Text = "ORÇAMENTO" Then
-            Printer.Print Tab(10); "O R Ç A M E N T O"
-        Else
-            Printer.Print Tab(10); "CUPOM DE VENDA"
-        End If
-         
-         Fonte 8, False, False
-         Printer.Print Tab(2); Format(Date, "dd/mm/yy"); " "; Format(Time, "hh:mm"); " "; "CÓD:"; Format(txtCodPedido.Text, "000000"); " "; rF("nome")
-
-         Fonte 8, False, False
-         Printer.Print Tab(2); "Tipo de Pgto:"; rP("TIPO_PAGAMENTO"); "  "; "Forma:"; rP("PAGAMENTO")
-
-         Fonte 8, False, False
-         Printer.Print String(40, "-")
-         Printer.Print Tab(0); "DESCRIÇÃO";
-         Printer.Print Tab(20); "PREÇO";
-         Printer.Print Tab(26); "QTDE";
-         Printer.Print Tab(35); "TOTAL"
-         Printer.Print String(40, "-")
-         
-         sSQL = "SELECT pedidos_itens.codigo, pedidos_itens.cod_pedido, pedidos_itens.preco, pedidos_itens.quantidade, (pedidos_itens.preco * pedidos_itens.quantidade) as total, produtos.descricao " & _
-            "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo " & _
-            "WHERE (pedidos_itens.cod_pedido = " & txtCodPedido.Text & ") ORDER BY pedidos_itens.codigo DESC;"
-         Set rI = dbData.OpenRecordset(sSQL)
-         
-         Do While Not rI.EOF
-            '---------------imprime os dados da tabela----------------------------
-            Printer.Print Tab(0); rI("descricao");
-            Printer.Print Tab(19); Format$(Format$(rI("preco"), "0.00"), "@@@@@@@");
-            Printer.Print Tab(26); Format$(Format$(rI("quantidade"), "0.000"), "@@@@@@@");
-            Printer.Print Tab(33); Format$(Format$(rI("total"), "0.00"), "@@@@@@@")
-            
-            rI.MoveNext                 'vai para o proximo registro
-         Loop
-         
-         Printer.Print String(40, "-")
-         
-         If cboTipoPgto.Text = "À PRAZO" Then
-            'sub-total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "SubTotal: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
-            
-            'desconto
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Desc.(%): ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtDesc.Text, "0.00"), "@@@@@@@@")
-            
-            'total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Total: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTotalDesc.Text, "0.00"), "@@@@@@@@")
-            
-         ElseIf cboTipoPgto.Text = "À VISTA" Then
-            'sub-total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "SubTotal: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
-            
-            'desconto
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Desc.(%): ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtDesc.Text, "0.00"), "@@@@@@@@")
-            
-            'total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Total: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTotalDesc.Text, "0.00"), "@@@@@@@@")
-            
-            Printer.Print
-            
-            'Recebido
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Receb.: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtRecebido.Text, "0.00"), "@@@@@@@@")
-            
-            'Troco
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Troco: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTroco.Text, "0.00"), "@@@@@@@@")
-         ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "SubTotal: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
-            
-            'desconto
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Desc.(%): ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtDesc.Text, "0.00"), "@@@@@@@@")
-            
-            'total
-            Fonte 8, False, False
-            Printer.Print Tab(0); Tab(20); "Total: ";
-            
-            Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtTotalDesc.Text, "0.00"), "@@@@@@@@")
-            
-            Printer.Print
-            
-            'Recebido
-            'Fonte 8, False, False
-            'Printer.Print Tab(0); Tab(20); "Receb.: ";
-            
-            'Fonte 10, True, False
-            'Printer.Print Tab(25); Format$(Format$(txtRecebido.Text, "0.00"), "@@@@@@@@")
-            
-            'Troco
-            'Fonte 8, False, False
-            'Printer.Print Tab(0); Tab(20); "Troco: ";
-            
-            'Fonte 10, True, False
-            'Printer.Print Tab(25); Format$(Format$(txtTroco.Text, "0.00"), "@@@@@@@@")
-         End If
-         
-         Printer.Print
-         
-         Fonte 8, False, False
-         Printer.Print Tab((40 - Len("ESTE CUPOM NÃO TEM VALOR FISCAL")) / 2); "ESTE CUPOM NÃO TEM VALOR FISCAL"
-         Fonte 8, False, False
-         Printer.Print Tab((40 - Len("Obrigado pela preferência")) / 2); "Obrigado pela preferência"
-         
-         For i = 1 To 4
-               Printer.Print " "
-         Next
-         
-        If cboTipoPgto.Text <> "ORÇAMENTO" Then
-            Printer.Print Tab((40 - Len("______________________________________")) / 2); "______________________________________"
-            Printer.Print Tab((40 - Len(cboCliente.Text)) / 2); cboCliente.Text
-            Printer.Print Tab((40 - Len("VENCIMENTO:" & mskInicio.Text)) / 2); mskInicio.Text
-        End If
-         'For i = 1 To 10
-         'Print #f, ""
-         'Next
-        
-      Close #f
-      .EndDoc
-      'rsPedidos.Close
-      'rsFunc.Close
-      'RS.Close
-      'BD.Close
-   End With
-   
-Tratar_Erro:
-   ' Atribui a impressora inicial
-   'For Each Prt In Printers
-   '   If Prt.DeviceName = oldPrinter Then
-   '      Set Printer = Prt
-   '      Exit For
-   '   End If
-   'Next
-   
-   If Not r Is Nothing Then If r.State <> 0 Then r.Close
-   If Not rP Is Nothing Then If rP.State <> 0 Then rP.Close
-   If Not rI Is Nothing Then If rI.State <> 0 Then rI.Close
-   If Not rF Is Nothing Then If rF.State <> 0 Then rF.Close
-   
-   'If Err.Number = 52 Then
-    '  ShowMsg "Impressora não esta pronta ou está com problemas, Verifique !!!", vbInformation
-    '  Printer.KillDoc
-    '  Exit Sub
-   'End If
 End Sub
 Private Sub Imprimir_CupomGuilhotina()
    'On Error GoTo Tratar_Erro
@@ -5794,89 +5308,6 @@ Tratar_Erro:
     '  Exit Sub
    'End If
 End Sub
-Private Sub Imprimir_CupomSerrilhaPrazo()
-   'On Error GoTo TrataErro
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   Dim rP As ADODB.Recordset
-   Dim rI As ADODB.Recordset
-   Dim rF As ADODB.Recordset
-   
-   Dim i As Integer
-   Dim f As Integer
-   
-   sSQL = "SELECT TOP 1 * FROM empresa ORDER BY fantasia;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   If txtCodPedido.Text = "" Then Exit Sub
-   
-   'consultar funcionario do pedido
-   Set rP = dbData.OpenRecordset("SELECT cod_funcionario FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");")
-   Set rF = dbData.OpenRecordset("SELECT codigo, nome FROM funcionario WHERE (codigo = " & rP("cod_funcionario") & ");")
-   
-   f = FreeFile()
-   
-   'Open "LPT2" For Output As #1
-   Open "\\BALCAO01\termica" For Output As #f
-      Print #f, Chr$(27) & Chr(15)
-      Print #f, Spc(0); "----------------------------------------------------------------"
-      Print #f, Tab((60 - Len(r("fantasia"))) / 2); r("fantasia")
-      Print #f, Tab((60 - Len(r("razao"))) / 2); r("razao")
-      Print #f, Tab((60 - Len(r("endereco") & ", " & r("cidade") & "-" & r("estado"))) / 2); r("endereco") & ", " & r("cidade") & "-" & r("estado")
-      Print #f, Tab((60 - Len(r("telefone"))) / 2); r("telefone")
-      Print #f, Tab((60 - Len(r("cnpj") & "  IE:" & r("ie"))) / 2); r("cnpj") & "  IE:" & r("ie")
-      Print #f, ""
-      Print #f, Spc(0); Format(Date, "dd/mm/yy"); Spc(3); Format(Time, "hh:mm"); Spc(4); "No. Cupom:"; Spc(1); Format(txtCodPedido.Text, "000000"); Spc(3); "Usuario:"; Spc(1); rF("nome")
-      Print #f, ""
-      Print #f, Spc(0); "                       C   U   P   O   M                     "
-      Print #f, Spc(0); "----------------------------------------------------------------"
-      Print #f, Tab(0); "DESCRICAO"; Tab(40); "PRECO"; Tab(48); "QUANT"; Tab(56); "TOTAL"
-      Print #f, Spc(0); "----------------------------------------------------------------"
-      
-         sSQL = "SELECT pedidos_itens.codigo, pedidos_itens.cod_pedido, pedidos_itens.preco, pedidos_itens.quantidade, (pedidos_itens.preco * pedidos_itens.quantidade) as total, produtos.descricao " & _
-            "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo " & _
-            "WHERE (pedidos_itens.cod_pedido = " & txtCodPedido.Text & ") ORDER BY pedidos_itens.codigo DESC;"
-         Set rI = dbData.OpenRecordset(sSQL)
-      
-      Do While Not rI.EOF
-         Print #f, Tab(0); rI("descricao"); Tab(38); Format$(Format$(r("preco"), "0.00"), "@@@@@@@"); Tab(46); Format$(Format$(rI("quantidade"), "0.000"), "@@@@@@@"); Tab(54); Format$(Format$(rI("total"), "0.00"), "@@@@@@@")
-         rI.MoveNext
-      Loop
-      
-      Print #f, Spc(0); "----------------------------------------------------------------"
-      Print #f, Tab(45); "TOTAL: "; Tab(54); Format$(Format$(txtTotalGeral.Text, "0.00"), "@@@@@@@@")
-      Print #f, ""
-      Print #f, Tab((60 - Len("ESTE CUPOM NAO TEM VALOR FISCAL")) / 2); "ESTE CUPOM NAO TEM VALOR FISCAL"
-      Print #f, Tab((60 - Len("Obrigado pela preferencia")) / 2); "Obrigado pela preferencia"
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, Tab((60 - Len("_________________________________________________")) / 2); "_________________________________________________"
-      Print #f, Tab((60 - Len(cboCliente.Text)) / 2); cboCliente.Text
-      Print #f, Tab((60 - Len("VENCIMENTO:" & mskInicio.Text)) / 2); mskInicio.Text
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-      Print #f, ""
-   Close #f
-   
-   If Not r Is Nothing Then If r.State <> 0 Then r.Close
-   If Not rP Is Nothing Then If rP.State <> 0 Then rP.Close
-   If Not rI Is Nothing Then If rI.State <> 0 Then rI.Close
-   If Not rF Is Nothing Then If rF.State <> 0 Then rF.Close
-   
-   Exit Sub
-
-'TrataErro:
-   'MsgBox Err.Description, vbCritical, "Erro no Sistema, Impressora Inoperante"
-End Sub
-
 Private Sub Imprimir_CupomSerrilha()
    'On Error GoTo TrataErro
    Dim sSQL As String
@@ -6338,93 +5769,6 @@ If txtEntrada.Text <> "" Then
 End If
 End Sub
 
-Private Sub Teste()
-'If vConfImprimeNFCeLocal = "SIM" Then   'SE no arquivo ini tem SIM para imprimir NFCE
-        'If NFCe_OK = True Then              'SE dei SIM para imprimir NFCE
-'            If vNFCeCombinarImp = "SIM" Then
-'                 ImprimirVendaAP
-'            End If              'final de vNFCeCombinarImp = "SIM"
-'        Else                    'meio do NFCe_OK = false
-'            ImprimirVendaAP
-'        End If                  'fim do NFCe_OK = True
-'Else                            'meio do vConfImprimeNFCeLocal = "SIM"
-'    ImprimirVendaAP
-'End If                          'fim do vConfImprimeNFCeLocal = "SIM"
-End Sub
-
-Private Sub Verifica_Existencia_Produto()
-   If txtCodBarra.Text = "" Then Exit Sub
-   
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   sSQL = "SELECT produtos.cod_barra AS var_codbarra, produtos.unid_medida AS var_unidmed, produtos.codigo AS var_codprod, " & _
-      "produtos.descricao AS var_desc, NULL AS var_venda FROM produtos LEFT JOIN ultimas_entradas ON produtos.codigo = ultimas_entradas.codigo_produto " & _
-      "LEFT JOIN produtos_entrada_itens ON ultimas_entradas.codigo_produto = produtos_entrada_itens.CodigoProduto AND ultimas_entradas.ultentrada = produtos_entrada_itens.codigo_entrada " & _
-      "WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (produtos.ativo = 1);"
-   
-   Set r = dbData.OpenRecordset(sSQL)
-   EXISTENCIA_PRODUTO = Not r.BOF
-   If r.BOF Then ShowMsg "Produto não cadastrado!", vbInformation
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-End Sub
-
-Private Sub Verifica_QuantEstoque()
-'descobrir o codigo do produto
-Dim sSQL As String
-Dim r As ADODB.Recordset
-Dim vCodProduto As Long
-
-If txtCodBarra.Text = "" Then Exit Sub
-
-sSQL = "SELECT produtos.codigo AS var_codprod, produtos.cod_barra, produtos.ativo, " & _
-   "produtos_entrada_itens.codigo FROM produtos INNER JOIN produtos_entrada_itens ON produtos.codigo = produtos_entrada_itens.CodigoProduto " & _
-   "WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (produtos.ativo = 1) ORDER BY produtos_entrada_itens.codigo DESC;"
-
-Set r = dbData.OpenRecordset(sSQL)
-
-If r.BOF Then
-   ShowMsg "Produto Inexistente!", vbCritical
-   LimparObjetos_Produto
-   txtCodBarra.SetFocus
-   Exit Sub
-End If
-
-vCodProduto = r("var_codprod")
-
-'verificar quantidade
-Dim vQtde As Double
-   
-   'Consulta os saldos
-   sSQL = "SELECT quant_estoque FROM produtos WHERE (codigo = " & vCodProduto & ");"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   If Not r.BOF Then vQtde = ValidateNull(r("quant_estoque"))
-      If r.State <> 0 Then r.Close
-   Set r = Nothing
-
-'Calcula o saldo atual em estoque
-'vQtde = EstoqueVendas(vCodProduto)
-   
-If vQtde <= 0 Then
-   Dim oCfg As ConfigItem
-   Dim bEstNeg As Boolean
-   
-   'Recupera a configuração do estoque
-   Set oCfg = sysConfig("ESTOQUE_NEGATIVO")
-   bEstNeg = CBool(oCfg.Value)
-   Set oCfg = Nothing
-   
-   If Not bEstNeg Then
-      ShowMsg "A quantidade em estoque é insuficiente.", vbExclamation
-      LimparObjetos_Produto
-      Exit Sub
-   End If
-End If
-
-End Sub
-
 Private Sub Verificar_NFCe()
 'Dim sSQL As String
 'Dim r As ADODB.Recordset
@@ -6444,95 +5788,6 @@ Else
     lblNfce1.Visible = True
     lblNfce2.Visible = True
 End If
-End Sub
-
-Private Sub VerificarConsignado()
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-
-sSQL = "SELECT COD_PEDIDO, DATEDIFF(day, DATA_COMPRA, GETDATE()) AS vQuantDias FROM pedidos wHERE (TIPO_PEDIDO = 'CONSIGNADO');"
-Set r = dbData.OpenRecordset(sSQL)
-
-Dim vQuantDiasCons As Integer
-vQuantDiasCons = r("vQuantDias")
-
-If vQuantDiasCons > 5 Then
-    lblMSG1.Visible = True
-    lblAlerta.Visible = True
-    lblMSG1.Caption = "Há consignado em aberto!"
-Else
-    lblMSG1.Visible = False
-    lblMSG1.Visible = False
-    lblMSG1.Caption = ""
-End If
-
-If Not r.State <> 0 Then r.Close
-Set r = Nothing
-End Sub
-
-
-Private Sub VerificarUnidadeMedidas()
-Dim sSQL As String
-Dim r As ADODB.Recordset
-
-If txtCodBarra.Text = "" And txtCodProduto.Text = "" Then Exit Sub
-
-sSQL = "SELECT DISTINCT codigo, cod_barra, ISNULL(UNID_MEDIDA, 0) as vUnid " & _
-    "FROM produtos WHERE (produtos.cod_barra = '" & txtCodBarra.Text & "') "
-Set r = dbData.OpenRecordset(sSQL)
-
-If r("vUnid") = "KG" Then
-    If Left(txtCodBarra.Text, 1) = "2" And Len(txtCodBarra.Text) = 13 Then
-        Dim varCodProdMed As String
-        If varTipoEtiqueta = "5" Then
-            varCodProdMed = Format(Mid(txtCodBarra, 2, 5), "00000")
-        ElseIf varTipoEtiqueta = "4" Then
-            varCodProdMed = Format(Mid(txtCodBarra, 2, 4), "00000")
-        ElseIf varTipoEtiqueta = "7" Then
-            varCodProdMed = Format(Mid(txtCodBarra, 4, 4), "00000")
-        End If
-    End If
-Else
-    varCodProdMed = txtCodBarra.Text
-End If
-
-varUnidMed = r("vUnid")
- 
-'If Left(txtCodBarra.Text, 1) = "2" And Len(txtCodBarra.Text) = 13 Then
-'    Dim varCodProdMed As String
-'    If varTipoEtiqueta = "2" Then
-'        varCodProdMed = Mid(txtCodBarra, 2, 4)
-'    ElseIf varTipoEtiqueta = "4" Then
-'        varCodProdMed = Mid(txtCodBarra, 4, 4)
-'    End If
-'Else
-'    varCodProdMed = txtCodBarra.Text
-'End If
-
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-'Dim varUnidMed As String
-
-'If txtCodBarra.Text = "" And txtCodProduto.Text = "" Then Exit Sub
- 
-'If Left(txtCodBarra.Text, 1) = "2" And Len(txtCodBarra.Text) = 13 Then
-'    Dim varCodProdMed As String
-'    If varTipoEtiqueta = "2" Then
-'        varCodProdMed = Mid(txtCodBarra, 2, 4)
-'    ElseIf varTipoEtiqueta = "4" Then
-'        varCodProdMed = Mid(txtCodBarra, 4, 4)
-'    End If
-    
-'    sSQL = "SELECT DISTINCT produtos.codigo, produtos.cod_barra, produtos.UNID_MEDIDA as vUnid " & _
-'    "FROM produtos WHERE (produtos.cod_barra = '" & varCodProdMed & "') AND (produtos.ativo = 1) " & _
-'    "ORDER BY produtos.codigo;"
-'    Set r = dbData.OpenRecordset(sSQL)
-    
-'    varUnidMed = r("vUnid")
-'Else
-'    varCodProdMed = txtCodBarra.Text
-'End If
-
 End Sub
 
 Private Sub cboCliente_Change()
@@ -6677,6 +5932,7 @@ End Sub
 
 
 Private Sub cboFormaPgtoEntrada_GotFocus()
+cboFormaPgtoEntrada.Clear
 cboFormaPgtoEntrada.AddItem "1 - DINHEIRO"
 cboFormaPgtoEntrada.AddItem "3 - CARTÃO - DÉBITO"
 cboFormaPgtoEntrada.AddItem "4 - CARTÃO - CRÉDITO"
@@ -7306,7 +6562,7 @@ Private Sub cmdAvanVendaPausar_Click()
 If ShowMsg("Confirma a operação de pausa nesta venda?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
 'Atualiza o status do pedido
-dbData.Execute "UPDATE pedidos SET status_pedido = -1, data_compra = '" & Format$(Now, "yyyy-dd-MM") & "', caixa = '" & StatusBar1.Panels(2).Text & "', maquina = '" & var_Maquina & "' WHERE (cod_pedido = " & txtCodPedido & ");"
+dbData.Execute "UPDATE pedidos SET status_pedido = -1, data_compra = '" & Format$(Now, "yyyy-dd-MM") & "', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', maquina = '" & var_Maquina & "' WHERE (cod_pedido = " & txtCodPedido & ");"
 
 'Reinicia o form para uma nova venda
 LimparObjetos_Pedido
@@ -7323,6 +6579,7 @@ frmVendaFechamento.Visible = False
 End Sub
 
 Private Sub cmdAvanVendaReiniciar_Click()
+Dim bTrans As Boolean
 If Grid.Rows >= 2 And txtTotalGeral.Text <> "" Then
    If ShowMsg("Existe uma venda em aberto. Deseja sair e cancelar a venda?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then
       frmAvancado.Visible = False
@@ -7330,8 +6587,14 @@ If Grid.Rows >= 2 And txtTotalGeral.Text <> "" Then
       Exit Sub
    End If
       
+   On Error GoTo ErrHandlerReiniciar
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
    dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
    dbData.Execute "DELETE FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ");"
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
+   On Error GoTo 0
    LimparGrid_Pedido
 End If
 
@@ -7348,19 +6611,17 @@ Dim lNroPedido As Long
 Set fVda = New ReinicarVenda
 Load fVda
 
-'GetWindowRect cmdOKOpcoes.hwnd, rPos
-lLft = rPos.Right * Screen.TwipsPerPixelX - fVda.Width
-lTop = rPos.Top * Screen.TwipsPerPixelY - fVda.Height
+lLft = (Screen.Width - fVda.Width) / 2
+lTop = (Screen.Height - fVda.Height) / 2
 
 'Carrega os pedidos pausados
-sSQL = "SELECT cod_pedido, data_compra, total FROM pedidos WHERE (status_pedido = -1) AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
+sSQL = "SELECT pedidos.cod_pedido, pedidos.data_compra, ISNULL((SELECT SUM(pedidos_itens.total) FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido), 0) AS total FROM pedidos WHERE (status_pedido = -1) AND (caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 Do While Not r.EOF
    Set xList = fVda.lvwPed.ListItems.Add
    xList.Text = r("cod_pedido")
-   '" & Format$(r("data_compra"), "yyyy-dd-MM") & "'
-   xList.SubItems(1) = Format$(r("data_compra"), "yyyy-dd-MM")
+   xList.SubItems(1) = Format$(r("data_compra"), "dd/mm/yyyy")
    xList.SubItems(2) = Format$(r("total"), ocMONEY)
    r.MoveNext
 Loop
@@ -7384,6 +6645,14 @@ frmAvancado.Visible = False
 txtCodPedido = lNroPedido
 MudarPedidoReaberto
 MostrarGrid_Produtos
+Exit Sub
+
+ErrHandlerReiniciar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao cancelar a venda: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdAvanVendaTransferir_Click()
@@ -7582,6 +6851,7 @@ vUsandoCashBack = False
 End Sub
 
 Private Sub cmdCancelarPedido_Click()
+Dim bTrans As Boolean
 If txtQuant.BackColor = &HC0FFC0 Then
     txtQuant_KeyPress (13)
 End If
@@ -7589,8 +6859,14 @@ End If
 If lblEstornar.Caption <> "ESTORNO" Then
    If Grid.Rows >= 2 Then
       If ShowMsg("Existe uma compra em aberto. Deseja cancelar essa compra?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+        On Error GoTo ErrHandlerCancelarPedido
+        dbData.Execute "BEGIN TRANSACTION"
+        bTrans = True
         dbData.Execute "DELETE FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ");"
         dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
+        On Error GoTo 0
     End If
     'HabilitaObjetosVenda False
     LimparObjetos_Pedido
@@ -7640,6 +6916,14 @@ vTipoEdicao = ""
 'barcodCapturado = arrayString(1)
 'MsgBox qtdeCapturada
 'MsgBox barcodCapturado
+Exit Sub
+
+ErrHandlerCancelarPedido:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao cancelar o pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub Retorna_Produtos_Estoque()
@@ -7659,6 +6943,7 @@ End Sub
 
 
 Private Sub cmdFechar_Click()
+Dim bTrans As Boolean
 'If txtCodPedido.Text = "" Then Exit Sub
 
 If lblEstornar.Caption = "ESTORNO" Then
@@ -7670,9 +6955,14 @@ ElseIf lblEstornar.Caption = "REIMPRESSÃO" Then
 Else
    If Grid.Rows >= 2 Then
       If ShowMsg("Existe uma compra em aberto. Deseja sair e cancelar a compra?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+        On Error GoTo ErrHandlerFechar
+        dbData.Execute "BEGIN TRANSACTION"
+        bTrans = True
         dbData.Execute "DELETE FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ");"
         dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
-      End
+        dbData.Execute "COMMIT TRANSACTION"
+        bTrans = False
+        On Error GoTo 0
    
    ElseIf txtCodPedido.Text <> "" Then
       dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
@@ -7681,6 +6971,14 @@ End If
 
 'tirar o sistema da memoria
 EncerrarPrograma
+Exit Sub
+
+ErrHandlerFechar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao fechar o PDV: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub RemoverParcelaDuplicadaNumero1()
@@ -10593,8 +9891,8 @@ ElseIf KeyCode = vbKeyF6 Then
             
             With lstCashBack
                 For i = 1 To .ListItems.Count
-                    ListaCash.ListSubItems(3).Bold = True
-                    ListaCash.ListSubItems(3).ForeColor = vbRed
+                    .ListItems(i).ListSubItems(3).Bold = True
+                    .ListItems(i).ListSubItems(3).ForeColor = vbRed
                 Next i
             End With
         Else
@@ -11500,7 +10798,7 @@ End If
 End Sub
 
 Private Sub txtCodBarra_KeyDown(KeyCode As Integer, Shift As Integer)
-If KeyCode = vbKeyEscape Then Unload Me
+If KeyCode = vbKeyEscape Then lstBusca.Visible = False
 End Sub
 
 
@@ -11977,11 +11275,16 @@ Mostrar_Produto_Alterar
 End Sub
 
 Private Sub txtCodPedido_Change()
+Dim bTrans As Boolean
 If lblEstornar.Caption = "ESTORNO" Then
     'Dim varHoraParc As String
 
     'abre o caixa
     'Abrir_Caixa
+    
+    On Error GoTo ErrHandlerReabrirEstorno
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
     
     'mudar status do pedido
     MudarPedidoReaberto
@@ -12003,6 +11306,10 @@ If lblEstornar.Caption = "ESTORNO" Then
         
         dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & txtCodPedido.Text & ");"
     End If
+    
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
+    On Error GoTo 0
     'criar log
     'Autonumeracao_LOG
     'execSQL "INSERT INTO LOG (CODIGO, COD_PEDIDO, JANELA, ACAO, DATA, HORA, FUNCIONARIO) VALUES(" & X & ", " & txtCodPedido.Text & ", 'PDV', 'EXCLUIR', #" & Format(Date, "dd/mm/yy") & "#, #" & Format(Now, "hh:mm") & "#, 'maria' )"
@@ -12032,6 +11339,14 @@ ElseIf lblEstornar.Caption = "REIMPRESSÃO" Then
         Abrir_Pedido_Reimpressao
    'End If
 End If
+Exit Sub
+
+ErrHandlerReabrirEstorno:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao reabrir o pedido: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub txtCodProduto_Change()
