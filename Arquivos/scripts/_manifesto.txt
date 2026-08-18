@@ -57,32 +57,36 @@
 057|AlterTable_Empresa_AddCBSpAliq.sql|GERAL
 058|CreateTable_TabelaIBPT.sql|GERAL
 059|CreateTable_tbNCM.sql|GERAL
-060|tbNCM_preencher_IBSCBS.sql|GERAL
-061|OS - Colocar o custo nos pedidos.sql|GERAL
-062|CreateTable_tbISClassTrib.sql|GERAL
-063|alter_tbISClassTrib_ISCST.sql|GERAL
-064|Categorias_Tags.sql|GERAL
-065|alter_produtos_reforma_IS.sql|GERAL
-066|AlterTable_NotaFiscal_IBSCBSIS.sql|GERAL
-067|AlterTable_NotaFiscalItens_CodPedido.sql|GERAL
-068|AlterTable_NotaFiscalItens_ItemPedido.sql|GERAL
-069|AlterTable_tbISClassTrib_uTrib_IS.sql|GERAL
-070|AlterTable_NotaFiscalItens_uTrib_IS.sql|GERAL
-071|AlterTable_NotaFiscalItens_CamposReforma.sql|GERAL
-072|Fix_IS_uTrib_qTrib_NF396.sql|GERAL
-073|OS - Colocar DATA_TERMINO = DATA DE COMPRA.sql|OS
-074|Funcionarios - Modificações.sql|GERAL
-075|alter_OS_Servicos_Auto_add_cod_servico.sql|OS
-076|alter_produtos_tags.sql|GERAL
-077|CreateTable_OS_ControleOleo.sql|OS
-078|AlterTable_Empresa_BackupDataHora.sql|GERAL
-079|Empresa - Modificações 2024.sql|GERAL
-080|AlterTable_NotaFiscal_Maquina.sql|GERAL
-081|AlterTable_Cliente_AddPK_Codigo.sql|GERAL
-082|AlterTable_Fornecedor_Complemento.sql|GERAL
-083|NFe - Modificações.sql|GERAL
-084|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL
-085|Fix_Parcelas_TIPO_OS_vazio.sql|OS
-086|AlterTable_Produtos_Cliente_Indices_Busca.sql|GERAL
-087|AlterTable_Pedidos_StatusPedido_BitParaSmallint.sql|GERAL
-088|CreateTable_pdvs.sql|GERAL
+060|Popular_TabelaIBPT_e_tbNCM_Inicial.sql|GERAL
+061|tbNCM_preencher_IBSCBS.sql|GERAL
+062|OS - Colocar o custo nos pedidos.sql|GERAL
+063|CreateTable_tbISClassTrib.sql|GERAL
+064|alter_tbISClassTrib_ISCST.sql|GERAL
+065|Categorias_Tags.sql|GERAL
+066|alter_produtos_reforma_IS.sql|GERAL
+067|Popular_Produtos_ClassTrib_ViaNCM.sql|GERAL
+068|Fix_Produtos_ClassTrib_SemNCM_NaTbNCM.sql|GERAL
+069|AlterTable_NotaFiscal_IBSCBSIS.sql|GERAL
+070|AlterTable_NotaFiscalItens_CodPedido.sql|GERAL
+071|AlterTable_NotaFiscalItens_ItemPedido.sql|GERAL
+072|AlterTable_tbISClassTrib_uTrib_IS.sql|GERAL
+073|AlterTable_NotaFiscalItens_uTrib_IS.sql|GERAL
+074|AlterTable_NotaFiscalItens_CamposReforma.sql|GERAL
+075|Fix_IS_uTrib_qTrib_NF396.sql|GERAL
+076|OS - Colocar DATA_TERMINO = DATA DE COMPRA.sql|OS
+077|Funcionarios - Modificações.sql|GERAL
+078|alter_OS_Servicos_Auto_add_cod_servico.sql|OS
+079|alter_produtos_tags.sql|GERAL
+080|CreateTable_OS_ControleOleo.sql|OS
+081|AlterTable_Empresa_BackupDataHora.sql|GERAL
+082|Empresa - Modificações 2024.sql|GERAL
+083|AlterTable_NotaFiscal_Maquina.sql|GERAL
+084|AlterTable_Cliente_AddPK_Codigo.sql|GERAL
+085|AlterTable_Fornecedor_Complemento.sql|GERAL
+086|NFe - Modificações.sql|GERAL
+087|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL
+088|Fix_Parcelas_TIPO_OS_vazio.sql|OS
+089|AlterTable_Produtos_Cliente_Indices_Busca.sql|GERAL
+090|AlterTable_Pedidos_StatusPedido_BitParaSmallint.sql|GERAL
+091|CreateTable_pdvs.sql|GERAL
+092|AlterTable_TbNFCe_Itens_CamposReforma.sql|GERAL

@@ -421,7 +421,7 @@ End If
         
         iRetorno = sistNFe.GerarItens(i, NFeItens!CodigoProduto, RemoveAcento(NFeItens!NomeProduto), Produtos!NCM, "", "", IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), _
                                       NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
-                                      NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, 0, CLng(NFeItens!Item_pedido)), IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, "", CStr(NFeItens!Cod_Pedido)), "", "", "", "", 1, infAdiProd, 0, "", 0, mensagemAlerta, mensagemErro)
+                                      NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, 0, CLng(NFeItens!Item_pedido)), IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, "", CStr(NFeItens!Cod_Pedido)), "", "", "", "", 1, infAdiProd, 0, "", 0, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), mensagemAlerta, mensagemErro)
 
 'ESSE PONTO DO DEPOSITO DE GÁS
 
@@ -1078,6 +1078,190 @@ DeuErro:
     Exit Function
 End Function
 
+Public Sub PreencherReformaTributariaNFCe(ByVal IdNFProd As Long, Optional ByRef cnAlvo As ADODB.Connection = Nothing)
+'Calcula e grava IBS/CBS/IS em TbNFCe_Itens para uma NFCe ja inserida via NFCeIncluir.
+'Mesma logica de NFe_Completa.frm (Mostrar_Aliquotas_Produto + Load_Data_Itens), adaptada pra ler de TbNFCe_Itens/produtos
+'em vez do grid, e gravar via UPDATE em lote em vez de escrever no grid.
+'cnAlvo permite passar a conexao do chamador (ex: dbData.ActiveConnection do PDV) quando a chamada precisa
+'rodar dentro de uma transacao ja aberta nessa conexao - sem isso, o vgDb (conexao propria do modNFe.bas)
+'tentaria ler linhas ainda nao commitadas por outra conexao e travaria ate estourar timeout.
+On Error GoTo ErrHandlerPreencherReforma
+
+Dim cn As ADODB.Connection
+If cnAlvo Is Nothing Then
+   Set cn = vgDb
+Else
+   Set cn = cnAlvo
+End If
+
+Dim sSQLReforma As String
+sSQLReforma = "SELECT i.IdNFProd_Item, i.QtdeMov, i.ValorUnit, i.Desconto, i.Valor_Frete, i.ValorOutras, " & _
+              "p.IBSCBSCST, p.cClassTrib, p.ISCST, p.cClassTrib_IS, p.fator_conversao_IS, " & _
+              "e.CBSpAliq, c.IBSUFpAliq, c.IBSMunpAliq, " & _
+              "ibs.pRedIBS, ibs.pRedCBS, " & _
+              "iss.tipo_calculo_is, iss.ISpAliq, iss.ISvUnid, iss.uTrib_IS " & _
+              "FROM TbNFCe_Itens i " & _
+              "INNER JOIN produtos p ON p.codigo = i.IDProduto " & _
+              "CROSS JOIN empresa e " & _
+              "LEFT JOIN Cidade c ON c.CodigoMunicipio = e.CodigoIBGE " & _
+              "OUTER APPLY (SELECT TOP 1 pRedIBS, pRedCBS FROM TbIBSCBSClassTrib " & _
+              "             WHERE cClassTrib = p.cClassTrib " & _
+              "             ORDER BY CASE WHEN GETDATE() BETWEEN dIniVig AND dFimVig THEN 0 ELSE 1 END ASC, dFimVig DESC) ibs " & _
+              "OUTER APPLY (SELECT TOP 1 tipo_calculo_is, ISpAliq, ISvUnid, uTrib_IS FROM tbISClassTrib " & _
+              "             WHERE cClassTrib_IS = p.cClassTrib_IS " & _
+              "             ORDER BY CASE WHEN GETDATE() BETWEEN dIniVig AND dFimVig THEN 0 ELSE 1 END ASC, dFimVig DESC) iss " & _
+              "WHERE i.IdNFProd = " & IdNFProd & " " & _
+              "ORDER BY i.IdNFProd_Item"
+
+Dim rsReforma As ADODB.Recordset
+Set rsReforma = New ADODB.Recordset
+rsReforma.CursorLocation = adUseClient
+rsReforma.Open sSQLReforma, cn, adOpenStatic, adLockReadOnly
+
+Dim accBC As Double, accUF As Double, accMun As Double
+accBC = 0: accUF = 0: accMun = 0
+
+Dim sUpdateBatch As String
+sUpdateBatch = ""
+
+Do While Not rsReforma.EOF
+    Dim dQtde As Double, dValorUnit As Double, dDesconto As Double, dFrete As Double, dOutras As Double
+    dQtde = CDbl(ValidateNull(rsReforma!QtdeMov))
+    dValorUnit = CDbl(ValidateNull(rsReforma!ValorUnit))
+    dDesconto = CDbl(ValidateNull(rsReforma!Desconto))
+    dFrete = CDbl(ValidateNull(rsReforma!Valor_Frete))
+    dOutras = CDbl(ValidateNull(rsReforma!ValorOutras))
+
+    Dim curBC As Currency
+    curBC = CCur(Format((dQtde * dValorUnit) - dDesconto + dFrete + dOutras, "0.00"))
+
+    Dim sIBSCBS_CST As String, sClassTrib As String
+    sIBSCBS_CST = Trim(CStr(ValidateNull(rsReforma!IBSCBSCST)))
+    sClassTrib = Trim(CStr(ValidateNull(rsReforma!cClassTrib)))
+
+    Dim dIBSUFRate As Double, dIBSMunRate As Double, dCBSpAliq As Double
+    dIBSUFRate = CDbl(ValidateNull(rsReforma!IBSUFpAliq))
+    dIBSMunRate = CDbl(ValidateNull(rsReforma!IBSMunpAliq))
+    dCBSpAliq = CDbl(ValidateNull(rsReforma!CBSpAliq))
+
+    Dim dPRedIBS As Double, dPRedCBS As Double
+    dPRedIBS = CDbl(ValidateNull(rsReforma!pRedIBS))
+    dPRedCBS = CDbl(ValidateNull(rsReforma!pRedCBS))
+
+    Dim curVIBSUF As Currency, curVIBSMun As Currency
+    If dPRedIBS > 0 Then
+        Dim dUFRateRed As Double, dMunRateRed As Double
+        dUFRateRed = dIBSUFRate * (1 - dPRedIBS / 100)
+        dMunRateRed = dIBSMunRate * (1 - dPRedIBS / 100)
+        curVIBSUF = CCur(Format(curBC * dUFRateRed / 100, "0.00"))
+        curVIBSMun = CCur(Format(curBC * dMunRateRed / 100, "0.00"))
+    Else
+        'acumulador anti-arredondamento (mesma logica de NFe_Completa.frm:6567-6570) - so quando nao ha reducao
+        Dim dNewTotalBC As Double
+        dNewTotalBC = accBC + CDbl(curBC)
+        curVIBSUF = CCur(CDbl(Format(dNewTotalBC * dIBSUFRate / 100, "0.00")) - accUF)
+        curVIBSMun = CCur(CDbl(Format(dNewTotalBC * dIBSMunRate / 100, "0.00")) - accMun)
+    End If
+
+    Dim curVCBS As Currency
+    curVCBS = CCur(Format(curBC * dCBSpAliq / 100 * (1 - dPRedCBS / 100), "0.00"))
+
+    accBC = accBC + CDbl(curBC)
+    accUF = accUF + CDbl(curVIBSUF)
+    accMun = accMun + CDbl(curVIBSMun)
+
+    'IS (Imposto Seletivo)
+    Dim sClassTribIS As String, sISCST As String
+    sClassTribIS = Trim(CStr(ValidateNull(rsReforma!cClassTrib_IS)))
+    sISCST = Trim(CStr(ValidateNull(rsReforma!ISCST)))
+
+    Dim iTipoIS As Integer
+    iTipoIS = CInt(ValidateNull(rsReforma!tipo_calculo_is))
+
+    Dim dFatorConvIS As Double
+    dFatorConvIS = CDbl(ValidateNull(rsReforma!fator_conversao_IS))
+    If dFatorConvIS = 0 Then dFatorConvIS = 1
+
+    Dim dQtdeIS As Double
+    dQtdeIS = dQtde
+    If dQtdeIS = 0 Then dQtdeIS = 1
+
+    Dim curISqUnid As Currency
+    curISqUnid = CCur(Format(dQtdeIS * dFatorConvIS, "0.0000"))
+
+    Dim curISvUnid As Currency
+    curISvUnid = CCur(ValidateNull(rsReforma!ISvUnid))
+    If iTipoIS = 0 Or iTipoIS = 1 Then curISvUnid = 0
+
+    Dim curISvBC As Currency
+    If iTipoIS = 1 Or iTipoIS = 3 Then
+        curISvBC = curBC
+    Else
+        curISvBC = 0
+    End If
+
+    Dim dISpAliq As Double
+    dISpAliq = CDbl(ValidateNull(rsReforma!ISpAliq))
+
+    Dim curISvIS As Currency
+    Select Case iTipoIS
+        Case 1
+            curISvIS = CCur(Format(curISvBC * dISpAliq / 100, "0.00"))
+        Case 2
+            curISvIS = CCur(Format(curISqUnid * curISvUnid, "0.00"))
+        Case 3
+            curISvIS = CCur(Format(curISvBC * dISpAliq / 100 + curISqUnid * curISvUnid, "0.00"))
+        Case Else
+            curISvIS = 0
+    End Select
+
+    Dim sUTribIS As String
+    sUTribIS = Trim(CStr(ValidateNull(rsReforma!uTrib_IS)))
+
+    sUpdateBatch = sUpdateBatch & _
+        "UPDATE TbNFCe_Itens SET " & _
+        "cClassTrib = '" & Replace(sClassTrib, "'", "''") & "', " & _
+        "IBSCBS_CST = '" & Replace(sIBSCBS_CST, "'", "''") & "', " & _
+        "IBS_vBC = " & Replace(CStr(curBC), ",", ".") & ", " & _
+        "IBS_UFpAliq = " & Replace(CStr(dIBSUFRate), ",", ".") & ", " & _
+        "IBS_MunpAliq = " & Replace(CStr(dIBSMunRate), ",", ".") & ", " & _
+        "IBS_pRed = " & Replace(CStr(dPRedIBS), ",", ".") & ", " & _
+        "IBS_vIBSUF = " & Replace(CStr(curVIBSUF), ",", ".") & ", " & _
+        "IBS_vIBSMun = " & Replace(CStr(curVIBSMun), ",", ".") & ", " & _
+        "IBS_vIBS = " & Replace(CStr(curVIBSUF + curVIBSMun), ",", ".") & ", " & _
+        "CBS_vBC = " & Replace(CStr(curBC), ",", ".") & ", " & _
+        "CBS_pAliq = " & Replace(CStr(dCBSpAliq), ",", ".") & ", " & _
+        "CBS_pRed = " & Replace(CStr(dPRedCBS), ",", ".") & ", " & _
+        "CBS_vCBS = " & Replace(CStr(curVCBS), ",", ".") & ", " & _
+        "cClassTrib_IS = '" & Replace(sClassTribIS, "'", "''") & "', " & _
+        "IS_CST = '" & Replace(sISCST, "'", "''") & "', " & _
+        "IS_tipo_calculo = " & iTipoIS & ", " & _
+        "IS_vBC = " & Replace(CStr(curISvBC), ",", ".") & ", " & _
+        "IS_pAliq = " & Replace(CStr(dISpAliq), ",", ".") & ", " & _
+        "IS_qUnid = " & Replace(CStr(curISqUnid), ",", ".") & ", " & _
+        "IS_vUnid = " & Replace(CStr(curISvUnid), ",", ".") & ", " & _
+        "IS_vIS = " & Replace(CStr(curISvIS), ",", ".") & ", " & _
+        "uTrib_IS = '" & Replace(sUTribIS, "'", "''") & "' " & _
+        "WHERE IdNFProd = " & IdNFProd & " AND IdNFProd_Item = " & CLng(ValidateNull(rsReforma!IdNFProd_Item)) & ";" & vbCrLf
+
+    rsReforma.MoveNext
+Loop
+
+If rsReforma.State <> 0 Then rsReforma.Close
+Set rsReforma = Nothing
+
+If Len(sUpdateBatch) > 0 Then cn.Execute sUpdateBatch
+
+Exit Sub
+
+ErrHandlerPreencherReforma:
+   'nunca deixa um erro aqui abortar a venda/transmissao - reforma fica zerada nesse item, resto do fluxo segue normal
+   If Not rsReforma Is Nothing Then
+      If rsReforma.State <> 0 Then rsReforma.Close
+      Set rsReforma = Nothing
+   End If
+End Sub
+
 Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False, Optional ModeloNF As String = "65", Optional Silencioso As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
  Dim txtNumerado As String, Retorno As String, vsNFe As String, empUF As String, sql As String
  Dim Parametros As New ADODB.Recordset
@@ -1091,6 +1275,13 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
  Dim pDesconto As Double, pFrete As Double, pOutras As Double, pTributos As Double
  Dim vlPIS As Double, vlCOFINS As Double, vlTrib As Double, vlNF As Double
  Dim NFCeContingenciaOFF As Boolean
+ Dim vBCCBSIBS As Double, pIBSUF As Double, vIBSUF As Double, pIBSMun As Double, vIBSMun As Double, vIBS As Double, pCBS As Double, vCBS As Double
+ Dim vBCIS As Double, pIS As Double, vIS As Double
+ Dim dISqUnid As Double, dISvUnid As Double
+ Dim pIBSpRed As Double, pCBSpRed As Double
+ Dim pAliqEfetUF As Double, pAliqEfetMun As Double, pAliqEfetCBS As Double
+ Dim TotvBCCBSIBS As Double, TotvIBSUF As Double, TotvIBSMun As Double, TotvIBS As Double, TotvCBS As Double
+ Dim TotvBCIS As Double, TotvIS As Double
  
  'On Error GoTo TransmitirNFCe_Error
  
@@ -1207,7 +1398,10 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
             "TbNFCe_Itens.CodBarras, TbNFCe_Itens.UN, TbNFCe_Itens.CFOP, TbNFCe_Itens.QtdeMov, TbNFCe_Itens.ValorUnit, TbNFCe_Itens.Desconto, TbNFCe_Itens.Aliq_Icms AS Aliquota, " & _
             "TbNFCe_Itens.Bc_Icms, TbNFCe_Itens.Bc_AliquotaReducao, TbNFCe_Itens.Vlr_Icms, TbNFCe_Itens.Aliq_IPI As AliqIPI, TbNFCe_Itens.Vlr_IPI As ValorIPI, TbNFCe_Itens.Valor_Frete As ValorFrete, " & _
             "TbNFCe_Itens.ICMSCST, TbNFCe_Itens.PISCST, TbNFCe_Itens.COFINSCST, TbNFCe_Itens.IPICST, TbNFCe_Itens.Codncm As NCM, TbNFCe_Itens.ProdInfAdicional, TbNFCe_Itens.ValorTributos, " & _
-            "TbNFCe_Itens.BCSTRet, TbNFCe_Itens.ICMSSTRet, TbNFCe_Itens.BCImpostoImportacao, TbNFCe_Itens.DespesasAduaneiras, TbNFCe_Itens.ValorImpostoImportacao, TbNFCe_Itens.ValorIOF, TbNFCe_Itens.Aliq_PIS, TbNFCe_Itens.Aliq_COFINS, TbNFCe_Itens.vlr_COFINS, TbNFCe_Itens.vlr_PIS " & _
+            "TbNFCe_Itens.BCSTRet, TbNFCe_Itens.ICMSSTRet, TbNFCe_Itens.BCImpostoImportacao, TbNFCe_Itens.DespesasAduaneiras, TbNFCe_Itens.ValorImpostoImportacao, TbNFCe_Itens.ValorIOF, TbNFCe_Itens.Aliq_PIS, TbNFCe_Itens.Aliq_COFINS, TbNFCe_Itens.vlr_COFINS, TbNFCe_Itens.vlr_PIS, " & _
+            "TbNFCe_Itens.cClassTrib, TbNFCe_Itens.IBSCBS_CST, TbNFCe_Itens.IBS_vBC, TbNFCe_Itens.IBS_UFpAliq, TbNFCe_Itens.IBS_MunpAliq, TbNFCe_Itens.IBS_pRed, TbNFCe_Itens.IBS_vIBSUF, TbNFCe_Itens.IBS_vIBSMun, TbNFCe_Itens.IBS_vIBS, " & _
+            "TbNFCe_Itens.CBS_vBC, TbNFCe_Itens.CBS_pAliq, TbNFCe_Itens.CBS_pRed, TbNFCe_Itens.CBS_vCBS, " & _
+            "TbNFCe_Itens.cClassTrib_IS, TbNFCe_Itens.IS_CST, TbNFCe_Itens.IS_vBC, TbNFCe_Itens.IS_pAliq, TbNFCe_Itens.IS_qUnid, TbNFCe_Itens.IS_vUnid, TbNFCe_Itens.IS_vIS, TbNFCe_Itens.uTrib_IS " & _
             "FROM TbNFCe_Itens " & _
             "WHERE TbNFCe_Itens.IdNFProd = " & NumeroNota & " " & _
             "ORDER BY TbNFCe_Itens.IdNFProd_Item"
@@ -1250,6 +1444,14 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        pOutras = Format((NFe!OutrasDespesasAces / NFe!Valor_NF_Prod) * 100, "######0.000000")
     End If
 
+    TotvBCCBSIBS = 0
+    TotvIBSUF = 0
+    TotvIBSMun = 0
+    TotvIBS = 0
+    TotvCBS = 0
+    TotvBCIS = 0
+    TotvIS = 0
+
     For i = 1 To NFeItens.RecordCount
         '================grupo de detalhe do produto (grupo I01 do Manual de integração - páginas 95)=======================
         Dim infAdProd As String, pAliqSN As Double, vCredSN As Double, vlCredICMSSN As Double
@@ -1266,7 +1468,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         infAdProd = Trim(infAdProd)
        
         iRetorno = sistNFCe.GerarItens(i, Trim$(NFeItens!IDProduto), RemoveAcento(NFeItens!DescricaoProduto), NFeItens!NCM, "", "", NFeItens!CodBarras, NFeItens!CodBarras, _
-                                       NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, 0, "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, mensagemAlerta, mensagemErro)
+                                       NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, 0, "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, (NFeItens!QtdeMov * NFeItens!ValorUnit), mensagemAlerta, mensagemErro)
         
         '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
         'Parametros!
@@ -1300,6 +1502,49 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
                                                              0, 0, 0, 5, 0, 0, NFeItens!BCSTRet, 0, NFeItens!ICMSSTRet, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, _
                                                              pAliqSN, vCredSN, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
         End If
+
+        ' IBS/CBS: todos os regimes
+        vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
+        pIBSUF = IIf(IsNull(NFeItens!IBS_UFpAliq), 0, CDbl(NFeItens!IBS_UFpAliq))
+        vIBSUF = IIf(IsNull(NFeItens!IBS_vIBSUF), 0, CDbl(NFeItens!IBS_vIBSUF))
+        pIBSMun = IIf(IsNull(NFeItens!IBS_MunpAliq), 0, CDbl(NFeItens!IBS_MunpAliq))
+        vIBSMun = IIf(IsNull(NFeItens!IBS_vIBSMun), 0, CDbl(NFeItens!IBS_vIBSMun))
+        vIBS = vIBSUF + vIBSMun
+        pCBS = IIf(IsNull(NFeItens!CBS_pAliq), 0, CDbl(NFeItens!CBS_pAliq))
+        vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
+        pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
+        pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
+        pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
+        pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
+        pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
+        If vBCCBSIBS > 0 Then
+           iRetorno = sistNFCe.GerarItensImpostoIBSCBS( _
+               IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
+               IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
+               vBCCBSIBS, _
+               pIBSUF, 0, 0, 0, pIBSpRed, pAliqEfetUF, vIBSUF, _
+               pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
+               pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
+               mensagemAlerta, mensagemErro)
+        End If
+        ' IS (Imposto Seletivo)
+        vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
+        pIS = IIf(IsNull(NFeItens!IS_pAliq), 0, CDbl(NFeItens!IS_pAliq))
+        vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
+        dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
+        dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
+        If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
+        If vIS > 0 Then
+           iRetorno = sistNFCe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+        End If
+
+        TotvBCCBSIBS = TotvBCCBSIBS + vBCCBSIBS
+        TotvIBSUF = TotvIBSUF + vIBSUF
+        TotvIBSMun = TotvIBSMun + vIBSMun
+        TotvIBS = TotvIBS + vIBS
+        TotvCBS = TotvCBS + vCBS
+        TotvBCIS = TotvBCIS + vBCIS
+        TotvIS = TotvIS + vIS
 
         'pis e cofins - Impostos federais
         Dim COFINSCST As String, PISCST As String
@@ -1342,6 +1587,10 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     vlNF = (NFe!Valor_NF_Prod - NFe!DescontoPromocional) + (NFe!Valor_Frete + NFe!Valor_Seguro + NFe!Valor_IPI + NFe!OutrasDespesasAces + NFe!ValorImpostoImportacao + NFe!Valor_ICMS_Subst)
     iRetorno = sistNFCe.GerarTotalProdutos(NFe!BaseCalc_ICMS, NFe!Valor_ICMS, NFe!BaseCalc_ICSM_Subst, NFe!Valor_ICMS_Subst, vlCOFINS, vlPIS, NFe!Valor_IPI, NFe!DescontoPromocional, NFe!Valor_Seguro, NFe!Valor_Frete, NFe!OutrasDespesasAces, 0, 0, 0, 0, 0, 0, 0, NFe!ValorImpostoImportacao, 0, NFe!Valor_NF_Prod, vlNF, vlTrib, _
                                            0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
+
+    If TotvBCCBSIBS > 0 Then
+       iRetorno = sistNFCe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, vlNF, mensagemAlerta, mensagemErro)
+    End If
     
     'Dim vBCICMS As Currency
     'Dim vVLRICMS As Currency
@@ -1453,15 +1702,29 @@ SoEnviar:
 
 iRetorno = sistNFCe.EnviarNFe(NFe!NumeNota, 1, False)
 
-NFeResposta = sistNFCe.retEnvio.protNFe.infProt.xMotivo
+' o codigo original lia retEnvio.protNFe.infProt direto, sem checar nada antes - se o envio falha
+' (sem conexao) OU se a SEFAZ responde sem protNFe (rejeicao imediata, formato inesperado), isso
+' estourava "Referencia de objeto nao definida" escondendo o motivo real. Confere a existencia dos
+' objetos aninhados (retEnvio e retEnvio.protNFe) antes de ler qualquer coisa, com iRetorno=True ou False.
+Dim bTemProtNFeEnvio As Boolean
+bTemProtNFeEnvio = False
+On Error Resume Next
+bTemProtNFeEnvio = Not (sistNFCe.retEnvio Is Nothing) And Not (sistNFCe.retEnvio.protNFe Is Nothing)
+On Error GoTo deuErro
 
-If Not iRetorno Then
+If Not iRetorno Or Not bTemProtNFeEnvio Then
+   NFeResposta = "Falha ao enviar a NFCe para a SEFAZ (sem retorno de protocolo)."
+   If bTemProtNFeEnvio Then
+      On Error Resume Next
+      NFeResposta = sistNFCe.retEnvio.protNFe.infProt.xMotivo
+      On Error GoTo deuErro
+   End If
    MsgBox "*** Aparentemente Ocorreram Erros na Recepção do Lote (nfeAutorizacao)***" & vbLf & NFeResposta, vbExclamation, "PROCESSO INTERROMPIDO - NfeAutorizacao"
    GoTo Caifora
 End If
 
 NFeNumeroRecibo = ""
-If Not iRetorno Then GoTo Caifora
+NFeResposta = sistNFCe.retEnvio.protNFe.infProt.xMotivo
 cStat = sistNFCe.retEnvio.protNFe.infProt.cStat
 NFeMotivo = sistNFCe.retEnvio.protNFe.infProt.xMotivo
 If cStat = 103 Then NFeNumeroRecibo = sistNFCe.retEnvio.infRec.nRec  'Parse(NFeResposta, "#")

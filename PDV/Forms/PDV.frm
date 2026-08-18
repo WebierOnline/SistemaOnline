@@ -35,12 +35,12 @@ Begin VB.Form PDV
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   6360
+      Left            =   9540
       Picture         =   "PDV.frx":FEAD
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   161
-      Top             =   5640
+      Top             =   4080
       Visible         =   0   'False
       Width           =   2895
    End
@@ -57,9 +57,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   6540
+      Left            =   6660
       TabIndex        =   148
-      Top             =   3720
+      Top             =   3900
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdOrcamento 
@@ -172,12 +172,12 @@ Begin VB.Form PDV
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   5355
-      Left            =   7980
+      Height          =   6435
+      Left            =   8040
       TabIndex        =   81
-      Top             =   2340
+      Top             =   1440
       Visible         =   0   'False
-      Width           =   5235
+      Width           =   3135
       Begin ChamaleonBtn.chameleonButton cmdAvanClientes 
          CausesValidation=   0   'False
          Height          =   315
@@ -339,7 +339,7 @@ Begin VB.Form PDV
          Height          =   315
          Left            =   180
          TabIndex        =   86
-         Top             =   4920
+         Top             =   6000
          Width           =   2775
          _ExtentX        =   4895
          _ExtentY        =   556
@@ -376,11 +376,11 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaReiniciar 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   3180
+         Left            =   180
          TabIndex        =   87
-         Top             =   4140
-         Width           =   1995
-         _ExtentX        =   3519
+         Top             =   5040
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Reiniciar"
@@ -415,11 +415,11 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaPausar 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   3180
+         Left            =   180
          TabIndex        =   90
-         Top             =   3780
-         Width           =   1995
-         _ExtentX        =   3519
+         Top             =   4680
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Pausar"
@@ -454,11 +454,11 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdAvanVendaTransferir 
          CausesValidation=   0   'False
          Height          =   315
-         Left            =   3180
+         Left            =   180
          TabIndex        =   91
-         Top             =   4500
-         Width           =   1995
-         _ExtentX        =   3519
+         Top             =   5400
+         Width           =   2775
+         _ExtentX        =   4895
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Transferir"
@@ -762,7 +762,7 @@ Begin VB.Form PDV
          Height          =   195
          Left            =   240
          TabIndex        =   93
-         Top             =   4680
+         Top             =   5760
          Width           =   2685
       End
       Begin VB.Label Label25 
@@ -863,7 +863,7 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1875
-      Left            =   6300
+      Left            =   6360
       TabIndex        =   99
       Top             =   3840
       Width           =   8295
@@ -1489,11 +1489,11 @@ Begin VB.Form PDV
       BackColor       =   &H00C0C0FF&
       ForeColor       =   &H80000008&
       Height          =   1455
-      Left            =   11160
+      Left            =   11220
       ScaleHeight     =   1425
       ScaleWidth      =   2025
       TabIndex        =   95
-      Top             =   2340
+      Top             =   1500
       Visible         =   0   'False
       Width           =   2055
       Begin VB.ComboBox cboUsuario 
@@ -2146,14 +2146,14 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2646
             MinWidth        =   2646
-            TextSave        =   "13/08/2026"
+            TextSave        =   "14/08/2026"
          EndProperty
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "17:41"
+            TextSave        =   "14:18"
          EndProperty
          BeginProperty Panel7 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2274,7 +2274,7 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   6495
-      Left            =   6780
+      Left            =   6660
       TabIndex        =   47
       Top             =   1440
       Visible         =   0   'False
@@ -3723,7 +3723,7 @@ If varTipoValorVenda = 1 Then
        dbData.Execute "BEGIN TRANSACTION"
        bTrans = True
        txtCodPedido = AutoNumeracao_Pedido
-       dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+       dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, codcaixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', " & varCodCaixa & ", '" & var_Maquina & "', 0, 0, 0);"
        dbData.Execute "COMMIT TRANSACTION"
        bTrans = False
     Else
@@ -4204,7 +4204,7 @@ Dim r As ADODB.Recordset
 Dim lRet As Long
 
 lRet = -1
-sSQL = "SELECT cod_pedido FROM pedidos WHERE (data_compra = '" & Format$(Now, "yyyy-dd-MM") & "') AND (status_pedido = 0) AND (reaberto = 0) AND (maquina = '" & var_Maquina & "');"
+sSQL = "SELECT cod_pedido FROM pedidos WHERE (data_compra = '" & Format$(Now, "yyyy-dd-MM") & "') AND (status_pedido = 0) AND (reaberto = 0) AND (maquina = '" & var_Maquina & "') AND (tipo_pedido IS NULL OR tipo_pedido = '');"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lRet = r("cod_pedido")
 If r.State <> 0 Then r.Close
@@ -6271,7 +6271,7 @@ If var_NroPedido = -1 Then
    dbData.Execute "BEGIN TRANSACTION"
    bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
-   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, codcaixa, maquina, cancelado, reaberto, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', " & varCodCaixa & ", '" & var_Maquina & "', 0, 0, 0);"
    dbData.Execute "COMMIT TRANSACTION"
    bTrans = False
 Else
@@ -6302,7 +6302,7 @@ If var_NroPedido = -1 Then
    dbData.Execute "BEGIN TRANSACTION"
    bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
-   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, codcaixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', " & varCodCaixa & ", '" & var_Maquina & "', 0, 0, 0);"
    dbData.Execute "COMMIT TRANSACTION"
    bTrans = False
 Else
@@ -7925,6 +7925,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                     Set rNFCe = dbData.OpenRecordset(sSQL)
                     
                     If rNFCe.RecordCount > 0 Then
+                       PreencherReformaTributariaNFCe CLng(rNFCe!IdNFProd), dbData.ActiveConnection
                        sSQL = "INSERT INTO [TbNFCe_Faturas] " & _
                               "([IdNFProd] " & _
                               ",[IDParcela] " & _
@@ -8244,6 +8245,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                     Set rNFCe = dbData.OpenRecordset(sSQL)
                     
                     If rNFCe.RecordCount > 0 Then
+                       PreencherReformaTributariaNFCe CLng(rNFCe!IdNFProd), dbData.ActiveConnection
                        sSQL = "INSERT INTO [TbNFCe_Faturas] " & _
                               "([IdNFProd] " & _
                               ",[IDParcela] " & _
@@ -9709,7 +9711,7 @@ If var_NroPedido = -1 Then
    dbData.Execute "BEGIN TRANSACTION"
    bTrans = True
    txtCodPedido = AutoNumeracao_Pedido
-   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+   dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, codcaixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', " & varCodCaixa & ", '" & var_Maquina & "', 0, 0, 0);"
    dbData.Execute "COMMIT TRANSACTION"
    bTrans = False
 Else
@@ -9740,7 +9742,7 @@ frmTipoVenda.Visible = False
        dbData.Execute "BEGIN TRANSACTION"
        bTrans = True
        txtCodPedido = AutoNumeracao_Pedido
-       dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', '" & var_Maquina & "', 0, 0, 0);"
+       dbData.Execute "INSERT INTO pedidos (cod_pedido, data_compra, status_pedido, caixa, codcaixa, maquina, reaberto, cancelado, orcamento) VALUES (" & txtCodPedido.Text & ", '" & Format$(Now, "yyyy-dd-MM") & "', 0, '" & var_Caixa & "', " & varCodCaixa & ", '" & var_Maquina & "', 0, 0, 0);"
        dbData.Execute "COMMIT TRANSACTION"
        bTrans = False
     Else

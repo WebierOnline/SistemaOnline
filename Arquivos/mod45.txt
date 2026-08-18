@@ -1,0 +1,24 @@
+Vou te explicar como funciona hoje:
+Ambos os exemplos a venda existe cupom fiscal para elas emitidos.
+No form Estornar tenho cmdPedidoAbrir e cmdExcluirPedido
+cmdPedidoAbrir reabre uma venda para ser modificada
+cmdExcluirPedido cancela uma venda existente
+Ambos os botões depende do 'SIM' da coluna NFCe do grid.
+Ou seja, caso tenha 'SIM' não aceita reabrir ou cancelar a venda.
+Quando o usuário precisa cancelar uma venda hoje ele procede da seguinte forma:
+1. Ele abre o form NFCe_Consultar, busca a NFCe pela data, clica no NFCe no grid (para selecionar ela).
+2. Clica no botão cmdDesvincular (ele desvincula o NFCe da Venda).
+3. Clica no NFCe novamente no Grid, após, clica cmdCancelar
+Após isso a venda consegue se cancela no form Estornar
+Obs: 
+* Se lembro bem o botão cmdCancelar já desvincula sozinho, não lembro ao certo.
+* Se eu somente desvincular uma NFCe de uma Venda, mesmo que eu não cancele o NFCe, consigo cancelar a venda no form Estornar
+Quando o usuário precisa reabrir(editar) uma venda hoje ele procede da seguinte forma:
+1. Ele abre o form NFCe_Consultar, busca a NFCe pela data, clica no NFCe no grid (para selecionar ela).
+2. Clica no botão cmdDesvincular (ele desvincula o NFCe da Venda).
+Após isso ele consegue já reabrir a venda no form estornar
+Obs:
+Só desvinculando, a NFCe contuando existindo.. sendo assim uma unica venda poderá ter varias NFCe criadas.
+Temos que levar em consideração que nem todas as NFCe criadas são transmitidas para serem canceladas... existem NFCe com erros de produtos (exemplo) que aguarda o usuario corrigir para poder transmitir.
+Então existe Vendas feitas que precisam ser cancelas ou reabertas (editadas) que tem NFCe criadas delas transmitidas ou Em Digitação.
+O que vc me sugere em cada caso?

@@ -1,0 +1,16 @@
+
+No form NFe_Completa conseguir transmitir uma NFe com os dados da reforma tributaria (ibs, cbs e IS)
+Avalie como faria para no PDV conseguiremos emitir uma nfce com dados da reforma tributaria.
+Tabela Pai(TbNFCe):
+IdNFProd, Origem, Num_OS_VD_Origem, TipoNF, NaturezaOperacao, CFOP, InscEstSubstTrib, NomeRazSocial, CPF_CNPJ, Endereco, Num, Bairro, CEP, Municipio, fone, UF, InscEst, DataEmissao, DataSaidaEntrada, 
+                         HoraSaida, BaseCalc_ICMS, BaseCalc_ICSM_Subst, Valor_ICMS, Valor_ICMS_Subst, Valor_Frete, Valor_Seguro, OutrasDespesasAces, Valor_IPI, Valor_NF_Prod, NomeTrasnportador, Frete_Por_Conta, Placa_Veiculo, 
+                         UF_Mot_Transp, CPF_CNPJ_Transp, Endereco_Transp, Cidade_Transp, UF_Trasnportador, InscEst_Trasnp, Qtde_Trasnp, Especie_Transp, Marca_Trasnp, Num_Transp, PesoBruto_Transp, PesoLiq_Transp, Linha1, Linha2, 
+                         Linha3, Linha4, Linha5, NumeNota, SerieNF, Cancelada, DataCancelamento, Usuario, DescontoPromocional, NFeIndicadorFormaPagto, NFeFormatoImpressaoDANFe, NFeTipoEmissao, NFeCodigoNota, NFCeChaveAcesso, 
+                         NFCeChaveAcessoAdicional, NFCeProtocolo, NFCeProtocoloDataHora, NFCeRecibo, NFCeCancelada, NFCeCanceladaProtocolo, NFCeCanceladaJustificativa, NFCeEnviada, NFCeDataHoraContingencia, 
+                         NFCeJustificativaContingencia, IDCliente, NFeFinalidadeEmissao, NFCeChaveAcessoReferenciada, ValorImpostoImportacao, CodigoPais, NomePais, CRT, OrigemDestinatario, NFeIdentificadorDestino, NFeConsumidorFinal, 
+                         NFeIndicadorPresencaComprador, NFeIndicadorIEDestinatario, XMLAutorizado, URLQRCode, MonitorStatus, UltimocStat, UltimoRetornoWS, UltimoRetornoXML, Inutilizada, CodigoInutilizacao
+Tabela Filho (TbNFCe_Itens):
+IdNFProd, IdNFProd_Item, CodProduto, IDProduto, CodBarras, DescricaoProduto, CodNcm, QtdeMov, ValorUnit, Desconto, DescProdRural, CFOP, IdEstoque, Bc_Icms, Bc_AliquotaReducao, Vlr_Icms, Vlr_IPI, Aliq_Icms, 
+                         Aliq_IPI, ICMSCST, IdLeiDecreto, IPICST, ProdInfAdicional, COFINSCST, PISCST, UN, BDNome, BCSTRet, ICMSSTRet, BCImpostoImportacao, DespesasAduaneiras, ValorImpostoImportacao, ValorIOF, Valor_Frete, ValorTributos, 
+                         ValorOutras, Nada, vlr_PIS, vlr_COFINS, Aliq_COFINS, Aliq_PIS, TipoProduto
+Obs: NFe_Completa não se muda nada, somente citei para vc ter uma base.

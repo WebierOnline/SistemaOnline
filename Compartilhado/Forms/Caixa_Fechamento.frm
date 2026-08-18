@@ -4,7 +4,7 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Fechamento 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "SITUAÇÃO DO CAIXA"
-   ClientHeight    =   2850
+   ClientHeight    =   2205
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   7845
@@ -12,7 +12,7 @@ Begin VB.Form Caixa_Fechamento
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2850
+   ScaleHeight     =   2205
    ScaleWidth      =   7845
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -225,7 +225,7 @@ Begin VB.Form Caixa_Fechamento
       End
    End
    Begin VB.Frame Frame7 
-      Height          =   1515
+      Height          =   915
       Left            =   60
       TabIndex        =   8
       Top             =   540
@@ -485,7 +485,7 @@ Begin VB.Form Caixa_Fechamento
       Height          =   270
       Left            =   0
       TabIndex        =   14
-      Top             =   2580
+      Top             =   1935
       Width           =   7845
       _ExtentX        =   13838
       _ExtentY        =   476
@@ -508,7 +508,7 @@ Begin VB.Form Caixa_Fechamento
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "10:52"
+            TextSave        =   "11:43"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -528,9 +528,9 @@ Begin VB.Form Caixa_Fechamento
    End
    Begin ChamaleonBtn.chameleonButton cmdReativar 
       Height          =   375
-      Left            =   4620
+      Left            =   4680
       TabIndex        =   2
-      Top             =   2100
+      Top             =   1500
       Width           =   1515
       _ExtentX        =   2672
       _ExtentY        =   661
@@ -568,7 +568,7 @@ Begin VB.Form Caixa_Fechamento
       Height          =   375
       Left            =   6240
       TabIndex        =   7
-      Top             =   2100
+      Top             =   1500
       Width           =   1515
       _ExtentX        =   2672
       _ExtentY        =   661
@@ -2282,6 +2282,21 @@ Private Sub cmdFecharCaixa_Click()
 Dim bTrans As Boolean
 On Error GoTo TrataErro
 
+'bloqueia o fechamento se existir venda em aberto (com produtos) em qualquer PDV deste caixa,
+'nao so no terminal atual - evita fechar o caixa enquanto outro PDV ainda esta vendendo
+Dim sSQLVendaAberta As String
+Dim rVendaAberta As ADODB.Recordset
+sSQLVendaAberta = "SELECT TOP 1 pedidos.cod_pedido FROM pedidos WHERE (pedidos.caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "') AND (pedidos.codcaixa = " & txtCodCaixa.Text & ") AND (pedidos.status_pedido = 0) AND (pedidos.tipo_pedido IS NULL OR pedidos.tipo_pedido = '') AND EXISTS (SELECT 1 FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido);"
+Set rVendaAberta = dbData.OpenRecordset(sSQLVendaAberta)
+If Not rVendaAberta.EOF Then
+   If rVendaAberta.State <> 0 Then rVendaAberta.Close
+   Set rVendaAberta = Nothing
+   ShowMsg "Existe uma venda em aberto (com produtos adicionados) em um dos PDVs deste caixa." & vbCrLf & "Finalize ou cancele essa venda antes de fechar o caixa.", vbExclamation
+   Exit Sub
+End If
+If rVendaAberta.State <> 0 Then rVendaAberta.Close
+Set rVendaAberta = Nothing
+
 If txtFuncAP.Text = "" Then
    ShowMsg "Faltou o código do funcionário!", vbExclamation
    txtCodFuncAP.SetFocus
@@ -2513,6 +2528,25 @@ Set r = dbData.OpenRecordset(sSQL)
  
  If r.State <> 0 Then r.Close
  Set r = Nothing
+
+ 'ajusta o layout conforme o form esta em modo Abertura/Reativar (cmdFecharCaixa desabilitado) ou Fechamento
+ If cmdFecharCaixa.Enabled = True Then
+    'Fechamento do caixa
+    lblDinheiroContado.Visible = True
+    txtDinheiroContado.Visible = True
+    Frame7.Height = 1515
+    Me.Height = 3285
+    cmdReativar.Top = 2100
+    cmdFecharCaixa.Top = 2100
+ Else
+    'Abertura ou Reativar do caixa
+    lblDinheiroContado.Visible = False
+    txtDinheiroContado.Visible = False
+    Frame7.Height = 915
+    Me.Height = 2640
+    cmdReativar.Top = 1500
+    cmdFecharCaixa.Top = 1500
+ End If
 End Sub
 
 Private Sub lblSaida_Change()
@@ -2534,9 +2568,15 @@ Private Sub txtCodFuncAP_Change()
    If txtCodFuncAP.Text = "" Then Exit Sub
    txtFuncAP.Text = ""
    
-   sSQL = "SELECT codigo, nome, sobrenome FROM funcionario WHERE (codigo = " & txtCodFuncAP.Text & ");"
+   sSQL = "SELECT codigo, nome, apelido FROM funcionario WHERE (codigo = " & txtCodFuncAP.Text & ");"
    Set r = dbData.OpenRecordset(sSQL)
-   If Not r.BOF Then txtFuncAP.Text = r("nome") & " " & r("sobrenome")
+   If Not r.BOF Then
+      If IsNull(r("apelido")) Or Trim(r("apelido") & "") = "" Then
+         txtFuncAP.Text = r("nome")
+      Else
+         txtFuncAP.Text = r("apelido")
+      End If
+   End If
    If r.State <> 0 Then r.Close
    Set r = Nothing
 End Sub

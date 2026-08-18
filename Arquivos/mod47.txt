@@ -1,0 +1,21 @@
+Descobrir 2 problemas...
+Modificações:
+Ao iniciar uma nova venda ele preenche somente os campos CAIXA, MAQUINA e o campo CODCAIXA fica null
+*preciso que seja preenchido tb o CODCAIXA.
+Ao tentar fechar um caixa ele verifica vendas que ficaram abertas anteriores de outros caixa... por isso que não tá fechando... acrescentei pedidos.CODCAIXA na consulta:
+  SELECT pedidos.cod_pedido, pedidos.status_pedido, pedidos.caixa, pedidos.CODCAIXA, pedidos.maquina, pedidos.data_compra,
+         pedidos.tipo_pedido, pedidos.reaberto,
+         (SELECT COUNT(*) FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido) AS qtd_itens
+  FROM pedidos
+  WHERE (pedidos.caixa = 'CAIXA01')   -- troque pelo nome real do seu caixa
+    AND (pedidos.status_pedido = 0)
+    AND (pedidos.tipo_pedido IS NULL OR pedidos.tipo_pedido = '')
+    AND EXISTS (SELECT 1 FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido);
+Deu o seguinte resultado:
+63	0	CAIXA01	NULL	PDV01	2025-10-18 00:00:00.000	NULL	0	2
+490	0	CAIXA01	NULL	PDV01	2026-02-16 00:00:00.000	NULL	0	1
+634	0	CAIXA01	NULL	PDV01	2026-03-31 00:00:00.000	NULL	0	1
+1247	0	CAIXA01	NULL	PDV01	2026-08-13 00:00:00.000	NULL	1	1
+1248	0	CAIXA01	NULL	PDV01	2026-08-13 00:00:00.000	NULL	1	1
+143	0	CAIXA01	NULL	PDV01	2025-11-20 00:00:00.000	NULL	0	3
+200	0	CAIXA01	NULL	PDV01	2025-12-06 00:00:00.000	NULL	0	3

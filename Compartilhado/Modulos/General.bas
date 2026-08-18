@@ -195,7 +195,6 @@ LerConfiguracao
 'Produtos_Estoque_Simples.Show
 'Configuracao_Geral.Show
 'Sistema_Financeiro.Show
-'Senha_OS.Show   'pede login antes de abrir o OS_Recapadora (Senha_OS ja chama OS_Recapadora.Show internamente apos validar)
 'Produtos_Cadastro.Show
 'NFe_Completa.Show
 'Tela_Principal.Show
@@ -209,6 +208,7 @@ LerConfiguracao
 'Vendas_Consulta_PorProdutos.Show
 'Entrada_Estoque.Show
 Senha.Show
+'Senha_OS.Show   'pede login antes de abrir o OS_Recapadora (Senha_OS ja chama OS_Recapadora.Show internamente apos validar)
 End Sub
 
 'Recupera a configuração do sistema

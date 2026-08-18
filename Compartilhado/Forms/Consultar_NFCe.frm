@@ -889,7 +889,7 @@ Begin VB.Form NFCe_Consultar
       Height          =   375
       Left            =   4200
       TabIndex        =   4
-      Top             =   8220
+      Top             =   8400
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -952,14 +952,14 @@ Begin VB.Form NFCe_Consultar
             Alignment       =   1
             Object.Width           =   2999
             MinWidth        =   2999
-            TextSave        =   "10/08/2026"
+            TextSave        =   "17/08/2026"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "07:16"
+            TextSave        =   "16:55"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -2666,7 +2666,7 @@ End If
 End Sub
 
 Private Sub Cancelar_NFCe(codPedido As String)
-Dim sSQL As String, IdNFProd As Long
+Dim sSQL As String, IdNFProd As Long, NumeNota As String
 
     Screen.MousePointer = vbHourglass
     
@@ -2676,13 +2676,15 @@ Dim sSQL As String, IdNFProd As Long
     If IdNFProd > 0 Then
        frameAguarde.Visible = True
        DoEvents
-       sSQL = "SELECT NFCeChaveAcesso, NFCeProtocolo, NFCeCancelada, NFCeCanceladaProtocolo, NFCeCanceladaJustificativa FROM TbNFCe WHERE IdNFProd = " & IdNFProd
+       sSQL = "SELECT NFCeChaveAcesso, NFCeProtocolo, NFCeCancelada, NFCeCanceladaProtocolo, NFCeCanceladaJustificativa, NumeNota FROM TbNFCe WHERE IdNFProd = " & IdNFProd
        NFeChaveAcesso = SQLExecutaRetorno(sSQL, "NFCeChaveAcesso", "")
        NFeNumeroProtocolo = SQLExecutaRetorno(sSQL, "NFCeProtocolo", 0)
+       NumeNota = SQLExecutaRetorno(sSQL, "NumeNota", "")
        If Not Vazio(NFeChaveAcesso) And NFeNumeroProtocolo > 0 Then
-          If CancelaNFCe(NFeChaveAcesso, NFeNumeroProtocolo, "DESISTENCIA DE COMPRA", True) Then
+          If CancelaNFCe(NFeChaveAcesso, NFeNumeroProtocolo, "DESISTENCIA DE COMPRA", True, True) Then
              sSQL = "UPDATE TbNFCe SET NFCeCancelada = 1, NFceCanceladaProtocolo = " & NFeNumeroProtocolo & ", NFCeCanceladaJustificativa = 'DESISTENCIA DE COMPRA', Num_OS_VD_Origem = 0 WHERE IDNFProd = " & IdNFProd
              dbData.Execute sSQL
+             MsgBox "NFCe " & NumeNota & " CANCELADA COM SUCESSO!", vbInformation + vbOKOnly, "Cancelamento"
           End If
        End If
     End If
@@ -3313,7 +3315,7 @@ If MsgBox("Tem certeza que deseja inutilizar " & Chr(13) & "o cupom fiscal (NFCe
        If cStat = 102 Then
           sSQL = "UPDATE TbNFCe SET Inutilizada = 1, Num_OS_VD_Origem = 0 WHERE IdNFProd = " & IdNFProd
           vgDb.Execute sSQL
-          MsgBox CStr(cStat) & " - " & NFeMotivo, vbCritical + vbOKOnly, "INUTILIZAÇÃO"
+          MsgBox "NFCe " & nNota & " INUTILIZADA COM SUCESSO!", vbInformation + vbOKOnly, "INUTILIZAÇÃO"
        Else
           MsgBox CStr(cStat) & " - " & NFeMotivo, vbCritical + vbOKOnly, "ERRO - INUTILIZAÇÃO"
        End If
@@ -3539,6 +3541,9 @@ If EncontroErroNFCe = False Then
     If IdNFProd > 0 Then
         frameAguarde.Visible = True
         DoEvents
+        If SQLExecutaRetorno("SELECT ISNULL(NFCeEnviada, 0) AS v FROM TbNFCe WHERE IdNFProd = " & IdNFProd, "v", 0) = 0 Then
+           PreencherReformaTributariaNFCe IdNFProd
+        End If
         iRetorno = TransmitirNFCe(IdNFProd, "1", True, "65")
         If iRetorno Then
            Dim sistNFe As snfe.Util
@@ -3724,6 +3729,7 @@ End If
             'ja enviada - pular (o filtro TODAS reenviava notas ja autorizadas sem necessidade)
             vQtdPulada = vQtdPulada + 1
         Else
+            PreencherReformaTributariaNFCe CLng(r!IdNFProd)
             iRetorno = TransmitirNFCe(r!IdNFProd, "1", True, "65", True)
             If iRetorno Then
                 vQtdOK = vQtdOK + 1
