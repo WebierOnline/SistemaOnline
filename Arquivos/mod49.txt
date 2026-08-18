@@ -1,0 +1,15 @@
+Acabei de fazer uma nota fiscal (189)
+Campos da tabela NotaFiscal:
+CodigoNota, NumeroNota, SerieNF, cCodigoNota, TipoDocumento, NaturezaOperacao, DataEmissao, DataSaida, HoraSaida, CodigoCorrentista, RazaoSocial, InscricaoEstadual, Suframa, CNPJ_CPF, Logradouro, 
+                         Numero, Complemento, Bairro, CodigoIBGE, Municipio, UF, CEP, CodigoPais, Pais, Telefone, IndicadorFormaPagamento, FormatoImpressaoDANFE, FormatoEmissaoNFe, BaseICMS, ValorICMS, BaseICMSST, ValorICMSST, 
+                         ValorProdutos, ValorFrete, ValorSeguro, TipoDesconto, PercDesconto, ValorDesconto, ValorImportacao, ValorIPI, ValorPIS, ValorCOFINS, ValorOutrasDespesas, ValorIsento, ValorNota, ValorServico, ValorBCISS, ValorISS, 
+                         ValorPISISS, ValorPISCOFINS, ValorRetidoPIS, ValorRetidoCOFINS, ValorRetidoCSLL, ValorBCIRRF, ValorIRRF, ValorRetidoBCPrev, ValorRetidoPrev, ModFrete, TranspCodigo, TranspNome, TranspInscricaoEstadual, 
+                         TranspEndereco, TranspUF, TranspMunicipio, TranspCNPJ_CPF, TranspValorServico, TranspBCRetencaoICMS, TranspAliquotaRetencaoICMS, TranspValorRetencaoICMS, TranspCFOP, TranspcMunFG, TranspPlaca, 
+                         TranspPlacaUF, TranspRNTC, TranspReboquePlaca, TranspReboquePlacaUF, TranspReboqueRNTC, VolumeQuantidade, VolumeEspecie, VolumeMarca, VolumeNumeracao, VolumePesoLiquido, VolumePesoBruto, Lacres, 
+                         NumeroFatura, ValorOriginalFatura, ValorDescontoFatura, ValorLiquidoFatura, NumeroDuplicata, VencimentoDuplicata, ValorDuplicata, InformacoesAdicionais, InformacoesComplementares, UFEmbarque, LocEmbarque, 
+                         ChavedeAcesso, NumeroRecibo, DataHoraRecebimento, NumeroProtocolo, DataHoraProcotolo, Enviada, Cancelada, Justificativa, EmProcessamento, CodigoObservacao, ContingenciaDataHora, ContingenciaJustificativa, Email, 
+                         CodigoVenda, TipoNota, ModeloNF, FinalidadeEmissaoNFe, IdentificadorDestino, ConsumidorFinal, IndicadorPresencaComprador, IndicadorIEDestinatario, InscricaoMunicipal, Origem, ValorFunRural, CanceladaProtocolo, 
+                         CodigoNatureza, Denegada, Cod_Pedido, TipoCliente, ChavedeAcessoAdicional, CFOP, vFCPUFDest, vICMSUFDest, vICMSUFRemet, Inutilizada, vBCCBS, vBCIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS, MAQUINA, 
+                         FormaPagamento
+Dados da nota:
+189	189	1	21083178	1	VENDA DE MERCADORIA ADQUIRIDA OU RECEBIDA DE TERCEIROS	2026-08-18 00:00:00.000	2026-08-18 00:00:00.000	1899-12-30 08:57:44.000	216	ABRAO NETO	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0 - Pagamento à vista	1 - Retrato	1 - Normal	0,00	0,00	0,00	0,00	196,32	0,00	0,00		0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	196,32	0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	0,00	9	0							0,00	0,00	0,00	0,00		0							0				0,000	0,000		189	196,32	0,00	196,32		NULL	0,00		EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS.				0		0		False	False		False	0				0	0		1 - NFe NORMAL	2	True		9			0,00	0	2	False	0	CLIENTE		6102	0,00	0,00	0,00	False	196,32	196,32	0,00	0,00	0,00	1,77	25,47	24,57	NULL	01 = Dinheiro

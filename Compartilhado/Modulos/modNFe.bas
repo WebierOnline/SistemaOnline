@@ -1592,6 +1592,19 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        iRetorno = sistNFCe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, vlNF, mensagemAlerta, mensagemErro)
     End If
     
+    'grava os totais de IBS/CBS/IS no cabecalho da NFCe (relatorio/apuracao - o XML ja foi montado acima via GerarTotalIBSCBS, isso so persiste o mesmo total no banco)
+    vsSQL = "UPDATE TbNFCe SET " & _
+            "vBCCBS = " & Replace(CStr(TotvBCCBSIBS), ",", ".") & ", " & _
+            "vBCIBS = " & Replace(CStr(TotvBCCBSIBS), ",", ".") & ", " & _
+            "vIBSUF = " & Replace(CStr(TotvIBSUF), ",", ".") & ", " & _
+            "vIBSMun = " & Replace(CStr(TotvIBSMun), ",", ".") & ", " & _
+            "vIBS = " & Replace(CStr(TotvIBS), ",", ".") & ", " & _
+            "vCBS = " & Replace(CStr(TotvCBS), ",", ".") & ", " & _
+            "vBCIS = " & Replace(CStr(TotvBCIS), ",", ".") & ", " & _
+            "vIS = " & Replace(CStr(TotvIS), ",", ".") & " " & _
+            "WHERE IdNFProd = " & NumeroNota
+    vgDb.Execute vsSQL
+
     'Dim vBCICMS As Currency
     'Dim vVLRICMS As Currency
     'vBCICMS = Totais!vValorBC

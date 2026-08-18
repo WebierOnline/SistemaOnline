@@ -90,3 +90,4 @@
 090|AlterTable_Pedidos_StatusPedido_BitParaSmallint.sql|GERAL
 091|CreateTable_pdvs.sql|GERAL
 092|AlterTable_TbNFCe_Itens_CamposReforma.sql|GERAL
+093|AlterTable_TbNFCe_CamposTotaisIBSCBSIS.sql|GERAL
