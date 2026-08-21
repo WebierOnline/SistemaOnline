@@ -4,7 +4,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
    BackColor       =   &H00FFC0C0&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "ITENS DO VENDA"
-   ClientHeight    =   6840
+   ClientHeight    =   7125
    ClientLeft      =   45
    ClientTop       =   315
    ClientWidth     =   12060
@@ -12,7 +12,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   6840
+   ScaleHeight     =   7125
    ScaleWidth      =   12060
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -169,13 +169,53 @@ Begin VB.Form Parcelas_Consulta_Produtos
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
       ForeColor       =   &H80000008&
-      Height          =   1935
+      Height          =   2235
       Left            =   9240
-      ScaleHeight     =   1905
+      ScaleHeight     =   2205
       ScaleWidth      =   2745
       TabIndex        =   0
       Top             =   4860
       Width           =   2775
+      Begin VB.Label Label5 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Frete:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   210
+         Left            =   480
+         TabIndex        =   26
+         Top             =   1260
+         Width           =   480
+      End
+      Begin VB.Label lblTotalFrete 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   1  'Fixed Single
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   285
+         Left            =   1380
+         TabIndex        =   25
+         Top             =   1260
+         Width           =   1335
+      End
       Begin VB.Label Label7 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -272,7 +312,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   210
          Left            =   345
          TabIndex        =   20
-         Top             =   1260
+         Top             =   960
          Width           =   945
       End
       Begin VB.Label lblTotalAcresc 
@@ -293,7 +333,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   285
          Left            =   1380
          TabIndex        =   19
-         Top             =   1260
+         Top             =   960
          Width           =   1335
       End
       Begin VB.Label lblTotal 
@@ -335,7 +375,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   285
          Left            =   1380
          TabIndex        =   5
-         Top             =   960
+         Top             =   1560
          Width           =   1335
       End
       Begin VB.Label Label20 
@@ -373,7 +413,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   210
          Left            =   465
          TabIndex        =   3
-         Top             =   960
+         Top             =   1560
          Width           =   825
       End
       Begin VB.Label lblTotalGeral 
@@ -394,7 +434,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   285
          Left            =   1380
          TabIndex        =   2
-         Top             =   1560
+         Top             =   1860
          Width           =   1335
       End
       Begin VB.Label Label16 
@@ -413,18 +453,18 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Height          =   210
          Left            =   840
          TabIndex        =   1
-         Top             =   1560
+         Top             =   1860
          Width           =   450
       End
    End
    Begin MSFlexGridLib.MSFlexGrid grid_Parcelas 
-      Height          =   1935
+      Height          =   2175
       Left            =   60
       TabIndex        =   12
       Top             =   4860
       Width           =   7815
       _ExtentX        =   13785
-      _ExtentY        =   3413
+      _ExtentY        =   3836
       _Version        =   393216
       BackColor       =   12648447
       SelectionMode   =   1
@@ -560,14 +600,14 @@ vTemOS = (vStatusTabelaOS = 1)
 
 If Tipo = "OFICINA" Then Tipo = "OS"
 'contar a quantidades de produtos na consulta, para saber se vai agrupar com outra tabela
-sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd " & _
+sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd, ISNULL(pedidos_itens.ValorAcrescimo,0) as var_Acresc, ISNULL(pedidos_itens.ValorFrete,0) as var_Frete " & _
       "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
       "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
       "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 If totalRegistros >= 1 Then
-    sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd " & _
+    sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao as var_desc, tamanho as var_Tam, fabricante as var_Fab, quantidade, preco, pedidos_itens.total, produtos.codigo,  pedidos_itens.subtotal as var_Subtotal, pedidos_itens.desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd, ISNULL(pedidos_itens.ValorAcrescimo,0) as var_Acresc, ISNULL(pedidos_itens.ValorFrete,0) as var_Frete " & _
           "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
           "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
           "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
@@ -577,7 +617,7 @@ If totalRegistros >= 1 Then
        'If vTipoOS = "Automóveis" Then
        If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
        sSQL = sSQL & " UNION "
-       sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd " & _
+       sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
               "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
        'Debug.Print sSQL
        Else
@@ -593,9 +633,9 @@ If totalRegistros >= 1 Then
           "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
           "WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
     
-    sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
+    sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
        "UNION ALL "
-    sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+    sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd, ISNULL(pedidos_itens.ValorAcrescimo,0) as var_Acresc, ISNULL(pedidos_itens.ValorFrete,0) as var_Frete FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
     
     
     End If
@@ -603,25 +643,25 @@ If totalRegistros >= 1 Then
     If UCase(Tipo) = "ALUGUEL" Then
     'If varTipoConsulta = "ALUGUEL" Then
        sSQL = sSQL & " UNION "
-     sSQL = sSQL & "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.DESCONTO, Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd " & _
+     sSQL = sSQL & "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, Aluguel_Cadastro_Itens.DESCONTO, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
              "FROM Aluguel_Cadastro_Itens INNER JOIN Aluguel_Cadastro_Equipamento ON Aluguel_Cadastro_Itens.COD_EQUIP = Aluguel_Cadastro_Equipamento.COD_EQUIP INNER JOIN Aluguel_Cadastro ON Aluguel_Cadastro_Itens.COD_LOCACAO = Aluguel_Cadastro.CODIGO WHERE (Aluguel_Cadastro.Cod_Pedido = " & Pedido & ")"
     End If
 Else
     If UCase(Tipo) = "OS" And vTemOS Then
        If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-       sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd " & _
+       sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
               "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
        End If
     End If
     
     If UCase(Tipo) = "RECEBER" Then
-        sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
+        sSQL = "SELECT 'RECEBER' AS tipo_item, DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, total, a_receber_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete FROM a_receber_itens WHERE (cod_pedido = " & Pedido & ")" & _
            "UNION ALL "
-        sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
+        sSQL = sSQL & "SELECT 'RECEBER' AS tipo_item, produtos.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, quantidade, pedidos_itens.PRECO, total, pedidos_itens.codigo, total as var_Subtotal, '' as desconto, '' as var_CodOS, ISNULL(produtos.COD_BARRA,'') as var_CodBarra, pedidos_itens.cod_produto as var_CodProd, ISNULL(pedidos_itens.ValorAcrescimo,0) as var_Acresc, ISNULL(pedidos_itens.ValorFrete,0) as var_Frete FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
     End If
     
     If UCase(Tipo) = "ALUGUEL" Then
-     sSQL = "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.DESCONTO, Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd " & _
+     sSQL = "SELECT 'ALUGUEL' AS tipo_item, Aluguel_Cadastro_Equipamento.DESCRICAO as var_desc, '' as var_Tam, '' as var_Fab, Aluguel_Cadastro_Itens.QUANT_ALUGADA AS quantidade, Aluguel_Cadastro_Itens.TOTAL_ALUGADA as preco, Aluguel_Cadastro_Itens.VALOR_FINAL AS total, Aluguel_Cadastro.codigo,  Aluguel_Cadastro_Itens.SUBTOTAL as var_Subtotal, Aluguel_Cadastro_Itens.DESCONTO, '' as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
              "FROM Aluguel_Cadastro_Itens INNER JOIN Aluguel_Cadastro_Equipamento ON Aluguel_Cadastro_Itens.COD_EQUIP = Aluguel_Cadastro_Equipamento.COD_EQUIP INNER JOIN Aluguel_Cadastro ON Aluguel_Cadastro_Itens.COD_LOCACAO = Aluguel_Cadastro.CODIGO WHERE (Aluguel_Cadastro.Cod_Pedido = " & Pedido & ")"
     End If
 End If
@@ -656,7 +696,7 @@ Call MostrarParcelas
 Call MostrarFuncionario
 
 'pegar os totais
-sSQL = "SELECT SUBTOTAL,TOTAL, ValorDescReal, ValorAcrescReal FROM pedidos WHERE (cod_pedido = " & Pedido & ");"
+sSQL = "SELECT SUBTOTAL,TOTAL, ValorDescReal, ValorAcrescReal, ValorFreteReal FROM pedidos WHERE (cod_pedido = " & Pedido & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
@@ -666,6 +706,7 @@ If Not r.BOF Then
    'If r("tipo_desc") = "R" Then
       lblTotalDesc.Caption = Format(r("ValorDescReal"), ocMONEY)
       lblTotalAcresc.Caption = Format(r("ValorAcrescReal"), ocMONEY)
+      lblTotalFrete.Caption = Format(ValidateNull(r("ValorFreteReal")), ocMONEY)
    'Else
    '   lblTotalDesc.Caption = FormatNumber(r("valor_desc")) & "%"
    'End If
@@ -674,6 +715,7 @@ Else
     lblTotalGeral.Caption = Format(0, ocMONEY)
     lblTotalDesc.Caption = Format(0, ocMONEY)
     lblTotalAcresc.Caption = Format(0, ocMONEY)
+    lblTotalFrete.Caption = Format(0, ocMONEY)
 End If
 
 If r.State <> 0 Then r.Close
@@ -736,7 +778,7 @@ Dim i As Integer
 With grid_Parcelas
    .Clear
    .Cols = 12
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 800
@@ -784,23 +826,23 @@ With grid_Parcelas
    'VALOR, JUROS, DESCONTO, parcelas_haver
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.rows - 1, 1) = Format(rTabela("DATA"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 2) = FormatNumber(rTabela("VALOR"), 2)
-         .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("JUROS"), 2)
-         .TextMatrix(.rows - 1, 4) = FormatNumber(rTabela("DESCONTO"), 2)
-         .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("varSomaHaveres"), 2)
-         .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("VALOR_FINAL"), 2)
-         .TextMatrix(.rows - 1, 7) = rTabela("varSTATUS")
-         .TextMatrix(.rows - 1, 8) = Format(rTabela("PAGAMENTO"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("FORMA_PGTO"))
-         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("CAIXA"))
-         .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("CODCAIXA"))
+         .TextMatrix(.Rows - 1, 1) = Format(rTabela("DATA"), "dd/mm/yy")
+         .TextMatrix(.Rows - 1, 2) = FormatNumber(rTabela("VALOR"), 2)
+         .TextMatrix(.Rows - 1, 3) = FormatNumber(rTabela("JUROS"), 2)
+         .TextMatrix(.Rows - 1, 4) = FormatNumber(rTabela("DESCONTO"), 2)
+         .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("varSomaHaveres"), 2)
+         .TextMatrix(.Rows - 1, 6) = FormatNumber(rTabela("VALOR_FINAL"), 2)
+         .TextMatrix(.Rows - 1, 7) = rTabela("varSTATUS")
+         .TextMatrix(.Rows - 1, 8) = Format(rTabela("PAGAMENTO"), "dd/mm/yy")
+         .TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("FORMA_PGTO"))
+         .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("CAIXA"))
+         .TextMatrix(.Rows - 1, 11) = ValidateNull(rTabela("CODCAIXA"))
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 
@@ -815,29 +857,33 @@ Private Sub FormatarGrid_Itens(rTabela As ADODB.Recordset)
    
    With Grid
       .Clear
-      .Cols = 10
-      .rows = 2
+      .Cols = 12
+      .Rows = 2
       
       .ColWidth(0) = 0
-      .ColWidth(1) = 950
-      .ColWidth(2) = 1300
-      .ColWidth(3) = 4500
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 900
-      .ColWidth(6) = 1100
-      .ColWidth(7) = 900
-      .ColWidth(8) = 1000
-      .ColWidth(9) = 900
+      .ColWidth(1) = 900
+      .ColWidth(2) = 1100
+      .ColWidth(3) = 4450
+      .ColWidth(4) = 750
+      .ColWidth(5) = 700
+      .ColWidth(6) = 970
+      .ColWidth(7) = 780
+      .ColWidth(8) = 650
+      .ColWidth(9) = 600
+      .ColWidth(10) = 850
+      .ColWidth(11) = 900
       
       .TextMatrix(0, 1) = "TIPO"
       .TextMatrix(0, 2) = "CÓD. BARRA"
       .TextMatrix(0, 3) = "DESCRIÇÃO"
-      .TextMatrix(0, 4) = "PREÇO"
+      .TextMatrix(0, 4) = "VALOR"
       .TextMatrix(0, 5) = "QUANT"
       .TextMatrix(0, 6) = "SUBTOTAL"
-      .TextMatrix(0, 7) = "DESC"
-      .TextMatrix(0, 8) = "TOTAL"
-      .TextMatrix(0, 9) = "CÓD.PROD."
+      .TextMatrix(0, 7) = "ACRESC."
+      .TextMatrix(0, 8) = "FRETE"
+      .TextMatrix(0, 9) = "DESC"
+      .TextMatrix(0, 10) = "TOTAL"
+      .TextMatrix(0, 11) = "CÓD.PROD."
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -858,37 +904,39 @@ Private Sub FormatarGrid_Itens(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = rTabela("tipo_item")
-            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("var_CodBarra"))
+            .TextMatrix(.Rows - 1, 1) = rTabela("tipo_item")
+            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("var_CodBarra"))
             
             If tipoEmpresa = 4 Then
-            .TextMatrix(.rows - 1, 3) = rTabela("var_desc") & " /  " & rTabela("var_tam") & " / " & rTabela("var_fab")
+            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc") & " /  " & rTabela("var_tam") & " / " & rTabela("var_fab")
             Else
-            .TextMatrix(.rows - 1, 3) = rTabela("var_desc") & " /  " & ValidateNull(rTabela("var_fab"))
+            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc") & " /  " & ValidateNull(rTabela("var_fab"))
             End If
             
-            .TextMatrix(.rows - 1, 4) = Format(rTabela("preco"), ocMONEY)
-            .TextMatrix(.rows - 1, 5) = rTabela("quantidade")
-            .TextMatrix(.rows - 1, 6) = Format(rTabela("var_Subtotal"), ocMONEY)
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("desconto"), ocMONEY)
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("total"), ocMONEY)
-            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("var_CodProd"))
+            .TextMatrix(.Rows - 1, 4) = Format(rTabela("preco"), ocMONEY)
+            .TextMatrix(.Rows - 1, 5) = rTabela("quantidade")
+            .TextMatrix(.Rows - 1, 6) = Format(rTabela("var_Subtotal"), ocMONEY)
+            .TextMatrix(.Rows - 1, 7) = Format(rTabela("var_Acresc"), ocMONEY)
+            .TextMatrix(.Rows - 1, 8) = Format(rTabela("var_Frete"), ocMONEY)
+            .TextMatrix(.Rows - 1, 9) = Format(rTabela("desconto"), ocMONEY)
+            .TextMatrix(.Rows - 1, 10) = Format(rTabela("total") + rTabela("var_Acresc") + rTabela("var_Frete"), ocMONEY)
+            .TextMatrix(.Rows - 1, 11) = ValidateNull(rTabela("var_CodProd"))
 
             If rTabela("tipo_item") = "SERVIÇO" Then
                Dim j As Integer
                For j = 0 To .Cols - 1
-                  .Row = .rows - 1
+                  .Row = .Rows - 1
                   .Col = j
                   .CellForeColor = &H80&
                Next j
             End If
 
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
-      .rows = .rows - 1
+      .Rows = .Rows - 1
    End With
 End Sub
 

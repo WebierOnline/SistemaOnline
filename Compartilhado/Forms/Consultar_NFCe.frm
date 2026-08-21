@@ -857,7 +857,7 @@ Begin VB.Form NFCe_Consultar
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "&Imprimir"
-      ENAB            =   0   'False
+      ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -889,7 +889,7 @@ Begin VB.Form NFCe_Consultar
       Height          =   375
       Left            =   4200
       TabIndex        =   4
-      Top             =   8400
+      Top             =   8220
       Width           =   1335
       _ExtentX        =   2355
       _ExtentY        =   661
@@ -952,14 +952,14 @@ Begin VB.Form NFCe_Consultar
             Alignment       =   1
             Object.Width           =   2999
             MinWidth        =   2999
-            TextSave        =   "17/08/2026"
+            TextSave        =   "20/08/2026"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16:55"
+            TextSave        =   "06:43"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -1088,7 +1088,7 @@ Begin VB.Form NFCe_Consultar
    End
    Begin ChamaleonBtn.chameleonButton cmdExcluir 
       Height          =   375
-      Left            =   8340
+      Left            =   9720
       TabIndex        =   43
       Top             =   8220
       Width           =   1335
@@ -1096,7 +1096,7 @@ Begin VB.Form NFCe_Consultar
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "Excluir"
-      ENAB            =   -1  'True
+      ENAB            =   0   'False
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -1191,6 +1191,44 @@ Begin VB.Form NFCe_Consultar
       MCOL            =   12632256
       MPTR            =   1
       MICON           =   "Consultar_NFCe.frx":8645
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdDuplicar 
+      Height          =   375
+      Left            =   8340
+      TabIndex        =   73
+      Top             =   8220
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "Duplicar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Consultar_NFCe.frx":8661
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3786,6 +3824,7 @@ cmdExcluir.Visible = False
 cmdConsultarTodas.Visible = False
 cmdTransmitirTodas.Visible = False
 cmdInutilizarTodas.Visible = False
+cmdDuplicar.Enabled = False
 frameAguarde.Visible = False
 
 'nome da caixa
@@ -3827,7 +3866,9 @@ If Grid.TextMatrix(i, 8) = "" Then Exit Sub
 
 If Grid.Rows > 1 Then
 'If Grid.TextMatrix(i, 1) <> "000000" Then
+    cmdDuplicar.Enabled = False
     If Grid.TextMatrix(i, 8) = "Inutilizada" Then
+        cmdDuplicar.Enabled = True
         cmdConsultar.Visible = False
         cmdTransmitir.Visible = False
         cmdInutilizar.Visible = False
@@ -3839,6 +3880,7 @@ If Grid.Rows > 1 Then
         cmdTransmitirTodas.Visible = False
         cmdInutilizarTodas.Visible = False
     ElseIf Grid.TextMatrix(i, 8) = "Cancelada" Then
+        cmdDuplicar.Enabled = True
         cmdConsultar.Visible = False
         cmdTransmitir.Visible = False
         cmdInutilizar.Visible = False
@@ -3877,6 +3919,7 @@ If Grid.Rows > 1 Then
         If cboStatus.Text = "NÃO ENVIADAS" Then cmdTransmitirTodas.Visible = True
         If cboStatus.Text = "NÃO ENVIADAS" Then cmdInutilizarTodas.Visible = True
     Else
+        cmdDuplicar.Enabled = (CDate(Grid.TextMatrix(i, 2)) <> Date)
         cmdConsultar.Visible = True
         cmdTransmitir.Visible = True
         cmdInutilizar.Visible = True
@@ -3900,6 +3943,93 @@ End If
 '
 
 
+End Sub
+
+Private Sub cmdDuplicar_Click()
+Dim i As Long
+i = Grid.Row
+
+If Grid.Rows <= 1 Or Grid.TextMatrix(i, 8) = "" Then
+    MsgBox "Não existe nenhuma NFCe selecionada!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+Dim IdNFProdOrigem As Long, sSituacao As String
+IdNFProdOrigem = Val(Grid.TextMatrix(i, 3))
+sSituacao = Grid.TextMatrix(i, 8)
+
+If sSituacao <> "Cancelada" And sSituacao <> "Inutilizada" And sSituacao <> "Não Enviada" Then
+    MsgBox "Só é possível duplicar uma NFCe cancelada, inutilizada, ou em digitação fora do prazo de transmissão.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+If sSituacao = "Não Enviada" And CDate(Grid.TextMatrix(i, 2)) = Date Then
+    MsgBox "Esta NFCe ainda está dentro do prazo de transmissão - tente transmiti-la normalmente.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+Dim bForaDoPrazo As Boolean
+bForaDoPrazo = (sSituacao = "Não Enviada")
+
+If MsgBox("Deseja duplicar a NFCe " & Grid.TextMatrix(i, 3) & " ?" & vbCrLf & _
+          "Será criada uma nova NFCe idêntica, com a data/hora de agora." & _
+          IIf(bForaDoPrazo, vbCrLf & vbCrLf & "A NFCe original será INUTILIZADA na SEFAZ em seguida (estava fora do prazo de transmissão).", ""), _
+          vbQuestion + vbYesNo, "Duplicar NFCe") <> vbYes Then Exit Sub
+
+frameAguarde.Visible = True
+DoEvents
+
+On Error GoTo ErrDuplicar
+
+dbData.Execute "EXEC NFCeDuplicar @IdNFProdOrigem = " & IdNFProdOrigem & ", @Usuario = '" & Replace(StatusBar1.Panels(2).Text, "'", "''") & "'"
+
+Dim NovoIdNFProd As Long
+NovoIdNFProd = SQLExecutaRetorno("SELECT MAX(IdNFProd) AS M FROM TbNFCe", "M", 0)
+
+If NovoIdNFProd <= IdNFProdOrigem Then
+    frameAguarde.Visible = False
+    MsgBox "Não foi possível confirmar a criação da nova NFCe.", vbCritical, "Erro"
+    Exit Sub
+End If
+
+'NFCe em digitacao fora do prazo: a original precisa ser inutilizada na SEFAZ, senao o
+'numero fica pendente pra sempre e trava a sequencia (mesmo problema que o cmdInutilizar resolve)
+If bForaDoPrazo Then
+    Dim CNPJ As String, nNota As String
+    CNPJ = SQLExecutaRetorno("SELECT CNPJ FROM Empresa", "CNPJ", "")
+    nNota = SQLExecutaRetorno("SELECT NumeNota FROM TbNFCe WHERE IdNFProd = " & IdNFProdOrigem, "NumeNota", "0")
+
+    xCaminhoXML = ""
+    Dim sistNFe As snfe.Util
+    Set sistNFe = New snfe.Util
+    iRetorno = ConfiguraDLLNFeNFCe(65, "1", sistNFe)
+    iRetorno = sistNFe.InutilizarNumeracao(Format(Date, "yyyy"), CNPJ, "NFCE DUPLICADA POR ESTAR FORA DO PRAZO DE TRANSMISSAO", nNota, nNota, 1, xCaminhoXML)
+    cStat = sistNFe.retInutilizacao.infInut.cStat
+    NFeMotivo = sistNFe.retInutilizacao.infInut.xMotivo
+    Set sistNFe = Nothing
+
+    frameAguarde.Visible = False
+
+    If cStat = 102 Then
+        dbData.Execute "UPDATE TbNFCe SET Inutilizada = 1, Num_OS_VD_Origem = 0 WHERE IdNFProd = " & IdNFProdOrigem
+        MsgBox "NFCe " & Format(NovoIdNFProd, "00000") & " criada com sucesso!" & vbCrLf & "NFCe " & nNota & " original INUTILIZADA com sucesso.", vbInformation, "Duplicação"
+    Else
+        MsgBox "NFCe " & Format(NovoIdNFProd, "00000") & " criada com sucesso!" & vbCrLf & vbCrLf & _
+               "ATENÇÃO: não foi possível inutilizar a NFCe original (" & nNota & ") na SEFAZ:" & vbCrLf & CStr(cStat) & " - " & NFeMotivo & vbCrLf & _
+               "Tente inutilizar manualmente pelo botão Inutilizar.", vbExclamation, "Duplicação"
+    End If
+Else
+    frameAguarde.Visible = False
+    MsgBox "NFCe " & Format(NovoIdNFProd, "00000") & " criada com sucesso!", vbInformation, "Duplicação"
+End If
+
+Mostrar_NFCe
+Grid.SetFocus
+Exit Sub
+
+ErrDuplicar:
+frameAguarde.Visible = False
+MsgBox "Erro ao duplicar a NFCe: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub mskData_GotFocus()

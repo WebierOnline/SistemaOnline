@@ -35,12 +35,12 @@ Begin VB.Form PDV
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   9540
+      Left            =   3960
       Picture         =   "PDV.frx":FEAD
       ScaleHeight     =   1095
       ScaleWidth      =   2895
-      TabIndex        =   161
-      Top             =   4080
+      TabIndex        =   162
+      Top             =   540
       Visible         =   0   'False
       Width           =   2895
    End
@@ -57,16 +57,16 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   6660
-      TabIndex        =   148
-      Top             =   3900
+      Left            =   300
+      TabIndex        =   149
+      Top             =   3960
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdOrcamento 
          CausesValidation=   0   'False
          Height          =   495
          Left            =   4080
-         TabIndex        =   149
+         TabIndex        =   150
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -105,7 +105,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   1500
-         TabIndex        =   150
+         TabIndex        =   151
          Top             =   960
          Width           =   2295
          _ExtentX        =   4048
@@ -155,7 +155,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   360
          Left            =   1140
-         TabIndex        =   151
+         TabIndex        =   152
          Top             =   360
          Width           =   5760
       End
@@ -173,16 +173,16 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   6435
-      Left            =   8040
-      TabIndex        =   81
-      Top             =   1440
+      Left            =   2100
+      TabIndex        =   82
+      Top             =   1380
       Visible         =   0   'False
       Width           =   3135
       Begin ChamaleonBtn.chameleonButton cmdAvanClientes 
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   82
+         TabIndex        =   83
          Top             =   480
          Width           =   2775
          _ExtentX        =   4895
@@ -221,7 +221,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   83
+         TabIndex        =   84
          Top             =   840
          Width           =   2775
          _ExtentX        =   4895
@@ -260,7 +260,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   84
+         TabIndex        =   85
          Top             =   1560
          Width           =   2775
          _ExtentX        =   4895
@@ -299,7 +299,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   85
+         TabIndex        =   86
          Top             =   4320
          Width           =   2775
          _ExtentX        =   4895
@@ -338,7 +338,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   86
+         TabIndex        =   87
          Top             =   6000
          Width           =   2775
          _ExtentX        =   4895
@@ -377,7 +377,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   87
+         TabIndex        =   88
          Top             =   5040
          Width           =   2775
          _ExtentX        =   4895
@@ -416,7 +416,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   90
+         TabIndex        =   91
          Top             =   4680
          Width           =   2775
          _ExtentX        =   4895
@@ -455,7 +455,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   91
+         TabIndex        =   92
          Top             =   5400
          Width           =   2775
          _ExtentX        =   4895
@@ -494,7 +494,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   142
+         TabIndex        =   143
          Top             =   1200
          Width           =   2775
          _ExtentX        =   4895
@@ -533,7 +533,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   154
+         TabIndex        =   155
          Top             =   3360
          Width           =   2775
          _ExtentX        =   4895
@@ -572,7 +572,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   155
+         TabIndex        =   156
          Top             =   3720
          Width           =   2775
          _ExtentX        =   4895
@@ -611,7 +611,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   156
+         TabIndex        =   157
          Top             =   2640
          Width           =   2775
          _ExtentX        =   4895
@@ -650,7 +650,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   157
+         TabIndex        =   158
          Top             =   3000
          Width           =   2775
          _ExtentX        =   4895
@@ -689,7 +689,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   158
+         TabIndex        =   159
          Top             =   1920
          Width           =   2775
          _ExtentX        =   4895
@@ -739,7 +739,7 @@ Begin VB.Form PDV
          ForeColor       =   &H000000FF&
          Height          =   195
          Left            =   1860
-         TabIndex        =   144
+         TabIndex        =   145
          Top             =   4260
          Width           =   75
       End
@@ -761,7 +761,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   93
+         TabIndex        =   94
          Top             =   5760
          Width           =   2685
       End
@@ -783,7 +783,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   92
+         TabIndex        =   93
          Top             =   2400
          Width           =   2685
       End
@@ -805,7 +805,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   89
+         TabIndex        =   90
          Top             =   4080
          Width           =   2685
       End
@@ -827,16 +827,16 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   180
-         TabIndex        =   88
+         TabIndex        =   89
          Top             =   240
          Width           =   2685
       End
    End
    Begin MSComctlLib.ListView lstCashBack 
       Height          =   2895
-      Left            =   7320
-      TabIndex        =   160
-      Top             =   3600
+      Left            =   660
+      TabIndex        =   161
+      Top             =   3540
       Visible         =   0   'False
       Width           =   6075
       _ExtentX        =   10716
@@ -863,9 +863,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1875
-      Left            =   6360
-      TabIndex        =   99
-      Top             =   3840
+      Left            =   -60
+      TabIndex        =   100
+      Top             =   3900
       Width           =   8295
       Begin VB.Frame Frame15 
          Caption         =   "ATACADO"
@@ -880,14 +880,14 @@ Begin VB.Form PDV
          EndProperty
          Height          =   1275
          Left            =   4200
-         TabIndex        =   103
+         TabIndex        =   104
          Top             =   360
          Width           =   3915
          Begin ChamaleonBtn.chameleonButton cmdAV 
             CausesValidation=   0   'False
             Height          =   495
             Left            =   180
-            TabIndex        =   104
+            TabIndex        =   105
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -926,7 +926,7 @@ Begin VB.Form PDV
             CausesValidation=   0   'False
             Height          =   495
             Left            =   2040
-            TabIndex        =   105
+            TabIndex        =   106
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -975,14 +975,14 @@ Begin VB.Form PDV
          EndProperty
          Height          =   1275
          Left            =   180
-         TabIndex        =   100
+         TabIndex        =   101
          Top             =   360
          Width           =   3915
          Begin ChamaleonBtn.chameleonButton cmdVV 
             CausesValidation=   0   'False
             Height          =   495
             Left            =   180
-            TabIndex        =   101
+            TabIndex        =   102
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -1021,7 +1021,7 @@ Begin VB.Form PDV
             CausesValidation=   0   'False
             Height          =   495
             Left            =   2040
-            TabIndex        =   102
+            TabIndex        =   103
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -1071,16 +1071,16 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   6660
-      TabIndex        =   131
-      Top             =   3840
+      Left            =   60
+      TabIndex        =   132
+      Top             =   3960
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdCadastarProduto 
          CausesValidation=   0   'False
          Height          =   495
          Left            =   2640
-         TabIndex        =   132
+         TabIndex        =   133
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -1119,7 +1119,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   240
-         TabIndex        =   134
+         TabIndex        =   135
          Top             =   960
          Width           =   2295
          _ExtentX        =   4048
@@ -1158,7 +1158,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   5160
-         TabIndex        =   135
+         TabIndex        =   136
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -1208,7 +1208,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   360
          Left            =   1440
-         TabIndex        =   133
+         TabIndex        =   134
          Top             =   360
          Width           =   4620
       End
@@ -1226,9 +1226,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1035
-      Left            =   8280
-      TabIndex        =   136
-      Top             =   4260
+      Left            =   4260
+      TabIndex        =   137
+      Top             =   5760
       Visible         =   0   'False
       Width           =   4395
       Begin VB.TextBox txtDescProdAvulso 
@@ -1236,7 +1236,7 @@ Begin VB.Form PDV
          Height          =   285
          Left            =   180
          Locked          =   -1  'True
-         TabIndex        =   140
+         TabIndex        =   141
          Text            =   "PRODUTO AVULSO"
          Top             =   600
          Width           =   2295
@@ -1246,7 +1246,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   2520
-         TabIndex        =   138
+         TabIndex        =   139
          Top             =   600
          Width           =   1215
       End
@@ -1254,7 +1254,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   3780
-         TabIndex        =   139
+         TabIndex        =   140
          Top             =   600
          Width           =   435
          _ExtentX        =   767
@@ -1304,7 +1304,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   2520
-         TabIndex        =   141
+         TabIndex        =   142
          Top             =   360
          Width           =   450
       End
@@ -1323,7 +1323,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   180
-         TabIndex        =   137
+         TabIndex        =   138
          Top             =   360
          Width           =   855
       End
@@ -1340,7 +1340,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   450
       Left            =   120
-      TabIndex        =   153
+      TabIndex        =   154
       Top             =   7800
       Visible         =   0   'False
       Width           =   1455
@@ -1362,7 +1362,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   450
       Left            =   120
-      TabIndex        =   152
+      TabIndex        =   153
       Top             =   7320
       Visible         =   0   'False
       Width           =   1455
@@ -1402,7 +1402,7 @@ Begin VB.Form PDV
       ForeColor       =   &H80000008&
       Height          =   1155
       Left            =   540
-      TabIndex        =   124
+      TabIndex        =   125
       Top             =   3780
       Visible         =   0   'False
       Width           =   5115
@@ -1410,7 +1410,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   2640
-         TabIndex        =   129
+         TabIndex        =   130
          Top             =   720
          Width           =   795
       End
@@ -1418,7 +1418,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1800
-         TabIndex        =   128
+         TabIndex        =   129
          Top             =   720
          Width           =   795
       End
@@ -1426,7 +1426,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   960
-         TabIndex        =   127
+         TabIndex        =   128
          Top             =   720
          Width           =   795
       End
@@ -1434,7 +1434,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   120
-         TabIndex        =   126
+         TabIndex        =   127
          Top             =   720
          Width           =   795
       End
@@ -1442,7 +1442,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   120
-         TabIndex        =   125
+         TabIndex        =   126
          Top             =   360
          Width           =   4875
       End
@@ -1461,7 +1461,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   4920
-         TabIndex        =   130
+         TabIndex        =   131
          Top             =   120
          Width           =   105
       End
@@ -1470,7 +1470,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   315
       Left            =   10740
-      TabIndex        =   120
+      TabIndex        =   121
       Top             =   8940
       Visible         =   0   'False
       Width           =   1035
@@ -1479,7 +1479,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   8760
-      TabIndex        =   117
+      TabIndex        =   118
       Top             =   9840
       Visible         =   0   'False
       Width           =   1515
@@ -1489,17 +1489,17 @@ Begin VB.Form PDV
       BackColor       =   &H00C0C0FF&
       ForeColor       =   &H80000008&
       Height          =   1455
-      Left            =   11220
+      Left            =   3900
       ScaleHeight     =   1425
       ScaleWidth      =   2025
-      TabIndex        =   95
-      Top             =   1500
+      TabIndex        =   96
+      Top             =   1860
       Visible         =   0   'False
       Width           =   2055
       Begin VB.ComboBox cboUsuario 
          Height          =   315
          Left            =   120
-         TabIndex        =   94
+         TabIndex        =   95
          Top             =   360
          Width           =   1815
       End
@@ -1507,7 +1507,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1560
-         TabIndex        =   110
+         TabIndex        =   111
          Top             =   60
          Visible         =   0   'False
          Width           =   375
@@ -1516,7 +1516,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1140
-         TabIndex        =   108
+         TabIndex        =   109
          Top             =   60
          Visible         =   0   'False
          Width           =   375
@@ -1526,14 +1526,14 @@ Begin VB.Form PDV
          IMEMode         =   3  'DISABLE
          Left            =   120
          PasswordChar    =   "*"
-         TabIndex        =   96
+         TabIndex        =   97
          Top             =   1020
          Width           =   1335
       End
       Begin ChamaleonBtn.chameleonButton cmdSenha 
          Height          =   315
          Left            =   1500
-         TabIndex        =   97
+         TabIndex        =   98
          Top             =   1020
          Width           =   375
          _ExtentX        =   661
@@ -1571,7 +1571,7 @@ Begin VB.Form PDV
       Begin MSMask.MaskEdBox mskCPF 
          Height          =   315
          Left            =   120
-         TabIndex        =   119
+         TabIndex        =   120
          Top             =   360
          Width           =   1815
          _ExtentX        =   3201
@@ -1597,7 +1597,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   120
-         TabIndex        =   109
+         TabIndex        =   110
          Top             =   120
          Width           =   645
       End
@@ -1616,7 +1616,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   120
-         TabIndex        =   98
+         TabIndex        =   99
          Top             =   780
          Width           =   555
       End
@@ -1625,7 +1625,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   8760
-      TabIndex        =   107
+      TabIndex        =   108
       Top             =   9540
       Visible         =   0   'False
       Width           =   1515
@@ -1635,14 +1635,14 @@ Begin VB.Form PDV
       CausesValidation=   0   'False
       Height          =   255
       Left            =   14760
-      TabIndex        =   77
+      TabIndex        =   78
       Top             =   0
       Width           =   255
    End
    Begin MSComctlLib.ListView lstBusca 
       Height          =   2895
       Left            =   360
-      TabIndex        =   74
+      TabIndex        =   75
       Top             =   6720
       Visible         =   0   'False
       Width           =   7935
@@ -1672,21 +1672,21 @@ Begin VB.Form PDV
       EndProperty
       Height          =   675
       Left            =   6240
-      TabIndex        =   70
+      TabIndex        =   71
       Top             =   8460
       Visible         =   0   'False
       Width           =   2595
       Begin VB.ComboBox cboMaquina 
          Height          =   315
          Left            =   120
-         TabIndex        =   71
+         TabIndex        =   72
          Top             =   240
          Width           =   1815
       End
       Begin ChamaleonBtn.chameleonButton cmdMaqOK 
          Height          =   315
          Left            =   1980
-         TabIndex        =   72
+         TabIndex        =   73
          Top             =   240
          Width           =   495
          _ExtentX        =   873
@@ -1726,7 +1726,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   10740
-      TabIndex        =   67
+      TabIndex        =   68
       Top             =   8640
       Visible         =   0   'False
       Width           =   975
@@ -1735,7 +1735,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   315
       Left            =   8760
-      TabIndex        =   49
+      TabIndex        =   50
       Top             =   10140
       Visible         =   0   'False
       Width           =   1515
@@ -1744,7 +1744,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   11160
-      TabIndex        =   48
+      TabIndex        =   49
       Top             =   900
       Visible         =   0   'False
       Width           =   1155
@@ -1753,7 +1753,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   8820
-      TabIndex        =   46
+      TabIndex        =   47
       Top             =   900
       Visible         =   0   'False
       Width           =   1095
@@ -1775,7 +1775,7 @@ Begin VB.Form PDV
       Height          =   615
       Left            =   13020
       Locked          =   -1  'True
-      TabIndex        =   45
+      TabIndex        =   46
       TabStop         =   0   'False
       ToolTipText     =   "Código da Venda"
       Top             =   480
@@ -1785,7 +1785,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   9960
-      TabIndex        =   44
+      TabIndex        =   45
       Top             =   900
       Visible         =   0   'False
       Width           =   1155
@@ -1816,7 +1816,7 @@ Begin VB.Form PDV
       Height          =   675
       Left            =   12000
       Locked          =   -1  'True
-      TabIndex        =   43
+      TabIndex        =   44
       Top             =   8820
       Width           =   3015
    End
@@ -1978,7 +1978,7 @@ Begin VB.Form PDV
    Begin ChamaleonBtn.chameleonButton cmdAlterar 
       Height          =   315
       Left            =   9240
-      TabIndex        =   62
+      TabIndex        =   63
       Top             =   9000
       Visible         =   0   'False
       Width           =   1035
@@ -2113,52 +2113,70 @@ Begin VB.Form PDV
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   106
+      TabIndex        =   107
       Top             =   10890
       Width           =   15375
       _ExtentX        =   27120
       _ExtentY        =   476
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
-         NumPanels       =   7
+         NumPanels       =   9
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   13608
+            Object.Width           =   8766
             MinWidth        =   1411
-            Text            =   "ATALHOS: F1 = PARCELAS, F2 = INFO, F3 = QUANT, F10 = À VISTA, F12 = À PRAZO"
-            TextSave        =   "ATALHOS: F1 = PARCELAS, F2 = INFO, F3 = QUANT, F10 = À VISTA, F12 = À PRAZO"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
+            Object.Width           =   2822
+            MinWidth        =   2822
+            Object.ToolTipText     =   "Usuário logado no PDV"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
-            Object.Width           =   2470
-            MinWidth        =   2470
+            Object.Width           =   2364
+            MinWidth        =   2364
+            Object.ToolTipText     =   "Caixa atual"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
-            Object.Width           =   2117
-            MinWidth        =   2117
+            Object.Width           =   1765
+            MinWidth        =   1765
+            Object.ToolTipText     =   "Maquina atual"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
-            Style           =   6
-            Alignment       =   1
-            Object.Width           =   2646
-            MinWidth        =   2646
-            TextSave        =   "14/08/2026"
-         EndProperty
-         BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
-            Style           =   5
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "14:18"
+            Object.ToolTipText     =   "Cód. do caixa atual"
+         EndProperty
+         BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            Object.Width           =   2824
+            MinWidth        =   2824
+            Object.ToolTipText     =   "Conexão com o banco de dados"
          EndProperty
          BeginProperty Panel7 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
-            Object.Width           =   1764
-            MinWidth        =   1764
+            Object.Width           =   2822
+            MinWidth        =   2822
+            Object.ToolTipText     =   "Conexão com a internet desta máquina"
+         EndProperty
+         BeginProperty Panel8 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Style           =   6
+            Alignment       =   1
+            Object.Width           =   2293
+            MinWidth        =   2293
+            TextSave        =   "21/08/2026"
+            Object.ToolTipText     =   "Data atual"
+         EndProperty
+         BeginProperty Panel9 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Style           =   5
+            Alignment       =   1
+            Object.Width           =   1411
+            MinWidth        =   1411
+            TextSave        =   "10:02"
+            Object.ToolTipText     =   "Hora atual"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -2275,7 +2293,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   6495
       Left            =   6660
-      TabIndex        =   47
+      TabIndex        =   48
       Top             =   1440
       Visible         =   0   'False
       Width           =   7515
@@ -2283,7 +2301,7 @@ Begin VB.Form PDV
          Caption         =   "X"
          Height          =   195
          Left            =   7320
-         TabIndex        =   118
+         TabIndex        =   119
          Top             =   60
          Width           =   195
       End
@@ -2291,8 +2309,8 @@ Begin VB.Form PDV
          BackColor       =   &H00C0FFFF&
          Height          =   855
          Left            =   3960
-         TabIndex        =   113
-         Top             =   2640
+         TabIndex        =   114
+         Top             =   3000
          Width           =   3435
          Begin VB.TextBox txtRecebido 
             Alignment       =   1  'Right Justify
@@ -2310,7 +2328,7 @@ Begin VB.Form PDV
             ForeColor       =   &H00000000&
             Height          =   360
             Left            =   60
-            TabIndex        =   22
+            TabIndex        =   23
             Top             =   420
             Width           =   1875
          End
@@ -2332,7 +2350,7 @@ Begin VB.Form PDV
             Height          =   360
             Left            =   1980
             Locked          =   -1  'True
-            TabIndex        =   23
+            TabIndex        =   24
             TabStop         =   0   'False
             Top             =   420
             Width           =   1335
@@ -2352,7 +2370,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1980
-            TabIndex        =   115
+            TabIndex        =   116
             Top             =   180
             Width           =   570
          End
@@ -2371,7 +2389,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   120
-            TabIndex        =   114
+            TabIndex        =   115
             Top             =   180
             Width           =   885
          End
@@ -2381,7 +2399,7 @@ Begin VB.Form PDV
          Caption         =   "Forma Pagamento"
          Height          =   615
          Left            =   3360
-         TabIndex        =   112
+         TabIndex        =   113
          Top             =   240
          Width           =   1695
          Begin VB.ComboBox cboTipoPgto 
@@ -2398,7 +2416,7 @@ Begin VB.Form PDV
          Caption         =   "Quant. de Forma de Pgto"
          Height          =   615
          Left            =   5100
-         TabIndex        =   111
+         TabIndex        =   112
          Top             =   240
          Width           =   2295
          Begin VB.ComboBox cboQuantForma 
@@ -2420,7 +2438,7 @@ Begin VB.Form PDV
          Caption         =   "Usuário"
          Height          =   615
          Left            =   120
-         TabIndex        =   66
+         TabIndex        =   67
          Top             =   240
          Width           =   3195
          Begin VB.TextBox txtFuncAP 
@@ -2428,7 +2446,7 @@ Begin VB.Form PDV
             Height          =   285
             Left            =   840
             Locked          =   -1  'True
-            TabIndex        =   40
+            TabIndex        =   41
             TabStop         =   0   'False
             Top             =   240
             Width           =   2235
@@ -2446,13 +2464,13 @@ Begin VB.Form PDV
          BackColor       =   &H00C0FFFF&
          Height          =   2115
          Left            =   120
-         TabIndex        =   55
+         TabIndex        =   56
          Top             =   3900
          Width           =   7275
          Begin ChamaleonBtn.chameleonButton cmdCal1 
             Height          =   315
             Left            =   3780
-            TabIndex        =   33
+            TabIndex        =   34
             TabStop         =   0   'False
             Tag             =   "Calendario"
             Top             =   1680
@@ -2494,21 +2512,21 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboformaPgto 
             Height          =   315
             Left            =   4500
-            TabIndex        =   28
+            TabIndex        =   29
             Top             =   1080
             Width           =   2175
          End
          Begin VB.ComboBox cboFormaPgtoEntrada 
             Height          =   315
             Left            =   1200
-            TabIndex        =   26
+            TabIndex        =   27
             Top             =   1080
             Width           =   2175
          End
          Begin VB.ComboBox cboCliente 
             Height          =   315
             Left            =   120
-            TabIndex        =   24
+            TabIndex        =   25
             Top             =   420
             Width           =   7035
          End
@@ -2517,7 +2535,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1620
             Locked          =   -1  'True
-            TabIndex        =   31
+            TabIndex        =   32
             Text            =   "0"
             Top             =   1680
             Width           =   1155
@@ -2525,7 +2543,7 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboQuantParc 
             Height          =   315
             Left            =   120
-            TabIndex        =   29
+            TabIndex        =   30
             Text            =   "1"
             Top             =   1680
             Width           =   735
@@ -2534,7 +2552,7 @@ Begin VB.Form PDV
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   6360
-            TabIndex        =   56
+            TabIndex        =   57
             TabStop         =   0   'False
             Top             =   120
             Visible         =   0   'False
@@ -2545,7 +2563,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   3420
             Locked          =   -1  'True
-            TabIndex        =   27
+            TabIndex        =   28
             Text            =   "0"
             Top             =   1080
             Width           =   1035
@@ -2554,7 +2572,7 @@ Begin VB.Form PDV
             Alignment       =   1  'Right Justify
             Height          =   315
             Left            =   120
-            TabIndex        =   25
+            TabIndex        =   26
             Text            =   "0"
             Top             =   1080
             Width           =   1035
@@ -2562,7 +2580,7 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboPrazo 
             Height          =   315
             Left            =   900
-            TabIndex        =   30
+            TabIndex        =   31
             Text            =   "30"
             Top             =   1680
             Width           =   675
@@ -2570,7 +2588,7 @@ Begin VB.Form PDV
          Begin MSMask.MaskEdBox mskInicio 
             Height          =   315
             Left            =   2820
-            TabIndex        =   32
+            TabIndex        =   33
             Top             =   1680
             Width           =   1275
             _ExtentX        =   2249
@@ -2581,7 +2599,7 @@ Begin VB.Form PDV
          Begin MSMask.MaskEdBox mskTermino 
             Height          =   315
             Left            =   4080
-            TabIndex        =   34
+            TabIndex        =   35
             Top             =   1680
             Width           =   1035
             _ExtentX        =   1826
@@ -2596,7 +2614,7 @@ Begin VB.Form PDV
             Caption         =   "Forma de Pagamento"
             Height          =   195
             Left            =   4500
-            TabIndex        =   123
+            TabIndex        =   124
             Top             =   840
             Width           =   1515
          End
@@ -2607,7 +2625,7 @@ Begin VB.Form PDV
             Caption         =   "Forma de Pagamento"
             Height          =   195
             Left            =   1200
-            TabIndex        =   122
+            TabIndex        =   123
             Top             =   840
             Width           =   1515
          End
@@ -2617,7 +2635,7 @@ Begin VB.Form PDV
             Caption         =   "Termino:"
             Height          =   195
             Left            =   4080
-            TabIndex        =   65
+            TabIndex        =   66
             Top             =   1440
             Width           =   615
          End
@@ -2627,7 +2645,7 @@ Begin VB.Form PDV
             Caption         =   "Valor Parc.:"
             Height          =   195
             Left            =   1620
-            TabIndex        =   64
+            TabIndex        =   65
             Top             =   1440
             Width           =   825
          End
@@ -2637,7 +2655,7 @@ Begin VB.Form PDV
             Caption         =   "Quant:"
             Height          =   195
             Left            =   120
-            TabIndex        =   63
+            TabIndex        =   64
             Top             =   1440
             Width           =   480
          End
@@ -2647,7 +2665,7 @@ Begin VB.Form PDV
             Caption         =   "Cliente"
             Height          =   195
             Left            =   120
-            TabIndex        =   61
+            TabIndex        =   62
             Top             =   180
             Width           =   480
          End
@@ -2657,7 +2675,7 @@ Begin VB.Form PDV
             Caption         =   "Valor Rest."
             Height          =   195
             Left            =   3420
-            TabIndex        =   60
+            TabIndex        =   61
             Top             =   840
             Width           =   780
          End
@@ -2667,7 +2685,7 @@ Begin VB.Form PDV
             Caption         =   "Prazo:"
             Height          =   195
             Left            =   900
-            TabIndex        =   59
+            TabIndex        =   60
             Top             =   1440
             Width           =   450
          End
@@ -2677,7 +2695,7 @@ Begin VB.Form PDV
             Caption         =   "Inicio:"
             Height          =   195
             Left            =   2820
-            TabIndex        =   58
+            TabIndex        =   59
             Top             =   1440
             Width           =   420
          End
@@ -2688,18 +2706,37 @@ Begin VB.Form PDV
             Caption         =   "Valor:"
             Height          =   195
             Left            =   120
-            TabIndex        =   57
+            TabIndex        =   58
             Top             =   840
             Width           =   405
          End
       End
       Begin VB.Frame Frame3 
          BackColor       =   &H00C0FFFF&
-         Height          =   1815
-         Left            =   3900
-         TabIndex        =   50
+         Height          =   2115
+         Left            =   3960
+         TabIndex        =   51
          Top             =   840
          Width           =   3435
+         Begin VB.TextBox txtFrete 
+            Alignment       =   1  'Right Justify
+            Appearance      =   0  'Flat
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   9.75
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   315
+            Left            =   2520
+            TabIndex        =   22
+            ToolTipText     =   "Pressiona a tecla ""ENTER"" para desconto em dinheiro."
+            Top             =   1320
+            Width           =   855
+         End
          Begin VB.TextBox txtAcresc 
             Alignment       =   1  'Right Justify
             Appearance      =   0  'Flat
@@ -2734,7 +2771,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   315
             Left            =   60
-            TabIndex        =   38
+            TabIndex        =   39
             Top             =   480
             Visible         =   0   'False
             Width           =   855
@@ -2754,7 +2791,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   315
             Left            =   60
-            TabIndex        =   36
+            TabIndex        =   37
             Top             =   120
             Visible         =   0   'False
             Width           =   855
@@ -2764,7 +2801,7 @@ Begin VB.Form PDV
             BackColor       =   &H00FFC0FF&
             Height          =   315
             Left            =   120
-            TabIndex        =   121
+            TabIndex        =   122
             Top             =   1440
             Visible         =   0   'False
             Width           =   855
@@ -2785,7 +2822,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1860
             Locked          =   -1  'True
-            TabIndex        =   37
+            TabIndex        =   38
             TabStop         =   0   'False
             Text            =   "0,00"
             Top             =   240
@@ -2826,10 +2863,10 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1920
             Locked          =   -1  'True
-            TabIndex        =   41
+            TabIndex        =   42
             TabStop         =   0   'False
             Text            =   "0,00"
-            Top             =   1320
+            Top             =   1680
             Width           =   1455
          End
          Begin VB.PictureBox Picture3 
@@ -2839,7 +2876,7 @@ Begin VB.Form PDV
             Left            =   1620
             ScaleHeight     =   210
             ScaleWidth      =   915
-            TabIndex        =   51
+            TabIndex        =   52
             TabStop         =   0   'False
             Top             =   660
             Width           =   915
@@ -2894,7 +2931,7 @@ Begin VB.Form PDV
             Left            =   1620
             ScaleHeight     =   210
             ScaleWidth      =   1035
-            TabIndex        =   68
+            TabIndex        =   69
             TabStop         =   0   'False
             Top             =   1020
             Width           =   1035
@@ -2942,6 +2979,25 @@ Begin VB.Form PDV
                Width           =   495
             End
          End
+         Begin VB.Label Label4 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Entrega:"
+            BeginProperty Font 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   195
+            Left            =   1740
+            TabIndex        =   163
+            Top             =   1320
+            Width           =   735
+         End
          Begin VB.Label Label23 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
@@ -2957,7 +3013,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1080
-            TabIndex        =   54
+            TabIndex        =   55
             Top             =   660
             Width           =   510
          End
@@ -2976,7 +3032,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   960
-            TabIndex        =   69
+            TabIndex        =   70
             Top             =   1020
             Width           =   660
          End
@@ -2995,8 +3051,8 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1380
-            TabIndex        =   53
-            Top             =   1380
+            TabIndex        =   54
+            Top             =   1740
             Width           =   510
          End
          Begin VB.Label Label31 
@@ -3014,7 +3070,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   960
-            TabIndex        =   52
+            TabIndex        =   53
             Top             =   300
             Width           =   840
          End
@@ -3022,7 +3078,7 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdFinalizar 
          Height          =   315
          Left            =   5580
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   6060
          Width           =   855
          _ExtentX        =   1508
@@ -3060,7 +3116,7 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   315
          Left            =   6480
-         TabIndex        =   39
+         TabIndex        =   40
          Top             =   6060
          Width           =   855
          _ExtentX        =   1508
@@ -3099,7 +3155,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   840
-         TabIndex        =   116
+         TabIndex        =   117
          Top             =   2280
          Visible         =   0   'False
          Width           =   1875
@@ -3141,7 +3197,7 @@ Begin VB.Form PDV
          Caption         =   "POR FAVOR, ENCAMINHE O CLIENTE PARA GERÊNCIA"
          Height          =   195
          Left            =   240
-         TabIndex        =   75
+         TabIndex        =   76
          Top             =   6060
          Visible         =   0   'False
          Width           =   4215
@@ -3171,48 +3227,6 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
    End
-   Begin VB.Label lblConexaoInternet 
-      Alignment       =   1  'Right Justify
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "CONECTADO"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00006400&
-      Height          =   210
-      Left            =   9060
-      TabIndex        =   163
-      Top             =   8640
-      Width           =   1005
-   End
-   Begin VB.Label lblConexao 
-      Alignment       =   1  'Right Justify
-      AutoSize        =   -1  'True
-      BackStyle       =   0  'Transparent
-      Caption         =   "CONECTADO"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00006400&
-      Height          =   210
-      Left            =   9060
-      TabIndex        =   162
-      Top             =   8460
-      Width           =   1005
-   End
    Begin VB.Label lblMSG1 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
@@ -3229,7 +3243,7 @@ Begin VB.Form PDV
       ForeColor       =   &H000000FF&
       Height          =   210
       Left            =   12915
-      TabIndex        =   159
+      TabIndex        =   160
       Top             =   10380
       Visible         =   0   'False
       Width           =   2145
@@ -3251,7 +3265,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00000000&
       Height          =   210
       Left            =   13605
-      TabIndex        =   147
+      TabIndex        =   148
       Top             =   9660
       Width           =   990
    End
@@ -3272,7 +3286,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00000000&
       Height          =   210
       Left            =   12780
-      TabIndex        =   146
+      TabIndex        =   147
       Top             =   9900
       Width           =   1410
    End
@@ -3293,7 +3307,7 @@ Begin VB.Form PDV
       ForeColor       =   &H000000FF&
       Height          =   210
       Left            =   14445
-      TabIndex        =   145
+      TabIndex        =   146
       Top             =   9900
       Width           =   810
    End
@@ -3313,7 +3327,7 @@ Begin VB.Form PDV
       ForeColor       =   &H000000FF&
       Height          =   210
       Left            =   12915
-      TabIndex        =   143
+      TabIndex        =   144
       Top             =   10140
       Width           =   2145
    End
@@ -3334,14 +3348,14 @@ Begin VB.Form PDV
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   13260
-      TabIndex        =   80
+      TabIndex        =   81
       Top             =   9660
       Width           =   1755
    End
    Begin VB.Label lblTipoVenda 
       Height          =   315
       Left            =   10800
-      TabIndex        =   79
+      TabIndex        =   80
       Top             =   10320
       Visible         =   0   'False
       Width           =   2055
@@ -3349,7 +3363,7 @@ Begin VB.Form PDV
    Begin VB.Label lblTipoPedido 
       Height          =   315
       Left            =   10800
-      TabIndex        =   78
+      TabIndex        =   79
       Top             =   9600
       Visible         =   0   'False
       Width           =   2055
@@ -3359,7 +3373,7 @@ Begin VB.Form PDV
       Caption         =   "PESQUISANDO PRODUTOS. AGUARDE..."
       Height          =   375
       Left            =   360
-      TabIndex        =   76
+      TabIndex        =   77
       Top             =   5640
       Visible         =   0   'False
       Width           =   5415
@@ -3367,7 +3381,7 @@ Begin VB.Form PDV
    Begin VB.Label lblEstornar 
       Height          =   315
       Left            =   10800
-      TabIndex        =   73
+      TabIndex        =   74
       Top             =   9960
       Visible         =   0   'False
       Width           =   2055
@@ -3394,7 +3408,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00FFFFFF&
       Height          =   855
       Left            =   420
-      TabIndex        =   42
+      TabIndex        =   43
       Top             =   360
       Width           =   12375
    End
@@ -3425,6 +3439,7 @@ Private moCombo As New cComboHelper
 Private vAguardandoEnvioNFCeAuto As Boolean   'internet voltou, esperando a venda atual (se houver) terminar pra disparar o envio automatico
 Dim varValorRealDesc As Currency    'impressão do valor do desconto em dinheiro na impressão do pedido
 Dim varValorRealAcresc As Currency  'impressão do valor do acrescimo em dinheiro na impressão do pedido
+Dim varValorRealFrete As Currency   'valor do frete em dinheiro gravado no pedido/NFCe
 
 Public lNovoCod As Long     'usado em varias partes do sistema para autonumeração
 Dim vUsandoCashBack As Boolean  'usando no cashback para não limitar desconto no caso de cashback
@@ -3591,11 +3606,9 @@ End Function
 
 Private Sub AtualizarLabelConexaoInternet()
 If TemConexaoInternet() Then
-    lblConexaoInternet.Caption = "CONECTADO"
-    lblConexaoInternet.ForeColor = RGB(0, 100, 0)
+    StatusBar1.Panels(7).Text = "CONECTADO"
 Else
-    lblConexaoInternet.Caption = "DESCONECTADO"
-    lblConexaoInternet.ForeColor = RGB(139, 0, 0)
+    StatusBar1.Panels(7).Text = "DESCONECTADO"
 End If
 End Sub
 
@@ -4696,6 +4709,7 @@ Private Sub Calcular_Desconto()
 If txtSubtotal.Text = "" Or txtSubtotal.Text = "0,00" Then Exit Sub
 If txtDesc.Text = "" Then txtDesc.Text = FormatNumber(0, 2)
 If txtAcresc.Text = "" Then txtAcresc.Text = FormatNumber(0, 2)
+If txtFrete.Text = "" Then txtFrete.Text = FormatNumber(0, 2)
 
 Dim varValorSubTotalDebito As Currency
 Dim varValorSubTotalCredito As Currency
@@ -4771,19 +4785,22 @@ varSubTotalBruto = txtSubtotal.Text
     
     
 'Else
-   If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem acrescimo
+   Dim vFrete As Currency
+vFrete = CCur(txtFrete.Text)
+
+If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem acrescimo
       
       If optDescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - CCur(txtDesc.Text), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - CCur(txtDesc.Text) + vFrete, 2)
       ElseIf optDescPorc.Value = True Then
          'txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) - ((CCur(txtSubTotal.Text) * CDbl(txtDesc.Text)) / 100), ocMONEY)
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2) + vFrete, 2)
       End If
    ElseIf txtAcresc.Text <> "0,00" And txtDesc.Text = "0,00" Then    'sem desconto com acrescim0
       If optAscrescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + CCur(txtAcresc.Text), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + CCur(txtAcresc.Text) + vFrete, 2)
       ElseIf optAscrescPorc.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + ((CCur(txtSubtotal.Text) * CDbl(txtAcresc.Text)) / 100), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + ((CCur(txtSubtotal.Text) * CDbl(txtAcresc.Text)) / 100) + vFrete, 2)
       End If
       
       
@@ -4792,32 +4809,29 @@ varSubTotalBruto = txtSubtotal.Text
     Dim vDesc As Currency
     Dim vAcresc As Currency
     Dim vTotDescAcresc As Currency
-    
-    
-      If optAscrescRS.Value = True And optDescRS.Value = True Then
-         vAcresc = CCur(txtSubtotal.Text) + CCur(txtAcresc.Text)
-         vDesc = vAcresc - CCur(txtDesc.Text)
-         txtTotalDesc.Text = FormatNumber(vDesc, 2)
-         
-      ElseIf optAscrescPorc.Value = True And optDescPorc.Value = True Then
-        vDesc = CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2)
-        vAcresc = ((CCur(vDesc) * CDbl(txtAcresc.Text)) / 100)
-        vTotDescAcresc = vDesc + vAcresc
-        txtTotalDesc.Text = FormatNumber(vTotDescAcresc, 2)
-      
-      ElseIf optAscrescPorc.Value = True And optDescPorc.Value = False Then
-        vDesc = CCur(txtSubtotal.Text) - CCur(txtDesc.Text)
-        vAcresc = ((CCur(vDesc) * CDbl(txtAcresc.Text)) / 100)
-        vTotDescAcresc = vDesc + vAcresc
-        txtTotalDesc.Text = FormatNumber(vTotDescAcresc, 2)
-      ElseIf optAscrescPorc.Value = False And optDescPorc.Value = True Then
-        vDesc = CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2)
-        vAcresc = CCur(vDesc) + CCur(txtAcresc.Text)
-        'vTotDescAcresc = vDesc + vAcresc
-        txtTotalDesc.Text = FormatNumber(vAcresc, 2)
-      End If
+
+    'desconto e acrescimo sao sempre calculados cada um contra o SUBTOTAL bruto, nunca um
+    'sobre o valor liquido do outro - mesmo criterio que varValorRealDesc/varValorRealAcresc
+    'ja usam mais na frente (cmdFinalizar_Click) pra gravar ValorDescReal/ValorAcrescReal.
+    'Antes, quando o acrescimo era %, calculava sobre o valor ja descontado (vDesc), divergindo
+    'do ValorAcrescReal real e deixando txtTotalDesc (usado no total/pagamento) menor que o
+    'total real da nota - SEFAZ rejeitava "Total dos pagamentos menor que o valor total da nota"
+    If optDescRS.Value = True Then
+        vDesc = CCur(txtDesc.Text)
+    Else
+        vDesc = Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2)
+    End If
+
+    If optAscrescRS.Value = True Then
+        vAcresc = CCur(txtAcresc.Text)
+    Else
+        vAcresc = Round(((CCur(txtSubtotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
+    End If
+
+    vTotDescAcresc = CCur(txtSubtotal.Text) - vDesc + vAcresc + vFrete
+    txtTotalDesc.Text = FormatNumber(vTotDescAcresc, 2)
    Else
-      txtTotalDesc.Text = FormatNumber(txtSubtotal.Text, 2)
+      txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + vFrete, 2)
    End If
 'End If
    
@@ -4828,18 +4842,20 @@ If optDescRS.Value = True Then      'desconto em dinheiro
         'txtDescItens.Text = FormatNumber(0, 2)
         vDescItensVenda = FormatNumber(0, 2)
     Else
-        'converter o desconto em dinheiro em porcentagem
-        If txtTotalDesc.Text = "" Then Exit Sub
+        'converter o desconto em dinheiro em porcentagem - baseado no valor do desconto
+        'contra o subtotal. NAO pode usar txtTotalDesc aqui: com acrescimo junto, ele reflete
+        'o total liquido (subtotal - desconto + acrescimo), contaminando a % com o acrescimo
+        'e podendo gerar desconto negativo rateado num item (achado com desconto R$ 2,00 +
+        'acrescimo R$ 8,00 - SEFAZ rejeitou: Total do Desconto difere do somatorio dos itens)
+        If txtDesc.Text = "" Then Exit Sub
         If txtSubtotal.Text = "" Then Exit Sub
-        
+
         Dim varValorDescProc As Double
         Dim A As Currency
-        Dim B As Currency
-        
-        B = txtTotalDesc.Text
+
         A = txtSubtotal.Text
-        
-        varValorDescProc = ((B - A) / A) * 100
+
+        varValorDescProc = (CCur(txtDesc.Text) / CCur(A)) * 100
         vDescItensVenda = Abs(FormatNumber(varValorDescProc, 2))
         vDescItensVenda = FormatNumber(vDescItensVenda, 2)
     End If
@@ -5445,6 +5461,7 @@ Else
    'optDescPorc.Value = True
    txtDesc.Text = "0,00"
    txtAcresc.Text = "0,00"
+   txtFrete.Text = "0,00"
    cboQuantParc.Text = "1"
    If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
    If varLoginFunc = "2" Then txtFuncAP.Text = ""
@@ -6503,7 +6520,7 @@ Else
         Estonar.lblUser1.Visible = True
         Estonar.lblUser2.Visible = True
         Estonar.lblCodUser2.Caption = txtCodFunc.Text
-        Estonar.lblUser2.Caption = PDV.StatusBar1.Panels(3).Text
+        Estonar.lblUser2.Caption = PDV.StatusBar1.Panels(2).Text
         Estonar.Show 1
     End If
 End If
@@ -6562,7 +6579,7 @@ Private Sub cmdAvanVendaPausar_Click()
 If ShowMsg("Confirma a operação de pausa nesta venda?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
 'Atualiza o status do pedido
-dbData.Execute "UPDATE pedidos SET status_pedido = -1, data_compra = '" & Format$(Now, "yyyy-dd-MM") & "', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', maquina = '" & var_Maquina & "' WHERE (cod_pedido = " & txtCodPedido & ");"
+dbData.Execute "UPDATE pedidos SET status_pedido = -1, data_compra = '" & Format$(Now, "yyyy-dd-MM") & "', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', maquina = '" & var_Maquina & "' WHERE (cod_pedido = " & txtCodPedido & ");"
 
 'Reinicia o form para uma nova venda
 LimparObjetos_Pedido
@@ -6615,7 +6632,7 @@ lLft = (Screen.Width - fVda.Width) / 2
 lTop = (Screen.Height - fVda.Height) / 2
 
 'Carrega os pedidos pausados
-sSQL = "SELECT pedidos.cod_pedido, pedidos.data_compra, ISNULL((SELECT SUM(pedidos_itens.total) FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido), 0) AS total FROM pedidos WHERE (status_pedido = -1) AND (caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "');"
+sSQL = "SELECT pedidos.cod_pedido, pedidos.data_compra, ISNULL((SELECT SUM(pedidos_itens.total) FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido), 0) AS total FROM pedidos WHERE (status_pedido = -1) AND (caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "');"
 Set r = dbData.OpenRecordset(sSQL)
 
 Do While Not r.EOF
@@ -6662,15 +6679,14 @@ End Sub
 Private Sub Verificar_Caixa()
 sSQL = "SELECT * " & _
        "FROM caixa_dia " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and caixa_dia.status = 0;"
+       "WHERE (caixa = '" & StatusBar1.Panels(3).Text & "') and caixa_dia.status = 0;"
 Set r = dbData.OpenRecordset(sSQL)
 
 If dbData.FalhouPorConexao Then
     'sem conexao - nao sabe se o caixa esta realmente aberto ou fechado, so bloqueia as acoes que dependem do banco
     vBloqueadoPorFalhaConexao = True
     Timer2.Enabled = True   'passa a verificar sozinho, em segundo plano, se a conexao volta
-    lblConexao.Caption = "DESCONECTADO"
-    lblConexao.ForeColor = RGB(139, 0, 0)   'vermelho escuro
+    StatusBar1.Panels(6).Text = "DESCONECTADO"
     cmdFinalizarAvista.Enabled = False
     cmdFinalizarPrazo.Enabled = False
     cmdOrçamento.Enabled = False
@@ -6684,11 +6700,14 @@ If dbData.FalhouPorConexao Then
     Exit Sub
 End If
 
+'chegou aqui = a conexao com o banco esta ok agora (senao teria dado Exit Sub acima) - atualiza
+'sempre, nao so na transicao de volta de uma falha, senao o painel fica vazio numa sessao que
+'nunca teve problema de conexao (achado: painel aparecia sem nada)
+StatusBar1.Panels(6).Text = "CONECTADO"
+
 If vBloqueadoPorFalhaConexao Then
     'conexao voltou - devolve o controle desses botoes para a logica normal abaixo (que decide o estado real deles)
     vBloqueadoPorFalhaConexao = False
-    lblConexao.Caption = "CONECTADO"
-    lblConexao.ForeColor = RGB(0, 100, 0)   'verde escuro
     cmdFinalizarAvista.Enabled = True
     cmdFinalizarPrazo.Enabled = True
     cmdOrçamento.Enabled = True
@@ -6703,7 +6722,7 @@ End If
 
 If r.BOF Then
     varCodCaixa = CInt(0)
-    StatusBar1.Panels(7).Text = Format(varCodCaixa, "0000")
+    StatusBar1.Panels(5).Text = Format(varCodCaixa, "0000")
     CAIXA_FECHADO = True
 Else
     If CDate(r("DATA_ABERTURA")) <> Date Then
@@ -6717,7 +6736,7 @@ Else
         lblDataAberturaCaixa.Visible = False
     End If
     varCodCaixa = CInt(r("codcaixa"))
-    StatusBar1.Panels(7).Text = Format(varCodCaixa, "0000")
+    StatusBar1.Panels(5).Text = Format(varCodCaixa, "0000")
     lblDataAberturaCaixa.Caption = CDate(r("DATA_ABERTURA"))
     CAIXA_FECHADO = False
 End If
@@ -6756,7 +6775,7 @@ If CAIXA_FECHADO = True Then
         cmdInfProduto.Enabled = False
         frmCaixaFechado.Visible = False
         Grid.Enabled = True
-        StatusBar1.Panels(7).Text = Format(0, "0000")
+        StatusBar1.Panels(5).Text = Format(0, "0000")
     End If
 Else
     If varTipoValorVenda = 2 Then
@@ -7041,6 +7060,112 @@ Dim vValorSobraDesc As Currency
                         "WHERE (cod_pedido = " & txtCodPedido.Text & ")"
                 dbData.Execute sSQL
             End If
+        End If
+End Sub
+
+Private Sub RatearAcrescimoItensPedido()
+'aplica o acrescimo (optAscrescRS/optAscrescPorc/txtAcresc) rateado proporcionalmente ao
+'subtotal de cada item em pedidos_itens.ValorAcrescimo, e ajusta o item de maior codigo pra
+'bater o valor exato - mesmo padrao de rateio/arredondamento do RatearDescontoItensPedido,
+'so que pro acrescimo (alimenta TbNFCe_Itens.ValorOutras / TbNFCe.OutrasDespesasAces na NFCe)
+Dim vAcrescItensVenda As Currency
+Dim vSomaAcrescItens As Currency
+Dim vValorAcrescVenda As Currency
+Dim vValorSobraAcresc As Currency
+
+        If varValorRealAcresc <> 0 And CCur(txtSubtotal.Text) <> 0 Then
+            vAcrescItensVenda = FormatNumber((CCur(varValorRealAcresc) / CCur(txtSubtotal.Text)) * 100, 2)
+
+            'adiciona em cada item do pedido o valor do acrescimo
+            sSQL = "UPDATE pedidos_itens SET ValorAcrescimo = (subtotal * " & Replace(CDbl(vAcrescItensVenda), ",", ".") & " / 100) where (cod_pedido = " & txtCodPedido.Text & ")"
+            dbData.Execute sSQL
+
+            'soma todos os acrescimos dos itens da venda em real
+            sSQL = "SELECT SUM(ValorAcrescimo) AS varSomaAcrescItens FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+
+            If Not r.EOF Then
+                vSomaAcrescItens = FormatNumber(ValidateNull(r("varSomaAcrescItens")), 2)
+            End If
+
+            'consulto quanto e para ser o valor do acrescimo em real
+            sSQL = "SELECT ValorAcrescReal FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+
+            If Not r.EOF Then
+                vValorAcrescVenda = FormatNumber(ValidateNull(r("ValorAcrescReal")), 2)
+            End If
+
+            'se o valor total do acrescimo for maior que a soma do acrescimo dos itens da venda
+            If vValorAcrescVenda < vSomaAcrescItens Then
+                vValorSobraAcresc = CCur(vSomaAcrescItens - vValorAcrescVenda)
+                sSQL = "UPDATE pedidos_itens SET ValorAcrescimo = ValorAcrescimo - " & Replace(CCur(vValorSobraAcresc), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            ElseIf vValorAcrescVenda > vSomaAcrescItens Then
+                vValorSobraAcresc = CCur(vValorAcrescVenda - vSomaAcrescItens)
+                sSQL = "UPDATE pedidos_itens SET ValorAcrescimo = ValorAcrescimo + " & Replace(CCur(vValorSobraAcresc), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            End If
+        Else
+            sSQL = "UPDATE pedidos_itens SET ValorAcrescimo = 0 WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            dbData.Execute sSQL
+        End If
+End Sub
+
+Private Sub RatearFreteItensPedido()
+'aplica o frete (txtFrete, sempre R$, sem opcao de %) rateado proporcionalmente ao subtotal
+'de cada item em pedidos_itens.ValorFrete, e ajusta o item de maior codigo pra bater o valor
+'exato - mesmo padrao de RatearDescontoItensPedido/RatearAcrescimoItensPedido (alimenta
+'TbNFCe_Itens.Valor_Frete / TbNFCe.Valor_Frete na NFCe)
+Dim vFreteItensVenda As Currency
+Dim vSomaFreteItens As Currency
+Dim vValorFreteVenda As Currency
+Dim vValorSobraFrete As Currency
+
+        If varValorRealFrete <> 0 And CCur(txtSubtotal.Text) <> 0 Then
+            vFreteItensVenda = FormatNumber((CCur(varValorRealFrete) / CCur(txtSubtotal.Text)) * 100, 2)
+
+            'adiciona em cada item do pedido o valor do frete
+            sSQL = "UPDATE pedidos_itens SET ValorFrete = (subtotal * " & Replace(CDbl(vFreteItensVenda), ",", ".") & " / 100) where (cod_pedido = " & txtCodPedido.Text & ")"
+            dbData.Execute sSQL
+
+            'soma todos os fretes dos itens da venda em real
+            sSQL = "SELECT SUM(ValorFrete) AS varSomaFreteItens FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+
+            If Not r.EOF Then
+                vSomaFreteItens = FormatNumber(ValidateNull(r("varSomaFreteItens")), 2)
+            End If
+
+            'consulto quanto e para ser o valor do frete em real
+            sSQL = "SELECT ValorFreteReal FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            Set r = dbData.OpenRecordset(sSQL)
+
+            If Not r.EOF Then
+                vValorFreteVenda = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
+            End If
+
+            'se o valor total do frete for maior que a soma do frete dos itens da venda
+            If vValorFreteVenda < vSomaFreteItens Then
+                vValorSobraFrete = CCur(vSomaFreteItens - vValorFreteVenda)
+                sSQL = "UPDATE pedidos_itens SET ValorFrete = ValorFrete - " & Replace(CCur(vValorSobraFrete), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            ElseIf vValorFreteVenda > vSomaFreteItens Then
+                vValorSobraFrete = CCur(vValorFreteVenda - vSomaFreteItens)
+                sSQL = "UPDATE pedidos_itens SET ValorFrete = ValorFrete + " & Replace(CCur(vValorSobraFrete), ",", ".") & " " & _
+                        "WHERE (CODIGO = " & _
+                "(SELECT MAX(CODIGO) FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")))"
+                dbData.Execute sSQL
+            End If
+        Else
+            sSQL = "UPDATE pedidos_itens SET ValorFrete = 0 WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+            dbData.Execute sSQL
         End If
 End Sub
 
@@ -7367,19 +7492,14 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
         If cboTipoPgto.Text = "À VISTA" Then    'vendas à vista
             If vNFCeConfImp = "SIM" Then
                 If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
-                    If txtAcresc.Text = "0,00" Then
-                        If PararFechamentoVenda = True Then
-                            NFCe_OK = False
-                            DecidirGeracaoNFCe = "ABORTAR"
-                            Exit Function
-                        Else
-                            VerificarConexaoParaNFCe pNFCeContingencia
-                            NFCe_OK = True
-                            DecidirGeracaoNFCe = "OK"
-                        End If
-                    Else
-                        MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
+                    If PararFechamentoVenda = True Then
                         NFCe_OK = False
+                        DecidirGeracaoNFCe = "ABORTAR"
+                        Exit Function
+                    Else
+                        VerificarConexaoParaNFCe pNFCeContingencia
+                        NFCe_OK = True
+                        DecidirGeracaoNFCe = "OK"
                     End If
                 Else
                     NFCe_OK = False
@@ -7399,19 +7519,14 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
             If vNFCeConfPrazo = "SIM" Then
                 If vNFCeConfImp = "SIM" Then
                     If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
-                        If txtAcresc.Text = "0,00" Then
-                            If PararFechamentoVenda = True Then
-                                NFCe_OK = False
-                                DecidirGeracaoNFCe = "ABORTAR"
-                                Exit Function
-                            Else
-                                VerificarConexaoParaNFCe pNFCeContingencia
-                                NFCe_OK = True
-                                DecidirGeracaoNFCe = "OK"
-                            End If
-                        Else
-                            MsgBox "Não é possível gerar NFCE de uma venda com acréscimo!", vbExclamation, "Aviso do Sistema"
+                        If PararFechamentoVenda = True Then
                             NFCe_OK = False
+                            DecidirGeracaoNFCe = "ABORTAR"
+                            Exit Function
+                        Else
+                            VerificarConexaoParaNFCe pNFCeContingencia
+                            NFCe_OK = True
+                            DecidirGeracaoNFCe = "OK"
                         End If
                     Else
                         NFCe_OK = False
@@ -7474,7 +7589,7 @@ Dim NFCeContingencia As Boolean
 ''verificar se o caixa ainda está aberto
 'sSQL = "SELECT * " & _
 '       "FROM caixa_dia " & _
-'       "WHERE (codcaixa = " & varCodCaixa & ") AND (caixa = '" & StatusBar1.Panels(2).Text & "');"
+'       "WHERE (codcaixa = " & varCodCaixa & ") AND (caixa = '" & StatusBar1.Panels(3).Text & "');"
 'Set r = dbData.OpenRecordset(sSQL)
 
 'If Not r.EOF Then
@@ -7622,6 +7737,13 @@ ElseIf optAscrescPorc.Value = True Then
     End If
 End If
 
+'calcular frete em dinheiro (txtFrete, sempre R$, sem opcao de %)==========================
+If txtFrete.Text = "" Or txtFrete.Text = "0,00" Then
+    varValorRealFrete = FormatNumber(0, 2)
+Else
+    varValorRealFrete = FormatNumber(CCur(txtFrete.Text), 2)
+End If
+
 'declarar quem receber os produtos
 If vDeclararRecebedor = "SIM" Then
     Dim vRevebedor As String
@@ -7723,6 +7845,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
                  "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
                  "ValorAcrescReal = " & Replace(CCur(varValorRealAcresc), ",", ".") & ", " & _
+                 "ValorFreteReal = " & Replace(CCur(varValorRealFrete), ",", ".") & ", " & _
                  "TIPO_ACRESCIMO = '" & IIf(optAscrescRS.Value = True, "R", "P") & "', " & _
                  "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
                  "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
@@ -7733,7 +7856,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', tipo_cartao = " & varTipoCartao & ", " & _
                  "cod_funcionario = " & txtCodFuncAP.Text & ", " & _
                  "tipo_pedido = 'VENDA', " & _
-                 "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', " & _
+                 "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', " & _
                  "MAQUINA = '" & IIf(StatusBar1.Panels(4).Text = "", "PDV01", StatusBar1.Panels(4).Text) & "', " & _
                  "codcaixa = " & varCodCaixa & ", " & _
                  "status_pedido = 1 " & _
@@ -7840,13 +7963,13 @@ If cboTipoPgto.Text = "À PRAZO" Then
                       "DESCONTO = 0, " & _
                       "tipo = 'PARCELA', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                       "CODCAIXA = " & varCodCaixa & ", " & _
-                      "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                      "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                       "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
                 End If
                     
                 'dar baixa nas parcelas de de cartão
                 If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
-                   dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(varHora, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & "  WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+                   dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(varHora, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & "  WHERE (cod_pedido = " & txtCodPedido.Text & ")"
                 End If
            Else
                 If txtEntrada.Text <> "0,00" Then
@@ -7861,13 +7984,13 @@ If cboTipoPgto.Text = "À PRAZO" Then
                       "DESCONTO = 0, " & _
                       "tipo = 'PARCELA', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                       "CODCAIXA = " & varCodCaixa & ", " & _
-                      "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                      "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                       "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
                 End If
                 
                 'dar baixa nas parcelas de de cartão
                 If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
-                   dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(Now, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+                   dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(Now, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (cod_pedido = " & txtCodPedido.Text & ")"
                 End If
            End If
            
@@ -7882,6 +8005,8 @@ If cboTipoPgto.Text = "À PRAZO" Then
     
         'calcular desconto de cada item
         RatearDescontoItensPedido
+        RatearAcrescimoItensPedido
+        RatearFreteItensPedido
         
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
         BaixarEstoqueItensPedido
@@ -8046,6 +8171,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
               "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
               "ValorAcrescReal = " & Replace(CCur(varValorRealAcresc), ",", ".") & ", " & _
+                 "ValorFreteReal = " & Replace(CCur(varValorRealFrete), ",", ".") & ", " & _
               "TIPO_ACRESCIMO = '" & IIf(optAscrescRS.Value = True, "R", "P") & "', " & _
               "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
               "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
@@ -8054,7 +8180,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
               "tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', tipo_cartao = " & varTipoCartao & ", " & _
               "cod_funcionario = " & txtCodFuncAP.Text & ",  " & _
-              "tipo_pedido = 'VENDA', caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', maquina = '" & IIf(StatusBar1.Panels(4).Text = "", "PDV01", StatusBar1.Panels(4).Text) & "', codcaixa = " & varCodCaixa & ", " & _
+              "tipo_pedido = 'VENDA', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', maquina = '" & IIf(StatusBar1.Panels(4).Text = "", "PDV01", StatusBar1.Panels(4).Text) & "', codcaixa = " & varCodCaixa & ", " & _
               "status_pedido = 1 " & _
               "WHERE (cod_pedido = " & txtCodPedido.Text & ");"
            dbData.Execute sSQL
@@ -8094,7 +8220,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                             "tipo = 'VENDA', " & _
                             "tipo_cartao = " & varTipoCartao & ", " & _
                             "CODCAIXA = " & varCodCaixa & ", " & _
-                            "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                            "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                             "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
                                
                             dbData.Execute sSQL
@@ -8135,7 +8261,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                                 "tipo = 'VENDA', " & _
                                 "tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                                 "CODCAIXA = " & varCodCaixa & ", " & _
-                                "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                                "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                                 "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
                                 dbData.Execute sSQL
                         
@@ -8165,7 +8291,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                                 "tipo = 'VENDA', " & _
                                 "tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                                 "CODCAIXA = " & varCodCaixa & ", " & _
-                                "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                                "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                                 "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
                                 dbData.Execute sSQL
                             End If
@@ -8185,7 +8311,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
                                 "tipo = 'VENDA', " & _
                                 "tipo_cartao = " & varTipoCartao & ", " & _
                                 "CODCAIXA = " & varCodCaixa & ", " & _
-                                "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
+                                "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', COD_FUNCIONARIO = " & txtCodFuncAP.Text & " " & _
                                 "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 2);"
                                 dbData.Execute sSQL
                             End If
@@ -8199,6 +8325,8 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
         
         'calcular desconto de cada item
         RatearDescontoItensPedido
+        RatearAcrescimoItensPedido
+        RatearFreteItensPedido
         
         'Retirar da tabela PRODUTOS as QUANTIDADES mencionadas no grid (lote unico - era loop item a item)
         BaixarEstoqueItensPedido
@@ -8377,6 +8505,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                  "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
                  "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
                  "ValorAcrescReal = " & Replace(CCur(varValorRealAcresc), ",", ".") & ", " & _
+                 "ValorFreteReal = " & Replace(CCur(varValorRealFrete), ",", ".") & ", " & _
                  "TIPO_ACRESCIMO = '" & IIf(optAscrescRS.Value = True, "R", "P") & "', " & _
                  "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
                  "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
@@ -8386,7 +8515,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                  "tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', tipo_cartao = " & varTipoCartao & ", " & _
                  "cod_funcionario = " & txtCodFuncAP.Text & ", " & _
                  "tipo_pedido = '" & vTipoOrcamento & "', " & _
-                 "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', " & _
+                 "caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', " & _
                  "MAQUINA = '" & IIf(StatusBar1.Panels(4).Text = "", "PDV01", StatusBar1.Panels(4).Text) & "', " & _
                  "codcaixa = " & varCodCaixa & ", " & _
                  "status_pedido = 1 " & _
@@ -8779,6 +8908,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
         LimparObjetos_Prazo
         txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
+        txtFrete.Text = FormatNumber(0, 2)
         
         If lblEstornar.Caption = "ESTORNO" Then
             sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
@@ -8897,6 +9027,7 @@ Else
         LimparObjetos_Prazo
         txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
+        txtFrete.Text = FormatNumber(0, 2)
         
         If lblEstornar.Caption = "ESTORNO" Then
             sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
@@ -9098,6 +9229,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
         LimparObjetos_Prazo
         txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
+        txtFrete.Text = FormatNumber(0, 2)
         HabilitaObjetosVenda True
         
         If lblEstornar.Caption = "ESTORNO" Then
@@ -9233,6 +9365,7 @@ Else
         LimparObjetos_Prazo
         txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
+        txtFrete.Text = FormatNumber(0, 2)
         HabilitaObjetosVenda True
         
         If lblEstornar.Caption = "ESTORNO" Then
@@ -9396,7 +9529,7 @@ Me.Hide
 Set REL_Orcamento_Completo.ReportMain1.Recordset = r
 
 REL_Orcamento_Completo.txtDHead.Caption = "ORÇAMENTO COMPLETO - PEDIDO " & txtCodPedido.Text
-REL_Orcamento_Completo.txtData.Caption = "DATA: " & StatusBar1.Panels(5).Text
+REL_Orcamento_Completo.txtData.Caption = "DATA: " & StatusBar1.Panels(8).Text
 'REL_Orcamento_Completo.rfDesc.Caption = Format(txtTotalCartao.Text, "#,##0.00")
 REL_Orcamento_Completo.rfTotal.Caption = Format(txtTotalGeral.Text, "#,##0.00")
 
@@ -9456,7 +9589,7 @@ End If
 End Sub
 
 Private Sub cmdMaqOK_Click()
-StatusBar1.Panels(2).Text = cboMaquina.Text
+StatusBar1.Panels(3).Text = cboMaquina.Text
 HabilitaObjetosVenda False
 frmMaquina.Visible = False
 txtCodBarra.SetFocus
@@ -9507,6 +9640,7 @@ frmVendaFechamento.Visible = True
 LimparObjetos_Prazo
 txtSubtotal.Text = txtTotalGeral.Text
 txtAcresc.Text = FormatNumber(0, 2)
+txtFrete.Text = FormatNumber(0, 2)
 HabilitaObjetosVenda True
 
 If vTipoEdicao <> "EDITAR" Then
@@ -9515,6 +9649,7 @@ If vTipoEdicao <> "EDITAR" Then
     'txtSubTotal.Text = txtTotalGeral.Text
     optDescPorc.Value = True
     txtAcresc.Text = FormatNumber(0, 2)
+    txtFrete.Text = FormatNumber(0, 2)
     txtDesc.Text = FormatNumber(0, 2)
     cboFormaPgto.Text = "1 - DINHEIRO"
     cboQuantForma.Text = "1 - FORMA"
@@ -10009,7 +10144,7 @@ vUsarBalanca = oIni.LerTexto("USAR_BALANCA", "resposta")
 
 'nome da caixa
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
-StatusBar1.Panels(2).Text = var_Caixa
+StatusBar1.Panels(3).Text = var_Caixa
 
 'nome da Maquina
 var_Maquina = oIni.LerTexto("DADOS_MAQUINA", "maquina")
@@ -10080,7 +10215,7 @@ Verificar_Caixa
 '        cmdInfProduto.Enabled = False
 '        frmCaixaFechado.Visible = False
 '        Grid.Enabled = True
-'        StatusBar1.Panels(7).Text = Format(0, "0000")
+'        StatusBar1.Panels(5).Text = Format(0, "0000")
 '    End If
 'Else
 '    If varTipoValorVenda = 2 Then
@@ -10404,7 +10539,7 @@ Set oCfg = sysConfig("ESTOQUE_NEGATIVO")
 bEstNeg = CBool(oCfg.Value)
 Set oCfg = Nothing
   
-If StatusBar1.Panels(3).Text = "" Then
+If StatusBar1.Panels(2).Text = "" Then
    If varLoginFunc = 1 Then
       PDV.Hide
       PDV_Senha.Show vbModal
@@ -10437,7 +10572,7 @@ bIdentMaq = CBool(oCfg.Value)
 Set oCfg = Nothing
 
 If bIdentMaq Then
-   If StatusBar1.Panels(2).Text = "" Then
+   If StatusBar1.Panels(3).Text = "" Then
         HabilitaObjetosVenda True
         frmMaquina.Visible = True
         'cboMaquina.SetFocus
@@ -10512,7 +10647,7 @@ Dim r As ADODB.Recordset
 
 sSQL = "SELECT * " & _
        "FROM caixa_dia " & _
-       "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and codcaixa = " & StatusBar1.Panels(7).Text & " and caixa_dia.status = 0;"
+       "WHERE (caixa = '" & StatusBar1.Panels(3).Text & "') and codcaixa = " & StatusBar1.Panels(5).Text & " and caixa_dia.status = 0;"
 Set r = dbData.OpenRecordset(sSQL)
 
 If r.RecordCount <> 0 Then
@@ -10666,11 +10801,9 @@ Private Sub StatusBar1_PanelDblClick(ByVal Panel As MSComctlLib.Panel)
    Select Case Panel.Index
       Case 1
          Exit Sub
-      Case 2
+      Case 3
          frmMaquina.Visible = True
          cboMaquina.SetFocus
-      Case 3
-         Exit Sub
    End Select
 End Sub
 
@@ -10689,19 +10822,19 @@ End Sub
 
 Private Sub TimerInternet_Timer()
 Dim vTinhaInternet As Boolean
-vTinhaInternet = (lblConexaoInternet.Caption = "CONECTADO")
+vTinhaInternet = (StatusBar1.Panels(7).Text = "CONECTADO")
 
 AtualizarLabelConexaoInternet
 
-If lblConexaoInternet.Caption = "DESCONECTADO" And vTinhaInternet Then
+If StatusBar1.Panels(7).Text = "DESCONECTADO" And vTinhaInternet Then
     dbData.Execute "UPDATE Empresa SET NFCeOffline = 1"   'internet acabou de cair - liga o modo offline pra valer no banco
 End If
 
-If lblConexaoInternet.Caption = "CONECTADO" And Not vTinhaInternet Then
+If StatusBar1.Panels(7).Text = "CONECTADO" And Not vTinhaInternet Then
     vAguardandoEnvioNFCeAuto = True
 End If
 
-If vAguardandoEnvioNFCeAuto And lblConexaoInternet.Caption = "CONECTADO" Then
+If vAguardandoEnvioNFCeAuto And StatusBar1.Panels(7).Text = "CONECTADO" Then
     If Not VendaEmAndamentoComProdutos() Then
         vAguardandoEnvioNFCeAuto = False
         EnviarNFCePendentesAutomatico
@@ -10744,6 +10877,36 @@ Exit Sub
 erro:
    MsgBox "O valor digitado é inválido!", vbExclamation, "Aviso do Sistema"
    txtAcresc.Text = 0
+End Sub
+
+Private Sub txtFrete_GotFocus()
+   SelectControl txtFrete
+End Sub
+
+Private Sub txtFrete_KeyPress(KeyAscii As Integer)
+KeyAscii = aNumeros(KeyAscii, True)
+
+If KeyAscii = 13 Then
+      txtRecebido.SetFocus
+End If
+End Sub
+
+Private Sub txtFrete_LostFocus()
+On Error GoTo erro
+
+If txtFrete.Text = "" Or txtSubtotal.Text = "" Then
+   txtFrete.Text = FormatNumber(0, 2)
+   SelectControl txtFrete
+   Exit Sub
+End If
+
+Calcular_Desconto
+txtFrete.Text = FormatNumber(txtFrete.Text, 2)
+Exit Sub
+
+erro:
+   MsgBox "O valor digitado é inválido!", vbExclamation, "Aviso do Sistema"
+   txtFrete.Text = 0
 End Sub
 
 Public Function VerificaValor(vTecla As Integer) As Integer

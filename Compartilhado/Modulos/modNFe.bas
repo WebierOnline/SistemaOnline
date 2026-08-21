@@ -128,20 +128,45 @@ deuErro:
    Err.Clear
 End Function
 
-Public Function FormatarMensagemRejeicao(ByVal Motivo As String, ByVal NumeroDocumento As Variant, ByVal EhNFCe As Boolean) As String
+Public Function FormatarMensagemRejeicao(ByVal Motivo As String, ByVal NumeroDocumento As Variant, ByVal EhNFCe As Boolean, Optional ByVal IdNota As Variant = 0) As String
 Dim vTipoDoc As String
+Dim sResultado As String
     If EhNFCe Then
        vTipoDoc = "NFCe (cupom fiscal)"
     Else
        vTipoDoc = "NFe"
     End If
-    
+
     If InStr(Motivo, "Duplicidade de NF-e") > 0 Then
-       FormatarMensagemRejeicao = "Rejeição: Duplicidade de " & vTipoDoc & "." & vbNewLine & vbNewLine & _
+       sResultado = "Rejeição: Duplicidade de " & vTipoDoc & "." & vbNewLine & vbNewLine & _
           "Motivo: Já existe um " & vTipoDoc & " emitido anteriormente com o mesmo número que você está tentando emitir novamente agora. " & vTipoDoc & " Nº " & NumeroDocumento & "."
     Else
-       FormatarMensagemRejeicao = Motivo
+       sResultado = Motivo
     End If
+
+    'se a SEFAZ citou um item especifico ([nItem:N] no texto da rejeicao), acrescenta a
+    'descricao do produto - evita ter que contar item por item numa nota com muitos produtos
+    Dim iPosNItem As Long, iPosFim As Long, sNumItem As String, lNumItem As Long, sDescProd As String
+    iPosNItem = InStr(Motivo, "[nItem:")
+    If iPosNItem > 0 And Val(IdNota) <> 0 Then
+        iPosFim = InStr(iPosNItem, Motivo, "]")
+        If iPosFim > iPosNItem Then
+            sNumItem = Mid(Motivo, iPosNItem + 7, iPosFim - (iPosNItem + 7))
+            If IsNumeric(sNumItem) Then
+                lNumItem = CLng(sNumItem)
+                If EhNFCe Then
+                    sDescProd = SQLExecutaRetorno("SELECT TOP 1 DescricaoProduto FROM TbNFCe_Itens WHERE IdNFProd = " & Val(IdNota) & " AND IdNFProd_Item = " & lNumItem, "DescricaoProduto", "")
+                Else
+                    sDescProd = SQLExecutaRetorno("SELECT TOP 1 NomeProduto FROM NotaFiscalItens WHERE CodigoNota = " & Val(IdNota) & " AND ITEM = " & lNumItem, "NomeProduto", "")
+                End If
+                If sDescProd <> "" Then
+                    sResultado = sResultado & vbNewLine & vbNewLine & "Produto do item " & lNumItem & ": " & sDescProd
+                End If
+            End If
+        End If
+    End If
+
+    FormatarMensagemRejeicao = sResultado
 End Function
 
 Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
@@ -1030,7 +1055,7 @@ NaoEnviou:
     Resume
     
 Caifora:
-    If Not Vazio(NFeMotivo) Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeroNota, False), vbCritical + vbOKOnly
+    If Not Vazio(NFeMotivo) Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeroNota, False, NFe!CodigoNota), vbCritical + vbOKOnly
     
     Set sistNFe = Nothing
     Set Parametros = Nothing
@@ -1468,7 +1493,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         infAdProd = Trim(infAdProd)
        
         iRetorno = sistNFCe.GerarItens(i, Trim$(NFeItens!IDProduto), RemoveAcento(NFeItens!DescricaoProduto), NFeItens!NCM, "", "", NFeItens!CodBarras, NFeItens!CodBarras, _
-                                       NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, NFeItens!ValorSeguro, "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, (NFeItens!QtdeMov * NFeItens!ValorUnit), mensagemAlerta, mensagemErro)
+                                       NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, IIf(IsNull(NFeItens!ValorSeguro), 0, NFeItens!ValorSeguro), "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, (NFeItens!QtdeMov * NFeItens!ValorUnit), mensagemAlerta, mensagemErro)
         
         '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
         'Parametros!
@@ -1568,8 +1593,8 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         End Select
                                                     'pisCST As String, pisvBC As Double, pPIS As Double, vPIS As Double
 
-        iRetorno = sistNFCe.GerarItensImpostoFederal(COFINSCST, NFeItens!Bc_Icms, NFeItens!Aliq_COFINS, NFeItens!vlr_COFINS, 0, 0, _
-                                                     PISCST, NFeItens!Bc_Icms, NFeItens!Aliq_PIS, NFeItens!vlr_PIS, 0, 0, _
+        iRetorno = sistNFCe.GerarItensImpostoFederal(COFINSCST, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!Aliq_COFINS, NFeItens!vlr_COFINS, 0, 0, _
+                                                     PISCST, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!Aliq_PIS, NFeItens!vlr_PIS, 0, 0, _
                                                      NFeItens!IPICST, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!AliqIPI, NFeItens!ValorIPI, 0, 0, "999", "", "", "", 0, mensagemAlerta, mensagemErro)
         'iRetorno = sistNFCe.GerarItensImpostoFederal(cofinsCST, (NFeItens!QtdeMov * NFeItens!ValorUnit), Parametros!COFINSAliquota, Round((NFeItens!QtdeMov * NFeItens!ValorUnit) * (Parametros!COFINSAliquota / 100), 2), 0, 0, _
                                                      pisCST, (NFeItens!QtdeMov * NFeItens!ValorUnit), Parametros!PISAliquota, Round((NFeItens!QtdeMov * NFeItens!ValorUnit) * (Parametros!PISAliquota / 100), 2), 0, 0, _
@@ -1601,7 +1626,9 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
             "vIBS = " & Replace(CStr(TotvIBS), ",", ".") & ", " & _
             "vCBS = " & Replace(CStr(TotvCBS), ",", ".") & ", " & _
             "vBCIS = " & Replace(CStr(TotvBCIS), ",", ".") & ", " & _
-            "vIS = " & Replace(CStr(TotvIS), ",", ".") & " " & _
+            "vIS = " & Replace(CStr(TotvIS), ",", ".") & ", " & _
+            "vPIS = " & Replace(CStr(vlPIS), ",", ".") & ", " & _
+            "vCOFINS = " & Replace(CStr(vlCOFINS), ",", ".") & " " & _
             "WHERE IdNFProd = " & NumeroNota
     vgDb.Execute vsSQL
 
@@ -1914,7 +1941,7 @@ Exit Function
 Resume
 
 Caifora:
-    If Not Vazio(NFeMotivo) And Not Silencioso Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeNota, True), vbCritical + vbOKOnly
+    If Not Vazio(NFeMotivo) And Not Silencioso Then MsgBox FormatarMensagemRejeicao(NFeMotivo, NFe!NumeNota, True, NFe!IdNFProd), vbCritical + vbOKOnly
     
     Set sistNFCe = Nothing
     
@@ -1941,7 +1968,7 @@ deuErro:
     If Vazio(NFeMotivo) Then NFeMotivo = vErrDescTransmitir
     If Not Silencioso Then
     If InStr(1, sistNFCe.xMotivo, "Erros na validação") > 0 Then
-       MsgBox TrataErroValidacao(sistNFCe.xMotivo), vbExclamation + vbOKOnly, "ERRO VALIDAÇÃO XML"
+       MsgBox TrataErroValidacao(sistNFCe.xMotivo, NFe!IdNFProd), vbExclamation + vbOKOnly, "ERRO VALIDAÇÃO XML"
     ElseIf Not Vazio(sistNFCe.xMotivo) Then
        MsgBox sistNFCe.xMotivo, vbExclamation + vbOKOnly, "ERRO"
     End If
@@ -2868,43 +2895,104 @@ Private Function UTF8_Encode(ByVal sStr As String)
     UTF8_Encode = sUtf8
 End Function
 
-Public Function TrataErroValidacao(ByVal mensagemErro As String) As String
+Public Function TrataErroValidacao(ByVal mensagemErro As String, Optional ByVal IdNota As Variant = 0) As String
+'Extrai cada "elemento 'http://.../nfe:CAMPO' e invalido - O valor 'VALOR' ..." da mensagem
+'tecnica (formato XSD .NET) e monta um resumo curto por campo, ao inves do dump tecnico
+'inteiro. Se nao conseguir reconhecer nenhum campo, cai no fallback com a mensagem crua.
+Dim MsgFinal As String
+Dim sLista As String
+Dim iPos As Long, iPosNfe As Long, iPosFimCampo As Long, iPosVal As Long, iPosFimVal As Long
+Dim sCampo As String, sValor As String, sLinha As String
+Dim nAchados As Integer
+Dim sJaListado As String
 
-    Dim Campo As String
-    Dim Valor As String
-    Dim MsgFinal As String
-    
-    ' Extrair nome do campo
-    If InStr(mensagemErro, ":CFOP") > 0 Then
-        Campo = "CFOP"
+nAchados = 0
+sLista = ""
+iPos = 1
+Do
+    iPosNfe = InStr(iPos, mensagemErro, "nfe:")
+    If iPosNfe = 0 Then Exit Do
+    iPosFimCampo = InStr(iPosNfe, mensagemErro, "'")
+    If iPosFimCampo = 0 Then Exit Do
+    sCampo = Mid(mensagemErro, iPosNfe + 4, iPosFimCampo - (iPosNfe + 4))
+
+    iPosVal = InStr(iPosFimCampo, mensagemErro, "O valor '")
+    sValor = ""
+    If iPosVal > 0 Then
+        iPosVal = iPosVal + 9
+        iPosFimVal = InStr(iPosVal, mensagemErro, "'")
+        If iPosFimVal > 0 Then sValor = Mid(mensagemErro, iPosVal, iPosFimVal - iPosVal)
     End If
-    
-    ' Extrair valor informado
-    Dim InicioValor As Long
-    Dim FimValor As Long
-    
-    InicioValor = InStr(mensagemErro, "O valor '") + 9
-    FimValor = InStr(InicioValor, mensagemErro, "' é inválido")
-    
-    If InicioValor > 9 And FimValor > 0 Then
-        Valor = Mid(mensagemErro, InicioValor, FimValor - InicioValor)
+
+    sLinha = MontarDicaCampoInvalido(sCampo, sValor, IdNota)
+    If InStr(sLista, sLinha) = 0 Then
+        sLista = sLista & sLinha & vbCrLf
+        nAchados = nAchados + 1
     End If
-    
-    ' Montar mensagem amigável
-    Select Case Campo
-    
-        Case "CFOP"
-            MsgFinal = "CFOP inválido." & vbCrLf & _
-                       "O código informado foi: " & Valor & vbCrLf & _
-                       "Verifique se o CFOP está correto e permitido para esta operação."
-        
-        Case Else
-            MsgFinal = "Erro na validação da NF-e." & vbCrLf & _
-                       "Detalhes técnicos: " & mensagemErro
-    End Select
-    
+
+    iPos = iPosFimCampo + 1
+Loop
+
+If nAchados = 0 Then
+    TrataErroValidacao = "Erro na validação da NF-e." & vbCrLf & _
+                          "Detalhes técnicos: " & mensagemErro
+Else
+    MsgFinal = "Erro na validação da NF-e - verifique o(s) campo(s) abaixo:" & vbCrLf & vbCrLf & sLista
     TrataErroValidacao = MsgFinal
+End If
 
+End Function
+
+Private Function MontarDicaCampoInvalido(ByVal sCampo As String, ByVal sValor As String, Optional ByVal IdNota As Variant = 0) As String
+Dim sDica As String
+Dim sColuna As String
+Select Case sCampo
+    Case "CFOP"
+        sDica = "· CFOP inválido (valor informado: " & sValor & "). Verifique se o CFOP está correto e permitido para esta operação."
+        sColuna = "CFOP"
+    Case "cEAN", "cEANTrib"
+        sDica = "· EAN inválido (valor informado: " & sValor & "). Deve ter 8, 12, 13 ou 14 dígitos válidos, ou usar 'SEM GTIN' se o produto não tiver código de barras."
+        sColuna = "CodBarras"
+    Case "NCM"
+        sDica = "· NCM inválido (valor informado: " & sValor & "). Deve ter 8 dígitos."
+        sColuna = "CodNcm"
+    Case "CEST"
+        sDica = "· CEST inválido (valor informado: " & sValor & ")."
+    Case "CST", "CSOSN", "orig"
+        sDica = "· CST/CSOSN do ICMS inválido (valor informado: " & sValor & ")."
+    Case Else
+        sDica = "· Campo '" & sCampo & "' inválido (valor informado: " & sValor & ")."
+End Select
+
+If sColuna <> "" And Val(IdNota) <> 0 And sValor <> "" Then
+    Dim sProdutos As String
+    sProdutos = BuscarProdutosPorValorInvalido(Val(IdNota), sColuna, sValor)
+    If sProdutos <> "" Then sDica = sDica & vbCrLf & "  Produto(s): " & sProdutos
+End If
+
+MontarDicaCampoInvalido = sDica
+End Function
+
+Private Function BuscarProdutosPorValorInvalido(ByVal vIdNFProd As Long, ByVal sColuna As String, ByVal sValor As String) As String
+'Localiza qual(is) item(ns) da NFCe tem o valor invalido citado no erro de validacao,
+'pra mostrar a descricao do produto junto com a mensagem (evita ter que caca-lo manualmente)
+Dim rBusca As ADODB.Recordset
+Dim sResultado As String
+Dim sSQLBusca As String
+sSQLBusca = "SELECT DescricaoProduto FROM TbNFCe_Itens WHERE IdNFProd = " & vIdNFProd & " AND " & sColuna & " = '" & Replace(sValor, "'", "''") & "'"
+On Error Resume Next
+RsOpen rBusca, sSQLBusca
+If Not rBusca Is Nothing Then
+    If rBusca.State <> 0 Then
+        Do While Not rBusca.EOF
+            sResultado = sResultado & IIf(sResultado = "", "", "; ") & rBusca!DescricaoProduto
+            rBusca.MoveNext
+        Loop
+        rBusca.Close
+    End If
+End If
+On Error GoTo 0
+BuscarProdutosPorValorInvalido = sResultado
 End Function
 
 Public Sub SaveKey(hKey As Long, strPath As String)

@@ -174,7 +174,7 @@ If oCfg.Value = "NOME" Then
          vCodFunc = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
          PDV.txtCodFuncAP.Text = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
          PDV.txtCodFunc.Text = PDV_Senha.cboUsuario.ItemData(cboUsuario.ListIndex)
-         PDV.StatusBar1.Panels(3).Text = PDV_Senha.cboUsuario
+         PDV.StatusBar1.Panels(2).Text = PDV_Senha.cboUsuario
          PDV.txtFuncAP.Text = PDV_Senha.cboUsuario
          PDV.txtNivel.Text = ValidateNull(r("nivel"))
          PDV.Show
@@ -210,7 +210,7 @@ Else
          If Not VerificarBloqueioPDV() Then Exit Sub
          vCodFunc = r("codigo")
          PDV.txtCodFuncAP.Text = r("codigo")
-         PDV.StatusBar1.Panels(3).Text = r("login")
+         PDV.StatusBar1.Panels(2).Text = r("login")
          PDV.txtFuncAP.Text = r("login")
          PDV.txtNivel.Text = ValidateNull(r("nivel"))
          PDV.Show

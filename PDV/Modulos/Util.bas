@@ -1879,6 +1879,7 @@ End Sub
 Public Sub RsOpen(ByRef vgRs As ADODB.Recordset, ByVal vgSQL As String)
     Dim i As Long, j As Long
     Dim x As String, z As String, zz As String, xx As String
+    Dim vTentouReconectar As Boolean
 
     On Error Resume Next                          'previne erro
     vgRs.Close                                    'tenta fechar a tabela
@@ -1922,8 +1923,31 @@ Public Sub RsOpen(ByRef vgRs As ADODB.Recordset, ByVal vgSQL As String)
 
     'abre o recordset
 AbreRecordset:
+    On Error GoTo ErroAbrirRecordset
     vgRs.Open vgSQL$, vgDb, adOpenKeyset, adLockOptimistic, adCmdText   'era adOpenDynamic+adLockPessimistic - cursor mais caro e lock que travava a linha o tempo todo aberto
     vgRs.Properties("Update Criteria").Value = adCriteriaKey
+    Exit Sub
+
+ErroAbrirRecordset:
+    'vgDb e uma conexao ADODB separada da dbData (que ja reconecta sozinha) - se o servico do
+    'SQL Server cair e voltar, vgDb fica com a conexao morta ate alguem tentar usar de novo.
+    'Tenta reabrir e repetir 1 vez antes de desistir (achado: TransmitirTodasNFCePendentes
+    'batia aqui logo apos a internet voltar, se o banco tinha caido e voltado antes)
+    If Not vTentouReconectar Then
+        vTentouReconectar = True
+        Dim vErrNum As Long, vErrDesc As String
+        vErrNum = Err.Number
+        vErrDesc = Err.Description
+        On Error Resume Next
+        vgDb.Close
+        On Error GoTo 0
+        If AbreBancoDeDados(1) Then
+            Resume AbreRecordset
+        End If
+        Err.Raise vErrNum, , vErrDesc
+    Else
+        Err.Raise Err.Number, , Err.Description
+    End If
 End Sub
 
 'Funcao que separa os dados do correntista que está no memo
