@@ -99,3 +99,4 @@
 099|AlterTable_pedidos_ValorFreteReal.sql|GERAL
 100|AlterTable_pedidos_itens_ValorFrete.sql|GERAL
 101|AlterProcedure_NFCeIncluir_Frete.sql|GERAL
+102|AlterProcedure_NFCeIncluir_ValorTributos.sql|GERAL

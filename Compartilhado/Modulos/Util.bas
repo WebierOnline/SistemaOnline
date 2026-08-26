@@ -373,7 +373,9 @@ Dim ekZap As zapzap.cZap
     Set ekZap = Nothing
 End Sub
 
-Public Function GoogleEnviarArquivo(nomeArquivo As String) As Boolean
+Public Function GoogleEnviarArquivo(nomeArquivo As String, Optional ByVal NomePasta As String = "BACKUP", Optional ByVal NomeSharedDriveId As String = "0ADpoMDm94fJRUk9PVA") As Boolean
+'NomePasta/NomeSharedDriveId default = Shared Drive "Backups" (uso original, backup .rar).
+'Financeiro usa NomePasta:="IBPT", NomeSharedDriveId:="0AI0VAvFMSupDUk9PVA" (Shared Drive "IBPT")
 Dim uploader As Object
     On Error GoTo deuErro
     Set uploader = CreateObject("GoogleDriveUploader.Uploader")
@@ -382,11 +384,11 @@ Dim uploader As Object
     uploader.ApplicationName = "OnlineInfo"
     uploader.CredentialsPath = App.path & "\NFE\backupclientes-488021-067a35f7c315.json"
     uploader.AuthMode = "ServiceAccount"
-    uploader.SharedDriveId = "0ADpoMDm94fJRUk9PVA"
+    uploader.SharedDriveId = NomeSharedDriveId
     uploader.TokenPath = App.path & "\tokens"
-    'uploader.UserToImpersonate = "financeiroonlineinfo@gmail.com"  ' nao usa impersonation - Shared Drive "Backups" com a service account como membro
+    'uploader.UserToImpersonate = "financeiroonlineinfo@gmail.com"  ' nao usa impersonation - Shared Drive com a service account como membro
     Dim fid As String
-    fid = uploader.UploadFileToFolderName(nomeArquivo, "BACKUP")
+    fid = uploader.UploadFileToFolderName(nomeArquivo, NomePasta)
     'txtResult.Text = fid
     GoogleEnviarArquivo = True
     Exit Function

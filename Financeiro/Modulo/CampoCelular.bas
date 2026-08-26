@@ -1,4 +1,8 @@
 Attribute VB_Name = "mCampoCelular"
+'Public mensagemErro As String - usado por GoogleEnviarArquivo (Compartilhado\Modulos\Util.bas).
+'Financeiro nao inclui o modNFe.bas (onde essa Public existe no OnlineCommerce/PDV), entao
+'precisa da propria declaracao aqui pra compilar.
+Public mensagemErro As String
 Function CampoCelular(obj As Object, Keyasc As Integer)
 
 If Not ((Keyasc >= Asc("0") And Keyasc <= Asc("9")) Or Keyasc = 8) Then

@@ -1207,6 +1207,7 @@ Select Case iCol
         dbData.Execute "UPDATE TbNFCe_Itens SET CodNcm = '" & sVal & "' WHERE IdNFProd = " & vPed & " AND IdNFProd_Item = " & Val(sItemId)
         dbData.Execute "UPDATE Produtos SET NCM = '" & sVal & "' WHERE CODIGO = " & Val(sCodProd)
         Grid.TextMatrix(iRow, iCol) = sVal
+        AtualizarValorTributosItem vPed, Val(sItemId), sVal, iRow
 
     Case 6 ' CFOP
         If sVal <> "" Then
@@ -1537,6 +1538,33 @@ If Not rTotais.EOF Then
 End If
 If rTotais.State <> 0 Then rTotais.Close
 Set rTotais = Nothing
+End Sub
+
+Private Sub AtualizarValorTributosItem(ByVal vIdNFProd As Long, ByVal vItem As Long, ByVal sNcm As String, ByVal iLinha As Long)
+'recalcula o valor de tributos totais (Lei 12.741/2012) do item quando o NCM muda, via
+'tbNCM (tabela do IBPT, sincronizada por frmImportarIBPT.frm) - mesma formula usada na
+'NFCeIncluir: valor liquido do item x (federal+estadual+municipal)/100
+Dim dPercTrib As Double
+Dim curBase As Currency
+Dim rNcm As ADODB.Recordset
+
+If sNcm = "" Then
+    dbData.Execute "UPDATE TbNFCe_Itens SET ValorTributos = 0 WHERE IdNFProd = " & vIdNFProd & " AND IdNFProd_Item = " & vItem
+    Exit Sub
+End If
+
+Set rNcm = dbData.OpenRecordset("SELECT ISNULL(nacionalfederal, 0) + ISNULL(estadual, 0) + ISNULL(municipal, 0) AS varPerc FROM tbNCM WHERE NCM = '" & sNcm & "'")
+If Not rNcm.EOF Then
+    dPercTrib = rNcm("varPerc")
+Else
+    dPercTrib = 0
+End If
+If rNcm.State <> 0 Then rNcm.Close
+Set rNcm = Nothing
+
+curBase = CCur(Val(Replace(Replace(Grid.TextMatrix(iLinha, 18), ".", ""), ",", ".")) * Val(Replace(Replace(Grid.TextMatrix(iLinha, 19), ".", ""), ",", "."))) - CCur(Val(Replace(Replace(Grid.TextMatrix(iLinha, 23), ".", ""), ",", ".")))
+
+dbData.Execute "UPDATE TbNFCe_Itens SET ValorTributos = " & fSQL(curBase * dPercTrib / 100, 2) & " WHERE IdNFProd = " & vIdNFProd & " AND IdNFProd_Item = " & vItem
 End Sub
 
 Private Sub AplicarVisibilidadeGrid()

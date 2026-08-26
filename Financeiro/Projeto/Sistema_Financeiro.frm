@@ -6,7 +6,7 @@ Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{F9043C88-F6F2-101A-A3C9-08002B2F49FB}#1.2#0"; "comdlg32.ocx"
 Begin VB.Form Sistema_Financeiro 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "CONFIGURAÇÕES"
+   Caption         =   "ADMINISTRATIVO"
    ClientHeight    =   10035
    ClientLeft      =   45
    ClientTop       =   330
@@ -28,8 +28,7 @@ Begin VB.Form Sistema_Financeiro
       _ExtentX        =   21405
       _ExtentY        =   17489
       _Version        =   393216
-      Tabs            =   5
-      TabsPerRow      =   5
+      Tab             =   1
       TabHeight       =   520
       TabMaxWidth     =   2999
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -41,9 +40,9 @@ Begin VB.Form Sistema_Financeiro
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      TabCaption(0)   =   "CADASTRO"
+      TabCaption(0)   =   "DESBLOQUEIO"
       TabPicture(0)   =   "Sistema_Financeiro.frx":23D2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "lblMarcado"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lblStatus"
@@ -81,30 +80,97 @@ Begin VB.Form Sistema_Financeiro
       Tab(0).Control(17)=   "Frame2"
       Tab(0).Control(17).Enabled=   0   'False
       Tab(0).ControlCount=   18
-      TabCaption(1)   =   "0"
+      TabCaption(1)   =   "IBPT"
       TabPicture(1)   =   "Sistema_Financeiro.frx":23EE
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).ControlCount=   0
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Frame3"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).ControlCount=   1
       TabCaption(2)   =   "0"
       TabPicture(2)   =   "Sistema_Financeiro.frx":240A
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdSalvarBalanca"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
-      TabCaption(3)   =   "0"
-      TabPicture(3)   =   "Sistema_Financeiro.frx":2426
-      Tab(3).ControlEnabled=   0   'False
-      Tab(3).ControlCount=   0
-      TabCaption(4)   =   "0"
-      TabPicture(4)   =   "Sistema_Financeiro.frx":2442
-      Tab(4).ControlEnabled=   0   'False
-      Tab(4).ControlCount=   0
+      Begin VB.Frame Frame3 
+         Caption         =   "Tabela IBPT"
+         Height          =   1035
+         Left            =   120
+         TabIndex        =   70
+         Top             =   480
+         Width           =   7095
+         Begin VB.TextBox txtLocalIBPT 
+            Appearance      =   0  'Flat
+            Height          =   315
+            Left            =   780
+            TabIndex        =   72
+            Top             =   240
+            Width           =   5715
+         End
+         Begin VB.CommandButton cmdBuscarIBPT 
+            Appearance      =   0  'Flat
+            Caption         =   "..."
+            Height          =   315
+            Left            =   6540
+            TabIndex        =   71
+            Top             =   240
+            Width           =   315
+         End
+         Begin ChamaleonBtn.chameleonButton cmdEnviarIBPT 
+            Height          =   315
+            Left            =   5760
+            TabIndex        =   74
+            Top             =   600
+            Width           =   1155
+            _ExtentX        =   2037
+            _ExtentY        =   556
+            BTYPE           =   3
+            TX              =   "Enviar"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Sistema_Financeiro.frx":2426
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin VB.Label lblDirXML 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Tabela:"
+            Height          =   195
+            Left            =   180
+            TabIndex        =   73
+            Top             =   285
+            Width           =   540
+         End
+      End
       Begin VB.Frame Frame2 
          Caption         =   "Mensagens para clientes"
          Height          =   1875
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   33
-         Top             =   7920
+         Top             =   7620
          Width           =   11955
          Begin VB.TextBox txtMensagem 
             Height          =   675
@@ -157,7 +223,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":245E
+            MICON           =   "Sistema_Financeiro.frx":2442
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -195,7 +261,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":247A
+            MICON           =   "Sistema_Financeiro.frx":245E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -233,7 +299,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2496
+            MICON           =   "Sistema_Financeiro.frx":247A
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -271,7 +337,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":24B2
+            MICON           =   "Sistema_Financeiro.frx":2496
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -309,7 +375,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":24CE
+            MICON           =   "Sistema_Financeiro.frx":24B2
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -347,7 +413,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":24EA
+            MICON           =   "Sistema_Financeiro.frx":24CE
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -385,7 +451,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2506
+            MICON           =   "Sistema_Financeiro.frx":24EA
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -423,7 +489,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2522
+            MICON           =   "Sistema_Financeiro.frx":2506
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -461,7 +527,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":253E
+            MICON           =   "Sistema_Financeiro.frx":2522
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -499,7 +565,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":255A
+            MICON           =   "Sistema_Financeiro.frx":253E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -582,9 +648,9 @@ Begin VB.Form Sistema_Financeiro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   15
-         Top             =   7020
+         Top             =   6720
          Width           =   11955
          Begin VB.TextBox txtCodDesbloqueioTemp 
             BackColor       =   &H00C0FFC0&
@@ -646,7 +712,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2576
+            MICON           =   "Sistema_Financeiro.frx":255A
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -684,7 +750,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2592
+            MICON           =   "Sistema_Financeiro.frx":2576
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -722,7 +788,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":25AE
+            MICON           =   "Sistema_Financeiro.frx":2592
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -760,7 +826,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":25CA
+            MICON           =   "Sistema_Financeiro.frx":25AE
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -798,7 +864,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":25E6
+            MICON           =   "Sistema_Financeiro.frx":25CA
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -861,9 +927,9 @@ Begin VB.Form Sistema_Financeiro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2055
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   12
-         Top             =   4980
+         Top             =   4680
          Width           =   11955
          Begin VB.OptionButton optCPF 
             Caption         =   "CPF"
@@ -942,7 +1008,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2602
+            MICON           =   "Sistema_Financeiro.frx":25E6
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -993,7 +1059,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":261E
+            MICON           =   "Sistema_Financeiro.frx":2602
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1031,7 +1097,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":263A
+            MICON           =   "Sistema_Financeiro.frx":261E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1069,7 +1135,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2656
+            MICON           =   "Sistema_Financeiro.frx":263A
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1107,7 +1173,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":2672
+            MICON           =   "Sistema_Financeiro.frx":2656
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1145,7 +1211,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":268E
+            MICON           =   "Sistema_Financeiro.frx":2672
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1183,7 +1249,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":26AA
+            MICON           =   "Sistema_Financeiro.frx":268E
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1221,7 +1287,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":26C6
+            MICON           =   "Sistema_Financeiro.frx":26AA
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1272,7 +1338,7 @@ Begin VB.Form Sistema_Financeiro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Sistema_Financeiro.frx":26E2
+            MICON           =   "Sistema_Financeiro.frx":26C6
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -1336,7 +1402,7 @@ Begin VB.Form Sistema_Financeiro
          Height          =   615
          Left            =   -68400
          TabIndex        =   5
-         Top             =   7980
+         Top             =   7680
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
@@ -1360,8 +1426,8 @@ Begin VB.Form Sistema_Financeiro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Sistema_Financeiro.frx":26FE
-         PICN            =   "Sistema_Financeiro.frx":271A
+         MICON           =   "Sistema_Financeiro.frx":26E2
+         PICN            =   "Sistema_Financeiro.frx":26FE
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1373,9 +1439,9 @@ Begin VB.Form Sistema_Financeiro
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   3675
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   6
-         Top             =   660
+         Top             =   360
          Width           =   11895
          _ExtentX        =   20981
          _ExtentY        =   6482
@@ -1385,14 +1451,52 @@ Begin VB.Form Sistema_Financeiro
       End
       Begin ChamaleonBtn.chameleonButton cmdMarcar 
          Height          =   315
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   0
-         Top             =   4380
+         Top             =   4080
          Width           =   795
          _ExtentX        =   1402
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Marcar"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Sistema_Financeiro.frx":4490
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
+         Height          =   315
+         Left            =   -74040
+         TabIndex        =   1
+         Top             =   4080
+         Width           =   855
+         _ExtentX        =   1508
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "Desmarcar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1421,16 +1525,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
+      Begin ChamaleonBtn.chameleonButton cmdDesmarcarTodos 
          Height          =   315
-         Left            =   960
-         TabIndex        =   1
-         Top             =   4380
-         Width           =   855
-         _ExtentX        =   1508
+         Left            =   -71820
+         TabIndex        =   2
+         Top             =   4080
+         Width           =   1455
+         _ExtentX        =   2566
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Desmarcar"
+         TX              =   "Desmarcar Todos"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1459,16 +1563,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdDesmarcarTodos 
+      Begin ChamaleonBtn.chameleonButton cmdEnviarUm 
          Height          =   315
-         Left            =   3180
-         TabIndex        =   2
-         Top             =   4380
-         Width           =   1455
-         _ExtentX        =   2566
+         Left            =   -66480
+         TabIndex        =   7
+         Top             =   4080
+         Width           =   1575
+         _ExtentX        =   2778
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Desmarcar Todos"
+         TX              =   "Enviar Selecionado"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1497,16 +1601,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdEnviarUm 
+      Begin ChamaleonBtn.chameleonButton cmdMostrarTudo 
          Height          =   315
-         Left            =   8520
-         TabIndex        =   7
-         Top             =   4380
-         Width           =   1575
-         _ExtentX        =   2778
+         Left            =   -65760
+         TabIndex        =   8
+         Top             =   60
+         Width           =   1395
+         _ExtentX        =   2461
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Enviar Selecionado"
+         TX              =   "Mostrar Fantasia"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1535,16 +1639,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdMostrarTudo 
+      Begin ChamaleonBtn.chameleonButton ccmdMostrarRazao 
          Height          =   315
-         Left            =   9240
-         TabIndex        =   8
-         Top             =   360
+         Left            =   -64320
+         TabIndex        =   9
+         Top             =   60
          Width           =   1395
          _ExtentX        =   2461
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Mostrar Fantasia"
+         TX              =   "Mostrar Razao"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1573,16 +1677,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton ccmdMostrarRazao 
+      Begin ChamaleonBtn.chameleonButton cmdEnviarTodos 
          Height          =   315
-         Left            =   10680
-         TabIndex        =   9
-         Top             =   360
-         Width           =   1395
-         _ExtentX        =   2461
+         Left            =   -64860
+         TabIndex        =   10
+         Top             =   4080
+         Width           =   1875
+         _ExtentX        =   3307
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Mostrar Razao"
+         TX              =   "Enviar Todos Marcados"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1611,16 +1715,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdEnviarTodos 
+      Begin ChamaleonBtn.chameleonButton cmdMarcarTodos 
          Height          =   315
-         Left            =   10140
-         TabIndex        =   10
-         Top             =   4380
-         Width           =   1875
-         _ExtentX        =   3307
+         Left            =   -73140
+         TabIndex        =   11
+         Top             =   4080
+         Width           =   1275
+         _ExtentX        =   2249
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Enviar Todos Marcados"
+         TX              =   "Marcar Todos"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1649,16 +1753,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdMarcarTodos 
+      Begin ChamaleonBtn.chameleonButton cmdGerenciaNet 
          Height          =   315
-         Left            =   1860
-         TabIndex        =   11
-         Top             =   4380
-         Width           =   1275
-         _ExtentX        =   2249
+         Left            =   -67560
+         TabIndex        =   56
+         Top             =   4080
+         Width           =   1035
+         _ExtentX        =   1826
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Marcar Todos"
+         TX              =   "Ler Arquivo"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1687,16 +1791,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdGerenciaNet 
+      Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   315
-         Left            =   7440
-         TabIndex        =   56
-         Top             =   4380
-         Width           =   1035
-         _ExtentX        =   1826
+         Left            =   -70320
+         TabIndex        =   61
+         Top             =   4080
+         Width           =   795
+         _ExtentX        =   1402
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Ler Arquivo"
+         TX              =   "Imprimir"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1725,16 +1829,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdImprimir 
+      Begin ChamaleonBtn.chameleonButton cmdMostrarMarcados 
          Height          =   315
-         Left            =   4680
-         TabIndex        =   61
-         Top             =   4380
-         Width           =   795
-         _ExtentX        =   1402
+         Left            =   -67200
+         TabIndex        =   68
+         Top             =   60
+         Width           =   1395
+         _ExtentX        =   2461
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Imprimir"
+         TX              =   "Mostrar Marcados"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1763,16 +1867,16 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdMostrarMarcados 
+      Begin ChamaleonBtn.chameleonButton cmdAnual 
          Height          =   315
-         Left            =   7800
-         TabIndex        =   68
-         Top             =   360
-         Width           =   1395
-         _ExtentX        =   2461
+         Left            =   -68040
+         TabIndex        =   69
+         Top             =   60
+         Width           =   795
+         _ExtentX        =   1402
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Mostrar Marcados"
+         TX              =   "Anual"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -1801,44 +1905,6 @@ Begin VB.Form Sistema_Financeiro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdAnual 
-         Height          =   315
-         Left            =   120
-         TabIndex        =   69
-         Top             =   360
-         Width           =   795
-         _ExtentX        =   1402
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Anual"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Sistema_Financeiro.frx":45E0
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
       Begin VB.Label lblStatus 
          AutoSize        =   -1  'True
          Caption         =   "STATUS"
@@ -1853,18 +1919,18 @@ Begin VB.Form Sistema_Financeiro
          EndProperty
          ForeColor       =   &H00FF0000&
          Height          =   195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   57
-         Top             =   4740
+         Top             =   4440
          Width           =   750
       End
       Begin VB.Label lblMarcado 
          AutoSize        =   -1  'True
          Caption         =   "0000"
          Height          =   195
-         Left            =   5520
+         Left            =   -69480
          TabIndex        =   55
-         Top             =   4440
+         Top             =   4140
          Width           =   360
       End
    End
@@ -2327,20 +2393,20 @@ deuErro:
    Err.Clear
 End Sub
 
-Private Sub MarcarGerarEnviar(ByVal vCNPJ As String)
+Private Sub MarcarGerarEnviar(ByVal vCnpj As String)
 Dim codDesbloqueio As String
     'Marca a empresa e salva mes/ano referencia
-    sSQL = "UPDATE empresas_desbloueio SET Mes_Referente = '" & EA(cboMes.TEXT) & "', Ano_Referente = '" & EA(cboAno.TEXT) & "', marcado = 1 WHERE CNPJ = '" & EA(vCNPJ) & "'"
+    sSQL = "UPDATE empresas_desbloueio SET Mes_Referente = '" & EA(cboMes.TEXT) & "', Ano_Referente = '" & EA(cboAno.TEXT) & "', marcado = 1 WHERE CNPJ = '" & EA(vCnpj) & "'"
     dbData.Execute sSQL
     'Gera código Desbloqueio
-    sSQL = "SELECT RAZAO, CNPJ, celular, Mes_Referente, Ano_Referente, Cod_Desbloqueio FROM empresas_desbloueio WHERE CNPJ = '" & EA(vCNPJ) & "'"
+    sSQL = "SELECT RAZAO, CNPJ, celular, Mes_Referente, Ano_Referente, Cod_Desbloqueio FROM empresas_desbloueio WHERE CNPJ = '" & EA(vCnpj) & "'"
     codDesbloqueio = GeraCodigoDesbloqueio(SQLExecutaRetorno(sSQL, "CNPJ", ""), SQLExecutaRetorno(sSQL, "RAZAO", ""), SQLExecutaRetorno(sSQL, "Mes_Referente", ""), SQLExecutaRetorno(sSQL, "Ano_Referente", ""))
     'Salva código Desbloqueio gerado
-    sSQL = "UPDATE empresas_desbloueio SET Cod_Desbloqueio = '" & EA(codDesbloqueio) & "' WHERE CNPJ = '" & EA(vCNPJ) & "'"
+    sSQL = "UPDATE empresas_desbloueio SET Cod_Desbloqueio = '" & EA(codDesbloqueio) & "' WHERE CNPJ = '" & EA(vCnpj) & "'"
     dbData.Execute sSQL
     'Envia mensagem com o código de Desbloqueio para o celular cadastrado
-    sSQL = "SELECT RAZAO, CNPJ, celular, Cod_Desbloqueio FROM empresas_desbloueio WHERE CNPJ = '" & EA(vCNPJ) & "'"
-    iRetorno = WhatsAppEnviar(SQLExecutaRetorno(sSQL, "CNPJ", ""), SQLExecutaRetorno(sSQL, "RAZAO", ""), SQLExecutaRetorno(sSQL, "celular", ""), SQLExecutaRetorno(sSQL, "Cod_Desbloqueio", ""))
+    'sSQL = "SELECT RAZAO, CNPJ, celular, Cod_Desbloqueio FROM empresas_desbloueio WHERE CNPJ = '" & EA(vCnpj) & "'"
+    'iRetorno = WhatsAppEnviar(SQLExecutaRetorno(sSQL, "CNPJ", ""), SQLExecutaRetorno(sSQL, "RAZAO", ""), SQLExecutaRetorno(sSQL, "celular", ""), SQLExecutaRetorno(sSQL, "Cod_Desbloqueio", ""))
 End Sub
 
 Private Function GeraCodigoDesbloqueio(CNPJ As String, RazaoSocial As String, MesRef As String, AnoRef As String) As String
@@ -2477,11 +2543,11 @@ Dim ekZap As zapzap.cZap
     'ekZap.FTPpassw = "Webier@online"
     'ekZap.HTTPurl = "http://www.ekklesiasoft.com.br/zapzap/onlineinfo"
     'iRetorno = ekZap.ConfigurarDLL("onlineinfo@ekklesiasoft.com.br", "6d3a55c40463afc5f5824e031bb0d0b445907", "6464", eProvedor_Solutek, mensagemErro)
-   'iRetorno = ekZap.ConfigurarDLL("onlineinfo@ekklesiasoft.com.br", "65cce637c50487a7e4bee5203bb9320b709088", "6373", mensagemErro)
+    iRetorno = ekZap.configurarDLL("onlineinfo@ekklesiasoft.com.br", "26f4c100ffec076234198d8c10e85b845839b3f40340b2a212f23cf137c13f7e", "onlineinfo@ekklesiasoft.com.br", eProvedor_EkklesiaSoft, mensagemErro)
 
     DoEvents
-    'iRetorno = ekZap.Enviar(idmsg, nTelefone, Trim(RazaoSocial) & vbNewLine & mensagemEnvio, mensagemRetorno, mensagemErro)
-    iRetorno = WhatsAppMensagemEnvio(nTelefone, Trim(RazaoSocial) & vbNewLine & mensagemEnvio, mensagemRetorno, mensagemErro)
+    iRetorno = ekZap.enviar(idmsg, nTelefone, Trim(RazaoSocial) & vbNewLine & mensagemEnvio, mensagemRetorno, mensagemErro)
+    'iRetorno = WhatsAppMensagemEnvio(nTelefone, Trim(RazaoSocial) & vbNewLine & mensagemEnvio, mensagemRetorno, mensagemErro)
 
     If Not iRetorno Then
        MsgBox "ERRO ENVIO: " & mensagemErro, vbCritical + vbOKOnly
@@ -2570,8 +2636,8 @@ Dim ekZap As zapzap.cZap
        GoTo PulaProximo
     End If
     
-    'nTelefone = "+55" + Retira(nTelefone, "()- ", UM_A_UM)
-    nTelefone = Retira(nTelefone, "()- ", UM_A_UM)
+    nTelefone = "+55" + Retira(nTelefone, "()- ", UM_A_UM)
+    'nTelefone = Retira(nTelefone, "()- ", UM_A_UM)
         
     idmsg = Int((Rnd * 999) + 1)
     lblStatus.Caption = "Enviando mensagem para " & Trim(RazaoSocial) & ". Aguarde..."
@@ -2587,10 +2653,11 @@ Dim ekZap As zapzap.cZap
     'ekZap.FTPuser = "onlineinfo@ekklesiasoft.com.br"
     'ekZap.FTPpassw = "Webier@online"
     'ekZap.HTTPurl = "http://www.ekklesiasoft.com.br/zapzap/onlineinfo"
-    'iRetorno = ekZap.ConfigurarDLL("onlineinfo@ekklesiasoft.com.br", "35d757ce6f23323ff688299b67029f62435839", "6713", mensagemErro)
-    'DoEvents
+    iRetorno = ekZap.configurarDLL("onlineinfo@ekklesiasoft.com.br", "26f4c100ffec076234198d8c10e85b845839b3f40340b2a212f23cf137c13f7e", "onlineinfo@ekklesiasoft.com.br", eProvedor_EkklesiaSoft, mensagemErro)
+    DoEvents
     'iRetorno = ekZap.Enviar(idmsg, nTelefone, mensagemEnvio, mensagemRetorno, mensagemErro)
-    iRetorno = WhatsAppMensagemEnvio(nTelefone, mensagemEnvio, mensagemRetorno, mensagemErro)
+    iRetorno = ekZap.enviar(idmsg, nTelefone, mensagemEnvio, mensagemRetorno, mensagemErro)
+    'iRetorno = WhatsAppMensagemEnvio(nTelefone, mensagemEnvio, mensagemRetorno, mensagemErro)
 '    iRetorno = ekZap.ConfigurarDLL("webieronline@gmail.com", "df925a69bcfbca2ae8465cf40e869fa8519253", "5878", mensagemErro)
   
 
@@ -2774,6 +2841,50 @@ Dim FSys As FileSystemObject 'referencia que nao deixa copiar arquivos duplicado
     txtCaminho.TEXT = CommonDialog1.FileName
        'picLogo.Picture = LoadPicture(txtCaminho.Text) 'mostrar a imagem
     Set FSys = Nothing
+End Sub
+
+Private Sub cmdBuscarIBPT_Click()
+On Error GoTo CancelaBrowse
+CommonDialog1.Filter = "Arquivos CSV (*.csv)|*.csv"
+CommonDialog1.FilterIndex = 1
+CommonDialog1.DialogTitle = "Selecionar Tabela IBPT"
+CommonDialog1.Flags = &H1000        'OFN_FILEMUSTEXIST
+CommonDialog1.ShowOpen
+If CommonDialog1.FileName = "" Then Exit Sub
+txtLocalIBPT.Text = CommonDialog1.FileName
+Exit Sub
+CancelaBrowse:
+End Sub
+
+Private Sub cmdEnviarIBPT_Click()
+'envia manualmente a tabela IBPT (baixada por mim, desenvolvedor) pro Shared Drive "IBPT"
+'no Google Drive - de la, a rotina automatica (Etapa 2, OnlineCommerce/PDV) vai buscar,
+'baixar e importar a tabela em cada cliente todo dia 30
+If txtLocalIBPT.Text = "" Then
+    MsgBox "Selecione o arquivo da tabela IBPT antes de enviar.", vbExclamation, "Tabela IBPT"
+    Exit Sub
+End If
+
+Dim FSys As FileSystemObject
+Set FSys = New FileSystemObject
+If Not FSys.FileExists(txtLocalIBPT.Text) Then
+    MsgBox "Arquivo não encontrado: " & txtLocalIBPT.Text, vbExclamation, "Tabela IBPT"
+    Set FSys = Nothing
+    Exit Sub
+End If
+Set FSys = Nothing
+
+Dim bEnviouIBPT As Boolean
+Screen.MousePointer = 11
+mensagemErro = ""
+bEnviouIBPT = GoogleEnviarArquivo(txtLocalIBPT.Text, "IBPT", "0AI0VAvFMSupDUk9PVA")
+Screen.MousePointer = 0
+
+If bEnviouIBPT Then
+    MsgBox "Tabela IBPT enviada para a nuvem com sucesso!", vbInformation, "Tabela IBPT"
+Else
+    MsgBox "Falha ao enviar a tabela IBPT." & IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Tabela IBPT"
+End If
 End Sub
 
 Private Sub cmdMostrarTudo_Click()

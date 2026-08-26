@@ -2143,18 +2143,25 @@ If vConfImprimeNFCeLocal = "SIM" Then
     'frameAguarde.Visible = True
     DoEvents
     Do While Not r.EOF
-        iRetorno = ConfiguraDLLNFeNFCe(65, "1", sistNFe)
+        'nota a nota - uma falha de rede/DLL numa nao pode travar as demais nem propagar erro
+        'pro chamador (o fechamento de caixa ja foi commitado antes desta sub rodar)
+        On Error Resume Next
+        Err.Clear
+        IdNFProd = r!IdNFProd
         nNota = r!NumeNota
+        iRetorno = ConfiguraDLLNFeNFCe(65, "1", sistNFe)
         iRetorno = sistNFe.InutilizarNumeracao(Format(Date, "yyyy"), CNPJ, "ERRO AO TRANSMITIR NOTA, PERDA DE SEQUENCIA", nNota, nNota, 1, xCaminhoXML)
-        cStat = sistNFe.retInutilizacao.infInut.cStat
-        NFeMotivo = sistNFe.retInutilizacao.infInut.xMotivo
-        NFeDataHora = sistNFe.retInutilizacao.infInut.dhRecbto
-        NFeNumeroProtocolo = sistNFe.retInutilizacao.infInut.nProt
-        If cStat = 102 Or cStat = 563 Then
-           sSQL = "UPDATE TbNFCe SET Inutilizada = 1, NFCeProtocolo = " & NFeNumeroProtocolo & ", NFCeProtocoloDataHora = '" & NFeDataHora & "', Num_OS_VD_Origem = 0 WHERE IdNFProd = " & r!IdNFProd
-           vgDb.Execute sSQL
-        Else
+        If Err.Number = 0 Then
+            cStat = sistNFe.retInutilizacao.infInut.cStat
+            NFeMotivo = sistNFe.retInutilizacao.infInut.xMotivo
+            NFeDataHora = sistNFe.retInutilizacao.infInut.dhRecbto
+            NFeNumeroProtocolo = sistNFe.retInutilizacao.infInut.nProt
+            If cStat = 102 Or cStat = 563 Then
+               sSQL = "UPDATE TbNFCe SET Inutilizada = 1, NFCeProtocolo = " & NFeNumeroProtocolo & ", NFCeProtocoloDataHora = '" & NFeDataHora & "', Num_OS_VD_Origem = 0 WHERE IdNFProd = " & IdNFProd
+               vgDb.Execute sSQL
+            End If
         End If
+        On Error GoTo 0
     
         r.MoveNext
     Loop
@@ -2341,10 +2348,14 @@ bTrans = True
 dbData.Execute sSQL
 
 GerarSaldo
-'InutilizarCuponsFiscais
 
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
+
+'roda so depois do COMMIT - InutilizarNumeracao e uma chamada de rede pra SEFAZ (pode
+'demorar/falhar) e o UPDATE em TbNFCe usa vgDb (conexao separada de dbData) que NAO seria
+'desfeito num rollback do fechamento - so roda quando o fechamento ja esta garantido
+InutilizarCuponsFiscais
 
 'verificar se a maquina é o servidor
 Dim vNomeMaquina As String
