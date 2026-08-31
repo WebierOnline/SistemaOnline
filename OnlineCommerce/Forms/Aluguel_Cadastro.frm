@@ -1,8 +1,8 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Aluguel_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
@@ -28,14 +28,14 @@ Begin VB.Form Aluguel_Cadastro
       Left            =   60
       ScaleHeight     =   705
       ScaleWidth      =   14565
-      TabIndex        =   36
+      TabIndex        =   51
       Top             =   60
       Width           =   14595
       Begin VB.TextBox txtCodFuncionario 
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   13260
-         TabIndex        =   141
+         TabIndex        =   143
          Top             =   180
          Width           =   1215
       End
@@ -56,7 +56,7 @@ Begin VB.Form Aluguel_Cadastro
          ForeColor       =   &H00000000&
          Height          =   285
          Left            =   10800
-         TabIndex        =   69
+         TabIndex        =   84
          Top             =   240
          Width           =   1110
       End
@@ -77,7 +77,7 @@ Begin VB.Form Aluguel_Cadastro
          ForeColor       =   &H80000008&
          Height          =   315
          Left            =   12000
-         TabIndex        =   66
+         TabIndex        =   81
          Top             =   180
          Width           =   1155
       End
@@ -105,7 +105,7 @@ Begin VB.Form Aluguel_Cadastro
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1320
-         TabIndex        =   37
+         TabIndex        =   52
          Top             =   180
          Width           =   1500
       End
@@ -113,7 +113,7 @@ Begin VB.Form Aluguel_Cadastro
    Begin TabDlg.SSTab SSTab1 
       Height          =   8355
       Left            =   60
-      TabIndex        =   29
+      TabIndex        =   44
       Top             =   840
       Width           =   14595
       _ExtentX        =   25744
@@ -180,7 +180,7 @@ Begin VB.Form Aluguel_Cadastro
          EndProperty
          Height          =   285
          Left            =   -61860
-         TabIndex        =   41
+         TabIndex        =   56
          Top             =   7980
          Width           =   1335
       End
@@ -198,7 +198,7 @@ Begin VB.Form Aluguel_Cadastro
          EndProperty
          Height          =   285
          Left            =   -61860
-         TabIndex        =   40
+         TabIndex        =   55
          Top             =   7680
          Width           =   1335
       End
@@ -210,7 +210,7 @@ Begin VB.Form Aluguel_Cadastro
          Left            =   -74940
          ScaleHeight     =   885
          ScaleWidth      =   14325
-         TabIndex        =   39
+         TabIndex        =   54
          Top             =   420
          Width           =   14355
          Begin VB.Frame Frame3 
@@ -218,13 +218,13 @@ Begin VB.Form Aluguel_Cadastro
             Caption         =   "Critérios"
             Height          =   675
             Left            =   4980
-            TabIndex        =   53
+            TabIndex        =   68
             Top             =   60
             Width           =   4935
             Begin ChamaleonBtn.chameleonButton cmdFinal 
                Height          =   315
                Left            =   4260
-               TabIndex        =   59
+               TabIndex        =   74
                Tag             =   "Calendario"
                Top             =   240
                Visible         =   0   'False
@@ -266,7 +266,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdInicial 
                Height          =   315
                Left            =   2040
-               TabIndex        =   58
+               TabIndex        =   73
                Tag             =   "Calendario"
                Top             =   240
                Visible         =   0   'False
@@ -308,7 +308,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin VB.ComboBox cboNome 
                Height          =   315
                Left            =   720
-               TabIndex        =   64
+               TabIndex        =   79
                Top             =   240
                Visible         =   0   'False
                Width           =   3855
@@ -317,7 +317,7 @@ Begin VB.Form Aluguel_Cadastro
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   4080
-               TabIndex        =   63
+               TabIndex        =   78
                Top             =   240
                Visible         =   0   'False
                Width           =   495
@@ -326,7 +326,7 @@ Begin VB.Form Aluguel_Cadastro
                Height          =   315
                Left            =   3120
                Sorted          =   -1  'True
-               TabIndex        =   61
+               TabIndex        =   76
                Top             =   240
                Visible         =   0   'False
                Width           =   1155
@@ -336,7 +336,7 @@ Begin VB.Form Aluguel_Cadastro
                ItemData        =   "Aluguel_Cadastro.frx":B97A
                Left            =   1320
                List            =   "Aluguel_Cadastro.frx":B97C
-               TabIndex        =   60
+               TabIndex        =   75
                Top             =   240
                Visible         =   0   'False
                Width           =   1755
@@ -344,7 +344,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin MSMask.MaskEdBox Mask2 
                Height          =   315
                Left            =   3300
-               TabIndex        =   54
+               TabIndex        =   69
                Top             =   240
                Visible         =   0   'False
                Width           =   1275
@@ -356,7 +356,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin MSMask.MaskEdBox Mask1 
                Height          =   315
                Left            =   1080
-               TabIndex        =   55
+               TabIndex        =   70
                Top             =   240
                Visible         =   0   'False
                Width           =   1275
@@ -371,7 +371,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Nome:"
                Height          =   195
                Left            =   180
-               TabIndex        =   65
+               TabIndex        =   80
                Top             =   240
                Visible         =   0   'False
                Width           =   465
@@ -382,7 +382,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "E&scolha o mês:"
                Height          =   195
                Left            =   180
-               TabIndex        =   62
+               TabIndex        =   77
                Top             =   300
                Visible         =   0   'False
                Width           =   1080
@@ -392,7 +392,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Da&ta Inicial:"
                Height          =   195
                Left            =   180
-               TabIndex        =   57
+               TabIndex        =   72
                Top             =   300
                Visible         =   0   'False
                Width           =   840
@@ -402,7 +402,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Data &Final:"
                Height          =   195
                Left            =   2460
-               TabIndex        =   56
+               TabIndex        =   71
                Top             =   300
                Visible         =   0   'False
                Width           =   765
@@ -413,14 +413,14 @@ Begin VB.Form Aluguel_Cadastro
             Caption         =   "Status"
             Height          =   675
             Left            =   3240
-            TabIndex        =   51
+            TabIndex        =   66
             Top             =   60
             Width           =   1695
             Begin VB.ComboBox cboCONStatus 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   60
-               TabIndex        =   52
+               TabIndex        =   67
                TabStop         =   0   'False
                Top             =   240
                Width           =   1575
@@ -431,14 +431,14 @@ Begin VB.Form Aluguel_Cadastro
             Caption         =   "Ordem"
             Height          =   675
             Left            =   1680
-            TabIndex        =   49
+            TabIndex        =   64
             Top             =   60
             Width           =   1515
             Begin VB.ComboBox cboOrdem 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   60
-               TabIndex        =   50
+               TabIndex        =   65
                TabStop         =   0   'False
                Top             =   240
                Width           =   1395
@@ -449,14 +449,14 @@ Begin VB.Form Aluguel_Cadastro
             Caption         =   "Filtro"
             Height          =   675
             Left            =   60
-            TabIndex        =   47
+            TabIndex        =   62
             Top             =   60
             Width           =   1575
             Begin VB.ComboBox cboFiltro 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   60
-               TabIndex        =   48
+               TabIndex        =   63
                TabStop         =   0   'False
                Top             =   240
                Width           =   1455
@@ -465,7 +465,7 @@ Begin VB.Form Aluguel_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdExibirConsulta 
             Height          =   615
             Left            =   9960
-            TabIndex        =   45
+            TabIndex        =   60
             Top             =   120
             Width           =   1515
             _ExtentX        =   2672
@@ -504,7 +504,7 @@ Begin VB.Form Aluguel_Cadastro
          Begin ChamaleonBtn.chameleonButton cmdImprimirConsulta 
             Height          =   615
             Left            =   11520
-            TabIndex        =   72
+            TabIndex        =   87
             Top             =   120
             Width           =   1515
             _ExtentX        =   2672
@@ -549,9 +549,616 @@ Begin VB.Form Aluguel_Cadastro
          Left            =   120
          ScaleHeight     =   7845
          ScaleWidth      =   12645
-         TabIndex        =   30
+         TabIndex        =   45
          Top             =   420
          Width           =   12675
+         Begin VB.Frame frmProrrogacao 
+            Caption         =   "Prorrogação"
+            Height          =   1815
+            Left            =   6420
+            TabIndex        =   109
+            Top             =   5940
+            Width           =   6195
+            Begin VB.TextBox txtQuantItem 
+               Height          =   285
+               Left            =   2100
+               TabIndex        =   141
+               Top             =   0
+               Visible         =   0   'False
+               Width           =   675
+            End
+            Begin VB.TextBox txtTotalAluguelDescProrro 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0FFFF&
+               Height          =   315
+               Left            =   3060
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   137
+               TabStop         =   0   'False
+               Top             =   1140
+               Width           =   855
+            End
+            Begin VB.TextBox txtDescAluguelProrro 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0FFFF&
+               Height          =   315
+               Left            =   2400
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   136
+               Top             =   1140
+               Width           =   615
+            End
+            Begin VB.TextBox txtTotalAluguelProrro 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0FFFF&
+               Height          =   315
+               Left            =   1500
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   134
+               TabStop         =   0   'False
+               Top             =   1140
+               Width           =   915
+            End
+            Begin VB.TextBox txtEntradaAdiar 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0FFFF&
+               Height          =   315
+               Left            =   3960
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   133
+               Top             =   1140
+               Width           =   795
+            End
+            Begin VB.TextBox txtValorRealDescProrro 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   3840
+               MaxLength       =   40
+               TabIndex        =   128
+               Top             =   0
+               Visible         =   0   'False
+               Width           =   615
+            End
+            Begin VB.TextBox txtDescProrro 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   3300
+               MaxLength       =   40
+               TabIndex        =   125
+               Top             =   480
+               Width           =   615
+            End
+            Begin VB.TextBox txtTotalProrro 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00FFFFFF&
+               Height          =   315
+               Left            =   3960
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   124
+               TabStop         =   0   'False
+               Top             =   480
+               Width           =   855
+            End
+            Begin ChamaleonBtn.chameleonButton chameleonButton5 
+               Height          =   315
+               Left            =   3000
+               TabIndex        =   111
+               TabStop         =   0   'False
+               Tag             =   "Calendario"
+               Top             =   480
+               Width           =   315
+               _ExtentX        =   556
+               _ExtentY        =   556
+               BTYPE           =   8
+               TX              =   ""
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   15790320
+               BCOLO           =   15790320
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Aluguel_Cadastro.frx":C5AA
+               PICN            =   "Aluguel_Cadastro.frx":C5C6
+               PICH            =   "Aluguel_Cadastro.frx":E919
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin VB.TextBox txtDiasProrrogar 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0E0FF&
+               Height          =   315
+               Left            =   1020
+               Locked          =   -1  'True
+               TabIndex        =   116
+               Top             =   1140
+               Width           =   495
+            End
+            Begin VB.TextBox txtValorAluguellProrro 
+               Alignment       =   1  'Right Justify
+               BackColor       =   &H00C0FFFF&
+               Height          =   315
+               Left            =   120
+               Locked          =   -1  'True
+               MaxLength       =   40
+               TabIndex        =   110
+               TabStop         =   0   'False
+               Top             =   1140
+               Width           =   915
+            End
+            Begin MSMask.MaskEdBox mskDataProrrogar 
+               Height          =   315
+               Left            =   2160
+               TabIndex        =   112
+               Top             =   480
+               Width           =   1155
+               _ExtentX        =   2037
+               _ExtentY        =   556
+               _Version        =   393216
+               BackColor       =   12632319
+               PromptChar      =   "_"
+            End
+            Begin MSMask.MaskEdBox mskDataFinalLocacaoProrro 
+               Height          =   315
+               Left            =   1140
+               TabIndex        =   118
+               Top             =   480
+               Width           =   975
+               _ExtentX        =   1720
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin MSMask.MaskEdBox mskDataInicioProrro 
+               Height          =   315
+               Left            =   2820
+               TabIndex        =   120
+               Top             =   0
+               Visible         =   0   'False
+               Width           =   975
+               _ExtentX        =   1720
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin ChamaleonBtn.chameleonButton cmdProrrogacao 
+               Height          =   315
+               Left            =   4860
+               TabIndex        =   122
+               ToolTipText     =   "Remove"
+               Top             =   540
+               Visible         =   0   'False
+               Width           =   1275
+               _ExtentX        =   2249
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "Prorrogar"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   12632256
+               BCOLO           =   12632256
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Aluguel_Cadastro.frx":10C6C
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin ChamaleonBtn.chameleonButton cmdAdiacao 
+               Height          =   315
+               Left            =   4860
+               TabIndex        =   131
+               ToolTipText     =   "Remove"
+               Top             =   960
+               Visible         =   0   'False
+               Width           =   1275
+               _ExtentX        =   2249
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "Antecipar"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   12632256
+               BCOLO           =   12632256
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Aluguel_Cadastro.frx":10C88
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin MSMask.MaskEdBox mskDataInicialLocacaoProrro 
+               Height          =   315
+               Left            =   120
+               TabIndex        =   132
+               Top             =   480
+               Width           =   975
+               _ExtentX        =   1720
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin VB.Label Label29 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Desc."
+               Height          =   195
+               Left            =   3300
+               TabIndex        =   140
+               Top             =   240
+               Width           =   420
+            End
+            Begin VB.Label Label28 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Total"
+               Height          =   195
+               Left            =   3060
+               TabIndex        =   139
+               Top             =   900
+               Width           =   360
+            End
+            Begin VB.Label Label23 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Desc."
+               Height          =   195
+               Left            =   2340
+               TabIndex        =   138
+               Top             =   900
+               Width           =   420
+            End
+            Begin VB.Label Label21 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Total"
+               Height          =   195
+               Left            =   1500
+               TabIndex        =   135
+               Top             =   900
+               Width           =   360
+            End
+            Begin VB.Label Label41 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Entrada"
+               Height          =   195
+               Left            =   3960
+               TabIndex        =   129
+               Top             =   900
+               Width           =   555
+            End
+            Begin VB.Label Label40 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Desc."
+               Height          =   195
+               Left            =   3240
+               TabIndex        =   127
+               Top             =   1260
+               Width           =   420
+            End
+            Begin VB.Label Label39 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Restante"
+               Height          =   195
+               Left            =   3960
+               TabIndex        =   126
+               Top             =   240
+               Width           =   645
+            End
+            Begin VB.Label Label38 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Inicio da Prorrogação"
+               Height          =   195
+               Left            =   4320
+               TabIndex        =   121
+               Top             =   120
+               Visible         =   0   'False
+               Width           =   1035
+            End
+            Begin VB.Label Label37 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Data Final"
+               Height          =   195
+               Left            =   1140
+               TabIndex        =   119
+               Top             =   240
+               Width           =   720
+            End
+            Begin VB.Label Label36 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Aluguel"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   117
+               Top             =   900
+               Width           =   525
+            End
+            Begin VB.Label Label35 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Data"
+               Height          =   195
+               Left            =   2160
+               TabIndex        =   115
+               Top             =   240
+               Width           =   345
+            End
+            Begin VB.Label Label34 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Locação"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   114
+               Top             =   240
+               Width           =   630
+            End
+            Begin VB.Label Label32 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Dias"
+               Height          =   195
+               Left            =   1020
+               TabIndex        =   113
+               Top             =   900
+               Width           =   315
+            End
+         End
+         Begin VB.Frame frmPagamento 
+            Caption         =   "Pagamento"
+            BeginProperty Font 
+               Name            =   "Arial Narrow"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00004080&
+            Height          =   1035
+            Left            =   6420
+            TabIndex        =   145
+            Top             =   6780
+            Visible         =   0   'False
+            Width           =   6195
+            Begin VB.TextBox txtDesc 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   5220
+               Locked          =   -1  'True
+               TabIndex        =   43
+               Text            =   "0"
+               Top             =   660
+               Width           =   915
+            End
+            Begin VB.OptionButton opt2forma 
+               Caption         =   "2"
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   195
+               Left            =   5640
+               TabIndex        =   152
+               TabStop         =   0   'False
+               Top             =   180
+               Width           =   495
+            End
+            Begin VB.OptionButton opt1forma 
+               Caption         =   "1 "
+               BeginProperty Font 
+                  Name            =   "Arial"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   195
+               Left            =   5160
+               TabIndex        =   151
+               TabStop         =   0   'False
+               Top             =   180
+               Value           =   -1  'True
+               Width           =   495
+            End
+            Begin VB.CheckBox chkPgtoAuto 
+               Caption         =   "Pgto Automático"
+               BeginProperty Font 
+                  Name            =   "Arial Narrow"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H00800000&
+               Height          =   195
+               Left            =   120
+               TabIndex        =   38
+               Top             =   240
+               Value           =   1  'Checked
+               Width           =   1515
+            End
+            Begin VB.ComboBox cboformaPgto2 
+               Height          =   315
+               Left            =   2760
+               TabIndex        =   41
+               Top             =   660
+               Visible         =   0   'False
+               Width           =   1335
+            End
+            Begin VB.ComboBox cboformaPgto1 
+               Height          =   315
+               Left            =   120
+               TabIndex        =   39
+               Top             =   660
+               Width           =   1515
+            End
+            Begin VB.TextBox txtValor2 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   4140
+               Locked          =   -1  'True
+               TabIndex        =   42
+               Text            =   "0"
+               Top             =   660
+               Visible         =   0   'False
+               Width           =   1035
+            End
+            Begin VB.TextBox txtValor1 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   1680
+               TabIndex        =   40
+               Text            =   "0"
+               Top             =   660
+               Width           =   1035
+            End
+            Begin VB.Label lblDesc 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Desconto"
+               Height          =   195
+               Left            =   5220
+               TabIndex        =   153
+               Top             =   460
+               Width           =   690
+            End
+            Begin VB.Label Label16 
+               AutoSize        =   -1  'True
+               Caption         =   "Qtde. Formas:"
+               BeginProperty Font 
+                  Name            =   "Arial Narrow"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               Height          =   225
+               Left            =   4080
+               TabIndex        =   150
+               Top             =   120
+               Width           =   975
+            End
+            Begin VB.Label lblformaPgto2 
+               Alignment       =   1  'Right Justify
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Forma Pgto 2"
+               Height          =   195
+               Left            =   2760
+               TabIndex        =   149
+               Top             =   460
+               Visible         =   0   'False
+               Width           =   945
+            End
+            Begin VB.Label lblformaPgto1 
+               Alignment       =   1  'Right Justify
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Forma Pgto 1"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   148
+               Top             =   460
+               Width           =   945
+            End
+            Begin VB.Label lblValor2 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Valor"
+               Height          =   195
+               Left            =   4140
+               TabIndex        =   147
+               Top             =   460
+               Visible         =   0   'False
+               Width           =   360
+            End
+            Begin VB.Label lblValor1 
+               Alignment       =   1  'Right Justify
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Valor:"
+               Height          =   195
+               Left            =   1680
+               TabIndex        =   146
+               Top             =   460
+               Width           =   405
+            End
+         End
          Begin VB.Frame frmCliente 
             BackColor       =   &H00E0E0E0&
             Caption         =   "Locatário"
@@ -567,7 +1174,7 @@ Begin VB.Form Aluguel_Cadastro
             EndProperty
             Height          =   975
             Left            =   60
-            TabIndex        =   33
+            TabIndex        =   48
             Top             =   60
             Width           =   12495
             Begin VB.ComboBox cboSituacao 
@@ -604,7 +1211,7 @@ Begin VB.Form Aluguel_Cadastro
                Appearance      =   0  'Flat
                Height          =   285
                Left            =   5880
-               TabIndex        =   34
+               TabIndex        =   49
                Top             =   240
                Visible         =   0   'False
                Width           =   615
@@ -615,7 +1222,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Situação:"
                Height          =   195
                Left            =   120
-               TabIndex        =   140
+               TabIndex        =   142
                Top             =   240
                Width           =   675
             End
@@ -625,7 +1232,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Cidade:"
                Height          =   195
                Left            =   10080
-               TabIndex        =   68
+               TabIndex        =   83
                Top             =   240
                Width           =   540
             End
@@ -635,7 +1242,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Obra:"
                Height          =   195
                Left            =   7200
-               TabIndex        =   67
+               TabIndex        =   82
                Top             =   240
                Width           =   390
             End
@@ -645,7 +1252,7 @@ Begin VB.Form Aluguel_Cadastro
                Caption         =   "Cliente:"
                Height          =   195
                Left            =   2160
-               TabIndex        =   35
+               TabIndex        =   50
                Top             =   240
                Width           =   525
             End
@@ -665,47 +1272,65 @@ Begin VB.Form Aluguel_Cadastro
             EndProperty
             Height          =   4935
             Left            =   60
-            TabIndex        =   31
+            TabIndex        =   46
             Top             =   1020
             Width           =   12555
             Begin VB.Frame frmCodicoes 
                BackColor       =   &H00E0E0E0&
                Caption         =   "Condições do aluguel"
+               BeginProperty Font 
+                  Name            =   "Arial Narrow"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
                ForeColor       =   &H00000080&
                Height          =   915
                Left            =   120
-               TabIndex        =   79
+               TabIndex        =   94
                Top             =   1200
                Width           =   12375
-               Begin VB.ComboBox cboFormaEntrada 
-                  BackColor       =   &H00C0FFC0&
+               Begin VB.ComboBox txtTipoCobranca 
+                  BackColor       =   &H00C0FFFF&
                   Height          =   315
-                  Left            =   5220
-                  TabIndex        =   20
+                  Left            =   120
+                  TabIndex        =   9
+                  TabStop         =   0   'False
+                  Top             =   480
+                  Width           =   915
+               End
+               Begin VB.ComboBox cboFormaEntrada 
+                  BackColor       =   &H00C0FFFF&
+                  Height          =   315
+                  Left            =   9540
+                  TabIndex        =   22
                   Top             =   480
                   Visible         =   0   'False
-                  Width           =   1875
+                  Width           =   1755
                End
                Begin VB.TextBox txtEntradaReal 
                   Alignment       =   1  'Right Justify
                   BackColor       =   &H00FFFFFF&
                   Height          =   315
-                  Left            =   4320
+                  Left            =   8760
                   Locked          =   -1  'True
                   MaxLength       =   40
-                  TabIndex        =   19
+                  TabIndex        =   21
                   TabStop         =   0   'False
                   Top             =   480
                   Visible         =   0   'False
-                  Width           =   855
+                  Width           =   735
                End
                Begin VB.TextBox txtEntrada 
                   Alignment       =   1  'Right Justify
-                  BackColor       =   &H00C0FFC0&
+                  BackColor       =   &H00C0FFFF&
                   Height          =   315
-                  Left            =   3420
+                  Left            =   7860
                   MaxLength       =   40
-                  TabIndex        =   18
+                  TabIndex        =   20
                   Top             =   480
                   Width           =   855
                End
@@ -713,10 +1338,10 @@ Begin VB.Form Aluguel_Cadastro
                   Alignment       =   1  'Right Justify
                   BackColor       =   &H00FFFFFF&
                   Height          =   315
-                  Left            =   2520
+                  Left            =   6960
                   Locked          =   -1  'True
                   MaxLength       =   40
-                  TabIndex        =   17
+                  TabIndex        =   19
                   TabStop         =   0   'False
                   Top             =   480
                   Width           =   855
@@ -724,9 +1349,9 @@ Begin VB.Form Aluguel_Cadastro
                Begin VB.TextBox txtQuant 
                   Alignment       =   1  'Right Justify
                   Height          =   315
-                  Left            =   120
+                  Left            =   4560
                   Locked          =   -1  'True
-                  TabIndex        =   14
+                  TabIndex        =   16
                   TabStop         =   0   'False
                   Top             =   480
                   Width           =   795
@@ -734,10 +1359,10 @@ Begin VB.Form Aluguel_Cadastro
                Begin VB.TextBox txtTotal 
                   Alignment       =   1  'Right Justify
                   Height          =   315
-                  Left            =   7140
+                  Left            =   11340
                   Locked          =   -1  'True
                   MaxLength       =   40
-                  TabIndex        =   21
+                  TabIndex        =   23
                   TabStop         =   0   'False
                   Top             =   480
                   Visible         =   0   'False
@@ -745,23 +1370,184 @@ Begin VB.Form Aluguel_Cadastro
                End
                Begin VB.TextBox txtDesconto 
                   Alignment       =   1  'Right Justify
+                  BackColor       =   &H00C0FFFF&
                   Height          =   315
-                  Left            =   1860
+                  Left            =   6300
                   MaxLength       =   40
-                  TabIndex        =   16
+                  TabIndex        =   18
                   Top             =   480
                   Width           =   615
                End
                Begin VB.TextBox txtValor 
                   Alignment       =   1  'Right Justify
                   Height          =   315
-                  Left            =   960
+                  Left            =   5400
                   Locked          =   -1  'True
                   MaxLength       =   40
-                  TabIndex        =   15
+                  TabIndex        =   17
                   TabStop         =   0   'False
                   Top             =   480
                   Width           =   855
+               End
+               Begin ChamaleonBtn.chameleonButton chameleonButton1 
+                  Height          =   315
+                  Left            =   1920
+                  TabIndex        =   11
+                  Tag             =   "Calendario"
+                  Top             =   480
+                  Width           =   315
+                  _ExtentX        =   556
+                  _ExtentY        =   556
+                  BTYPE           =   8
+                  TX              =   ""
+                  ENAB            =   -1  'True
+                  BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                     Name            =   "MS Sans Serif"
+                     Size            =   8.25
+                     Charset         =   0
+                     Weight          =   400
+                     Underline       =   0   'False
+                     Italic          =   0   'False
+                     Strikethrough   =   0   'False
+                  EndProperty
+                  COLTYPE         =   1
+                  FOCUSR          =   -1  'True
+                  BCOL            =   15790320
+                  BCOLO           =   15790320
+                  FCOL            =   0
+                  FCOLO           =   0
+                  MCOL            =   12632256
+                  MPTR            =   1
+                  MICON           =   "Aluguel_Cadastro.frx":10CA4
+                  PICN            =   "Aluguel_Cadastro.frx":10CC0
+                  PICH            =   "Aluguel_Cadastro.frx":13013
+                  UMCOL           =   -1  'True
+                  SOFT            =   0   'False
+                  PICPOS          =   0
+                  NGREY           =   0   'False
+                  FX              =   0
+                  HAND            =   0   'False
+                  CHECK           =   0   'False
+                  VALUE           =   0   'False
+               End
+               Begin MSMask.MaskEdBox mskInicio 
+                  Height          =   315
+                  Left            =   1080
+                  TabIndex        =   10
+                  Top             =   480
+                  Width           =   1155
+                  _ExtentX        =   2037
+                  _ExtentY        =   556
+                  _Version        =   393216
+                  BackColor       =   12648447
+                  PromptChar      =   "_"
+               End
+               Begin ChamaleonBtn.chameleonButton chameleonButton2 
+                  Height          =   315
+                  Left            =   3660
+                  TabIndex        =   14
+                  Tag             =   "Calendario"
+                  Top             =   480
+                  Width           =   315
+                  _ExtentX        =   556
+                  _ExtentY        =   556
+                  BTYPE           =   8
+                  TX              =   ""
+                  ENAB            =   -1  'True
+                  BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                     Name            =   "MS Sans Serif"
+                     Size            =   8.25
+                     Charset         =   0
+                     Weight          =   400
+                     Underline       =   0   'False
+                     Italic          =   0   'False
+                     Strikethrough   =   0   'False
+                  EndProperty
+                  COLTYPE         =   1
+                  FOCUSR          =   -1  'True
+                  BCOL            =   15790320
+                  BCOLO           =   15790320
+                  FCOL            =   0
+                  FCOLO           =   0
+                  MCOL            =   12632256
+                  MPTR            =   1
+                  MICON           =   "Aluguel_Cadastro.frx":15366
+                  PICN            =   "Aluguel_Cadastro.frx":15382
+                  PICH            =   "Aluguel_Cadastro.frx":176D5
+                  UMCOL           =   -1  'True
+                  SOFT            =   0   'False
+                  PICPOS          =   0
+                  NGREY           =   0   'False
+                  FX              =   0
+                  HAND            =   0   'False
+                  CHECK           =   0   'False
+                  VALUE           =   0   'False
+               End
+               Begin MSMask.MaskEdBox mskFinal 
+                  Height          =   315
+                  Left            =   2820
+                  TabIndex        =   13
+                  Top             =   480
+                  Width           =   1155
+                  _ExtentX        =   2037
+                  _ExtentY        =   556
+                  _Version        =   393216
+                  BackColor       =   12648447
+                  PromptChar      =   "_"
+               End
+               Begin MSMask.MaskEdBox mskHoraInicio 
+                  Height          =   315
+                  Left            =   2220
+                  TabIndex        =   12
+                  Top             =   480
+                  Width           =   555
+                  _ExtentX        =   979
+                  _ExtentY        =   556
+                  _Version        =   393216
+                  BackColor       =   12648447
+                  PromptChar      =   "_"
+               End
+               Begin MSMask.MaskEdBox mskHoraFinal 
+                  Height          =   315
+                  Left            =   3960
+                  TabIndex        =   15
+                  Top             =   480
+                  Width           =   555
+                  _ExtentX        =   979
+                  _ExtentY        =   556
+                  _Version        =   393216
+                  BackColor       =   12648447
+                  PromptChar      =   "_"
+               End
+               Begin VB.Label Label1 
+                  AutoSize        =   -1  'True
+                  BackColor       =   &H00E0E0E0&
+                  Caption         =   "Tipo"
+                  Height          =   195
+                  Left            =   120
+                  TabIndex        =   156
+                  Top             =   240
+                  Width           =   315
+               End
+               Begin VB.Label lbl5 
+                  AutoSize        =   -1  'True
+                  BackColor       =   &H00E0E0E0&
+                  Caption         =   "Data Inicial"
+                  Height          =   195
+                  Left            =   1080
+                  TabIndex        =   155
+                  Top             =   240
+                  Width           =   795
+               End
+               Begin VB.Label Label4 
+                  AutoSize        =   -1  'True
+                  BackColor       =   &H00E0E0E0&
+                  Caption         =   "Data Final"
+                  Height          =   195
+                  Left            =   2820
+                  TabIndex        =   154
+                  Top             =   240
+                  Width           =   720
                End
                Begin VB.Label lblFormaEntrada 
                   Alignment       =   1  'Right Justify
@@ -779,8 +1565,8 @@ Begin VB.Form Aluguel_Cadastro
                      Strikethrough   =   0   'False
                   EndProperty
                   Height          =   195
-                  Left            =   5220
-                  TabIndex        =   94
+                  Left            =   9540
+                  TabIndex        =   103
                   Top             =   240
                   Visible         =   0   'False
                   Width           =   1305
@@ -790,8 +1576,8 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Entrada(%)"
                   Height          =   195
-                  Left            =   3420
-                  TabIndex        =   88
+                  Left            =   7860
+                  TabIndex        =   102
                   Top             =   240
                   Width           =   765
                End
@@ -800,8 +1586,8 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Subtotal"
                   Height          =   195
-                  Left            =   2520
-                  TabIndex        =   87
+                  Left            =   6960
+                  TabIndex        =   101
                   Top             =   240
                   Width           =   585
                End
@@ -810,8 +1596,8 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Total"
                   Height          =   195
-                  Left            =   7140
-                  TabIndex        =   83
+                  Left            =   11340
+                  TabIndex        =   98
                   Top             =   240
                   Visible         =   0   'False
                   Width           =   360
@@ -821,8 +1607,8 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Qtde.Dias"
                   Height          =   195
-                  Left            =   120
-                  TabIndex        =   82
+                  Left            =   4560
+                  TabIndex        =   97
                   Top             =   240
                   Width           =   705
                End
@@ -831,8 +1617,8 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Desc."
                   Height          =   195
-                  Left            =   1860
-                  TabIndex        =   81
+                  Left            =   6300
+                  TabIndex        =   96
                   Top             =   240
                   Width           =   420
                End
@@ -841,29 +1627,30 @@ Begin VB.Form Aluguel_Cadastro
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Valor"
                   Height          =   195
-                  Left            =   960
-                  TabIndex        =   80
+                  Left            =   5400
+                  TabIndex        =   95
                   Top             =   240
                   Width           =   360
                End
             End
             Begin VB.Frame Frame4 
                BackColor       =   &H00E0E0E0&
-               Caption         =   "Objeto a ser alugado"
+               Caption         =   "Equipamento"
+               BeginProperty Font 
+                  Name            =   "Arial Narrow"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
                ForeColor       =   &H00000080&
                Height          =   915
                Left            =   120
-               TabIndex        =   73
+               TabIndex        =   88
                Top             =   240
                Width           =   12375
-               Begin VB.ComboBox txtTipoCobranca 
-                  Height          =   315
-                  Left            =   6480
-                  TabIndex        =   9
-                  TabStop         =   0   'False
-                  Top             =   480
-                  Width           =   915
-               End
                Begin VB.TextBox txtValorAluguel 
                   Alignment       =   1  'Right Justify
                   Height          =   315
@@ -875,6 +1662,7 @@ Begin VB.Form Aluguel_Cadastro
                   Width           =   915
                End
                Begin VB.ComboBox cboEquipamento 
+                  BackColor       =   &H00C0FFFF&
                   Height          =   315
                   Left            =   120
                   TabIndex        =   5
@@ -885,13 +1673,14 @@ Begin VB.Form Aluguel_Cadastro
                   Appearance      =   0  'Flat
                   Height          =   285
                   Left            =   3180
-                  TabIndex        =   74
+                  TabIndex        =   89
                   Top             =   180
                   Visible         =   0   'False
                   Width           =   615
                End
                Begin VB.TextBox txtQuantAlugada 
                   Alignment       =   1  'Right Justify
+                  BackColor       =   &H00C0FFFF&
                   Height          =   315
                   Left            =   4800
                   TabIndex        =   7
@@ -908,173 +1697,13 @@ Begin VB.Form Aluguel_Cadastro
                   Top             =   480
                   Width           =   975
                End
-               Begin ChamaleonBtn.chameleonButton chameleonButton1 
-                  Height          =   315
-                  Left            =   8280
-                  TabIndex        =   89
-                  Tag             =   "Calendario"
-                  Top             =   480
-                  Width           =   315
-                  _ExtentX        =   556
-                  _ExtentY        =   556
-                  BTYPE           =   8
-                  TX              =   ""
-                  ENAB            =   -1  'True
-                  BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                     Name            =   "MS Sans Serif"
-                     Size            =   8.25
-                     Charset         =   0
-                     Weight          =   400
-                     Underline       =   0   'False
-                     Italic          =   0   'False
-                     Strikethrough   =   0   'False
-                  EndProperty
-                  COLTYPE         =   1
-                  FOCUSR          =   -1  'True
-                  BCOL            =   15790320
-                  BCOLO           =   15790320
-                  FCOL            =   0
-                  FCOLO           =   0
-                  MCOL            =   12632256
-                  MPTR            =   1
-                  MICON           =   "Aluguel_Cadastro.frx":C5AA
-                  PICN            =   "Aluguel_Cadastro.frx":C5C6
-                  PICH            =   "Aluguel_Cadastro.frx":E919
-                  UMCOL           =   -1  'True
-                  SOFT            =   0   'False
-                  PICPOS          =   0
-                  NGREY           =   0   'False
-                  FX              =   0
-                  HAND            =   0   'False
-                  CHECK           =   0   'False
-                  VALUE           =   0   'False
-               End
-               Begin MSMask.MaskEdBox mskInicio 
-                  Height          =   315
-                  Left            =   7440
-                  TabIndex        =   10
-                  Top             =   480
-                  Width           =   1155
-                  _ExtentX        =   2037
-                  _ExtentY        =   556
-                  _Version        =   393216
-                  BackColor       =   12648447
-                  PromptChar      =   "_"
-               End
-               Begin ChamaleonBtn.chameleonButton chameleonButton2 
-                  Height          =   315
-                  Left            =   10020
-                  TabIndex        =   90
-                  Tag             =   "Calendario"
-                  Top             =   480
-                  Width           =   315
-                  _ExtentX        =   556
-                  _ExtentY        =   556
-                  BTYPE           =   8
-                  TX              =   ""
-                  ENAB            =   -1  'True
-                  BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                     Name            =   "MS Sans Serif"
-                     Size            =   8.25
-                     Charset         =   0
-                     Weight          =   400
-                     Underline       =   0   'False
-                     Italic          =   0   'False
-                     Strikethrough   =   0   'False
-                  EndProperty
-                  COLTYPE         =   1
-                  FOCUSR          =   -1  'True
-                  BCOL            =   15790320
-                  BCOLO           =   15790320
-                  FCOL            =   0
-                  FCOLO           =   0
-                  MCOL            =   12632256
-                  MPTR            =   1
-                  MICON           =   "Aluguel_Cadastro.frx":10C6C
-                  PICN            =   "Aluguel_Cadastro.frx":10C88
-                  PICH            =   "Aluguel_Cadastro.frx":12FDB
-                  UMCOL           =   -1  'True
-                  SOFT            =   0   'False
-                  PICPOS          =   0
-                  NGREY           =   0   'False
-                  FX              =   0
-                  HAND            =   0   'False
-                  CHECK           =   0   'False
-                  VALUE           =   0   'False
-               End
-               Begin MSMask.MaskEdBox mskFinal 
-                  Height          =   315
-                  Left            =   9180
-                  TabIndex        =   12
-                  Top             =   480
-                  Width           =   1155
-                  _ExtentX        =   2037
-                  _ExtentY        =   556
-                  _Version        =   393216
-                  BackColor       =   12648447
-                  PromptChar      =   "_"
-               End
-               Begin MSMask.MaskEdBox mskHoraInicio 
-                  Height          =   315
-                  Left            =   8580
-                  TabIndex        =   11
-                  Top             =   480
-                  Width           =   555
-                  _ExtentX        =   979
-                  _ExtentY        =   556
-                  _Version        =   393216
-                  BackColor       =   12648447
-                  PromptChar      =   "_"
-               End
-               Begin MSMask.MaskEdBox mskHoraFinal 
-                  Height          =   315
-                  Left            =   10320
-                  TabIndex        =   13
-                  Top             =   480
-                  Width           =   555
-                  _ExtentX        =   979
-                  _ExtentY        =   556
-                  _Version        =   393216
-                  BackColor       =   12648447
-                  PromptChar      =   "_"
-               End
-               Begin VB.Label Label4 
-                  AutoSize        =   -1  'True
-                  BackColor       =   &H00E0E0E0&
-                  Caption         =   "Data Final"
-                  Height          =   195
-                  Left            =   9180
-                  TabIndex        =   93
-                  Top             =   240
-                  Width           =   720
-               End
-               Begin VB.Label lbl5 
-                  AutoSize        =   -1  'True
-                  BackColor       =   &H00E0E0E0&
-                  Caption         =   "Data Inicial"
-                  Height          =   195
-                  Left            =   7440
-                  TabIndex        =   92
-                  Top             =   240
-                  Width           =   795
-               End
-               Begin VB.Label Label1 
-                  AutoSize        =   -1  'True
-                  BackColor       =   &H00E0E0E0&
-                  Caption         =   "Tipo"
-                  Height          =   195
-                  Left            =   6480
-                  TabIndex        =   91
-                  Top             =   240
-                  Width           =   315
-               End
                Begin VB.Label lbl6 
                   AutoSize        =   -1  'True
                   BackColor       =   &H00E0E0E0&
                   Caption         =   "Item:"
                   Height          =   195
                   Left            =   120
-                  TabIndex        =   78
+                  TabIndex        =   93
                   Top             =   240
                   Width           =   345
                End
@@ -1084,7 +1713,7 @@ Begin VB.Form Aluguel_Cadastro
                   Caption         =   "Valor Diária"
                   Height          =   195
                   Left            =   3840
-                  TabIndex        =   77
+                  TabIndex        =   92
                   Top             =   240
                   Width           =   810
                End
@@ -1094,7 +1723,7 @@ Begin VB.Form Aluguel_Cadastro
                   Caption         =   "Quant."
                   Height          =   195
                   Left            =   4800
-                  TabIndex        =   76
+                  TabIndex        =   91
                   Top             =   240
                   Width           =   480
                End
@@ -1104,7 +1733,7 @@ Begin VB.Form Aluguel_Cadastro
                   Caption         =   "Total"
                   Height          =   195
                   Left            =   5460
-                  TabIndex        =   75
+                  TabIndex        =   90
                   Top             =   240
                   Width           =   360
                End
@@ -1112,7 +1741,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin MSFlexGridLib.MSFlexGrid GridProdutos 
                Height          =   1935
                Left            =   120
-               TabIndex        =   23
+               TabIndex        =   25
                Top             =   2520
                Width           =   12375
                _ExtentX        =   21828
@@ -1133,7 +1762,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdAdicionarProduto 
                Height          =   315
                Left            =   120
-               TabIndex        =   22
+               TabIndex        =   24
                ToolTipText     =   "Adiciona"
                Top             =   2160
                Width           =   1215
@@ -1159,8 +1788,8 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   16384
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1532E
-               PICN            =   "Aluguel_Cadastro.frx":1534A
+               MICON           =   "Aluguel_Cadastro.frx":19A28
+               PICN            =   "Aluguel_Cadastro.frx":19A44
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1173,7 +1802,7 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdRemoverProduto 
                Height          =   315
                Left            =   1380
-               TabIndex        =   24
+               TabIndex        =   26
                ToolTipText     =   "Remove"
                Top             =   2160
                Width           =   1275
@@ -1199,8 +1828,8 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":156E4
-               PICN            =   "Aluguel_Cadastro.frx":15700
+               MICON           =   "Aluguel_Cadastro.frx":19DDE
+               PICN            =   "Aluguel_Cadastro.frx":19DFA
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1213,7 +1842,8 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdProrrogar 
                Height          =   315
                Left            =   1920
-               TabIndex        =   95
+               TabIndex        =   104
+               TabStop         =   0   'False
                ToolTipText     =   "Remove"
                Top             =   4500
                Width           =   1755
@@ -1239,7 +1869,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15A9A
+               MICON           =   "Aluguel_Cadastro.frx":1A194
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1252,7 +1882,8 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdDevolver 
                Height          =   315
                Left            =   3720
-               TabIndex        =   96
+               TabIndex        =   105
+               TabStop         =   0   'False
                ToolTipText     =   "Remove"
                Top             =   4500
                Width           =   1755
@@ -1278,7 +1909,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15AB6
+               MICON           =   "Aluguel_Cadastro.frx":1A1B0
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1291,7 +1922,8 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdDevolverParcial 
                Height          =   315
                Left            =   5520
-               TabIndex        =   97
+               TabIndex        =   106
+               TabStop         =   0   'False
                ToolTipText     =   "Remove"
                Top             =   4500
                Width           =   1755
@@ -1317,7 +1949,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15AD2
+               MICON           =   "Aluguel_Cadastro.frx":1A1CC
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1330,7 +1962,8 @@ Begin VB.Form Aluguel_Cadastro
             Begin ChamaleonBtn.chameleonButton cmdAdiar 
                Height          =   315
                Left            =   120
-               TabIndex        =   125
+               TabIndex        =   130
+               TabStop         =   0   'False
                ToolTipText     =   "Remove"
                Top             =   4500
                Width           =   1755
@@ -1338,198 +1971,6 @@ Begin VB.Form Aluguel_Cadastro
                _ExtentY        =   556
                BTYPE           =   3
                TX              =   "<< Antecipar Entrega"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   12632256
-               BCOLO           =   12632256
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15AEE
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin VB.Label lblSomaReferente 
-               Alignment       =   1  'Right Justify
-               Appearance      =   0  'Flat
-               BackColor       =   &H80000005&
-               BorderStyle     =   1  'Fixed Single
-               BeginProperty Font 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   700
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               ForeColor       =   &H000000C0&
-               Height          =   255
-               Left            =   11580
-               TabIndex        =   32
-               Top             =   4560
-               Width           =   915
-            End
-         End
-         Begin MSFlexGridLib.MSFlexGrid grid_Parcelas 
-            Height          =   1755
-            Left            =   180
-            TabIndex        =   118
-            Top             =   6000
-            Width           =   6195
-            _ExtentX        =   10927
-            _ExtentY        =   3096
-            _Version        =   393216
-            BackColor       =   12648447
-            SelectionMode   =   1
-            Appearance      =   0
-         End
-         Begin VB.Frame frmDevolucao 
-            BackColor       =   &H00E0E0E0&
-            Caption         =   "DEVOLUÇÃO"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   1455
-            Left            =   6480
-            TabIndex        =   84
-            Top             =   6900
-            Visible         =   0   'False
-            Width           =   6075
-            Begin ChamaleonBtn.chameleonButton chameleonButton4 
-               Height          =   315
-               Left            =   5280
-               TabIndex        =   137
-               Top             =   180
-               Visible         =   0   'False
-               Width           =   735
-               _ExtentX        =   1296
-               _ExtentY        =   556
-               BTYPE           =   2
-               TX              =   "chameleonButton4"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   15790320
-               BCOLO           =   15790320
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15B0A
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin VB.TextBox txtQuantDev 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   3840
-               TabIndex        =   85
-               Top             =   540
-               Width           =   1035
-            End
-            Begin ChamaleonBtn.chameleonButton chameleonButton3 
-               Height          =   315
-               Left            =   2760
-               TabIndex        =   98
-               TabStop         =   0   'False
-               Tag             =   "Calendario"
-               Top             =   540
-               Width           =   315
-               _ExtentX        =   556
-               _ExtentY        =   556
-               BTYPE           =   8
-               TX              =   ""
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   15790320
-               BCOLO           =   15790320
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":15B26
-               PICN            =   "Aluguel_Cadastro.frx":15B42
-               PICH            =   "Aluguel_Cadastro.frx":17E95
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin MSMask.MaskEdBox mskDevolver 
-               Height          =   315
-               Left            =   1860
-               TabIndex        =   99
-               Top             =   540
-               Width           =   1215
-               _ExtentX        =   2143
-               _ExtentY        =   556
-               _Version        =   393216
-               PromptChar      =   "_"
-            End
-            Begin ChamaleonBtn.chameleonButton cmdDevolverItem 
-               Height          =   315
-               Left            =   4980
-               TabIndex        =   101
-               ToolTipText     =   "Remove"
-               Top             =   540
-               Width           =   1035
-               _ExtentX        =   1826
-               _ExtentY        =   556
-               BTYPE           =   3
-               TX              =   "Devolver"
                ENAB            =   -1  'True
                BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                   Name            =   "MS Sans Serif"
@@ -1558,169 +1999,73 @@ Begin VB.Form Aluguel_Cadastro
                CHECK           =   0   'False
                VALUE           =   0   'False
             End
-            Begin MSMask.MaskEdBox mskDataFinalLocacao 
-               Height          =   315
-               Left            =   120
-               TabIndex        =   102
-               TabStop         =   0   'False
-               Top             =   540
-               Width           =   975
-               _ExtentX        =   1720
-               _ExtentY        =   556
-               _Version        =   393216
-               Enabled         =   0   'False
-               PromptChar      =   "_"
-            End
-            Begin MSMask.MaskEdBox mskDevolverHora 
-               Height          =   315
-               Left            =   3120
-               TabIndex        =   138
-               Top             =   540
-               Width           =   675
-               _ExtentX        =   1191
-               _ExtentY        =   556
-               _Version        =   393216
-               PromptChar      =   "_"
-            End
-            Begin MSMask.MaskEdBox mskDataFinalLocacaoHora 
-               Height          =   315
-               Left            =   1140
-               TabIndex        =   139
-               Top             =   540
-               Width           =   675
-               _ExtentX        =   1191
-               _ExtentY        =   556
-               _Version        =   393216
-               Enabled         =   0   'False
-               PromptChar      =   "_"
-            End
-            Begin VB.Label Label27 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Data Final"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   103
-               Top             =   300
-               Width           =   720
-            End
-            Begin VB.Label Label3 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Devolução"
-               Height          =   195
-               Left            =   1860
-               TabIndex        =   100
-               Top             =   300
-               Width           =   780
-            End
-            Begin VB.Label Label22 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Quant. Devol."
-               Height          =   195
-               Left            =   3840
-               TabIndex        =   86
-               Top             =   300
-               Width           =   990
-            End
-         End
-         Begin VB.Frame frmProrrogacao 
-            Caption         =   "Prorrogação"
-            Height          =   1815
-            Left            =   6420
-            TabIndex        =   104
-            Top             =   5940
-            Width           =   6195
-            Begin VB.TextBox txtQuantItem 
-               Height          =   285
-               Left            =   2520
-               TabIndex        =   136
-               Top             =   60
-               Visible         =   0   'False
-               Width           =   675
-            End
-            Begin VB.TextBox txtTotalAluguelDescProrro 
+            Begin VB.Label lblSomaReferente 
                Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0FFFF&
-               Height          =   315
-               Left            =   3060
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   132
-               TabStop         =   0   'False
-               Top             =   1140
-               Width           =   855
-            End
-            Begin VB.TextBox txtDescAluguelProrro 
-               Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0FFFF&
-               Height          =   315
-               Left            =   2400
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   131
-               Top             =   1140
-               Width           =   615
-            End
-            Begin VB.TextBox txtTotalAluguelProrro 
-               Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0FFFF&
-               Height          =   315
-               Left            =   1500
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   129
-               TabStop         =   0   'False
-               Top             =   1140
+               Appearance      =   0  'Flat
+               BackColor       =   &H80000005&
+               BorderStyle     =   1  'Fixed Single
+               BeginProperty Font 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               ForeColor       =   &H000000C0&
+               Height          =   255
+               Left            =   11580
+               TabIndex        =   47
+               Top             =   4560
                Width           =   915
             End
-            Begin VB.TextBox txtEntradaAdiar 
+         End
+         Begin MSFlexGridLib.MSFlexGrid grid_Parcelas 
+            Height          =   1755
+            Left            =   180
+            TabIndex        =   123
+            TabStop         =   0   'False
+            Top             =   6000
+            Width           =   6195
+            _ExtentX        =   10927
+            _ExtentY        =   3096
+            _Version        =   393216
+            BackColor       =   12648447
+            SelectionMode   =   1
+            Appearance      =   0
+         End
+         Begin VB.Frame frmDevolucao 
+            BackColor       =   &H00E0E0E0&
+            Caption         =   "Devolução"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00004080&
+            Height          =   855
+            Left            =   6420
+            TabIndex        =   99
+            Top             =   6660
+            Visible         =   0   'False
+            Width           =   6195
+            Begin VB.TextBox txtQuantDev 
                Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0FFFF&
                Height          =   315
-               Left            =   3960
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   128
-               Top             =   1140
-               Width           =   795
-            End
-            Begin VB.TextBox txtValorRealDescProrro 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   4200
-               MaxLength       =   40
-               TabIndex        =   123
-               Top             =   60
-               Visible         =   0   'False
-               Width           =   615
-            End
-            Begin VB.TextBox txtDescProrro 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   3300
-               MaxLength       =   40
-               TabIndex        =   120
+               Left            =   3840
+               TabIndex        =   36
                Top             =   480
-               Width           =   615
+               Width           =   1035
             End
-            Begin VB.TextBox txtTotalProrro 
-               Alignment       =   1  'Right Justify
-               BackColor       =   &H00FFFFFF&
+            Begin ChamaleonBtn.chameleonButton chameleonButton3 
                Height          =   315
-               Left            =   3960
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   119
-               TabStop         =   0   'False
-               Top             =   480
-               Width           =   855
-            End
-            Begin ChamaleonBtn.chameleonButton chameleonButton5 
-               Height          =   315
-               Left            =   3000
-               TabIndex        =   106
+               Left            =   2760
+               TabIndex        =   34
                TabStop         =   0   'False
                Tag             =   "Calendario"
                Top             =   480
@@ -1759,75 +2104,28 @@ Begin VB.Form Aluguel_Cadastro
                CHECK           =   0   'False
                VALUE           =   0   'False
             End
-            Begin VB.TextBox txtDiasProrrogar 
-               Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0E0FF&
+            Begin MSMask.MaskEdBox mskDevolver 
                Height          =   315
-               Left            =   1020
-               Locked          =   -1  'True
-               TabIndex        =   111
-               Top             =   1140
-               Width           =   495
-            End
-            Begin VB.TextBox txtValorAluguellProrro 
-               Alignment       =   1  'Right Justify
-               BackColor       =   &H00C0FFFF&
-               Height          =   315
-               Left            =   120
-               Locked          =   -1  'True
-               MaxLength       =   40
-               TabIndex        =   105
-               TabStop         =   0   'False
-               Top             =   1140
-               Width           =   915
-            End
-            Begin MSMask.MaskEdBox mskDataProrrogar 
-               Height          =   315
-               Left            =   2160
-               TabIndex        =   107
+               Left            =   1860
+               TabIndex        =   33
                Top             =   480
-               Width           =   1155
-               _ExtentX        =   2037
-               _ExtentY        =   556
-               _Version        =   393216
-               BackColor       =   12632319
-               PromptChar      =   "_"
-            End
-            Begin MSMask.MaskEdBox mskDataFinalLocacaoProrro 
-               Height          =   315
-               Left            =   1140
-               TabIndex        =   113
-               Top             =   480
-               Width           =   975
-               _ExtentX        =   1720
+               Width           =   1215
+               _ExtentX        =   2143
                _ExtentY        =   556
                _Version        =   393216
                PromptChar      =   "_"
             End
-            Begin MSMask.MaskEdBox mskDataInicioProrro 
+            Begin ChamaleonBtn.chameleonButton cmdDevolverItem 
                Height          =   315
-               Left            =   3240
-               TabIndex        =   115
-               Top             =   60
-               Visible         =   0   'False
-               Width           =   975
-               _ExtentX        =   1720
-               _ExtentY        =   556
-               _Version        =   393216
-               PromptChar      =   "_"
-            End
-            Begin ChamaleonBtn.chameleonButton cmdProrrogacao 
-               Height          =   315
-               Left            =   4860
-               TabIndex        =   117
+               Left            =   4980
+               TabIndex        =   37
                ToolTipText     =   "Remove"
-               Top             =   120
-               Visible         =   0   'False
-               Width           =   1275
-               _ExtentX        =   2249
+               Top             =   480
+               Width           =   1035
+               _ExtentX        =   1826
                _ExtentY        =   556
                BTYPE           =   3
-               TX              =   "Prorrogar"
+               TX              =   "Devolver"
                ENAB            =   -1  'True
                BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                   Name            =   "MS Sans Serif"
@@ -1856,194 +2154,78 @@ Begin VB.Form Aluguel_Cadastro
                CHECK           =   0   'False
                VALUE           =   0   'False
             End
-            Begin ChamaleonBtn.chameleonButton cmdAdiacao 
-               Height          =   315
-               Left            =   4860
-               TabIndex        =   126
-               ToolTipText     =   "Remove"
-               Top             =   420
-               Visible         =   0   'False
-               Width           =   1275
-               _ExtentX        =   2249
-               _ExtentY        =   556
-               BTYPE           =   3
-               TX              =   "Antecipar"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   12632256
-               BCOLO           =   12632256
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1E8E2
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin MSMask.MaskEdBox mskDataInicialLocacaoProrro 
+            Begin MSMask.MaskEdBox mskDataFinalLocacao 
                Height          =   315
                Left            =   120
-               TabIndex        =   127
+               TabIndex        =   31
+               TabStop         =   0   'False
                Top             =   480
                Width           =   975
                _ExtentX        =   1720
                _ExtentY        =   556
                _Version        =   393216
+               Enabled         =   0   'False
                PromptChar      =   "_"
             End
-            Begin VB.Label Label29 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Desc."
-               Height          =   195
-               Left            =   3300
-               TabIndex        =   135
-               Top             =   240
-               Width           =   420
+            Begin MSMask.MaskEdBox mskDevolverHora 
+               Height          =   315
+               Left            =   3120
+               TabIndex        =   35
+               Top             =   480
+               Width           =   675
+               _ExtentX        =   1191
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
             End
-            Begin VB.Label Label28 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Total"
-               Height          =   195
-               Left            =   3060
-               TabIndex        =   134
-               Top             =   900
-               Width           =   360
+            Begin MSMask.MaskEdBox mskDataFinalLocacaoHora 
+               Height          =   315
+               Left            =   1140
+               TabIndex        =   32
+               Top             =   480
+               Width           =   675
+               _ExtentX        =   1191
+               _ExtentY        =   556
+               _Version        =   393216
+               Enabled         =   0   'False
+               PromptChar      =   "_"
             End
-            Begin VB.Label Label23 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Desc."
-               Height          =   195
-               Left            =   2340
-               TabIndex        =   133
-               Top             =   900
-               Width           =   420
-            End
-            Begin VB.Label Label21 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Total"
-               Height          =   195
-               Left            =   1500
-               TabIndex        =   130
-               Top             =   900
-               Width           =   360
-            End
-            Begin VB.Label Label41 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Entrada"
-               Height          =   195
-               Left            =   3960
-               TabIndex        =   124
-               Top             =   900
-               Width           =   555
-            End
-            Begin VB.Label Label40 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Desc."
-               Height          =   195
-               Left            =   3240
-               TabIndex        =   122
-               Top             =   1260
-               Width           =   420
-            End
-            Begin VB.Label Label39 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Restante"
-               Height          =   195
-               Left            =   3960
-               TabIndex        =   121
-               Top             =   240
-               Width           =   645
-            End
-            Begin VB.Label Label38 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Inicio da Prorrogação"
-               Height          =   195
-               Left            =   4320
-               TabIndex        =   116
-               Top             =   120
-               Visible         =   0   'False
-               Width           =   1035
-            End
-            Begin VB.Label Label37 
+            Begin VB.Label Label27 
                AutoSize        =   -1  'True
                BackColor       =   &H00E0E0E0&
                Caption         =   "Data Final"
                Height          =   195
-               Left            =   1140
-               TabIndex        =   114
+               Left            =   120
+               TabIndex        =   108
                Top             =   240
                Width           =   720
             End
-            Begin VB.Label Label36 
+            Begin VB.Label Label3 
                AutoSize        =   -1  'True
                BackColor       =   &H00E0E0E0&
-               Caption         =   "Aluguel"
+               Caption         =   "Devolução"
                Height          =   195
-               Left            =   120
-               TabIndex        =   112
-               Top             =   900
-               Width           =   525
-            End
-            Begin VB.Label Label35 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Data"
-               Height          =   195
-               Left            =   2160
-               TabIndex        =   110
+               Left            =   1860
+               TabIndex        =   107
                Top             =   240
-               Width           =   345
+               Width           =   780
             End
-            Begin VB.Label Label34 
+            Begin VB.Label Label22 
                AutoSize        =   -1  'True
                BackColor       =   &H00E0E0E0&
-               Caption         =   "Locação"
+               Caption         =   "Quant. Devol."
                Height          =   195
-               Left            =   120
-               TabIndex        =   109
+               Left            =   3840
+               TabIndex        =   100
                Top             =   240
-               Width           =   630
-            End
-            Begin VB.Label Label32 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Dias"
-               Height          =   195
-               Left            =   1020
-               TabIndex        =   108
-               Top             =   900
-               Width           =   315
+               Width           =   990
             End
          End
       End
       Begin ChamaleonBtn.chameleonButton cmdCadastrarCliente 
          Height          =   615
          Left            =   12840
-         TabIndex        =   38
+         TabIndex        =   53
          Top             =   3720
          Width           =   1635
          _ExtentX        =   2884
@@ -2068,8 +2250,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":1E8FE
-         PICN            =   "Aluguel_Cadastro.frx":1E91A
+         MICON           =   "Aluguel_Cadastro.frx":1E8E2
+         PICN            =   "Aluguel_Cadastro.frx":1E8FE
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2082,7 +2264,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin MSFlexGridLib.MSFlexGrid GridConsulta 
          Height          =   6195
          Left            =   -74940
-         TabIndex        =   42
+         TabIndex        =   57
          Top             =   1440
          Width           =   14415
          _ExtentX        =   25426
@@ -2094,7 +2276,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
          Left            =   12840
-         TabIndex        =   26
+         TabIndex        =   28
          Top             =   1740
          Width           =   1635
          _ExtentX        =   2884
@@ -2119,8 +2301,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":1F1F4
-         PICN            =   "Aluguel_Cadastro.frx":1F210
+         MICON           =   "Aluguel_Cadastro.frx":1F1D8
+         PICN            =   "Aluguel_Cadastro.frx":1F1F4
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2133,7 +2315,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
          Left            =   12840
-         TabIndex        =   27
+         TabIndex        =   29
          Top             =   2400
          Width           =   1635
          _ExtentX        =   2884
@@ -2158,8 +2340,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":20FA2
-         PICN            =   "Aluguel_Cadastro.frx":20FBE
+         MICON           =   "Aluguel_Cadastro.frx":20F86
+         PICN            =   "Aluguel_Cadastro.frx":20FA2
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2172,7 +2354,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
          Left            =   12840
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   3060
          Width           =   1635
          _ExtentX        =   2884
@@ -2197,8 +2379,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":22D50
-         PICN            =   "Aluguel_Cadastro.frx":22D6C
+         MICON           =   "Aluguel_Cadastro.frx":22D34
+         PICN            =   "Aluguel_Cadastro.frx":22D50
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2211,7 +2393,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
          Left            =   12840
-         TabIndex        =   25
+         TabIndex        =   27
          Top             =   1080
          Width           =   1635
          _ExtentX        =   2884
@@ -2236,8 +2418,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":24AFE
-         PICN            =   "Aluguel_Cadastro.frx":24B1A
+         MICON           =   "Aluguel_Cadastro.frx":24AE2
+         PICN            =   "Aluguel_Cadastro.frx":24AFE
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2275,8 +2457,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":268AC
-         PICN            =   "Aluguel_Cadastro.frx":268C8
+         MICON           =   "Aluguel_Cadastro.frx":26890
+         PICN            =   "Aluguel_Cadastro.frx":268AC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2289,7 +2471,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdImprimirContato 
          Height          =   615
          Left            =   12840
-         TabIndex        =   70
+         TabIndex        =   85
          Top             =   4380
          Width           =   1635
          _ExtentX        =   2884
@@ -2314,8 +2496,8 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":2865A
-         PICN            =   "Aluguel_Cadastro.frx":28676
+         MICON           =   "Aluguel_Cadastro.frx":2863E
+         PICN            =   "Aluguel_Cadastro.frx":2865A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2328,7 +2510,7 @@ Begin VB.Form Aluguel_Cadastro
       Begin ChamaleonBtn.chameleonButton cmdFecharAluguel 
          Height          =   315
          Left            =   -74940
-         TabIndex        =   142
+         TabIndex        =   144
          Top             =   7680
          Width           =   1635
          _ExtentX        =   2884
@@ -2353,7 +2535,7 @@ Begin VB.Form Aluguel_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Aluguel_Cadastro.frx":28990
+         MICON           =   "Aluguel_Cadastro.frx":28974
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2380,7 +2562,7 @@ Begin VB.Form Aluguel_Cadastro
          ForeColor       =   &H80000008&
          Height          =   315
          Left            =   13080
-         TabIndex        =   71
+         TabIndex        =   86
          Top             =   5160
          Width           =   1155
       End
@@ -2399,7 +2581,7 @@ Begin VB.Form Aluguel_Cadastro
          EndProperty
          Height          =   195
          Left            =   -63660
-         TabIndex        =   44
+         TabIndex        =   59
          Top             =   8040
          Width           =   1755
       End
@@ -2418,7 +2600,7 @@ Begin VB.Form Aluguel_Cadastro
          EndProperty
          Height          =   195
          Left            =   -63660
-         TabIndex        =   43
+         TabIndex        =   58
          Top             =   7740
          Width           =   1755
       End
@@ -2427,7 +2609,7 @@ Begin VB.Form Aluguel_Cadastro
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   46
+      TabIndex        =   61
       Top             =   9315
       Width           =   14730
       _ExtentX        =   25982
@@ -2463,7 +2645,7 @@ Begin VB.Form Aluguel_Cadastro
             Alignment       =   1
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "19:07"
+            TextSave        =   "06:02"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -2502,22 +2684,9 @@ Dim vTipoDevolver As Integer
 Dim vQuantHoras As Integer              'calcular as horas acionadas apos termino
 Dim vValorTotalHoras As Currency        'calcular as horas acionadas apos termino
 Dim vSituacao As String
+Dim vValorParcelaDevolucao As Currency    'valor em aberto da parcela do item sendo devolvido
 
 
-Private Sub CalcularDevolucao()
-'Dim varVlrDiaria As Currency
-'Dim varVrlTotal As Currency
-'Dim varQtdeDev As Integer
-
-'If txtQuantDev.Text = "" Then Exit Sub
-'If txtValorDiariaDev.Text = "" Then Exit Sub
-
-'varVlrDiaria = txtValorDiariaDev.Text
-'varQtdeDev = txtQuantDev.Text
-'varVrlTotal = varVlrDiaria * varQtdeDev
-'txtTotalDev = Format(varVrlTotal, ocMONEY)
-'txtValorItem = Format(varVrlTotal, ocMONEY)
-End Sub
 
 Private Sub CalcularDiaria()
 Dim varQtdeDias As Integer
@@ -2539,7 +2708,7 @@ txtValor.Text = Format(varSubtotal, "##,##0.00")
 varSubtotal = txtValor.Text
 If txtValor.Text = "" Then Exit Sub
 varValorTotal = varSubtotal - varDesc
-txtSubtotal = Format(varValorTotal, "##,##0.00")
+txtSubTotal = Format(varValorTotal, "##,##0.00")
 
 Dim varEntrada As Double
 If txtEntrada.Text = "" Then varEntrada = 0: txtEntrada.Text = Format(0, "##,##0.00") Else varEntrada = txtEntrada.Text
@@ -2548,38 +2717,7 @@ txtEntradaReal.Text = Format(((CCur(varValorTotal) * CCur(varEntrada)) / 100), o
 txtTotal.Text = Format(CCur(varValorTotal) - ((CCur(varValorTotal) * CCur(varEntrada)) / 100), ocMONEY)
 End Sub
 
-Private Sub CalcularDiariaDevolver()
-'depois tudo
-'Dim varQtdeDias As Integer
-'Dim varValorAluguel As Currency
-'Dim varValorTotal As Currency
-'Dim varDesc As Currency
-'Dim varSubtotal As Currency
-'Dim varMulta As Currency
 
-''Dim i As Integer
-'i = GridProdutos.Row
-
-'If txtQuantItem.Text = "" Then Exit Sub
-'If txtDescItem.Text = "" Then varDesc = 0: txtDescItem.Text = Format(0, "##,##0.00") Else varDesc = txtDescItem.Text
-'If txtMulta.Text = "" Then varMulta = 0: txtMulta.Text = Format(0, "##,##0.00") Else varMulta = txtMulta.Text
-
-'varQtdeDias = txtQuantItem.Text
-
-'If txtTotalDev.Text = "" Then txtTotalDev.Text = "0"
-'varValorAluguel = txtTotalDev.Text
-'txtValorItem.Text = Format(varValorAluguel, "##,##0.00")
-
-'varSubtotal = varValorAluguel * varQtdeDias
-'txtValorItem.Text = Format(varSubtotal, "##,##0.00")
-
-'varSubtotal = txtValorItem.Text
-'If txtValorItem.Text = "" Then Exit Sub
-
-'varValorTotal = varSubtotal - varDesc
-'varValorTotal = varValorTotal + varMulta
-'txtTotalItem = Format(varValorTotal, "##,##0.00")
-End Sub
 Private Sub calculardiasAdiar()
 Dim Result As Integer
 
@@ -2600,70 +2738,41 @@ End If
 txtDiasProrrogar.Text = Result
 End Sub
 
-Private Sub CalcularHoras()
-Dim vHoraInicial As Date
-Dim vHoraFinal As Date
-Dim vQuantHoras As Integer
 
-vHoraInicial = TimeValue(mskDataFinalLocacaoHora.Text)
-vHoraFinal = TimeValue(mskDevolverHora.Text)
 
-Dim minutos As Long
-minutos = DateDiff("n", vHoraInicial, vHoraFinal)
-
-'chamar a função
-vQuantHoras = GetHora(minutos)
-End Sub
-
-Private Sub CalcularQuantDiasDevolver()
-Dim date1 As Date
-Dim date2 As Date
-Dim Result As Integer
-
-'Dim i As Integer
-i = GridProdutos.Row
-
-If Not IsDate(GridProdutos.TextMatrix(i, 7)) Then Exit Sub
-If Not IsDate(mskDevolver) Then Exit Sub
-
-date1 = CDate(GridProdutos.TextMatrix(i, 7))
-date2 = CDate(mskDevolver.Text)
-
-Result = DateDiff("d", date1, date2)
-If Result = 0 Then
-    Result = 1
-Else
-    Result = Result
-End If
-
-txtQuantItem.Text = Result
-End Sub
 Private Sub CalcularQuantDias()
 Dim date1 As Date
 Dim date2 As Date
-Dim Result As Integer
+Dim Result As Long
 
-If Not IsDate(mskInicio) Then Exit Sub
-If Not IsDate(mskFinal) Then Exit Sub
+If txtTipoCobranca.Text = "HORA" Then
+    If Not IsDate(mskInicio) Then Exit Sub
+    If Not IsDate(mskFinal) Then Exit Sub
+    If mskHoraInicio.Text = "" Then Exit Sub
+    If mskHoraFinal.Text = "" Then Exit Sub
 
-date1 = CDate(mskInicio.Text)
-date2 = CDate(mskFinal.Text)
+    date1 = CDate(mskInicio.Text & " " & mskHoraInicio.Text)
+    date2 = CDate(mskFinal.Text & " " & mskHoraFinal.Text)
 
-Result = DateDiff("d", date1, date2)
-Result = Result
+    Result = DateDiff("h", date1, date2)
+    If Result < 1 Then Result = 1
 
-If mskInicio.Text = mskFinal.Text Then
-    txtQuant.Text = 1
+    txtQuant.Text = Result
 Else
+    If Not IsDate(mskInicio) Then Exit Sub
+    If Not IsDate(mskFinal) Then Exit Sub
+
+    date1 = CDate(mskInicio.Text)
+    date2 = CDate(mskFinal.Text)
+
+    Result = DateDiff("d", date1, date2)
+
+    If mskInicio.Text = mskFinal.Text Then
+        Result = 1
+    End If
+
     txtQuant.Text = Result
 End If
-
-If Result >= 1 Then
-    frmCodicoes.Enabled = True
-Else
-    frmCodicoes.Enabled = False
-End If
-
 End Sub
 
 Private Sub CalcularTotalAdiar()
@@ -2725,22 +2834,6 @@ varTotalAluguel = varValorAluguel * varQuantAlugada
 txtTotalAluguel = Format(varTotalAluguel, ocMONEY)
 End Sub
 
-Private Sub ConsultarUltimaParcelaProrro()
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-
-If lblCodPedido.Caption = "" Then Exit Sub
-
-sSQL = "SELECT ISNULL(MAX(numero), 0) as UltimoNumero " & _
-        "FROM parcelas WHERE (cod_pedido = " & lblCodPedido.Caption & ") and (OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & ");"
-
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not r.BOF Then UltimoParcela = r("UltimoNumero")
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-End Sub
 
 Private Sub ConsultarUltimaParcela()
 i = GridProdutos.Row
@@ -2766,18 +2859,6 @@ Set r = Nothing
 End Sub
 
 
-Private Sub ExibirParcelas()
-i = GridProdutos.Row
-    sSQL = "SELECT DATA, PAGAMENTO, VALOR_FINAL, CASE status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varStatus, FORMA_PGTO, CODCAIXA, CAIXA " & _
-       "FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & ";"
-    'Debug.Print sSQL
-    Set r = dbData.OpenRecordset(sSQL)
-    
-    FormatarGrid_Parcelas r
-    
-    If r.State <> 0 Then r.Close
-    Set r = Nothing
-End Sub
 
 Sub FormatarGrid(rTabela As ADODB.Recordset)
 'Dim i As Integer
@@ -2892,6 +2973,140 @@ mskDataFinalLocacao.Text = ""
 mskDevolver.Mask = ""
 mskDevolver.Text = ""
 txtQuantDev.Text = ""
+End Sub
+
+Private Sub PreencherFormaPgtoDevolucao(cbo As ComboBox)
+cbo.Clear
+cbo.AddItem "1 - DINHEIRO"
+cbo.AddItem "3 - CARTÃO - DÉBITO"
+cbo.AddItem "4 - CARTÃO - CRÉDITO"
+cbo.AddItem "5 - CHEQUE"
+cbo.AddItem "7 - TRANSFERÊNCIA"
+cbo.AddItem "8 - DEPOSITO"
+cbo.AddItem "9 - FINANCEIRA"
+cbo.AddItem "10 - PIX"
+End Sub
+
+Private Sub AtualizarVisibilidadeFormaPgto()
+Dim vMostrarForma2 As Boolean
+vMostrarForma2 = (opt2forma.Value = True)
+
+lblformaPgto2.Visible = vMostrarForma2
+cboformaPgto2.Visible = vMostrarForma2
+lblValor2.Visible = vMostrarForma2
+txtValor2.Visible = vMostrarForma2
+
+If vMostrarForma2 Then
+    lblDesc.Left = 5220
+    txtDesc.Left = 5220
+Else
+    lblDesc.Left = 2760
+    txtDesc.Left = 2760
+End If
+End Sub
+
+Private Sub AtualizarPagamentoDevolucao()
+Dim rPgto As ADODB.Recordset
+
+i = GridProdutos.Row
+If lblCodigo.Caption = "" Or GridProdutos.TextMatrix(i, 1) = "" Then Exit Sub
+
+sSQL = "SELECT ISNULL(SUM(VALOR_FINAL), 0) AS vSoma, ISNULL(SUM(DESCONTO), 0) AS vSomaDesc FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & " and STATUS = 0;"
+Set rPgto = dbData.OpenRecordset(sSQL)
+
+If Not rPgto.BOF Then
+    vValorParcelaDevolucao = rPgto("vSoma")
+    txtDesc.Text = Format(rPgto("vSomaDesc"), "##,##0.00")
+Else
+    vValorParcelaDevolucao = 0
+    txtDesc.Text = Format(0, "##,##0.00")
+End If
+If rPgto.State <> 0 Then rPgto.Close
+Set rPgto = Nothing
+
+AtualizarVisibilidadeFormaPgto
+
+If opt2forma.Value = True Then
+    txtValor1.Text = Format(0, "##,##0.00")
+    txtValor2.Text = Format(vValorParcelaDevolucao, "##,##0.00")
+Else
+    txtValor1.Text = Format(vValorParcelaDevolucao, "##,##0.00")
+    txtValor2.Text = Format(0, "##,##0.00")
+    If chkPgtoAuto.Value = vbChecked Then
+        PreencherFormaPgtoDevolucao cboformaPgto1
+        cboformaPgto1.Text = "10 - PIX"
+    End If
+End If
+End Sub
+
+Private Sub chkPgtoAuto_Click()
+Dim vHabilitado As Boolean
+vHabilitado = (chkPgtoAuto.Value = vbChecked)
+
+opt1forma.Enabled = vHabilitado
+opt2forma.Enabled = vHabilitado
+cboformaPgto1.Enabled = vHabilitado
+cboformaPgto2.Enabled = vHabilitado
+txtValor1.Enabled = vHabilitado
+txtValor2.Enabled = vHabilitado
+txtDesc.Enabled = vHabilitado
+
+If vHabilitado Then AtualizarPagamentoDevolucao
+End Sub
+
+Private Sub opt1forma_Click()
+AtualizarPagamentoDevolucao
+End Sub
+
+Private Sub opt2forma_Click()
+AtualizarPagamentoDevolucao
+End Sub
+
+Private Sub cboformaPgto1_GotFocus()
+Dim varTexto As String
+varTexto = cboformaPgto1.Text
+PreencherFormaPgtoDevolucao cboformaPgto1
+cboformaPgto1.Text = varTexto
+moCombo.AttachTo cboformaPgto1
+End Sub
+
+Private Sub cboformaPgto2_GotFocus()
+Dim varTexto As String
+varTexto = cboformaPgto2.Text
+PreencherFormaPgtoDevolucao cboformaPgto2
+cboformaPgto2.Text = varTexto
+moCombo.AttachTo cboformaPgto2
+End Sub
+
+Private Sub txtValor1_Change()
+If opt2forma.Value = True Then
+    Dim vValor1Atual As Currency
+    vValor1Atual = Val(Replace(Replace(txtValor1.Text, ".", ""), ",", "."))
+
+    Dim vValor2Calc As Currency
+    vValor2Calc = vValorParcelaDevolucao - vValor1Atual
+    If vValor2Calc < 0 Then vValor2Calc = 0
+
+    txtValor2.Text = Format(vValor2Calc, "##,##0.00")
+End If
+End Sub
+
+Private Sub txtValor1_LostFocus()
+Dim vValor1Atual As Currency
+If txtValor1.Text = "" Then
+    vValor1Atual = 0
+Else
+    vValor1Atual = Val(Replace(Replace(txtValor1.Text, ".", ""), ",", "."))
+End If
+
+If vValor1Atual < 0 Then vValor1Atual = 0
+If vValor1Atual > vValorParcelaDevolucao Then vValor1Atual = vValorParcelaDevolucao
+
+txtValor1.Text = Format(vValor1Atual, "##,##0.00")
+
+If opt2forma.Value = True Then
+    txtValor2.Text = Format(vValorParcelaDevolucao - vValor1Atual, "##,##0.00")
+End If
 End Sub
 
 Public Function SomaGridItens(var_Grid As MSFlexGrid, Col As Integer) As Currency
@@ -3162,35 +3377,7 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Function AutonNumeracao_Caixa() As Long
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-Dim lRet As Long
 
-lRet = 0
-sSQL = "SELECT ISNULL(MAX(codigo) AS cod FROM caixa_entrada;"
-Set r = dbData.OpenRecordset(sSQL)
-If Not r.BOF Then lRet = r("cod") + 1
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
-AutonNumeracao_Caixa = lRet
-End Function
-
-Private Function AutoNumeracao_Detalhes() As Long
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-Dim lRet As Long
-
-lRet = 0
-sSQL = "SELECT ISNULL(MAX(codigo) AS cod_detalhe FROM a_receber_visitas;"
-Set r = dbData.OpenRecordset(sSQL)
-If Not r.BOF Then lRet = r("cod") + 1
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
-AutoNumeracao_Detalhes = lRet
-End Function
 
 Private Sub Limpar_Objetos()
 cboSituacao.Text = ""
@@ -3452,32 +3639,47 @@ Private Sub cboEquipamento_KeyPress(KeyAscii As Integer)
    KeyAscii = Asc(UCase(Chr(KeyAscii)))
 End Sub
 
-Private Sub cboEquipamento_LostFocus()
-On Error GoTo TrataErro
-
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
+Private Sub SelecionarEquipamento()
+On Error GoTo TrataErroSelEquip
 
 If cboEquipamento.Text = "" Then txtCodEquip.Text = "": Exit Sub
 
 txtCodEquip = cboEquipamento.ItemData(cboEquipamento.ListIndex)
 
-If txtTipoCobranca.Text = "DIA" Then
-    sSQL = "SELECT COD_EQUIP, descricao, VALOR_DIA as varValorDiaAluguel FROM  aluguel_cadastro_equipamento WHERE (COD_EQUIP = " & txtCodEquip.Text & ");"
-Else
-    sSQL = "SELECT COD_EQUIP, descricao, VALOR_HORA as varValorDiaAluguel FROM  aluguel_cadastro_equipamento WHERE (COD_EQUIP = " & txtCodEquip.Text & ");"
-End If
+txtTipoCobranca.Text = "DIA"
+txtQuantAlugada.Text = "1"
 
+sSQL = "SELECT COD_EQUIP, descricao, VALOR_DIA as varValorDiaAluguel FROM  aluguel_cadastro_equipamento WHERE (COD_EQUIP = " & txtCodEquip.Text & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
     txtValorAluguel.Text = Format(ValidateNull(r("varValorDiaAluguel")), "##,##0.00")
-    If txtQuantAlugada.Text = "" Then txtQuantAlugada.Text = "1"
+    frmCodicoes.Enabled = True
 End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
 
+mskHoraInicio.Text = Format(Now, "hh:mm")
+mskInicio.Text = Format(Date, "dd/mm/yy")
+mskFinal.Text = Format(DateAdd("d", 1, mskInicio.Text), "dd/mm/yy")
+mskHoraFinal.Text = mskHoraInicio.Text
 
-TrataErro:
+CalcularValorTotal
+CalcularQuantDias
+CalcularDiaria
+
+Exit Sub
+
+TrataErroSelEquip:
    If Err.Number = 381 Then Exit Sub
+End Sub
+
+Private Sub cboEquipamento_Click()
+SelecionarEquipamento
+End Sub
+
+Private Sub cboEquipamento_LostFocus()
+SelecionarEquipamento
 End Sub
 
 Private Sub cboSituacao_GotFocus()
@@ -3557,89 +3759,6 @@ mskDevolver = Format(varData, "dd/mm/yy")   'Exibe a data no campo
 mskDevolver_LostFocus
 End Sub
 
-
-Private Sub chameleonButton4_Click()
-'If mskDevolver.Text < mskDataFinalLocacao.Text Then
-'    MsgBox "Cliente devolveu antes do prazo, favor corrigir a prorrogação!", vbInformation, "Aviso do Sistema"
-'    Exit Sub
-'ElseIf mskDevolver.Text > mskDataFinalLocacao.Text Then
-'    MsgBox "Cliente devolveu após o prazo, favor corrigir a prorrogação!", vbInformation, "Aviso do Sistema"
-'    Exit Sub
-'End If
-
-i = GridProdutos.Row
-
-If GridProdutos.TextMatrix(i, 16) = "SIM" Then
-    MsgBox "Esse equipamento já foi devolvido!", vbInformation, "Aviso do Sistema"
-    Exit Sub
-End If
-
-If GridProdutos.TextMatrix(i, 18) = "SIM" Then
-    MsgBox "Esse equipamento já foi removido do contrato!", vbInformation, "Aviso do Sistema"
-    Exit Sub
-End If
-
-If ShowMsg("Deseja devolver o equipamento: " & GridProdutos.TextMatrix(i, 2) & " ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
-
-'=====================================================================================================================
-
-        '====MUDAR O ITEM EXISTE ====================================
-        
-        'saber a quantidades de dias entre duas datas
-        If Not IsDate(mskDataInicialLocacaoProrro) Then Exit Sub
-        If Not IsDate(mskDevolver) Then Exit Sub
-        
-        date1 = CDate(mskDataInicialLocacaoProrro.Text)
-        date2 = CDate(mskDevolver.Text)
-        
-        vQuantDias = DateDiff("d", date1, date2)
-        vQuantDias = vQuantDias
-        
-        If mskDataInicialLocacaoProrro.Text = mskDataProrrogar.Text Then
-            vQuantDias = 1
-        Else
-            vQuantDias = vQuantDias
-        End If
-        
-        MsgBox vQuantDias
-        
-        'saber a quantidade devolvida e a quantida restante
-        Dim vQuantAlugada As Integer
-        Dim vQuantDevolvida As Integer
-        Dim vQuantRestante As Integer
-        vQuantAlugada = GridProdutos.TextMatrix(i, 4)
-        vQuantDevolvida = txtQuantDev
-        vQuantRestante = vQuantAlugada - vQuantDevolvida
-        
-        MsgBox vQuantRestante
-        'Exit Sub '====================
-        
-        'VALOR_UND
-        dbData.Execute "UPDATE Aluguel_Cadastro_Itens SET QUANT_ALUGADA = " & vQuantRestante & ", TOTAL_ALUGADA = (VALOR_UND * " & vQuantRestante & "), QUANT = " & vQuantDias & ", Valor = ((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & "), SUBTOTAL = ((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & ") - DESCONTO, VALOR_FINAL = (((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & ") - DESCONTO) - Entrada, DATA_FINAL = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103) WHERE (item = " & GridProdutos.TextMatrix(i, 1) & ") and (COD_LOCACAO = " & lblCodigo.Caption & ");"
-        'QUANT = " & vQuantDias & "
-        'Valor = (TOTAL_ALUGADA * " & vQuantDias & ")
-        'SUBTOTAL = (TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO
-        'VALOR_FINAL = ((TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO) - Entrada
-        
-        
-        
-        'altercar o cadastro do item
-        'dbData.Execute "UPDATE Aluguel_Cadastro_Itens SET DATA_FINAL = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103), QUANT = " & vQuantDias & ", VALOR = (TOTAL_ALUGADA * " & vQuantDias & ") , SUBTOTAL = (TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO, VALOR_FINAL = ((TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO) - Entrada, DEVOLVIDO = 1 WHERE (item = " & GridProdutos.TextMatrix(i, 1) & ") and (COD_LOCACAO = " & lblCodigo.Caption & ");"
-
-        'dbData.Execute "INSERT INTO aluguel_cadastro_itens (VALOR_UND, TOTAL_ALUGADA, QUANT_ALUGADA, DATA_INICIO, HORA_INICIO, DATA_FINAL, HORA_FINAL, QUANT, VALOR_FINAL, DESCONTO, VALOR, ENTRADA, SUBTOTAL) VALUES (" & _
-          varCodEntrada & ", " & lblCodigo.Caption & ", " & varCodItem & ", '" & txtTipoCobranca.Text & "', " & txtCodEquip.Text & ", " & Replace(CCur(txtValorAluguel.Text), ",", ".") & ", " & Replace(CCur(txtTotalAluguel.Text), ",", ".") & ", " & txtQuantAlugada.Text & ", CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & mskHoraInicio & "', CONVERT(DATETIME, '" & Format(mskFinal, ocDATA) & "', 103), '" & mskHoraFinal & "', " & txtQuant.Text & ", " & Replace(CCur(txtTotal.Text), ",", ".") & ", " & Replace(CCur(txtDesconto.Text), ",", ".") & ", " & Replace(CCur(txtValor.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtSubTotal.Text), ",", ".") & ");"
-
-        
-        PreencherGridProdutos
-
-
-'============================================================================================================
-
-vTipoDevolver = 0
-PreencherGridProdutos
-LimparObjetosDevolucao
-frmDevolucao.Visible = False
-End Sub
 
 Private Sub chameleonButton5_Click()
 Dim varData As Variant
@@ -3777,6 +3896,7 @@ Private Sub cmdAdiar_Click()
 frmProrrogacao.Visible = True
 frmProrrogacao.Caption = "Antecipação"
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 cmdAdiacao.Visible = True
 cmdProrrogacao.Visible = False
 LimparObjetos_Prorrogacao
@@ -3855,7 +3975,7 @@ If txtTipoCobranca.Text = "DIA" Then
     
     'inserir
     dbData.Execute "INSERT INTO aluguel_cadastro_itens (Codigo, COD_LOCACAO, Item, TIPO_LOCACAO, COD_EQUIP, VALOR_UND, TOTAL_ALUGADA, QUANT_ALUGADA, DATA_INICIO, HORA_INICIO, DATA_FINAL, HORA_FINAL, QUANT, VALOR_FINAL, DESCONTO, VALOR, ENTRADA, SUBTOTAL) VALUES (" & _
-          varCodEntrada & ", " & lblCodigo.Caption & ", " & varCodItem & ", '" & txtTipoCobranca.Text & "', " & txtCodEquip.Text & ", " & Replace(CCur(txtValorAluguel.Text), ",", ".") & ", " & Replace(CCur(txtTotalAluguel.Text), ",", ".") & ", " & txtQuantAlugada.Text & ", CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & mskHoraInicio & "', CONVERT(DATETIME, '" & Format(mskFinal, ocDATA) & "', 103), '" & mskHoraFinal & "', " & txtQuant.Text & ", " & Replace(CCur(txtTotal.Text), ",", ".") & ", " & Replace(CCur(txtDesconto.Text), ",", ".") & ", " & Replace(CCur(txtValor.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtSubtotal.Text), ",", ".") & ");"
+          varCodEntrada & ", " & lblCodigo.Caption & ", " & varCodItem & ", '" & txtTipoCobranca.Text & "', " & txtCodEquip.Text & ", " & Replace(CCur(txtValorAluguel.Text), ",", ".") & ", " & Replace(CCur(txtTotalAluguel.Text), ",", ".") & ", " & txtQuantAlugada.Text & ", CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & mskHoraInicio & "', CONVERT(DATETIME, '" & Format(mskFinal, ocDATA) & "', 103), '" & mskHoraFinal & "', " & txtQuant.Text & ", " & Replace(CCur(txtTotal.Text), ",", ".") & ", " & Replace(CCur(txtDesconto.Text), ",", ".") & ", " & Replace(CCur(txtValor.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtSubTotal.Text), ",", ".") & ");"
 
 Else
    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_item FROM aluguel_cadastro_itens;"
@@ -3910,7 +4030,7 @@ txtDesconto.Text = ""
 txtQuantAlugada.Text = ""
 txtTotalAluguel.Text = ""
 txtEntrada.Text = ""
-txtSubtotal.Text = ""
+txtSubTotal.Text = ""
 txtEntradaReal.Text = ""
 txtTipoCobranca.Text = "DIA"
 End Sub
@@ -3943,6 +4063,7 @@ LimparObjetosItens
 Form_Load
 cmdExibirConsulta_Click
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 End Sub
 
 
@@ -3958,7 +4079,7 @@ dbData.Execute "DELETE FROM parcelas WHERE (COD_PEDIDO = " & lblCodPedido.Captio
 
 'desfazer as quantidade de produtos alocados
 Dim i As Integer
-Grid_Parcelas.Col = 0
+grid_Parcelas.Col = 0
 
 For i = 1 To GridProdutos.rows - 1
     GridProdutos.Row = i
@@ -4204,18 +4325,171 @@ End If
 
 vTipoDevolver = 1
 frmDevolucao.Visible = True
+frmPagamento.Visible = True
 mskDevolver = Format(Date, "dd/mm/yy")   'Exibe a data no campo
 mskDevolverHora = Format(Now, "hh:mm")   'Exibe a data no campo
 txtQuantDev.Text = GridProdutos.TextMatrix(i, 4)
 mskDataFinalLocacao.Text = GridProdutos.TextMatrix(i, 16)
 mskDataFinalLocacaoHora.Text = GridProdutos.TextMatrix(i, 17)
 txtQuantDev.Locked = True
+AtualizarPagamentoDevolucao
 txtQuantDev.SetFocus
 End Sub
 
 
+
+Private Function ExtrairFormaPagamento(ByVal vTextoCombo As String) As String
+If vTextoCombo = "1 - DINHEIRO" Then
+   ExtrairFormaPagamento = "DINHEIRO"
+ElseIf vTextoCombo = "3 - CARTÃO - DÉBITO" Then
+   ExtrairFormaPagamento = "CARTAO"
+ElseIf vTextoCombo = "4 - CARTÃO - CRÉDITO" Then
+   ExtrairFormaPagamento = "CARTAO"
+ElseIf vTextoCombo = "5 - CHEQUE" Then
+   ExtrairFormaPagamento = "CHEQUE"
+ElseIf vTextoCombo = "7 - TRANSFERÊNCIA" Then
+   ExtrairFormaPagamento = "TRANSFERENCIA"
+ElseIf vTextoCombo = "8 - DEPOSITO" Then
+   ExtrairFormaPagamento = "DEPOSITO"
+ElseIf vTextoCombo = "9 - FINANCEIRA" Then
+   ExtrairFormaPagamento = "FINANCEIRA"
+ElseIf vTextoCombo = "10 - PIX" Then
+   ExtrairFormaPagamento = "PIX"
+Else
+   ExtrairFormaPagamento = "DINHEIRO"
+End If
+End Function
+
+Private Function ExtrairTipoCartao(ByVal vTextoCombo As String) As String
+If vTextoCombo = "3 - CARTÃO - DÉBITO" Then
+   ExtrairTipoCartao = "'D'"
+ElseIf vTextoCombo = "4 - CARTÃO - CRÉDITO" Then
+   ExtrairTipoCartao = "'C'"
+Else
+   ExtrairTipoCartao = "NULL"
+End If
+End Function
+
+Private Sub RegistrarPagamentoParcela(ByVal vCodParcRP As Long, ByVal vValorPagoRP As Currency, ByVal vFormaRP As String, ByVal vTipoCartaoRP As String)
+dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CStr(vValorPagoRP), ",", ".") & ", desconto = 0, tipo = 'PARCELA', tipo_cartao = " & vTipoCartaoRP & ", forma_pgto = '" & vFormaRP & "', COD_FUNCIONARIO = " & txtCodFuncionario.Text & ", pagamento = CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), hora = '" & Format(Now, ocHRMN) & "', caixa = '" & StatusBar1.Panels(3).Text & "', CODCAIXA = " & varCodCaixa & " WHERE (codigo = " & vCodParcRP & ");"
+End Sub
+
+Private Sub RegistrarHaverParcela(ByVal vCodParcRH As Long, ByVal vNumeroParcRH As Integer, ByVal vVencimentoParcRH As String, ByVal vValorParcelaRH As Currency, ByVal vValorHaverRH As Currency, ByVal vFormaRH As String, ByVal vTipoCartaoRH As String)
+Dim rHaver As ADODB.Recordset
+Dim lNovoCodHaver As Long
+
+sSQL = "SELECT ISNULL(MAX(codigo), 0) AS codigo_haver FROM parcelas_haver WITH (UPDLOCK, HOLDLOCK);"
+Set rHaver = dbData.OpenRecordset(sSQL)
+lNovoCodHaver = rHaver("codigo_haver") + 1
+If rHaver.State <> 0 Then rHaver.Close
+Set rHaver = Nothing
+
+dbData.Execute "INSERT INTO parcelas_haver (codigo, cod_parcela, numero, vencimento, haver, valor_parcela, valor_haver, hora, forma_pgto, caixa, CODCAIXA, tipo, tipo_cartao, COD_FUNCIONARIO) VALUES (" & _
+   lNovoCodHaver & ", " & vCodParcRH & ", " & vNumeroParcRH & ", CONVERT(DATETIME, '" & vVencimentoParcRH & "', 103), CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & _
+   Replace(CStr(vValorParcelaRH), ",", ".") & ", " & Replace(CStr(vValorHaverRH), ",", ".") & ", '" & Format(Now, ocHRMN) & "', '" & vFormaRH & "', '" & StatusBar1.Panels(3).Text & "', " & varCodCaixa & ", 'PARCELA', " & vTipoCartaoRH & ", " & txtCodFuncionario.Text & ");"
+
+dbData.Execute "UPDATE parcelas SET haver = 1 WHERE (codigo = " & vCodParcRH & ");"
+End Sub
+
+Private Sub BaixarParcelasDevolucao()
+If cboformaPgto1.Text = "" Then
+    MsgBox "Escolha a forma de pagamento 1!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+If opt2forma.Value = True And cboformaPgto2.Text = "" Then
+    MsgBox "Escolha a forma de pagamento 2!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+'le todas as parcelas em aberto ANTES de abrir a transacao
+Dim rParc As ADODB.Recordset
+Dim colCodigo As New Collection
+Dim colNumero As New Collection
+Dim colVencimento As New Collection
+Dim colValor As New Collection
+
+sSQL = "SELECT codigo, numero, DATA, VALOR_FINAL FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & " and STATUS = 0 ORDER BY numero;"
+Set rParc = dbData.OpenRecordset(sSQL)
+
+Do While Not rParc.EOF
+    colCodigo.Add CLng(rParc("codigo"))
+    colNumero.Add CInt(rParc("numero"))
+    colVencimento.Add Format(rParc("DATA"), ocDATA)
+    colValor.Add CCur(rParc("VALOR_FINAL"))
+    rParc.MoveNext
+Loop
+If rParc.State <> 0 Then rParc.Close
+Set rParc = Nothing
+
+Dim vSaldoForma1 As Currency
+Dim vSaldoForma2 As Currency
+Dim vNomeForma1 As String
+Dim vNomeForma2 As String
+Dim vTipoCartao1 As String
+Dim vTipoCartao2 As String
+
+vSaldoForma1 = Val(Replace(Replace(txtValor1.Text, ".", ""), ",", "."))
+vNomeForma1 = ExtrairFormaPagamento(cboformaPgto1.Text)
+vTipoCartao1 = ExtrairTipoCartao(cboformaPgto1.Text)
+
+If opt2forma.Value = True Then
+    vSaldoForma2 = Val(Replace(Replace(txtValor2.Text, ".", ""), ",", "."))
+    vNomeForma2 = ExtrairFormaPagamento(cboformaPgto2.Text)
+    vTipoCartao2 = ExtrairTipoCartao(cboformaPgto2.Text)
+Else
+    vSaldoForma2 = 0
+End If
+
+Dim bTrans As Boolean
+On Error GoTo ErrHandlerBaixaParc
+
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
+Dim vIdxParc As Integer
+Dim vFaltaParc As Currency
+
+For vIdxParc = 1 To colCodigo.Count
+    vFaltaParc = colValor(vIdxParc)
+
+    Do While vFaltaParc > 0 And (vSaldoForma1 > 0 Or vSaldoForma2 > 0)
+        If vSaldoForma1 > 0 Then
+            If vSaldoForma1 >= vFaltaParc Then
+                RegistrarPagamentoParcela colCodigo(vIdxParc), vFaltaParc, vNomeForma1, vTipoCartao1
+                vSaldoForma1 = vSaldoForma1 - vFaltaParc
+                vFaltaParc = 0
+            Else
+                RegistrarHaverParcela colCodigo(vIdxParc), colNumero(vIdxParc), colVencimento(vIdxParc), colValor(vIdxParc), vSaldoForma1, vNomeForma1, vTipoCartao1
+                vFaltaParc = vFaltaParc - vSaldoForma1
+                vSaldoForma1 = 0
+            End If
+        ElseIf vSaldoForma2 > 0 Then
+            If vSaldoForma2 >= vFaltaParc Then
+                RegistrarPagamentoParcela colCodigo(vIdxParc), vFaltaParc, vNomeForma2, vTipoCartao2
+                vSaldoForma2 = vSaldoForma2 - vFaltaParc
+                vFaltaParc = 0
+            Else
+                RegistrarHaverParcela colCodigo(vIdxParc), colNumero(vIdxParc), colVencimento(vIdxParc), colValor(vIdxParc), vSaldoForma2, vNomeForma2, vTipoCartao2
+                vFaltaParc = vFaltaParc - vSaldoForma2
+                vSaldoForma2 = 0
+            End If
+        End If
+    Loop
+Next vIdxParc
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+Exit Sub
+
+ErrHandlerBaixaParc:
+Dim vMsgErroBaixa As String
+vMsgErroBaixa = Err.Description
+If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+MsgBox "Erro ao dar baixa nas parcelas: " & vMsgErroBaixa, vbCritical, "Aviso do Sistema"
+End Sub
+
 Private Sub cmdDevolverItem_Click()
-If GridProdutos.TextMatrix(i, 16) = "SIM" Then
+If GridProdutos.TextMatrix(i, 13) = "SIM" Then
     MsgBox "Esse equipamento já foi devolvido!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -4316,21 +4590,16 @@ ElseIf vTipoDevolver = 2 Then           'devolver parcial
         'saber a quantidades de dias entre duas datas
         If Not IsDate(mskDataInicialLocacaoProrro) Then Exit Sub
         If Not IsDate(mskDevolver) Then Exit Sub
-        
+
         date1 = CDate(mskDataInicialLocacaoProrro.Text)
         date2 = CDate(mskDevolver.Text)
-        
+
         vQuantDias = DateDiff("d", date1, date2)
-        vQuantDias = vQuantDias
-        
+
         If mskDataInicialLocacaoProrro.Text = mskDataProrrogar.Text Then
             vQuantDias = 1
-        Else
-            vQuantDias = vQuantDias
         End If
-        
-        MsgBox vQuantDias
-        
+
         'saber a quantidade devolvida e a quantida restante
         Dim vQuantAlugada As Integer
         Dim vQuantDevolvida As Integer
@@ -4338,50 +4607,60 @@ ElseIf vTipoDevolver = 2 Then           'devolver parcial
         vQuantAlugada = GridProdutos.TextMatrix(i, 4)
         vQuantDevolvida = txtQuantDev
         vQuantRestante = vQuantAlugada - vQuantDevolvida
-        MsgBox vQuantRestante
-        Exit Sub
-        
-        'TOTAL_ALUGADA
-        'QUANT_ALUGADA
-        'DATA_FINAL = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103)
-        'QUANT = " & vQuantDias & "
-        'Valor = (TOTAL_ALUGADA * " & vQuantDias & ")
-        'SUBTOTAL = (TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO
-        'VALOR_FINAL = ((TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO) - Entrada
-        
-        
-        
-        'altercar o cadastro do item
-        dbData.Execute "UPDATE Aluguel_Cadastro_Itens SET DATA_FINAL = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103), QUANT = " & vQuantDias & ", VALOR = (TOTAL_ALUGADA * " & vQuantDias & ") , SUBTOTAL = (TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO, VALOR_FINAL = ((TOTAL_ALUGADA * " & vQuantDias & ") - DESCONTO) - Entrada, DEVOLVIDO = 1 WHERE (item = " & GridProdutos.TextMatrix(i, 1) & ") and (COD_LOCACAO = " & lblCodigo.Caption & ");"
 
-        'dbData.Execute "INSERT INTO aluguel_cadastro_itens (VALOR_UND, TOTAL_ALUGADA, QUANT_ALUGADA, DATA_INICIO, HORA_INICIO, DATA_FINAL, HORA_FINAL, QUANT, VALOR_FINAL, DESCONTO, VALOR, ENTRADA, SUBTOTAL) VALUES (" & _
-          varCodEntrada & ", " & lblCodigo.Caption & ", " & varCodItem & ", '" & txtTipoCobranca.Text & "', " & txtCodEquip.Text & ", " & Replace(CCur(txtValorAluguel.Text), ",", ".") & ", " & Replace(CCur(txtTotalAluguel.Text), ",", ".") & ", " & txtQuantAlugada.Text & ", CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & mskHoraInicio & "', CONVERT(DATETIME, '" & Format(mskFinal, ocDATA) & "', 103), '" & mskHoraFinal & "', " & txtQuant.Text & ", " & Replace(CCur(txtTotal.Text), ",", ".") & ", " & Replace(CCur(txtDesconto.Text), ",", ".") & ", " & Replace(CCur(txtValor.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtSubTotal.Text), ",", ".") & ");"
-       
-        PreencherGridProdutos
+        If vQuantRestante <= 0 Then
+            'devolveu tudo que restava - marca o item como totalmente devolvido
+            dbData.Execute "UPDATE Aluguel_Cadastro_Itens SET QUANT_ALUGADA = 0, devolvido = 1, DEVOLUCAO = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103) WHERE (item = " & GridProdutos.TextMatrix(i, 1) & ") and (COD_LOCACAO = " & lblCodigo.Caption & ");"
+        Else
+            'atualiza o item com a quantidade restante e os novos totais
+            dbData.Execute "UPDATE Aluguel_Cadastro_Itens SET QUANT_ALUGADA = " & vQuantRestante & ", TOTAL_ALUGADA = (VALOR_UND * " & vQuantRestante & "), QUANT = " & vQuantDias & ", Valor = ((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & "), SUBTOTAL = ((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & ") - DESCONTO, VALOR_FINAL = (((VALOR_UND * " & vQuantRestante & ") * " & vQuantDias & ") - DESCONTO) - Entrada, DATA_FINAL = CONVERT(DATETIME, '" & Format(mskDevolver, ocDATA) & "', 103) WHERE (item = " & GridProdutos.TextMatrix(i, 1) & ") and (COD_LOCACAO = " & lblCodigo.Caption & ");"
+        End If
+
+        'da baixa na quantidade alugada do equipamento (so a parte devolvida agora)
+        sSQL = "SELECT QUANT_ALUGADA FROM Aluguel_Cadastro_Equipamento WHERE (COD_EQUIP = " & GridProdutos.TextMatrix(i, 12) & ");"
+        Set r = dbData.OpenRecordset(sSQL)
+
+        Dim varQuantAtualEquipParcial As Integer
+        Dim varNovaQuantEquipParcial As Integer
+
+        varQuantAtualEquipParcial = r("QUANT_ALUGADA")
+        varNovaQuantEquipParcial = varQuantAtualEquipParcial - vQuantDevolvida
+
+        dbData.Execute "UPDATE aluguel_cadastro_equipamento SET QUANT_ALUGADA = " & varNovaQuantEquipParcial & " WHERE (COD_EQUIP = " & GridProdutos.TextMatrix(i, 12) & ");"
 
 End If
 
 'consultar parcelas em aberto do equipamento
-sSQL = "SELECT COUNT(codigo) AS vQuantParc " & _
+sSQL = "SELECT COUNT(codigo) AS vQuantParc, ISNULL(SUM(VALOR_FINAL), 0) AS vSomaParc " & _
        "FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & " and STATUS = 0;"
 Set r = dbData.OpenRecordset(sSQL)
 
-If ShowMsg("Esse equipamento possui: " & r("vQuantParc") & " Parcelas em aberto" & vbCrLf & "Você poderá devolver o equipamento sem dar baixa nas parcelas." & vbCrLf & "Deseja dar baixa nas parcelas agora ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then
-    vTipoDevolver = 0
-    PreencherGridProdutos
-    LimparObjetosDevolucao
-    frmDevolucao.Visible = False
-Else
-    Load Parcelas
-    Parcelas.txtCodCliente.Text = txtCodCliente.Text
-    Parcelas.cboCliente.Text = txtCliente.Text
-    vClienteEncontrado = True
-    Parcelas.Show 1
-    vTipoDevolver = 0
-    PreencherGridProdutos
-    LimparObjetosDevolucao
-    frmDevolucao.Visible = False
+Dim vQuantParcAberto As Long
+Dim vSomaParcAberto As Currency
+vQuantParcAberto = r("vQuantParc")
+vSomaParcAberto = r("vSomaParc")
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If vQuantParcAberto > 0 Then
+    If ShowMsg("Esse equipamento possui: " & vQuantParcAberto & " parcela(s) em aberto, totalizando " & Format(vSomaParcAberto, ocMONEY) & vbCrLf & "Você poderá devolver o equipamento sem dar baixa nas parcelas." & vbCrLf & "Deseja dar baixa nas parcelas agora ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbYes Then
+        If chkPgtoAuto.Value = vbChecked Then
+            BaixarParcelasDevolucao
+        Else
+            Load Parcelas
+            Parcelas.txtCodCliente.Text = txtCodCliente.Text
+            Parcelas.cboCliente.Text = txtCliente.Text
+            vClienteEncontrado = True
+            Parcelas.Show 1
+        End If
+    End If
 End If
+
+vTipoDevolver = 0
+PreencherGridProdutos
+LimparObjetosDevolucao
+frmDevolucao.Visible = False
+frmPagamento.Visible = False
 
 'fechar o contrato após devolver todos
 'Dim i As Integer
@@ -4427,9 +4706,13 @@ End If
 
 vTipoDevolver = 2
 frmDevolucao.Visible = True
+frmPagamento.Visible = True
 mskDevolver = Format(Date, "dd/mm/yy")   'Exibe a data no campo
+mskDevolverHora = Format(Now, "hh:mm")   'Exibe a hora no campo
 txtQuantDev.Text = GridProdutos.TextMatrix(i, 4)
 mskDataFinalLocacao.Text = GridProdutos.TextMatrix(i, 16)
+mskDataFinalLocacaoHora.Text = GridProdutos.TextMatrix(i, 17)
+AtualizarPagamentoDevolucao
 txtQuantDev.SetFocus
 End Sub
 
@@ -4447,7 +4730,7 @@ dbData.Execute "DELETE FROM parcelas WHERE (COD_PEDIDO = " & lblCodPedido.Captio
 
 'desfazer as quantidade de produtos alocados
 Dim i As Integer
-Grid_Parcelas.Col = 0
+grid_Parcelas.Col = 0
 
 For i = 1 To GridProdutos.rows - 1
     GridProdutos.Row = i
@@ -4474,6 +4757,7 @@ LimparGrid_Parcelas
 Form_Load
 cmdExibirConsulta_Click
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 End Sub
 
 Private Sub cmdExibirConsulta_Click()
@@ -4640,7 +4924,7 @@ REL_ContratoAluguel.lbl6.Caption = "" & r_empresa("razao") & ""
 REL_ContratoAluguel.lbl7.Caption = "CNPJ " & r_empresa("cnpj") & ""
 REL_ContratoAluguel.lbl8.Caption = "" & r_cliente("NOME") & ""
 REL_ContratoAluguel.lbl9.Caption = "CPF/CNPJ " & r_cliente("CPF") & ""
-REL_ContratoAluguel.lblContrato.Caption = "CONTRATO N° " & lblCodigo.Caption & "/2020"
+REL_ContratoAluguel.lblContrato.Caption = "CONTRATO Nº " & lblCodigo.Caption & "/2020"
 'REL_ContratoAluguel.lbl3.Caption = " "
 
 'REL_ContratoAluguel.lblTitulo.Caption = "RELATÓRIO DE CAIXA - VENDAS À PRAZO"
@@ -4710,6 +4994,7 @@ cmdAdicionarProduto.Enabled = True
 cmdRemoverProduto.Enabled = True
 cmdDevolver.Enabled = False
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 cboSituacao.Text = "ABERTO"
 
 LimparGrid_Parcelas
@@ -4729,19 +5014,6 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Function AutoNumeracao_Itens() As Long
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-Dim lRet As Long
-
-sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_item FROM aluguel_cadastro_itens;"
-Set r = dbData.OpenRecordset(sSQL)
-If Not r.BOF Then lRet = r("ultimo_item") + 1
-If Not r.State <> 0 Then r.Close
-Set r = Nothing
-
-AutoNumeracao_Itens = lRet
-End Function
 
 Private Sub cmdProrrogacao_Click()
 If txtDiasProrrogar.Text = 0 Then Exit Sub
@@ -4787,6 +5059,7 @@ Private Sub cmdProrrogar_Click()
 frmProrrogacao.Visible = True
 frmProrrogacao.Caption = "Prorrogativa"
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 cmdAdiacao.Visible = False
 cmdProrrogacao.Visible = True
 LimparObjetos_Prorrogacao
@@ -4816,8 +5089,18 @@ Else
     Result = Result
 End If
 
+Dim vDataProrrogarSugerida As Date
+vDataProrrogarSugerida = DateAdd("d", Val(Result), mskDataInicioProrro.Text)
+
+If vDataProrrogarSugerida < Date Then
+    vDataProrrogarSugerida = Date
+End If
+
+Result = DateDiff("d", CDate(mskDataInicioProrro.Text), vDataProrrogarSugerida)
+If Result < 1 Then Result = 1
+
 txtDiasProrrogar.Text = Result
-mskDataProrrogar.Text = Format(DateAdd("d", Val(Result), mskDataInicioProrro.Text), "dd/mm/yy")
+mskDataProrrogar.Text = Format(vDataProrrogarSugerida, "dd/mm/yy")
 
 'calcular valor da diaria
 Dim vValorDiariaProro As Currency
@@ -4957,6 +5240,8 @@ If mskHoraInicio.Text = "" Then Exit Sub
 'If optMultiplica.Value = True Then
    'mskInicio.Text = Format(mskCompra, "dd/mm/yy")
 mskFinal.Text = Format(DateAdd("d", Val(1) - 1, mskInicio.Text), "dd/mm/yy")
+If mskHoraFinal.Text = "" Then mskHoraFinal.Text = mskHoraInicio
+mskFinal_LostFocus
 'ElseIf optDivide.Value = True Then
    'mskInicio.Text = Format(mskCompra, "dd/mm/yy")
    'mskFinal.Text = Format(DateAdd("m", Val(cboQuantParc.Text), mskInicio.Text), "dd/mm/yy")'
@@ -5070,7 +5355,7 @@ End If
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-If GridProdutos.rows >= 2 And cmdSalvar.Enabled = True Then
+If cmdSalvar.Enabled = True Then
     MsgBox "O Aluguel iniciado ainda não foi salvo", vbInformation, "Aviso do Sistema"
     Cancel = True
 End If
@@ -5088,7 +5373,7 @@ If lblCodigo.Caption = "" Then Exit Sub
 If GridProdutos.TextMatrix(i, 1) = "" Then Exit Sub
 
 If GridProdutos.rows >= 2 Then
-    sSQL = "SELECT DATA, PAGAMENTO, VALOR, DESCONTO, VALOR_FINAL, CASE status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varStatus, FORMA_PGTO, CODCAIXA, CAIXA " & _
+    sSQL = "SELECT DATA, PAGAMENTO, VALOR, DESCONTO, VALOR_FINAL, CASE status WHEN 0 THEN 'À PAGAR' ELSE 'PAGO' END AS varStatus, FORMA_PGTO, CODCAIXA, CAIXA " & _
        "FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & " ORDER BY numero;"
     
     Set r = dbData.OpenRecordset(sSQL)
@@ -5102,7 +5387,7 @@ End Sub
 Private Sub LimparGrid_Parcelas()
 Dim i As Integer
 
-With Grid_Parcelas
+With grid_Parcelas
    .Clear
    .Cols = 8
    .rows = 2
@@ -5182,6 +5467,7 @@ End If
 
 frmProrrogacao.Visible = False
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 frmCodicoes.Enabled = False
 
 txtTipoCobranca.Text = "DIA"
@@ -5196,6 +5482,7 @@ LimparObjetos_Prorrogacao
 LimparObjetosDevolucao
 frmProrrogacao.Visible = False
 frmDevolucao.Visible = False
+frmPagamento.Visible = False
 
 i = GridProdutos.Row
 'mskDataInicialLocacaoProrro.Text = GridProdutos.TextMatrix(i, 14)
@@ -5205,7 +5492,7 @@ If GridProdutos.TextMatrix(i, 1) = "" Then Exit Sub
     
 If GridProdutos.rows >= 2 Then
 i = GridProdutos.Row
-    sSQL = "SELECT DATA, PAGAMENTO, VALOR, DESCONTO, VALOR_FINAL, CASE status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varStatus, FORMA_PGTO, CODCAIXA, CAIXA " & _
+    sSQL = "SELECT DATA, PAGAMENTO, VALOR, DESCONTO, VALOR_FINAL, CASE status WHEN 0 THEN 'À PAGAR' ELSE 'PAGO' END AS varStatus, FORMA_PGTO, CODCAIXA, CAIXA " & _
        "FROM parcelas WHERE (cod_os = " & lblCodigo.Caption & ") and OS_ITEM = " & GridProdutos.TextMatrix(i, 1) & " order by numero;"
     'Debug.Print sSQL
     Set r = dbData.OpenRecordset(sSQL)
@@ -5223,7 +5510,7 @@ If GridProdutos.TextMatrix(i, 13) = "SIM" Or GridProdutos.TextMatrix(i, 18) = "S
     cmdAdiar.Enabled = False
 Else
     cmdDevolver.Enabled = True
-    cmdDevolverParcial.Enabled = False
+    cmdDevolverParcial.Enabled = True
     cmdProrrogar.Enabled = True
     cmdAdiar.Enabled = True
 End If
@@ -5232,7 +5519,7 @@ End Sub
 Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
 Dim i As Integer
 
-With Grid_Parcelas
+With grid_Parcelas
    .Clear
    .Cols = 10
    .rows = 2
@@ -5490,8 +5777,6 @@ Else
       SelectControl mskDevolver
    End If
 End If
-'CalcularQuantDiasDevolver  'depois
-'CalcularDiariaDevolver   'depois
 End Sub
 
 
@@ -5555,6 +5840,13 @@ Private Sub mskHoraFinal_KeyPress(KeyAscii As Integer)
 mskHoraFinal.Mask = "##:##"
 End Sub
 
+Private Sub mskHoraFinal_LostFocus()
+If txtTipoCobranca.Text = "HORA" Then
+    CalcularQuantDias
+    CalcularDiaria
+End If
+End Sub
+
 
 Private Sub mskHoraInicio_GotFocus()
 SelectControl mskHoraInicio
@@ -5566,6 +5858,11 @@ mskHoraInicio.Mask = "##:##"
 End Sub
 
 
+Private Sub mskHoraInicio_LostFocus()
+Calcular_Prazo
+End Sub
+
+
 Private Sub mskInicio_Change()
 Calcular_Prazo
 'If mskInicio.Text <> "" Then mskInicio_LostFocus
@@ -5573,8 +5870,8 @@ End Sub
 
 Private Sub mskInicio_GotFocus()
 If mskInicio.Text = "" Then
-    mskInicio.Text = Format(Date, "dd/mm/yy")
     mskHoraInicio.Text = Format(Now, "hh:mm")
+    mskInicio.Text = Format(Date, "dd/mm/yy")
 End If
 
 SelectControl mskInicio
@@ -5617,7 +5914,7 @@ End Sub
 
 
 Private Sub SSTab1_Click(PreviousTab As Integer)
-If GridProdutos.rows >= 2 And cmdSalvar.Enabled = True Then
+If cmdSalvar.Enabled = True Then
     MsgBox "O Aluguel iniciado ainda não foi salvo", vbInformation, "Aviso do Sistema"
     SSTab1.Tab = 0
 End If
@@ -5737,13 +6034,6 @@ CalcularDiaria
 End Sub
 
 
-Private Sub txtQuant_Change()
-If txtQuant.Text <> "" Then
-    frmCodicoes.Enabled = True
-Else
-    frmCodicoes.Enabled = False
-End If
-End Sub
 
 Private Sub txtQuantAlugada_Change()
 CalcularDiaria
@@ -5764,11 +6054,6 @@ SelectControl txtQuantDev
 End Sub
 
 
-Private Sub txtQuantDev_LostFocus()
-Call CalcularDevolucao
-End Sub
-
-
 Private Sub txtTipoCobranca_GotFocus()
 txtTipoCobranca.Clear
 txtTipoCobranca.AddItem "DIA"
@@ -5776,6 +6061,32 @@ txtTipoCobranca.AddItem "HORA"
    
 If txtTipoCobranca.ListCount <> 0 Then txtTipoCobranca.ListIndex = 0
 moCombo.AttachTo txtTipoCobranca
+End Sub
+
+Private Sub txtTipoCobranca_Click()
+If txtCodEquip.Text <> "" Then
+    If txtTipoCobranca.Text = "DIA" Then
+        sSQL = "SELECT VALOR_DIA as varValorDiaAluguel FROM aluguel_cadastro_equipamento WHERE (COD_EQUIP = " & txtCodEquip.Text & ");"
+    Else
+        sSQL = "SELECT VALOR_HORA as varValorDiaAluguel FROM aluguel_cadastro_equipamento WHERE (COD_EQUIP = " & txtCodEquip.Text & ");"
+    End If
+    Set r = dbData.OpenRecordset(sSQL)
+    If Not r.BOF Then txtValorAluguel.Text = Format(ValidateNull(r("varValorDiaAluguel")), "##,##0.00")
+    If r.State <> 0 Then r.Close
+    Set r = Nothing
+End If
+
+If txtTipoCobranca.Text = "HORA" Then
+    If IsDate(mskInicio) Then mskFinal.Text = mskInicio.Text
+    If mskHoraInicio.Text <> "" Then mskHoraFinal.Text = Format(TimeValue(mskHoraInicio.Text) + TimeSerial(1, 0, 0), "hh:mm")
+Else
+    If IsDate(mskInicio) Then mskFinal.Text = Format(DateAdd("d", 1, mskInicio.Text), "dd/mm/yy")
+    mskHoraFinal.Text = mskHoraInicio.Text
+End If
+
+CalcularValorTotal
+CalcularQuantDias
+CalcularDiaria
 End Sub
 
 
