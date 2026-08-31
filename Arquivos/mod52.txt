@@ -1,0 +1,10 @@
+Acrescentei no form:
+frmPagamento(true), opt1forma(true), opt2forma, lblformaPgto1, cboformaPgto1, lblValor1, txtValor1, lblformaPgto2, cboformaPgto2, lblValor2, txtValor2, lblDesc, txtDesc
+Detalhes:
+- frmPagamento só fica visível quando cmdDevolver e cmdDevolverParcial for acionado e frmDevolucao ficar visivel, caso contrario, oculta.
+- chkPgtoAuto for false, os controles ficam desabilitados.
+- opt1forma for true, lblformaPgto2, cboformaPgto2, lblValor2, txtValor2 ficam ocultos (caso opt2forma for true, eles ficam visíveis)
+- cboformaPgto1 e cboformaPgto2 devem ser preenchidos igual cboformaPgto do projeto PDV.
+- chkPgtoAuto = true e opt1forma = true, cboformaPgto1 seleciona automaticamente 'PIX' e txtValor1 = valor da parcela do equipamento que está sendo devolvido.
+- Caso opt2forma = true, txtValor1 e txtValor2 não podem ser menor e nem maior que o valor da parcela... usuario digita o txtValor1 e o sistema auto preenche o txtValor2... sendo que a soma dos 2 nunca pode ser diferente do valor da parcela.
+- txtDesc terá o valor de desconto na parcela.... servirá para os 2 casos (opt1forma e opt2forma)

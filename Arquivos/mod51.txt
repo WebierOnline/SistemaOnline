@@ -1,0 +1,12 @@
+No Projeto Financeiro (C:\Projeto\Financeiro\Projeto\WhastappWeb.vbp)
+Acrescentei os objetos: txtLocalIBPT(caminho da tabela na minha maquina), cmdBuscarIBPT(abre a janela para localizar a tabela na minha maquina) e cmdEnviarIBPT(envia o arquivo para google driver compartilhado)
+Preciso usar com base a mesma ideia do projeto Online Commerce, do menulogoff_Click
+Obs: No google driver criei uma pasta chamada IBPT para armazenar a tabelas (fica fora da pasta Backups que já existe)... as duas pastam ficam em Drives Compatilhados.
+A Ideia seria, eu manualmente, Eu desenvolvedor, baixar a tabela no meu computador e importar ela para a pasta 'IBPT' do google driver compartilhada.
+Ai todos meus clientes terão uma rotina que dia 30 de cada mês o sistema automaticamente vai nessa pasta, verifica se existe uma tabela atualizar, caso tenha, baixa o a tabela localmente(no servidor), em um pasta definida para as tabelas de ibpt, importa essa tabela (esse procedimento já existe hoje, só que manualmente).
+Então vamos fazer em 2 etapas:
+Etapa 1: No Projeto Financeiro enviar o arquivo
+Etapa 2: No projeto Online Commerce/PDV baixa/ler/importar o arquivo.
+Obs: Etapa 2 só será iniciada a partir da etapa 1 terminada e testada.
+Um fato: o nome dos ultimos 2 arquivos baixados na minha maquina são TabelaIBPTaxPI26.1.G.csv TabelaIBPTaxPI26.1.L.csv ... não sei se o site mantem esse padrão de nomecratura.
+

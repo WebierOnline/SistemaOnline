@@ -1,0 +1,7 @@
+No form PDV tenho os objetos optAscrescRS, optAscrescPorc e txtAcresc eles são relacionados aos campos TIPO_ACRESCIMO, VALOR_ACRESCIMO, ValorAcrescReal da tabela pedidos.
+A funcionalidade dele inicial era acrescentar valores a venda que não fosse produtos (como por exemplo a embalagem para presente)... perceba que posso adicionar valores monetarios ou porcetagem e no final o ValorAcrescReal fica em valor monetário (caso tenha escolhido optAscrescPorc e não saiba quando deu o acrescimento e valores monetários para cobrar para o cliente), enfim isso está rodando!
+Porem após descobrir o campo OutrasDespesasAces na tabela TbNFCe e o campo ValorOutras na tabela TbNFCe_Itens... pensei, pq não acrescentar isso na NFCe?
+Detalhe: pedidos_itens não possui campos para especificar o valor de cada 'OutrasDespesasAces' para cada item... acredito que como a tabela TbNFCe_Itens descreve individualmente, a tabela pedidos_itens deveria fazer o mesmo.
+Outra coisa é o arredondamento disso... digamos que OutrasDespesasAces deu R$ 10,00 e sao 3 produtos... ficaria 3,33 para cada... porem teria que fazer o arredondamento no mesmo padrao que fez para o desconto para dar certinho a soma dos itens com o total daquele campo na tabela pai.
+Depois desse ajuste, ai vc tem que ver como isso é alimentado na nfce e ajustar tb.
+Obs: existe um bloqueio criado por mim para não gerar NFCe de vendas com acréscimos. Porque sempre dava erro! motivo ao qual presumisse que ele dava incoerencia no total do pedido por não alimentar os campos OutrasDespesasAces e ValorOutras

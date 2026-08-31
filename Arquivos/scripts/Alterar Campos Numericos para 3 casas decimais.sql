@@ -47,4 +47,5 @@ ALTER TABLE Produtos_Precos ALTER COLUMN MARGEM_VP decimal(16,2);
 ALTER TABLE Produtos_Precos ALTER COLUMN MARGEM_AV decimal(16,2);
 ALTER TABLE Produtos_Precos ALTER COLUMN MARGEM_AP decimal(16,2);
 
-ALTER TABLE a_receber_itens ALTER COLUMN preco decimal(16,2);
+IF OBJECT_ID('a_receber_itens', 'U') IS NOT NULL
+    EXEC('ALTER TABLE a_receber_itens ALTER COLUMN preco decimal(16,2)');
