@@ -963,7 +963,7 @@ Public Sub Preencher_Situacao(Pedido As Long)
    Dim sSQL As String
    Dim r As ADODB.Recordset
    
-   sSQL = "SELECT situacao, cod_os FROM OS_Situacao WHERE (cod_os = " & Pedido & ");"
+   sSQL = "SELECT situacao, cod_os FROM OS_Situacao_Auto WHERE (cod_os = " & Pedido & ");"
    Set r = dbData.OpenRecordset(sSQL)
    
    'limpar

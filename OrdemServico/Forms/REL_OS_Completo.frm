@@ -730,11 +730,11 @@ Begin VB.Form REL_OS_Completo
       End
       Begin ReportX.ReportField txtFabricante 
          Height          =   210
-         Left            =   5760
+         Left            =   5880
          TabIndex        =   41
          Top             =   2100
-         Width           =   1110
-         _ExtentX        =   1958
+         Width           =   990
+         _ExtentX        =   1746
          _ExtentY        =   370
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -754,11 +754,11 @@ Begin VB.Form REL_OS_Completo
          Height          =   210
          Left            =   4860
          TabIndex        =   42
-         Top             =   2078
-         Width           =   870
-         _ExtentX        =   1535
+         Top             =   2085
+         Width           =   990
+         _ExtentX        =   1746
          _ExtentY        =   370
-         Caption         =   "Fabricante:"
+         Caption         =   "Equipamento:"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Arial"
             Size            =   8.25
@@ -774,11 +774,11 @@ Begin VB.Form REL_OS_Completo
       End
       Begin ReportX.ReportField txtModelo 
          Height          =   210
-         Left            =   7560
+         Left            =   7740
          TabIndex        =   43
          Top             =   2100
-         Width           =   1005
-         _ExtentX        =   1773
+         Width           =   825
+         _ExtentX        =   1455
          _ExtentY        =   370
          Caption         =   ""
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -799,10 +799,10 @@ Begin VB.Form REL_OS_Completo
          Left            =   6900
          TabIndex        =   44
          Top             =   2100
-         Width           =   645
-         _ExtentX        =   1138
+         Width           =   825
+         _ExtentX        =   1455
          _ExtentY        =   370
-         Caption         =   "Modelo:"
+         Caption         =   "Fabricante:"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "Arial"
             Size            =   8.25

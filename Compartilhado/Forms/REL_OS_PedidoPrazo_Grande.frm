@@ -6668,7 +6668,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
    'Dim wValorFormatado As String
    If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
         Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-   ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+   ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
    ElseIf vTipoOS = "Comunicação Visual" Then
         Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
@@ -6693,7 +6693,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
         ElseIf vTipoOS = "Recapadora" Then
             sSQL = sSQL & "SELECT sum(quantidade) as vSomaQuantServ, sum(total) as vSomaValorServ " & _
             "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
               sSQL = sSQL & "SELECT sum(quantidade) as vSomaQuantServ, sum(total) as vSomaValorServ " & _
               "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
         ElseIf vTipoOS = "Comunicação Visual" Then
@@ -6725,7 +6725,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
              sSQL = "SELECT sum(quantidade) as vSomaQuantProd, sum(total) as vSomaValorProd FROM pedidos_itens  WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         ElseIf vTipoOS = "Recapadora" Then
              sSQL = "SELECT sum(quantidade) as vSomaQuantProd, sum(total) as vSomaValorProd FROM pedidos_itens  WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              sSQL = "SELECT sum(quantidade) as vSomaQuantProd, sum(total) as vSomaValorProd FROM pedidos_itens  WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         ElseIf vTipoOS = "Comunicação Visual" Then
              sSQL = "SELECT sum(quantidade) as vSomaQuantProd, sum(total) as vSomaValorProd FROM pedidos_itens  WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
@@ -6749,7 +6749,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
         ElseIf vTipoOS = "Recapadora" Then
             sSQL = sSQL & "SELECT sum(quantidade) as vSomaQuantServ, sum(total) as vSomaValorServ " & _
             "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
               sSQL = sSQL & "SELECT sum(quantidade) as vSomaQuantServ, sum(total) as vSomaValorServ " & _
               "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
         ElseIf vTipoOS = "Comunicação Visual" Then
@@ -6781,7 +6781,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
         ElseIf vTipoOS = "Recapadora" Then
             sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, TIPO as var_TipoPneu, SERIE as var_serie, FOGO as var_fogo, ARO as var_aro, BANDA as var_banda, DOTE as var_dote, MEDIDA as var_medida, FABRICANTE as var_fabricante, desconto, total " & _
             "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
            sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, '' as varFabricante, '', '', '', '', '', '', desconto, total " & _
            "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
         ElseIf vTipoOS = "Comunicação Visual" Then
@@ -6793,7 +6793,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, produtos.Fabricante as varFabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         ElseIf vTipoOS = "Recapadora" Then
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, '' as var_TipoPneu, '' as var_serie, '' as var_fogo, '' as var_aro, '' as var_banda, '' as var_dote, '' as var_medida, '' as var_fabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, produtos.Fabricante as varFabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         ElseIf vTipoOS = "Comunicação Visual" Then
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, produtos.Fabricante as varFabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
@@ -6807,7 +6807,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
              ElseIf vTipoOS = "Recapadora" Then
                  sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, TIPO as var_TipoPneu, SERIE as var_serie, FOGO as var_fogo, ARO as var_aro, BANDA as var_banda, DOTE as var_dote, MEDIDA as var_medida, FABRICANTE as var_fabricante, desconto, total " & _
                  "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-             ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+             ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
                    sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, '', desconto, total " & _
                    "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
              ElseIf vTipoOS = "Comunicação Visual" Then
@@ -6848,7 +6848,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
       rPc.MoveNext
    Loop
 
-    If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         txtNumero.Caption = "Nº " & Format(vCodOS, "000000")
     ElseIf vTipoOS = "Comunicação Visual" Then
         txtNumero.Caption = "Nº " & Format(vCodOS, "000000")
@@ -6876,7 +6876,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
     '    txtAno.Caption = IIf(IsNull(rEquip!Ano) = True, "", rEquip!Ano)
     '    txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
     '    txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-    'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     '    frTitParc.Caption = "EQUIPAMENTO"
     '    txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
     '    txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)

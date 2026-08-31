@@ -1383,7 +1383,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
             "WHERE " & varTIPO_OS & " " & SITUACAO & var_STATUS & _
             varTipoPagamento & "ORDER BY " & INDICE
     End If
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     If cboConsultaCriterios.Text = "CLIENTE" Then
        If txtCodClienteLocalizar.Text = "" Then Exit Sub
        sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, os.DATA_ENTRADA, os.DATA_TERMINO, os.cod_pedido, OS_Equipamento.fabricante, OS_Equipamento.equipamento, OS_Equipamento.modelo, (cliente.Nome + ' / ' + ISNULL(OS_Equipamento.equipamento,'') + ' / ' + ISNULL(OS_Equipamento.fabricante,'') + ' / ' + ISNULL(OS_Equipamento.modelo,'')) AS nome_completo, os.status AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_os, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.SUBTOTAL, os.ValorDescReal, os.TOTAL " & _
@@ -1532,7 +1532,7 @@ With Grid
          
          If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
             .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo")) & " / " & ValidateNull(rTabela("ano"))
-         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("equipamento")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo"))
          ElseIf vTipoOS = "Comunicação Visual" Then
             .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("nome")) & " / " & ValidateNull(rTabela("equipamento")) & " / " & ValidateNull(rTabela("fabricante")) & " / " & ValidateNull(rTabela("modelo"))

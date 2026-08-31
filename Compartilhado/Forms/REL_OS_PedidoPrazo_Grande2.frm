@@ -5016,7 +5016,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
         ElseIf vTipoOS = "Recapadora" Then
             sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, TIPO as varTipo, SERIE as varSerie, FOGO as varFogo, FABRICANTE as varFabricante, MEDIDA as varMedida, ARO as varAro, BANDA as varBanda, desconto, total " & _
             "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
            sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, '' as varFabricante, '', '', '', '', '', '', desconto, total " & _
            "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
         End If
@@ -5025,7 +5025,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, produtos.Fabricante as varFabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         ElseIf vTipoOS = "Recapadora" Then
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, '' as varTipo, '' as varSerie, '' as varFogo, '' as varFabricante, '' as varMedida, '' as varAro, '' as varBanda, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              sSQL = "SELECT 'PRODUTO' AS tipo_item, produtos.descricao, pedidos_itens.quantidade, pedidos_itens.preco, subtotal, pedidos_itens.codigo, produtos.Fabricante as varFabricante, desconto, total FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Pedido & ")"
         End If
         
@@ -5037,7 +5037,7 @@ Public Sub loadPedidos(ByVal Pedido As Long, ByVal Tipo As String)
              ElseIf vTipoOS = "Recapadora" Then
                  sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, TIPO as varTipo, SERIE as varSerie, FOGO as varFogo, FABRICANTE as varFabricante, MEDIDA as varMedida, ARO as varAro, BANDA as varBanda, desconto, total " & _
                  "FROM OS_servicos_recapadora WHERE (cod_os = " & vCodOS & ")"
-             ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+             ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
                    sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao, quantidade, preco, subtotal, codigo, '', desconto, total " & _
                    "FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")"
              End If
@@ -5217,7 +5217,7 @@ Private Sub Relatorio_IniciarSecao(ByVal Secao As ReportX.TSecao, ByVal Ordem As
             txtDesc(i).Caption = String(1, " ") + ValidateNull(rIt("descricao")) & " | " & rIt("varFabricante")
          ElseIf vTipoOS = "Recapadora" Then
             txtDesc(i).Caption = String(1, " ") + ValidateNull(rIt("descricao")) & " | " & rIt("VARTIPO") & " | " & rIt("VARSERIE") & " | " & rIt("VARFOGO") & " | " & rIt("VARMEDIDA") & " | " & rIt("VARARO") & " | " & rIt("VARBANDA")
-         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             txtDesc(i).Caption = String(1, " ") + ValidateNull(rIt("descricao")) & " | " & rIt("varFabricante")
          End If
          txtCodProd(i).Caption = rIt("tipo_item")

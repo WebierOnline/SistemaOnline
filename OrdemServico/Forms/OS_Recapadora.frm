@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "10:26"
+            TextSave        =   "14:35"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -260,11 +260,8 @@ Begin VB.Form OS_Recapadora
       TabPicture(2)   =   "OS_Recapadora.frx":2479
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdFinalizarAP"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdFinalizarAV"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "frmVendaFechamento"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "OS_Recapadora.frx":2495
@@ -4395,7 +4392,7 @@ txtTotalPeca = Format(vTotalPeca, ocMONEY)
 End Sub
 
 Private Sub ExibirObjetosServicos()
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     lblMarca.Visible = False
     lblDote.Visible = False
     cboMarca.Visible = False
@@ -4634,6 +4631,7 @@ lblArray(8).Visible = True
 lblArray(9).Visible = False
 lblArray(10).Visible = False
 lblArray(11).Visible = False
+lblArray(12).Visible = False
 lblArray(13).Visible = False
 lblArray(14).Visible = True
 cboFabricante.Visible = True
@@ -4641,6 +4639,7 @@ cboModelo.Visible = True
 txtAno.Visible = False
 txtPlaca.Visible = False
 txtKM.Visible = False
+txtChassi.Visible = False
 cboCor.Visible = False
 cboTanque.Visible = True
 
@@ -4650,9 +4649,9 @@ cboFabricante.Top = 540
 cboFabricante.Left = 3840
 
 lblArray(8).Top = 300
-lblArray(8).Left = 6420
+lblArray(8).Left = 5740
 cboModelo.Top = 540
-cboModelo.Left = 6420
+cboModelo.Left = 5740
 
 lblArray(14).Top = 300
 lblArray(14).Left = 60
@@ -4800,7 +4799,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServico = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServico = "os_servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServico = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServico = "OS_Servicos_Comunicacao"
@@ -4852,7 +4851,7 @@ Private Sub FormatarGrid_PecasServicos(rTabela As ADODB.Recordset)
          Do While Not rTabela.EOF
             .TextMatrix(.Rows - 1, 1) = rTabela("var_COD")
             .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("var_tipo"))
-            If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+            If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
                 .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("descricao"))
             ElseIf vTipoOS = "Comunicação Visual" Then
                 .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("descricao"))
@@ -5060,7 +5059,13 @@ Next
 
 iGar = Grid_OS.Row
 vCodOSGar = Grid_OS.TextMatrix(iGar, 0)
-vCodPedidoGar = Grid_OS.TextMatrix(iGar, 7)
+Dim iColPedidoGar As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedidoGar = 7
+Else
+    iColPedidoGar = 6
+End If
+vCodPedidoGar = Grid_OS.TextMatrix(iGar, iColPedidoGar)
 
 Set rOSGar = dbData.OpenRecordset("SELECT DATA_ENTRADA, DATA_TERMINO FROM OS WHERE (COD_OS = " & vCodOSGar & ");")
 Set rPedidoGar = dbData.OpenRecordset("SELECT COD_CLIENTE FROM pedidos WHERE (COD_PEDIDO = " & vCodPedidoGar & ");")
@@ -5077,15 +5082,25 @@ REL_OS_Garantia.LimparParagrafos
 REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo "1. PRAZO E COBERTURA DA GARANTIA", True, 9.75
 REL_OS_Garantia.AdicionarParagrafo " "
-REL_OS_Garantia.AdicionarParagrafo "1.1. SERVIÇOS (Mão de Obra): Garantia de 90 (noventa) dias, a contar da data de saída do veículo, conforme o Art. 26 do Código de Defesa do Consumidor (CDC)."
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    REL_OS_Garantia.AdicionarParagrafo "1.1. SERVIÇOS (Mão de Obra): Garantia de 90 (noventa) dias, a contar da data de saída do veículo, conforme o Art. 26 do Código de Defesa do Consumidor (CDC)."
+Else
+    REL_OS_Garantia.AdicionarParagrafo "1.1. SERVIÇOS (Mão de Obra): Garantia de 90 (noventa) dias, a contar da data de saída do equipamento, conforme o Art. 26 do Código de Defesa do Consumidor (CDC)."
+End If
 REL_OS_Garantia.AdicionarParagrafo "1.2. PEÇAS APLICADAS: Garantia de 90 (noventa) dias contra defeitos de fabricação, ressalvada a garantia estendida fornecida por fabricantes específicos."
 REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo "2. CONDIÇÕES GERAIS E PERDA DA GARANTIA", True, 9.75
 REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo "A garantia cobrirá exclusivamente os itens e serviços discriminados nesta OS. A garantia será AUTOMATICAMENTE CANCELADA se:"
-REL_OS_Garantia.AdicionarParagrafo "a) O veículo for submetido a uso severo, manobras indevidas ou sobrecarga."
-REL_OS_Garantia.AdicionarParagrafo "b) Houver intervenção, reparo ou alteração realizada por terceiros/outras oficinas nos componentes atendidos por esta OS sem prévia autorização."
-REL_OS_Garantia.AdicionarParagrafo "c) O veículo trafegar sem os níveis adequados de fluídos (óleo, líquido de arrefecimento) ou por danos causados por acidentes/agentes externos."
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    REL_OS_Garantia.AdicionarParagrafo "a) O veículo for submetido a uso severo, manobras indevidas ou sobrecarga."
+    REL_OS_Garantia.AdicionarParagrafo "b) Houver intervenção, reparo ou alteração realizada por terceiros/outras oficinas nos componentes atendidos por esta OS sem prévia autorização."
+    REL_OS_Garantia.AdicionarParagrafo "c) O veículo trafegar sem os níveis adequados de fluídos (óleo, líquido de arrefecimento) ou por danos causados por acidentes/agentes externos."
+Else
+    REL_OS_Garantia.AdicionarParagrafo "a) O equipamento for submetido a uso indevido, sobrecarga elétrica ou instalação em desacordo com as especificações do fabricante."
+    REL_OS_Garantia.AdicionarParagrafo "b) Houver intervenção, reparo ou alteração realizada por terceiros não autorizados nos componentes atendidos por esta OS sem prévia autorização."
+    REL_OS_Garantia.AdicionarParagrafo "c) O equipamento for exposto a umidade excessiva, quedas, picos de energia ou danos causados por acidentes/agentes externos."
+End If
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
     Set rEquipGar = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, KM FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOSGar & ");")
@@ -5128,6 +5143,10 @@ Else
     REL_OS_Garantia.txtPlacaGar.Visible = False
     REL_OS_Garantia.lblKmAtualGar.Visible = False
     REL_OS_Garantia.txtKmAtualGar.Visible = False
+    REL_OS_Garantia.lblPlacaGar.Caption = ""
+    REL_OS_Garantia.txtPlacaGar.Caption = ""
+    REL_OS_Garantia.lblKmAtualGar.Caption = ""
+    REL_OS_Garantia.txtKmAtualGar.Caption = ""
 
 REL_OS_Garantia.AdicionarParagrafo " "
     REL_OS_Garantia.AdicionarParagrafo "3. RECOMENDAÇÕES IMPORTANTES", True, 9.75
@@ -5136,7 +5155,11 @@ REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo " "
 End If
 
-REL_OS_Garantia.AdicionarParagrafo "Declaro que recebi o veículo em perfeitas condições de funcionamento e estou de acordo com os termos de garantia e serviços executados constantes nesta OS."
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    REL_OS_Garantia.AdicionarParagrafo "Declaro que recebi o veículo em perfeitas condições de funcionamento e estou de acordo com os termos de garantia e serviços executados constantes nesta OS."
+Else
+    REL_OS_Garantia.AdicionarParagrafo "Declaro que recebi o equipamento em perfeitas condições de funcionamento e estou de acordo com os termos de garantia e serviços executados constantes nesta OS."
+End If
 REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo " "
 REL_OS_Garantia.AdicionarParagrafo " "
@@ -5159,7 +5182,7 @@ Me.Show 1
 End Sub
 
 Private Sub Grid_Servicos_DblClick()
-If vTipoOS <> "Automóveis" And vTipoOS <> "Motocicletas" And vTipoOS <> "Informática" And vTipoOS <> "Celular" Then Exit Sub
+If vTipoOS <> "Automóveis" And vTipoOS <> "Motocicletas" And vTipoOS <> "Informática" And vTipoOS <> "Celular" And vTipoOS <> "Climatização" Then Exit Sub
 If Grid_Servicos.Row = 0 Then Exit Sub
 If Grid_Servicos.TextMatrix(Grid_Servicos.Row, 1) = "" Then Exit Sub
 If Grid_Servicos.TextMatrix(Grid_Servicos.Row, 2) <> "SERVIÇO" Then Exit Sub
@@ -5203,11 +5226,11 @@ If txtCodPedido.Text = "" Then txtCodPedido.Text = 0
 '    sSQL = "SELECT 'SERVIÇO' as var_Tipo, * FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
 'ElseIf vTipoOS = "Recapadora" Then
 '    sSQL = "SELECT 'SERVIÇO' as var_Tipo, *  FROM os_servicos_recapadora WHERE (cod_os = " & txtCodOS.Text & ");"
-'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
 '    sSQL = "SELECT 'SERVIÇO' as var_Tipo, * FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
 'End If
 
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL, CODIGO AS var_CODITEM, '' as var_CODPROD, cod_mecanico, (SELECT nome FROM funcionario WHERE funcionario.codigo = OS_Servicos_Auto.cod_mecanico) AS var_nomemecanico, cod_servico FROM OS_Servicos_Auto WHERE (COD_OS = " & txtCodOS.Text & ")" & _
           " UNION ALL "
     sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL, pedidos_itens.CODIGO AS var_CODITEM, pedidos_itens.COD_PRODUTO as var_CODPROD, NULL as cod_mecanico, NULL as var_nomemecanico, NULL as cod_servico " & _
@@ -5252,7 +5275,7 @@ Dim j As Integer
 Dim soma As Currency
 Dim QUANT As Integer
 
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     With Grid_Servicos
        .Clear
        .Cols = 14
@@ -5666,13 +5689,21 @@ End Sub
 Private Sub MostrarGrid_PecasServicos()
 Dim totalRegistros As Long
 
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL FROM OS_Servicos_Auto WHERE (COD_OS = " & Grid_OS.TextMatrix(Grid_OS.Row, 0) & ")" & _
           " UNION ALL "
     sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL " & _
              "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
              "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
              "WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(Grid_OS.Row, 7) & ") "
+             'Debug.Print sSQL
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+    sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL FROM OS_Servicos_Auto WHERE (COD_OS = " & Grid_OS.TextMatrix(Grid_OS.Row, 0) & ")" & _
+          " UNION ALL "
+    sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL " & _
+             "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
+             "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+             "WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(Grid_OS.Row, 6) & ") "
              'Debug.Print sSQL
 ElseIf vTipoOS = "Comunicação Visual" Then
     sSQL = "SELECT 'SERVIÇO' as var_Tipo, COD_OS as var_COD, DESCRICAO, PRECO, QUANTIDADE, SUBTOTAL as var_SUBTOTAL, DESCONTO as var_DESCONTO, TOTAL as var_TOTAL FROM OS_Servicos_Comunicacao WHERE (COD_OS = " & Grid_OS.TextMatrix(Grid_OS.Row, 0) & ")" & _
@@ -5687,7 +5718,7 @@ ElseIf vTipoOS = "Recapadora" Then
     sSQL = sSQL & "SELECT 'PRODUTO' AS var_Tipo, pedidos_itens.COD_PEDIDO as var_COD, produtos.descricao as var_desc, preco, quantidade, pedidos_itens.SUBTOTAL as var_SUBTOTAL, pedidos_itens.DESCONTO as var_DESCONTO, pedidos_itens.TOTAL AS var_TOTAL, '' as varTipo, '' as varMedida, '' as varAro, '' as varBanda " & _
              "FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
              "LEFT JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
-             "WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(Grid_OS.Row, 6) & ") "
+             "WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(Grid_OS.Row, 7) & ") "
 End If
       
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
@@ -5732,7 +5763,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
       "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS " & _
       "WHERE " & varTIPO_OS & " " & SITUACAO & " " & var_STATUS & vStatusFinanceiro & _
       "ORDER BY " & INDICE
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
    sSQL = "SELECT DISTINCT OS.COD_OS, cliente.Nome, OS.COD_PEDIDO, OS.TIPO_OS, OS_Equipamento.FABRICANTE, OS_Equipamento.EQUIPAMENTO, OS_Equipamento.MODELO, os.DATA_ENTRADA, os.HORA_ENTRADA, os.STATUS AS var_status, CASE status_os WHEN 1 THEN 'FECHADO' WHEN 0 THEN 'ABERTO' END AS var_status_Financeiro, os.STATUS_OS, os.STATUS, os.SUBTOTAL, os.TOTAL, os.TIPO_PAGAMENTO, os.PAGAMENTO, os.ValorDescReal " & _
       "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS " & _
       "WHERE " & varTIPO_OS & " " & SITUACAO & " " & var_STATUS & vStatusFinanceiro & _
@@ -5897,7 +5928,7 @@ On Error GoTo TrataErro
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     cboFabricante.SetFocus
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     cboTanque.SetFocus
 End If
 
@@ -5953,7 +5984,7 @@ End Sub
 Private Sub cboCor_LostFocus()
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     cboTanque.SetFocus
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     'cboTanque.SetFocus
 End If
 End Sub
@@ -5975,6 +6006,8 @@ ElseIf vTipoOS = "Informática" Then
 ElseIf vTipoOS = "Comunicação Visual" Then
     sSQL = "SELECT DISTINCT fabricante FROM OS_Equipamento ORDER BY fabricante;"
 ElseIf vTipoOS = "Celular" Then
+    sSQL = "SELECT DISTINCT fabricante FROM OS_Equipamento ORDER BY fabricante;"
+ElseIf vTipoOS = "Climatização" Then
     sSQL = "SELECT DISTINCT fabricante FROM OS_Equipamento ORDER BY fabricante;"
 End If
 Set r = dbData.OpenRecordset(sSQL)
@@ -6034,6 +6067,8 @@ ElseIf vTipoOS = "Motocicletas" Then
 ElseIf vTipoOS = "Recapadora" Then
     sSQL = "SELECT DISTINCT MODELO FROM OS_Modelo_Caminhao ORDER BY MODELO;"
 ElseIf vTipoOS = "Informática" Then
+    sSQL = "SELECT DISTINCT MODELO FROM OS_Equipamento ORDER BY MODELO;"
+ElseIf vTipoOS = "Climatização" Then
     sSQL = "SELECT DISTINCT MODELO FROM OS_Equipamento ORDER BY MODELO;"
 ElseIf vTipoOS = "Comunicação Visual" Then
     sSQL = "SELECT DISTINCT MODELO FROM OS_Equipamento ORDER BY MODELO;"
@@ -6224,7 +6259,7 @@ Private Sub cboModelo_LostFocus()
 cboModelo.Text = TirarEspaco(cboModelo.Text)
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     'txtPareceCliente.SetFocus
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     txtPareceCliente.SetFocus
 End If
 End Sub
@@ -6389,7 +6424,7 @@ ElseIf vTipoOS = "Recapadora" Then
     'cboServicosAuto.AddItem "DUPLAGEM"
     'cboServicosAuto.Text = itemAtual
     moCombo.AttachTo cboServicosAuto
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     cboServicosAuto.Clear
     sSQL = "SELECT * FROM os_Servicos ORDER BY servico;"
     Set r = dbData.OpenRecordset(sSQL)
@@ -6568,7 +6603,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
     cboTanque.AddItem "CHEIO"
     cboTanque.AddItem "1/4"
     cboTanque.AddItem "3/4"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     sSQL = "SELECT DISTINCT EQUIPAMENTO FROM OS_Equipamento ORDER BY EQUIPAMENTO;"
     Set r = dbData.OpenRecordset(sSQL)
 
@@ -6607,7 +6642,7 @@ Private Sub cboTanque_LostFocus()
 cboTanque.Text = TirarEspaco(cboTanque.Text)
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     txtPareceCliente.SetFocus
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     cboFabricante.SetFocus
 End If
 End Sub
@@ -7080,7 +7115,7 @@ ElseIf vTipoOS = "Recapadora" Then
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
     "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     'atualizar tabela OS
     dbData.Execute "UPDATE OS SET " & _
     "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
@@ -7304,7 +7339,7 @@ ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "INSERT INTO os_servicos_recapadora (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, DOTE, TIPO, SERIE, FOGO, FABRICANTE, MEDIDA, ARO, BANDA) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
        txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), '" & txtDote.Text & "', '" & cboTipo.Text & "', '" & txtSerie.Text & "', '" & txtFogo.Text & "', '" & cboMarca.Text & "', '" & vMedida & "', '" & vAro & "', '" & vBanda & "')"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "INSERT INTO OS_Servicos_Auto (codigo, cod_os, descricao, preco, quantidade, subtotal, desconto, total, data, cod_mecanico, cod_servico) VALUES (" & _
        xServ & ", " & txtCodOS.Text & ", '" & vServico & "', " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", " & _
        txtQuantServicoAuto.Text & ", " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), " & vCodMecanicoServ & ", " & txtCodServicoAuto.Text & ")"
@@ -7348,7 +7383,7 @@ ElseIf vTipoOS = "Recapadora" Then
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
     "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     'atualizar tabela OS
     dbData.Execute "UPDATE OS SET " & _
     "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
@@ -7398,7 +7433,7 @@ If vCodMecanicoServ = "" Then MsgBox "Selecione o mecânico que executou o serviç
 Verificar_OS_Fechada
 If OS_FECHADA = True Then Exit Sub
 
-If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS_Servicos_Auto SET descricao = '" & vServico & "', preco = " & Replace(CCur(mskValorServicoAuto.Text), ",", ".") & ", quantidade = " & txtQuantServicoAuto.Text & ", subtotal = " & Replace(CCur(txtSubTotalServicoAuto.Text), ",", ".") & ", desconto = " & Replace(CCur(txtDescServicoAuto.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalServicoAuto.Text), ",", ".") & ", cod_mecanico = " & vCodMecanicoServ & ", cod_servico = " & txtCodServicoAuto.Text & " WHERE (codigo = " & vCodItemServicoEditando & ") AND (cod_os = " & txtCodOS.Text & ");"
 End If
 
@@ -7436,7 +7471,7 @@ ElseIf vTipoOS = "Recapadora" Then
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
     "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     'atualizar tabela OS
     dbData.Execute "UPDATE OS SET " & _
     "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
@@ -7506,7 +7541,7 @@ If cboStatus.Text = "TERMINADO" Then
         vTabelaServicos = "OS_Servicos_Auto"
     ElseIf vTipoOS = "Recapadora" Then
         vTabelaServicos = "OS_Servicos_recapadora"
-    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         vTabelaServicos = "OS_Servicos_Auto"
     ElseIf vTipoOS = "Comunicação Visual" Then
         vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -7562,7 +7597,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
     'dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
@@ -7635,7 +7670,7 @@ If cboStatus.Text <> "TERMINADO" Then
             frmTotaisGeral.Visible = True
             frmTotaisProdServ.Visible = True
             stProdSer.Visible = True
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             frmParecerCliente.Visible = False
             frmAcessorios.Visible = False
             frmSituacao.Visible = False
@@ -7688,7 +7723,7 @@ ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM OS_acessorios_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
     dbData.Execute "DELETE FROM os_servicos_recapadora WHERE (cod_os = " & txtCodOS.Text & ");"
     dbData.Execute "DELETE FROM os_situacao_auto WHERE (cod_os = " & txtCodOS.Text & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "DELETE FROM OS_Equipamento WHERE (cod_os = " & txtCodOS.Text & ");"
     dbData.Execute "DELETE FROM OS_acessorios_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
     dbData.Execute "DELETE FROM os_servicos_recapadora WHERE (cod_os = " & txtCodOS.Text & ");"
@@ -7797,22 +7832,26 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     frmEquipamento.Visible = True
     txtObs.Visible = False
     'chkVeiculo.Visible = True
+    cmdPlaca.Visible = True
     cboCliente.Width = 6555
 ElseIf vTipoOS = "Recapadora" Then
     frmEquipamento.Visible = False
     txtObs.Visible = True
     'chkVeiculo.Visible = True
-    cboCliente.Width = 6555
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    cmdPlaca.Visible = False
+    cboCliente.Width = 7815
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     frmEquipamento.Visible = True
     txtObs.Visible = False
     'chkVeiculo.Visible = True
-    cboCliente.Width = 6555
+    cmdPlaca.Visible = False
+    cboCliente.Width = 7815
 ElseIf vTipoOS = "Comunicação Visual" Then
     frmEquipamento.Visible = False
     txtObs.Visible = True
     'chkVeiculo.Visible = False
-    cboCliente.Width = 7755
+    cmdPlaca.Visible = False
+    cboCliente.Width = 7815
 End If
 
 If (Trim(Grid_OS.TextMatrix(posit, 1))) = ("À COMEÇAR") Then
@@ -7834,7 +7873,13 @@ If ShowMsg("Tem certeza que deseja excluir essa Ordem de Serviço ?", vbInformati
 i = Grid_OS.Row
 
 vCodOS = Grid_OS.TextMatrix(i, 0)
-codPedido = Grid_OS.TextMatrix(i, 7)
+Dim iColPedido As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedido = 7
+Else
+    iColPedido = 6
+End If
+codPedido = Grid_OS.TextMatrix(i, iColPedido)
 
 Retorna_Produtos_Estoque
 
@@ -7860,7 +7905,7 @@ ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM OS_acessorios_Auto WHERE (cod_os = " & vCodOS & ");"
     dbData.Execute "DELETE FROM os_servicos_recapadora WHERE (cod_os = " & vCodOS & ");"
     dbData.Execute "DELETE FROM os_situacao_auto WHERE (cod_os = " & vCodOS & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "DELETE FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");"
     dbData.Execute "DELETE FROM OS_acessorios_Auto WHERE (cod_os = " & vCodOS & ");"
     dbData.Execute "DELETE FROM os_servicos_recapadora WHERE (cod_os = " & vCodOS & ");"
@@ -7926,7 +7971,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -8024,37 +8069,72 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -8063,15 +8143,28 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Ativar
@@ -8130,37 +8223,72 @@ Else
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -8169,15 +8297,28 @@ Else
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Ativar
@@ -8196,7 +8337,7 @@ Me.Show
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Recapadora" Then
 '    vTabelaServicos = "OS_Servicos_recapadora"
-'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Comunicação Visual" Then
 '    vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -9520,8 +9661,17 @@ posit = Grid_OS.Row
 txtCodOS.Text = ""
 txtCodOS.Text = (Grid_OS.TextMatrix(Grid_OS.Row, 0))
 SSTab1.Tab = 2
-If (Trim(Grid_OS.TextMatrix(posit, 2))) = ("TERMINADO") Then
-    If (Trim(Grid_OS.TextMatrix(posit, 3))) = ("ABERTO") Then
+Dim iColStatusFin As Integer
+Dim iColFinanceiroFin As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColStatusFin = 2
+    iColFinanceiroFin = 3
+Else
+    iColStatusFin = 1
+    iColFinanceiroFin = 2
+End If
+If (Trim(Grid_OS.TextMatrix(posit, iColStatusFin))) = ("TERMINADO") Then
+    If (Trim(Grid_OS.TextMatrix(posit, iColFinanceiroFin))) = ("ABERTO") Then
         cmdFinalizarAP.Enabled = True
         cmdFinalizarAV.Enabled = True
     End If
@@ -9571,7 +9721,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
     'dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
@@ -9644,21 +9794,27 @@ Next
 'buscando os dados do formulário
 i = Grid_OS.Row
 vCodOS = Grid_OS.TextMatrix(i, 0)
-codPedido = Grid_OS.TextMatrix(i, 7)
+Dim iColPedido As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedido = 7
+Else
+    iColPedido = 6
+End If
+codPedido = Grid_OS.TextMatrix(i, iColPedido)
 
 'ver a quantidade de peças e serviços da ordem de serviços
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
 End If
 
 'somando os produtos
-sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & codPedido & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
 Dim vQuantProduto As Double
 Dim vTotalProduto As Currency
@@ -9687,7 +9843,7 @@ REL_OS_Completo.txtTotalPecas.Caption = " " & FormatNumber(vTotalProduto, 2)
 REL_OS_Completo.txtTotalPecasServicos.Caption = " " & FormatNumber(vSomaTotais, 2)
 
     
-sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & codPedido & ")"
 sSQL_Itens = sSQL_Itens & " UNION "
 sSQL_Itens = sSQL_Itens & "SELECT codigo FROM " & vTabelaServicos & " WHERE (cod_os = " & Grid_OS.TextMatrix(i, 0) & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
@@ -9717,7 +9873,7 @@ Me.Hide
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "ORÇAMENTO DA ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 7)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -9743,7 +9899,7 @@ Me.Hide
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR, CHASSI FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
@@ -9751,7 +9907,28 @@ Me.Hide
         
         'DADOS DO VEICULO/EQUIPAMENTO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
@@ -9759,23 +9936,36 @@ Me.Hide
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = IIf(IsNull(rEquip!CHASSI) = True, "", rEquip!CHASSI)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -9784,15 +9974,28 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Visualizar = True
@@ -9843,23 +10046,29 @@ Next
 i = Grid_OS.Row
 
 vCodOS = Grid_OS.TextMatrix(i, 0)
-codPedido = Grid_OS.TextMatrix(i, 7)
+Dim iColPedido As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedido = 7
+Else
+    iColPedido = 6
+End If
+codPedido = Grid_OS.TextMatrix(i, iColPedido)
 
-If Grid_OS.TextMatrix(i, 6) = "00000" Then MsgBox "Pedido gerado anterior as alterações não permite reimpressão de pedidos. Somente orçamento!", vbInformation, "Aviso do Sistema": Exit Sub
+If codPedido = "00000" Then MsgBox "Pedido gerado anterior as alterações não permite reimpressão de pedidos. Somente orçamento!", vbInformation, "Aviso do Sistema": Exit Sub
 
 'ver a quantidade de peças e serviços da ordem de serviços
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
 End If
 
 'somando os produtos
-sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & codPedido & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
 Dim vQuantProduto As Double
 Dim vTotalProduto As Currency
@@ -9887,7 +10096,7 @@ REL_OS_Completo.txtTotalServicos.Caption = " " & FormatNumber(vTotalServico, 2)
 REL_OS_Completo.txtTotalPecas.Caption = " " & FormatNumber(vTotalProduto, 2)
 REL_OS_Completo.txtTotalPecasServicos.Caption = " " & FormatNumber(vSomaTotais, 2)
     
-sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & codPedido & ")"
 sSQL_Itens = sSQL_Itens & " UNION ALL "
 sSQL_Itens = sSQL_Itens & "SELECT codigo FROM " & vTabelaServicos & " WHERE (cod_os = " & Grid_OS.TextMatrix(i, 0) & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
@@ -9928,7 +10137,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 6)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -9953,37 +10162,72 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -9992,15 +10236,28 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Ativar
@@ -10038,7 +10295,7 @@ Else
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 7)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -10064,37 +10321,72 @@ Else
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -10103,15 +10395,28 @@ Else
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Visualizar = True
@@ -10193,11 +10498,15 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "INSERT INTO OS_Equipamento_Auto (cod_os) VALUES (" & txtCodOS.Text & ")"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "INSERT INTO OS_Equipamento_Auto (cod_os) VALUES (" & txtCodOS.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "INSERT INTO OS_Equipamento (cod_os) VALUES (" & txtCodOS.Text & ")"
 ElseIf vTipoOS = "Comunicação Visual" Then
     'dbData.Execute "INSERT INTO OS_Equipamento (cod_os) VALUES (" & txtCodOS.Text & ")"
 End If
+
+'veículos = Automóveis ou Motocicletas (mesmos campos) - cmdPlaca so faz sentido pra quem tem placa
+cmdPlaca.Visible = (vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas")
+cboCliente.Width = IIf(cmdPlaca.Visible, 6555, 7815)
 
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
@@ -10254,7 +10563,7 @@ ElseIf vTipoOS = "Recapadora" Then
     frmSituacao.Visible = False
     frmEquipamento.Visible = False
     txtObs.Visible = True
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     frmAcessorios.Visible = True
     txtObs.Visible = False
     frmSituacao.Visible = True
@@ -10335,21 +10644,27 @@ End If
 'buscando os dados do formulário
 i = Grid_OS.Row
 vCodOS = Grid_OS.TextMatrix(i, 0)
-codPedido = Grid_OS.TextMatrix(i, 7)
+Dim iColPedido As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedido = 7
+Else
+    iColPedido = 6
+End If
+codPedido = Grid_OS.TextMatrix(i, iColPedido)
 
 'ver a quantidade de peças e serviços da ordem de serviços
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
 End If
 
 'somando os produtos
-sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & codPedido & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
 Dim vQuantProduto As Double
 Dim vTotalProduto As Currency
@@ -10378,7 +10693,7 @@ REL_OS_Completo.txtTotalPecas.Caption = " " & FormatNumber(vTotalProduto, 2)
 REL_OS_Completo.txtTotalPecasServicos.Caption = " " & FormatNumber(vSomaTotais, 2)
 
     
-sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & codPedido & ")"
 sSQL_Itens = sSQL_Itens & " UNION "
 sSQL_Itens = sSQL_Itens & "SELECT codigo FROM " & vTabelaServicos & " WHERE (cod_os = " & Grid_OS.TextMatrix(i, 0) & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
@@ -10408,7 +10723,7 @@ Me.Hide
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "ORÇAMENTO DA ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 7)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -10428,7 +10743,7 @@ Me.Hide
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR, CHASSI FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
@@ -10436,7 +10751,28 @@ Me.Hide
         
         'DADOS DO VEICULO/EQUIPAMENTO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
@@ -10444,23 +10780,36 @@ Me.Hide
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = IIf(IsNull(rEquip!CHASSI) = True, "", rEquip!CHASSI)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -10469,15 +10818,28 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Visualizar = False
@@ -10533,23 +10895,29 @@ End If
 i = Grid_OS.Row
 
 vCodOS = Grid_OS.TextMatrix(i, 0)
-codPedido = Grid_OS.TextMatrix(i, 7)
+Dim iColPedido As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColPedido = 7
+Else
+    iColPedido = 6
+End If
+codPedido = Grid_OS.TextMatrix(i, iColPedido)
 
-If Grid_OS.TextMatrix(i, 6) = "00000" Then MsgBox "Pedido gerado anterior as alterações não permite reimpressão de pedidos. Somente orçamento!", vbInformation, "Aviso do Sistema": Exit Sub
+If codPedido = "00000" Then MsgBox "Pedido gerado anterior as alterações não permite reimpressão de pedidos. Somente orçamento!", vbInformation, "Aviso do Sistema": Exit Sub
 
 'ver a quantidade de peças e serviços da ordem de serviços
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
 End If
 
 'somando os produtos
-sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT COUNT(*) as VarQuant, SUM(total) as VarSoma FROM pedidos_itens WHERE (cod_pedido = " & codPedido & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
 Dim vQuantProduto As Double
 Dim vTotalProduto As Currency
@@ -10577,7 +10945,7 @@ REL_OS_Completo.txtTotalServicos.Caption = " " & FormatNumber(vTotalServico, 2)
 REL_OS_Completo.txtTotalPecas.Caption = " " & FormatNumber(vTotalProduto, 2)
 REL_OS_Completo.txtTotalPecasServicos.Caption = " " & FormatNumber(vSomaTotais, 2)
     
-sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & Grid_OS.TextMatrix(i, 7) & ")"
+sSQL_Itens = "SELECT pedidos_itens.codigo FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & codPedido & ")"
 sSQL_Itens = sSQL_Itens & " UNION ALL "
 sSQL_Itens = sSQL_Itens & "SELECT codigo FROM " & vTabelaServicos & " WHERE (cod_os = " & Grid_OS.TextMatrix(i, 0) & ")"
 Set r_Itens = dbData.OpenRecordset(sSQL_Itens)
@@ -10618,7 +10986,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 7)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -10638,37 +11006,72 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -10677,15 +11080,28 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Visualizar = False
@@ -10724,7 +11140,7 @@ Else
         Set REL_OS_Completo.ReportMain1.Recordset = r
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
-        REL_OS_Completo.Mostrar_Parcelas Grid_OS.TextMatrix(i, 7)
+        REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
         REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
@@ -10744,37 +11160,72 @@ Else
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         End If
 
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -10783,15 +11234,28 @@ Else
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Visualizar = False
@@ -10816,7 +11280,7 @@ Me.Show
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Recapadora" Then
 '    vTabelaServicos = "OS_Servicos_recapadora"
-'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Comunicação Visual" Then
 '    vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -11056,7 +11520,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 12) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
     dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
@@ -11097,7 +11561,7 @@ ElseIf vTipoOS = "Recapadora" Then
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
     "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS SET " & _
     "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Auto AS OS_Servicos_Auto_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
@@ -11160,7 +11624,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     dbData.Execute "DELETE FROM OS_Servicos_Auto WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM os_servicos_recapadora WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 12) & ") AND (cod_os = " & txtCodOS.Text & ");"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "DELETE FROM OS_Servicos_Auto WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
     dbData.Execute "DELETE FROM OS_Servicos_Comunicacao WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_os = " & txtCodOS.Text & ");"
@@ -11200,7 +11664,7 @@ ElseIf vTipoOS = "Recapadora" Then
     "VALOR_DESC = (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(desconto), 0) FROM pedidos_itens AS pedidos_itens_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
     "TOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_2 WHERE (cod_os = " & txtCodOS.Text & ")) - (SELECT ISNULL(SUM(desconto), 0) FROM OS_Servicos_Recapadora AS OS_Servicos_Recapadora_1 WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Total), 0) FROM pedidos_itens AS pedidos_itens_2 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")) " & _
     "Where (COD_PEDIDO = " & txtCodPedido.Text & ")"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     'atualizar tabela OS
     dbData.Execute "UPDATE OS SET " & _
     "SUBTOTAL = (SELECT ISNULL(SUM(preco * quantidade), 0) FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ")) + (SELECT ISNULL(SUM(Subtotal), 0) FROM pedidos_itens WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")), " & _
@@ -11302,6 +11766,10 @@ ElseIf vTipoOS = "Celular" Then
     Mostrar_Equipamentos_Informatica
     'chkVeiculo.Enabled = False
     'chkVeiculo.Caption = "Mostrar Equip."
+ElseIf vTipoOS = "Climatização" Then
+    menu_Cadastro_Pneus.Visible = False
+    frmEquipamento.Caption = "Equipamento"
+    Mostrar_Equipamentos_Informatica
 ElseIf vTipoOS = "Recapadora" Then
     menu_Cadastro_Pneus.Visible = True
     Mostrar_Equipamento_Automoveis
@@ -11320,6 +11788,18 @@ ElseIf vTipoOS = "Agrícola" Then
     menu_Cadastro_Pneus.Visible = False
     frmEquipamento.Caption = "Maquina"
 End If
+
+'veículos = Automóveis ou Motocicletas (mesmos campos) - cmdPlaca so faz sentido pra quem tem placa
+cmdPlaca.Visible = (vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas")
+cboCliente.Width = IIf(cmdPlaca.Visible, 6555, 7815)
+
+'menus que so fazem sentido pra veículos (Automóveis/Motocicletas)
+menu_Cadastro_Oleo.Visible = cmdPlaca.Visible
+Menu_Consulta_Placa.Visible = cmdPlaca.Visible
+Menu_Consulta_Oleo.Visible = cmdPlaca.Visible
+Menu_Consulta_ProdutosLimites.Visible = cmdPlaca.Visible
+
+lblMecanicoServ.Caption = IIf(cmdPlaca.Visible, "Mecânico", "Técnico")
 
 vTipoConsPecas = 0
 
@@ -11526,7 +12006,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
          rTabela.MoveNext
       Loop
    End If
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
    .FormatString = "^CÓD.|^TECNICO|^FINANCEIRO|^CLIENTE|^EQUIPAMENTO|^ENTRADA|^PEDIDO"
    .ColWidth(0) = 650
    .ColWidth(1) = 1500
@@ -11689,7 +12169,7 @@ If ShowMsg("Cancelando a OS todos os produtos adicionado até agora serão perdido
         dbData.Execute "DELETE FROM OS_Equipamento_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
         dbData.Execute "DELETE FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
         dbData.Execute "DELETE FROM os_situacao_auto WHERE (cod_os = " & txtCodOS.Text & ");"
-    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         dbData.Execute "DELETE FROM OS_acessorios_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
         dbData.Execute "DELETE FROM OS_Equipamento WHERE (cod_os = " & txtCodOS.Text & ");"
         dbData.Execute "DELETE FROM OS_Servicos_Auto WHERE (cod_os = " & txtCodOS.Text & ");"
@@ -11733,7 +12213,17 @@ MostrarGrid_PecasServicos
 Dim posit As Long
 posit = Grid_OS.Row
 
-If (Trim(Grid_OS.TextMatrix(posit, 2))) = ("À COMEÇAR") Then
+Dim iColStatus As Integer
+Dim iColFinanceiro As Integer
+If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+    iColStatus = 2
+    iColFinanceiro = 3
+Else
+    iColStatus = 1
+    iColFinanceiro = 2
+End If
+
+If (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("À COMEÇAR") Then
     'MsgBox Trim(Grid_OS.TextMatrix(posit, 1))
       cmdEditarOS.Enabled = True
       cmdFinanceiroOS.Enabled = False
@@ -11742,7 +12232,7 @@ If (Trim(Grid_OS.TextMatrix(posit, 2))) = ("À COMEÇAR") Then
       cmdImpPedido1.Enabled = False
       cmdOrcamentoPDF.Enabled = False
       cmdPedidoPDF.Enabled = False
-   ElseIf (Trim(Grid_OS.TextMatrix(posit, 2))) = ("EM EXECUÇÃO") Then
+   ElseIf (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("EM EXECUÇÃO") Then
    'MsgBox Trim(Grid_OS.TextMatrix(posit, 1))
       cmdEditarOS.Enabled = True
       cmdFinanceiroOS.Enabled = False
@@ -11751,7 +12241,7 @@ If (Trim(Grid_OS.TextMatrix(posit, 2))) = ("À COMEÇAR") Then
       cmdImpPedido1.Enabled = False
       cmdOrcamentoPDF.Enabled = True
       cmdPedidoPDF.Enabled = False
-   ElseIf (Trim(Grid_OS.TextMatrix(posit, 2))) = ("AGUARDANDO") Then
+   ElseIf (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("AGUARDANDO") Then
    'MsgBox Trim(Grid_OS.TextMatrix(posit, 1))
       cmdEditarOS.Enabled = True
       cmdFinanceiroOS.Enabled = False
@@ -11760,8 +12250,8 @@ If (Trim(Grid_OS.TextMatrix(posit, 2))) = ("À COMEÇAR") Then
       cmdImpPedido1.Enabled = False
       cmdOrcamentoPDF.Enabled = True
       cmdPedidoPDF.Enabled = False
-   ElseIf (Trim(Grid_OS.TextMatrix(posit, 2))) = ("TERMINADO") Then
-    If (Trim(Grid_OS.TextMatrix(posit, 3))) = ("ABERTO") Then
+   ElseIf (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("TERMINADO") Then
+    If (Trim(Grid_OS.TextMatrix(posit, iColFinanceiro))) = ("ABERTO") Then
         cmdFinanceiroOS.Enabled = True
         cmdImpPedido1.Enabled = False
         cmdImpGarantia1.Enabled = False
@@ -11826,7 +12316,7 @@ ElseIf vTipoOS = "Motocicletas" Then
     OS_CAD_Servicos_Geral.Show 1
 ElseIf vTipoOS = "Recapadora" Then
     OS_CAD_Servicos_Recapadora.Show 1
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     OS_CAD_Servicos_Geral.Show 1
 ElseIf vTipoOS = "Comunicação Visual" Then
     OS_CAD_Servicos_Geral.Show 1
@@ -12009,6 +12499,25 @@ ElseIf vTipoOS = "Celular" Then
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Celular
+
+ElseIf vTipoOS = "Climatização" Then
+    With REL_OS_Entrada_Informatica
+        .txtOS.Caption = " " & Format(txtCodOS.Text, "000000")
+        .txtCliente.Caption = " " & UCase(cboCliente.Text)
+        .txtSaida.Caption = " " & Format(mskDataSaida.Text, "dd/mm/yy") & " - " & Format(mskHoraSaida.Text, "hh:mm")
+        .txtDataEntrada.Caption = " " & Format(mskDataEntrada.Text, "dd/mm/yy") & " - " & Format(mskHoraEntrada.Text, "hh:mm")
+        .txtFuncionario.Caption = " " & UCase(cboFuncionario)
+        .txtEquipamento.Caption = " " & UCase(cboTanque.Text)
+        .txtMarca.Caption = " " & UCase(cboFabricante.Text)
+        .txtModelo.Caption = " " & UCase(cboModelo.Text)
+        .txtDescricao.Caption = " " & UCase(txtPareceCliente.Text)
+        .Preencher_Acessorios txtCodOS.Text
+        .Preencher_Situacao txtCodOS.Text
+        .Relatorio.NumeroRegistros = 1
+        .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Ativar
+    End With
+    Unload REL_OS_Entrada_Informatica
 ElseIf vTipoOS = "Comunicação Visual" Then
     With REL_OS_Entrada_Informatica
         .txtOS.Caption = " " & Format(txtCodOS.Text, "000000")
@@ -12113,7 +12622,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Recapadora" Then
     vTabelaServicos = "OS_Servicos_recapadora"
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     vTabelaServicos = "OS_Servicos_Auto"
 ElseIf vTipoOS = "Comunicação Visual" Then
     vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -12201,7 +12710,7 @@ Me.Hide
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, PLACA, ANO, KM, COR FROM OS_Equipamento_Auto WHERE (cod_os = " & vCodOS & ");")
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
         ElseIf vTipoOS = "Comunicação Visual" Then
              Set rEquip = dbData.OpenRecordset("SELECT fabricante, MODELO, EQUIPAMENTO FROM OS_Equipamento WHERE (cod_os = " & vCodOS & ");")
@@ -12209,30 +12718,65 @@ Me.Hide
         
         'DADOS DO VEICULO/EQUIPAMENTO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-            REL_OS_Completo.frTitParc.Caption = "VEÍCULO"
+            REL_OS_Completo.frTitParc.Caption = "VEÍCULO:"
+            REL_OS_Completo.ReportField12.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField14.Caption = "Modelo:"
+            REL_OS_Completo.ReportField15.Caption = "Ano:"
+            REL_OS_Completo.ReportField16.Caption = "Placa:"
+            REL_OS_Completo.ReportField17.Caption = "Cor:"
+            REL_OS_Completo.ReportField19.Caption = "KM:"
+            REL_OS_Completo.ReportField24.Caption = "Chassi:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.txtPlaca.Visible = True
+            REL_OS_Completo.txtCor.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
+            REL_OS_Completo.txtChassi.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
+            REL_OS_Completo.ReportField16.Visible = True
+            REL_OS_Completo.ReportField17.Visible = True
+            REL_OS_Completo.ReportField19.Visible = True
+            REL_OS_Completo.ReportField24.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
             REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
-        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
-            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO"
+            REL_OS_Completo.txtChassi.Caption = ""
+        ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+            REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
+            REL_OS_Completo.ReportField12.Caption = "Equipamento:"
+            REL_OS_Completo.ReportField14.Caption = "Fabricante:"
+            REL_OS_Completo.ReportField15.Caption = "Modelo:"
+            REL_OS_Completo.txtFabricante.Visible = True
+            REL_OS_Completo.txtModelo.Visible = True
+            REL_OS_Completo.txtAno.Visible = True
+            REL_OS_Completo.ReportField12.Visible = True
+            REL_OS_Completo.ReportField14.Visible = True
+            REL_OS_Completo.ReportField15.Visible = True
             REL_OS_Completo.txtFabricante.Caption = IIf(IsNull(rEquip!Equipamento) = True, "", rEquip!Equipamento)
             REL_OS_Completo.txtModelo.Caption = IIf(IsNull(rEquip!Fabricante) = True, "", rEquip!Fabricante)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
-            REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = "Equipamento:"
-            REL_OS_Completo.ReportField10.Caption = "Fabricante:"
-            REL_OS_Completo.ReportField12.Caption = "Modelo:"
-            REL_OS_Completo.ReportField15.Caption = ""
-            REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         ElseIf vTipoOS = "Comunicação Visual" Then
             REL_OS_Completo.frTitParc.Caption = ""
             REL_OS_Completo.txtFabricante.Visible = False
@@ -12241,15 +12785,28 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
             REL_OS_Completo.txtKM.Visible = False
-            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.txtChassi.Visible = False
+            REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
-            REL_OS_Completo.ReportField18.Visible = False
-            REL_OS_Completo.ReportField2.Caption = ""
-            REL_OS_Completo.ReportField10.Caption = ""
+            REL_OS_Completo.ReportField15.Visible = False
+            REL_OS_Completo.ReportField16.Visible = False
+            REL_OS_Completo.ReportField17.Visible = False
+            REL_OS_Completo.ReportField19.Visible = False
+            REL_OS_Completo.ReportField24.Visible = False
+            REL_OS_Completo.txtFabricante.Caption = ""
+            REL_OS_Completo.txtModelo.Caption = ""
+            REL_OS_Completo.txtAno.Caption = ""
+            REL_OS_Completo.txtPlaca.Caption = ""
+            REL_OS_Completo.txtCor.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
+            REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
-            REL_OS_Completo.ReportField15.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
-            REL_OS_Completo.ReportField18.Caption = ""
+            REL_OS_Completo.ReportField15.Caption = ""
+            REL_OS_Completo.ReportField16.Caption = ""
+            REL_OS_Completo.ReportField17.Caption = ""
+            REL_OS_Completo.ReportField19.Caption = ""
+            REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
         REL_OS_Completo.ReportMain1.Ativar
@@ -12272,7 +12829,7 @@ Me.Show
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Recapadora" Then
 '    vTabelaServicos = "OS_Servicos_recapadora"
-'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+'ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
 '    vTabelaServicos = "OS_Servicos_Auto"
 'ElseIf vTipoOS = "Comunicação Visual" Then
 '    vTabelaServicos = "OS_Servicos_Comunicacao"
@@ -12732,7 +13289,7 @@ ElseIf vTipoOS = "Recapadora" Then
     If Not r.BOF Then vAro = ValidateNull(r("aro"))
     If Not r.BOF Then vBanda = ValidateNull(r("banda"))
     If Not r.BOF Then vServico = r("servico")
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     sSQL = "SELECT * FROM os_Servicos WHERE (codigo = " & txtCodServicoAuto.Text & ");"
     Set r = dbData.OpenRecordset(sSQL)
     
@@ -13554,7 +14111,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
     MostrarEquipamentoAuto
     MostrarGrid_Acessorios
     MostrarGrid_Situacao
-ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     MostrarEquipamento
     MostrarGrid_Acessorios
     MostrarGrid_Situacao
@@ -13629,7 +14186,7 @@ If cboStatus.Text = "À COMEÇAR" Then
         frmAcessorios.Visible = False
         frmSituacao.Visible = False
         frmGridServicos.Visible = False
-    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         frmAcessorios.Visible = True
         frmSituacao.Visible = True
         frmParecerCliente.Visible = True
@@ -13664,7 +14221,7 @@ Else
         'frmServicos.Visible = True
     ElseIf vTipoOS = "Recapadora" Then
         'frmServicos.Visible = True
-    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+    ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
         'frmServicos.Visible = True
     ElseIf vTipoOS = "Comunicação Visual" Then
         'frmServicos.Visible = True

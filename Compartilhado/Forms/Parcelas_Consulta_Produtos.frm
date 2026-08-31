@@ -615,7 +615,7 @@ If totalRegistros >= 1 Then
     
     If UCase(Tipo) = "OS" And vTemOS Then  'If UCase(Tipo) = "OS" Then 'mudei e testar nas outras coisas se interfere
        'If vTipoOS = "Automóveis" Then
-       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
        sSQL = sSQL & " UNION "
        sSQL = sSQL & "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
               "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
@@ -648,7 +648,7 @@ If totalRegistros >= 1 Then
     End If
 Else
     If UCase(Tipo) = "OS" And vTemOS Then
-       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Then
+       If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
        sSQL = "SELECT 'SERVIÇO' AS tipo_item, descricao as var_desc, '' as var_Tam, '' as var_Fab, quantidade, preco, OS_Servicos_Auto.total, codigo,  OS_Servicos_Auto.subtotal as var_Subtotal, OS_Servicos_Auto.desconto, OS_Servicos_Auto.cod_os as var_CodOS, '' as var_CodBarra, NULL as var_CodProd, 0 as var_Acresc, 0 as var_Frete " & _
               "FROM  OS_Servicos_Auto INNER JOIN OS ON OS_Servicos_Auto.cod_os = OS.COD_OS WHERE (OS.COD_PEDIDO = " & Pedido & ")"
        End If
