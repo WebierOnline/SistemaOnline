@@ -49,6 +49,24 @@ IF NOT EXISTS (
     WHERE object_id = OBJECT_ID('Empresa') AND name = 'RegimeTributario'
 )
     ALTER TABLE Empresa ADD RegimeTributario TINYINT NULL;
+GO
+
+-- Preenche RegimeTributario com base no CRT para quem ainda nao tem valor definido.
+-- CRT 1 = Simples Nacional                    -> RegimeTributario 1
+-- CRT 2 = Simples Nacional (Excesso Sublimite) -> RegimeTributario 2
+-- CRT 3 = Regime Normal                        -> assume 3 (Lucro Presumido) como padrao;
+--         empresas que sao Lucro Real (4) ou Arbitrado (5) precisam ser corrigidas
+--         manualmente depois, pois o CRT sozinho nao distingue Presumido/Real/Arbitrado
+UPDATE Empresa
+SET RegimeTributario = CASE CRT
+        WHEN 1 THEN 1
+        WHEN 2 THEN 2
+        WHEN 3 THEN 3
+        ELSE RegimeTributario
+    END
+WHERE RegimeTributario IS NULL;
+GO
+
 
 IF NOT EXISTS (
     SELECT 1 FROM sys.columns
