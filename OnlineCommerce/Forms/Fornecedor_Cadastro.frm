@@ -1,8 +1,8 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Fornecedor_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
@@ -74,9 +74,9 @@ Begin VB.Form Fornecedor_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Fornecedor_Cadastro.frx":23EE
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdImprimir"
+      Tab(1).Control(0)=   "Grid"
       Tab(1).Control(1)=   "Picture1"
-      Tab(1).Control(2)=   "Grid"
+      Tab(1).Control(2)=   "cmdImprimir"
       Tab(1).ControlCount=   3
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   435
@@ -212,15 +212,23 @@ Begin VB.Form Fornecedor_Cadastro
          TabIndex        =   36
          Top             =   360
          Width           =   9435
+         Begin VB.CheckBox chkSN 
+            Caption         =   "Sem"
+            Height          =   195
+            Left            =   5220
+            TabIndex        =   70
+            Top             =   1500
+            Width           =   615
+         End
          Begin VB.TextBox txtComplemento 
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
             Height          =   315
-            Left            =   4140
+            Left            =   6000
             MaxLength       =   50
             TabIndex        =   6
             Top             =   1740
-            Width           =   555
+            Width           =   1035
          End
          Begin VB.ComboBox cboTipo 
             BackColor       =   &H00C0FFFF&
@@ -236,10 +244,10 @@ Begin VB.Form Fornecedor_Cadastro
             DataField       =   "Nickname"
             DataSource      =   "Data1"
             Height          =   315
-            Left            =   3540
+            Left            =   4800
             TabIndex        =   5
             Top             =   1740
-            Width           =   555
+            Width           =   1155
          End
          Begin VB.ComboBox cboCidade 
             BackColor       =   &H00C0FFFF&
@@ -321,33 +329,33 @@ Begin VB.Form Fornecedor_Cadastro
             Left            =   120
             TabIndex        =   4
             Top             =   1740
-            Width           =   3375
+            Width           =   4635
          End
          Begin VB.TextBox txtReferencia 
             DataField       =   "Nickname"
             DataSource      =   "Data1"
             Height          =   315
-            Left            =   6480
+            Left            =   120
             TabIndex        =   8
-            Top             =   1740
+            Top             =   2340
             Width           =   2835
          End
          Begin VB.TextBox txtEmail 
             Height          =   315
-            Left            =   3120
+            Left            =   6000
             TabIndex        =   11
-            Top             =   2400
-            Width           =   6195
+            Top             =   2340
+            Width           =   3315
          End
          Begin VB.TextBox txtBairro 
             BackColor       =   &H00C0FFFF&
             DataField       =   "Nickname"
             DataSource      =   "Data1"
             Height          =   315
-            Left            =   4740
+            Left            =   7080
             TabIndex        =   7
             Top             =   1740
-            Width           =   1695
+            Width           =   2235
          End
          Begin VB.TextBox txtFantasia 
             BackColor       =   &H00C0FFFF&
@@ -393,9 +401,9 @@ Begin VB.Form Fornecedor_Cadastro
          End
          Begin MSMask.MaskEdBox mskTelefone 
             Height          =   315
-            Left            =   120
+            Left            =   3000
             TabIndex        =   9
-            Top             =   2400
+            Top             =   2340
             Width           =   1455
             _ExtentX        =   2566
             _ExtentY        =   556
@@ -404,9 +412,9 @@ Begin VB.Form Fornecedor_Cadastro
          End
          Begin MSMask.MaskEdBox mskCelular 
             Height          =   315
-            Left            =   1620
+            Left            =   4500
             TabIndex        =   10
-            Top             =   2400
+            Top             =   2340
             Width           =   1455
             _ExtentX        =   2566
             _ExtentY        =   556
@@ -442,7 +450,7 @@ Begin VB.Form Fornecedor_Cadastro
             AutoSize        =   -1  'True
             Caption         =   "Compl."
             Height          =   195
-            Left            =   4140
+            Left            =   6000
             TabIndex        =   69
             Top             =   1500
             Width           =   480
@@ -457,11 +465,11 @@ Begin VB.Form Fornecedor_Cadastro
             Top             =   240
             Width           =   1470
          End
-         Begin VB.Label Label15 
+         Begin VB.Label lblNum 
             AutoSize        =   -1  'True
             Caption         =   "Num."
             Height          =   195
-            Left            =   3540
+            Left            =   4800
             TabIndex        =   64
             Top             =   1500
             Width           =   375
@@ -525,27 +533,27 @@ Begin VB.Form Fornecedor_Cadastro
             AutoSize        =   -1  'True
             Caption         =   "Ponto de Referência"
             Height          =   195
-            Left            =   6480
+            Left            =   120
             TabIndex        =   47
-            Top             =   1500
+            Top             =   2100
             Width           =   1470
          End
          Begin VB.Label Label11 
             AutoSize        =   -1  'True
             Caption         =   "Correio Eletrônico"
             Height          =   195
-            Left            =   3120
+            Left            =   6000
             TabIndex        =   46
-            Top             =   2160
+            Top             =   2100
             Width           =   1245
          End
          Begin VB.Label Label12 
             AutoSize        =   -1  'True
             Caption         =   "Telefone:"
             Height          =   195
-            Left            =   120
+            Left            =   3000
             TabIndex        =   45
-            Top             =   2160
+            Top             =   2100
             Width           =   675
          End
          Begin VB.Label Label20 
@@ -561,7 +569,7 @@ Begin VB.Form Fornecedor_Cadastro
             AutoSize        =   -1  'True
             Caption         =   "Bairro"
             Height          =   195
-            Left            =   4740
+            Left            =   7080
             TabIndex        =   43
             Top             =   1500
             Width           =   405
@@ -570,9 +578,9 @@ Begin VB.Form Fornecedor_Cadastro
             AutoSize        =   -1  'True
             Caption         =   "Celular"
             Height          =   195
-            Left            =   1620
+            Left            =   4500
             TabIndex        =   42
-            Top             =   2160
+            Top             =   2100
             Width           =   480
          End
          Begin VB.Label Label14 
@@ -969,7 +977,7 @@ Begin VB.Form Fornecedor_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:04"
+            TextSave        =   "18:33"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1049,6 +1057,22 @@ txtCodigoIBGE.Text = ""
 txtComplemento.Text = ""
 cboTipo.Text = ""
 txtNum.Text = ""
+chkSN.Value = 0
+End Sub
+
+Private Sub chkSN_Click()
+AtualizarEstadoNumero
+End Sub
+
+Private Sub AtualizarEstadoNumero()
+If chkSN.Value = vbChecked Then
+    txtNum.Text = "0"
+    txtNum.Enabled = False
+    lblNum.Enabled = False
+Else
+    txtNum.Enabled = True
+    lblNum.Enabled = True
+End If
 End Sub
 
 Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
@@ -1076,6 +1100,8 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       cboTipoConta.Text = ValidateNull(rTabela("tipo_conta"))
       txtCodigoIBGE = ValidateNull(rTabela("CodigoIBGE"))
       txtNum = ValidateNull(rTabela("Numero"))
+      chkSN.Value = IIf(ValidateNull(rTabela("SN")) = True, vbChecked, vbUnchecked)
+      AtualizarEstadoNumero
         If rTabela("TipoContribuinte") = 1 Then
             cboTipo.Text = "1 - CONTRIBUINTE ICMS"
         ElseIf rTabela("TipoContribuinte") = 2 Then
@@ -1261,14 +1287,14 @@ Dim sSQL As String
    sSQL = "INSERT INTO fornecedor (" & _
       "codigo, TipoContribuinte, razao, endereco, ponto_de_referencia, telefone, cidade, estado, cpf, " & _
       "ie, correio_eletronico, celular, bairro, cep, contato, fantasia, obs, " & _
-      "banco, agencia, conta, tipo_conta, numero, codigoibge, complemento) VALUES ("
+      "banco, agencia, conta, tipo_conta, numero, codigoibge, complemento, SN) VALUES ("
    
    sSQL = sSQL & _
       txtCodigo.Text & ", '" & IIf(IsNull(Format(Left(cboTipo.Text, 1), "@")) Or Vazio(Format(Left(cboTipo.Text, 1), "@")), 1, Format(Left(cboTipo.Text, 1), "@")) & "', '" & txtRazao.Text & "', '" & txtEndereco.Text & "', '" & txtReferencia.Text & "', '" & _
       mskTelefone.Text & "', '" & cboCidade.Text & "', '" & cboEstado.Text & "', '" & mskCNPJ.Text & "', '" & _
       txtIE.Text & "', '" & txtEmail.Text & "', '" & mskCelular.Text & "', '" & _
       txtBairro.Text & "', '" & mskCEP.Text & "', '" & txtContato.Text & "', '" & txtFantasia.Text & "', '" & _
-      txtObs.Text & "', '" & cboBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipoConta.Text & "', " & txtNum.Text & ", " & txtCodigoIBGE.Text & ",  '" & txtComplemento.Text & "' )"
+      txtObs.Text & "', '" & cboBanco.Text & "', '" & txtAgencia.Text & "', '" & txtConta.Text & "', '" & cboTipoConta.Text & "', " & txtNum.Text & ", " & txtCodigoIBGE.Text & ",  '" & txtComplemento.Text & "', " & IIf(chkSN.Value = vbChecked, 1, 0) & " )"
    
    'Retorna o resultado da atualização
    Inserir_Dados = dbData.Execute(sSQL)
@@ -1300,7 +1326,7 @@ Dim sSQL As String
       "banco = '" & cboBanco.Text & "', " & _
       "agencia = '" & txtAgencia.Text & "', " & _
       "conta = '" & txtConta.Text & "', " & _
-      "tipo_conta = '" & cboTipoConta.Text & "', numero = " & txtNum.Text & ", codigoibge = " & txtCodigoIBGE.Text & ", TipoContribuinte = '" & IIf(IsNull(Format(Left(cboTipo.Text, 1), "@")) Or Vazio(Format(Left(cboTipo.Text, 1), "@")), 1, Format(Left(cboTipo.Text, 1), "@")) & "'  " & _
+      "tipo_conta = '" & cboTipoConta.Text & "', numero = " & txtNum.Text & ", SN = " & IIf(chkSN.Value = vbChecked, 1, 0) & ", codigoibge = " & txtCodigoIBGE.Text & ", TipoContribuinte = '" & IIf(IsNull(Format(Left(cboTipo.Text, 1), "@")) Or Vazio(Format(Left(cboTipo.Text, 1), "@")), 1, Format(Left(cboTipo.Text, 1), "@")) & "'  " & _
       "WHERE (codigo = " & Me.txtCodigo.Text & ");"
    
    'Retorna o resultado da atualização
@@ -1571,7 +1597,7 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 7
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -1608,7 +1634,7 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
          Do While Not rTabela.EOF
          
             'mudar a cor da coluna
-            For j = 1 To .Rows - 1
+            For j = 1 To .rows - 1
                .Row = j
                .Col = 6
                .CellBackColor = &HC0FFFF
@@ -1617,18 +1643,18 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
             'ALINHAMENTO
             .ColAlignment(2) = 1
             
-            .TextMatrix(.Rows - 1, 1) = rTabela("codigo")
-            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("razao"))
-            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("fantasia"))
-            .TextMatrix(.Rows - 1, 4) = rTabela("cidade")
-            .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("estado"))
+            .TextMatrix(.rows - 1, 1) = rTabela("codigo")
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("razao"))
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("fantasia"))
+            .TextMatrix(.rows - 1, 4) = rTabela("cidade")
+            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("estado"))
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       Grid.Redraw = True
    End With
 End Sub

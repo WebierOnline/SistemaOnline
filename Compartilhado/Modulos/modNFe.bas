@@ -350,7 +350,7 @@ If Parametros!AmbienteNF = 2 Then
     NFe!IndicadorIEDestinatario = "1"
 End If
     
-    iRetorno = sistNFe.GerarDestinatario(4, xRazaoSocial, xCNPJ, xCPF, "", destIE, NFe!InscricaoMunicipal, Left$(NFe!IndicadorIEDestinatario, 1), "", RemoveAcento(Destinatario!Endereco), Destinatario!Numero, RemoveAcento(ValidateNull(Destinatario!Ponto_de_referencia)), RemoveAcento(Destinatario!bairro), Destinatario!CodigoIBGE, RemoveAcento(Destinatario!Cidade), Destinatario!Estado, Retira(Destinatario!CEP, ".- ", UM_A_UM), 1058, "BRASIL", xTelefone, ValidateNull(Destinatario!Correio_eletronico), mensagemAlerta, mensagemErro)
+    iRetorno = sistNFe.GerarDestinatario(4, xRazaoSocial, xCNPJ, xCPF, "", destIE, NFe!InscricaoMunicipal, Left$(NFe!IndicadorIEDestinatario, 1), "", RemoveAcento(Destinatario!Endereco), IIf(ValidateNull(Destinatario!SN) = True, "S/N", Destinatario!Numero), RemoveAcento(ValidateNull(Destinatario!Ponto_de_referencia)), RemoveAcento(Destinatario!bairro), Destinatario!CodigoIBGE, RemoveAcento(Destinatario!Cidade), Destinatario!Estado, Retira(Destinatario!CEP, ".- ", UM_A_UM), 1058, "BRASIL", xTelefone, ValidateNull(Destinatario!Correio_eletronico), mensagemAlerta, mensagemErro)
     
     'Grupo de identificação do Local de RETIRADA
     'Informar apenas quando for diferente do endereço do remetente.

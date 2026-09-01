@@ -153,25 +153,41 @@ Begin VB.Form Clientes_Cadastro
       TabPicture(1)   =   "Clientes_Cadastro.frx":3749
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Grid_Historico"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdExibirPedidos"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdExibirParcelas"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "cmdImprimirHistorico"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "cmdHistoricoFinanceiro"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "lblQuantHistorico"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "lblTotalHistorico"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Clientes_Cadastro.frx":3765
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame5"
-      Tab(2).Control(1)=   "Grid_Consulta"
-      Tab(2).Control(2)=   "Frame4"
-      Tab(2).Control(3)=   "Frame3"
+      Tab(2).Control(0)=   "Label25"
+      Tab(2).Control(0).Enabled=   0   'False
+      Tab(2).Control(1)=   "Label26"
+      Tab(2).Control(1).Enabled=   0   'False
+      Tab(2).Control(2)=   "lblQuant"
+      Tab(2).Control(2).Enabled=   0   'False
+      Tab(2).Control(3)=   "cmdImprimir"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "cmdExibir"
-      Tab(2).Control(5)=   "cmdImprimir"
-      Tab(2).Control(6)=   "lblQuant"
-      Tab(2).Control(7)=   "Label26"
-      Tab(2).Control(8)=   "Label25"
+      Tab(2).Control(4).Enabled=   0   'False
+      Tab(2).Control(5)=   "Frame3"
+      Tab(2).Control(5).Enabled=   0   'False
+      Tab(2).Control(6)=   "Frame4"
+      Tab(2).Control(6).Enabled=   0   'False
+      Tab(2).Control(7)=   "Grid_Consulta"
+      Tab(2).Control(7).Enabled=   0   'False
+      Tab(2).Control(8)=   "Frame5"
+      Tab(2).Control(8).Enabled=   0   'False
       Tab(2).ControlCount=   9
       Begin VB.Frame Frame5 
          Caption         =   "Tipo"
@@ -468,6 +484,14 @@ Begin VB.Form Clientes_Cadastro
          TabIndex        =   43
          Top             =   1620
          Width           =   10335
+         Begin VB.CheckBox chkSN 
+            Caption         =   "Sem"
+            Height          =   195
+            Left            =   6660
+            TabIndex        =   113
+            Top             =   1020
+            Width           =   660
+         End
          Begin VB.TextBox txtComplemento 
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
@@ -521,11 +545,11 @@ Begin VB.Form Clientes_Cadastro
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
             Height          =   315
-            Left            =   6600
+            Left            =   6180
             MaxLength       =   50
             TabIndex        =   10
             Top             =   1260
-            Width           =   675
+            Width           =   1095
          End
          Begin VB.TextBox txtCodCid 
             Appearance      =   0  'Flat
@@ -621,7 +645,7 @@ Begin VB.Form Clientes_Cadastro
             MaxLength       =   50
             TabIndex        =   9
             Top             =   1260
-            Width           =   6435
+            Width           =   6015
          End
          Begin VB.TextBox txtReferencia 
             DataField       =   "Nickname"
@@ -803,11 +827,11 @@ Begin VB.Form Clientes_Cadastro
             Top             =   2340
             Width           =   1005
          End
-         Begin VB.Label Label27 
+         Begin VB.Label lblNum 
             AutoSize        =   -1  'True
             Caption         =   "Num.:"
             Height          =   195
-            Left            =   6600
+            Left            =   6180
             TabIndex        =   84
             Top             =   1020
             Width           =   420
@@ -1774,7 +1798,7 @@ Begin VB.Form Clientes_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:09"
+            TextSave        =   "18:33"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1846,6 +1870,7 @@ txtNome.Text = ""
 cboStatus.Text = ""
 txtEndereco.Text = ""
 txtNum.Text = ""
+chkSN.Value = 0
 txtReferencia.Text = ""
 mskTelefone1.Mask = ""
 mskTelefone1.Text = ""
@@ -1878,6 +1903,21 @@ mskCEP.Text = ""
 txtConjuge.Text = ""
 txtCodigoIBGE.Text = ""
 txtObs.Text = ""
+End Sub
+
+Private Sub chkSN_Click()
+AtualizarEstadoNumero
+End Sub
+
+Private Sub AtualizarEstadoNumero()
+If chkSN.Value = vbChecked Then
+    txtNum.Text = "0"
+    txtNum.Enabled = False
+    lblNum.Enabled = False
+Else
+    txtNum.Enabled = True
+    lblNum.Enabled = True
+End If
 End Sub
 
 Private Sub Limite_Cliente()
@@ -1927,6 +1967,8 @@ If Not rTabela Is Nothing Then
    txtNome.Text = ValidateNull(rTabela("nome"))
    txtEndereco.Text = ValidateNull(rTabela("endereco"))
    txtNum.Text = ValidateNull(rTabela("numero"))
+   chkSN.Value = IIf(ValidateNull(rTabela("SN")) = True, vbChecked, vbUnchecked)
+   AtualizarEstadoNumero
    txtReferencia.Text = ValidateNull(rTabela("ponto_de_referencia"))
    mskTelefone1.Text = ValidateNull(rTabela("telefone1"))
    txtComplemento.Text = ValidateNull(rTabela("Complemento"))
@@ -2253,10 +2295,6 @@ ElseIf cboTipo.Text = "9 - NÃO CONTRIBUINTE" Then
 End If
 End Sub
 
-Private Sub Check1_Click()
-
-End Sub
-
 Private Sub chkCidade_Click()
 If chkCidade.Value = 1 Then
    cboConsCidade.Enabled = True
@@ -2390,7 +2428,7 @@ sSQL = "INSERT INTO cliente (" & _
    "codigo, status, nome, endereco, numero, ponto_de_referencia, bairro, cep, cidade, estado, " & _
    "telefone1, Complemento, celular, sexo, cpf, rg, ie, correio_eletronico, " & _
    "data_de_nascimento, data_cadastro, TipoContribuinte, limite_credito, tipo, " & _
-   "estadocivil, profissao, filiacao, conjuge, CodigoIBGE, obs) VALUES ("
+   "estadocivil, profissao, filiacao, conjuge, CodigoIBGE, obs, SN) VALUES ("
 '
 sSQL = sSQL & _
    txtCodigo.Text & ", " & IIf((cboStatus.Text = "ATIVO"), 1, 0) & ", '" & txtNome.Text & "', '" & txtEndereco.Text & "','" & IIf((txtNum.Text = ""), "0", txtNum.Text) & "', '" & _
@@ -2399,7 +2437,7 @@ sSQL = sSQL & _
    mskCelular.Text & "', '" & cboSexo.Text & "', '" & mskCPF.Text & "', '" & txtCI.Text & "', '" & txtIE.Text & "', '" & txtEmail.Text & "', " & _
    IIf((mskNascimento.Text = ""), "Null", "CONVERT(DATETIME, '" & Format$(mskNascimento.Text, ocDATA) & "', 103)") & ", " & _
    "CONVERT(DATETIME, '" & Format$(txtCadastro.Text, ocDATA) & "', 103), '" & IIf(IsNull(Format(Left(cboTipo.Text, 1), "@")) Or Vazio(Format(Left(cboTipo.Text, 1), "@")), 1, Format(Left(cboTipo.Text, 1), "@")) & "', " & Replace(CCur(txtLimite.Text), ",", ".") & ", '" & cboTipoPessoa.Text & "', '" & _
-   cboEstadoCivil.Text & "', '" & txtProfissao.Text & "', '" & txtFiliacao.Text & "', '" & txtConjuge.Text & "', " & IIf((txtCodigoIBGE.Text = ""), "0", txtCodigoIBGE.Text) & ", '" & txtObs.Text & "')"
+   cboEstadoCivil.Text & "', '" & txtProfissao.Text & "', '" & txtFiliacao.Text & "', '" & txtConjuge.Text & "', " & IIf((txtCodigoIBGE.Text = ""), "0", txtCodigoIBGE.Text) & ", '" & txtObs.Text & "', " & IIf(chkSN.Value = vbChecked, 1, 0) & ")"
 '" & IIf((txtCodigoIBGE.Text = ""), "0", "txtCodigoIBGE.Text") & "
 Inserir_Dados = dbData.Execute(sSQL)
 
@@ -2450,6 +2488,7 @@ Private Function Atualizar_Dados() As Boolean
       "filiacao = '" & txtFiliacao.Text & "', " & _
       "conjuge = '" & txtConjuge.Text & "', " & _
       "obs = '" & txtObs.Text & "', " & _
+      "SN = " & IIf(chkSN.Value = vbChecked, 1, 0) & ", " & _
       "CodigoIBGE = " & txtCodigoIBGE.Text
    'Debug.Print sSQL
    'Condição para atualização
@@ -2746,7 +2785,7 @@ Unload REL_Clientes_Historico
 Me.Show 1
 End Sub
 
-Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Frame1_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 Label32.ForeColor = vbBlack
 Label32.Font.Bold = False
 End Sub
@@ -2771,7 +2810,7 @@ End Sub
 
 
 
-Private Sub Label32_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+Private Sub Label32_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
 Label32.ForeColor = vbRed
 Label32.Font.Bold = True
 End Sub
@@ -3218,7 +3257,7 @@ End Sub
 
 'Acrescentado o paramento rTabela para passa a consulta realizada
 Private Sub FormatarGrid_Historico(rTabela As Recordset)
-   Dim i As Integer, X As Integer
+   Dim i As Integer, x As Integer
    
    With Grid_Historico
       .Clear
@@ -3247,8 +3286,8 @@ Private Sub FormatarGrid_Historico(rTabela As Recordset)
       .TextMatrix(0, 9) = "VENDA"
       
       'colocar os cabeçalho em negrito
-      For X = 0 To .Cols - 1
-         .Col = X
+      For x = 0 To .Cols - 1
+         .Col = x
          .Row = 0
          .CellFontBold = True
       Next
@@ -3314,7 +3353,7 @@ End Function
 
 'Acrescentado o paramento rTabela para passa a consulta realizada
 Private Sub FormatarGrid_Consulta(rTabela As Recordset)
-Dim i As Integer, X As Integer
+Dim i As Integer, x As Integer
 
 With Grid_Consulta
    .Enabled = False
@@ -3335,8 +3374,8 @@ With Grid_Consulta
    .ColWidth(10) = 950
    .ColWidth(9) = 1300
    
-   For X = 0 To .Cols - 1
-      .Col = X
+   For x = 0 To .Cols - 1
+      .Col = x
       .Row = 0
       .CellFontBold = True
    Next
