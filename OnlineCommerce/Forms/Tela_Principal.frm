@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20:42"
+            TextSave        =   "16:37"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1133,8 +1133,8 @@ Dim varTipoEmpresa As String
       cmdLogon.Left = 10
       cmdCadClientes.Visible = True
       cmdCadClientes.Left = 780
-      cmdCADProdutos.Visible = True
-      cmdCADProdutos.Left = 1560
+      cmdCadProdutos.Visible = True
+      cmdCadProdutos.Left = 1560
       cmdConsulta.Visible = True
       cmdConsulta.Left = 2340
       cmdVendasConsRapida.Visible = True
@@ -1189,7 +1189,7 @@ Dim varTipoEmpresa As String
       'cmdConsultaOS.Visible = True
       'cmdConsultaOS.Left = 10920
 
-      cmdCADProdutos.Visible = False
+      cmdCadProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
@@ -1232,13 +1232,13 @@ Dim varTipoEmpresa As String
       'cmdConsultaOS.Visible = True
       'cmdConsultaOS.Left = 10920
 
-      cmdCADProdutos.Visible = False
+      cmdCadProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
 
       
-      cmdCADProdutos.Visible = False
+      cmdCadProdutos.Visible = False
       cmdOS.Visible = False
       cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
@@ -1768,7 +1768,8 @@ frmImportarIBPT.Show 1
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
-   ' baixa a tabela IBPT mais recente do Shared Drive "IBPT" e importa na hora (sem gate de data)
+   ' baixa a tabela IBPT mais recente do Shared Drive "IBPT" e importa na hora (sem gate de data).
+   ' frmImportarIBPT nunca aparece: o andamento vai todo pra frmIBPTProgresso (barra).
    If MsgBox("Baixar a tabela IBPT mais recente da nuvem e atualizar agora?", vbQuestion + vbYesNo, "Tabela IBPT") <> vbYes Then Exit Sub
 
    Dim sPastaDL As String, sArq As String, bOK As Boolean
@@ -1778,25 +1779,36 @@ Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
    On Error GoTo 0
 
    Me.MousePointer = 11
+   frmIBPTProgresso.Iniciar "Baixando a tabela IBPT da nuvem..." & vbCrLf & _
+      "Isso pode levar alguns minutos. N" & Chr(227) & "o feche o sistema."
    mensagemErro = ""
    sArq = GoogleBaixarArquivo(sPastaDL)
-   Me.MousePointer = 0
 
    If Trim(sArq) = "" Then
+      Unload frmIBPTProgresso
+      Me.MousePointer = 0
       MsgBox "N" & Chr(227) & "o foi poss" & Chr(237) & "vel baixar a tabela IBPT da nuvem." & _
              IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Tabela IBPT"
       Exit Sub
    End If
 
-   frmImportarIBPT.Show
-   frmImportarIBPT.lblProgresso.Visible = True
-   DoEvents
-   Me.MousePointer = 11
-   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, False)
+   frmIBPTProgresso.DefinirMensagem "Importando a tabela IBPT..." & vbCrLf & _
+      "Aguarde, n" & Chr(227) & "o feche o sistema."
+   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
+   Unload frmImportarIBPT
+   Unload frmIBPTProgresso
    Me.MousePointer = 0
 
    On Error Resume Next
    Kill sPastaDL & "\" & sArq
+   On Error GoTo 0
+
+   If bOK Then
+      MsgBox "Tabela IBPT atualizada com sucesso!", vbInformation, "Tabela IBPT"
+   Else
+      MsgBox "Falha ao importar a tabela IBPT." & _
+             IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Tabela IBPT"
+   End If
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSAliq_Click()
@@ -2348,6 +2360,8 @@ Private Sub VerificarAtualizacaoIBPT()
    ' Etapa 2 da automacao da tabela IBPT: uma vez por mes (a partir do dia 30), so no servidor,
    ' baixa a versao mais recente do Shared Drive "IBPT" e importa se for mais nova que a instalada.
    ' Deduplicacao: empresa.IBPTUltimaImportacao guarda o AAAAMM da ultima checagem OK.
+   ' Mostra frmIBPTProgresso (barra) durante o processo; SEM confirmacao e SEM MsgBox de fim
+   ' (sucesso grava no banco, erro fica silencioso e retenta amanha).
    On Error Resume Next
 
    If Day(Now) < 30 Then Exit Sub
@@ -2361,14 +2375,27 @@ Private Sub VerificarAtualizacaoIBPT()
    sPastaDL = appPathApp & "IBPT_Auto"
    MkDir sPastaDL   ' erro 75 se ja existe - ignorado pelo On Error Resume Next
 
+   Me.MousePointer = 11
+   frmIBPTProgresso.Iniciar "Atualizando a tabela IBPT automaticamente..." & vbCrLf & _
+      "Aguarde, n" & Chr(227) & "o feche o sistema."
+
    Dim sArq As String
    mensagemErro = ""
    sArq = GoogleBaixarArquivo(sPastaDL)   ' pasta "IBPT" / shared drive 0AI0VAvFMSupDUk9PVA (defaults)
-   If Trim(sArq) = "" Then Exit Sub   ' sem internet / erro no Drive: tenta de novo amanha, sem gravar
+   If Trim(sArq) = "" Then
+      Unload frmIBPTProgresso   ' sem internet / erro no Drive: tenta de novo amanha, sem gravar
+      Me.MousePointer = 0
+      Exit Sub
+   End If
+
+   frmIBPTProgresso.DefinirMensagem "Importando a tabela IBPT..." & vbCrLf & _
+      "Aguarde, n" & Chr(227) & "o feche o sistema."
 
    Dim bOK As Boolean
-   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True)
+   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
    Unload frmImportarIBPT
+   Unload frmIBPTProgresso
+   Me.MousePointer = 0
 
    If bOK Then
       SQLExecuta "UPDATE empresa SET IBPTUltimaImportacao = '" & sMesAtual & "'"

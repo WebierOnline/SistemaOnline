@@ -14,6 +14,16 @@ Begin VB.Form Categorias_Cadastro
    ScaleWidth      =   8700
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CommandButton cmdPadrao 
+      BackColor       =   &H0000C000&
+      Caption         =   "Padrão"
+      Enabled         =   0   'False
+      Height          =   405
+      Left            =   5220
+      TabIndex        =   14
+      Top             =   4260
+      Width           =   945
+   End
    Begin VB.PictureBox picTitulo 
       Appearance      =   0  'Flat
       BackColor       =   &H00FFFFFF&
@@ -99,48 +109,48 @@ Begin VB.Form Categorias_Cadastro
       BackColor       =   &H00E0E0E0&
       Caption         =   "Sair"
       Height          =   405
-      Left            =   7380
+      Left            =   7680
       TabIndex        =   9
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.CommandButton cmdCancelar 
       BackColor       =   &H00E0E0E0&
       Caption         =   "Cancelar"
       Enabled         =   0   'False
       Height          =   405
-      Left            =   5160
+      Left            =   4200
       TabIndex        =   8
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.CommandButton cmdExcluir 
       BackColor       =   &H000000FF&
       Caption         =   "Excluir"
       Height          =   405
-      Left            =   3900
+      Left            =   3180
       TabIndex        =   7
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.CommandButton cmdEditar 
       BackColor       =   &H0000C0FF&
       Caption         =   "Editar"
       Height          =   405
-      Left            =   2640
+      Left            =   2160
       TabIndex        =   6
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.CommandButton cmdSalvar 
       BackColor       =   &H0000C000&
       Caption         =   "Salvar"
       Enabled         =   0   'False
       Height          =   405
-      Left            =   1380
+      Left            =   1140
       TabIndex        =   5
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.CommandButton cmdNovo 
       BackColor       =   &H0000FF00&
@@ -149,7 +159,7 @@ Begin VB.Form Categorias_Cadastro
       Left            =   120
       TabIndex        =   4
       Top             =   4260
-      Width           =   1200
+      Width           =   945
    End
    Begin VB.Label lblRegistros 
       BackStyle       =   0  'Transparent
@@ -181,7 +191,7 @@ End Sub
 
 Private Sub ExibirGrid()
     Dim r As ADODB.Recordset
-    RsOpen r, "SELECT ID_Categoria, Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria"
+    RsOpen r, "SELECT ID_Categoria, Categoria, Padrao FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria"
     FormatarGrid r
     If r.State <> 0 Then r.Close
     lblRegistros.Caption = gridCategorias.rows - 1 & " categoria(s) cadastrada(s)"
@@ -192,20 +202,29 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
         .Visible = False
         .Redraw = False
         .Clear
-        .Cols = 2
+        .Cols = 3
         .rows = 2
         .FixedRows = 1
         .FixedCols = 0
         .ColWidth(0) = 600
-        .ColWidth(1) = 7740
+        .ColWidth(1) = 6540
+        .ColWidth(2) = 1200
         .TextMatrix(0, 0) = "Cód."
         .TextMatrix(0, 1) = "CATEGORIA"
+        .TextMatrix(0, 2) = "PADRÃO"
         .Col = 0: .Row = 0: .CellFontBold = True: .CellAlignment = 4
         .Col = 1: .Row = 0: .CellFontBold = True: .CellAlignment = 4
+        .Col = 2: .Row = 0: .CellFontBold = True: .CellAlignment = 4
         If Not rTabela Is Nothing Then
             Do While Not rTabela.EOF
                 .TextMatrix(.rows - 1, 0) = rTabela("ID_Categoria")
                 .TextMatrix(.rows - 1, 1) = rTabela("Categoria")
+                If Not IsNull(rTabela("Padrao")) Then
+                    If rTabela("Padrao") Then
+                        .TextMatrix(.rows - 1, 2) = "SIM"
+                        .Col = 2: .Row = .rows - 1: .CellFontBold = True: .CellAlignment = 4
+                    End If
+                End If
                 rTabela.MoveNext
                 .rows = .rows + 1
             Loop
@@ -223,6 +242,7 @@ Private Sub HabilitarEdicao()
     cmdNovo.Enabled = False
     cmdEditar.Enabled = False
     cmdExcluir.Enabled = False
+    cmdPadrao.Enabled = False
     lblAviso.Caption = ""
 End Sub
 
@@ -234,6 +254,7 @@ Private Sub DesabilitarEdicao()
     cmdNovo.Enabled = True
     cmdEditar.Enabled = True
     cmdExcluir.Enabled = True
+    cmdPadrao.Enabled = True
     vIDCategoria = 0
     vTipoEdicao = ""
     lblAviso.Caption = ""
@@ -296,6 +317,21 @@ Private Sub cmdExcluir_Click()
     If MsgBox("Excluir a categoria '" & vNomeExc & "'?" & vbCrLf & "Esta ação não pode ser desfeita.", vbQuestion + vbYesNo, "Confirmar Exclusão") = vbNo Then Exit Sub
     SQLExecuta "DELETE FROM Categorias WHERE ID_Categoria = " & vIDCategoria
     MsgBox "Categoria excluída com sucesso!", vbInformation, "Online Commerce"
+    ExibirGrid
+End Sub
+
+Private Sub cmdPadrao_Click()
+    If gridCategorias.Row < 1 Then
+        MsgBox "Selecione uma categoria para definir como padrão!", vbExclamation, "Atenção"
+        Exit Sub
+    End If
+    Dim vID As Long, jaEraPadrao As Boolean
+    vID = CLng(gridCategorias.TextMatrix(gridCategorias.Row, 0))
+    jaEraPadrao = (Trim(gridCategorias.TextMatrix(gridCategorias.Row, 2)) <> "")
+    SQLExecuta "UPDATE Categorias SET Padrao = 0 WHERE Tipo_Empresa = " & tipoEmpresa
+    If Not jaEraPadrao Then
+        SQLExecuta "UPDATE Categorias SET Padrao = 1 WHERE ID_Categoria = " & vID
+    End If
     ExibirGrid
 End Sub
 

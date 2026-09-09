@@ -258,7 +258,7 @@ Private Sub cmdImportar_Click()
     cmdImportar.Enabled = Not bOK
 End Sub
 
-Public Function ImportarIBPTdeArquivo(ByVal caminhoCSV As String, Optional ByVal bSilencioso As Boolean = False) As Boolean
+Public Function ImportarIBPTdeArquivo(ByVal caminhoCSV As String, Optional ByVal bSilencioso As Boolean = False, Optional ByVal oProgresso As Object) As Boolean
     ' Nucleo reutilizavel da importacao da tabela IBPT.
     '  bSilencioso=False -> chamado pelo botao Importar (mexe nos labels/progresso do form)
     '  bSilencioso=True  -> chamado pela rotina automatica (Tela_Principal), sem UI
@@ -300,6 +300,7 @@ Public Function ImportarIBPTdeArquivo(ByVal caminhoCSV As String, Optional ByVal
     End If
 
     If Not bSilencioso Then lblProgresso.Caption = "Limpando tabela...": DoEvents
+    If Not (oProgresso Is Nothing) Then oProgresso.DefinirMensagem "Limpando a tabela atual..."
     dbData.Execute "DELETE FROM TabelaIBPT"
 
     iFile = FreeFile
@@ -368,6 +369,9 @@ Public Function ImportarIBPTdeArquivo(ByVal caminhoCSV As String, Optional ByVal
                 DoEvents
             End If
         End If
+        If Not (oProgresso Is Nothing) Then
+            If nLinha Mod 100 = 0 Then oProgresso.DefinirProgresso nLinha, nTotal
+        End If
 ProxLinhaAuto:
     Loop
 
@@ -376,6 +380,7 @@ ProxLinhaAuto:
     bTrans = False
 
     If Not bSilencioso Then lblProgresso.Caption = "Sincronizando tbNCM...": DoEvents
+    If Not (oProgresso Is Nothing) Then oProgresso.DefinirMensagem "Sincronizando a tabela NCM..."
     dbData.Execute "UPDATE N SET " & _
                    "N.descricao=I.descricao, N.nacionalfederal=I.nacionalfederal, " & _
                    "N.importadosfederal=I.importadosfederal, N.estadual=I.estadual, N.municipal=I.municipal " & _
@@ -396,6 +401,7 @@ ProxLinhaAuto:
 ErrAuto:
     Dim sErrA As String
     sErrA = Err.Description
+    mensagemErro = sErrA
     On Error Resume Next
     Close #iFile
     If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"

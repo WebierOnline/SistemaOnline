@@ -4171,6 +4171,9 @@ AutoNumeracao
 
 cboUnidMedida.Text = "UN"
 txtQuant.Text = "0"
+PreencherCategoriaPadrao
+txtEANCaixa.Text = "SEM GTIN"
+txtFracao.Text = "1"
 'txtCodBarra.SetFocus
 End Sub
 
@@ -5246,6 +5249,8 @@ End Sub
 Private Sub cboCategoria_GotFocus()
 Dim sSQL As String
 Dim r As ADODB.Recordset
+Dim sSelAtual As String
+sSelAtual = cboCategoria.Text
 cboCategoria.Clear
 sSQL = "SELECT Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria"
 Set r = dbData.OpenRecordset(sSQL)
@@ -5254,6 +5259,30 @@ Do While Not r.EOF
    r.MoveNext
 Loop
 If r.State <> 0 Then r.Close
+If sSelAtual <> "" Then SelecionarNoCombo cboCategoria, sSelAtual
+End Sub
+
+Private Sub PreencherCategoriaPadrao()
+' Produto novo: popula o combo e ja seleciona a categoria marcada como padrao (se houver).
+' Sem categoria padrao cadastrada -> combo fica vazio esperando a escolha.
+Dim rC As ADODB.Recordset
+Dim rP As ADODB.Recordset
+Dim sPad As String
+cboCategoria.Clear
+Set rC = dbData.OpenRecordset("SELECT Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria")
+Do While Not rC.EOF
+   cboCategoria.AddItem ValidateNull(rC("Categoria"))
+   rC.MoveNext
+Loop
+If rC.State <> 0 Then rC.Close
+On Error Resume Next   ' base ainda sem a coluna Padrao (script 111 nao rodado) -> segue sem padrao
+Set rP = dbData.OpenRecordset("SELECT TOP 1 Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " AND Padrao = 1")
+If Err.Number = 0 Then
+   If Not rP.EOF Then sPad = ValidateNull(rP("Categoria"))
+   If rP.State <> 0 Then rP.Close
+End If
+On Error GoTo 0
+If sPad <> "" Then SelecionarNoCombo cboCategoria, sPad
 End Sub
 
 Private Sub cboCategoria_KeyPress(KeyAscii As Integer)
@@ -6900,6 +6929,9 @@ SSTab2.Tab = 0
 cboUnidMedida.Text = "UN"
 txtQuant.Text = "0"
 SelecionarNoCombo cboISCST, "99", True
+PreencherCategoriaPadrao
+txtEANCaixa.Text = "SEM GTIN"
+txtFracao.Text = "1"
 txtCodBarra.SetFocus
 End Sub
 

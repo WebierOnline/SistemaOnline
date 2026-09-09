@@ -108,3 +108,4 @@
 108|AlterTable_Empresa_NFCeSerie.sql|GERAL
 109|AlterProcedure_NFCeIncluir_SerieDinamica.sql|GERAL
 110|AlterTable_Empresa_IBPTUltimaImportacao.sql|GERAL
+111|AlterTable_Categorias_Padrao.sql|GERAL
