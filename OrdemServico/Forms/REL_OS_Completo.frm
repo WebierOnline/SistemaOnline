@@ -24,7 +24,6 @@ Begin VB.Form REL_OS_Completo
       MargemDireita   =   6
       Titulo          =   ""
       Registrado      =   0   'False
-      Visualizar      =   0   'False
    End
    Begin ReportX.ReportSection ReportSection2 
       Align           =   1  'Align Top

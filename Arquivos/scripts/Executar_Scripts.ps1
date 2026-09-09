@@ -36,6 +36,7 @@ param(
 )
 
 $PastaScripts = $PSScriptRoot
+if (-not $PastaScripts) { $PastaScripts = Split-Path -Parent $MyInvocation.MyCommand.Path }
 $Manifesto = Join-Path $PastaScripts "_manifesto.txt"
 $LogFile = Join-Path $PastaScripts ("execucao_" + (Get-Date -Format "yyyyMMdd_HHmmss") + ".log")
 
@@ -133,7 +134,7 @@ if ($PularBackup) {
 $usaOS = ObterUsaOS -Server $Server -Database $Database -User $User -Password $Password
 Log ("Empresa usa modulo de Ordem de Servico: {0}" -f $usaOS)
 
-$linhas = Get-Content -Path $Manifesto -Encoding Default | Where-Object { $_.Trim() -ne "" }
+$linhas = Get-Content -Path $Manifesto | Where-Object { $_.Trim() -ne "" }
 
 $falhas = @()
 $pulados = @()
@@ -169,7 +170,7 @@ foreach ($linha in $linhas) {
 
     Log ("{0:D3} | Executando [{1}]: {2}" -f $numero, $categoria, $nomeArquivo)
 
-    $saida = & sqlcmd -S $Server -d $Database -U $User -P $Password -i "$caminhoScript" -f 65001 -b
+    $saida = & sqlcmd -S $Server -d $Database -U $User -P $Password -i "$caminhoScript" -f 1252 -b
     $saida | ForEach-Object { Add-Content -Path $LogFile -Value $_ -Encoding UTF8 }
     $saida | ForEach-Object { Write-Host $_ }
 

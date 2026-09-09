@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Produtos_Cadastro 
@@ -101,7 +101,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:12"
+            TextSave        =   "12:59"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -129,7 +129,6 @@ Begin VB.Form Produtos_Cadastro
       _ExtentY        =   16431
       _Version        =   393216
       Tabs            =   4
-      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabMaxWidth     =   3175
@@ -144,7 +143,7 @@ Begin VB.Form Produtos_Cadastro
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Produtos_Cadastro.frx":2B2D
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "Line1"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Label15"
@@ -186,61 +185,73 @@ Begin VB.Form Produtos_Cadastro
       Tab(0).ControlCount=   19
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Produtos_Cadastro.frx":2B49
-      Tab(1).ControlEnabled=   -1  'True
-      Tab(1).Control(0)=   "Label25"
+      Tab(1).ControlEnabled=   0   'False
+      Tab(1).Control(0)=   "Frame6"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdDesativar"
+      Tab(1).Control(1)=   "frmFiltro"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdApagar"
+      Tab(1).Control(2)=   "frmSituacao"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "cmdEditar"
+      Tab(1).Control(3)=   "frmFiltroComum"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "ccmdDuplicar"
+      Tab(1).Control(4)=   "frmVenda"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmdExibir"
+      Tab(1).Control(5)=   "frmCriterios"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "cmdImprimir"
+      Tab(1).Control(6)=   "frmOrdemComum"
       Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "Grid"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "frmOrdemComum"
+      Tab(1).Control(8)=   "cmdImprimir"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "frmCriterios"
+      Tab(1).Control(9)=   "cmdExibir"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "frmVenda"
+      Tab(1).Control(10)=   "ccmdDuplicar"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "frmFiltroComum"
+      Tab(1).Control(11)=   "cmdEditar"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "frmSituacao"
+      Tab(1).Control(12)=   "cmdApagar"
       Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "frmFiltro"
+      Tab(1).Control(13)=   "cmdDesativar"
       Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "Frame6"
+      Tab(1).Control(14)=   "Label25"
       Tab(1).Control(14).Enabled=   0   'False
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "QUANTIDADES"
       TabPicture(2)   =   "Produtos_Cadastro.frx":2B65
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "Frame5(0)"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Grid_Quant"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Label40"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "lblEstoqueHoje"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "lblNomeProduto1"
+      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "lblQuantAdicao"
+      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).Control(6)=   "lblQuantRemocao"
+      Tab(2).Control(6).Enabled=   0   'False
       Tab(2).Control(7)=   "Label27"
+      Tab(2).Control(7).Enabled=   0   'False
       Tab(2).Control(8)=   "Label28"
+      Tab(2).Control(8).Enabled=   0   'False
       Tab(2).ControlCount=   9
       TabCaption(3)   =   "PREÇOS"
       TabPicture(3)   =   "Produtos_Cadastro.frx":2B81
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "lblNomeProduto2"
+      Tab(3).Control(0)=   "Frame5(1)"
+      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "GridPrecos"
-      Tab(3).Control(2)=   "Frame5(1)"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "lblNomeProduto2"
+      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).ControlCount=   3
       Begin TabDlg.SSTab SSTab2 
          Height          =   2775
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   215
          Top             =   3840
          Width           =   11775
@@ -248,18 +259,18 @@ Begin VB.Form Produtos_Cadastro
          _ExtentY        =   4895
          _Version        =   393216
          Tabs            =   2
-         Tab             =   1
          TabsPerRow      =   2
          TabHeight       =   520
          TabMaxWidth     =   3528
          TabCaption(0)   =   "Principais"
          TabPicture(0)   =   "Produtos_Cadastro.frx":2B9D
-         Tab(0).ControlEnabled=   0   'False
+         Tab(0).ControlEnabled=   -1  'True
          Tab(0).Control(0)=   "frmFiscal"
+         Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Reforma Tributária"
          TabPicture(1)   =   "Produtos_Cadastro.frx":2BB9
-         Tab(1).ControlEnabled=   -1  'True
+         Tab(1).ControlEnabled=   0   'False
          Tab(1).Control(0)=   "Frame7"
          Tab(1).Control(0).Enabled=   0   'False
          Tab(1).ControlCount=   1
@@ -275,7 +286,7 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2115
-            Left            =   120
+            Left            =   -74880
             TabIndex        =   238
             Top             =   420
             Width           =   11535
@@ -552,7 +563,7 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2355
-            Left            =   -74940
+            Left            =   60
             TabIndex        =   216
             Top             =   360
             Width           =   11595
@@ -1046,7 +1057,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   206
          Top             =   5160
          Visible         =   0   'False
@@ -1121,7 +1132,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   193
          Top             =   7020
          Visible         =   0   'False
@@ -1284,7 +1295,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   1860
+         Left            =   -73140
          TabIndex        =   185
          Top             =   6900
          Width           =   1275
@@ -1326,7 +1337,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2235
-         Left            =   -67620
+         Left            =   7380
          TabIndex        =   176
          Top             =   7020
          Width           =   4455
@@ -1500,7 +1511,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin VB.TextBox txtTam 
          Height          =   315
-         Left            =   -62400
+         Left            =   12600
          MaxLength       =   20
          TabIndex        =   165
          Top             =   4320
@@ -1519,7 +1530,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   156
          Top             =   6900
          Width           =   1695
@@ -1569,7 +1580,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   3180
+         Left            =   -71820
          TabIndex        =   151
          Top             =   6900
          Width           =   1455
@@ -1612,7 +1623,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   5340
+         Left            =   -69660
          TabIndex        =   137
          Top             =   7920
          Visible         =   0   'False
@@ -1681,7 +1692,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   975
-         Left            =   4680
+         Left            =   -70320
          TabIndex        =   129
          Top             =   6900
          Width           =   9315
@@ -1905,14 +1916,14 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1875
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   109
          Top             =   420
-         Width           =   11775
+         Width           =   12315
          Begin VB.ComboBox cboTAGs 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   2700
+            Left            =   3000
             TabIndex        =   8
             Top             =   1140
             Width           =   1635
@@ -1920,7 +1931,7 @@ Begin VB.Form Produtos_Cadastro
          Begin VB.TextBox txtFracao 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   8100
+            Left            =   9600
             MaxLength       =   90
             TabIndex        =   14
             Top             =   1140
@@ -1929,7 +1940,7 @@ Begin VB.Form Produtos_Cadastro
          Begin VB.TextBox txtEANCaixa 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   6660
+            Left            =   8160
             MaxLength       =   90
             TabIndex        =   13
             Top             =   1140
@@ -2009,10 +2020,10 @@ Begin VB.Form Produtos_Cadastro
          End
          Begin VB.TextBox txtRef 
             Height          =   315
-            Left            =   7500
+            Left            =   7020
             TabIndex        =   12
-            Top             =   120
-            Width           =   915
+            Top             =   1140
+            Width           =   1095
          End
          Begin VB.CheckBox chkPedirPeso 
             Caption         =   "Pedir Peso"
@@ -2066,12 +2077,12 @@ Begin VB.Form Produtos_Cadastro
             MaxLength       =   90
             TabIndex        =   4
             Top             =   480
-            Width           =   5655
+            Width           =   6195
          End
          Begin VB.ComboBox cboUnidMedida 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   10980
+            Left            =   11520
             Style           =   2  'Dropdown List
             TabIndex        =   6
             Top             =   480
@@ -2079,7 +2090,7 @@ Begin VB.Form Produtos_Cadastro
          End
          Begin VB.ComboBox cboFabricante 
             Height          =   315
-            Left            =   8880
+            Left            =   9420
             TabIndex        =   5
             Top             =   480
             Width           =   2055
@@ -2113,29 +2124,29 @@ Begin VB.Form Produtos_Cadastro
          End
          Begin VB.TextBox txtObs 
             Height          =   315
-            Left            =   8760
+            Left            =   10260
             MaxLength       =   90
             TabIndex        =   15
             Top             =   1140
-            Width           =   2955
+            Width           =   1995
          End
          Begin VB.TextBox txtQuant 
             Height          =   315
-            Left            =   5220
+            Left            =   5520
             TabIndex        =   10
             Top             =   1140
-            Width           =   855
+            Width           =   915
          End
          Begin VB.TextBox txtQuantMin 
             Height          =   315
-            Left            =   4380
+            Left            =   4680
             TabIndex        =   9
             Top             =   1140
             Width           =   795
          End
          Begin VB.TextBox txtPrateleira 
             Height          =   315
-            Left            =   6120
+            Left            =   6480
             MaxLength       =   4
             TabIndex        =   11
             Top             =   1140
@@ -2189,12 +2200,51 @@ Begin VB.Form Produtos_Cadastro
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
+         Begin ChamaleonBtn.chameleonButton cmdAddCategoria 
+            Height          =   315
+            Left            =   2660
+            TabIndex        =   254
+            TabStop         =   0   'False
+            Top             =   1140
+            Width           =   255
+            _ExtentX        =   450
+            _ExtentY        =   556
+            BTYPE           =   3
+            TX              =   "+"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Produtos_Cadastro.frx":4F99
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
          Begin VB.Label Label59 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Tags"
             Height          =   195
-            Left            =   2700
+            Left            =   3000
             TabIndex        =   251
             Top             =   900
             Width           =   360
@@ -2206,7 +2256,7 @@ Begin VB.Form Produtos_Cadastro
             Enabled         =   0   'False
             Height          =   195
             Index           =   2
-            Left            =   8100
+            Left            =   9600
             TabIndex        =   245
             Top             =   900
             Width           =   495
@@ -2218,7 +2268,7 @@ Begin VB.Form Produtos_Cadastro
             Enabled         =   0   'False
             Height          =   195
             Index           =   0
-            Left            =   6660
+            Left            =   8220
             TabIndex        =   244
             Top             =   900
             Width           =   840
@@ -2228,9 +2278,9 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Ref."
             Height          =   195
-            Left            =   7200
+            Left            =   7020
             TabIndex        =   167
-            Top             =   120
+            Top             =   900
             Width           =   300
          End
          Begin VB.Label Label3 
@@ -2258,7 +2308,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Unid."
             Height          =   195
-            Left            =   10980
+            Left            =   11520
             TabIndex        =   118
             Top             =   240
             Width           =   375
@@ -2268,7 +2318,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Fabricante"
             Height          =   195
-            Left            =   8880
+            Left            =   9420
             TabIndex        =   117
             Top             =   240
             Width           =   750
@@ -2288,7 +2338,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Informações Adicionais"
             Height          =   195
-            Left            =   8760
+            Left            =   10260
             TabIndex        =   115
             Top             =   900
             Width           =   1635
@@ -2298,7 +2348,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Qtde. Atual"
             Height          =   195
-            Left            =   5280
+            Left            =   5580
             TabIndex        =   114
             Top             =   900
             Width           =   795
@@ -2320,7 +2370,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Qtde. Min."
             Height          =   195
-            Left            =   4380
+            Left            =   4680
             TabIndex        =   112
             Top             =   900
             Width           =   735
@@ -2330,7 +2380,7 @@ Begin VB.Form Produtos_Cadastro
             BackStyle       =   0  'Transparent
             Caption         =   "Local"
             Height          =   195
-            Left            =   6120
+            Left            =   6480
             TabIndex        =   111
             Top             =   900
             Width           =   390
@@ -2348,10 +2398,10 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1395
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   93
          Top             =   2400
-         Width           =   11775
+         Width           =   12315
          Begin VB.Frame Frame1 
             Caption         =   "Varejo - À vista"
             BeginProperty Font 
@@ -2422,7 +2472,7 @@ Begin VB.Form Produtos_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Produtos_Cadastro.frx":4F99
+               MICON           =   "Produtos_Cadastro.frx":4FB5
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2757,8 +2807,8 @@ Begin VB.Form Produtos_Cadastro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Produtos_Cadastro.frx":4FB5
-            PICN            =   "Produtos_Cadastro.frx":4FD1
+            MICON           =   "Produtos_Cadastro.frx":4FD1
+            PICN            =   "Produtos_Cadastro.frx":4FED
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2839,8 +2889,8 @@ Begin VB.Form Produtos_Cadastro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Produtos_Cadastro.frx":6D63
-            PICN            =   "Produtos_Cadastro.frx":6D7F
+            MICON           =   "Produtos_Cadastro.frx":6D7F
+            PICN            =   "Produtos_Cadastro.frx":6D9B
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2864,7 +2914,7 @@ Begin VB.Form Produtos_Cadastro
       Begin VB.TextBox txtUltCompra 
          Enabled         =   0   'False
          Height          =   315
-         Left            =   -62400
+         Left            =   12600
          Locked          =   -1  'True
          TabIndex        =   82
          TabStop         =   0   'False
@@ -2885,7 +2935,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   79
          Top             =   7920
          Width           =   2055
@@ -2920,7 +2970,7 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   915
-         Left            =   2160
+         Left            =   -72840
          TabIndex        =   76
          Top             =   7920
          Width           =   3135
@@ -2967,7 +3017,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   6015
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   140
          Top             =   420
          Width           =   13875
@@ -2995,11 +3045,11 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   -63000
+         Left            =   12540
          TabIndex        =   57
          Top             =   1860
-         Width           =   2175
-         _ExtentX        =   3836
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "Cancelar"
@@ -3021,8 +3071,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":8B11
-         PICN            =   "Produtos_Cadastro.frx":8B2D
+         MICON           =   "Produtos_Cadastro.frx":8B2D
+         PICN            =   "Produtos_Cadastro.frx":8B49
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3034,12 +3084,12 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -63000
+         Left            =   12540
          TabIndex        =   69
          Top             =   2520
          Visible         =   0   'False
-         Width           =   2175
-         _ExtentX        =   3836
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "&Alterar"
@@ -3061,8 +3111,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":A8BF
-         PICN            =   "Produtos_Cadastro.frx":A8DB
+         MICON           =   "Produtos_Cadastro.frx":A8DB
+         PICN            =   "Produtos_Cadastro.frx":A8F7
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3074,12 +3124,12 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   -63000
+         Left            =   12540
          TabIndex        =   70
          Top             =   3180
          Visible         =   0   'False
-         Width           =   2175
-         _ExtentX        =   3836
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "&Excluir"
@@ -3101,8 +3151,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":C66D
-         PICN            =   "Produtos_Cadastro.frx":C689
+         MICON           =   "Produtos_Cadastro.frx":C689
+         PICN            =   "Produtos_Cadastro.frx":C6A5
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3114,11 +3164,11 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   -63000
+         Left            =   12540
          TabIndex        =   56
          Top             =   1200
-         Width           =   2175
-         _ExtentX        =   3836
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "Salvar"
@@ -3140,8 +3190,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":E41B
-         PICN            =   "Produtos_Cadastro.frx":E437
+         MICON           =   "Produtos_Cadastro.frx":E437
+         PICN            =   "Produtos_Cadastro.frx":E453
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3153,11 +3203,11 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -63000
+         Left            =   12540
          TabIndex        =   0
          Top             =   540
-         Width           =   2175
-         _ExtentX        =   3836
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "&Novo"
@@ -3179,8 +3229,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":101C9
-         PICN            =   "Produtos_Cadastro.frx":101E5
+         MICON           =   "Produtos_Cadastro.frx":101E5
+         PICN            =   "Produtos_Cadastro.frx":10201
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3192,7 +3242,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   -63000
+         Left            =   12000
          TabIndex        =   142
          Top             =   8580
          Width           =   2175
@@ -3218,8 +3268,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":11F77
-         PICN            =   "Produtos_Cadastro.frx":11F93
+         MICON           =   "Produtos_Cadastro.frx":11F93
+         PICN            =   "Produtos_Cadastro.frx":11FAF
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3231,7 +3281,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   855
-         Left            =   12540
+         Left            =   -62460
          TabIndex        =   143
          Top             =   7980
          Width           =   1395
@@ -3257,8 +3307,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":13D25
-         PICN            =   "Produtos_Cadastro.frx":13D41
+         MICON           =   "Produtos_Cadastro.frx":13D41
+         PICN            =   "Produtos_Cadastro.frx":13D5D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3270,7 +3320,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   855
-         Left            =   11100
+         Left            =   -63900
          TabIndex        =   144
          Top             =   7980
          Width           =   1395
@@ -3296,8 +3346,8 @@ Begin VB.Form Produtos_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":15AD3
-         PICN            =   "Produtos_Cadastro.frx":15AEF
+         MICON           =   "Produtos_Cadastro.frx":15AEF
+         PICN            =   "Produtos_Cadastro.frx":15B0B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3309,7 +3359,7 @@ Begin VB.Form Produtos_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton ccmdDuplicar 
          Height          =   315
-         Left            =   4440
+         Left            =   -70560
          TabIndex        =   210
          Top             =   6480
          Width           =   1395
@@ -3317,44 +3367,6 @@ Begin VB.Form Produtos_Cadastro
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Duplicar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Produtos_Cadastro.frx":17881
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdEditar 
-         Height          =   315
-         Left            =   120
-         TabIndex        =   211
-         Top             =   6480
-         Width           =   1395
-         _ExtentX        =   2461
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "Editar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3383,16 +3395,16 @@ Begin VB.Form Produtos_Cadastro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdApagar 
+      Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   1560
-         TabIndex        =   212
+         Left            =   -74880
+         TabIndex        =   211
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Excluir"
+         TX              =   "Editar"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3421,16 +3433,16 @@ Begin VB.Form Produtos_Cadastro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdDesativar 
+      Begin ChamaleonBtn.chameleonButton cmdApagar 
          Height          =   315
-         Left            =   3000
-         TabIndex        =   213
+         Left            =   -73440
+         TabIndex        =   212
          Top             =   6480
          Width           =   1395
          _ExtentX        =   2461
          _ExtentY        =   556
          BTYPE           =   3
-         TX              =   "Desativar"
+         TX              =   "Excluir"
          ENAB            =   -1  'True
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -3459,6 +3471,44 @@ Begin VB.Form Produtos_Cadastro
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdDesativar 
+         Height          =   315
+         Left            =   -72000
+         TabIndex        =   213
+         Top             =   6480
+         Width           =   1395
+         _ExtentX        =   2461
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "Desativar"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Produtos_Cadastro.frx":178F1
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin VB.Frame frmComp 
          Caption         =   "Compartibilidade"
          Enabled         =   0   'False
@@ -3472,7 +3522,7 @@ Begin VB.Form Produtos_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2235
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   121
          Top             =   7020
          Width           =   5955
@@ -3555,7 +3605,7 @@ Begin VB.Form Produtos_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Produtos_Cadastro.frx":178F1
+               MICON           =   "Produtos_Cadastro.frx":1790D
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -3637,7 +3687,7 @@ Begin VB.Form Produtos_Cadastro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Produtos_Cadastro.frx":1790D
+            MICON           =   "Produtos_Cadastro.frx":17929
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3675,7 +3725,7 @@ Begin VB.Form Produtos_Cadastro
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Produtos_Cadastro.frx":17929
+            MICON           =   "Produtos_Cadastro.frx":17945
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -3701,7 +3751,7 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H00004080&
          Height          =   225
          Index           =   1
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   243
          Top             =   6780
          Width           =   8535
@@ -3721,7 +3771,7 @@ Begin VB.Form Produtos_Cadastro
          ForeColor       =   &H00004080&
          Height          =   225
          Index           =   0
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   242
          Top             =   6600
          Width           =   8850
@@ -3758,7 +3808,7 @@ Begin VB.Form Produtos_Cadastro
          BackStyle       =   0  'Transparent
          Caption         =   "Tam."
          Height          =   195
-         Left            =   -62160
+         Left            =   12840
          TabIndex        =   166
          Top             =   4080
          Visible         =   0   'False
@@ -3778,15 +3828,15 @@ Begin VB.Form Produtos_Cadastro
          EndProperty
          ForeColor       =   &H00008000&
          Height          =   195
-         Left            =   7680
+         Left            =   -67320
          TabIndex        =   163
          Top             =   60
          Width           =   4035
          WordWrap        =   -1  'True
       End
       Begin VB.Line Line1 
-         X1              =   -63060
-         X2              =   -63060
+         X1              =   12480
+         X2              =   12480
          Y1              =   420
          Y2              =   8580
       End
@@ -4155,7 +4205,7 @@ Private Sub FormatarGrid_Historico(rTabela As ADODB.Recordset)
    With Grid_Quant
       .Clear
       .Cols = 7
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 500
@@ -4200,20 +4250,20 @@ Private Sub FormatarGrid_Historico(rTabela As ADODB.Recordset)
             'ALINHAMENTO
             '.ColAlignment(2) = 1
             
-            .TextMatrix(.rows - 1, 1) = rTabela("var_codigo")
-            .TextMatrix(.rows - 1, 2) = Format$(rTabela("data_entrada"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = rTabela("NumeroNota")
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("razao"))
-            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("quant"))
+            .TextMatrix(.Rows - 1, 1) = rTabela("var_codigo")
+            .TextMatrix(.Rows - 1, 2) = Format$(rTabela("data_entrada"), "dd/mm/yy")
+            .TextMatrix(.Rows - 1, 3) = rTabela("NumeroNota")
+            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("razao"))
+            .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("quant"))
 '            .TextMatrix(.Rows - 1, 6) = Format$(rTabela("custo"), ocMONEY)
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
       .Redraw = True
-      .rows = .rows - 1
+      .Rows = .Rows - 1
    End With
 End Sub
 Private Sub CalcularPrecos()
@@ -4374,7 +4424,7 @@ Dim x As Integer
 With Grid_Comp
    .Clear
    .Cols = 5
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
@@ -4406,18 +4456,18 @@ With Grid_Comp
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          
-         .TextMatrix(.rows - 1, 1) = rTabela("CODIGO")
-         .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("COD_PRODUTO"))
-         .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("MODELO"))
-         .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("ANO"))
+         .TextMatrix(.Rows - 1, 1) = rTabela("CODIGO")
+         .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("COD_PRODUTO"))
+         .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("MODELO"))
+         .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("ANO"))
         
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
    .Redraw = True
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 Private Sub FormatarGrid_Quant(rTabela As ADODB.Recordset)
@@ -4426,7 +4476,7 @@ Dim x As Integer
 With Grid_Quant
    .Clear
    .Cols = 11
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
@@ -4469,26 +4519,26 @@ With Grid_Quant
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("Codigo"))
-         .TextMatrix(.rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = Format$(rTabela("HORA"), ocHORA)
-         .TextMatrix(.rows - 1, 4) = rTabela("COD_PRODUTO")
-         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("NumeroNota"))
-         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("TIPO"))
-         .TextMatrix(.rows - 1, 7) = rTabela("FORMA")
-         .TextMatrix(.rows - 1, 8) = rTabela("QUANT")
-         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("COD_USUARIO"))
-         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("ESTOQUE"))
+         .TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("Codigo"))
+         .TextMatrix(.Rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
+         .TextMatrix(.Rows - 1, 3) = Format$(rTabela("HORA"), ocHORA)
+         .TextMatrix(.Rows - 1, 4) = rTabela("COD_PRODUTO")
+         .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("NumeroNota"))
+         .TextMatrix(.Rows - 1, 6) = ValidateNull(rTabela("TIPO"))
+         .TextMatrix(.Rows - 1, 7) = rTabela("FORMA")
+         .TextMatrix(.Rows - 1, 8) = rTabela("QUANT")
+         .TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("COD_USUARIO"))
+         .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("ESTOQUE"))
 
          
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
    
     'Deixar negrito quando vencido
-    For i = 1 To .rows - 1
+    For i = 1 To .Rows - 1
        For j = 0 To .Cols - 1
           .Col = j
           .Row = i
@@ -4502,7 +4552,7 @@ With Grid_Quant
 
       
     'MUDAR COR DE FONTE DA COLUNA
-     For i = 1 To .rows - 1
+     For i = 1 To .Rows - 1
         .Row = i
         .Col = 7
         .CellBackColor = &HC0FFFF
@@ -4510,7 +4560,7 @@ With Grid_Quant
      Next
    
    .Redraw = True
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 
@@ -4521,7 +4571,7 @@ Dim x As Integer
 With GridPrecos
    .Clear
    .Cols = 13
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 600
@@ -4568,26 +4618,26 @@ With GridPrecos
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.rows - 1, 1) = rTabela("Codigo")
-         .TextMatrix(.rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = rTabela("FORMA")
-         .TextMatrix(.rows - 1, 4) = Format$(rTabela("custo"), ocMONEY)
-         .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("MARGEM_VV"), 2) & "%"
-         .TextMatrix(.rows - 1, 6) = Format$(rTabela("VALOR_VV"), ocMONEY)
-         .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("MARGEM_VP"), 2) & "%"
-         .TextMatrix(.rows - 1, 8) = Format$(rTabela("VALOR_VP"), ocMONEY)
-         .TextMatrix(.rows - 1, 9) = FormatNumber(rTabela("MARGEM_AV"), 2) & "%"
-         .TextMatrix(.rows - 1, 10) = Format$(rTabela("VALOR_AV"), ocMONEY)
-         .TextMatrix(.rows - 1, 11) = FormatNumber(rTabela("MARGEM_AP"), 2) & "%"
-         .TextMatrix(.rows - 1, 12) = Format$(rTabela("VALOR_AP"), ocMONEY)
+         .TextMatrix(.Rows - 1, 1) = rTabela("Codigo")
+         .TextMatrix(.Rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
+         .TextMatrix(.Rows - 1, 3) = rTabela("FORMA")
+         .TextMatrix(.Rows - 1, 4) = Format$(rTabela("custo"), ocMONEY)
+         .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("MARGEM_VV"), 2) & "%"
+         .TextMatrix(.Rows - 1, 6) = Format$(rTabela("VALOR_VV"), ocMONEY)
+         .TextMatrix(.Rows - 1, 7) = FormatNumber(rTabela("MARGEM_VP"), 2) & "%"
+         .TextMatrix(.Rows - 1, 8) = Format$(rTabela("VALOR_VP"), ocMONEY)
+         .TextMatrix(.Rows - 1, 9) = FormatNumber(rTabela("MARGEM_AV"), 2) & "%"
+         .TextMatrix(.Rows - 1, 10) = Format$(rTabela("VALOR_AV"), ocMONEY)
+         .TextMatrix(.Rows - 1, 11) = FormatNumber(rTabela("MARGEM_AP"), 2) & "%"
+         .TextMatrix(.Rows - 1, 12) = Format$(rTabela("VALOR_AP"), ocMONEY)
          
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
         'MUDAR COR DE FONTE DA COLUNA
-         For i = 1 To .rows - 1
+         For i = 1 To .Rows - 1
             .Row = i
             .Col = 6
             .CellBackColor = &HC0FFFF
@@ -4595,35 +4645,35 @@ With GridPrecos
          Next
          
         'COLUNA EM NEGRITO
-         For i = 1 To .rows - 1
+         For i = 1 To .Rows - 1
             .Row = i
             .Col = 5
             .CellFontBold = True
          Next
          
         'COLUNA EM NEGRITO
-         For i = 1 To .rows - 1
+         For i = 1 To .Rows - 1
             .Row = i
             .Col = 7
             .CellFontBold = True
          Next
          
         'COLUNA EM NEGRITO
-         For i = 1 To .rows - 1
+         For i = 1 To .Rows - 1
             .Row = i
             .Col = 9
             .CellFontBold = True
          Next
          
         'COLUNA EM NEGRITO
-         For i = 1 To .rows - 1
+         For i = 1 To .Rows - 1
             .Row = i
             .Col = 11
             .CellFontBold = True
          Next
    
    .Redraw = True
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 
@@ -4745,7 +4795,7 @@ Dim x As Integer
    With Grid
       .Clear
       .Cols = 13
-      .rows = 2
+      .Rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
@@ -4809,34 +4859,34 @@ Dim x As Integer
             'ALINHAMENTO
             '.ColAlignment(2) = 1
              VarTotalGrid = 0
-            .TextMatrix(.rows - 1, 1) = Format$(ValidateNull(rTabela("varCodProd")), "000000")
-            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("var_codbarra"))
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("var_desc")) & " / " & ValidateNull(rTabela("var_Ref"))
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("var_fab"))
-            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("var_med"))
-            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("var_LOCAL"))
+            .TextMatrix(.Rows - 1, 1) = Format$(ValidateNull(rTabela("varCodProd")), "000000")
+            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("var_codbarra"))
+            .TextMatrix(.Rows - 1, 3) = ValidateNull(rTabela("var_desc")) & " / " & ValidateNull(rTabela("var_Ref"))
+            .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("var_fab"))
+            .TextMatrix(.Rows - 1, 5) = ValidateNull(rTabela("var_med"))
+            .TextMatrix(.Rows - 1, 6) = ValidateNull(rTabela("var_LOCAL"))
 
             '.TextMatrix(.rows - 1, 7) = Format$(ValidateNull(rTabela("var_quant")), ocPESO)
             
             If rTabela("var_med") = "KG" Or rTabela("var_med") = "GR" Or rTabela("var_med") = "MG" Then
-                .TextMatrix(.rows - 1, 7) = Format(rTabela("var_quant"), ocPESO)
+                .TextMatrix(.Rows - 1, 7) = Format(rTabela("var_quant"), ocPESO)
             Else
-                .TextMatrix(.rows - 1, 7) = Format(rTabela("var_quant"), "###,###,##0")
+                .TextMatrix(.Rows - 1, 7) = Format(rTabela("var_quant"), "###,###,##0")
             End If
             
-            .TextMatrix(.rows - 1, 8) = Format$(ValidateNull(rTabela("CUSTO")), ocMONEY)
-            VarTotalCustoGrid = .TextMatrix(.rows - 1, 8) * .TextMatrix(.rows - 1, 7)
-            .TextMatrix(.rows - 1, 9) = Format(VarTotalCustoGrid, ocMONEY)
+            .TextMatrix(.Rows - 1, 8) = Format$(ValidateNull(rTabela("CUSTO")), ocMONEY)
+            VarTotalCustoGrid = .TextMatrix(.Rows - 1, 8) * .TextMatrix(.Rows - 1, 7)
+            .TextMatrix(.Rows - 1, 9) = Format(VarTotalCustoGrid, ocMONEY)
             
-            .TextMatrix(.rows - 1, 10) = Format$(ValidateNull(rTabela("Venda")), ocMONEY)
-            VarTotalGrid = .TextMatrix(.rows - 1, 10) * .TextMatrix(.rows - 1, 7)
-            .TextMatrix(.rows - 1, 11) = Format(VarTotalGrid, ocMONEY)
-            .TextMatrix(.rows - 1, 12) = ValidateNull(rTabela("vAtivo"))
-            .Row = .rows - 1
+            .TextMatrix(.Rows - 1, 10) = Format$(ValidateNull(rTabela("Venda")), ocMONEY)
+            VarTotalGrid = .TextMatrix(.Rows - 1, 10) * .TextMatrix(.Rows - 1, 7)
+            .TextMatrix(.Rows - 1, 11) = Format(VarTotalGrid, ocMONEY)
+            .TextMatrix(.Rows - 1, 12) = ValidateNull(rTabela("vAtivo"))
+            .Row = .Rows - 1
             .Col = 0
             .ColSel = .Cols - 1
             .FillStyle = 1
-            If .TextMatrix(.rows - 1, 12) = "DESATIVO" Then
+            If .TextMatrix(.Rows - 1, 12) = "DESATIVO" Then
                 .CellForeColor = RGB(139, 0, 0)
             Else
                 .CellForeColor = vbBlack
@@ -4844,18 +4894,18 @@ Dim x As Integer
             .FillStyle = 0
             
             rTabela.MoveNext
-            .rows = .rows + 1
+            .Rows = .Rows + 1
          Loop
       End If
       
       .Redraw = True
-      .rows = .rows - 1
+      .Rows = .Rows - 1
    End With
    
    lblValorTotalCusto.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
    lblValorTotal.Caption = Format(SomaGrid(Grid, 11), ocMONEY)
    lblProdutos.Caption = Format(SomaGrid(Grid, 7), ocMONEY)
-   lblTipos.Caption = Grid.rows - 1  'contar o numeros de linhas no grid
+   lblTipos.Caption = Grid.Rows - 1  'contar o numeros de linhas no grid
 'End If
 End Sub
 
@@ -5184,6 +5234,14 @@ For i = LastYear To FirstYear Step -1
 Next
 End Sub
 
+
+Private Sub cmdAddCategoria_Click()
+#If TEM_CATEGORIAS_CADASTRO Then
+    Categorias_Cadastro.Show 1
+#Else
+    MsgBox "Cadastro de categorias disponível apenas no módulo OnlineCommerce.", vbInformation, "Aviso do Sistema"
+#End If
+End Sub
 
 Private Sub cboCategoria_GotFocus()
 Dim sSQL As String
@@ -5796,7 +5854,7 @@ Dim vMes As Integer
 cboMes.Clear
 
 For vMes = 1 To 12
-   cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
+   cboMes.AddItem StrConv(monthName(vMes), vbProperCase)
 Next
 
 moCombo.AttachTo cboMes
@@ -5809,7 +5867,7 @@ Dim vMes As Integer
 cboMesPreco.Clear
 
 For vMes = 1 To 12
-   cboMesPreco.AddItem StrConv(MonthName(vMes), vbProperCase)
+   cboMesPreco.AddItem StrConv(monthName(vMes), vbProperCase)
 Next
 
 moCombo.AttachTo cboMesPreco
@@ -5985,7 +6043,7 @@ Public Function SomaGrid(Grid As MSFlexGrid, Col As Integer) As Currency
    Dim i As Integer, Valor As Currency
    
    Valor = 0
-   For i = 0 To Grid.rows - 1
+   For i = 0 To Grid.Rows - 1
       If IsNumeric(Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CCur(Grid.TextMatrix(i, Col))
       End If
@@ -6912,7 +6970,7 @@ Dim x As Integer
 With Grid_Referencia_Desc
    .Clear
    .Cols = 3
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
@@ -6940,16 +6998,16 @@ With Grid_Referencia_Desc
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          
-         .TextMatrix(.rows - 1, 1) = rTabela("CODIGO")
-         .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("REFERENCIA"))
+         .TextMatrix(.Rows - 1, 1) = rTabela("CODIGO")
+         .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("REFERENCIA"))
         
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
    .Redraw = True
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 Private Sub FormatarGrid_Referencia(rTabela As ADODB.Recordset)
@@ -6959,7 +7017,7 @@ Dim x As Integer
 With Grid_Referencia
    .Clear
    .Cols = 3
-   .rows = 2
+   .Rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
@@ -6987,16 +7045,16 @@ With Grid_Referencia
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          
-         .TextMatrix(.rows - 1, 1) = rTabela("CODIGO")
-         .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("REFERENCIA"))
+         .TextMatrix(.Rows - 1, 1) = rTabela("CODIGO")
+         .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("REFERENCIA"))
         
          rTabela.MoveNext
-         .rows = .rows + 1
+         .Rows = .Rows + 1
       Loop
    End If
    
    .Redraw = True
-   .rows = .rows - 1
+   .Rows = .Rows - 1
 End With
 End Sub
 
@@ -7620,11 +7678,11 @@ optPalavrasDuplas.Visible = False
     ' Preenche as unidades apenas no início
     With cboUnidMedida
         .Clear
-        .AddItem "UN": .AddItem "CX": .AddItem "M": .AddItem "M2"
-        .AddItem "M3": .AddItem "ML": .AddItem "KG": .AddItem "GR"
-        .AddItem "CT": .AddItem "PO": .AddItem "SC": .AddItem "PA"
-        .AddItem "EX": .AddItem "BJ": .AddItem "DZ": .AddItem "PC"
-        .AddItem "DI": .AddItem "FD": .AddItem "PT"
+        .AddItem "BJ": .AddItem "CT": .AddItem "CX": .AddItem "DI"
+        .AddItem "DZ": .AddItem "EX": .AddItem "FD": .AddItem "GL"
+        .AddItem "GR": .AddItem "KG": .AddItem "M":  .AddItem "M2"
+        .AddItem "M3": .AddItem "ML": .AddItem "PA": .AddItem "PC"
+        .AddItem "PO": .AddItem "PT": .AddItem "SC": .AddItem "UN"
     End With
 
 DesabilitarFrames
@@ -7716,7 +7774,7 @@ Private Sub SomaQuantRemocao()
    
    soma = 0
    With Grid_Quant
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          If .TextMatrix(i, 6) = "REMOÇÃO" And IsNumeric(.TextMatrix(i, 8)) Then
             soma = soma + CCur(.TextMatrix(i, 8))
          End If
@@ -7734,7 +7792,7 @@ Private Sub SomaQuantAdicao()
    
    soma = 0
    With Grid_Quant
-      For i = 1 To .rows - 1
+      For i = 1 To .Rows - 1
          If .TextMatrix(i, 6) = "ADIÇÃO" And IsNumeric(.TextMatrix(i, 8)) Then
             soma = soma + CCur(.TextMatrix(i, 8))
          End If
@@ -8797,14 +8855,14 @@ Private Sub txtValorAP_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorAP.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorAP.Text
-If a = "0,00" Or B = "0,00" Then Exit Sub
-c = ((B - a) / a) * 100
+If A = "0,00" Or B = "0,00" Then Exit Sub
+c = ((B - A) / A) * 100
 
 txtMargemAP.Text = FormatNumber(c, 2) & "%"
 txtValorAP.Text = Format(txtValorAP.Text, ocMONEY)
@@ -8824,14 +8882,14 @@ Private Sub txtValorAV_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorAV.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorAV.Text
-If a = "0,00" Or B = "0,00" Then Exit Sub
-c = ((B - a) / a) * 100
+If A = "0,00" Or B = "0,00" Then Exit Sub
+c = ((B - A) / A) * 100
 
 txtMargemAV.Text = FormatNumber(c, 2) & "%"
 txtValorAV.Text = Format(txtValorAV.Text, ocMONEY)
@@ -8865,14 +8923,14 @@ Private Sub txtValorVP_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorVP.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorVP.Text
-If a = "0,00" Or B = "0,00" Then Exit Sub
-c = ((B - a) / a) * 100
+If A = "0,00" Or B = "0,00" Then Exit Sub
+c = ((B - A) / A) * 100
 
 txtMargemVP.Text = FormatNumber(c, 2) & "%"
 txtValorVP.Text = Format(txtValorVP.Text, ocMONEY)
@@ -8892,14 +8950,14 @@ Private Sub txtValorVV_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorVV.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorVV.Text
-If a = "0,00" Or B = "0,00" Then Exit Sub
-c = ((B - a) / a) * 100
+If A = "0,00" Or B = "0,00" Then Exit Sub
+c = ((B - A) / A) * 100
 
 txtMargemVV.Text = FormatNumber(c, 2) & "%"
 txtValorVV.Text = Format(txtValorVV.Text, ocMONEY)

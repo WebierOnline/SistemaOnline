@@ -35,12 +35,12 @@ Begin VB.Form PDV
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   3960
+      Left            =   9120
       Picture         =   "PDV.frx":FEAD
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   162
-      Top             =   540
+      Top             =   3420
       Visible         =   0   'False
       Width           =   2895
    End
@@ -57,9 +57,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   300
+      Left            =   6540
       TabIndex        =   149
-      Top             =   3960
+      Top             =   3840
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdOrcamento 
@@ -173,9 +173,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   6435
-      Left            =   2100
+      Left            =   8820
       TabIndex        =   82
-      Top             =   1380
+      Top             =   1500
       Visible         =   0   'False
       Width           =   3135
       Begin ChamaleonBtn.chameleonButton cmdAvanClientes 
@@ -834,9 +834,9 @@ Begin VB.Form PDV
    End
    Begin MSComctlLib.ListView lstCashBack 
       Height          =   2895
-      Left            =   660
+      Left            =   7740
       TabIndex        =   161
-      Top             =   3540
+      Top             =   3360
       Visible         =   0   'False
       Width           =   6075
       _ExtentX        =   10716
@@ -863,9 +863,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1875
-      Left            =   -60
+      Left            =   6300
       TabIndex        =   100
-      Top             =   3900
+      Top             =   3840
       Width           =   8295
       Begin VB.Frame Frame15 
          Caption         =   "ATACADO"
@@ -1071,9 +1071,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   60
+      Left            =   6840
       TabIndex        =   132
-      Top             =   3960
+      Top             =   3900
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdCadastarProduto 
@@ -1226,9 +1226,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1035
-      Left            =   4260
+      Left            =   8580
       TabIndex        =   137
-      Top             =   5760
+      Top             =   4380
       Visible         =   0   'False
       Width           =   4395
       Begin VB.TextBox txtDescProdAvulso 
@@ -1348,6 +1348,12 @@ Begin VB.Form PDV
    Begin VB.Timer TimerInternet 
       Interval        =   15000
       Left            =   120
+      Top             =   10200
+   End
+   Begin VB.Timer tmrNfcePisca 
+      Enabled         =   0   'False
+      Interval        =   500
+      Left            =   2040
       Top             =   10200
    End
    Begin VB.TextBox Text2 
@@ -1489,11 +1495,11 @@ Begin VB.Form PDV
       BackColor       =   &H00C0C0FF&
       ForeColor       =   &H80000008&
       Height          =   1455
-      Left            =   3900
+      Left            =   12000
       ScaleHeight     =   1425
       ScaleWidth      =   2025
       TabIndex        =   96
-      Top             =   1860
+      Top             =   1560
       Visible         =   0   'False
       Width           =   2055
       Begin VB.ComboBox cboUsuario 
@@ -2167,7 +2173,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2293
             MinWidth        =   2293
-            TextSave        =   "21/08/2026"
+            TextSave        =   "04/09/2026"
             Object.ToolTipText     =   "Data atual"
          EndProperty
          BeginProperty Panel9 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -2175,7 +2181,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   1411
             MinWidth        =   1411
-            TextSave        =   "10:02"
+            TextSave        =   "13:36"
             Object.ToolTipText     =   "Hora atual"
          EndProperty
       EndProperty
@@ -3227,6 +3233,15 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Image imgNfce1 
+      Height          =   375
+      Left            =   12480
+      Picture         =   "PDV.frx":159B3
+      Stretch         =   -1  'True
+      Top             =   10440
+      Visible         =   0   'False
+      Width           =   375
+   End
    Begin VB.Label lblMSG1 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
@@ -3242,9 +3257,9 @@ Begin VB.Form PDV
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   210
-      Left            =   12915
+      Left            =   13140
       TabIndex        =   160
-      Top             =   10380
+      Top             =   10140
       Visible         =   0   'False
       Width           =   2145
    End
@@ -3314,7 +3329,7 @@ Begin VB.Form PDV
    Begin VB.Label lblNfce1 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
-      Caption         =   "Há NFCe não Transmitida!!"
+      Caption         =   "Existe NFCe não Transmitida!"
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   8.25
@@ -3326,10 +3341,11 @@ Begin VB.Form PDV
       EndProperty
       ForeColor       =   &H000000FF&
       Height          =   210
-      Left            =   12915
+      Left            =   12900
       TabIndex        =   144
-      Top             =   10140
-      Width           =   2145
+      Top             =   10620
+      Visible         =   0   'False
+      Width           =   2415
    End
    Begin VB.Label lblQuantTipo 
       Alignment       =   1  'Right Justify
@@ -3389,7 +3405,7 @@ Begin VB.Form PDV
    Begin VB.Image imLogoCupom 
       Height          =   1125
       Left            =   6180
-      Picture         =   "PDV.frx":159B3
+      Picture         =   "PDV.frx":1623B
       Top             =   9600
       Visible         =   0   'False
       Width           =   2850
@@ -5800,11 +5816,21 @@ If r.BOF Then
     lblAlerta.Visible = False
     lblNfce1.Visible = False
     lblNfce2.Visible = False
+    imgNfce1.Visible = False
+    tmrNfcePisca.Enabled = False
 Else
     lblAlerta.Visible = True
     lblNfce1.Visible = True
     lblNfce2.Visible = True
+    imgNfce1.Visible = True
+    tmrNfcePisca.Enabled = True
 End If
+End Sub
+
+'pisca o aviso de NFCe nao transmitida (lblNfce1 + imgNfce1 juntos)
+Private Sub tmrNfcePisca_Timer()
+    lblNfce1.Visible = Not lblNfce1.Visible
+    imgNfce1.Visible = Not imgNfce1.Visible
 End Sub
 
 Private Sub cboCliente_Change()

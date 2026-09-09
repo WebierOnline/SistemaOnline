@@ -1552,10 +1552,11 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Me.Hide
-    'PDV.Show  'desativei somente para geerar o online comerce
+#If PDV_MODULE Then
+    PDV.Show
+#End If
 Else
     Me.Hide
-    'PDV.Show 1
 End If
 End Sub
 

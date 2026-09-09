@@ -1100,7 +1100,7 @@ Private Sub MostrarCriterios()
    Set r = dbData.OpenRecordset(sSQL)
    lblQuant.Caption = "Quant.: " & r.RecordCount
    
-       If r.RecordCount > 32000 Then
+       If r.RecordCount > 10000 Then
         MsgBox "A Consulta retornou um valor maior de registros que é permitido na grade!", vbInformation, "Aviso do sistema"
         LimparGrid2
         Exit Sub
@@ -1248,7 +1248,7 @@ If optTodos.Value = True Then
    Set r = dbData.OpenRecordset(sSQL)
    lblQuant.Caption = "Quant.: " & r.RecordCount
    
-    If r.RecordCount > 32000 Then
+    If r.RecordCount > 10000 Then
         MsgBox "A Consulta retornou um valor maior de registros que é permitido na grade!", vbInformation, "Aviso do sistema"
         LimparGrid2
         Exit Sub
@@ -1372,6 +1372,7 @@ End Sub
 
 Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    Dim i As Integer
+   On Error GoTo GridErr
    
    LimparGrid
    picAguarde.Visible = True
@@ -1510,6 +1511,15 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    ImgMarcadaTODAS.Visible = False
    lblMarcarTodas.Caption = "Marcar todos"
    AvaliarFrmAlterarGrupos
+   Exit Sub
+GridErr:
+   On Error Resume Next
+   Grid.Redraw = True
+   picAguarde.Visible = False
+   LimparGrid2
+   On Error GoTo 0
+   MsgBox "Nao foi possivel montar a grade com essa quantidade de produtos." & vbCrLf & _
+          "Use os filtros (Categoria, NCM, Tags, Descricao) para reduzir o resultado.", vbInformation, "Ajuste de Tributos"
 End Sub
 
 Private Sub chkPISCOFINS_Click()

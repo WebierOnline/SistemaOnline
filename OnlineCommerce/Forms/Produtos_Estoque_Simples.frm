@@ -2140,11 +2140,11 @@ Select Case iCol
    Case 6
       cboEdit.Clear
       With cboEdit
-         .AddItem "UN": .AddItem "CX": .AddItem "M":   .AddItem "M2"
-         .AddItem "M3": .AddItem "ML": .AddItem "KG":  .AddItem "GR"
-         .AddItem "CT": .AddItem "PO": .AddItem "SC":  .AddItem "PA"
-         .AddItem "EX": .AddItem "BJ": .AddItem "DZ":  .AddItem "PC"
-         .AddItem "DI": .AddItem "FD": .AddItem "PT"
+         .AddItem "BJ": .AddItem "CT": .AddItem "CX": .AddItem "DI"
+         .AddItem "DZ": .AddItem "EX": .AddItem "FD": .AddItem "GL"
+         .AddItem "GR": .AddItem "KG": .AddItem "M":  .AddItem "M2"
+         .AddItem "M3": .AddItem "ML": .AddItem "PA": .AddItem "PC"
+         .AddItem "PO": .AddItem "PT": .AddItem "SC": .AddItem "UN"
       End With
       cboEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth
       cboEdit.Text = Grid.TextMatrix(iRow, iCol)

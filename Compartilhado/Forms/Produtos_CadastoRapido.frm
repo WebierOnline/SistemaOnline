@@ -198,14 +198,15 @@ Dim var_Texto As String
 var_Texto = cboUnidMedida.Text
 
    cboUnidMedida.Clear
-   cboUnidMedida.AddItem "UN"
    cboUnidMedida.AddItem "CX"
+   cboUnidMedida.AddItem "GL"
+   cboUnidMedida.AddItem "GR"
+   cboUnidMedida.AddItem "KG"
    cboUnidMedida.AddItem "M"
    cboUnidMedida.AddItem "M²"
    cboUnidMedida.AddItem "M³"
    cboUnidMedida.AddItem "ML"
-   cboUnidMedida.AddItem "KG"
-   cboUnidMedida.AddItem "GR"
+   cboUnidMedida.AddItem "UN"
    moCombo.AttachTo cboUnidMedida
    
 cboUnidMedida.Text = var_Texto

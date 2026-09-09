@@ -67,45 +67,45 @@ Begin VB.Form Entrada_Estoque
       TabCaption(1)   =   "Consulta"
       TabPicture(1)   =   "Entrada_Estoque.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Label14"
+      Tab(1).Control(0)=   "Frame3"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "Label11"
+      Tab(1).Control(1)=   "GridNotas"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "Label15"
+      Tab(1).Control(2)=   "lblSomaNota"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "Label16"
+      Tab(1).Control(3)=   "lblTotalNota"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "Label19"
+      Tab(1).Control(4)=   "Label9"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "Label20"
+      Tab(1).Control(5)=   "Label13"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "Label21"
+      Tab(1).Control(6)=   "Label12"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "Label8"
+      Tab(1).Control(7)=   "Label10"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "Label7"
+      Tab(1).Control(8)=   "Label17"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "Label22"
+      Tab(1).Control(9)=   "Label18"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "Label18"
+      Tab(1).Control(10)=   "Label22"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "Label17"
+      Tab(1).Control(11)=   "Label7"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "Label10"
+      Tab(1).Control(12)=   "Label8"
       Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "Label12"
+      Tab(1).Control(13)=   "Label21"
       Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "Label13"
+      Tab(1).Control(14)=   "Label20"
       Tab(1).Control(14).Enabled=   0   'False
-      Tab(1).Control(15)=   "Label9"
+      Tab(1).Control(15)=   "Label19"
       Tab(1).Control(15).Enabled=   0   'False
-      Tab(1).Control(16)=   "lblTotalNota"
+      Tab(1).Control(16)=   "Label16"
       Tab(1).Control(16).Enabled=   0   'False
-      Tab(1).Control(17)=   "lblSomaNota"
+      Tab(1).Control(17)=   "Label15"
       Tab(1).Control(17).Enabled=   0   'False
-      Tab(1).Control(18)=   "GridNotas"
+      Tab(1).Control(18)=   "Label11"
       Tab(1).Control(18).Enabled=   0   'False
-      Tab(1).Control(19)=   "Frame3"
+      Tab(1).Control(19)=   "Label14"
       Tab(1).Control(19).Enabled=   0   'False
       Tab(1).ControlCount=   20
       Begin VB.Frame frmProdFracionado 
@@ -349,9 +349,9 @@ Begin VB.Form Entrada_Estoque
          TabCaption(2)   =   "Parcelas e Transportes"
          TabPicture(2)   =   "Entrada_Estoque.frx":00A8
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Frame2"
+         Tab(2).Control(0)=   "Frame13"
          Tab(2).Control(1)=   "Frame18"
-         Tab(2).Control(2)=   "Frame13"
+         Tab(2).Control(2)=   "Frame2"
          Tab(2).ControlCount=   3
          Begin VB.Frame Frame13 
             Caption         =   "Informações"
@@ -3624,7 +3624,7 @@ Begin VB.Form Entrada_Estoque
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "07:27"
+            TextSave        =   "16:25"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3987,53 +3987,55 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
       .Redraw = False
       
       .Clear
-      .Cols = 20
+      .Cols = 21
       .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
-      .ColWidth(2) = 5300
-      .ColWidth(3) = 500
-      .ColWidth(4) = 850
-      .ColWidth(5) = 640
-      .ColWidth(6) = 500
+      .ColWidth(2) = 1400
+      .ColWidth(3) = 5300
+      .ColWidth(4) = 500
+      .ColWidth(5) = 850
+      .ColWidth(6) = 640
+      .ColWidth(7) = 500
       
-      .ColWidth(7) = 530
-      .ColWidth(8) = 480
-      .ColWidth(9) = 530
-      .ColWidth(10) = 750
-      .ColWidth(11) = 530
-      .ColWidth(12) = 480
-      .ColWidth(13) = 530
+      .ColWidth(8) = 530
+      .ColWidth(9) = 480
+      .ColWidth(10) = 530
+      .ColWidth(11) = 750
+      .ColWidth(12) = 530
+      .ColWidth(13) = 480
+      .ColWidth(14) = 530
       
-      .ColWidth(14) = 900
-      .ColWidth(15) = 700
+      .ColWidth(15) = 900
       .ColWidth(16) = 700
-      .ColWidth(17) = 900
-      .ColWidth(18) = 0
+      .ColWidth(17) = 700
+      .ColWidth(18) = 900
       .ColWidth(19) = 0
+      .ColWidth(20) = 0
       
       .TextMatrix(0, 1) = "CÓD."
-      .TextMatrix(0, 2) = "DESCRIÇÃO"
-      .TextMatrix(0, 3) = "UND"
-      .TextMatrix(0, 4) = "NCM"
-      .TextMatrix(0, 5) = "CFOP"
-      .TextMatrix(0, 6) = "CST"
+      .TextMatrix(0, 2) = "CÓD. BARRA"
+      .TextMatrix(0, 3) = "DESCRIÇÃO"
+      .TextMatrix(0, 4) = "UND"
+      .TextMatrix(0, 5) = "NCM"
+      .TextMatrix(0, 6) = "CFOP"
+      .TextMatrix(0, 7) = "CST"
       
-      .TextMatrix(0, 7) = "ALIQ"
-      .TextMatrix(0, 8) = "PIS"
-      .TextMatrix(0, 9) = "ALIQ"
-      .TextMatrix(0, 10) = "COFINS"
-      .TextMatrix(0, 11) = "ALIQ"
-      .TextMatrix(0, 12) = "IPI"
-      .TextMatrix(0, 13) = "ALIQ"
+      .TextMatrix(0, 8) = "ALIQ"
+      .TextMatrix(0, 9) = "PIS"
+      .TextMatrix(0, 10) = "ALIQ"
+      .TextMatrix(0, 11) = "COFINS"
+      .TextMatrix(0, 12) = "ALIQ"
+      .TextMatrix(0, 13) = "IPI"
+      .TextMatrix(0, 14) = "ALIQ"
       
-      .TextMatrix(0, 14) = "VALOR"
-      .TextMatrix(0, 15) = "QTDE"
-      .TextMatrix(0, 16) = "DESC."
-      .TextMatrix(0, 17) = "TOTAL"
-      .TextMatrix(0, 18) = "ITEM"
-      .TextMatrix(0, 19) = "ADD"
+      .TextMatrix(0, 15) = "VALOR"
+      .TextMatrix(0, 16) = "QTDE"
+      .TextMatrix(0, 17) = "DESC."
+      .TextMatrix(0, 18) = "TOTAL"
+      .TextMatrix(0, 19) = "ITEM"
+      .TextMatrix(0, 20) = "ADD"
 
       
       'colocar os cabeaalho em negrito
@@ -4060,52 +4062,47 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
       .ColAlignment(4) = 1
       .ColAlignment(5) = 1
       .ColAlignment(6) = 1
-      
       .ColAlignment(7) = 1
+      
       .ColAlignment(8) = 1
       .ColAlignment(9) = 1
       .ColAlignment(10) = 1
       .ColAlignment(11) = 1
       .ColAlignment(12) = 1
       .ColAlignment(13) = 1
+      .ColAlignment(14) = 1
       
-      .ColAlignment(14) = 6
       .ColAlignment(15) = 6
       .ColAlignment(16) = 6
       .ColAlignment(17) = 6
-      .ColAlignment(18) = 1
+      .ColAlignment(18) = 6
+      .ColAlignment(19) = 1
       
       'CodigoProduto, NomeProduto, CST, Unidade, Qtde, Valor, SubTotal
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = rTabela("CodigoProduto")
-            .TextMatrix(.rows - 1, 2) = rTabela("NomeProduto")
-            .TextMatrix(.rows - 1, 3) = rTabela("UnidadeComercial")
-            .TextMatrix(.rows - 1, 4) = rTabela("NCM")
-            .TextMatrix(.rows - 1, 5) = rTabela("CFOP")
-            .TextMatrix(.rows - 1, 6) = rTabela("CST")
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("EAN"))
+            .TextMatrix(.rows - 1, 3) = rTabela("NomeProduto")
+            .TextMatrix(.rows - 1, 4) = rTabela("UnidadeComercial")
+            .TextMatrix(.rows - 1, 5) = rTabela("NCM")
+            .TextMatrix(.rows - 1, 6) = rTabela("CFOP")
+            .TextMatrix(.rows - 1, 7) = rTabela("CST")
                         
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("pICMS"), ocMONEY)
-            .TextMatrix(.rows - 1, 8) = rTabela("pisCST")
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("PISpPIS"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = rTabela("cofinsCST")
-            .TextMatrix(.rows - 1, 11) = Format(rTabela("COFINSpCOFINS"), ocMONEY)
-            .TextMatrix(.rows - 1, 12) = rTabela("IPICST")
-            .TextMatrix(.rows - 1, 13) = Format(rTabela("IPIpIPI"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = Format(rTabela("pICMS"), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = rTabela("pisCST")
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("PISpPIS"), ocMONEY)
+            .TextMatrix(.rows - 1, 11) = rTabela("cofinsCST")
+            .TextMatrix(.rows - 1, 12) = Format(rTabela("COFINSpCOFINS"), ocMONEY)
+            .TextMatrix(.rows - 1, 13) = rTabela("IPICST")
+            .TextMatrix(.rows - 1, 14) = Format(rTabela("IPIpIPI"), ocMONEY)
             
-            .TextMatrix(.rows - 1, 14) = Format(rTabela("ValorUnitarioComercializacao"), ocMONEY)
-            .TextMatrix(.rows - 1, 15) = Format(rTabela("QuantidadeComercial"), ocMONEY)
-            .TextMatrix(.rows - 1, 16) = Format(rTabela("valordesconto"), ocMONEY)
-            .TextMatrix(.rows - 1, 17) = Format(rTabela("ValorTotalBruto"), ocMONEY)
-            .TextMatrix(.rows - 1, 18) = rTabela("ITEM")
-            .TextMatrix(.rows - 1, 19) = rTabela("varAdicionada")
-            
-            '.TextMatrix(.Rows - 1, 7) = Format(rTabela("ValorUnitarioComercializacao"), ocMONEY)
-            '.TextMatrix(.Rows - 1, 8) = Format(rTabela("QuantidadeComercial"), ocMONEY)
-            '.TextMatrix(.Rows - 1, 9) = Format(rTabela("valordesconto"), ocMONEY)
-            '.TextMatrix(.Rows - 1, 10) = Format(rTabela("ValorTotalBruto"), ocMONEY)
-            '.TextMatrix(.Rows - 1, 11) = rTabela("ITEM")
-            '.TextMatrix(.Rows - 1, 12) = rTabela("varAdicionada")
+            .TextMatrix(.rows - 1, 15) = Format(rTabela("ValorUnitarioComercializacao"), ocMONEY)
+            .TextMatrix(.rows - 1, 16) = Format(rTabela("QuantidadeComercial"), ocMONEY)
+            .TextMatrix(.rows - 1, 17) = Format(rTabela("valordesconto"), ocMONEY)
+            .TextMatrix(.rows - 1, 18) = Format(rTabela("ValorTotalBruto"), ocMONEY)
+            .TextMatrix(.rows - 1, 19) = rTabela("ITEM")
+            .TextMatrix(.rows - 1, 20) = rTabela("varAdicionada")
             
             rTabela.MoveNext
             .rows = .rows + 1
@@ -4119,7 +4116,7 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
           .Col = j
           .Row = i
           
-          If .TextMatrix(i, 19) = "SIM" Then
+          If .TextMatrix(i, 20) = "SIM" Then
              .CellForeColor = vbRed
           ElseIf Trim(.TextMatrix(i, 1)) = "0" Or Trim(.TextMatrix(i, 1)) = "" Then
              .CellForeColor = RGB(0, 0, 128)
@@ -4132,7 +4129,6 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
     'mudar a cor da coluna
     For i = 1 To .rows - 1
        .Row = i
-       .Col = 4:   .CellBackColor = &HE0E0E0
        .Col = 5:   .CellBackColor = &HE0E0E0
        .Col = 6:   .CellBackColor = &HE0E0E0
        .Col = 7:   .CellBackColor = &HE0E0E0
@@ -4142,6 +4138,7 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
        .Col = 11:   .CellBackColor = &HE0E0E0
        .Col = 12:   .CellBackColor = &HE0E0E0
        .Col = 13:   .CellBackColor = &HE0E0E0
+       .Col = 14:   .CellBackColor = &HE0E0E0
     Next
 
       
@@ -4155,6 +4152,7 @@ Private Sub FormatarGridItensNota(rTabela As ADODB.Recordset)
       SomarGridItens
    End With
 End Sub
+
 
 Private Sub MostrarNotasInicias()
 Dim totalRegistros As Long
@@ -4181,6 +4179,24 @@ ErrLoad:
     MsgBox Err.Description, vbCritical
     Err.Clear
     Set TbConsulta = Nothing
+End Sub
+
+Private Sub SetComboLista(cbo As ComboBox, ByVal sVal As String)
+    ' seleciona item de combo Style=2 (Dropdown List, .Text e read-only) casando por valor.
+    Dim i As Integer, sV As String, sI As String
+    sV = UCase(Trim(sVal))
+    cbo.ListIndex = -1
+    If sV = "" Then Exit Sub
+    For i = 0 To cbo.ListCount - 1
+        If UCase(Trim(cbo.List(i))) = sV Then cbo.ListIndex = i: Exit Sub
+    Next i
+    For i = 0 To cbo.ListCount - 1                      ' item = "5102 - Venda..."  x  sVal = "5102"
+        If Left(UCase(Trim(cbo.List(i))), Len(sV)) = sV Then cbo.ListIndex = i: Exit Sub
+    Next i
+    For i = 0 To cbo.ListCount - 1                      ' sVal = "UNI"  x  item = "UN"
+        sI = UCase(Trim(cbo.List(i)))
+        If Len(sI) >= 2 And Left(sV, Len(sI)) = sI Then cbo.ListIndex = i: Exit Sub
+    Next i
 End Sub
 
 Private Sub MostrarProdutoExistente()
@@ -5319,7 +5335,7 @@ With GridEntradaItens
     .ColWidth(0) = 0
     .ColWidth(1) = 0
     .ColWidth(2) = 0
-    .ColWidth(3) = 0
+    .ColWidth(3) = 1400
     .ColWidth(4) = 0
     .ColWidth(5) = 5000
     .ColWidth(6) = 600
@@ -5337,7 +5353,7 @@ With GridEntradaItens
 
     .TextMatrix(0, 1) = "COD"
     .TextMatrix(0, 2) = "COD_ENTRADA"
-    .TextMatrix(0, 3) = "COD_BARRA"
+    .TextMatrix(0, 3) = "CÓD. BARRA"
     .TextMatrix(0, 4) = "CÓD."
     .TextMatrix(0, 5) = "DESCRIÇÃO"
     .TextMatrix(0, 6) = "UNID."
@@ -5516,7 +5532,7 @@ With GridNotasItens
 End With
 
 
-lblSubtotal.Caption = Format(SUBTOTAL, ocMONEY)
+lblSubTotal.Caption = Format(SUBTOTAL, ocMONEY)
 lblTotalDesc.Caption = Format(Desc, ocMONEY)
 lblValorNota.Caption = Format(Total, ocMONEY)
 End Sub
@@ -5635,13 +5651,13 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
         Produtos_Cadastro.txtEAN.Text = txtCodBarraSel.Text
     End If
     Produtos_Cadastro.txtDescricao.Text = TirarEspaco(txtDescricaoSel.Text)
-    Produtos_Cadastro.cboUnidMedida.Text = txtUnidMedSel.Text
+    SetComboLista Produtos_Cadastro.cboUnidMedida, txtUnidMedSel.Text
     Produtos_Cadastro.txtNCM.Text = txtNCMSel.Text
     Produtos_Cadastro.txtCEST.Text = ValidateNull(rItem("CEST"))
 
     ' 6. CFOP e CST convertidos (combos ja populados pelo Form_Load)
-    Produtos_Cadastro.cboCFOP.Text = sCFOPVenda
-    Produtos_Cadastro.cboCST.Text = sCSTVenda
+    SetComboLista Produtos_Cadastro.cboCFOP, sCFOPVenda
+    SetComboLista Produtos_Cadastro.cboCST, sCSTVenda
 
     ' 7. ICMS
     Produtos_Cadastro.txtICMSAliquota.Text = FormatNumber(ValidateNull(rItem("pICMS")), 2)
@@ -6057,7 +6073,7 @@ Private Sub cmdVinculos_Click()
    If GridNotasItens.Row > 0 Then
       Dim sCProdVinc As String
       sCProdVinc = SQLExecutaRetorno("SELECT ISNULL(Referencia,'') r FROM EntradaEstoqueItens WHERE Item = " & _
-                   GridNotasItens.TextMatrix(GridNotasItens.Row, 18) & " AND CodigoNota = " & lCodNota, "r", "")
+                   GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " AND CodigoNota = " & lCodNota, "r", "")
       frmVinc.cProdParaSelecionar = sCProdVinc
    End If
    frmVinc.Show vbModal, Me
@@ -6149,6 +6165,8 @@ End Sub
 
 Public Function ImportarXML(arqXML As String) As Boolean
 Dim CNPJ As String, CPF As String, tipoEmp As Integer
+Dim sDiagXML As String   'diagnostico temporario (mod57): campos fiscais que nao vieram do XML
+sDiagXML = ""
 Dim cstpis As String, cstcofins As String, csticms As String, cstipi As String, cEAN As String
 Dim i As Integer
 Dim qtdProd As Integer, qtdDup As Integer, xCfop As Integer, qtfracao As Integer
@@ -7189,7 +7207,16 @@ End If
            PISqBCProd = 0: PISvAliqProd = 0
 
            Dim oPIS As Object
+           Err.Clear
            Set oPIS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/PIS").Item(0)
+           If oPIS Is Nothing Then
+              sDiagXML = sDiagXML & "item " & (i + 1) & ": imposto/PIS não encontrado"
+              If Err.Number <> 0 Then sDiagXML = sDiagXML & " (Err " & Err.Number & " " & Err.Description & ")"
+              sDiagXML = sDiagXML & vbCrLf
+           ElseIf oPIS.selectNodes("PISAliq").Length = 0 And oPIS.selectNodes("PISQtde").Length = 0 And oPIS.selectNodes("PISNT").Length = 0 And oPIS.selectNodes("PISOutr").Length = 0 Then
+              sDiagXML = sDiagXML & "item " & (i + 1) & ": <PIS> achado mas nenhum subgrupo (PISAliq/PISQtde/PISNT/PISOutr) bateu" & vbCrLf
+           End If
+           Err.Clear
 
            If Not oPIS Is Nothing Then
 
@@ -7244,7 +7271,16 @@ End If
            COFINSqBCProd = 0: COFINSvAliqProd = 0
 
            Dim oCOFINS As Object
+           Err.Clear
            Set oCOFINS = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/COFINS").Item(0)
+           If oCOFINS Is Nothing Then
+              sDiagXML = sDiagXML & "item " & (i + 1) & ": imposto/COFINS não encontrado"
+              If Err.Number <> 0 Then sDiagXML = sDiagXML & " (Err " & Err.Number & " " & Err.Description & ")"
+              sDiagXML = sDiagXML & vbCrLf
+           ElseIf oCOFINS.selectNodes("COFINSAliq").Length = 0 And oCOFINS.selectNodes("COFINSQtde").Length = 0 And oCOFINS.selectNodes("COFINSNT").Length = 0 And oCOFINS.selectNodes("COFINSOutr").Length = 0 Then
+              sDiagXML = sDiagXML & "item " & (i + 1) & ": <COFINS> achado mas nenhum subgrupo bateu" & vbCrLf
+           End If
+           Err.Clear
 
            If Not oCOFINS Is Nothing Then
 
@@ -7478,8 +7514,16 @@ End If
            'Compras_itens_xml!Barras = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/cEAN").Item(0).Text
            Compras_Itens_XML!NomeProduto = UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/xProd").Item(0).Text)          'xProd:    Descricao do produto ou servico <xProd>
            Compras_Itens_XML!NCM = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/NCM").Item(0).Text                              'NCM:      Codigo NCM (Nomenclatura Comum do Mercosul) <NCM>
-           Compras_Itens_XML!CEST = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/CEST").Item(0).Text                            'CEST:     Codigo Especificador da Substituicao Tributaria <CEST>
-           Compras_Itens_XML!indEscala = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/indEscala").Item(0).Text                  'indEscala:Indicador de Producao em Escala Relevante: S=Sim, N=Nao <indEscala>
+           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/CEST").Length > 0 Then
+              Compras_Itens_XML!CEST = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/CEST").Item(0).Text
+           Else
+              Compras_Itens_XML!CEST = ""
+           End If                            'CEST:     Codigo Especificador da Substituicao Tributaria <CEST>
+           If XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/indEscala").Length > 0 Then
+              Compras_Itens_XML!indEscala = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/indEscala").Item(0).Text
+           Else
+              Compras_Itens_XML!indEscala = ""
+           End If                  'indEscala:Indicador de Producao em Escala Relevante: S=Sim, N=Nao <indEscala>
            'Compras_itens_xml!Ex_ipi = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/EXTIPI").Item(0).Text
            Compras_Itens_XML!CFOP = xCfop                                                                                                                  'CFOP:     Codigo Fiscal de Operacoes e Prestacoes <CFOP>
            Compras_Itens_XML!UnidadeComercial = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("prod/uCom").Item(0).Text                 'uCom:     Unidade comercial do produto (ex: UN, CX, KG) <uCom>
@@ -7582,7 +7626,12 @@ End If
            Compras_Itens_XML!TipoDesconto = 1                                                                                                                                                                      'TipoDesconto: 1 = desconto em valor fixo (padrao NF-e, tag <vDesc> sempre em reais)
            Compras_Itens_XML!InformacoesAdicionaisProduto = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("infAdProd").Item(0).Text                                                          'infAdProd: Informacoes adicionais do produto (texto livre) <infAdProd>
            Compras_Itens_XML!ValorTributos = CDbl(Substitui(XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).selectNodes("imposto/vTotTrib").Item(0).Text, ".", ",", UM_A_UM))                              'vTotTrib:  Valor aproximado total dos tributos (IBPT) <vTotTrib>
-           Compras_Itens_XML!ItemXML = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).Attributes.getNamedItem("nItem").Text                                                                               'nItem:     Numero do item no XML da NF-e (atributo do elemento <det>)
+           Err.Clear
+           Compras_Itens_XML!ItemXML = XMLDOC.selectNodes("nfeProc/NFe/infNFe/det").Item(i).Attributes.getNamedItem("nItem").Text
+           If Err.Number <> 0 Then
+              sDiagXML = sDiagXML & "item " & (i + 1) & ": falha ao ler nItem (Err " & Err.Number & " " & Err.Description & ")" & vbCrLf
+              Err.Clear
+           End If                                                                               'nItem:     Numero do item no XML da NF-e (atributo do elemento <det>)
 
            '==============================================================
            ' GRAVACAO - Imposto de Importacao (II)
@@ -7906,6 +7955,18 @@ pulaParcelas:
       Err.Clear
    End If
 
+   If Len(sDiagXML) > 0 Then
+      Dim nDiagFile As Integer
+      nDiagFile = FreeFile
+      Open App.path & "\ImportarXML_diagnostico.log" For Append As #nDiagFile
+      Print #nDiagFile, "=== " & Format(Now, "yyyy-mm-dd hh:nn:ss") & " - " & arqXML & " ==="
+      Print #nDiagFile, sDiagXML
+      Close #nDiagFile
+      MsgBox "Importação concluída, mas alguns campos fiscais não foram lidos do XML." & vbCrLf & _
+             "Detalhe salvo em ImportarXML_diagnostico.log." & vbCrLf & vbCrLf & Left(sDiagXML, 500), _
+             vbExclamation, "Diagnóstico da importação"
+   End If
+
    ImportarXML = True
 End Function
 
@@ -8033,8 +8094,8 @@ End If
 
 'Se a linha clicada for vermelha, destaca o item correspondente no GridEntradaItens
 If GridNotasItens.Row > 0 Then
-   If GridNotasItens.TextMatrix(GridNotasItens.Row, 19) = "SIM" Then
-      sItemClicado = GridNotasItens.TextMatrix(GridNotasItens.Row, 18)
+   If GridNotasItens.TextMatrix(GridNotasItens.Row, 20) = "SIM" Then
+      sItemClicado = GridNotasItens.TextMatrix(GridNotasItens.Row, 19)
       For iEnt = 1 To GridEntradaItens.rows - 1
          If GridEntradaItens.TextMatrix(iEnt, 17) = sItemClicado Then
             Dim jDest As Integer
@@ -8054,7 +8115,7 @@ End Sub
 Private Sub GridNotasItens_DblClick()
 If txtCodNota.Text = "" Then Exit Sub
 
-If GridNotasItens.TextMatrix(GridNotasItens.Row, 19) = "SIM" Then
+If GridNotasItens.TextMatrix(GridNotasItens.Row, 20) = "SIM" Then
     MsgBox "Produto ja adicionado no estoque fisico!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -8068,7 +8129,7 @@ If Trim(GridNotasItens.TextMatrix(GridNotasItens.Row, 1)) = "0" Or Trim(GridNota
     frmVincDbl.MostrarTodos = True
     Dim sCProdDbl As String
     sCProdDbl = SQLExecutaRetorno("SELECT ISNULL(Referencia,'') r FROM EntradaEstoqueItens WHERE Item = " & _
-                GridNotasItens.TextMatrix(GridNotasItens.Row, 18) & " AND CodigoNota = " & txtCodNota.Text, "r", "")
+                GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " AND CodigoNota = " & txtCodNota.Text, "r", "")
     frmVincDbl.cProdParaSelecionar = sCProdDbl
     frmVincDbl.Show vbModal
     Unload frmVincDbl
@@ -8080,7 +8141,7 @@ End If
 RsOpen TbEntradaItens, "SELECT EAN, NOMEPRODUTO, item, UnidadeComercial, QuantidadeComercial, " & _
                 "ValorUnitarioComercializacao, NCM, CST, CFOP, Referencia, " & _
                 "UnidadeTributavel, QuantidadeTributavel " & _
-                "FROM EntradaEstoqueItens WHERE Item = " & GridNotasItens.TextMatrix(GridNotasItens.Row, 18) & " And CodigoNota = " & txtCodNota.Text
+                "FROM EntradaEstoqueItens WHERE Item = " & GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " And CodigoNota = " & txtCodNota.Text
 
 If Len(TbEntradaItens("EAN")) > 13 Then
     txtCodBarraSel = Format(Val(TbEntradaItens("EAN")), "@")
@@ -8850,21 +8911,21 @@ Private Sub txtValorAP_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorAP.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorAP.Text
 
-If B < a Then
-   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
-   B = a
-   txtValorAP.Text = Format(a, ocMONEY)
+If B < A Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(A, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = A
+   txtValorAP.Text = Format(A, ocMONEY)
 End If
 
-If a > 0 Then
-   c = ((B - a) / a) * 100
+If A > 0 Then
+   c = ((B - A) / A) * 100
 Else
    c = 0
 End If
@@ -8887,21 +8948,21 @@ Private Sub txtValorAV_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorAV.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorAV.Text
 
-If B < a Then
-   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
-   B = a
-   txtValorAV.Text = Format(a, ocMONEY)
+If B < A Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(A, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = A
+   txtValorAV.Text = Format(A, ocMONEY)
 End If
 
-If a > 0 Then
-   c = ((B - a) / a) * 100
+If A > 0 Then
+   c = ((B - A) / A) * 100
 Else
    c = 0
 End If
@@ -9235,21 +9296,21 @@ Private Sub txtValorVP_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorVP.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorVP.Text
 
-If B < a Then
-   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
-   B = a
-   txtValorVP.Text = Format(a, ocMONEY)
+If B < A Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(A, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = A
+   txtValorVP.Text = Format(A, ocMONEY)
 End If
 
-If a > 0 Then
-   c = ((B - a) / a) * 100
+If A > 0 Then
+   c = ((B - A) / A) * 100
 Else
    c = 0
 End If
@@ -9272,21 +9333,21 @@ Private Sub txtValorVV_LostFocus()
 If txtCusto.Text = "" Then Exit Sub
 If txtValorVV.Text = "" Then Exit Sub
 
-Dim a As Currency
+Dim A As Currency
 Dim B As Currency
 Dim c As Currency
 
-a = txtCusto.Text
+A = txtCusto.Text
 B = txtValorVV.Text
 
-If B < a Then
-   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(a, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
-   B = a
-   txtValorVV.Text = Format(a, ocMONEY)
+If B < A Then
+   MsgBox "Valor de venda (" & Format(B, ocMONEY) & ") menor que o custo (" & Format(A, ocMONEY) & ")." & vbCrLf & "O valor foi corrigido para o custo.", vbExclamation, "Aviso"
+   B = A
+   txtValorVV.Text = Format(A, ocMONEY)
 End If
 
-If a > 0 Then
-   c = ((B - a) / a) * 100
+If A > 0 Then
+   c = ((B - A) / A) * 100
 Else
    c = 0
 End If

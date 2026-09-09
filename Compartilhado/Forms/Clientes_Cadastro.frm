@@ -1843,6 +1843,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 Dim printSQL As String
+Public bForcarCadastroNFe As Boolean   'forcado por NFe_Completa: abre sempre como CADASTRO (todos os campos obrigatorios)
 Private moCombo As cComboHelper
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -3483,6 +3484,7 @@ Public Function TiraAcentos(ByVal sTexto As String) As String
 End Function
 
 Private Sub Form_Unload(Cancel As Integer)
+   bForcarCadastroNFe = False
    Set moCombo = Nothing
 End Sub
 
@@ -3577,7 +3579,7 @@ If cmdSalvar.Enabled = False Then
    Campos_Brancos
    Mostrar_Dados r
    
-   If Len(mskCPF) > 10 Then
+   If bForcarCadastroNFe Or Len(mskCPF) > 10 Then
     cboTipoCliente.Text = "CADASTRO"
    Else
     cboTipoCliente.Text = "PRÉ-CADASTRO"

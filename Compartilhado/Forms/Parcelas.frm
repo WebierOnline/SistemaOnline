@@ -2664,7 +2664,7 @@ Begin VB.Form Parcelas
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "10:09"
+            TextSave        =   "22:26"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -6606,13 +6606,11 @@ End Sub
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If vChamouCaixa = "PDV" Then
     Parcelas.Hide
-    'PDV.Show 'desativei somente para geerar o online comerce
+#If PDV_MODULE Then
+    PDV.Show
+#End If
 Else
     Parcelas.Hide
-    'If FormExists("PDV") Then
-     '   FormExists("PDV").Hide
-    'End If
-    'PDV.Show 1
 End If
 
 varFluxoCaixa = False

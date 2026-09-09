@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "10:45"
+            TextSave        =   "21:13"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -129,19 +129,17 @@ Begin VB.Form Configuracao_Geral
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "cmdSalvarGeral"
-      Tab(0).Control(1)=   "FrameBackup"
+      Tab(0).Control(0)=   "Frame9"
+      Tab(0).Control(1)=   "FraConfiguracao"
       Tab(0).Control(2)=   "Frame1"
-      Tab(0).Control(3)=   "FraConfiguracao"
-      Tab(0).Control(4)=   "Frame9"
+      Tab(0).Control(3)=   "FrameBackup"
+      Tab(0).Control(4)=   "cmdSalvarGeral"
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
@@ -4040,6 +4038,10 @@ Private Sub Mostrar_Tipo_Empresa()
       cboTipoEmpresa.Text = "Distribuidor Bebida"
    ElseIf txtTipoCadastroProduto.Text = 8 Then
       cboTipoEmpresa.Text = "Diversos"
+   ElseIf txtTipoCadastroProduto.Text = 9 Then
+      cboTipoEmpresa.Text = "Climatização"
+   ElseIf txtTipoCadastroProduto.Text = 10 Then
+      cboTipoEmpresa.Text = "Loja de Presentes"
    Else
       Exit Sub
    End If
@@ -5139,6 +5141,8 @@ var_Texto = cboTipoEmpresa.Text
    cboTipoEmpresa.AddItem "Material de Construção"
    cboTipoEmpresa.AddItem "Distribuidor Bebida"
    cboTipoEmpresa.AddItem "Diversos"
+   cboTipoEmpresa.AddItem "Climatização"
+   cboTipoEmpresa.AddItem "Loja de Presentes"
 cboTipoEmpresa.Text = var_Texto
 End Sub
 
@@ -5160,6 +5164,10 @@ ElseIf cboTipoEmpresa.Text = "Distribuidor Bebida" Then
    txtTipoCadastroProduto.Text = "7"
 ElseIf cboTipoEmpresa.Text = "Diversos" Then
    txtTipoCadastroProduto.Text = "8"
+ElseIf cboTipoEmpresa.Text = "Climatização" Then
+   txtTipoCadastroProduto.Text = "9"
+ElseIf cboTipoEmpresa.Text = "Loja de Presentes" Then
+   txtTipoCadastroProduto.Text = "10"
 Else
    txtTipoCadastroProduto.Text = "1"
 End If

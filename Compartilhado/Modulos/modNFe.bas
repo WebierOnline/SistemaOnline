@@ -444,9 +444,24 @@ End If
         
         infAdiProd = Trim(infAdiProd)
         
+        ' Cod_Pedido / Item_pedido podem vir NULL em notas antigas. IIf no VB6 avalia os
+        ' dois lados sempre, entao CLng(NULL)/CStr(NULL) dava "Uso invalido de Null" (erro 94).
+        Dim lItemPed As Long, sPedido As String
+        If IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0 Then
+            lItemPed = 0
+            sPedido = ""
+        Else
+            sPedido = CStr(NFeItens!Cod_Pedido)
+            If IsNull(NFeItens!Item_pedido) Then
+                lItemPed = 0
+            Else
+                lItemPed = CLng(NFeItens!Item_pedido)
+            End If
+        End If
+        
         iRetorno = sistNFe.GerarItens(i, NFeItens!CodigoProduto, RemoveAcento(NFeItens!NomeProduto), Produtos!NCM, "", "", IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), IIf(Vazio(Produtos!EAN), "SEM GTIN", Produtos!EAN), _
                                       NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
-                                      NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, 0, CLng(NFeItens!Item_pedido)), IIf(IsNull(NFeItens!Cod_Pedido) Or NFeItens!Cod_Pedido = 0, "", CStr(NFeItens!Cod_Pedido)), "", "", "", "", 1, infAdiProd, 0, "", 0, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), mensagemAlerta, mensagemErro)
+                                      NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", lItemPed, sPedido, "", "", "", "", 1, infAdiProd, 0, "", 0, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), mensagemAlerta, mensagemErro)
 
 'ESSE PONTO DO DEPOSITO DE GÁS
 
@@ -632,7 +647,9 @@ End If
         End If
 
         If NFe!IdentificadorDestino = 2 Then
-            If NFe!ConsumidorFinal = True Then
+            'DIFAL (ICMSUFDest): so Regime Normal (CRT=3). Simples Nacional/MEI nao recolhem o
+            'diferencial de partilha em venda interestadual a consumidor final (STF ADI 5464).
+            If NFe!ConsumidorFinal = True And Val(Parametros!CRT) = 3 Then
                 iRetorno = sistNFe.GerarItensImpostoUFDest(NFeItens!pICMSInter, NFeItens!pICMSInterPart, NFeItens!pICMSUFDest, NFeItens!pFCPUFDest, NFeItens!vBCFCPUFDest, NFeItens!vBCUFDest, NFeItens!vFCPUFDest, NFeItens!vICMSUFDest, NFeItens!vICMSUFRemet, mensagemAlerta, mensagemErro)
             End If
         End If

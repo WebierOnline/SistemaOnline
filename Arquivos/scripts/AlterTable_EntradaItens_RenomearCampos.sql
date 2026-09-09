@@ -29,4 +29,12 @@ WHERE c.object_id = OBJECT_ID('produtos_entrada_itens') AND c.name = 'EAN'
 IF @sql IS NOT NULL
     EXEC sp_executesql @sql
 
+-- Normaliza EAN antes de reduzir o tipo: alguns clientes tem lixo/texto/espacos nesse campo
+-- (produtos_entrada_itens e staging de importacao), o que fazia o ALTER COLUMN abaixo falhar
+-- com "dados seriam truncados" (Msg 8152). Tira espacos das pontas e corta em 14 (GTIN-14 e
+-- o maior codigo de barras valido; acima disso e lixo). Idempotente.
+UPDATE produtos_entrada_itens
+SET EAN = LEFT(LTRIM(RTRIM(EAN)), 14)
+WHERE EAN IS NOT NULL AND EAN <> LEFT(LTRIM(RTRIM(EAN)), 14);
+
 ALTER TABLE produtos_entrada_itens ALTER COLUMN EAN varchar(14) NULL;

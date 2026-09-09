@@ -242,6 +242,8 @@ Public sKmSel As String
 Public sCorSel As String
 Public sChassiSel As String
 Public lCodOSSelecionado As Long
+Public lFiltroCliente As Long      '> 0: filtra por cliente e ignora a placa (uso do NFe_Completa)
+Public bModoEquipamento As Boolean 'True: consulta OS_Equipamento (equipamento) em vez de OS_Equipamento_Auto (veiculo)
 
 Private iDots As Integer
 
@@ -253,7 +255,16 @@ Private Sub Form_Load()
 End Sub
 
 Private Sub Form_Activate()
-    txtPlacaF.SetFocus
+    If lFiltroCliente > 0 Then
+        txtPlacaF.Visible = False
+        lblPlacaF.Visible = False
+        cmdFiltrar.Visible = False
+        Me.Caption = IIf(bModoEquipamento, "Consultar Equipamentos do Cliente", "Consultar Veiculos do Cliente")
+        ConfigurarGrid
+        If lstVeiculos.Rows <= 1 Then CarregarGrid
+    Else
+        txtPlacaF.SetFocus
+    End If
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -279,12 +290,22 @@ Private Sub ConfigurarGrid()
         .ColWidth(8) = 1800
         .ColWidth(9) = 0
         .Row = 0: .Col = 2: .Text = "CLIENTE"
-        .Row = 0: .Col = 3: .Text = "MODELO"
-        .Row = 0: .Col = 4: .Text = "ANO"
-        .Row = 0: .Col = 5: .Text = "PLACA": .CellBackColor = &HE0E0E0
-        .Row = 0: .Col = 6: .Text = "KM"
-        .Row = 0: .Col = 7: .Text = "COR"
-        .Row = 0: .Col = 8: .Text = "CHASSI"
+        If bModoEquipamento Then
+            .Row = 0: .Col = 3: .Text = "EQUIPAMENTO"
+            .Row = 0: .Col = 4: .Text = "FABRICANTE"
+            .Row = 0: .Col = 5: .Text = "MODELO"
+            .Row = 0: .Col = 6: .Text = ""
+            .Row = 0: .Col = 7: .Text = ""
+            .Row = 0: .Col = 8: .Text = ""
+            .ColWidth(6) = 0: .ColWidth(7) = 0: .ColWidth(8) = 0
+        Else
+            .Row = 0: .Col = 3: .Text = "MODELO"
+            .Row = 0: .Col = 4: .Text = "ANO"
+            .Row = 0: .Col = 5: .Text = "PLACA": .CellBackColor = &HE0E0E0
+            .Row = 0: .Col = 6: .Text = "KM"
+            .Row = 0: .Col = 7: .Text = "COR"
+            .Row = 0: .Col = 8: .Text = "CHASSI"
+        End If
         .AllowUserResizing = 1
         .SelectionMode = 1
     End With
@@ -295,9 +316,11 @@ Private Sub CarregarGrid()
     Dim sql As String
     Dim n As Integer
 
-    If Trim(txtPlacaF.Text) = "" Then
-        MsgBox "Digite a placa para consultar!", vbInformation, "Aviso do Sistema"
-        Exit Sub
+    If lFiltroCliente <= 0 Then
+        If Trim(txtPlacaF.Text) = "" Then
+            MsgBox "Digite a placa para consultar!", vbInformation, "Aviso do Sistema"
+            Exit Sub
+        End If
     End If
 
     fraCarregando.Visible = True
@@ -308,13 +331,24 @@ Private Sub CarregarGrid()
 
     lstVeiculos.Rows = 1
 
-    sql = "SELECT DISTINCT cliente.codigo AS cod_cliente, cliente.nome, cliente.celular, " & _
-          "OS_Equipamento_Auto.modelo, OS_Equipamento_Auto.ano, OS_Equipamento_Auto.placa, " & _
-          "OS_Equipamento_Auto.km, OS_Equipamento_Auto.cor, OS_Equipamento_Auto.chassi, OS.COD_OS AS cod_os " & _
-          "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE " & _
-          "INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS " & _
-          "WHERE (OS_Equipamento_Auto.placa LIKE '%" & Replace(Trim(txtPlacaF.Text), "'", "''") & "%') " & _
-          "ORDER BY cliente.nome"
+    If bModoEquipamento Then
+        sql = "SELECT DISTINCT cliente.codigo AS cod_cliente, cliente.nome, cliente.celular, " & _
+              "OS_Equipamento.EQUIPAMENTO AS c3, OS_Equipamento.FABRICANTE AS c4, OS_Equipamento.MODELO AS c5, " & _
+              "'' AS c6, '' AS c7, '' AS c8, OS.COD_OS AS cod_os " & _
+              "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE " & _
+              "INNER JOIN OS_Equipamento ON OS.COD_OS = OS_Equipamento.COD_OS "
+    Else
+        sql = "SELECT DISTINCT cliente.codigo AS cod_cliente, cliente.nome, cliente.celular, " & _
+              "OS_Equipamento_Auto.modelo AS c3, OS_Equipamento_Auto.ano AS c4, OS_Equipamento_Auto.placa AS c5, " & _
+              "OS_Equipamento_Auto.km AS c6, OS_Equipamento_Auto.cor AS c7, OS_Equipamento_Auto.chassi AS c8, OS.COD_OS AS cod_os " & _
+              "FROM cliente INNER JOIN OS ON cliente.CODIGO = OS.COD_CLIENTE " & _
+              "INNER JOIN OS_Equipamento_Auto ON OS.COD_OS = OS_Equipamento_Auto.COD_OS "
+    End If
+    If lFiltroCliente > 0 Then
+        sql = sql & "WHERE OS.COD_CLIENTE = " & lFiltroCliente & " ORDER BY OS.COD_OS DESC"
+    Else
+        sql = sql & "WHERE (OS_Equipamento_Auto.placa LIKE '%" & Replace(Trim(txtPlacaF.Text), "'", "''") & "%') ORDER BY cliente.nome"
+    End If
 
     RsOpen rVei, sql
     n = 1
@@ -324,12 +358,12 @@ Private Sub CarregarGrid()
             .Row = n: .Col = 0: .Text = ValidateNull(rVei("cod_cliente"))
             .Row = n: .Col = 1: .Text = ValidateNull(rVei("celular"))
             .Row = n: .Col = 2: .Text = ValidateNull(rVei("nome"))
-            .Row = n: .Col = 3: .Text = ValidateNull(rVei("modelo"))
-            .Row = n: .Col = 4: .Text = ValidateNull(rVei("ano"))
-            .Row = n: .Col = 5: .Text = ValidateNull(rVei("placa"))
-            .Row = n: .Col = 6: .Text = ValidateNull(rVei("km"))
-            .Row = n: .Col = 7: .Text = ValidateNull(rVei("cor"))
-            .Row = n: .Col = 8: .Text = ValidateNull(rVei("chassi"))
+            .Row = n: .Col = 3: .Text = ValidateNull(rVei("c3"))
+            .Row = n: .Col = 4: .Text = ValidateNull(rVei("c4"))
+            .Row = n: .Col = 5: .Text = ValidateNull(rVei("c5"))
+            .Row = n: .Col = 6: .Text = ValidateNull(rVei("c6"))
+            .Row = n: .Col = 7: .Text = ValidateNull(rVei("c7"))
+            .Row = n: .Col = 8: .Text = ValidateNull(rVei("c8"))
             .Row = n: .Col = 9: .Text = ValidateNull(rVei("cod_os"))
         End With
         n = n + 1
@@ -341,7 +375,7 @@ Private Sub CarregarGrid()
     fraCarregando.Visible = False
 
     If lstVeiculos.Rows = 1 Then
-        MsgBox "Nenhum veículo encontrado para essa placa!", vbInformation, "Aviso do Sistema"
+        MsgBox "Nenhum registro encontrado.", vbInformation, "Aviso do Sistema"
     End If
 End Sub
 
@@ -380,6 +414,7 @@ Private Sub cmdUsarEsse_Click()
 End Sub
 
 Private Sub cmdHistorico_Click()
+#If OS_MODULE Then
     If lstVeiculos.Row < 1 Then
         MsgBox "Selecione um veículo.", vbInformation, "Aviso do Sistema"
         Exit Sub
@@ -395,6 +430,9 @@ Private Sub cmdHistorico_Click()
     frmHistoricoOleo.sPlacaBusca = sPlaca
     frmHistoricoOleo.Show vbModal
     Unload frmHistoricoOleo
+#Else
+    MsgBox "Historico disponivel apenas no modulo de Ordem de Servico.", vbInformation, "Aviso do Sistema"
+#End If
 End Sub
 
 Private Sub cmdFechar_Click()

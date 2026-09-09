@@ -1,0 +1,7 @@
+No NFe_Completa acrescentei o cmdConsultarVeiculos
+-Quando o tipo de empresas for de veículos, o caption é 'Consultar Veículos'. Quando não for 'Consultar Equipamentos'
+Qual a logica da existência do cmdConsultarVeiculos?
+- O botão somente fica visivel se a empresa possui OS = true e se chkDadosVeiculo = false
+- Quando eu clicar nele, vai ser exibido um grid com todos os veiculos/equipamentos daquele cliente... ele vai escolher um veiculos/equipamentos e clicar no botão para confirmar... no txtInfComple vai ser preenchido os dados do veiculos/equipamentos (mesmo padrao do chkDadosVeiculo).
+Para nao ter que criar um form do zero, vc poderia reaproveitar o form frmBuscarPlaca do Projeto da Ordem de serviços. Porem o frmBuscarPlaca consulta por placa, nesse caso vai consultar por cliente...
+Obs: frmBuscarPlaca deve ficar do mesmo jeito que está no projeto de Ordem de Serviços... essa adaptação somente serve para o cmdConsultarVeiculos

@@ -401,6 +401,34 @@ deuErro:
     End If
     Err.Clear
 End Function
+
+Public Function GoogleBaixarArquivo(ByVal PastaDestino As String, Optional ByVal NomePasta As String = "IBPT", Optional ByVal NomeSharedDriveId As String = "0AI0VAvFMSupDUk9PVA") As String
+'Baixa o arquivo MAIS RECENTE (por data de modificacao) da pasta NomePasta no Shared Drive,
+'salva em PastaDestino e retorna o NOME do arquivo baixado (vazio em erro - ver mensagemErro).
+'Espelha a config de GoogleEnviarArquivo: mesma Service Account, mesmo componente COM.
+Dim uploader As Object
+    GoogleBaixarArquivo = ""
+    On Error GoTo deuErro
+    Set uploader = CreateObject("GoogleDriveUploader.Uploader")
+    If uploader Is Nothing Then Exit Function
+    uploader.UseInternalDialog = False
+    uploader.ApplicationName = "OnlineInfo"
+    uploader.CredentialsPath = App.path & "\NFE\backupclientes-488021-067a35f7c315.json"
+    uploader.AuthMode = "ServiceAccount"
+    uploader.SharedDriveId = NomeSharedDriveId
+    uploader.TokenPath = App.path & "\tokens"
+    Dim sNomeBaixado As String
+    sNomeBaixado = uploader.DownloadLatestFileByPath(NomePasta, PastaDestino)
+    GoogleBaixarArquivo = sNomeBaixado
+    Exit Function
+deuErro:
+    If Err.Number = 429 Then
+        mensagemErro = "Componente GoogleDriveUploader.Uploader n" & Chr(227) & "o est" & Chr(225) & " registrado nesta m" & Chr(225) & "quina."
+    Else
+        mensagemErro = Err.Description
+    End If
+    Err.Clear
+End Function
 Public Sub CalcularParcelas(ByVal ValorTotal As Currency, ByVal NroParcelas As Integer, ByRef ValorParcelas() As Currency)
    'Declara as variáveis
    Dim i As Integer, j As Integer

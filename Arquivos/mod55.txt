@@ -1,0 +1,7 @@
+Escolhi uma venda e cliquei em cmdConverterNFe
+Apareceu a msg: "Erro no sistema: 13 - Type mismatch", dei OK
+Apareceu a msg: "3 item(ns) continuam com Alíquota do IBS da UF = 0,00.A cidade do destinatário não tem IBSUFPAliq cadastrado na tabela Cidade.", dei OK
+A nota carregou!
+Obs: O cadastro do cliente é um pré-cadastro (somente o nome e telefone)...
+Não seria interessante, quando tentarmos converter uma venda em NFe, antes, verificar se os dados obrigatórios do cadastro do clientes estão preenchidos? caso não, aparecer a msg comunicando e dando sim ou não para atualizar o cadastro dele... caso sim, abre o cadastro do cliente e não converte enquanto não atualizar. Caso não, não converte enquanto não corrigir!.
+Obs: no form Clientes_Cadastro, o objeto cboTipoCliente = "PRÉ-CADASTRO" deixa somente os objetos nome e telefone amarelo (obrigatório)... seria interessante, ao abrir Clientes_Cadastro nesse caso, já auto-seleciona "CADASTRO" para deixar todos os campos obrigatórios para emissão da NFe amarelos

@@ -218,6 +218,7 @@ LerConfiguracao
 'Caixa_Fechamento.Show
 'NFCe_Consultar.Show
 'Etiquetas_Impressao.Show
+'NFCe_Consultar.Show
 PDV.Show
 End Sub
 

@@ -112,10 +112,11 @@ HelpContextID="0"
 CompatibleMode="0"
 MajorVer=3
 MinorVer=3
-RevisionVer=28
+RevisionVer=30
 AutoIncrementVer=1
 ServerSupportFiles=0
 VersionCompanyName="online informática"
+CondComp="PDV_MODULE = 1"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0

@@ -7,7 +7,7 @@
 --           armazenando fracionamento e custo unitario.
 -- ============================================================
 
--- Necessario para indices filtrados (CREATE INDEX ... WHERE ...) mais abaixo
+-- Opcoes SET padrao (o indice abaixo NAO e filtrado; ver comentario junto ao CREATE INDEX)
 SET ANSI_NULLS ON;
 SET ANSI_PADDING ON;
 SET ANSI_WARNINGS ON;
@@ -55,9 +55,10 @@ BEGIN
         ON VinculoXMLProduto (IDFornecedor, cProd);
 
     -- Indice para busca por EAN da embalagem (pode nao ser unico entre fornecedores diferentes)
+    -- NAO usar indice filtrado (WHERE ...): o VB6 conecta via SQLOLEDB (ARITHABORT OFF) e
+    -- qualquer INSERT/UPDATE/DELETE numa tabela com indice filtrado quebra com erro ARITHABORT.
     CREATE INDEX IX_VinculoXMLProduto_EAN
-        ON VinculoXMLProduto (EANEmbalagem)
-        WHERE EANEmbalagem <> '';
+        ON VinculoXMLProduto (EANEmbalagem);
 
     PRINT 'Tabela VinculoXMLProduto criada com sucesso.';
 END

@@ -95,6 +95,7 @@ RevisionVer=0
 AutoIncrementVer=0
 ServerSupportFiles=0
 VersionCompanyName="Online.Info"
+CondComp="OS_MODULE = 1"
 CompilationType=0
 OptimizationType=0
 FavorPentiumPro(tm)=0

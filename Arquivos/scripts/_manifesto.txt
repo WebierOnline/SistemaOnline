@@ -75,7 +75,7 @@
 075|Fix_IS_uTrib_qTrib_NF396.sql|GERAL
 076|OS - Colocar DATA_TERMINO = DATA DE COMPRA.sql|OS
 077|Funcionarios - Modificações.sql|GERAL
-078|alter_OS_Servicos_Auto_add_cod_servico.sql|OS
+078|alter_OS_Servicos_Auto_add_cod_servico.sql|GERAL
 079|alter_produtos_tags.sql|GERAL
 080|CreateTable_OS_ControleOleo.sql|OS
 081|AlterTable_Empresa_BackupDataHora.sql|GERAL
@@ -93,11 +93,18 @@
 093|AlterTable_TbNFCe_CamposTotaisIBSCBSIS.sql|GERAL
 094|AlterTable_TbNFCe_Itens_ValorSeguro.sql|GERAL
 095|AlterTable_TbNFCe_CamposPISCOFINS.sql|GERAL
-096|NFCeDuplicar_StoredProcedure.sql|GERAL
-097|AlterTable_pedidos_itens_ValorAcrescimo.sql|GERAL
-098|AlterProcedure_NFCeIncluir_Acrescimo.sql|GERAL
-099|AlterTable_pedidos_ValorFreteReal.sql|GERAL
-100|AlterTable_pedidos_itens_ValorFrete.sql|GERAL
-101|AlterProcedure_NFCeIncluir_Frete.sql|GERAL
-102|AlterProcedure_NFCeIncluir_ValorTributos.sql|GERAL
-103|AlterTable_Cliente_Fornecedor_SN.sql|GERAL
+096|AlterTable_TbNFCe_Itens_TipoProduto.sql|GERAL
+097|NFCeDuplicar_StoredProcedure.sql|GERAL
+098|AlterTable_pedidos_itens_ValorAcrescimo.sql|GERAL
+099|AlterProcedure_NFCeIncluir_Acrescimo.sql|GERAL
+100|AlterTable_pedidos_ValorFreteReal.sql|GERAL
+101|AlterTable_pedidos_itens_ValorFrete.sql|GERAL
+102|AlterProcedure_NFCeIncluir_Frete.sql|GERAL
+103|AlterProcedure_NFCeIncluir_ValorTributos.sql|GERAL
+104|AlterTable_Cliente_Fornecedor_SN.sql|GERAL
+105|Fix_NotaFiscalItens_CodPedido_ItemPedido_Null.sql|GERAL
+106|Fix_Categorias_Acento_Interrogacao.sql|GERAL
+107|AlterDatabase_ARITHABORT_ON.sql|GERAL
+108|AlterTable_Empresa_NFCeSerie.sql|GERAL
+109|AlterProcedure_NFCeIncluir_SerieDinamica.sql|GERAL
+110|AlterTable_Empresa_IBPTUltimaImportacao.sql|GERAL

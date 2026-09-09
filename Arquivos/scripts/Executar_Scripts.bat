@@ -117,7 +117,7 @@ for /f "usebackq tokens=1,2,3 delims=|" %%N in ("%MANIFESTO%") do (
                     set "FALHAS=!FALHAS! !NUM!"
                 ) else (
                     call :log "!NUM! - Executando [!CAT!]: !ARQ!"
-                    sqlcmd -S "%SERVER%" -d "%DATABASE%" -U "%DBUSER%" -P "%DBPASS%" -i "%SCRIPTDIR%!ARQ!" -f 65001 -b >> "%LOGFILE%" 2>&1
+                    sqlcmd -S "%SERVER%" -d "%DATABASE%" -U "%DBUSER%" -P "%DBPASS%" -i "%SCRIPTDIR%!ARQ!" -f 1252 -b >> "%LOGFILE%" 2>&1
                     if errorlevel 1 (
                         call :log "!NUM! - ERRO ao executar !ARQ!. Veja o log: %LOGFILE%"
                         set "FALHAS=!FALHAS! !NUM!"

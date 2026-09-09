@@ -208,6 +208,7 @@ LerConfiguracao
 'Vendas_Consulta_PorProdutos.Show
 'Entrada_Estoque.Show
 Senha.Show
+'Aluguel_Cadastro.Show
 'Senha_OS.Show   'pede login antes de abrir o OS_Recapadora (Senha_OS ja chama OS_Recapadora.Show internamente apos validar)
 End Sub
 

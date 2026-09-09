@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16:01"
+            TextSave        =   "20:42"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -933,6 +933,9 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_FISCAL_Reforma_IBPT 
             Caption         =   "Tabela IBPT"
          End
+         Begin VB.Menu Menu_FISCAL_Reforma_IBPTNuvem 
+            Caption         =   "Tabela IBPT (da nuvem)"
+         End
       End
       Begin VB.Menu Menu_FAT_Difal 
          Caption         =   "Difal"
@@ -1115,7 +1118,9 @@ Dim varTipoEmpresa As String
    Set oCfg = sysConfig("TIPO_EMPRESA")
    varTipoEmpresa = oCfg.Value
    
-   If varTipoEmpresa < "6" Then
+   'Tipos 1..8 (todos varejo em Configuracao_Geral) mostram produtos. Os ElseIf de "6"/"7"/"8"
+   'abaixo viraram codigo morto (nao ha opcao Escola/Curso no sistema) - mantidos so por historico.
+   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 10 Then
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
       
       Menu_CAD_Clientes.Caption = "Clientes"
@@ -1550,6 +1555,7 @@ End If
 If EhServidorLocal() Then
    RegistrarTarefaBackupNuvem
    RegistrarTarefaExportarXMLServidor
+   VerificarAtualizacaoIBPT
 End If
 
 End Sub
@@ -1759,6 +1765,38 @@ End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBPT_Click()
 frmImportarIBPT.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
+   ' baixa a tabela IBPT mais recente do Shared Drive "IBPT" e importa na hora (sem gate de data)
+   If MsgBox("Baixar a tabela IBPT mais recente da nuvem e atualizar agora?", vbQuestion + vbYesNo, "Tabela IBPT") <> vbYes Then Exit Sub
+
+   Dim sPastaDL As String, sArq As String, bOK As Boolean
+   sPastaDL = appPathApp & "IBPT_Auto"
+   On Error Resume Next
+   MkDir sPastaDL
+   On Error GoTo 0
+
+   Me.MousePointer = 11
+   mensagemErro = ""
+   sArq = GoogleBaixarArquivo(sPastaDL)
+   Me.MousePointer = 0
+
+   If Trim(sArq) = "" Then
+      MsgBox "N" & Chr(227) & "o foi poss" & Chr(237) & "vel baixar a tabela IBPT da nuvem." & _
+             IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Tabela IBPT"
+      Exit Sub
+   End If
+
+   frmImportarIBPT.Show
+   frmImportarIBPT.lblProgresso.Visible = True
+   DoEvents
+   Me.MousePointer = 11
+   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, False)
+   Me.MousePointer = 0
+
+   On Error Resume Next
+   Kill sPastaDL & "\" & sArq
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSAliq_Click()
@@ -2304,6 +2342,39 @@ Dim vComando As String
       vComando = "schtasks /Create /TN ""OnlineCommerce_ExportarXMLServidor"" /TR ""C:\Windows\SysWOW64\wscript.exe \""" & appPathApp & "ExportarXMLServidor.vbs\"""" /SC DAILY /ST 13:00 /F"
       vShell.Run vComando, 0, True
    End If
+End Sub
+
+Private Sub VerificarAtualizacaoIBPT()
+   ' Etapa 2 da automacao da tabela IBPT: uma vez por mes (a partir do dia 30), so no servidor,
+   ' baixa a versao mais recente do Shared Drive "IBPT" e importa se for mais nova que a instalada.
+   ' Deduplicacao: empresa.IBPTUltimaImportacao guarda o AAAAMM da ultima checagem OK.
+   On Error Resume Next
+
+   If Day(Now) < 30 Then Exit Sub
+
+   Dim sMesAtual As String, sUltimo As String
+   sMesAtual = Format(Now, "yyyymm")
+   sUltimo = SQLExecutaRetorno("SELECT TOP 1 ISNULL(IBPTUltimaImportacao,'') r FROM empresa", "r", "")
+   If sUltimo = sMesAtual Then Exit Sub
+
+   Dim sPastaDL As String
+   sPastaDL = appPathApp & "IBPT_Auto"
+   MkDir sPastaDL   ' erro 75 se ja existe - ignorado pelo On Error Resume Next
+
+   Dim sArq As String
+   mensagemErro = ""
+   sArq = GoogleBaixarArquivo(sPastaDL)   ' pasta "IBPT" / shared drive 0AI0VAvFMSupDUk9PVA (defaults)
+   If Trim(sArq) = "" Then Exit Sub   ' sem internet / erro no Drive: tenta de novo amanha, sem gravar
+
+   Dim bOK As Boolean
+   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True)
+   Unload frmImportarIBPT
+
+   If bOK Then
+      SQLExecuta "UPDATE empresa SET IBPTUltimaImportacao = '" & sMesAtual & "'"
+   End If
+
+   Kill sPastaDL & "\" & sArq
 End Sub
 
 Private Sub menusair_Click()

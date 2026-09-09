@@ -2593,7 +2593,7 @@ Begin VB.Form Caixa_Controle_semOS
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
-            TextSave        =   "10:09"
+            TextSave        =   "13:19"
             Object.ToolTipText     =   "Hora"
          EndProperty
       EndProperty
@@ -5983,10 +5983,11 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 'End If
 If vChamouCaixa = "PDV" Then
     Caixa_Controle_semOS.Hide
-    'PDV.Show  'desativei somente para geerar o online comerce
+#If PDV_MODULE Then
+    PDV.Show
+#End If
 Else
     Caixa_Controle_semOS.Hide
-    'PDV.Show 1
 End If
 
 varFluxoCaixa = False

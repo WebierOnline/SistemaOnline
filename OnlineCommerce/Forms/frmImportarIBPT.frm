@@ -230,19 +230,18 @@ Private Function VersaoMaisNova(vCSV As String, vDB As String) As Boolean
 End Function
 
 Private Sub cmdImportar_Click()
-    Dim sVersaoDB As String
-    sVersaoDB = lblVersaoDB.Caption
+    If sArquivoCSV = "" Then Exit Sub
 
-    If Not VersaoMaisNova(sVersaoCSV, sVersaoDB) Then
-        lblStatus.Caption = "A tabela no banco (v" & sVersaoDB & ") já está atualizada. " & _
-                            "A versão do CSV (" & sVersaoCSV & ") não é mais nova."
+    If Not VersaoMaisNova(sVersaoCSV, lblVersaoDB.Caption) Then
+        lblStatus.Caption = "A tabela no banco (v" & lblVersaoDB.Caption & ") j" & Chr(225) & " est" & Chr(225) & " atualizada. " & _
+                            "A vers" & Chr(227) & "o do CSV (" & sVersaoCSV & ") n" & Chr(227) & "o " & Chr(233) & " mais nova."
         Exit Sub
     End If
 
     Dim resp As Integer
-    resp = MsgBox("Serão apagados todos os registros atuais e importados " & _
-                  "os dados da versão " & sVersaoCSV & "." & vbCr & _
-                  "Deseja continuar?", vbQuestion + vbYesNo, "Confirmar Importação")
+    resp = MsgBox("Ser" & Chr(227) & "o apagados todos os registros atuais e importados " & _
+                  "os dados da vers" & Chr(227) & "o " & sVersaoCSV & "." & vbCr & _
+                  "Deseja continuar?", vbQuestion + vbYesNo, "Confirmar Importa" & Chr(231) & Chr(227) & "o")
     If resp <> vbYes Then Exit Sub
 
     cmdImportar.Enabled = False
@@ -251,65 +250,97 @@ Private Sub cmdImportar_Click()
     lblProgresso.Visible = True
     lblStatus.Caption = ""
 
-    On Error GoTo ErrImport
+    Dim bOK As Boolean
+    bOK = ImportarIBPTdeArquivo(sArquivoCSV, False)
 
-    ' Limpa tabela
-    lblProgresso.Caption = "Limpando tabela..."
-    DoEvents
+    cmdFechar.Enabled = True
+    cmdLocalizar.Enabled = True
+    cmdImportar.Enabled = Not bOK
+End Sub
+
+Public Function ImportarIBPTdeArquivo(ByVal caminhoCSV As String, Optional ByVal bSilencioso As Boolean = False) As Boolean
+    ' Nucleo reutilizavel da importacao da tabela IBPT.
+    '  bSilencioso=False -> chamado pelo botao Importar (mexe nos labels/progresso do form)
+    '  bSilencioso=True  -> chamado pela rotina automatica (Tela_Principal), sem UI
+    ' Retorna True quando terminou OK, INCLUSIVE quando nao precisou importar (ja estava atualizado).
+    Dim iFile As Integer, sLinha As String, aCampos() As String
+    Dim nTotal As Long, nLinha As Long, sSQL As String
+    Dim sVersaoArq As String, bTrans As Boolean
+    ImportarIBPTdeArquivo = False
+    bTrans = False
+
+    On Error GoTo ErrAuto
+
+    If Dir(caminhoCSV) = "" Then
+        If Not bSilencioso Then lblStatus.Caption = "Arquivo n" & Chr(227) & "o encontrado: " & caminhoCSV
+        Exit Function
+    End If
+
+    ' versao do CSV: 2a linha de dados, campo indice 11
+    iFile = FreeFile
+    Open caminhoCSV For Input As #iFile
+    Line Input #iFile, sLinha
+    If Not EOF(iFile) Then
+        Line Input #iFile, sLinha
+        aCampos = Split(sLinha, ";")
+        If UBound(aCampos) >= 11 Then sVersaoArq = Trim(aCampos(11))
+    End If
+    Close #iFile
+    If sVersaoArq = "" Then
+        If Not bSilencioso Then lblStatus.Caption = "N" & Chr(227) & "o consegui ler a vers" & Chr(227) & "o do CSV."
+        Exit Function
+    End If
+
+    Dim sVersaoDB As String
+    sVersaoDB = SQLExecutaRetorno("SELECT TOP 1 versao FROM TabelaIBPT", "versao", "")
+    If Not VersaoMaisNova(sVersaoArq, IIf(sVersaoDB = "", "(vazia)", sVersaoDB)) Then
+        ImportarIBPTdeArquivo = True
+        If Not bSilencioso Then lblStatus.Caption = "A tabela no banco (v" & sVersaoDB & ") j" & Chr(225) & " est" & Chr(225) & " atualizada."
+        Exit Function
+    End If
+
+    If Not bSilencioso Then lblProgresso.Caption = "Limpando tabela...": DoEvents
     dbData.Execute "DELETE FROM TabelaIBPT"
 
-    ' Le CSV e insere
-    Dim iFile   As Integer
-    Dim sLinha  As String
-    Dim aCampos() As String
-    Dim nTotal  As Long
-    Dim nLinha  As Long
-    Dim sSQL    As String
-
-    ' Conta linhas para progresso
     iFile = FreeFile
-    Open sArquivoCSV For Input As #iFile
+    Open caminhoCSV For Input As #iFile
     nTotal = 0
     Do While Not EOF(iFile)
         Line Input #iFile, sLinha
         nTotal = nTotal + 1
     Loop
     Close #iFile
-    nTotal = nTotal - 1  ' desconta cabecalho
+    nTotal = nTotal - 1
 
     iFile = FreeFile
-    Open sArquivoCSV For Input As #iFile
-    Line Input #iFile, sLinha  ' pula cabecalho
+    Open caminhoCSV For Input As #iFile
+    Line Input #iFile, sLinha
     nLinha = 0
 
     dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
 
     Do While Not EOF(iFile)
         Line Input #iFile, sLinha
         sLinha = Trim(sLinha)
-        If sLinha = "" Then GoTo ProxLinha
+        If sLinha = "" Then GoTo ProxLinhaAuto
         aCampos = Split(sLinha, ";")
-        If UBound(aCampos) < 12 Then GoTo ProxLinha
+        If UBound(aCampos) < 12 Then GoTo ProxLinhaAuto
 
-        Dim sCodigo   As String, sEx        As String
-        Dim sTipo     As String, sDesc      As String
-        Dim sNacFed   As String, sImpFed    As String
-        Dim sEstadual As String, sMunicipal As String
-        Dim sVigIni   As String, sVigFim    As String
-        Dim sChave    As String, sVersao    As String
-        Dim sFonte    As String
+        Dim sCodigo As String, sEx As String, sTipo As String, sDesc As String
+        Dim sNacFed As String, sImpFed As String, sEstadual As String, sMunicipal As String
+        Dim sVigIni As String, sVigFim As String, sChave As String, sVersao As String, sFonte As String
 
         sCodigo = Trim(aCampos(0))
         sEx = Trim(aCampos(1)): If sEx = "" Then sEx = "0"
         sTipo = Trim(aCampos(2)): If sTipo = "" Then sTipo = "0"
         sDesc = Trim(aCampos(3))
-        ' Remove aspas da descricao
         If Left(sDesc, 1) = Chr(34) Then sDesc = Mid(sDesc, 2)
         If Right(sDesc, 1) = Chr(34) Then sDesc = Left(sDesc, Len(sDesc) - 1)
         sDesc = Replace(sDesc, "'", "''")
-        sNacFed = Trim(aCampos(4)):    If sNacFed = "" Then sNacFed = "0"
-        sImpFed = Trim(aCampos(5)):    If sImpFed = "" Then sImpFed = "0"
-        sEstadual = Trim(aCampos(6)):  If sEstadual = "" Then sEstadual = "0"
+        sNacFed = Trim(aCampos(4)): If sNacFed = "" Then sNacFed = "0"
+        sImpFed = Trim(aCampos(5)): If sImpFed = "" Then sImpFed = "0"
+        sEstadual = Trim(aCampos(6)): If sEstadual = "" Then sEstadual = "0"
         sMunicipal = Trim(aCampos(7)): If sMunicipal = "" Then sMunicipal = "0"
         sVigIni = Trim(aCampos(8))
         sVigFim = Trim(aCampos(9))
@@ -317,7 +348,6 @@ Private Sub cmdImportar_Click()
         sVersao = Trim(aCampos(11))
         sFonte = Trim(aCampos(12))
 
-        ' Converte datas dd/mm/yyyy -> SQL CONVERT(date,...,103)
         Dim sIniSQL As String, sFimSQL As String
         sIniSQL = IIf(sVigIni <> "", "CONVERT(date,'" & sVigIni & "',103)", "NULL")
         sFimSQL = IIf(sVigFim <> "", "CONVERT(date,'" & sVigFim & "',103)", "NULL")
@@ -325,69 +355,57 @@ Private Sub cmdImportar_Click()
         sSQL = "INSERT INTO TabelaIBPT " & _
                "(codigo,ex,tipo,descricao,nacionalfederal,importadosfederal," & _
                "estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES (" & _
-               "'" & sCodigo & "'," & _
-               "'" & sEx & "'," & _
-               sTipo & "," & _
-               "'" & sDesc & "'," & _
+               "'" & sCodigo & "','" & sEx & "'," & sTipo & ",'" & sDesc & "'," & _
                sNacFed & "," & sImpFed & "," & sEstadual & "," & sMunicipal & "," & _
-               sIniSQL & "," & sFimSQL & "," & _
-               "'" & sChave & "'," & _
-               "'" & sVersao & "'," & _
-               "'" & Replace(sFonte, "'", "''") & "')"
-
+               sIniSQL & "," & sFimSQL & ",'" & sChave & "','" & sVersao & "','" & _
+               Replace(sFonte, "'", "''") & "')"
         dbData.Execute sSQL
         nLinha = nLinha + 1
 
-        If nLinha Mod 100 = 0 Then
-            lblProgresso.Caption = "Importando: " & nLinha & " de " & nTotal & " registros..."
-            DoEvents
+        If Not bSilencioso Then
+            If nLinha Mod 100 = 0 Then
+                lblProgresso.Caption = "Importando: " & nLinha & " de " & nTotal & " registros..."
+                DoEvents
+            End If
         End If
-ProxLinha:
+ProxLinhaAuto:
     Loop
 
     Close #iFile
     dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 
-    ' Sincroniza tbNCM: atualiza aliquotas dos NCMs ja existentes
-    lblProgresso.Caption = "Sincronizando tbNCM..."
-    DoEvents
+    If Not bSilencioso Then lblProgresso.Caption = "Sincronizando tbNCM...": DoEvents
     dbData.Execute "UPDATE N SET " & _
-                   "    N.descricao         = I.descricao, " & _
-                   "    N.nacionalfederal   = I.nacionalfederal, " & _
-                   "    N.importadosfederal = I.importadosfederal, " & _
-                   "    N.estadual          = I.estadual, " & _
-                   "    N.municipal         = I.municipal " & _
-                   "FROM tbNCM N " & _
-                   "INNER JOIN TabelaIBPT I ON I.codigo = N.NCM AND I.ex = '0'"
-
-    ' Insere NCMs novos que ainda nao existem em tbNCM
+                   "N.descricao=I.descricao, N.nacionalfederal=I.nacionalfederal, " & _
+                   "N.importadosfederal=I.importadosfederal, N.estadual=I.estadual, N.municipal=I.municipal " & _
+                   "FROM tbNCM N INNER JOIN TabelaIBPT I ON I.codigo=N.NCM AND I.ex='0'"
     dbData.Execute "INSERT INTO tbNCM (NCM, descricao, nacionalfederal, importadosfederal, estadual, municipal) " & _
                    "SELECT I.codigo, I.descricao, I.nacionalfederal, I.importadosfederal, I.estadual, I.municipal " & _
-                   "FROM TabelaIBPT I " & _
-                   "WHERE I.ex = '0' " & _
-                   "AND NOT EXISTS (SELECT 1 FROM tbNCM N WHERE N.NCM = I.codigo)"
+                   "FROM TabelaIBPT I WHERE I.ex='0' " & _
+                   "AND NOT EXISTS (SELECT 1 FROM tbNCM N WHERE N.NCM=I.codigo)"
 
-    lblProgresso.Caption = "Concluído! " & nLinha & " registros importados."
-    lblStatus.Caption = "Tabela IBPT versão " & sVersaoCSV & " importada com sucesso!" & vbCr & _
-                        "Registros: " & nLinha & "  |  Vigência: " & sVigIni & " a " & sVigFim
-    CarregarVersaoDB
-    cmdFechar.Enabled = True
-    cmdLocalizar.Enabled = True
-    Exit Sub
+    If Not bSilencioso Then
+        lblProgresso.Caption = "Conclu" & Chr(237) & "do! " & nLinha & " registros importados."
+        lblStatus.Caption = "Tabela IBPT vers" & Chr(227) & "o " & sVersaoArq & " importada com sucesso! Registros: " & nLinha
+        CarregarVersaoDB
+    End If
+    ImportarIBPTdeArquivo = True
+    Exit Function
 
-ErrImport:
-    Dim sErr As String
-    sErr = Err.Description
+ErrAuto:
+    Dim sErrA As String
+    sErrA = Err.Description
     On Error Resume Next
     Close #iFile
-    dbData.Execute "ROLLBACK TRANSACTION"
-    lblProgresso.Caption = "Erro na importação!"
-    lblProgresso.BackColor = vbRed
-    lblStatus.Caption = "ERRO: " & sErr
-    cmdImportar.Enabled = True
-    cmdLocalizar.Enabled = True
-    cmdFechar.Enabled = True
-End Sub
+    If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+    If Not bSilencioso Then
+        lblProgresso.Caption = "Erro na importa" & Chr(231) & Chr(227) & "o!"
+        lblProgresso.BackColor = vbRed
+        lblStatus.Caption = "ERRO: " & sErrA
+    End If
+    ImportarIBPTdeArquivo = False
+End Function
 
 Private Sub cmdFechar_Click()
     Unload Me

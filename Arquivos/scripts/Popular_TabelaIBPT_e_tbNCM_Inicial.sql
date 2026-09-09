@@ -515,7 +515,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('04029900','01',0,'Outs.leites,cremes de leite,concentrados, adocicados, em estado liquido',13.45,28.43,12.00,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('04032000','0',0,'Leite e lacticinios ovos de aves mel natural produtos comestiveis de origem animal nao especificados nem compreendidos noutros capitulos Leitelho leite e creme de leite nata coalhados iogurte quefir e outros leites e cremes de leite natas fermentados ou acidificados mesmo concentrados ou adicionados de acucar ou de outros edulcorantes ou aromatizados ou adicionados de fruta ou de cacau iogurte',13.45,22.92,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('04032000','01',0,'acondicionado em embalagem de apresentacao',13.45,22.92,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('04039000','0',0,'Leite e lacticinios ovos de aves mel natural produtos comestiveis de origem animal nao especificados nem compreendidos noutros capitulos Leitelho leite e creme de leite nata coalhados iogurte quefir e outros leites e cremes de leite natas fermentados ou acidificados mesmo concentrados ou adicionados de acucar ou de outros edulcorantes ou aromatizados ou adicionados de fruta ou de cacau outros',13.45,22.92,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('04039000','01',0,'Leitelho,leite,creme de leite,coalhados, fermentados,etc, acondicionados em embalagem de apresentacao',13.45,22.92,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -1017,7 +1017,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('13021200','0',0,'Sucos e extratos,de alcacuz',13.45,19.44,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('13021300','0',0,'Sucos e extratos,de lupulo',15.32,17.32,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('13021400','0',0,'De efedra',13.45,19.44,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('13021910','0',0,'Sucos e extratos,de mamao (carica papaya),seco',13.45,19.44,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('13021920','0',0,'Sucos e extratos,de semente de pomelo (grapefruit)',13.45,19.44,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -1519,7 +1519,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('25030010','01',0,'Em bruto ou nao refinado',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('25030090','0',0,'Sal enxofre terras e pedras gesso cal e cimento outros',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('25041000','0',0,'Grafita natural em po ou em escamas',13.45,17.51,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('25049000','0',0,'Outros formas de grafita natural',13.45,17.51,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('25051000','0',0,'Areias siliciosas e areias quartzosas',13.45,17.51,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -2021,7 +2021,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('28371915','0',0,'Cianeto de cobre ii (cianeto cuprico)',13.45,20.35,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('28371919','0',0,'Outros cianetos',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('28371920','0',0,'Oxicianetos',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('28372011','0',0,'Ferrocianeto de sodio',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('28372012','0',0,'Ferrocianeto de ferro ii (ferrocianeto ferroso)',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -2523,7 +2523,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('29146200','0',0,'Coenzima q10 (ubidecarenona (dci))',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29146910','0',0,'Lapachol',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29146920','0',0,'Menadiona',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('29146990','0',0,'Outros quinonas',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29147100','0',0,'Clordecona (iso)',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -3025,7 +3025,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('29252940','0',0,'Isetionato de pentamidina',13.45,22.09,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29252950','0',0,'N-(3,7-dimetil-7-hidroxioctilideno)antranilato metila',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29252990','0',0,'Outros iminas,seus derivados e sais',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('29261000','0',0,'Acrilonitrila',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29262000','0',0,'1-cianoguanidina (diciandiamida)',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -3527,7 +3527,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('29349926','0',0,'Oxadiazona',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29349927','0',0,'Estavudina',13.45,21.23,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29349929','0',0,'Outs.acidos nucleicos,seus sais de construcao quimica nao definida',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('29349931','0',0,'Cetoconazol',13.45,22.09,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('29349932','0',0,'Cloridrato de prazosina',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -4029,7 +4029,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('30042011','0',0,'Medicamento c/cloranfenicol/seu palmitato, etc.em doses',13.45,19.39,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('30042019','0',0,'Medicamento contendo anfenicois/outs.sais,em doses',13.45,19.39,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('30042021','0',0,'Medicamento contendo eritromicina ou seus sais,em doses',13.45,22.01,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('30042029','0',0,'Outs.medicamentos cont.macrolideos /derivados,em doses',13.45,19.39,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('30042031','0',0,'Medicamento contendo rifamicina sv sodica,em doses',13.45,19.39,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -4531,7 +4531,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('37012010','0',0,'Filmes planos,revel.instant.sensib.n/impr. p/foto cores',18.72,20.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('37012020','0',0,'Filmes plan.revel.instant.sensib.n/impr.p/foto monocrom',18.72,20.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('37013010','0',0,'Outs.chapas/film.plan.sensib.n/impr.d>255mm,p/fot.cores',18.72,20.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('37013021','0',0,'Chapas aluminio,plan.sensib.polim.fotoss. n/impr.d>255mm',18.72,27.36,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('37013022','0',0,'Chapas poliester,plan.sens.polim.fotoss. n/impr.d>255mm',18.72,20.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -5033,7 +5033,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('39081029','0',0,'Poliamidas-6,9 ou 6,10 ou 6-12,em blocos irregul.etc.',15.34,17.34,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('39089010','0',0,'Copolimero de lauril-lactama,em forma primaria',15.34,17.34,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('39089020','0',0,'Obtidas (poliamidas) por condensacao de acidos graxos (...)',15.34,24.05,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('39089090','0',0,'Outros poliamidas em formas primarias',15.34,17.34,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('39091000','0',0,'Resinas ureicas/resinas de tioureia,em formas primarias',15.34,24.05,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -5535,7 +5535,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('44034100','0',0,'Madeira carvao vegetal e obras de madeira Madeira em bruto mesmo descascada desalburnada ou esquadriada Dark Red Meranti Light Red Meranti e Meranti Bakau',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('44034100','01',0,'Esquadriadas',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('44034200','0',0,'Madeira carvao vegetal e obras de madeira Madeira em bruto mesmo descascada desalburnada ou esquadriada Teca',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('44034200','01',0,'esquadriada',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('44034900','0',0,'Outros madeiras tropicais,em bruto',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -6037,7 +6037,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('52052390','0',0,'Outs.fios algod>=85%,simpl.fibra pent.192.3d<=t<232.56d',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('52052400','0',0,'Fio algodao>=85%,simples,fibra pent.125d<=tit<192.31d',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('52052600','0',0,'Fio algodao>=85%,simples,fibra pent.106.38d<=tit<125d',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('52052700','0',0,'Fio algodao>=85%,simples,fibra pent.83.33d<=tit<106.38d',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('52052800','0',0,'Fio algodao>=85%,simples,fibra pent.titulo<83.33decitex',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -6539,7 +6539,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('57032900','0',0,'Tapetes e outros revestimentos para pisos pavimentos de materias texteis Tapetes e outros revestimentos para pisos pavimentos de materias texteis tufados mesmo confeccionados outros',17.11,34.67,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('57033100','0',0,'Tapetes e outros revestimentos para pisos pavimentos de materias texteis Tapetes e outros revestimentos para pisos pavimentos de materias texteis tufados mesmo confeccionados Grama relva',17.11,34.67,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('57033900','0',0,'Tapetes e outros revestimentos para pisos pavimentos de materias texteis Tapetes e outros revestimentos para pisos pavimentos de materias texteis tufados mesmo confeccionados outros',17.11,34.67,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('57039000','0',0,'Tapete/revest.p/pavim.de outs.materias texteis',17.11,34.67,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('57041000','0',0,'Ladrilhos de feltro,p/revestim.de pavim.superf<=0.3m2',17.11,34.67,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -7041,7 +7041,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('64069020','0',0,'Palmilhas de outs.materias',13.45,23.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('64069090','0',0,'Outros partes de calcados,etc.de outs.materias',13.45,23.72,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('65010000','0',0,'Esbocos n/enformados,discos,etc.de feltro,p/chapeus',13.45,23.81,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('65020010','0',0,'Esbocos de chapeus,entrancados,etc.de palha fina',13.45,23.81,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('65020090','0',0,'Esbocos de chapeus,entrancados,etc.de outs.materias',13.45,23.81,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -7543,7 +7543,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('72166910','0',0,'Outros perfis de ferro/aco,obt/acab.a frio, h<8cm a partir de produtos laminados planos',13.45,21.23,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('72166990','0',0,'Outros perfis de ferro/aco,obt/acab.a frio, a partir de produtos laminados planos',13.45,21.23,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('72169100','0',0,'Outs.perfis de ferro/aco,obt/acab.frio, a partir de produtos lamin. plano',13.45,21.23,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('72169900','0',0,'Outros perfis de ferro/aco,nao ligados',13.45,21.23,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('72171011','0',0,'Fios de ferro/aco,n/ligados,n/revestidos, carbono>=0.6%, c/teor em peso de fosforo <0,035% ...',15.32,17.32,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -8045,7 +8045,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('81122200','0',0,'Desperdicios e residuos,de cromo',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('81122900','0',0,'Obras de cromo',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('81123100','0',0,'Outros metais comuns cermets obras dessas materias Berilio cromo germanio vanadio galio hafnio celtio indio nio bio colombio renio e talio e suas obras incluindo os desperdicios e residuos e sucata em formas brutas desperdicios e residuos e sucata pos',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('81123900','0',0,'Outros metais comuns cermets obras dessas materias Berilio cromo germanio vanadio galio hafnio celtio indio nio bio colombio renio e talio e suas obras incluindo os desperdicios e residuos e sucata outros',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('81124100','0',0,'Outros metais comuns cermets obras dessas materias Berilio cromo germanio vanadio galio hafnio celtio indio nio bio colombio renio e talio e suas obras incluindo os desperdicios e residuos e sucata em formas brutas desperdicios e residuos e sucata pos',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -8547,7 +8547,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('84261100','0',0,'Pontes e vigas,rolantes,de suportes fixos',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84261200','0',0,'Porticos moveis de pneumaticos e carros-porticos',13.45,22.16,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84261900','0',0,'Outros porticos e pontes-guindastes',13.45,22.16,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('84262000','0',0,'Guindastes de torre',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84263000','0',0,'Guindastes de portico',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -9049,7 +9049,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('84622400','0',0,'Reatores nucleares caldeiras maquinas aparelhos e instrumentos mecanicos e suas partes Maquinas ferramentas incluindo as prensas para forjar ou estampar martelos martelos piloes e martinetes para trabalhar metais excluindo os laminadores maquinas ferramen',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84622500','0',0,'Reatores nucleares caldeiras maquinas aparelhos e instrumentos mecanicos e suas partes Maquinas ferramentas incluindo as prensas para forjar ou estampar martelos martelos piloes e martinetes para trabalhar metais excluindo os laminadores maquinas ferramen',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84622600','0',0,'Reatores nucleares caldeiras maquinas aparelhos e instrumentos mecanicos e suas partes Maquinas ferramentas incluindo as prensas para forjar ou estampar martelos martelos piloes e martinetes para trabalhar metais excluindo os laminadores maquinas ferramen',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('84622900','0',0,'Outs.maqs-ferram.p/enrolar,arquear, dobrar, etc.metais',13.45,22.16,8.80,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('84623200','0',0,'Reatores nucleares caldeiras maquinas aparelhos e instrumentos mecanicos e suas partes Maquinas ferramentas incluindo as prensas para forjar ou estampar martelos martelos piloes e martinetes para trabalhar metais excluindo os laminadores maquinas ferramen',13.45,22.16,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -9551,7 +9551,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('85122011','01',0,'Para colheitadeiras ou tratores agricolas',14.97,26.12,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85122019','0',0,'Outs.apars.eletr.de iluminacao p/automoveis/ outs.ciclos',18.78,29.93,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85122021','0',0,'Luzes fixas p/automoveis e outs.ciclos',18.78,29.93,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('85122021','01',0,'Lanternas para tratores agricolas',14.97,26.12,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85122022','0',0,'Maquinas aparelhos e materiais eletricos e suas partes aparelhos de gravacao ou de reproducao de som aparelhos de gravacao ou de reproducao de imagens e de som em televisao e suas partes e acessorios aparelhos eletricos de iluminacao ou de sinalizacao exceto os da posicao 85 39 limpadores de para brisas degeladores e desembacadores eletricos do tipo utilizado em ciclos ou automoveis Luzes indicadoras de manobras',18.78,29.93,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -10053,7 +10053,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('85437036','01',0,'Roteadores-comutadores ?trouting switcher? , contendo mais de 20 entradas e mais de 16 saidas de audio e/ou video, com interface de entrada de video SDi e HD-SDi e saidas em SDi e HD-SDi, entradas de audio analogico e/ou digital ou capacidade par',13.45,15.45,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85437039','0',0,'Maquinas aparelhos e materiais eletricos e suas partes aparelhos de gravacao ou de reproducao de som aparelhos de gravacao ou de reproducao de imagens e de som em televisao e suas partes e acessorios Maquinas e aparelhos eletricos com funcao propria nao especificados nem compreendidos noutras posicoes do presente capitulo outros',17.11,24.96,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85437039','01',0,'Gravador reprodutor e editor de imagem e som em discos por meio magnetico optico ou optomagnetico',15.34,23.19,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('85437039','02',0,'aparelho de gravacao ou reproducao e edicao de imagem e som de televisao em disco rigido por meio magnetico optico ou optomagnetico',13.45,21.30,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('85437040','0',0,'Transcodificador ou conversor de padroes de televisao',17.11,19.11,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -10555,7 +10555,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('90171010','0',0,'Mesas e maqs.de desenhar,automaticas',18.78,20.78,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('90171090','0',0,'Outros mesas e maqs.de desenhar',18.78,29.14,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('90172000','0',0,'Outs.instrumentos de desenho,de tracado ou de calculo',18.78,29.14,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('90173010','0',0,'Micrometros (instrum.de medida manual de distancias)',13.45,20.40,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('90173020','0',0,'Paquimetros (instrum.de medida manual de distancias)',13.45,23.81,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -11057,7 +11057,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('95065900','0',0,'Raquetes de badminton e raquetes semelh.',20.28,31.33,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('95066100','0',0,'Bolas p/tenis,exc.tenis de mesa',20.28,31.33,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('95066200','0',0,'Bolas inflaveis',13.45,24.50,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('95066900','0',0,'Outros bolas',20.28,31.33,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('95067000','0',0,'Patins p/gelo e patins de rodas,incl.fixados em calcado',20.28,31.33,22.50,0.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -11559,7 +11559,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('111044100','0',1,'Cessao temporaria de direitos de autor de obras musicais e literomusicais',13.45,15.45,0.00,5.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('111044200','0',1,'Cessao temporaria de direitos conexos de artistas interpretes ou executantes',13.45,15.45,0.00,5.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('111044300','0',1,'Cessao temporaria de direitos conexos de produtores de fonogramas',13.45,15.45,0.00,5.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('111045000','0',1,'Cessao temporaria de direitos relacionados a radiodifusao',13.45,15.45,0.00,5.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('111049100','0',1,'Cessao temporaria de outros direitos de autor',13.45,15.45,0.00,5.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
@@ -12061,7 +12061,7 @@ INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfeder
 ('0420','0',2,'Coleta de sangue, leite, tecidos, semen, orgaos e materiais biologicos de qualquer especie.',13.45,15.45,0.00,2.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('0421','0',2,'Unidade de atendimento, assistencia ou tratamento movel e congeneres.',13.45,15.45,0.00,2.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('0422','0',2,'Planos de medicina de grupo ou individual e convenios para prestacao de assistencia medica, hospitalar, odontologica e congeneres.',13.45,15.45,0.00,2.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br');
-
+GO
 INSERT INTO TabelaIBPT (codigo,ex,tipo,descricao,nacionalfederal,importadosfederal,estadual,municipal,vigenciainicio,vigenciafim,chave,versao,fonte) VALUES
 ('0423','0',2,'Outros planos de saude que se cumpram atraves de servicos de terceiros contratados, credenciados, cooperados ou apenas pagos pelo operador do plano mediante indicacao do beneficiario.',13.45,15.45,0.00,2.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
 ('0501','0',2,'Medicina veterinaria e zootecnia.',13.45,15.45,0.00,2.00,CONVERT(date,'20/06/2026',103),CONVERT(date,'31/08/2026',103),'42CA5A','26.1.L','IBPT/empresometro.com.br'),
