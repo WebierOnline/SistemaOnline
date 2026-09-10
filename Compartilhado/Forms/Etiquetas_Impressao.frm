@@ -1,6 +1,6 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Etiquetas_Impressao 
    BorderStyle     =   1  'Fixed Single
@@ -17,6 +17,44 @@ Begin VB.Form Etiquetas_Impressao
    ScaleHeight     =   10035
    ScaleWidth      =   15180
    StartUpPosition =   2  'CenterScreen
+   Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
+      Height          =   315
+      Left            =   11640
+      TabIndex        =   44
+      Top             =   7680
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "Desmarcar Todos"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Etiquetas_Impressao.frx":264C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Frame Frame4 
       Caption         =   "Tipos de Códigos"
       BeginProperty Font 
@@ -114,7 +152,7 @@ Begin VB.Form Etiquetas_Impressao
    Begin VB.PictureBox picUnchecked 
       Height          =   180
       Left            =   8760
-      Picture         =   "Etiquetas_Impressao.frx":264C
+      Picture         =   "Etiquetas_Impressao.frx":2668
       ScaleHeight     =   120
       ScaleWidth      =   120
       TabIndex        =   32
@@ -125,7 +163,7 @@ Begin VB.Form Etiquetas_Impressao
    Begin VB.PictureBox picChecked 
       Height          =   180
       Left            =   8760
-      Picture         =   "Etiquetas_Impressao.frx":272E
+      Picture         =   "Etiquetas_Impressao.frx":274A
       ScaleHeight     =   120
       ScaleWidth      =   120
       TabIndex        =   31
@@ -162,7 +200,7 @@ Begin VB.Form Etiquetas_Impressao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Etiquetas_Impressao.frx":2810
+      MICON           =   "Etiquetas_Impressao.frx":282C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -201,7 +239,7 @@ Begin VB.Form Etiquetas_Impressao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Etiquetas_Impressao.frx":282C
+      MICON           =   "Etiquetas_Impressao.frx":2848
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -240,7 +278,7 @@ Begin VB.Form Etiquetas_Impressao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Etiquetas_Impressao.frx":2848
+      MICON           =   "Etiquetas_Impressao.frx":2864
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -317,6 +355,24 @@ Begin VB.Form Etiquetas_Impressao
       TabIndex        =   11
       Top             =   8040
       Width           =   5085
+      Begin VB.OptionButton optPalavrasDuplas 
+         Caption         =   "Palavras Duplas"
+         Height          =   195
+         Left            =   1080
+         TabIndex        =   15
+         Top             =   1080
+         Visible         =   0   'False
+         Width           =   1515
+      End
+      Begin VB.OptionButton optPorPalavra 
+         Caption         =   "Palavra"
+         Height          =   195
+         Left            =   120
+         TabIndex        =   16
+         Top             =   1080
+         Visible         =   0   'False
+         Width           =   915
+      End
       Begin VB.TextBox txtCodBarra 
          Height          =   315
          Left            =   120
@@ -324,27 +380,6 @@ Begin VB.Form Etiquetas_Impressao
          Top             =   720
          Visible         =   0   'False
          Width           =   4815
-      End
-      Begin VB.CheckBox chkDescPorIniciais 
-         Caption         =   "Por Iniciais"
-         ForeColor       =   &H000000FF&
-         Height          =   195
-         Left            =   1500
-         TabIndex        =   16
-         Top             =   1080
-         Visible         =   0   'False
-         Width           =   1335
-      End
-      Begin VB.CheckBox chkDescPorProduto 
-         Caption         =   "Por Produto"
-         ForeColor       =   &H000000FF&
-         Height          =   195
-         Left            =   180
-         TabIndex        =   15
-         Top             =   1080
-         Value           =   1  'Checked
-         Visible         =   0   'False
-         Width           =   1275
       End
       Begin VB.ComboBox cboConsLinha 
          Height          =   315
@@ -391,8 +426,8 @@ Begin VB.Form Etiquetas_Impressao
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Etiquetas_Impressao.frx":2864
-         PICN            =   "Etiquetas_Impressao.frx":2880
+         MICON           =   "Etiquetas_Impressao.frx":2880
+         PICN            =   "Etiquetas_Impressao.frx":289C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -496,7 +531,7 @@ Begin VB.Form Etiquetas_Impressao
       ForeColor       =   &H80000008&
       Height          =   1095
       Left            =   6300
-      Picture         =   "Etiquetas_Impressao.frx":315A
+      Picture         =   "Etiquetas_Impressao.frx":3176
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   4
@@ -529,7 +564,7 @@ Begin VB.Form Etiquetas_Impressao
       Begin VB.Image Image1 
          Height          =   750
          Left            =   480
-         Picture         =   "Etiquetas_Impressao.frx":4192
+         Picture         =   "Etiquetas_Impressao.frx":41AE
          Top             =   60
          Width           =   690
       End
@@ -584,7 +619,7 @@ Begin VB.Form Etiquetas_Impressao
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Etiquetas_Impressao.frx":55FB
+      MICON           =   "Etiquetas_Impressao.frx":5617
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -617,7 +652,7 @@ Begin VB.Form Etiquetas_Impressao
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "09:44"
+            TextSave        =   "09:30"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -651,27 +686,9 @@ Begin VB.Form Etiquetas_Impressao
       AllowUserResizing=   1
       Appearance      =   0
    End
-   Begin VB.Label Label2 
+   Begin VB.Label lblQuantItens 
       AutoSize        =   -1  'True
-      Caption         =   "Selecionados:"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   195
-      Left            =   60
-      TabIndex        =   43
-      Top             =   7680
-      Width           =   1215
-   End
-   Begin VB.Label lblQuantSelecionada 
-      AutoSize        =   -1  'True
-      Caption         =   "Selecionados"
+      Caption         =   "000"
       BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -683,10 +700,65 @@ Begin VB.Form Etiquetas_Impressao
       EndProperty
       ForeColor       =   &H00000080&
       Height          =   195
-      Left            =   1380
+      Left            =   660
+      TabIndex        =   46
+      Top             =   7680
+      Width           =   330
+   End
+   Begin VB.Label Label3 
+      AutoSize        =   -1  'True
+      Caption         =   "Itens:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Left            =   60
+      TabIndex        =   45
+      Top             =   7680
+      Width           =   495
+   End
+   Begin VB.Label Label2 
+      AutoSize        =   -1  'True
+      Caption         =   "Etiquetas:"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   195
+      Left            =   1140
+      TabIndex        =   43
+      Top             =   7680
+      Width           =   870
+   End
+   Begin VB.Label lblQuantSelecionada 
+      AutoSize        =   -1  'True
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000080&
+      Height          =   195
+      Left            =   2100
       TabIndex        =   42
       Top             =   7680
-      Width           =   1155
+      Width           =   330
    End
 End
 Attribute VB_Name = "Etiquetas_Impressao"
@@ -700,9 +772,11 @@ Private iRow As Long, iCol As Long
 Private editandoEtiqueta As Boolean
 Private chamandoImpressao As Boolean
 Private ExibirGidEtiquetas As Boolean
+Private bSuprimirBuscaEtq As Boolean   'evita cascata de cmdLocalizar_Click ao setar optTC*/optMostrar* por codigo
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim xProdutosSelecionados As String
+Dim xQtdImpressao As String   ' qtde de etiquetas por produto marcado, formato "|cod=qtd|cod=qtd"
 
 Private Sub LimparGrid2()
 Dim sSQL As String
@@ -781,25 +855,6 @@ End Sub
 
 
 
-Private Sub chkDescPorIniciais_Click()
-   If optDesc.Value = Unchecked Then Exit Sub
-   
-   If chkDescPorIniciais.Value = Checked Then
-      cboDesc.Clear
-      chkDescPorProduto.Value = Unchecked
-      cboDesc.SetFocus
-   End If
-End Sub
-
-Private Sub chkDescPorProduto_Click()
-   If optDesc.Value = Unchecked Then Exit Sub
-   
-   If chkDescPorProduto.Value = Checked Then
-      chkDescPorIniciais.Value = Unchecked
-      cboDesc.SetFocus
-   End If
-End Sub
-
 Private Sub MostrarCriterios()
    Dim sSQL As String
    Dim r As ADODB.Recordset
@@ -808,11 +863,23 @@ Private Sub MostrarCriterios()
    
    var_Criterio = ""
    
-   If chkDescPorProduto.Value = Checked Then
-      var_Criterio = var_Criterio & IIf(optDesc.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.descricao = '" & cboDesc.Text & "'", "")
-   ElseIf chkDescPorIniciais.Value = Checked Then
-      var_Criterio = Chr$(39) & cboDesc.Text & "%" & Chr(39)
-      var_Criterio = var_Criterio & IIf(optDesc.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.descricao  LIKE " & var_Criterio & "", "")
+   If optDesc.Value = True Then
+      Dim vDescFiltro As String
+      Dim aPalDesc() As String
+      Dim iPalDesc As Integer
+      vDescFiltro = ""
+      If optPorPalavra.Value = True Then
+         vDescFiltro = "produtos.descricao COLLATE Latin1_General_CI_AI LIKE '%" & cboDesc.Text & "%'"
+      ElseIf optPalavrasDuplas.Value = True Then
+         aPalDesc = Split(Trim(cboDesc.Text), " ")
+         For iPalDesc = 0 To UBound(aPalDesc)
+            If Trim(aPalDesc(iPalDesc)) <> "" Then
+               If vDescFiltro <> "" Then vDescFiltro = vDescFiltro & " AND "
+               vDescFiltro = vDescFiltro & "produtos.descricao COLLATE Latin1_General_CI_AI LIKE '%" & Trim(aPalDesc(iPalDesc)) & "%'"
+            End If
+         Next iPalDesc
+      End If
+      If vDescFiltro <> "" Then var_Criterio = var_Criterio & IIf(var_Criterio <> "", " AND ", "") & "(" & vDescFiltro & ")"
    End If
    
    var_Criterio = var_Criterio & IIf(optCategoria.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.categoria = '" & cboConsLinha.Text & "'", "")
@@ -832,12 +899,13 @@ Private Sub MostrarCriterios()
     Dim varTipoCodigo As String
     
     If optTCCriados.Value = True Then
-        varTipoCodigo = " AND len(produtos.cod_barra) < 6"
+        varTipoCodigo = " AND len(produtos.cod_barra) <= 6"   '6 chars = codigo criado (interno passou de 99999); > 6 = codigo proprio. sem fresta.
     ElseIf optTCProprios.Value = True Then
         varTipoCodigo = " AND len(produtos.cod_barra) > 6"
     ElseIf optTCTodos.Value = True Then
         varTipoCodigo = " "
     End If
+    If optDesc.Value = True Then varTipoCodigo = " "   'busca por descricao ignora Tipos de Codigos
    
    sSQL = "SELECT produtos.NCM AS var_NCM, produtos.ICMSCST AS var_ICMS, produtos.CFOP AS var_CFOP, produtos.categoria AS var_cat, produtos.fabricante AS var_fab, " & _
       "produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc, produtos.ref AS var_referencia, produtos.quant_estoque AS var_quant, produtos.UNID_MEDIDA AS var_UnidMed, " & _
@@ -880,15 +948,32 @@ Private Sub ckkORDValor_Click()
 End Sub
 
 
+Private Sub cmdDesmarcar_Click()
+    'unica forma (alem de fechar a janela) de zerar a selecao e as quantidades
+    xProdutosSelecionados = ""
+    xQtdImpressao = ""
+    If editandoEtiqueta Then
+        Dim k As Integer
+        For k = 1 To Grid.rows - 1
+            Grid.Col = 3: Grid.Row = k
+            Set Grid.CellPicture = picUnchecked.Picture
+            Grid.TextMatrix(k, 4) = ""
+        Next k
+    End If
+    AtualizarLabelsSelecao
+End Sub
+
 Private Sub cmdCancelar_Click()
 ExibirGidEtiquetas = False
-    
-'cmdGerarEtiquetas.Visible = True
-'cmdImprimirEtiqueta.Visible = False
-'cmdCancelar.Visible = False
-'cmdImprimirEtiqueta.Top = 8040
-'cmdCancelar.Top = 8040
-'cmdSair.Top = 8040
+
+'volta pro estado inicial (botao Gerar Etiquetas visivel) - antes so trocava o grid e
+'deixava Imprimir/Cancelar na tela sem caminho de volta pro modo etiqueta
+cmdGerarEtiquetas.Visible = True
+cmdImprimirEtiqueta.Visible = False
+cmdCancelar.Visible = False
+cmdImprimirEtiqueta.Top = 8040
+cmdCancelar.Top = 8040
+cmdSair.Top = 8040
 
 cmdLocalizar_Click
 End Sub
@@ -919,7 +1004,7 @@ Private Sub cmdGerarEtiquetas_Click()
     Dim varTipoCodigo As String
     
     If optTCCriados.Value = True Then
-        varTipoCodigo = " AND len(produtos.cod_barra) < 6"
+        varTipoCodigo = " AND len(produtos.cod_barra) <= 6"   '6 chars = codigo criado (interno passou de 99999); > 6 = codigo proprio. sem fresta.
     ElseIf optTCProprios.Value = True Then
         varTipoCodigo = " AND len(produtos.cod_barra) > 6"
     ElseIf optTCTodos.Value = True Then
@@ -955,52 +1040,134 @@ Private Sub cmdGerarEtiquetas_Click()
     
 End Sub
 Private Sub cmdImprimirEtiqueta_Click()
-    Dim i As Integer
-    Dim tamanhoGrid As Integer
-    tamanhoGrid = Grid.rows - 1
-    Dim arrayDeDados()
-    Dim indiceDeInsercaoArray As Long
-    
-    indiceDeInsercaoArray = 0
-        
+    'monta a impressao a partir de xProdutosSelecionados (tudo que foi marcado), consultando
+    'o cadastro pelos codigos - independe do filtro que esta no grid nesse momento.
     Dim objB As Object
     Set objB = CreateObject("ImpressaoDeEtiquetas.GeradorDeEtiquetas")
-        
-    ReDim arrayDeDados(0 To tamanhoGrid, 0 To 4)
-        
-    chamandoImpressao = True
-       
-    With Grid
-        .Col = 3
-        For i = 1 To .rows - 1
-            .Row = i
-            If Grid.CellPicture = picChecked Then
-                                
-                arrayDeDados(indiceDeInsercaoArray, 0) = CInt(.TextMatrix(i, 4))
-                arrayDeDados(indiceDeInsercaoArray, 1) = .TextMatrix(i, 6)
-                arrayDeDados(indiceDeInsercaoArray, 2) = .TextMatrix(i, 5)
-                arrayDeDados(indiceDeInsercaoArray, 3) = .TextMatrix(i, 14)
-                arrayDeDados(indiceDeInsercaoArray, 4) = CDec(.TextMatrix(i, 15))
 
-                indiceDeInsercaoArray = indiceDeInsercaoArray + 1
-            End If
-        Next
-    End With
-    
-    'array foi dimensionado pro pior caso (tamanhoGrid); corta pro tamanho realmente usado numa unica vez
-    Dim ultimoIndiceUsado As Long
-    ultimoIndiceUsado = indiceDeInsercaoArray - 1
-    If ultimoIndiceUsado < 0 Then ultimoIndiceUsado = 0
-    ReDimPreserve arrayDeDados, ultimoIndiceUsado, UBound(arrayDeDados, 2)
-    
+    Dim sLista As String
+    sLista = SelValor(xProdutosSelecionados)   ' devolve " 123, 456" (sem a virgula final)
+    If Trim(sLista) = "" Then
+        Set objB = Nothing
+        MsgBox "Marque ao menos um produto para imprimir a etiqueta.", vbExclamation, "Etiquetas"
+        Exit Sub
+    End If
+
+    chamandoImpressao = True
+
+    Dim aCods() As String
+    aCods = Split(Replace(sLista, " ", ""), ",")
+
+    Dim arrayDeDados()
+    ReDim arrayDeDados(0 To UBound(aCods), 0 To 4)
+
+    Dim rP As ADODB.Recordset
+    Dim sSQLImp As String
+    sSQLImp = "SELECT p.codigo, p.cod_barra, p.descricao, p.fabricante, p.quant_estoque, " & _
+              "(SELECT TOP 1 Produtos_Precos.VALOR_VV FROM Produtos_Precos WHERE Produtos_Precos.COD_PRODUTO = p.codigo ORDER BY CODIGO DESC) AS venda " & _
+              "FROM produtos p WHERE p.codigo IN (" & Replace(sLista, " ", "") & ")"
+    Set rP = dbData.OpenRecordset(sSQLImp)
+
+    Dim idx As Long
+    Dim dVenda As Double
+    idx = 0
+    Do While Not rP.EOF
+        arrayDeDados(idx, 0) = GetQtdImpr(CStr(rP("codigo")))
+        arrayDeDados(idx, 1) = ValidateNull(rP("descricao")) & " / " & ValidateNull(rP("fabricante"))
+        arrayDeDados(idx, 2) = ValidateNull(rP("cod_barra"))
+        arrayDeDados(idx, 3) = ValidateNull(rP("quant_estoque"))
+        If IsNull(rP("venda")) Then dVenda = 0 Else dVenda = rP("venda")
+        arrayDeDados(idx, 4) = CDec(dVenda)
+        idx = idx + 1
+        rP.MoveNext
+    Loop
+    If rP.State <> 0 Then rP.Close
+    Set rP = Nothing
+
+    If idx = 0 Then
+        chamandoImpressao = False
+        Set objB = Nothing
+        MsgBox "Nenhum dos produtos marcados foi encontrado no cadastro.", vbExclamation, "Etiquetas"
+        Exit Sub
+    End If
+
+    ReDimPreserve arrayDeDados, idx - 1, UBound(arrayDeDados, 2)
+
     objB.ExibirModalConfiguracaoImpressao (arrayDeDados)
     chamandoImpressao = False
+End Sub
+
+Private Function GetQtdImpr(ByVal sCod As String) As Long
+    'qtde de etiquetas do produto, persistida no mapa xQtdImpressao; default 1
+    Dim p1 As Long, p2 As Long, sVal As String
+    GetQtdImpr = 1
+    p1 = InStr(1, xQtdImpressao, "|" & sCod & "=")
+    If p1 = 0 Then Exit Function
+    p1 = p1 + Len(sCod) + 2
+    p2 = InStr(p1, xQtdImpressao, "|")
+    If p2 = 0 Then p2 = Len(xQtdImpressao) + 1
+    sVal = Mid$(xQtdImpressao, p1, p2 - p1)
+    If IsNumeric(sVal) Then GetQtdImpr = CLng(sVal)
+    If GetQtdImpr < 1 Then GetQtdImpr = 1
+End Function
+
+Private Sub RemoveQtdImpr(ByVal sCod As String)
+    Dim p1 As Long, p2 As Long
+    p1 = InStr(1, xQtdImpressao, "|" & sCod & "=")
+    If p1 = 0 Then Exit Sub
+    p2 = InStr(p1 + 1, xQtdImpressao, "|")
+    If p2 = 0 Then p2 = Len(xQtdImpressao) + 1
+    xQtdImpressao = Left$(xQtdImpressao, p1 - 1) & Mid$(xQtdImpressao, p2)
+End Sub
+
+Private Sub SetQtdImpr(ByVal sCod As String, ByVal nQtd As Long)
+    RemoveQtdImpr sCod
+    If nQtd < 1 Then nQtd = 1
+    xQtdImpressao = xQtdImpressao & "|" & sCod & "=" & nQtd
+End Sub
+
+Private Sub AtualizarQtdDaLinha(ByVal nRow As Long)
+    'chamado quando o usuario edita a coluna IMPRESSOES - so grava se a linha estiver marcada
+    If nRow < 1 Or nRow > Grid.rows - 1 Then Exit Sub
+    Dim sCod As String
+    sCod = Grid.TextMatrix(nRow, 2)
+    If Not SelProcuraValor(xProdutosSelecionados, sCod) Then Exit Sub
+    If IsNumeric(Grid.TextMatrix(nRow, 4)) Then SetQtdImpr sCod, CLng(Grid.TextMatrix(nRow, 4))
+    AtualizarLabelsSelecao
+End Sub
+
+Private Function ContarItensMarcados() As Long
+    'qtos itens da lista estao marcados (independe do grid) = qtde de entradas em xQtdImpressao
+    ContarItensMarcados = Len(xQtdImpressao) - Len(Replace(xQtdImpressao, "|", ""))
+End Function
+
+Private Function SomarQtdImpressoes() As Long
+    'soma das qtdes de impressao de TODOS os marcados (independe do grid)
+    Dim aEnt() As String, k As Long, p As Long, sQ As String
+    SomarQtdImpressoes = 0
+    If xQtdImpressao = "" Then Exit Function
+    aEnt = Split(xQtdImpressao, "|")
+    For k = 0 To UBound(aEnt)
+        If aEnt(k) <> "" Then
+            p = InStr(aEnt(k), "=")
+            If p > 0 Then
+                sQ = Mid$(aEnt(k), p + 1)
+                If IsNumeric(sQ) Then SomarQtdImpressoes = SomarQtdImpressoes + CLng(sQ)
+            End If
+        End If
+    Next k
+End Function
+
+Private Sub AtualizarLabelsSelecao()
+    lblQuantItens.Caption = ContarItensMarcados()
+    lblQuantSelecionada.Caption = SomarQtdImpressoes()
 End Sub
 
 
 Public Sub ReDimPreserve(ByRef arr, ByVal size1 As Long, ByVal size2 As Long)
 Dim arr2 As Variant
 Dim x As Long, y As Long
+Dim maxX As Long, maxY As Long
 
 'Check if it's an array first
 If Not IsArray(arr) Then Exit Sub
@@ -1008,10 +1175,13 @@ If Not IsArray(arr) Then Exit Sub
 'create new array with initial start
 ReDim arr2(LBound(arr, 1) To size1, LBound(arr, 2) To size2)
 
-'loop through first
-For x = LBound(arr, 1) To UBound(arr, 1)
-    For y = LBound(arr, 2) To UBound(arr, 2)
-        'if its in range, then append to new array the same way
+'copia so a regiao que existe nos DOIS arrays - funciona pra crescer E pra encolher.
+'antes o loop ia ate UBound(arr) e estourava (erro 9) quando arr2 era menor que arr.
+maxX = UBound(arr, 1): If size1 < maxX Then maxX = size1
+maxY = UBound(arr, 2): If size2 < maxY Then maxY = size2
+
+For x = LBound(arr, 1) To maxX
+    For y = LBound(arr, 2) To maxY
         arr2(x, y) = arr(x, y)
     Next
 Next
@@ -1022,6 +1192,7 @@ End Sub
 
 
 Private Sub cmdLocalizar_Click()
+If bSuprimirBuscaEtq Then Exit Sub
 Dim varTipoMostrar As String
 
 If optMostrarQuant.Value = True Then
@@ -1037,7 +1208,7 @@ End If
 Dim varTipoCodigo As String
 
 If optTCCriados.Value = True Then
-    varTipoCodigo = " AND len(produtos.cod_barra) < 6"
+    varTipoCodigo = " AND len(produtos.cod_barra) <= 6"   '6 chars = codigo criado (interno passou de 99999); > 6 = codigo proprio. sem fresta.
 ElseIf optTCProprios.Value = True Then
     varTipoCodigo = " AND len(produtos.cod_barra) > 6"
 ElseIf optTCTodos.Value = True Then
@@ -1109,25 +1280,8 @@ Private Sub cboDesc_Click()
 End Sub
 
 Private Sub cboDesc_GotFocus()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   If chkDescPorProduto.Value = Checked Then
-      cboDesc.Clear
-      
-      sSQL = "SELECT DISTINCT descricao FROM produtos ORDER BY descricao;"
-      Set r = dbData.OpenRecordset(sSQL)
-      
-      Do While Not r.EOF
-         cboDesc.AddItem ValidateNull(r("descricao"))
-         r.MoveNext
-      Loop
-      
-      If r.State <> 0 Then r.Close
-      Set r = Nothing
-      
-      moCombo.AttachTo cboDesc
-   End If
+   'cboDesc e texto livre: nao preenche lista de produtos nem faz autocomplete.
+   cboDesc.Clear
 End Sub
 
 Private Sub cboDesc_LostFocus()
@@ -1192,7 +1346,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .ColWidth(9) = 800
       .ColWidth(10) = 1850
       .ColWidth(11) = 800
-      .ColWidth(12) = 1000
+      .ColWidth(12) = 900
       
       '.RowHeight(-1) = (315 * 1)    'definir a altura da linha
       
@@ -1242,7 +1396,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
             .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_CFOP"))
             .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("var_ICMS"))
             .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("var_UnidMed"))
-            .TextMatrix(.rows - 1, 10) = Format$(ValidateNull(rTabela("var_cat")), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("var_cat"))
             .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("var_quant"))
             .TextMatrix(.rows - 1, 12) = Format$(ValidateNull(rTabela("venda")), ocMONEY)
             
@@ -1256,7 +1410,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .rows = .rows - 1
       .Redraw = True
       picAguarde.Visible = False
-      lblQuantSelecionada.Caption = SomaGrid(Grid, 4)
+      AtualizarLabelsSelecao
    End With
    
    editandoEtiqueta = False
@@ -1338,21 +1492,17 @@ With Grid
       Do While Not rTabela.EOF
          'ALINHAMENTO
          .ColAlignment(2) = 1
-             
-             If SelProcuraValor(xProdutosSelecionados, rTabela("var_cod")) Then
-                Set Grid.CellPicture = picChecked.Picture
-             End If
-             
+
          '.TextMatrix(.Rows - 1, 1) = ValidateNull(rTabela("var_codent"))
          .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("var_cod"))
-         .TextMatrix(.rows - 1, 5) = rTabela("var_codbarra")
+         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("var_codbarra"))
          .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("var_desc")) & " / " & ValidateNull(rTabela("var_fab"))
          .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("var_fab"))
          .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("var_NCM"))
          .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("var_CFOP"))
          .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("var_ICMS"))
          .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("var_UnidMed"))
-         .TextMatrix(.rows - 1, 12) = Format$(ValidateNull(rTabela("var_cat")), ocMONEY)
+         .TextMatrix(.rows - 1, 12) = ValidateNull(rTabela("var_cat"))
          .TextMatrix(.rows - 1, 13) = ValidateNull(rTabela("var_referencia"))
          .TextMatrix(.rows - 1, 14) = ValidateNull(rTabela("var_quant"))
          .TextMatrix(.rows - 1, 15) = Format$(ValidateNull(rTabela("venda")), ocMONEY)
@@ -1367,15 +1517,20 @@ With Grid
    For i = 1 To .rows - 1
       .Col = 3
       .Row = i
+      If SelProcuraValor(xProdutosSelecionados, .TextMatrix(i, 2)) Then
+         Set .CellPicture = picChecked.Picture
+         .TextMatrix(i, 4) = GetQtdImpr(.TextMatrix(i, 2))
+      Else
          Set .CellPicture = picUnchecked.Picture
-         .Row = i: .Col = 3: .CellPictureAlignment = 4 ' Align the checkbox
+      End If
+      .Row = i: .Col = 3: .CellPictureAlignment = 4 ' Align the checkbox
    Next
    
    
    .rows = .rows - 1
    .Redraw = True
    picAguarde.Visible = False
-   lblQuantSelecionada.Caption = SomaGrid(Grid, 4)
+   AtualizarLabelsSelecao
 End With
 
 editandoEtiqueta = True
@@ -1388,19 +1543,18 @@ End Sub
 Private Sub Grid_Click()
 Dim i As Integer
 
-If Grid.Col <> 3 Then
-    For i = 3 To 10
-       If Grid.ColSel = i Then
-          txtEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth, Grid.CellHeight
-          txtEdit.Text = Grid.TextMatrix(Grid.Row, Grid.Col)
-          txtEdit.Visible = True
-          txtEdit.SetFocus
-          txtEdit.SelStart = 0
-          txtEdit.SelLength = Len(txtEdit.Text)
-          iRow = Grid.Row
-          iCol = Grid.Col
-       End If
-    Next
+'so a coluna 4 (IMPRESSOES, so no modo etiqueta) e editavel no grid.
+'antes abria o editor pras colunas 3..10 (cod.barra, descricao, fabricante...) e dava
+'pra sobrescrever no grid o que ia pra etiqueta.
+If editandoEtiqueta And Grid.Col = 4 And SelProcuraValor(xProdutosSelecionados, Grid.TextMatrix(Grid.Row, 2)) Then
+    txtEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth, Grid.CellHeight
+    txtEdit.Text = Grid.TextMatrix(Grid.Row, Grid.Col)
+    txtEdit.Visible = True
+    txtEdit.SetFocus
+    txtEdit.SelStart = 0
+    txtEdit.SelLength = Len(txtEdit.Text)
+    iRow = Grid.Row
+    iCol = Grid.Col
 End If
 
 'If Grid.Col = 4 Then
@@ -1424,11 +1578,14 @@ End If
         SelAdicionaValor xProdutosSelecionados, Grid.TextMatrix(Grid.Row, 2)
         If Grid.CellPicture = picChecked Then
             Set Grid.CellPicture = picUnchecked
-            lblQuantSelecionada.Caption = SomaGrid(Grid, 4)
+            Grid.TextMatrix(Grid.Row, 4) = ""   'senao SomaGrid ainda conta esta linha
+            RemoveQtdImpr Grid.TextMatrix(Grid.Row, 2)
+            AtualizarLabelsSelecao
         Else
             Set Grid.CellPicture = picChecked
             Grid.TextMatrix(Grid.Row, 4) = 1
-            lblQuantSelecionada.Caption = SomaGrid(Grid, 4)
+            SetQtdImpr Grid.TextMatrix(Grid.Row, 2), 1
+            AtualizarLabelsSelecao
         End If
     End If
 End Sub
@@ -1441,13 +1598,17 @@ Private Sub Grid_LeaveCell()
 End Sub
 
 Private Sub optCategoria_Click()
+   bSuprimirBuscaEtq = True
+   optTCTodos.Value = True
+   optMostrarTodos.Value = True
+   bSuprimirBuscaEtq = False
    lblCategoria.Visible = True
    cboConsLinha.Visible = True
    lblDesc.Visible = False
    cboDesc.Visible = False
    cboDesc.Visible = False
-   chkDescPorProduto.Visible = False
-   chkDescPorIniciais.Visible = False
+   optPorPalavra.Visible = False
+   optPalavrasDuplas.Visible = False
    lblCodBarra.Visible = False
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = True
@@ -1455,13 +1616,17 @@ Private Sub optCategoria_Click()
 End Sub
 
 Private Sub optCodBarra_Click()
+   bSuprimirBuscaEtq = True
+   optTCTodos.Value = True
+   optMostrarTodos.Value = True
+   bSuprimirBuscaEtq = False
    lblCategoria.Visible = False
    cboConsLinha.Visible = False
    lblDesc.Visible = False
    cboDesc.Visible = False
    cboDesc.Visible = False
-   chkDescPorProduto.Visible = False
-   chkDescPorIniciais.Visible = False
+   optPorPalavra.Visible = False
+   optPalavrasDuplas.Visible = False
    lblCodBarra.Visible = True
    txtCodBarra.Visible = True
    cmdLocalizar.Visible = True
@@ -1469,12 +1634,17 @@ Private Sub optCodBarra_Click()
 End Sub
 
 Private Sub optDesc_Click()
+   bSuprimirBuscaEtq = True
+   optTCTodos.Value = True
+   optMostrarTodos.Value = True
+   bSuprimirBuscaEtq = False
    lblCategoria.Visible = False
    cboConsLinha.Visible = False
    lblDesc.Visible = True
    cboDesc.Visible = True
-   chkDescPorProduto.Visible = True
-   chkDescPorIniciais.Visible = True
+   optPorPalavra.Visible = True
+   optPalavrasDuplas.Visible = True
+   optPorPalavra.Value = True
    lblCodBarra.Visible = False
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = True
@@ -1516,8 +1686,8 @@ Private Sub optTodos_Click()
    lblDesc.Visible = False
    cboDesc.Visible = False
    cboDesc.Visible = False
-   chkDescPorProduto.Visible = False
-   chkDescPorIniciais.Visible = False
+   optPorPalavra.Visible = False
+   optPalavrasDuplas.Visible = False
    lblCodBarra.Visible = False
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = False
@@ -1538,11 +1708,13 @@ Private Sub txtEdit_KeyUp(KeyCode As Integer, Shift As Integer)
       If Grid.Row - 1 = 0 Then ShowMsg "VOCÊ JÁ ESTÁ NA PRIMEIRA LINHA !!!", vbExclamation: Exit Sub
       Grid.Row = iRow - 1
       Grid.TextMatrix(iRow, iCol) = IIf(txtEdit.Text = "", 0, txtEdit.Text)
+      AtualizarQtdDaLinha iRow
       Grid_Click
    
    ElseIf KeyCode = 40 Then
       If Grid.rows = Grid.Row + 1 Then ShowMsg "VOCÊ JÁ ESTÁ NA ULTIMA LINHA !!!", vbExclamation: Exit Sub
       Grid.TextMatrix(iRow, iCol) = IIf(txtEdit.Text = "", 0, txtEdit.Text)
+      AtualizarQtdDaLinha iRow
       Grid.Row = iRow + 1
       Grid_Click
    End If
@@ -1550,7 +1722,8 @@ End Sub
 
 Private Sub txtEdit_LostFocus()
 Grid.TextMatrix(iRow, iCol) = IIf(txtEdit.Text = "", 0, txtEdit.Text)
-lblQuantSelecionada.Caption = SomaGrid(Grid, 4)
+AtualizarQtdDaLinha iRow
+AtualizarLabelsSelecao
 txtEdit.Visible = False
 End Sub
 

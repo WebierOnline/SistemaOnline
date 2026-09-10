@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "13:44"
+            TextSave        =   "17:28"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -182,49 +182,49 @@ Begin VB.Form OS_Recapadora
       TabCaption(0)   =   "SITUAÇÃO"
       TabPicture(0)   =   "OS_Recapadora.frx":2441
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "lblPecasServicos"
+      Tab(0).Control(0)=   "Text1"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "lblQuantOS"
+      Tab(0).Control(1)=   "Frame6"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "lblSomaDesconto"
+      Tab(0).Control(2)=   "optFinanceiroFechado"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "llblTotalSemDesconto"
+      Tab(0).Control(3)=   "optFinanceiroAberto"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "Label15"
+      Tab(0).Control(4)=   "Text2"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cmdExcluir"
+      Tab(0).Control(5)=   "Grid_OS"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cmdPedidoPDF"
+      Tab(0).Control(6)=   "GridPecasServicos"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cmdOrcamentoPDF"
+      Tab(0).Control(7)=   "cmdEditarOS"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cmdImpGarantia1"
+      Tab(0).Control(8)=   "cmdNovoOS"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cmdImpPedido1"
+      Tab(0).Control(9)=   "cmdFinanceiroOS"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cmdImpOrcamento1"
+      Tab(0).Control(10)=   "cmdImpEntrada1"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "cmdImpEntrada1"
+      Tab(0).Control(11)=   "cmdImpOrcamento1"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "cmdFinanceiroOS"
+      Tab(0).Control(12)=   "cmdImpPedido1"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "cmdNovoOS"
+      Tab(0).Control(13)=   "cmdImpGarantia1"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "cmdEditarOS"
+      Tab(0).Control(14)=   "cmdOrcamentoPDF"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "GridPecasServicos"
+      Tab(0).Control(15)=   "cmdPedidoPDF"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "Grid_OS"
+      Tab(0).Control(16)=   "cmdExcluir"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "Text2"
+      Tab(0).Control(17)=   "Label15"
       Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "optFinanceiroAberto"
+      Tab(0).Control(18)=   "llblTotalSemDesconto"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "optFinanceiroFechado"
+      Tab(0).Control(19)=   "lblSomaDesconto"
       Tab(0).Control(19).Enabled=   0   'False
-      Tab(0).Control(20)=   "Frame6"
+      Tab(0).Control(20)=   "lblQuantOS"
       Tab(0).Control(20).Enabled=   0   'False
-      Tab(0).Control(21)=   "Text1"
+      Tab(0).Control(21)=   "lblPecasServicos"
       Tab(0).Control(21).Enabled=   0   'False
       Tab(0).ControlCount=   22
       TabCaption(1)   =   "CADASTRO"
@@ -260,9 +260,9 @@ Begin VB.Form OS_Recapadora
       TabCaption(2)   =   "FINANCEIRO"
       TabPicture(2)   =   "OS_Recapadora.frx":2479
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "frmVendaFechamento"
+      Tab(2).Control(0)=   "cmdFinalizarAP"
       Tab(2).Control(1)=   "cmdFinalizarAV"
-      Tab(2).Control(2)=   "cmdFinalizarAP"
+      Tab(2).Control(2)=   "frmVendaFechamento"
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "OS_Recapadora.frx":2495
@@ -1409,6 +1409,7 @@ Begin VB.Form OS_Recapadora
             _ExtentY        =   4128
             _Version        =   393216
             Tabs            =   2
+            Tab             =   1
             TabsPerRow      =   2
             TabHeight       =   520
             TabMaxWidth     =   3528
@@ -1423,14 +1424,15 @@ Begin VB.Form OS_Recapadora
             EndProperty
             TabCaption(0)   =   "Serviços"
             TabPicture(0)   =   "OS_Recapadora.frx":6BFF
-            Tab(0).ControlEnabled=   -1  'True
+            Tab(0).ControlEnabled=   0   'False
             Tab(0).Control(0)=   "frmServicos"
             Tab(0).Control(0).Enabled=   0   'False
             Tab(0).ControlCount=   1
             TabCaption(1)   =   "Produtos"
             TabPicture(1)   =   "OS_Recapadora.frx":6C1B
-            Tab(1).ControlEnabled=   0   'False
+            Tab(1).ControlEnabled=   -1  'True
             Tab(1).Control(0)=   "frmProdutos"
+            Tab(1).Control(0).Enabled=   0   'False
             Tab(1).ControlCount=   1
             Begin VB.Frame frmProdutos 
                Caption         =   "Produtos"
@@ -1444,7 +1446,7 @@ Begin VB.Form OS_Recapadora
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   1815
-               Left            =   -74880
+               Left            =   120
                TabIndex        =   155
                Top             =   360
                Width           =   9915
@@ -1722,7 +1724,7 @@ Begin VB.Form OS_Recapadora
                   Strikethrough   =   0   'False
                EndProperty
                Height          =   1875
-               Left            =   120
+               Left            =   -74880
                TabIndex        =   145
                Top             =   360
                Width           =   9915
@@ -13187,11 +13189,16 @@ Private Sub txtCodBarra_LostFocus()
         ' CASO 2: Possui texto - Busca baseada no Option selecionado
         
         If optCodBarra.Value = True Then
-            ' Formata com zeros apenas se for busca por Código de Barras
-            txtCodBarra.Text = Format(txtCodBarra.Text, "00000")
-            
+            ' Busca por COD_BARRA ou EAN tolerando zeros a esquerda
+            ' (cadastrado "074130173026", digitado "74130173026") - mesma folga do F2/PDV.
+            Dim sCB As String
+            sCB = Replace(Trim(txtCodBarra.Text), "'", "''")
             sSQL = "SELECT codigo AS var_codprod, descricao AS var_desc, tamanho, REF, fabricante FROM produtos " & _
-                   "WHERE (COD_BARRA = '" & txtCodBarra.Text & "') AND (ativo = 1);"
+                   "WHERE ativo = 1 AND (" & _
+                   "COD_BARRA = '" & sCB & "' OR EAN = '" & sCB & "' " & _
+                   "OR TRY_CONVERT(bigint, COD_BARRA) = TRY_CONVERT(bigint, '" & sCB & "') " & _
+                   "OR TRY_CONVERT(bigint, EAN) = TRY_CONVERT(bigint, '" & sCB & "') " & _
+                   "OR COD_BARRA = '" & Format(sCB, "00000") & "');"
         Else
             ' Busca por Código Interno (ID) - Usa VAL para garantir que é número
             sSQL = "SELECT codigo AS var_codprod, descricao AS var_desc, tamanho, REF, fabricante FROM produtos " & _

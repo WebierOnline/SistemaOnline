@@ -721,7 +721,7 @@ End If
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
-sSQL = "SELECT ISNULL(SUM(total),0) AS vProd FROM pedidos_itens WHERE cod_pedido=" & Pedido
+sSQL = "SELECT ISNULL(SUM(subtotal),0) AS vProd FROM pedidos_itens WHERE cod_pedido=" & Pedido   'bruto (antes do desconto) - antes somava total (liquido) e "Produtos" ficava = "Total"
 Set r = dbData.OpenRecordset(sSQL)
 lblTotalProdutos.Caption = Format(r("vProd"), ocMONEY)
 If r.State <> 0 Then r.Close
