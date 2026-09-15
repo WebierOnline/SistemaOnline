@@ -7416,6 +7416,133 @@ Private Sub lstCashBack_ItemCheck(ByVal Item As MSComctlLib.ListItem)
    If bTodas Then cmdMarcarTodos.Caption = "Desmarcar Todos" Else cmdMarcarTodos.Caption = "Marcar Todos"
 End Sub
 
+Public Function GerarEImprimirNFCeParaPedido(ByVal pCodPedido As Long) As Boolean
+'gera, transmite e imprime a NFCe de um pedido ja fechado, sem pedir confirmacao (chamado
+'pelo Estonar - cmdNFCe). Mesmo procedimento fiscal de cmdFinalizar_Click, mas independente
+'do estado da tela do PDV (nao mexe em txtCodPedido/txtCodCliente/cboTipoPgto).
+On Error GoTo ErrHandlerGerarNFCe
+
+Dim sSQL As String
+Dim r As ADODB.Recordset, rNFCe As ADODB.Recordset, rNFCeItens As ADODB.Recordset
+Dim bTrans As Boolean
+Dim iRetorno As Boolean
+Dim EncontroErroNFCe As Boolean
+Dim vTipoPgtoPedido As String
+Dim NFCeContingencia As Boolean
+
+GerarEImprimirNFCeParaPedido = False
+
+If NFCeJaExisteParaPedido(CStr(pCodPedido)) Then
+    MsgBox "NFCe para esse pedido já foi criada.", vbInformation, "Aviso do Sistema"
+    Exit Function
+End If
+
+sSQL = "SELECT tipo_pagamento FROM pedidos WHERE (cod_pedido = " & pCodPedido & ")"
+Set r = dbData.OpenRecordset(sSQL)
+If r.EOF Then
+    MsgBox "Pedido não encontrado.", vbExclamation, "Aviso do Sistema"
+    Exit Function
+End If
+vTipoPgtoPedido = ValidateNull(r("tipo_pagamento"))
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+If vConfImprimeNFCeLocal <> "SIM" Then
+    MsgBox "Essa máquina não está configurada para emitir NFCe localmente.", vbExclamation, "Aviso do Sistema"
+    Exit Function
+End If
+
+If (vTipoPgtoPedido = "à Prazo" Or vTipoPgtoPedido = "à PRAZO") And vNFCeConfPrazo <> "SIM" Then
+    MsgBox "A emissão de NFCe para vendas à Prazo está desativada nas configurações.", vbExclamation, "Aviso do Sistema"
+    Exit Function
+End If
+
+Dim oIni As Ini
+Set oIni = New Ini
+oIni.Arquivo = appPathApp & "config.ini"
+var_ImpNFCe = oIni.LerTexto("IMPRESSORA_NFCE", "impressora")
+Set oIni = Nothing
+
+Dim Prt As Printer
+For Each Prt In Printers
+   If Prt.DeviceName = var_ImpNFCe Then
+      Set Printer = Prt
+      Exit For
+   End If
+Next
+
+sSQL = "SELECT TOP 1 NFCeOffline FROM empresa ORDER BY fantasia;"
+Set r = dbData.OpenRecordset(sSQL)
+NFCeContingencia = r!NFCeOffline
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+VerificarConexaoParaNFCe NFCeContingencia
+
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
+sSQL = "EXEC NFCeIncluir " & pCodPedido
+dbData.Execute sSQL
+
+sSQL = "SELECT IdNFProd FROM TbNFCe WHERE Num_OS_VD_Origem = " & pCodPedido
+Set rNFCe = dbData.OpenRecordset(sSQL)
+
+If rNFCe.RecordCount = 0 Then
+    dbData.Execute "ROLLBACK TRANSACTION"
+    bTrans = False
+    MsgBox "Não foi possível gerar a NFCe para esse pedido.", vbExclamation, "Aviso do Sistema"
+    Exit Function
+End If
+
+PreencherReformaTributariaNFCe CLng(rNFCe!IdNFProd), dbData.ActiveConnection
+
+sSQL = "INSERT INTO [TbNFCe_Faturas] ([IdNFProd],[IDParcela],[TipoPgto],[Vencimento],[Valor],[IdBandeira],[CartaoNumeroAutorizacao]) " & _
+       "SELECT " & rNFCe!IdNFProd & ", NUMERO, dbo.NFCeFormaPagto(FORMA_PGTO, TIPO_CARTAO), DATA, VALOR, '01', '' " & _
+       "FROM [parcelas] WHERE COD_PEDIDO = " & pCodPedido
+dbData.Execute sSQL
+
+sSQL = "SELECT IdNFProd, IdNFProd_Item, IDProduto, CodBarras, DescricaoProduto, CodNcm, CFOP, Bc_Icms, ICMSCST, IPICST, COFINSCST, PISCST, UN " & _
+       "FROM TbNFCe_Itens WHERE (IdNFProd = " & rNFCe!IdNFProd & ");"
+Set rNFCeItens = dbData.OpenRecordset(sSQL)
+
+EncontroErroNFCe = ValidarItensNFCe(rNFCeItens)
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+
+If EncontroErroNFCe Then
+    MsgBox "A NFCe foi criada, mas algum item tem dado fiscal incompleto (NCM/CFOP/CST). Corrija o cadastro do produto antes de transmitir.", vbExclamation, "Aviso do Sistema"
+    Exit Function
+End If
+
+DoEvents
+iRetorno = TransmitirNFCe(rNFCe!IdNFProd, "1", Not NFCeContingencia, "65", True)
+If Not iRetorno And Not NFCeContingencia Then SugerirContingenciaSeSefazCaida
+
+If iRetorno Then
+    Dim sistNFe As snfe.Util
+    Set sistNFe = New snfe.Util
+    ConfiguraDLLNFeNFCe 65, "1", sistNFe
+    If Not NFCeContingencia Then
+       Call sistNFe.DANFCeImprimir(xCaminhoXML, True, var_ImpNFCe, True, xCaminhoPDF, 0, False, False, "")
+    Else
+       Call sistNFe.DANFCeOFFImprimir(xCaminhoXML, True, var_ImpNFCe, True, xCaminhoPDF, 0, False, False, "")
+    End If
+    GerarEImprimirNFCeParaPedido = True
+Else
+    MsgBox "A NFCe foi criada mas não foi autorizada pela SEFAZ.", vbExclamation, "Aviso do Sistema"
+End If
+
+Exit Function
+
+ErrHandlerGerarNFCe:
+If bTrans Then
+    dbData.Execute "ROLLBACK TRANSACTION"
+End If
+MsgBox "Erro ao gerar a NFCe: " & Err.Description, vbCritical, "Erro"
+End Function
+
 Private Function NFCeJaExisteParaPedido(ByVal pCodPedido As String) As Boolean
 'confere se ja existe uma NFCe emitida para esse pedido (mesma checagem em A VISTA e A PRAZO, so nomes de recordset diferiam)
 Dim rChecaNFCe As ADODB.Recordset
@@ -8863,6 +8990,9 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
            End If
         End If
     End If
+
+dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
+
 'COLOCAR O SUBTOTAL, DESCONTO E TOTAL DE CADA ITEM
   
 LimparObjetos_Pedido
@@ -9171,6 +9301,13 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 End If
                 
                 txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
+                If r("TIPO_ACRESCIMO") = "R" Then
+                    optAscrescRS.Value = True
+                Else
+                    optAscrescPorc.Value = True
+                End If
+                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
         
                  If varTipoPgto = "DINHEIRO" Then
                      cboformaPgto.Text = "1 - DINHEIRO"
@@ -9291,6 +9428,13 @@ Else
                 End If
                 
                 txtDesc.Text = FormatNumber(r("VALOR_DESC"), 3)
+                If r("TIPO_ACRESCIMO") = "R" Then
+                    optAscrescRS.Value = True
+                Else
+                    optAscrescPorc.Value = True
+                End If
+                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
         
                  If varTipoPgto = "DINHEIRO" Then
                      cboformaPgto.Text = "1 - DINHEIRO"
@@ -9489,6 +9633,13 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 End If
                 
                 txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
+                If r("TIPO_ACRESCIMO") = "R" Then
+                    optAscrescRS.Value = True
+                Else
+                    optAscrescPorc.Value = True
+                End If
+                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
                 
                  If varTipoPgto = "DINHEIRO" Then
                      cboformaPgto.Text = "1 - DINHEIRO"
@@ -9619,6 +9770,13 @@ Else
                 End If
                 
                 txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
+                If r("TIPO_ACRESCIMO") = "R" Then
+                    optAscrescRS.Value = True
+                Else
+                    optAscrescPorc.Value = True
+                End If
+                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
                 
                  If varTipoPgto = "DINHEIRO" Then
                      cboformaPgto.Text = "1 - DINHEIRO"
@@ -9921,6 +10079,13 @@ Else
         End If
         
         txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
+        If r("TIPO_ACRESCIMO") = "R" Then
+            optAscrescRS.Value = True
+        Else
+            optAscrescPorc.Value = True
+        End If
+        txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+        txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
         
         txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
         txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))

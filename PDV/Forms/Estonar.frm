@@ -18,6 +18,14 @@ Begin VB.Form Estonar
    ScaleWidth      =   14805
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
+   Begin VB.CheckBox chkMostrarCaixa 
+      Caption         =   "Mostrar Caixa"
+      Height          =   195
+      Left            =   13440
+      TabIndex        =   80
+      Top             =   2040
+      Width           =   1275
+   End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -487,6 +495,24 @@ Begin VB.Form Estonar
       TabIndex        =   13
       Top             =   600
       Width           =   7275
+      Begin VB.OptionButton optPalavrasDuplas 
+         Caption         =   "Palavras Duplas"
+         Height          =   195
+         Left            =   1980
+         TabIndex        =   79
+         Top             =   170
+         Visible         =   0   'False
+         Width           =   1515
+      End
+      Begin VB.OptionButton optPorPalavra 
+         Caption         =   "Palavra"
+         Height          =   195
+         Left            =   1020
+         TabIndex        =   78
+         Top             =   170
+         Visible         =   0   'False
+         Width           =   915
+      End
       Begin VB.ComboBox cboStatus 
          BeginProperty Font 
             Name            =   "Arial"
@@ -1173,7 +1199,7 @@ Begin VB.Form Estonar
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "11:48"
+            TextSave        =   "14:58"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -1408,7 +1434,7 @@ Begin VB.Form Estonar
       _ExtentX        =   2461
       _ExtentY        =   556
       BTYPE           =   3
-      TX              =   "REABERTURAS"
+      TX              =   "HISTÓRICO"
       ENAB            =   0   'False
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -1590,10 +1616,56 @@ Begin VB.Form Estonar
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin ChamaleonBtn.chameleonButton cmdNFCe 
+      Height          =   315
+      Left            =   12240
+      TabIndex        =   81
+      Top             =   6600
+      Width           =   1395
+      _ExtentX        =   2461
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "GERAR NFCE"
+      ENAB            =   0   'False
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Estonar.frx":7C6C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin VB.Image ImgMarcada 
+      Height          =   195
+      Left            =   14520
+      Picture         =   "Estonar.frx":7C88
+      Top             =   6600
+      Visible         =   0   'False
+      Width           =   195
+   End
    Begin VB.Image imLogoCupom 
       Height          =   1125
       Left            =   11100
-      Picture         =   "Estonar.frx":7C6C
+      Picture         =   "Estonar.frx":A087
       Top             =   720
       Visible         =   0   'False
       Width           =   2850
@@ -1887,13 +1959,12 @@ Private Sub PreencherCriterios()
 Dim varTexto As String
 varTexto = cboCriterios.Text
 cboCriterios.Clear
-cboCriterios.AddItem "NENHUM"
 cboCriterios.AddItem "CÓD. PEDIDO"
 cboCriterios.AddItem "CLIENTE"
 cboCriterios.AddItem "DATA"
 cboCriterios.AddItem "MENSAL"
-'cboCriterios.AddItem "PRODUTO"
-'cboCriterios.AddItem "CÓD. BARRA"
+cboCriterios.AddItem "PRODUTO"
+cboCriterios.AddItem "CÓD. BARRA"
 cboCriterios.Text = varTexto
 moCombo.AttachTo cboCriterios
 End Sub
@@ -1976,12 +2047,12 @@ Private Sub VerificarCaixa()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-If Grid.TextMatrix(Grid.Row, 19) = "0" Then
+If Grid.TextMatrix(Grid.Row, 21) = "0" Then
     CAIXA_FECHADO = True
 Else
     sSQL = "SELECT * " & _
            "FROM caixa_dia " & _
-           "WHERE (caixa = '" & Grid.TextMatrix(Grid.Row, 18) & "') and (codcaixa = '" & Grid.TextMatrix(Grid.Row, 19) & "');"
+           "WHERE (caixa = '" & Grid.TextMatrix(Grid.Row, 20) & "') and (codcaixa = '" & Grid.TextMatrix(Grid.Row, 21) & "');"
     Set r = dbData.OpenRecordset(sSQL)
     
     If r.EOF Then
@@ -2041,10 +2112,10 @@ If Grid.TextMatrix(Grid.Row, 5) = "ORÇAMENTO" Or Grid.TextMatrix(Grid.Row, 5) = 
             vDescItensVenda = FormatNumber(0, 2)
         Else
             'converter o desconto em dinheiro em porcentagem
-            If Grid.TextMatrix(Grid.Row, 13) = "" Then Exit Sub
+            If Grid.TextMatrix(Grid.Row, 14) = "" Then Exit Sub
             If Grid.TextMatrix(Grid.Row, 10) = "" Then Exit Sub
             
-            B = Grid.TextMatrix(Grid.Row, 13)
+            B = Grid.TextMatrix(Grid.Row, 14)
             A = Grid.TextMatrix(Grid.Row, 10)
             
             varValorDescProc = ((B - A) / A) * 100
@@ -2062,7 +2133,7 @@ If Grid.TextMatrix(Grid.Row, 5) = "ORÇAMENTO" Or Grid.TextMatrix(Grid.Row, 5) = 
         
         REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 10), 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 11), 2)
-        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 13), 2)
+        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 14), 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
         
         REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
@@ -2093,10 +2164,10 @@ Else
             vDescItensVenda = FormatNumber(0, 2)
         Else
             'converter o desconto em dinheiro em porcentagem
-            If Grid.TextMatrix(Grid.Row, 13) = "" Then Exit Sub
+            If Grid.TextMatrix(Grid.Row, 14) = "" Then Exit Sub
             If Grid.TextMatrix(Grid.Row, 10) = "" Then Exit Sub
             
-            B = Grid.TextMatrix(Grid.Row, 13)
+            B = Grid.TextMatrix(Grid.Row, 14)
             A = Grid.TextMatrix(Grid.Row, 10)
             
             varValorDescProc = ((B - A) / A) * 100
@@ -2114,7 +2185,7 @@ Else
         
         REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 10), 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 11), 2)
-        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 13), 2)
+        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 14), 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
         
         REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
@@ -2214,13 +2285,17 @@ If cboCriterios.Text = "NENHUM" Then
     cboMes.Visible = False
     lblAno.Visible = False
     cboAno.Visible = False
-    lblData.Visible = False
-    mskData.Visible = False
-    cmdCal1.Visible = False
+    lblData.Caption = "A partir de:"
+    lblData.Visible = True
+    mskData.Visible = True
+    cmdCal1.Visible = True
+    If Not IsDate(mskData.Text) Then mskData.Text = Format$(DateAdd("d", -90, Date), "dd/mm/yyyy")
     lblProduto.Visible = False
     cboProduto.Visible = False
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
 ElseIf cboCriterios.Text = "CÓD. PEDIDO" Then
     lblCliente.Visible = False
     cboCliente.Visible = False
@@ -2242,6 +2317,8 @@ ElseIf cboCriterios.Text = "CÓD. PEDIDO" Then
     cboProduto.Visible = False
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
     cboStatus.ListIndex = 0
     txtCodPedido.SetFocus
 ElseIf cboCriterios.Text = "CLIENTE" Then
@@ -2265,6 +2342,8 @@ ElseIf cboCriterios.Text = "CLIENTE" Then
     cboProduto.Visible = False
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
     cboStatus.ListIndex = 0
     cboCliente.SetFocus
 ElseIf cboCriterios.Text = "DATA" Then
@@ -2281,6 +2360,7 @@ ElseIf cboCriterios.Text = "DATA" Then
     cboMes.Visible = False
     lblAno.Visible = False
     cboAno.Visible = False
+    lblData.Caption = "Data:"
     lblData.Visible = True
     mskData.Visible = True
     cmdCal1.Visible = True
@@ -2288,6 +2368,8 @@ ElseIf cboCriterios.Text = "DATA" Then
     cboProduto.Visible = False
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
    cboStatus.ListIndex = 0
 '   mskData.SetFocus
 ElseIf cboCriterios.Text = "MENSAL" Then
@@ -2311,6 +2393,8 @@ ElseIf cboCriterios.Text = "MENSAL" Then
     cboProduto.Visible = False
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
     cboStatus.ListIndex = 0
     cboMes.SetFocus
 ElseIf cboCriterios.Text = "PRODUTO" Then
@@ -2332,6 +2416,9 @@ ElseIf cboCriterios.Text = "PRODUTO" Then
     cmdCal1.Visible = False
     lblProduto.Visible = True
     cboProduto.Visible = True
+    optPorPalavra.Visible = True
+    optPalavrasDuplas.Visible = True
+    optPorPalavra.Value = True
     lblCodBarra.Visible = False
     txtCodBarra.Visible = False
     cboProduto.SetFocus
@@ -2354,6 +2441,8 @@ ElseIf cboCriterios.Text = "CÓD. BARRA" Then
     cmdCal1.Visible = False
     lblProduto.Visible = False
     cboProduto.Visible = False
+    optPorPalavra.Visible = False
+    optPalavrasDuplas.Visible = False
     'cboStatus.ListIndex = 0
     lblCodBarra.Visible = True
     txtCodBarra.Visible = True
@@ -2418,24 +2507,8 @@ End Sub
 
 
 Private Sub cboProduto_GotFocus()
-Dim sSQL As String
-Dim r As ADODB.Recordset
-
+'busca por descricao (Palavra/Palavras Duplas) - nao popula mais a lista toda nem autocomplete
 cboProduto.Clear
-
-sSQL = "SELECT * FROM produtos ORDER BY descricao;"
-Set r = dbData.OpenRecordset(sSQL)
-
-Do While Not r.EOF
-   cboProduto.AddItem ValidateNull(r("descricao"))
-   cboProduto.ItemData(cboProduto.NewIndex) = r("codigo")
-   r.MoveNext
-Loop
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
-moCombo.AttachTo cboProduto
 End Sub
 
 
@@ -2445,14 +2518,7 @@ End Sub
 
 
 Private Sub cboProduto_LostFocus()
-On Error GoTo TrataErro
-
-If cboProduto.Text = "" Then txtCodProduto.Text = "": Exit Sub
-If cboProduto.ListIndex = -1 Then txtCodProduto.Text = "": Exit Sub
-txtCodProduto = cboProduto.ItemData(cboProduto.ListIndex)
-   
-TrataErro:
-   If Err.Number = 381 Then Exit Sub
+'texto livre agora - filtro e por descricao (optPorPalavra/optPalavrasDuplas), nao por codigo exato
 End Sub
 
 Private Sub cboStatus_Click()
@@ -2542,13 +2608,13 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possível cancelar um pedido já cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
 
 Dim vNFCeJaConfirmou As Boolean
-If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 24) = "SIM" Then
     If Not ResolverNFCePendente(Grid.TextMatrix(Grid.Row, 2), "cancelar o pedido", vNFCeJaConfirmou) Then Exit Sub
 End If
 
@@ -2556,7 +2622,7 @@ VerificarCaixa
 
 If Grid.TextMatrix(Grid.Row, 1) <> "ORÇAMENTO" And Grid.TextMatrix(Grid.Row, 1) <> "CONSIGNADO" Then
     If CAIXA_FECHADO = True Then
-        MsgBox "O " & Grid.TextMatrix(Grid.Row, 18) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 19), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
+        MsgBox "O " & Grid.TextMatrix(Grid.Row, 20) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 21), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
 End If
@@ -2569,7 +2635,7 @@ Else
 End If
 
 If vConfirmouCancelamento Then
-    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 1, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ");"
+    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 14)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 1, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ");"
     'Retornar a quantidade de produtos ao estoque
     If cboStatus.Text <> "VAZIO" Then
         dbData.Execute "UPDATE produtos SET " & _
@@ -2640,7 +2706,7 @@ If Grid.Rows <= 1 Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possível abrir um pedido cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2650,7 +2716,7 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 24) = "SIM" Then
     MsgBox "Não é possível abrir um pedido que já emitiu NFCE!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2659,7 +2725,7 @@ VerificarCaixa
 
 If Grid.TextMatrix(Grid.Row, 1) <> "ORÇAMENTO" And Grid.TextMatrix(Grid.Row, 1) <> "CONSIGNADO" Then
     If CAIXA_FECHADO = True Then
-        MsgBox "O " & Grid.TextMatrix(Grid.Row, 18) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 19), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
+        MsgBox "O " & Grid.TextMatrix(Grid.Row, 20) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 21), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
 End If
@@ -2671,7 +2737,7 @@ varTipoPedido = Grid.TextMatrix(Grid.Row, 1)
 codPedido = Grid.TextMatrix(Grid.Row, 2)
 
 If ShowMsg("Tem certeza que deseja editar o orçamento " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
-    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
+    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 14)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
     PDV.frmAvancado.Visible = False
     PDV.frmSenha.Visible = False
     Unload Estonar
@@ -2689,7 +2755,7 @@ If Grid.Rows <= 1 Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possível abrir um pedido cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2699,7 +2765,7 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 24) = "SIM" Then
     MsgBox "Não é possível abrir um pedido que já emitiu NFCE!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2708,7 +2774,7 @@ VerificarCaixa
 
 If Grid.TextMatrix(Grid.Row, 1) <> "ORÇAMENTO" And Grid.TextMatrix(Grid.Row, 1) <> "CONSIGNADO" Then
     If CAIXA_FECHADO = True Then
-        MsgBox "O " & Grid.TextMatrix(Grid.Row, 18) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 19), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
+        MsgBox "O " & Grid.TextMatrix(Grid.Row, 20) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 21), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
 End If
@@ -2720,7 +2786,7 @@ varTipoPedido = Grid.TextMatrix(Grid.Row, 1)
 codPedido = Grid.TextMatrix(Grid.Row, 2)
 
 If ShowMsg("Tem certeza que deseja editar o consignado " & Grid.TextMatrix(Grid.Row, 2) & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
-    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
+    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 14)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
     PDV.frmAvancado.Visible = False
     PDV.frmSenha.Visible = False
     Unload Estonar
@@ -2794,10 +2860,10 @@ If Grid.TextMatrix(Grid.Row, 5) = "ORÇAMENTO" Or Grid.TextMatrix(Grid.Row, 5) = 
             vDescItensVenda = FormatNumber(0, 2)
         Else
             'converter o desconto em dinheiro em porcentagem
-            If Grid.TextMatrix(Grid.Row, 13) = "" Then Exit Sub
+            If Grid.TextMatrix(Grid.Row, 14) = "" Then Exit Sub
             If Grid.TextMatrix(Grid.Row, 10) = "" Then Exit Sub
             
-            B = Grid.TextMatrix(Grid.Row, 13)
+            B = Grid.TextMatrix(Grid.Row, 14)
             A = Grid.TextMatrix(Grid.Row, 10)
             
             varValorDescProc = ((B - A) / A) * 100
@@ -2815,7 +2881,7 @@ If Grid.TextMatrix(Grid.Row, 5) = "ORÇAMENTO" Or Grid.TextMatrix(Grid.Row, 5) = 
         
         REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 10), 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 11), 2)
-        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 13), 2)
+        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 14), 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
         
         REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
@@ -2831,7 +2897,7 @@ If Grid.TextMatrix(Grid.Row, 5) = "ORÇAMENTO" Or Grid.TextMatrix(Grid.Row, 5) = 
         'REL_Pedido_Completo.txtDHead.Caption = "RELATORIO COMPLETO - ORÇAMENTO Nº " & txtCodPedido.Text
         'REL_Pedido_Completo.rfSubTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 10), "#,##0.00")
         'REL_Pedido_Completo.rfDesc.Caption = Format(Grid.TextMatrix(Grid.Row, 11), "#,##0.00")
-        'REL_Pedido_Completo.rfTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 13), "#,##0.00")
+        'REL_Pedido_Completo.rfTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 14), "#,##0.00")
         'REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
         'REL_Pedido_Completo.rfData.Caption = Grid.TextMatrix(Grid.Row, 4)
         'REL_Pedido_Completo.rfForma.Caption = Grid.TextMatrix(Grid.Row, 7)
@@ -2855,10 +2921,10 @@ Else
             vDescItensVenda = FormatNumber(0, 2)
         Else
             'converter o desconto em dinheiro em porcentagem
-            If Grid.TextMatrix(Grid.Row, 13) = "" Then Exit Sub
+            If Grid.TextMatrix(Grid.Row, 14) = "" Then Exit Sub
             If Grid.TextMatrix(Grid.Row, 10) = "" Then Exit Sub
             
-            B = Grid.TextMatrix(Grid.Row, 13)
+            B = Grid.TextMatrix(Grid.Row, 14)
             A = Grid.TextMatrix(Grid.Row, 10)
             
             varValorDescProc = ((B - A) / A) * 100
@@ -2876,7 +2942,7 @@ Else
         
         REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 10), 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 11), 2)
-        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 13), 2)
+        REL_Pedido_Completo.rfTotal.Caption = FormatNumber(Grid.TextMatrix(Grid.Row, 14), 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
         
         REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
@@ -2892,7 +2958,7 @@ Else
         'REL_Pedido_Completo.txtDHead.Caption = "RELATORIO COMPLETO - PEDIDO Nº " & txtCodPedido.Text
         'REL_Pedido_Completo.rfSubTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 10), "#,##0.00")
         'REL_Pedido_Completo.rfDesc.Caption = Format(Grid.TextMatrix(Grid.Row, 11), "#,##0.00")
-        'REL_Pedido_Completo.rfTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 13), "#,##0.00")
+        'REL_Pedido_Completo.rfTotal.Caption = Format(Grid.TextMatrix(Grid.Row, 14), "#,##0.00")
         'REL_Pedido_Completo.rfCliente.Caption = Grid.TextMatrix(Grid.Row, 9)
         'REL_Pedido_Completo.rfData.Caption = Grid.TextMatrix(Grid.Row, 4)
         'REL_Pedido_Completo.rfForma.Caption = Grid.TextMatrix(Grid.Row, 7)
@@ -2916,7 +2982,7 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possivel gerar um PDF de um pedido já cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2936,7 +3002,7 @@ If Grid.Rows <= 1 Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possível abrir um pedido cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -2947,7 +3013,7 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
 End If
 
 Dim vNFCeJaConfirmou As Boolean
-If Grid.TextMatrix(Grid.Row, 16) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 24) = "SIM" Then
     If Not ResolverNFCePendente(Grid.TextMatrix(Grid.Row, 2), "reabrir o pedido", vNFCeJaConfirmou) Then Exit Sub
 End If
 
@@ -2955,7 +3021,7 @@ VerificarCaixa
 
 If Grid.TextMatrix(Grid.Row, 1) <> "ORÇAMENTO" And Grid.TextMatrix(Grid.Row, 1) <> "CONSIGNADO" Then
     If CAIXA_FECHADO = True Then
-        MsgBox "O " & Grid.TextMatrix(Grid.Row, 18) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 19), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
+        MsgBox "O " & Grid.TextMatrix(Grid.Row, 20) & " com o Cód.: " & Format(Grid.TextMatrix(Grid.Row, 21), "0000") & ", desse pedido encontra-se fechado!", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
 End If
@@ -2979,7 +3045,7 @@ Else
 End If
 
 If vConfirmouReabertura Then
-    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 13)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
+    dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & lblCodUser2.Caption & ", '" & lblUser2.Caption & "', " & Replace(CCur(Grid.TextMatrix(Grid.Row, 14)), ",", ".") & ", CONVERT(DATETIME, '" & Format(StatusBar1.Panels(4).Text, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & Replace(CCur(Grid.TextMatrix(Grid.Row, 2)), ",", ".") & ", 0);"
     PDV.frmAvancado.Visible = False
     PDV.frmSenha.Visible = False
     Unload Estonar
@@ -3002,7 +3068,7 @@ If Grid.TextMatrix(Grid.Row, 1) = "ALUGUEL" Then
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 15) = "SIM" Then
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
     MsgBox "Não é possivel imprimir um pedido já cancelado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
@@ -3553,14 +3619,37 @@ Private Sub Imprimir_CupomSerrilha()
 '   'MsgBox Err.Description, vbCritical, "Erro no Sistema, Impressora Inoperante"
 End Sub
 
+Private Sub cmdNFCe_Click()
+If Grid.Rows <= 1 Then
+    MsgBox "Não existe nenhum pedido selecionado!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
+    MsgBox "Não é possível gerar NFCe de um pedido cancelado!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+If Grid.TextMatrix(Grid.Row, 24) = "SIM" Then
+    MsgBox "Esse pedido já possui uma NFCe vinculada!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+Screen.MousePointer = vbHourglass
+PDV.GerarEImprimirNFCeParaPedido CLng(Grid.TextMatrix(Grid.Row, 2))
+Screen.MousePointer = vbDefault
+
+Mostrar_Pedido
+End Sub
+
 Private Sub cmdReaberturas_Click()
 If Grid.Rows <= 1 Then
     MsgBox "Não existe nenhum pedido selecionado!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
 
-If Grid.TextMatrix(Grid.Row, 14) <> "SIM" Then
-    MsgBox "Não existe um histórico de reabertura para esse pedido!", vbInformation, "Aviso do Sistema"
+If Grid.TextMatrix(Grid.Row, 22) <> "SIM" And Grid.TextMatrix(Grid.Row, 23) <> "SIM" Then
+    MsgBox "Não existe um histórico de reabertura ou cancelamento para esse pedido!", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
 
@@ -3595,8 +3684,9 @@ Dim i As Integer
 Dim j As Integer
 
    With Grid
+      .Redraw = False
       .Clear
-      .Cols = 20
+      .Cols = 25
       .Rows = 2
       
       .ColWidth(0) = 0
@@ -3610,15 +3700,20 @@ Dim j As Integer
       .ColWidth(8) = 1450
       .ColWidth(9) = 3000
       .ColWidth(10) = 900
-      .ColWidth(11) = 900
-      .ColWidth(12) = 900
-      .ColWidth(13) = 900
-      .ColWidth(14) = 800
+      .ColWidth(11) = 850
+      .ColWidth(12) = 850
+      .ColWidth(13) = 850
+      .ColWidth(14) = 900
       .ColWidth(15) = 800
       .ColWidth(16) = 800
-      .ColWidth(17) = 0
-      .ColWidth(18) = 800
-      .ColWidth(19) = 800
+      .ColWidth(17) = 750
+      .ColWidth(18) = 0
+      .ColWidth(19) = IIf(chkMostrarCaixa.Value = Checked, 900, 0)
+      .ColWidth(20) = IIf(chkMostrarCaixa.Value = Checked, 800, 0)
+      .ColWidth(21) = IIf(chkMostrarCaixa.Value = Checked, 800, 0)
+      .ColWidth(22) = 0
+      .ColWidth(23) = 0
+      .ColWidth(24) = 0
       
       .TextMatrix(0, 1) = "TIPO"
       .TextMatrix(0, 2) = "PEDIDO"
@@ -3632,13 +3727,15 @@ Dim j As Integer
       .TextMatrix(0, 10) = "SUBTOT."
       .TextMatrix(0, 11) = "DESC."
       .TextMatrix(0, 12) = "ACRESC."
-      .TextMatrix(0, 13) = "VALOR"
-      .TextMatrix(0, 14) = "Reaberto"
-      .TextMatrix(0, 15) = "Cancel."
-      .TextMatrix(0, 16) = "NFCe"
-      .TextMatrix(0, 17) = "INUT"
-      .TextMatrix(0, 18) = "CAIXA"
-      .TextMatrix(0, 19) = "CÓD/CX"
+      .TextMatrix(0, 13) = "FRETE"
+      .TextMatrix(0, 14) = "VALOR"
+      .TextMatrix(0, 15) = "EDITADO"
+      .TextMatrix(0, 16) = "CANCEL."
+      .TextMatrix(0, 17) = "NFCe"
+      .TextMatrix(0, 18) = "INUT"
+      .TextMatrix(0, 19) = "MAQUINA"
+      .TextMatrix(0, 20) = "CAIXA"
+      .TextMatrix(0, 21) = "CÓD/CX"
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -3675,13 +3772,33 @@ Dim j As Integer
             .TextMatrix(.Rows - 1, 10) = Format(rTabela("var_SUBTOTAL"), ocMONEY)
             .TextMatrix(.Rows - 1, 11) = Format(rTabela("var_DESC"), ocMONEY)
             .TextMatrix(.Rows - 1, 12) = Format(rTabela("var_ACRESC"), ocMONEY)
-            .TextMatrix(.Rows - 1, 13) = Format(rTabela("var_Total"), ocMONEY)
-            .TextMatrix(.Rows - 1, 14) = rTabela("Var_StatusREABERTO")
-            .TextMatrix(.Rows - 1, 15) = rTabela("Var_StatusCANCELADO")
-            .TextMatrix(.Rows - 1, 16) = ValidateNull(rTabela("Var_StatusNFCE"))
-'            .TextMatrix(.Rows - 1, 17) = rTabela("Var_NFCEInutilizada")
-            .TextMatrix(.Rows - 1, 18) = ValidateNull(rTabela("VarPEDCAIXA"))
-            .TextMatrix(.Rows - 1, 19) = ValidateNull(rTabela("VarPEDCODCAIXA"))
+            .TextMatrix(.Rows - 1, 13) = Format(rTabela("varPedFrete"), ocMONEY)
+            .TextMatrix(.Rows - 1, 14) = Format(rTabela("var_Total"), ocMONEY)
+            .TextMatrix(.Rows - 1, 22) = rTabela("Var_StatusREABERTO")
+            .TextMatrix(.Rows - 1, 23) = rTabela("Var_StatusCANCELADO")
+            .TextMatrix(.Rows - 1, 24) = ValidateNull(rTabela("Var_StatusNFCE"))
+            If .TextMatrix(.Rows - 1, 22) = "SIM" Then
+                .Row = .Rows - 1
+                .Col = 15
+                Set .CellPicture = ImgMarcada.Picture
+                .CellPictureAlignment = 4
+            End If
+            If .TextMatrix(.Rows - 1, 23) = "SIM" Then
+                .Row = .Rows - 1
+                .Col = 16
+                Set .CellPicture = ImgMarcada.Picture
+                .CellPictureAlignment = 4
+            End If
+            If .TextMatrix(.Rows - 1, 24) = "SIM" Then
+                .Row = .Rows - 1
+                .Col = 17
+                Set .CellPicture = ImgMarcada.Picture
+                .CellPictureAlignment = 4
+            End If
+'            .TextMatrix(.Rows - 1, 18) = rTabela("Var_NFCEInutilizada")
+            .TextMatrix(.Rows - 1, 19) = ValidateNull(rTabela("varPedMaquina"))
+            .TextMatrix(.Rows - 1, 20) = ValidateNull(rTabela("VarPEDCAIXA"))
+            .TextMatrix(.Rows - 1, 21) = ValidateNull(rTabela("VarPEDCODCAIXA"))
             rTabela.MoveNext
             .Rows = .Rows + 1
          Loop
@@ -3690,8 +3807,22 @@ Dim j As Integer
    FlexCores &HFFFFFF, &HE0E0E0
 
       .Rows = .Rows - 1
+      .Redraw = True
    End With
 End Sub
+Private Sub chkMostrarCaixa_Click()
+'mostra/esconde MAQUINA, CAIXA e CÓD/CX (colunas 19, 20, 21) sem precisar reconsultar
+If chkMostrarCaixa.Value = Checked Then
+    Grid.ColWidth(19) = 900
+    Grid.ColWidth(20) = 800
+    Grid.ColWidth(21) = 800
+Else
+    Grid.ColWidth(19) = 0
+    Grid.ColWidth(20) = 0
+    Grid.ColWidth(21) = 0
+End If
+End Sub
+
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency
 Dim i As Integer, Valor As Currency
 
@@ -3714,7 +3845,11 @@ lblTotalGrid.Caption = Format(0, ocMONEY)
 
 '======================================================= CRITERIOS WHERE
 If cboCriterios.Text = "NENHUM" Then
-    varCriterio = " "
+    If IsDate(mskData.Text) Then
+        varCriterio = " and pedidos.DATA_COMPRA >= CONVERT(DATETIME, '" & Format$(CDate(mskData.Text), "yyyymmdd") & "') "
+    Else
+        varCriterio = " "
+    End If
 ElseIf cboCriterios.Text = "CÓD. PEDIDO" Then
     If txtCodPedidoCerto.Text = "" Then
         varCriterio = " and pedidos.cod_pedido = 0 "
@@ -3723,9 +3858,9 @@ ElseIf cboCriterios.Text = "CÓD. PEDIDO" Then
     End If
 ElseIf cboCriterios.Text = "CÓD. BARRA" Then
     If txtCodProdutoBarra.Text = "0" Then
-        varCriterio = " and (pedidos_itens.cod_produto < '0') "
+        varCriterio = " and pedidos.cod_pedido = 0 "
     Else
-        varCriterio = " and (pedidos_itens.cod_produto = " & txtCodProdutoBarra.Text & ") "
+        varCriterio = " and EXISTS (SELECT 1 FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.COD_PEDIDO AND pedidos_itens.cod_produto = " & txtCodProdutoBarra.Text & ") "
     End If
 ElseIf cboCriterios.Text = "CLIENTE" Then
     If txtCodCliente.Text = "" Then
@@ -3744,8 +3879,27 @@ ElseIf cboCriterios.Text = "MENSAL" Then
     varCriterio = " and (MONTH(DATA_COMPRA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(DATA_COMPRA) = " & cboAno & ")"
     'varCriterio = " and pedidos.cod_pedido = " & txtCodPedidoCerto.Text & ""
 ElseIf cboCriterios.Text = "PRODUTO" Then
-    If txtCodProduto.Text = "" Then Exit Sub
-    varCriterio = " and (pedidos_itens.cod_produto = " & txtCodProduto.Text & ")"
+    If Trim(cboProduto.Text) = "" Then Exit Sub
+    Dim vDescProduto As String
+    vDescProduto = ""
+    If optPorPalavra.Value = True Then
+        vDescProduto = "(pr.descricao COLLATE Latin1_General_CI_AI LIKE '%" & cboProduto.Text & "%')"
+    ElseIf optPalavrasDuplas.Value = True Then
+        Dim aPalavras() As String
+        Dim iPal As Integer
+        Dim sPartes As String
+        aPalavras = Split(Trim(cboProduto.Text), " ")
+        sPartes = ""
+        For iPal = 0 To UBound(aPalavras)
+            If Trim(aPalavras(iPal)) <> "" Then
+                If sPartes <> "" Then sPartes = sPartes & " AND "
+                sPartes = sPartes & "(pr.descricao COLLATE Latin1_General_CI_AI LIKE '%" & Trim(aPalavras(iPal)) & "%')"
+            End If
+        Next iPal
+        If sPartes <> "" Then vDescProduto = "(" & sPartes & ")"
+    End If
+    If vDescProduto = "" Then Exit Sub
+    varCriterio = " and EXISTS (SELECT 1 FROM pedidos_itens INNER JOIN produtos pr ON pr.codigo = pedidos_itens.cod_produto WHERE pedidos_itens.cod_pedido = pedidos.COD_PEDIDO AND " & vDescProduto & ")"
 End If
 
 '====================================================== TIPO DE PEDIDO
@@ -3804,7 +3958,7 @@ ElseIf cboIndice.Text = "CLIENTE" Then
     If cboStatus.Text = "VAZIO" Then
         varIndice = " pedidos.cod_pedido "
     Else
-        varIndice = " cliente.codigo "
+        varIndice = " pedidos.COD_CLIENTE "   'antes era cliente.codigo - estourava nos ramos sem JOIN Cliente (ex.: TODOS/VENDA sem criterio CLIENTE)
     End If
 ElseIf cboIndice.Text = "EMISSÃO" Then
     varIndice = " var_Data "
@@ -3833,7 +3987,8 @@ If cboStatus.Text = "TODOS" Then
         varStatus = " pedidos.status_pedido = 0 "
     End If
     'SUBSTRING((SELECT ', ' + P.FORMA_PGTO FROM dbo.parcelas P WHERE P.COD_PEDIDO = C.COD_PEDIDO FOR XML PATH ('')), 2, 1000) var_Pagamento
-     'sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, (CASE WHEN TbNFCe.NFCeEnviada = 1 THEN 'SIM' ELSE '' END) AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
+     'sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, (CASE WHEN TbNFCe.NFCeEnviada = 1 THEN 'SIM' ELSE '' END) AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, " & _
+'        "pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
      "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
     "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & " " & vExibirCancelados & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
     'If cboTipoPedido.Text <> "ORÇAMENTO" Then
@@ -3841,30 +3996,32 @@ If cboStatus.Text = "TODOS" Then
         If chkIncompleto.Value = Unchecked Then
             If cboCriterios.Text <> "CLIENTE" Then
                 'If cboTipoPedido.Text <> "CANCELADO" Then
-                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+                sSQL = "SELECT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                     "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
-                    "SUBSTRING((SELECT ', ' + P.FORMA_PGTO FROM dbo.parcelas P WHERE P.COD_PEDIDO = pedidos.COD_PEDIDO FOR XML PATH ('')), 2, 1000) var_Pagamento,  " & _
+                    "(CASE WHEN pedidos.CANCELADO = 1 THEN '(cancelado)' ELSE pgto.var_Pagamento END) AS var_Pagamento,  " & _
                     "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE " & _
-                    "FROM pedidos INNER JOIN parcelas ON pedidos.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-                    "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
+                    "FROM pedidos " & _
+                    "LEFT JOIN (SELECT pp.COD_PEDIDO, SUBSTRING((SELECT ', ' + p2.FORMA_PGTO FROM dbo.parcelas p2 WHERE p2.COD_PEDIDO = pp.COD_PEDIDO FOR XML PATH ('')), 2, 1000) AS var_Pagamento FROM dbo.parcelas pp GROUP BY pp.COD_PEDIDO) pgto ON pgto.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+                    "WHERE " & varStatus & " " & varFormaPgto & " " & vTipoPedido & " AND (EXISTS (SELECT 1 FROM parcelas WHERE parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & varTipoPgto & ") OR pedidos.CANCELADO = 1) AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
             ElseIf cboCriterios.Text = "CLIENTE" Then
-                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
-                    "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
-                    "SUBSTRING((SELECT ', ' + P.FORMA_PGTO FROM dbo.parcelas P WHERE P.COD_PEDIDO = pedidos.COD_PEDIDO FOR XML PATH ('')), 2, 1000) var_Pagamento,  " & _
+                sSQL = "SELECT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+                    "cliente.nome AS var_Cliente, " & _
+                    "(CASE WHEN pedidos.CANCELADO = 1 THEN '(cancelado)' ELSE pgto.var_Pagamento END) AS var_Pagamento,  " & _
                     "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE " & _
-                    "FROM pedidos INNER JOIN parcelas ON pedidos.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
-                    "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
+                    "FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
+                    "LEFT JOIN (SELECT pp.COD_PEDIDO, SUBSTRING((SELECT ', ' + p2.FORMA_PGTO FROM dbo.parcelas p2 WHERE p2.COD_PEDIDO = pp.COD_PEDIDO FOR XML PATH ('')), 2, 1000) AS var_Pagamento FROM dbo.parcelas pp GROUP BY pp.COD_PEDIDO) pgto ON pgto.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+                    "WHERE " & varStatus & " " & varFormaPgto & " " & vTipoPedido & " AND (EXISTS (SELECT 1 FROM parcelas WHERE parcelas.COD_PEDIDO = pedidos.COD_PEDIDO " & varTipoPgto & ") OR pedidos.CANCELADO = 1) AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
             End If
         Else
             If cboCriterios.Text <> "CLIENTE" Then
                 'If cboTipoPedido.Text <> "CANCELADO" Then
-                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                     "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                     "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE " & _
                     "FROM pedidos " & _
                     "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
             ElseIf cboCriterios.Text = "CLIENTE" Then
-                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+                sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                     "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                     "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE " & _
                     "FROM pedidos " & _
@@ -3874,14 +4031,15 @@ If cboStatus.Text = "TODOS" Then
         
     ElseIf cboTipoPedido.Text = "CANCELADO" Then
         'If cboCriterios.Text <> "CLIENTE" Then
-            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                 "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
-                "SUBSTRING((SELECT ', ' + P.FORMA_PGTO FROM dbo.parcelas P WHERE P.COD_PEDIDO = pedidos.COD_PEDIDO FOR XML PATH ('')), 2, 1000) var_Pagamento,  " & _
+                "pgto.var_Pagamento,  " & _
                 "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE " & _
                 "FROM pedidos " & _
+                "LEFT JOIN (SELECT pp.COD_PEDIDO, SUBSTRING((SELECT ', ' + p2.FORMA_PGTO FROM dbo.parcelas p2 WHERE p2.COD_PEDIDO = pp.COD_PEDIDO FOR XML PATH ('')), 2, 1000) AS var_Pagamento FROM dbo.parcelas pp GROUP BY pp.COD_PEDIDO) pgto ON pgto.COD_PEDIDO = pedidos.COD_PEDIDO " & _
                 "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
         'ElseIf cboCriterios.Text = "CLIENTE" Then
-        '    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+        '    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
         '        "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
         '        "SUBSTRING((SELECT ', ' + P.FORMA_PGTO FROM dbo.parcelas P WHERE P.COD_PEDIDO = pedidos.COD_PEDIDO FOR XML PATH ('')), 2, 1000) var_Pagamento,  " & _
         '        "(SELECT (CASE WHEN N .NFCeEnviada = 1 THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)) AS Var_StatusNFCE " & _
@@ -3892,13 +4050,13 @@ If cboStatus.Text = "TODOS" Then
     
     
         If cboCriterios.Text <> "CLIENTE" Then
-            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                 "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                 "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, '' var_Pagamento " & _
                 "FROM pedidos " & _
                 "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL' )"
         ElseIf cboCriterios.Text = "CLIENTE" Then
-            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                 "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                 "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, '' var_Pagamento " & _
                 "FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
@@ -3909,13 +4067,13 @@ If cboStatus.Text = "TODOS" Then
         
     ElseIf cboTipoPedido.Text = "ORÇAMENTO" Then
         If cboCriterios.Text <> "CLIENTE" Then
-            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                 "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                 "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, '' var_Pagamento " & _
                 "FROM pedidos " & _
                 "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & "  AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
         ElseIf cboCriterios.Text = "CLIENTE" Then
-            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
+            sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa,  " & _
                 "(SELECT nome AS var_Cliente FROM Cliente AS C WHERE (c.CODIGO = pedidos.COD_CLIENTE)) AS var_Cliente, " & _
                 "ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, '' var_Pagamento " & _
                 "FROM pedidos INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
@@ -3925,26 +4083,27 @@ If cboStatus.Text = "TODOS" Then
 
 ElseIf cboStatus.Text = "FECHADO" Then
     varStatus = " pedidos.status_pedido = 1 "
-    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data,pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, " & _
-        "(CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
+    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data,pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, ISNULL(CASE WHEN TbNFCe.NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END, '') AS Var_StatusNFCE, " & _
+        "(CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
         "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
         "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
 ElseIf cboStatus.Text = "ABERTO" Then
     varStatus = " pedidos.status_pedido = 0 AND (not(COD_CLIENTE IS NULL)) "
-    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data,pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO , ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, " & _
-       "(CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
+    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data,pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO , ISNULL(CASE WHEN TbNFCe.NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END, '') AS Var_StatusNFCE, " & _
+       "(CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
         "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
        "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
 ElseIf cboStatus.Text = "PAUSADO" Then
     varStatus = " pedidos.status_pedido = -1 "
-    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, " & _
-        " (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, (CASE WHEN TbNFCe.NFCeEnviada = 1 THEN 'SIM' ELSE '' END) AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.caixa as varPedCaixa, " & _
+    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, cliente.nome as var_Cliente, cliente.codigo, pedidos.DATA_COMPRA as var_Data, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, ISNULL(CASE WHEN TbNFCe.NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END, '') AS Var_StatusNFCE, " & _
+        " (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, " & _
         "pedidos.codcaixa as varPedCodCaixa, pedidos.TIPO_PEDIDO AS var_TIPOPedido " & _
         "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
        "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & "" & vTipoPedido & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
 ElseIf cboStatus.Text = "VAZIO" Then
     varStatus = " (STATUS_PEDIDO = 0) AND (COD_CLIENTE IS NULL)"
-    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, cliente.codigo, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
+    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, cliente.codigo, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, " & _
+        "pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedidos.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
         "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
        "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & " " & vTipoPedido & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
 End If
@@ -3961,76 +4120,40 @@ End If
 
 FormatarGrid_Pedido r
 
-Dim soma As Currency
-Dim contar As Integer
 Dim i As Integer
+Dim somaV As Currency, somaO As Currency, somaC As Currency, somaCanc As Currency
+Dim contarV As Long, contarO As Long, contarC As Long, contarCanc As Long
 
-'Somar as vendas
-soma = 0
-contar = 0
+'totais do grid - uma passada so (antes eram 4 varreduras separadas)
 With Grid
    For i = 1 To .Rows - 1
-      If .TextMatrix(i, 1) = "VENDA" Then
-        If .TextMatrix(i, 15) <> "SIM" Then
-            contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 13))
-        End If
+      If .TextMatrix(i, 23) = "SIM" Then
+         contarCanc = contarCanc + 1
+         somaCanc = somaCanc + CCur(.TextMatrix(i, 14))
+      Else
+         Select Case .TextMatrix(i, 1)
+            Case "VENDA"
+               contarV = contarV + 1
+               somaV = somaV + CCur(.TextMatrix(i, 14))
+            Case "ORÇAMENTO"
+               contarO = contarO + 1
+               somaO = somaO + CCur(.TextMatrix(i, 14))
+            Case "CONSIGNADO"
+               contarC = contarC + 1
+               somaC = somaC + CCur(.TextMatrix(i, 14))
+         End Select
       End If
    Next
 End With
 
-lblTotalGrid.Caption = Format(soma, "#,##0.00")
-lblTotalVendas.Caption = Format(contar, "000")
-
-
-'Somar as orçamento
-soma = 0
-contar = 0
-With Grid
-   For i = 1 To .Rows - 1
-      If .TextMatrix(i, 1) = "ORÇAMENTO" Then
-        If .TextMatrix(i, 15) <> "SIM" Then
-            contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 13))
-        End If
-      End If
-   Next
-End With
-
-lblTotalGridORC.Caption = Format(soma, "#,##0.00")
-lblQuantOrc.Caption = Format(contar, "000")
-
-'Somar as consignado
-soma = 0
-contar = 0
-With Grid
-   For i = 1 To .Rows - 1
-      If .TextMatrix(i, 1) = "CONSIGNADO" Then
-        If .TextMatrix(i, 15) <> "SIM" Then
-            contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 13))
-        End If
-      End If
-   Next
-End With
-
-lblTotalGridConsignado.Caption = Format(soma, "#,##0.00")
-lblQuantConsignado.Caption = Format(contar, "000")
-
-'canceladas
-soma = 0
-contar = 0
-With Grid
-   For i = 1 To .Rows - 1
-      If .TextMatrix(i, 15) = "SIM" Then
-         contar = contar + 1
-         soma = soma + CCur(.TextMatrix(i, 13))
-      End If
-   Next
-End With
-
-lblTotalCanc.Caption = Format(soma, "#,##0.00")
-lblQuantCanc.Caption = Format(contar, "000")
+lblTotalGrid.Caption = Format(somaV, "#,##0.00")
+lblTotalVendas.Caption = Format(contarV, "000")
+lblTotalGridORC.Caption = Format(somaO, "#,##0.00")
+lblQuantOrc.Caption = Format(contarO, "000")
+lblTotalGridConsignado.Caption = Format(somaC, "#,##0.00")
+lblQuantConsignado.Caption = Format(contarC, "000")
+lblTotalCanc.Caption = Format(somaCanc, "#,##0.00")
+lblQuantCanc.Caption = Format(contarCanc, "000")
 
 'lblTotalGridORC.Caption = " Orçamentos: " & Format(soma, "#,##0.00")
 
@@ -4068,13 +4191,14 @@ Set moCombo = New cComboHelper
 
 
 CAIXA_FECHADO = True
+chkMostrarCaixa.Value = Unchecked
 txtCodPedidoCerto.Text = ""
 txtCodCliente.Text = ""
 txtCodPedido.Text = ""
 cboCliente.Text = ""
 optDig.Value = True
 PreencherCriterios
-cboCriterios.ListIndex = 3
+cboCriterios.ListIndex = 2   'DATA (indice mudou: NENHUM removido, PRODUTO/COD.BARRA ativados em PreencherCriterios)
 PreencherIndice
 cboIndice.ListIndex = 0
 PreencherStatus
@@ -4187,13 +4311,24 @@ If vQuantLinhas >= 1 Then
         If Grid.TextMatrix(Grid.Row, 1) = "CONSIGNADO" Then cmdModificarConsignado.Enabled = True: cmdModificarConsignado.Visible = True: cmdModificar.Visible = False: cmdModificar.Enabled = False: cmdPedidoAbrir.Caption = "CONVERTER": cmdModificarConsignado.Caption = "EDITAR" Else cmdModificarConsignado.Enabled = False: cmdPedidoAbrir.Caption = "REABRIR"
     End If
     
-    If Grid.TextMatrix(Grid.Row, 14) = "SIM" Then cmdReaberturas.Enabled = True Else cmdReaberturas.Enabled = False
+    If Grid.TextMatrix(Grid.Row, 22) = "SIM" Or Grid.TextMatrix(Grid.Row, 23) = "SIM" Then cmdReaberturas.Enabled = True Else cmdReaberturas.Enabled = False
+    If Grid.TextMatrix(Grid.Row, 23) <> "SIM" And Grid.TextMatrix(Grid.Row, 24) <> "SIM" Then cmdNFCe.Enabled = True Else cmdNFCe.Enabled = False
     cmdPedidoImprimir.Enabled = True
     cmdPDF.Enabled = True
     cmdMostrarProdutos.Enabled = True
     
     'permissões
     LiberarBotoesPermissoes
+    
+    'venda cancelada: so pode ver os produtos, imprimir a lista e ver o historico (cmdReaberturas)
+    If Grid.TextMatrix(Grid.Row, 23) = "SIM" Then
+        cmdPedidoAbrir.Enabled = False
+        cmdModificar.Enabled = False
+        cmdModificarConsignado.Enabled = False
+        cmdExcluirPedido.Enabled = False
+        cmdPedidoImprimir.Enabled = False
+        cmdPDF.Enabled = False
+    End If
 End If
 End Sub
 
@@ -4254,6 +4389,10 @@ Sub FlexCores(lCorPar As Long, lCorImpar As Long)
    'ZEBRAR O FLEXGRID
    Dim iLinha As Integer
    Dim lCor As OLE_COLOR
+   Dim lCorTexto As OLE_COLOR
+   Dim bRedrawAnt As Boolean
+   bRedrawAnt = Grid.Redraw
+   Grid.Redraw = False
    
    Grid.FillStyle = flexFillRepeat
    
@@ -4267,13 +4406,21 @@ Sub FlexCores(lCorPar As Long, lCorImpar As Long)
             lCor = lCorPar
          End If
          
+         If .TextMatrix(iLinha, 23) = "SIM" Then   'coluna oculta - pedido cancelado (ver patch_estonar_imgmarcada.py)
+            lCorTexto = vbRed
+         Else
+            lCorTexto = vbBlack
+         End If
+         
          .Col = 1                'Seleciona a partir da primeira coluna
          .ColSel = .Cols - 1     'Seleciona até a última coluna
          .CellBackColor = lCor   'Aplica a cor
+         .CellForeColor = lCorTexto   'vermelho se cancelado
       End With
    Next
    
    Grid.FillStyle = flexFillSingle
+   Grid.Redraw = bRedrawAnt
 End Sub
 
 Function EImpar(ByVal iNum As Long) As Boolean

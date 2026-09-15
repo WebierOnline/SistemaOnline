@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Begin VB.Form Estorno_ReabrirPedidos 
    BackColor       =   &H00FFC0C0&
@@ -101,6 +101,14 @@ Begin VB.Form Estorno_ReabrirPedidos
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin VB.Image ImgMarcada 
+      Height          =   195
+      Left            =   8280
+      Picture         =   "Estorno_ReabrirPedidos.frx":2708
+      Top             =   4200
+      Visible         =   0   'False
+      Width           =   195
+   End
 End
 Attribute VB_Name = "Estorno_ReabrirPedidos"
 Attribute VB_GlobalNameSpace = False
@@ -110,8 +118,8 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim sSQL As String
 Dim r As ADODB.Recordset
-Public Sub LoadInformacoes(ByVal Pedido As Long)
-sSQL = "SELECT *, CASE cancelado WHEN 0 THEN '' ELSE 'SIM' END AS vCancelado , CASE status_pedido WHEN 0 THEN 'SIM' ELSE '' END AS vStatus " & _
+Public Sub loadInformacoes(ByVal Pedido As Long)
+sSQL = "SELECT *, CASE cancelado WHEN 0 THEN '' ELSE 'SIM' END AS vCancelado , CASE cancelado WHEN 0 THEN 'SIM' ELSE '' END AS vStatus " & _
    "FROM Pedidos_Reabertura WHERE (cod_pedido = " & Pedido & ") order by data, hora;"
 
 'Debug.Print sSQL
@@ -133,7 +141,7 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
    
    With Grid
       .Clear
-      .Cols = 8
+      .Cols = 10
       .Rows = 2
       
       .ColWidth(0) = 0
@@ -144,6 +152,8 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
       .ColWidth(5) = 1000
       .ColWidth(6) = 1000
       .ColWidth(7) = 1000
+      .ColWidth(8) = 0
+      .ColWidth(9) = 0
       
       .TextMatrix(0, 1) = "COD_PEDIDO"
       .TextMatrix(0, 2) = "USUARIO"
@@ -151,7 +161,7 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
       .TextMatrix(0, 4) = "DATA"
       .TextMatrix(0, 5) = "HORA"
       .TextMatrix(0, 6) = "CANCEL."
-      .TextMatrix(0, 7) = "ABERTO"
+      .TextMatrix(0, 7) = "EDITADO"
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -177,35 +187,24 @@ Private Sub FormatarGrid(rTabela As ADODB.Recordset)
             .TextMatrix(.Rows - 1, 3) = Format(rTabela("VLR_PEDIDO"), ocMONEY)
             .TextMatrix(.Rows - 1, 4) = Format(rTabela("DATA"), "DD/MM/YY")
             .TextMatrix(.Rows - 1, 5) = Format(rTabela("HORA"), ocHORA)
-            .TextMatrix(.Rows - 1, 6) = ValidateNull(rTabela("vCancelado"))
-            .TextMatrix(.Rows - 1, 7) = ValidateNull(rTabela("vStatus"))
+            .TextMatrix(.Rows - 1, 8) = ValidateNull(rTabela("vCancelado"))
+            .TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("vStatus"))
+            If .TextMatrix(.Rows - 1, 8) = "SIM" Then
+                .Row = .Rows - 1
+                .Col = 6
+                Set .CellPicture = ImgMarcada.Picture
+                .CellPictureAlignment = 4
+            End If
+            If .TextMatrix(.Rows - 1, 9) = "SIM" Then
+                .Row = .Rows - 1
+                .Col = 7
+                Set .CellPicture = ImgMarcada.Picture
+                .CellPictureAlignment = 4
+            End If
             rTabela.MoveNext
             .Rows = .Rows + 1
          Loop
       End If
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
-         .Row = i
-         .Col = 6
-         If .TextMatrix(i, 6) = "SIM" Then
-            .CellForeColor = vbRed
-         Else
-            .CellForeColor = vbBlack
-         End If
-         .CellFontBold = True
-      Next
-
-      For i = 1 To .Rows - 1
-         .Row = i
-         .Col = 7
-         If .TextMatrix(i, 7) = "SIM" Then
-            .CellForeColor = vbRed
-         Else
-            .CellForeColor = vbBlack
-         End If
-         .CellFontBold = True
-      Next
       
       .Rows = .Rows - 1
    End With
