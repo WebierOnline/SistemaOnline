@@ -7753,6 +7753,7 @@ Private Sub PreencherCFOP()
     If var_CRT = 1 Then
         ' --- SIMPLES NACIONAL ---
         cboCFOP.AddItem "5102" ' Revenda
+        cboCFOP.AddItem "5101" ' Fabricação
         cboCFOP.AddItem "5405" ' Revenda ST (Substituído - já pago)
         cboCFOP.AddItem "5403" ' Venda ST (Substituto - retendo agora)
         

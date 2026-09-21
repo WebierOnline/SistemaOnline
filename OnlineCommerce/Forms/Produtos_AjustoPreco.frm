@@ -1004,7 +1004,6 @@ End Sub
 
 Private Sub cmdSair_Click()
 Produtos_AjustoPreco.Hide
-Produtos_Estoque_Simples.Show 1
 End Sub
 
 Private Sub cmdSalvar_Click()
@@ -1111,7 +1110,6 @@ End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 Produtos_AjustoPreco.Hide
-Produtos_Estoque_Simples.Show 1
 End Sub
 
 
@@ -1356,6 +1354,7 @@ Dim B As Currency
 Dim c As Currency
 
 a = txtCusto.Text
+If a = 0 Then Exit Sub
 B = txtValorAP.Text
 c = ((B - a) / a) * 100
 
@@ -1380,6 +1379,7 @@ Dim B As Currency
 Dim c As Currency
 
 a = txtCusto.Text
+If a = 0 Then Exit Sub
 B = txtValorAV.Text
 c = ((B - a) / a) * 100
 
@@ -1404,6 +1404,7 @@ Dim B As Currency
 Dim c As Currency
 
 a = txtCusto.Text
+If a = 0 Then Exit Sub
 B = txtValorVP.Text
 c = ((B - a) / a) * 100
 
@@ -1428,6 +1429,7 @@ Dim B As Currency
 Dim c As Currency
 
 a = txtCusto.Text
+If a = 0 Then Exit Sub
 B = txtValorVV.Text
 c = ((B - a) / a) * 100
 

@@ -2405,7 +2405,7 @@ End Function
 
 'Formata o campo data/hora para ser usado no SQL
 Public Function FdthrSQL(DataHora As Variant) As String
- FdthrSQL = "'" & Format(DataHora, "yyyy-mm-dd hh:MM:ss") & "'"
+ FdthrSQL = "'" & Format(DataHora, "yyyymmdd hh:MM:ss") & "'"
 End Function
 
 Public Function FormatoDecimal(AValor As Double) As String

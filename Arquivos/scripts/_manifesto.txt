@@ -109,3 +109,6 @@
 109|AlterProcedure_NFCeIncluir_SerieDinamica.sql|GERAL
 110|AlterTable_Empresa_IBPTUltimaImportacao.sql|GERAL
 111|AlterTable_Categorias_Padrao.sql|GERAL
+112|CreateTable_TbContabilista.sql|GERAL
+113|AlterView_Contador.sql|GERAL
+114|AlterTable_VinculoXMLProduto_CST.sql|GERAL

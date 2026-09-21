@@ -2159,7 +2159,7 @@ Begin VB.Form Entrada_Estoque
             _ExtentX        =   1402
             _ExtentY        =   556
             BTYPE           =   3
-            TX              =   "Cancelar"
+            TX              =   "Limpar"
             ENAB            =   0   'False
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
@@ -3624,7 +3624,7 @@ Begin VB.Form Entrada_Estoque
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "16:25"
+            TextSave        =   "11:17"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4227,7 +4227,8 @@ If varIDProdVinculo > 0 Then
       cmdAtualNCM.Enabled = True
       cmdAtualCFOP.Enabled = True
       cmdAtualCST.Enabled = True
-      cmdAtualProd.Enabled = False
+      cmdAtualProd.Caption = "Editar Produto"
+      cmdAtualProd.Enabled = True
       cmdLocalizarManual.Enabled = False
       Exit Sub
    End If
@@ -4256,6 +4257,7 @@ If txtCodBarraSel.Text = "" Then
         cmdAtualNCM.Enabled = False
         cmdAtualCFOP.Enabled = False
         cmdAtualCST.Enabled = False
+        cmdAtualProd.Caption = "Cadastrar Produto"
         cmdAtualProd.Enabled = True
         cmdLocalizarManual.Enabled = True
         If ShowMsg("O Produto: " & txtDescricaoSel.Text & " nao foi encontrado! Voca deseja localizar ele manualmente?", vbYesNo + vbQuestion + vbDefaultButton2) = vbYes Then cmdLocalizarManual_Click
@@ -4276,7 +4278,8 @@ If txtCodBarraSel.Text = "" Then
         cmdAtualDesc.Enabled = True
         cmdAtualUnid.Enabled = True
         cmdAtualNCM.Enabled = True
-        cmdAtualProd.Enabled = False
+        cmdAtualProd.Caption = "Editar Produto"
+        cmdAtualProd.Enabled = True
         cmdLocalizarManual.Enabled = False
         'If TbProdutos("FRACIONADO") = True Then
         '    MsgBox "produto fracionado1", vbInformation, "Aviso do Sistema"
@@ -4318,6 +4321,7 @@ If TbEntradaItens("EAN") = "SEM GTIN" Then
         cmdAtualNCM.Enabled = False
         cmdAtualCFOP.Enabled = False
         cmdAtualCST.Enabled = False
+        cmdAtualProd.Caption = "Cadastrar Produto"
         cmdAtualProd.Enabled = True
         cmdLocalizarManual.Enabled = True
         If ShowMsg("O Produto: " & txtDescricaoSel.Text & " nao foi encontrado! Voca deseja localizar ele manualmente?", vbYesNo + vbQuestion + vbDefaultButton2) = vbYes Then cmdLocalizarManual_Click
@@ -4346,6 +4350,7 @@ Else
         cmdAtualNCM.Enabled = False
         cmdAtualCFOP.Enabled = False
         cmdAtualCST.Enabled = False
+        cmdAtualProd.Caption = "Cadastrar Produto"
         cmdAtualProd.Enabled = True
         cmdLocalizarManual.Enabled = True
         If ShowMsg("O Produto: " & txtDescricaoSel.Text & " nao foi encontrado! Voca deseja localizar ele manualmente?", vbYesNo + vbQuestion + vbDefaultButton2) = vbYes Then cmdLocalizarManual_Click
@@ -4367,7 +4372,8 @@ Else
         cmdAtualNCM.Enabled = True
         cmdAtualCFOP.Enabled = True
         cmdAtualCST.Enabled = True
-        cmdAtualProd.Enabled = False
+        cmdAtualProd.Caption = "Editar Produto"
+        cmdAtualProd.Enabled = True
         cmdLocalizarManual.Enabled = False
         'If TbProdutos("FRACIONADO") = True Then
         '    MsgBox "produto fracionado2", vbInformation, "Aviso do Sistema"
@@ -5591,6 +5597,22 @@ End If
 End Sub
 
 Private Sub cmdAtualProd_Click()
+If txtCodProdExist.Text <> "" Then
+    'Modo Editar Produto: ja vinculado, mas o cadastro pode estar errado (EAN/descricao/unidade/etc)
+    If ShowMsg("Deseja atualizar o produto " & txtDescricaoExist & " ?", vbInformation + vbYesNo) = vbYes Then
+        Load Produtos_Cadastro
+        Produtos_Cadastro.SSTab1.Tab = 0
+        Produtos_Cadastro.cmdNovo.Enabled = False
+        Produtos_Cadastro.cmdSalvar.Enabled = False
+        Produtos_Cadastro.cmdCancelar.Enabled = False
+        Produtos_Cadastro.cmdAlterar.Enabled = True
+        Produtos_Cadastro.cmdExcluir.Enabled = True
+        Produtos_Cadastro.txtCodigo.Text = txtCodProdExist.Text
+        Produtos_Cadastro.Show
+    End If
+    Exit Sub
+End If
+
 If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation + vbYesNo) = vbYes Then
 
     If txtItem.Text = "" Or txtCodNota.Text = "" Then
@@ -5603,7 +5625,8 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     Set rItem = dbData.OpenRecordset( _
         "SELECT pICMS, pRedBC, modBC, modBCST, pMVAST, pICMSST, pRedBCST, " & _
         "PISCST, PISpPIS, COFINSCST, COFINSpCOFINS, IPICST, IPIpIPI, " & _
-        "CEST, IBSCBSCST, IBSUFpAliq, IBSMunpAliq, CBSpAliq, ISCST, ISpIS, CFOP " & _
+        "CEST, IBSCBSCST, IBSUFpAliq, IBSMunpAliq, CBSpAliq, ISCST, ISpIS, CFOP, " & _
+        "Referencia, ValorUnitarioTributario " & _
         "FROM EntradaEstoqueItens WHERE Item = " & Val(txtItem.Text) & " AND CodigoNota = " & Val(txtCodNota.Text))
 
     If rItem.EOF Then
@@ -5638,6 +5661,9 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     End If
 
     ' 4. Abrir e inicializar Produtos_Cadastro
+    Dim lMaxCodAntAP As Long
+    lMaxCodAntAP = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Produtos", "r", 0)
+
     Load Produtos_Cadastro
     Produtos_Cadastro.SSTab1.Tab = 0
     Produtos_Cadastro.CriarNovoProduto
@@ -5714,10 +5740,52 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     Produtos_Cadastro.txtValorAV.Text = "0,00"
     Produtos_Cadastro.txtValorAP.Text = "0,00"
 
+    Dim sReferenciaAP As String, dCustoUnitAP As Double
+    sReferenciaAP = ValidateNull(rItem("Referencia"))
+    dCustoUnitAP = Val(ValidateNull(rItem("ValorUnitarioTributario")))
+    If dCustoUnitAP = 0 Then dCustoUnitAP = Val(Replace(txtValorSel.Text, ",", "."))
+
     rItem.Close
     Set rItem = Nothing
 
-    Produtos_Cadastro.Show
+    Produtos_Cadastro.Show vbModal, Me
+
+    ' 14. Confere se o produto foi realmente salvo e vincula de volta ao item da entrada
+    '     (mesmo procedimento de frmVinculoProdutoXML.cmdCadastrar / ExecutarVinculo)
+    Dim lNovoCodAP As Long
+    lNovoCodAP = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Produtos WHERE CODIGO > " & lMaxCodAntAP, "r", 0)
+
+    If lNovoCodAP > 0 Then
+        Dim lIDFornAP As Long
+        lIDFornAP = SQLExecutaRetorno("SELECT ISNULL(CodigoCorrentista,0) r FROM EntradaEstoque WHERE CodigoNota = " & Val(txtCodNota.Text), "r", 0)
+
+        Dim sEANEmbAP As String, sEANProdAP As String, sUnidMedAP As String, sRefEscAP As String
+        sEANEmbAP = IIf(txtCodBarraSel.Text = "SEM GTIN", "", txtCodBarraSel.Text)
+        sEANProdAP = Trim(SQLExecutaRetorno("SELECT ISNULL(EAN,'') r FROM Produtos WHERE Codigo = " & lNovoCodAP, "r", ""))
+        sUnidMedAP = Trim(SQLExecutaRetorno("SELECT ISNULL(UNID_MEDIDA,'') r FROM Produtos WHERE Codigo = " & lNovoCodAP, "r", ""))
+        sRefEscAP = Replace(sReferenciaAP, "'", "''")
+
+        Dim sSQLVincAP As String
+        If SQLExecutaRetorno("SELECT COUNT(*) r FROM VinculoXMLProduto WHERE IDFornecedor = " & lIDFornAP & " AND cProd = '" & sRefEscAP & "'", "r", 0) = 0 Then
+            sSQLVincAP = "INSERT INTO VinculoXMLProduto (IDFornecedor, cProd, EANEmbalagem, xProd, uCom, QuantidadeComercial, ValorUnitarioComercializacao, IDProduto, EANProduto, UNID_MEDIDA, Fracionamento, CustoUnitario, DataAtualizacao) VALUES (" & _
+                          lIDFornAP & ", '" & sRefEscAP & "', '" & sEANEmbAP & "', '" & Replace(txtDescricaoSel.Text, "'", "''") & "', '" & txtUnidMedSel.Text & "', " & _
+                          FSQL(Val(Replace(txtQuantSel.Text, ",", ".")), 3) & ", " & FSQL(Val(Replace(txtValorSel.Text, ",", ".")), 2) & ", " & _
+                          lNovoCodAP & ", '" & sEANProdAP & "', '" & sUnidMedAP & "', 1, " & FSQL(dCustoUnitAP, 2) & ", GETDATE())"
+        Else
+            sSQLVincAP = "UPDATE VinculoXMLProduto SET IDProduto = " & lNovoCodAP & ", EANProduto = '" & sEANProdAP & "', UNID_MEDIDA = '" & sUnidMedAP & "', " & _
+                         "Fracionamento = 1, CustoUnitario = " & FSQL(dCustoUnitAP, 2) & ", DataAtualizacao = GETDATE() " & _
+                         "WHERE IDFornecedor = " & lIDFornAP & " AND cProd = '" & sRefEscAP & "'"
+        End If
+        dbData.Execute sSQLVincAP
+
+        dbData.Execute "UPDATE Produtos SET EANEmbalagem = '" & sEANEmbAP & "', Fracionamento = 1 WHERE Codigo = " & lNovoCodAP
+
+        dbData.Execute "UPDATE EntradaEstoqueItens SET CodigoProduto = " & lNovoCodAP & " WHERE CodigoNota = " & Val(txtCodNota.Text) & " AND Item = " & Val(txtItem.Text)
+
+        Mostrar_ItensNota
+    Else
+        MsgBox "Produto nao salvo. Realize o vinculo manualmente apos o cadastro.", vbInformation
+    End If
 End If
 End Sub
 
@@ -5775,6 +5843,7 @@ cmdAtualUnid.Enabled = False
 cmdAtualNCM.Enabled = False
 cmdAtualCFOP.Enabled = False
 cmdAtualCST.Enabled = False
+cmdAtualProd.Caption = "Cadastrar Produto"
 cmdAtualProd.Enabled = True
 cmdLocalizarManual.Enabled = True
 Exit Sub
@@ -8120,21 +8189,42 @@ If GridNotasItens.TextMatrix(GridNotasItens.Row, 20) = "SIM" Then
     Exit Sub
 End If
 
-'Produto sem vinculo (linha azul): abre form de vinculo diretamente
+'Produto sem vinculo (linha azul): pergunta se quer vincular com outro produto
 If Trim(GridNotasItens.TextMatrix(GridNotasItens.Row, 1)) = "0" Or Trim(GridNotasItens.TextMatrix(GridNotasItens.Row, 1)) = "" Then
     Limpar_SubDados
-    MsgBox "Este produto nao possui vinculo com nenhum produto interno." & vbCrLf & "Realize o vinculo antes de lancar no estoque.", vbInformation, "Produto sem vinculo"
-    Dim frmVincDbl As New frmVinculoProdutoXML
-    frmVincDbl.NumeroEntrada = CLng(txtCodNota.Text)
-    frmVincDbl.MostrarTodos = True
-    Dim sCProdDbl As String
-    sCProdDbl = SQLExecutaRetorno("SELECT ISNULL(Referencia,'') r FROM EntradaEstoqueItens WHERE Item = " & _
-                GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " AND CodigoNota = " & txtCodNota.Text, "r", "")
-    frmVincDbl.cProdParaSelecionar = sCProdDbl
-    frmVincDbl.Show vbModal
-    Unload frmVincDbl
-    Set frmVincDbl = Nothing
-    Mostrar_ItensNota
+    If ShowMsg("Este produto nao possui vinculo com nenhum produto cadastrado." & vbCrLf & "Deseja criar o vinculo deste produto com outro?", vbYesNo + vbQuestion + vbDefaultButton1) = vbYes Then
+        Dim frmVincDbl As New frmVinculoProdutoXML
+        frmVincDbl.NumeroEntrada = CLng(txtCodNota.Text)
+        frmVincDbl.MostrarTodos = True
+        Dim sCProdDbl As String
+        sCProdDbl = SQLExecutaRetorno("SELECT ISNULL(Referencia,'') r FROM EntradaEstoqueItens WHERE Item = " & _
+                    GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " AND CodigoNota = " & txtCodNota.Text, "r", "")
+        frmVincDbl.cProdParaSelecionar = sCProdDbl
+        frmVincDbl.Show vbModal
+        Unload frmVincDbl
+        Set frmVincDbl = Nothing
+        Mostrar_ItensNota
+    Else
+        RsOpen TbEntradaItens, "SELECT EAN, NOMEPRODUTO, item, UnidadeComercial, QuantidadeComercial, " & _
+                        "ValorUnitarioComercializacao, NCM, CST, CFOP " & _
+                        "FROM EntradaEstoqueItens WHERE Item = " & GridNotasItens.TextMatrix(GridNotasItens.Row, 19) & " And CodigoNota = " & txtCodNota.Text
+
+        If Len(TbEntradaItens("EAN")) > 13 Then
+            txtCodBarraSel = Format(Val(TbEntradaItens("EAN")), "@")
+        Else
+            txtCodBarraSel = Format(TbEntradaItens("EAN"), "@")
+        End If
+        txtDescricaoSel = Format(TbEntradaItens("NOMEPRODUTO"), "@")
+        txtUnidMedSel = Format(TbEntradaItens("UnidadeComercial"), "@")
+        txtQuantSel = Format(TbEntradaItens("QuantidadeComercial"), "@")
+        txtValorSel = Format(TbEntradaItens("ValorUnitarioComercializacao"), "##,##0.00")
+        txtNCMSel = Format(TbEntradaItens("NCM"), "@")
+        txtCSTSel = Format(TbEntradaItens("CST"), "@")
+        txtCFOPSel = Format(TbEntradaItens("CFOP"), "@")
+        txtItem = Format(TbEntradaItens("item"), "@")
+
+        Call cmdCancelarEntrada_Click
+    End If
     Exit Sub
 End If
 

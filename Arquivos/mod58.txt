@@ -1,0 +1,17 @@
+Vamos pausar as modificações no form estornar (depois voltamos), para mexer num insert para um cliente meu... tenho um cliente com a versao antiga de meu sistema (vou atualizar ele somente depois)... que preciso pegar uma planilha (C:\Projeto\Arquivos\Produtos.csv) e criar um insert com esses dados na tabela produtos e Produtos_Precos... na planilha somente veio os campos CODIGO,	DESCRICAO,	CUSTO,	VALOR_VV... entao nesse caso alguns campos vão precisar ser preenchidos no insert pelo script: Na tabela produtos, pega o código e o nome do produto e auto preenche assim: QUANT_ESTOQUE = 1, UNID_MEDIDA =  'UN', ATIVO = 1, CFOP = 5102, ICMSCST = 102, ICMSAliq = '0.00', PISCST = '04', COFINSCST= '04', IPICST= 99, NCM = '00000000', CEST='0', EAN = 'SEM GTIN', Alterado=0, PEDIRPESO=0, PISAliq = '0.00', COFINSAliq = '0.00', IPIAliq = '0.00', USOCONSUMO=0, COMBUSTIVEL=0, MATERIAPRIMA=0, IMOBILIZADO=0, FRACIONADO=0
+Na tabela de preço: pega o código, CUSTO e VALOR_VV e o resto auto preenche... todos com VALOR_* = VALOR_VV, todos com MARGEM_* = '0.00'
+
+Detalhes importante:
+Na tabela a coluna descricao note que as palavras com acento estao todas erradas
+Na tabela as colunas CUSTO e VALOR_VV estão com valores com ponto dividindo a casas decimais... exemplo  1.00.. na tabela do banco de dados usa vircula, exemplo 1,00
+Olha a image259
+
+Campos das tabelas:
+
+SELECT CODIGO, DESCRICAO, COD_BARRA, PRATELEIRA, CATEGORIA, QUANT_ESTOQUE, QUANT_MIN, ULT_COMPRA, UNID_MEDIDA, OBSERVACAO, DESTAQUE, ATIVO, REF, FABRICANTE, TAMANHO, CFOP, ICMSCST, ICMSAliq, PISCST, COFINSCST, IPICST, NCM, CEST, EAN, Alterado, PEDIRPESO, PISAliq, COFINSAliq, IPIAliq, USOCONSUMO, COMBUSTIVEL, MATERIAPRIMA, IMOBILIZADO, ESTOQUE_FISCAL, FRACIONADO, QUANT_FRACAO, CODPROD_FRACAO
+FROM produtos
+
+SELECT       CODIGO, COD_PRODUTO, DATA, COD_ENTRADA, FORMA, CUSTO, MARGEM_VV, VALOR_VV, MARGEM_VP, VALOR_VP, MARGEM_AV, VALOR_AV, MARGEM_AP, VALOR_AP
+FROM  Produtos_Precos
+
+

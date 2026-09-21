@@ -327,7 +327,7 @@ errHandle:
    If InStr(1, vErrDesc, "PRIMARY KEY", vbTextCompare) > 0 Or InStr(1, vErrDesc, "UNIQUE KEY", vbTextCompare) > 0 Or InStr(1, vErrDesc, "duplicate key", vbTextCompare) > 0 Then
       msgErro "Database", "Execute", vErrNum, "Este registro já existe (duplicado). A operação foi cancelada.", Erl, vbCritical, 2
    Else
-      msgErro "Database", "Execute", vErrNum, vErrDesc, Erl, vbCritical, 2
+      msgErro "Database", "Execute", vErrNum, vErrDesc & vbCrLf & vbCrLf & "SQL: " & Left(CommandText, 300), Erl, vbCritical, 2
    End If
 End Function
 

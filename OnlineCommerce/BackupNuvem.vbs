@@ -136,7 +136,9 @@ End If
 ' --- 7) Atualiza a data/hora do ultimo backup ---
 Dim vAgora, vAgoraSQL
 vAgora = Now
-vAgoraSQL = "'" & Year(vAgora) & "-" & Right("0" & Month(vAgora), 2) & "-" & Right("0" & Day(vAgora), 2) & _
+' Sem hifen no formato de data: com hifen, o SQL Server (dependendo do DATEFORMAT da sessao)
+' pode interpretar como AAAA-DD-MM em vez de AAAA-MM-DD e rejeitar dias > 12 como mes invalido
+vAgoraSQL = "'" & Year(vAgora) & Right("0" & Month(vAgora), 2) & Right("0" & Day(vAgora), 2) & _
    " " & Right("0" & Hour(vAgora), 2) & ":" & Right("0" & Minute(vAgora), 2) & ":" & Right("0" & Second(vAgora), 2) & "'"
 
 conn.Execute "UPDATE empresa SET BackupDataHora = " & vAgoraSQL

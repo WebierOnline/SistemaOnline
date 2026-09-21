@@ -5,3 +5,220 @@ A nota carregou!
 Obs: O cadastro do cliente é um pré-cadastro (somente o nome e telefone)...
 Não seria interessante, quando tentarmos converter uma venda em NFe, antes, verificar se os dados obrigatórios do cadastro do clientes estão preenchidos? caso não, aparecer a msg comunicando e dando sim ou não para atualizar o cadastro dele... caso sim, abre o cadastro do cliente e não converte enquanto não atualizar. Caso não, não converte enquanto não corrigir!.
 Obs: no form Clientes_Cadastro, o objeto cboTipoCliente = "PRÉ-CADASTRO" deixa somente os objetos nome e telefone amarelo (obrigatório)... seria interessante, ao abrir Clientes_Cadastro nesse caso, já auto-seleciona "CADASTRO" para deixar todos os campos obrigatórios para emissão da NFe amarelos
+
+Tentei com mesmo cliente.
+A msg que apareceu foi da rotina que verifica os dados do cliente... nesse caso apontou o endereço errado... cliquei em sim e abre o cadastro com o cboTipoCliente = "PRÉ-CADASTRO" ativo.
+Nesse caso especifico (conversao de venda para nfe)
+Mude: ao clicar em cmdConverterNFe e verificar que algum dos dados obrigatórios estão faltando... invés de aparece a msg especifica sobre o dado, preciso de uma msg tipo: 
+"Os dados do clientes estão incompletos/errados para concluir o processo."
+"Deseja ajustar os dados desse cliente para prosseguir com o processo?"
+Preciso que cboTipoCliente = "CADASTRO" ativo.
+
+Testei com um cliente com cadastro correto...
+Apareceu a msg: "Erro no sistema: 13 - Type mismatch", dei OK
+NFe foi preenchida normalmente.
+
+
+
+Ao clicar em cmdConverterNFe deu a msg: "Invalid use of Null" quando debugo ele seleciona o evento Private Function ParDado, na linha t = Trim(IIf(IsNull(vVal), "", CStr(vVal)))
+
+
+Quando acrescentar os dados do veiculo/equipamento no txtInfComple, coloque um " / " antes de "Dados do Veículo: COD_OS..."... exemplo: " / Dados do Veículo: COD_OS..."
+Percebi uma coisa agora:
+Ao editar a nota para ver o conteudo dela, percebi que o texto: "EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS. / PEDIDO: 0588" que era para ser exibido no txtInfComple está sendo exibido no txtInfAdicionais
+
+No NFe_Completa acrescentei o cmdConsultarVeiculos
+-Quando o tipo de empresas for de veículos, o caption é 'Consultar Veículos'. Quando não for 'Consultar Equipamentos'
+Qual a logica da existência do cmdConsultarVeiculos?
+- O botão somente fica visivel se a empresa possui OS = true e se chkDadosVeiculo = false
+- Quando eu clicar nele, vai ser exibido um grid com todos os veiculos/equipamentos daquele cliente... ele vai escolher um veiculos/equipamentos e clicar no botão para confirmar... no txtInfComple vai ser preenchido os dados do veiculos/equipamentos (mesmo padrao do chkDadosVeiculo).
+Para nao ter que criar um form do zero, vc poderia reaproveitar o form frmBuscarPlaca do Projeto da Ordem de serviços. Porem o frmBuscarPlaca consulta por placa, nesse caso vai consultar por cliente...
+Obs: frmBuscarPlaca deve ficar do mesmo jeito que está no projeto de Ordem de Serviços... essa adaptação somente serve para o cmdConsultarVeiculos
+
+
+Um cliente já atualizado com a nova versao...
+Veja na foto que 2 produtos ficaram sem o CBS_pAliq... image248
+Mesmo clicando no recalcular, ele não colocou
+Precisamos ver pq nao foi add o CBS_pAliq para não acontecer no futuro e tambem colocar no botão recalcular para arrumar nesse caso!
+
+No Empresa_Cadastro acrescentei cboNFCeSerie. Quero usar esse objeto para escolher a serie da NFCe. Popule ele de A a Z, sempre autosselecionando 'A' para novos cadastros... 
+Crie um campo na tabela de empresas chamado NFCeSerie para receber esse valor.
+Use esse campo para saber qual serie seguir quando gerar uma NFCe
+
+No form Produtos_Cadastro acrescentei cmdAddCategoria. Quando clicar nele, abre o form  Categorias_Cadastro para eu criar uma nova categoria. 
+Quando eu criar a nova categoria, salvar, fechar Categorias_Cadastro e clicar no Produtos_Cadastro.cboCategoria, aquela nova categoria deverá parecer na lista
+
+Tenho 2 projetos que existem forms usado unicamente(exclusivo) por eles e forms usados compartilhados.
+No evento Form_QueryUnload de alguns dos forms compartilhados tenho 'PDV.Show' que serve perfeitamente para o objeto no projeto do PDV, funciona, copila tudo normal... porem como esses forms sao compatilhado com projeto Online Commerce, como o form PDV não existe (e nem deve existir) nesse projeto, dar erro, pq fica referenciando um form que não existe nesse projeto... nesse caso, no Projeto Online Commerce, sempre comento essa linha 'PDV.Show (para o Online Commerce ignorar a chamada desse form inexistente).
+Nesse caso o que vc aconselha fazer?
+
+No form PDV, acrescentei imgNfce1, quando existe NFCe não transmitida, o lblNfce1 e o imgNfce1 deve aparecer. (verificar se é mesmo o lblNfce1 que já apareceria antes nessa situação).
+Os 2 agora deve ficar piscando
+
+Olha a imagem image251... ela retrata uma entrada de nota fiscal que foram adicionados itens...
+*quero que antes da coluna descrição do produto, seja add a coluna do código de barra, nos 2 grid.
+*veja que no grid de baixo algumas colunas ficram vazia ou preenchidas erradas.
+
+image254 e image255
+
+No form Categorias_Cadastro, acrescentei o cmdPadrao. O cmdPadrao servirá para definir qual é a categoria padrão marcada.
+Clico em uma categoria gridCategorias e clico no cmdPadrao e ele marca como padrão (exemplo: BRINQUEDOS(padrão).
+No form Produtos_Cadastro, quando eu criar um novo produto, ele auto-seleciona a categoria padrão (caso haja), caso não haja, ele deixa vazio esperando a pessoa escolher.
+
+No form frmVinculoProdutoXML quando cliquei em cmdCadastrar e escolhi cadastro manual... ele não auto selecionou a categoria ao cadastrar um produto novo
+
+Quando criar um novo produto nas duas condições, auto preencha txtEANCaixa =  'SEM GTIN' e txtFracao =  '1'
+
+voltando a falar da tabela IBPT...
+Aproveitei que tinha que atualizar esse cliente e testei baixar a tabela manualmente.
+Cliquei no Menu_FISCAL_Reforma_IBPTNuvem e aparece a msg perguntando se desejava baixar, dei um sim!
+A ampulheta ficou girando enquanto o processo terminava... como demora, fica a impressão que tá travado... seria interessante aparecer a barra de progressão enquanto baixa, igual acontece com o menulogoff_Click...
+Depois disso, apareceu o form frmImportarIBPT importando a tabela... seria interessante essa tela ficar invisivel, enquanto todo o processo não finalizar a barra de progressão tá contando na tela, pedindo o cliente para aguardar... e depois que baixa, importar e atualizar... o form e barra de progressão serem fechados... 
+
+No projeto de ordem de serviços, consultei um produto com optCodBarra =  true e txtCodBarra =  código de barra e deu a msg de produto inexistente...
+Porem seu eu consultar usando o F2 ou pelo pdv ou pelo cadastro de produto... o produto existe... olha as imagens image254 e image255
+
+No form PDV, dar uma analisada como funciona a questão do CashBack (lstCashBack)
+
+Configurei o cashback assim:
+CASHBACKAP	SIM
+CASHBACKAV	SIM
+CASHBACKVALIDADE	30
+CASHBACKVALORAP	5,00
+CASHBACKVALORAV	10,00
+Para testar, acabei de criar 4 vendas
+tabela:
+SELECT        TOP (200) CODIGO, COD_PEDIDO, COD_CLIENTE, VALOR_VENDA, VALOR_CASHBACK, VALOR_ABATIDO, ABATIDO, DATA_ABATIDO, COD_PEDIDOABATIDO, VALIDADE, INVALIDO, COD_FUNCIONARIO
+FROM            Pedidos_Cashback
+Dados:
+1	1314	180	372,00	37,20	0,00	False	NULL	NULL	2026-09-10 00:00:00.000	False	1
+2	1315	134	511,51	51,15	0,00	False	NULL	NULL	2026-09-10 00:00:00.000	False	1
+3	1316	180	511,51	51,15	0,00	False	NULL	NULL	2026-09-10 00:00:00.000	False	1
+4	1317	180	480,02	24,00	0,00	False	NULL	NULL	2026-09-10 00:00:00.000	False	1
+
+Fiz algumas modificações:
+-Coloquei lstCashBack dentro do frmCashBack
+-No lstCashBack oculta a coluna 'CÓDIGO'
+-Acrescentei: cmdMarcarTodos, cmdUsarEscolhidos, ImgMarcada e imgDesmarcad
+-ImgMarcada e imgDesmarcada: Aparece no inicio de cada linha que tenha cashback(serve eu selecionar ou não uma cashback).
+-Se tiver alguma linha não marcada na lstCashBack, e eu clicar em cmdMarcarTodos(caption Marcar Todas), marca todas as linhas... cmdMarcarTodos recebe o (caption Desmarcar Todas)... quando todas a linhas tiverem marcadas e eu clicar nesse botão, ela desmarca todas.
+-cmdUsarEscolhidos: clicando nesse botão ele leva somente os valores marcados para a soma do desconto... e quando for a hora de dar baixa no cashback usados na venda, dar somente nesses usados (selecionados)
+
+No projeto do Online Commerce, no form Tela_Principal, menu Menu_IMP_Etiquetas... dar uma olhada nesse form de etiquetas
+
+
+Acrescentei os optionbutton optPorPalavra e optPalavrasDuplas
+Quando eu escolher optDesc, eles devem aparecer.
+Olha no cadastro de produtos a forma que o optPorPalavra e optPalavrasDuplas atuam e replica nesse form
+Obs: chkDescPorProduto e chkDescPorIniciais devem ser removidos.
+
+cboDesc está se auto preenchendo com nome de todos os produtos... nao precisa
+No cboDesc quando digito algo, ele auto seleciona o primeiro produto da lista que foi carregada nele e preenche o resto da descricao do produto... nao precisa
+Marquei optPorPalavra, digite 'PIVO' e cliquei em cmdLocalizar e nenhum produto apareceu... existem varios
+
+- Quando marcar optCodBarra, optDesc e optCategoria, o optTCTodos e optMostrarTodos devem ser marcados.
+- Quando marcar optTodos, no grid deve ser mostrados todos os itens baseado em qual desses estao marcados(optTCTodos, optTCCriados e optTCProprios)
+
+Digamos que exibir todos, marquei 3 itens... como sao muitos produtos, descidir consultar pelo código de barra... marquei optCodBarra e coloquei o código... os 3 itens marcados anteriormente foram desmarcados... gostaria de depois de marcado, mesmo que consulte outros usando filtros... os que marquei nao desmarque... somente desmarca caso cliente no cmdDesmarcar ou feche a janela.
+
+-Não poder editar a celula com quantidade de etiquetas, antes de marcar a linha
+-Acrescentei o label lblQuantItens... ele vai mostrar quantos itens da lista foram marcados... independente do que está sendo exibido no grid.
+-lblQuantSelecionada deve exibir a soma da quantidades de impressões marcada no grid... independente do que está sendo exibido no grid.
+
+Coloquei no form Produtos_Estoque_Simples os objetos  optCodProd e optCodBarra2.
+Quando eu marcar optCodBarra, eles devem aparecer.
+No NFe_Completa usei esses 2 optionbutton (lá o optCodBarra2 chama-se optCodBarra)... veja no NFe_Completa quando e porque aparece esses 2 objetos e replica o mesmo no Produtos_Estoque_Simples
+
+-Quando a empresa não usar OS, lblCodBarra.caption = 'Cód. Barra', quando usar 'Cód.:'
+-Quando marco optDesc, optCategoria, optTags... lblCodBarra fica com caption vazio.
+
+Quando marco optDesc, optCategoria, optTags... lblCodBarra fica com caption vazio e optNCM aparee 'NCN'... quero que apareça em todos
+
+Vou precisar em um form meu colocar em colunas um check (imagem) mostrando as linhas marcadas para um tipo de consulta especifica.. poderá ter até 3 colunas(celulas) marcada para uma mesma linha... digamos que um grid com 100 linhas... pensando na performasse e velocidade de carregar os dados... o ImgMarcada do form Produtos_Estoque_Simples ou picChecked do form Etiquetas_Impressao seria mais rapido? 
+
+Não faz nada por enquanto, memoriza essa conversa que tivemos sobre as imagens na celulas... analisa a perfomasse no projeto PDV, do form Estonar...
+
+Quando eu escolher cboCriterios = "NENHUM"
+
+No PreencherCriterios removi NENHUM e ativei PRODUTO e CÓD. BARRA.
+Como o index mudou, acredito que agora tenha que ser reajustado para DATA ser escolhido ao abrir o form.
+Veja se existe código para PRODUTO e CÓD. BARRA
+
+Acrescentei no form estornar os optionbutton optPorPalavra e optPalavrasDuplas, para serem usados junto com o cboProduto... veja como fiz anteriormente usando esses 2 optionbutton
+
+como vc já dever ter percebido, para exibir as informações no grid, ele relaciona com a tabela de parcelas para ver as formas de pagamento... por esse motivos, as vendas canceladas não aparecem junto com as vendas feitas no dia... tive que criar um filtro somente para ver as canceladas (cboTipoPedido = "CANCELADO")... Teria como na consulta de vendas (cboTipoPedido = "VENDA") exibir tanto as vendas fechadas (com parcelas) da forma que está agora e tambem as vendas cancelas (sem parcelas)? se sim, deixa a fonte vermelha das vendas canceladas.
+
+Quando imprimir a lista de vendas (cmdImprimir)... as vendas canceladas, no lugar de aparecer as formas de pagamentos, coloca '(cancelado)'
+
+-No grid, depois da coluna 'ACRESC.', acrescenta a coluna 'FRETE' (pedidos.ValorFreteReal), antes da coluna 'CAIXA', acrescenta a coluna 'MAQUINA' (pedidos.MAQUINA).
+- chkMostrarCaixa deve exibir/ocultar as colunas MAQUINA, CAIXA, CODCAIXA
+- Por padrão o chkMostrarCaixa deve ser false quando abrir o form
+
+Deu erro na rotina Mostrar_Pedido na linha:
+    sSQL = "SELECT DISTINCT pedidos.cod_pedido AS var_CodPedido, pedidos.TIPO_PEDIDO AS var_TIPOPedido, pedidos.DATA_COMPRA as var_Data, cliente.codigo, pedidos.SUBTOTAL as var_Subtotal, pedidos.ValorDescReal as var_Desc, pedidos.ValorAcrescReal as var_Acresc, pedidos.TOTAL var_Total, pedidos.COD_FUNCIONARIO as varCod_Func, pedidos.TIPO_PEDIDO AS var_TipoPedido, pedidos.TIPO_PAGAMENTO AS var_TipoPagamento, pedidos.PAGAMENTO AS var_Pagamento, (CASE WHEN pedidos.status_pedido = 1 THEN 'FECHADO' ELSE 'ABERTO' END) AS Var_StatusPedido, (CASE WHEN pedidos.reaberto = 1 THEN 'SIM' ELSE '' END) AS Var_StatusREABERTO, (CASE WHEN pedidos.CANCELADO = 1 THEN 'SIM' ELSE '' END) AS Var_StatusCANCELADO, ISNULL ((SELECT (CASE WHEN N .NFCeEnviada IN (1, 0) THEN 'SIM' ELSE '' END) FROM TbNFCe AS N WHERE (Num_OS_VD_Origem = pedidos.COD_PEDIDO)), '') AS Var_StatusNFCE, (CASE WHEN TbNFCe.Inutilizada = 1 THEN 'SIM' ELSE '' END) AS Var_NFCEInutilizada, pedidos.ValorFreteReal as varPedFrete, pedidos.MAQUINA as varPedMaquina, pedi _
+s.caixa as varPedCaixa, pedidos.codcaixa as varPedCodCaixa " & _
+        "FROM  pedidos INNER JOIN Cliente ON pedidos.COD_CLIENTE = Cliente.CODIGO LEFT OUTER JOIN TbNFCe ON TbNFCe.Num_OS_VD_Origem = pedidos.COD_PEDIDO " & _
+       "WHERE " & varStatus & " " & varFormaPgto & " " & varTipoPgto & " " & vTipoPedido & " AND (pedidos.TIPO_PEDIDO <> 'ALUGUEL')"
+	   
+-Quando clicar numa linha de uma venda cancelada, somente os botões cmdMostrarProdutos E cmdImprimir devem ficar ativos.
+-Analisa o botão cmdReaberturas para que serve e veja o significado das ultimas 2 colunas no grid exibido na janela dele.
+
+- Perceba que toda vez que reabro uma venda ele armazena as informações na tabela Pedidos_Reabertura... veja se essas informações estão sendo armazenadas corretamente.
+- Veja para mim se quando cancelo uma venda ele tambem guarda o historico na Pedidos_Reabertura. Se não, faça armazenar tb...
+- Quando eu clicar numa venda que não foi reaberta, porem foi cancelada, o cmdReaberturas deve ficar ativo.
+- Acrescentei o ImgMarcada no form Estorno_ReabrirPedidos para trocar o sim por ele nas celulas.
+
+Pelo que entendi, hoje, quando crio uma nova venda, a tabela Pedidos_Reabertura já é preenchida, mesmo sendo uma venda nova (nunca reaberta) ?
+
+Olha a image261... por algum motivo a primeira reabertura do pedido nao exibe a ImgMarcada
+
+Acrescentei o botão cmdNFCe no form Estonar
+Ele só deve ficar ativo quando uma venda não tiver NFCe vinculada a ela e não tenha sido cancelada.
+Quando eu clicar em cmdNFCe ele deve gerar uma nfce daquela venda e imprimir (mesmo procedimento feito no fechamento da venda no pdv)
+
+Hoje uma cliente minha (simples Nancional) estava tentando fazer uma nota de devolução para uma empresa do mesmo estado (piaui)... e deu o erro da imagem image263.
+Pedi para ela me mandar a foto da nota aberta... ela me mandou a imagem image264.
+Note que as colunas de icms não apareceu no grid (acredito que mesmo sendo simples nacional, sendo uma nota de devolução, deveria aparecer (me corrija se eu tiver errado)).
+Cliquei no botão Recalcular, salvei e tentei transmitir e deu a mesma msg.
+
+Coloquei na pasta C:\Projeto\Arquivos\Contadores, 3 scripts...
+Eles tratam:
+Contador - Cria Tabela (cria a tabela TbContabilista)
+Contador - Alteração Tabela (altera a tabela TbContabilista(caso exista))
+Contador - Alteração View (altera a view Contador(caso exista))
+Preciso ajustar esses 3 scripts para adicionar-los ao manifestos.
+1. Preciso ver se a tabela TbContabilista existe, caso exista, altera, caso não exista, criar já com o campo do script da alteração já corrigido.
+2. Preciso ver se o View Contador existe, caso exista, altera, caso não exista, criar já com o campo do script da alteração já corrigido.
+
+
+
+Fiz um teste agora, criei um pedido novo as 12hs, salvei... no form estorna ao clicar nessa venda o cmdReaberturas ficou desabilitado... reabrir a venda as 12:06, fechei novamente, fui no estornar, cliquei na venda e o cmdReaberturas ficou habilitado... e olha o resultado na imagem image262
+
+
+image266 erro no certificado
+
+Baixei uma xml, importei ela para meu sistema e na hora de vincular (form frmVinculoProdutoXML) deu o erro da image267 
+Coloquei a xml na pasta C:\Projeto\Arquivos\XML nome: 22260903093175000189550020000001381000001420
+
+No form Produtos_Estoque_Simples quando eu clico no botao cmdAtualizarPreco, o form Produtos_Estoque_Simples desaparece e o Produtos_AjustoPreco aparece.
+Preciso que quando eu clicar no cmdAtualizarPreco ou cmdAtualizarQuant, o form Produtos_Estoque_Simples não suma e o form para alterar apareça sobre esse form
+
+Quando eu clico no botao cmdAtualizarPreco da o seguinte erro:
+Run-time error '401': Can't show non-modal form when modal form is displayed
+
+No form Entrada_Estoque o botão cmdAtualProd cadastra um produto baseado no produto que chegou na nota fiscal de compra. Acredito que ele somente fica ativo quando dou um duplo clique no GridNotasItens e o sistema não localiza nenhum produto com o mesmo código de barra que chegou na nota... ele possui o caption = 'Cadastrar Produto'
+
+No form Entrada_Estoque, quando dou um duplo clique no GridNotasItens em um produto que não existe um produto cadastrado no meu banco de dados vinculado a ele... aparece a msg "Este produto nao possui vinculo com nenhum produto interno. Realize o vinculo antes de lancar no estoque." Quando dou um OK, abre o form de vincular produtos...
+Mudanças:
+Quando der um duplo clique no item que exibiria essa msg, invés de aparecer essa msg com OK, deve aparecer a msg: Este produto não possui vinculo com nenhum produto cadastrado. (Linha de baixo): Deseja criar o vinculo deste produto com outro? (botão SIM/NÃO).
+Caso seja sim, continua como era antes (quando dava OK), caso seja NÃO: deve preencher os labels (txtCodBarraSel, txtDescricaoSel, txtUnidMedSel, txtQuantSel, txtValorSel, txtNCMSel, txtCFOPSel e txtCSTSel)... ativar os botões cmdAtualProd, cmdLocalizarManual e cmdCancelarEntrada
+Obs: O botão cmdAtualProd deve fazer do mesmo jeito que o cmdCadastrar (opção cadastro manual) faz... (cmdCadastrar fica no form frmVinculoProdutoXML)
+
+O cmdAtualProd é ativado e possui o caption = 'Cadastrar Produto' quando o produto não possui vinculo. Porem imagine que dou um duplico clique no GridNotasItens, ele encontra o produto, porem o produto possui o cadastro errado (código de barra, descrição, unidade de medida e etc)... gostaria que quando fosse encontrado o produto vinculado e exibisse os labels (txtCodBarraExist e etc)... cmdAtualProd ficasse ativo, porem com o caption = 'Editar Produto' e que a função dele fosse abrir o cadastro daquele produto para permitir eu alterar.
+
+
+
+
+
+
+

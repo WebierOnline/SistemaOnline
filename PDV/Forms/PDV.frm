@@ -4363,7 +4363,7 @@ Dim r As ADODB.Recordset
 Dim lRet As Long
 
 lRet = -1
-sSQL = "SELECT cod_pedido FROM pedidos WHERE (data_compra = '" & Format$(Now, "yyyy-dd-MM") & "') AND (status_pedido = 0) AND (reaberto = 0) AND (maquina = '" & var_Maquina & "') AND (tipo_pedido IS NULL OR tipo_pedido = '');"
+sSQL = "SELECT cod_pedido FROM pedidos WHERE (data_compra = '" & Format$(Now, "yyyy-dd-MM") & "') AND (status_pedido = 0) AND (reaberto = 0) AND (maquina = '" & var_Maquina & "') AND (tipo_pedido IS NULL OR tipo_pedido = '') AND (pedidos.cancelado = 0);"
 Set r = dbData.OpenRecordset(sSQL)
 If Not r.BOF Then lRet = r("cod_pedido")
 If r.State <> 0 Then r.Close

@@ -218,11 +218,29 @@ Begin VB.Form Produtos_Estoque_Simples
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00000080&
-         Height          =   855
+         Height          =   915
          Left            =   5820
          TabIndex        =   35
          Top             =   240
          Width           =   4185
+         Begin VB.OptionButton optCodProd 
+            Caption         =   "Prod."
+            Height          =   195
+            Left            =   540
+            TabIndex        =   68
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   735
+         End
+         Begin VB.OptionButton optCodBarra2 
+            Caption         =   "Barra"
+            Height          =   195
+            Left            =   1260
+            TabIndex        =   67
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   735
+         End
          Begin VB.ComboBox cboDesc 
             Height          =   315
             Left            =   120
@@ -316,13 +334,14 @@ Begin VB.Form Produtos_Estoque_Simples
             Width           =   855
          End
          Begin VB.Label lblCodBarra 
-            Caption         =   "Cód. de Barra"
+            AutoSize        =   -1  'True
+            Caption         =   "Cód.:"
             Height          =   195
             Left            =   120
             TabIndex        =   41
             Top             =   240
             Visible         =   0   'False
-            Width           =   1275
+            Width           =   375
          End
       End
       Begin VB.Frame Frame1 
@@ -863,7 +882,7 @@ Begin VB.Form Produtos_Estoque_Simples
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "14:53"
+            TextSave        =   "11:28"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1067,6 +1086,7 @@ Private tipoEmpresa As Long
 Dim varTipoValorVenda As String
 Dim var_Indice As String
 Dim var_Direcao As String
+Private bUsaOSEstoque As Boolean   ' empresa usa modulo OS -> mostra optCodProd/optCodBarra2 no criterio Cod. Barra
 
 'arquivo .ini
 Public cCfg As ConfigItem
@@ -1175,7 +1195,13 @@ Private Sub MostrarCriterios()
    End If
    
    var_Criterio = var_Criterio & IIf(optCategoria.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.categoria = '" & cboDesc.Text & "'", "")
-   var_Criterio = var_Criterio & IIf(optCodBarra.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.cod_barra = '" & txtCodBarra.Text & "'", "")
+   If optCodBarra.Value Then
+      If optCodProd.Value = True Then
+         var_Criterio = var_Criterio & IIf(var_Criterio <> "", " AND ", "") & "produtos.codigo = " & Val(txtCodBarra.Text)
+      Else
+         var_Criterio = var_Criterio & IIf(var_Criterio <> "", " AND ", "") & "produtos.cod_barra = '" & txtCodBarra.Text & "'"
+      End If
+   End If
    var_Criterio = var_Criterio & IIf(optTags.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.TAGS = '" & cboDesc.Text & "'", "")
    var_Criterio = var_Criterio & IIf(optNCM.Value, IIf(var_Criterio <> "", " AND ", "") & "produtos.NCM = '" & txtCodBarra.Text & "'", "")
    
@@ -1305,23 +1331,20 @@ Loop Until Not bRepete
 TirarEspaco = Value
 End Function
 Private Sub cmdAtualizarPreco_Click()
-Me.Hide
 'Load Produtos_AjustoPreco
-Produtos_AjustoPreco.Show
 Produtos_AjustoPreco.txtCodProduto.Text = (Grid.TextMatrix(Grid.Row, 2))
+Produtos_AjustoPreco.Show vbModal
 End Sub
 
 Private Sub cmdAtualizarQuant_Click()
-Me.Hide
 Dim i As Integer
 i = Grid.Row
 
 If Grid.TextMatrix(i, 2) = "" Then Exit Sub
 
-Produtos_AdicionarQuant.Show
 Produtos_AdicionarQuant.txtCodProduto.Text = (Grid.TextMatrix(i, 2))
 Produtos_AdicionarQuant.txtCodUsuario.Text = lblCodUsuario.Caption
-Produtos_AdicionarQuant.txtQuantNova.SetFocus
+Produtos_AdicionarQuant.Show vbModal
 End Sub
 
 
@@ -1496,6 +1519,11 @@ tipoEmpresa = CLng(sysConfig("TIPO_EMPRESA").Value)
 Set cCfg = sysConfig("TIPOVALORVENDA")
 varTipoValorVenda = cCfg.Value
 Set cCfg = Nothing
+
+' optCodProd/optCodBarra2 (cod. produto x cod. barra na consulta) so aparecem se a empresa usa OS - igual NFe_Completa
+On Error Resume Next
+bUsaOSEstoque = (Val(sysConfig("OS").Value) <> 0)
+On Error GoTo 0
 End Sub
 
 Private Sub cboDesc_Change()
@@ -2161,26 +2189,36 @@ End Select
 End Sub
 
 Private Sub optCategoria_Click()
+   optCodProd.Visible = False
+   optCodBarra2.Visible = False
    lblCategoria.Visible = False
-   lblDesc.Visible = True
+   lblDesc.Visible = False
    cboDesc.Visible = True
+   'lblCodBarra (topo) e o unico rotulo agora; lblDesc/lblCategoria ficavam por cima da combo
    optPorPalavra.Visible = False
    PorPalavraDupla.Visible = False
    lblCodBarra.Caption = "Categoria"
-   lblCodBarra.Visible = False
+   lblCodBarra.Visible = True
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = True
    cboDesc.SetFocus
 End Sub
 
 Private Sub optCodBarra_Click()
+   optCodProd.Visible = bUsaOSEstoque
+   optCodBarra2.Visible = bUsaOSEstoque
+   optCodBarra2.Value = True
    lblCategoria.Visible = False
    lblDesc.Visible = False
    cboDesc.Visible = False
    cboDesc.Visible = False
    optPorPalavra.Visible = False
    PorPalavraDupla.Visible = False
-   lblCodBarra.Caption = "Cód. Barra"
+   If bUsaOSEstoque Then
+      lblCodBarra.Caption = "Cód.:"
+   Else
+      lblCodBarra.Caption = "Cód. Barra"
+   End If
    lblCodBarra.Visible = True
    txtCodBarra.Visible = True
    cmdLocalizar.Visible = True
@@ -2188,32 +2226,41 @@ Private Sub optCodBarra_Click()
 End Sub
 
 Private Sub optDesc_Click()
+   optCodProd.Visible = False
+   optCodBarra2.Visible = False
+   optPorPalavra.Value = True
    lblCategoria.Visible = False
-   lblDesc.Visible = True
+   lblDesc.Visible = False
    cboDesc.Visible = True
+   'lblCodBarra (topo) e o unico rotulo agora; lblDesc/lblCategoria ficavam por cima da combo
    optPorPalavra.Visible = True
    PorPalavraDupla.Visible = True
    lblCodBarra.Caption = "Descrição"
-   lblCodBarra.Visible = False
+   lblCodBarra.Visible = True
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = True
    cboDesc.SetFocus
 End Sub
 
 Private Sub optTags_Click()
+   optCodProd.Visible = False
+   optCodBarra2.Visible = False
    lblCategoria.Visible = False
-   lblDesc.Visible = True
+   lblDesc.Visible = False
    cboDesc.Visible = True
+   'lblCodBarra (topo) e o unico rotulo agora; lblDesc/lblCategoria ficavam por cima da combo
    optPorPalavra.Visible = False
    PorPalavraDupla.Visible = False
    lblCodBarra.Caption = "Tags"
-   lblCodBarra.Visible = False
+   lblCodBarra.Visible = True
    txtCodBarra.Visible = False
    cmdLocalizar.Visible = True
    cboDesc.SetFocus
 End Sub
 
 Private Sub optNCM_Click()
+   optCodProd.Visible = False
+   optCodBarra2.Visible = False
    lblCategoria.Visible = False
    lblDesc.Visible = False
    cboDesc.Visible = False
@@ -2267,6 +2314,8 @@ optORDTFiscal.Visible = False
 End Sub
 
 Private Sub optTodos_Click()
+   optCodProd.Visible = False
+   optCodBarra2.Visible = False
    lblCategoria.Visible = False
    lblDesc.Visible = False
    cboDesc.Visible = False

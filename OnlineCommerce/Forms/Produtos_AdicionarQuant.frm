@@ -578,11 +578,13 @@ Private Sub cmdSair_Click()
 LimparObjetos_Produtos
 txtCodProduto.Text = ""
 Me.Hide
-Produtos_Estoque_Simples.Show
+End Sub
+
+Private Sub Form_Activate()
+txtQuantNova.SetFocus
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-Produtos_Estoque_Simples.Show
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

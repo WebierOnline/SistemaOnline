@@ -2289,25 +2289,47 @@ Private Sub cmdFecharCaixa_Click()
 Dim bTrans As Boolean
 On Error GoTo TrataErro
 
-'bloqueia o fechamento se existir venda em aberto (com produtos) em qualquer PDV deste caixa,
-'nao so no terminal atual - evita fechar o caixa enquanto outro PDV ainda esta vendendo
-Dim sSQLVendaAberta As String
-Dim rVendaAberta As ADODB.Recordset
-sSQLVendaAberta = "SELECT TOP 1 pedidos.cod_pedido FROM pedidos WHERE (pedidos.caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "') AND (pedidos.codcaixa = " & txtCodCaixa.Text & ") AND (pedidos.status_pedido = 0) AND (pedidos.tipo_pedido IS NULL OR pedidos.tipo_pedido = '') AND EXISTS (SELECT 1 FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido);"
-Set rVendaAberta = dbData.OpenRecordset(sSQLVendaAberta)
-If Not rVendaAberta.EOF Then
-   If rVendaAberta.State <> 0 Then rVendaAberta.Close
-   Set rVendaAberta = Nothing
-   ShowMsg "Existe uma venda em aberto (com produtos adicionados) em um dos PDVs deste caixa." & vbCrLf & "Finalize ou cancele essa venda antes de fechar o caixa.", vbExclamation
-   Exit Sub
-End If
-If rVendaAberta.State <> 0 Then rVendaAberta.Close
-Set rVendaAberta = Nothing
-
 If txtFuncAP.Text = "" Then
    ShowMsg "Faltou o código do funcionário!", vbExclamation
    txtCodFuncAP.SetFocus
    Exit Sub
+End If
+
+'bloqueia o fechamento se existir venda em aberto (com produtos) em qualquer PDV deste caixa,
+'nao so no terminal atual - evita fechar o caixa enquanto outro PDV ainda esta vendendo.
+'se o usuario confirmar, cancela todas as vendas em aberto e segue o fechamento.
+Dim sSQLVendaAberta As String
+Dim rVendaAberta As ADODB.Recordset
+sSQLVendaAberta = "SELECT pedidos.cod_pedido, pedidos.total FROM pedidos WHERE (pedidos.caixa = '" & Caixa_Controle_semOS.StatusBar1.Panels(2).Text & "') AND (pedidos.codcaixa = " & txtCodCaixa.Text & ") AND (pedidos.status_pedido = 0) AND (pedidos.tipo_pedido IS NULL OR pedidos.tipo_pedido = '') AND EXISTS (SELECT 1 FROM pedidos_itens WHERE pedidos_itens.cod_pedido = pedidos.cod_pedido);"
+Set rVendaAberta = dbData.OpenRecordset(sSQLVendaAberta)
+If Not rVendaAberta.EOF Then
+    'monta a lista antes de fechar o recordset - nao mantem cursor aberto enquanto cancela
+    Dim vQtdVendasAbertas As Integer
+    Dim vPedidosAbertos() As String
+    Dim vTotaisAbertos() As Currency
+    vQtdVendasAbertas = 0
+    ReDim vPedidosAbertos(rVendaAberta.RecordCount - 1)
+    ReDim vTotaisAbertos(rVendaAberta.RecordCount - 1)
+    Do While Not rVendaAberta.EOF
+        vPedidosAbertos(vQtdVendasAbertas) = rVendaAberta("cod_pedido")
+        vTotaisAbertos(vQtdVendasAbertas) = ValidateNull(rVendaAberta("total"))
+        vQtdVendasAbertas = vQtdVendasAbertas + 1
+        rVendaAberta.MoveNext
+    Loop
+    If rVendaAberta.State <> 0 Then rVendaAberta.Close
+    Set rVendaAberta = Nothing
+
+    If ShowMsg("Existe " & vQtdVendasAbertas & " venda(s) em aberto (com produtos adicionados) em um dos PDVs deste caixa." & vbCrLf & vbCrLf & "Deseja CANCELAR essa(s) venda(s) para poder fechar o caixa?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
+        Dim vIdxVendaAberta As Integer
+        For vIdxVendaAberta = 0 To vQtdVendasAbertas - 1
+            CancelarVendaAbertaFechamento vPedidosAbertos(vIdxVendaAberta), vTotaisAbertos(vIdxVendaAberta)
+        Next
+    Else
+        Exit Sub
+    End If
+Else
+    If rVendaAberta.State <> 0 Then rVendaAberta.Close
+    Set rVendaAberta = Nothing
 End If
 
 If lblEntrada.Caption = "" Or lblSaida.Caption = "" Or lblTotal.Caption = "" Then
@@ -2420,6 +2442,26 @@ Else
    MsgBox "Erro ao fechar o caixa: " & vErrDesc, vbCritical, "Erro"
 End If
 End Sub
+Private Sub CancelarVendaAbertaFechamento(ByVal pCodPedido As String, ByVal pValorPedido As Currency)
+'cancela 1 pedido em aberto - mesmos passos de Estonar.cmdExcluirPedido_Click (sem a parte de
+'grid/UI). Chamado em loop pelo cmdFecharCaixa_Click quando o usuario confirma cancelar todas
+'as vendas abertas do caixa. Responsavel pelo cancelamento = funcionario que esta fechando o
+'caixa (txtCodFuncAP/txtFuncAP), ja exigido antes desse ponto.
+dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO) VALUES (" & txtCodFuncAP.Text & ", '" & txtFuncAP.Text & "', " & Replace(CCur(pValorPedido), ",", ".") & ", CONVERT(DATETIME, '" & Format$(Date, "yyyymmdd") & "'), '" & Format(Now, ocHORA) & "', 1, " & pCodPedido & ");"
+
+'Retornar a quantidade de produtos ao estoque
+dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + pedidos_itens.quantidade FROM produtos LEFT JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto WHERE (pedidos_itens.cod_pedido = " & pCodPedido & ")"
+
+'Apaga as parcelas do pedido
+dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & pCodPedido & ");"
+
+'Colocar como cancelado os produtos do pedido
+dbData.Execute "UPDATE pedidos_itens SET cancelado = 1 WHERE (cod_pedido = " & pCodPedido & ");"
+
+'Apaga a venda
+dbData.Execute "UPDATE pedidos SET cancelado = 1 WHERE (cod_pedido = " & pCodPedido & ");"
+End Sub
+
 Private Sub AutoNumeracao_CaixaDia()
 Dim sSQL As String
 Dim r As ADODB.Recordset
