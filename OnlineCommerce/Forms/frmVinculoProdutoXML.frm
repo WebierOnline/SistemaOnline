@@ -234,7 +234,7 @@ Begin VB.Form frmVinculoProdutoXML
       Begin VB.Label lblBuscaHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "Digite o ""Nome do Produto"" ou ""Código de Barra"" e clique Buscar:"
+         Caption         =   "Digite o ""Nome do Produto"" ou ""Cï¿½digo de Barra"" e clique Buscar:"
          ForeColor       =   &H00808080&
          Height          =   195
          Left            =   120
@@ -843,6 +843,7 @@ Private Sub cmdBuscar_Click()
                    "FROM Produtos " & _
                    "WHERE DESCRICAO LIKE '%" & sTermo & "%' " & _
                    "   OR EAN        LIKE '%" & sTermo & "%' " & _
+                   "   OR COD_BARRA  LIKE '%" & sTermo & "%' " & _
                    "   OR CAST(Codigo AS VARCHAR) = '" & sTermo & "' " & _
                    "ORDER BY DESCRICAO"
 
@@ -850,8 +851,9 @@ Private Sub cmdBuscar_Click()
    ReDim arrIDProduto(0)
 
    If TbBusca.EOF Then
-      lstProdutos.Row = 0: lstProdutos.Col = 0
+      lstProdutos.Row = 0: lstProdutos.Col = 1
       lstProdutos.Text = "  (nenhum produto encontrado)"
+      AtualizarBotoes
       Exit Sub
    End If
 
@@ -894,6 +896,8 @@ Private Sub cmdBuscar_Click()
          End If
       End If
    End If
+
+   AtualizarBotoes
 End Sub
 
 '==============================================================

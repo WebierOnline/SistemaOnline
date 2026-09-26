@@ -112,3 +112,4 @@
 112|CreateTable_TbContabilista.sql|GERAL
 113|AlterView_Contador.sql|GERAL
 114|AlterTable_VinculoXMLProduto_CST.sql|GERAL
+115|AlterTable_Configuracao_HabilitarComp.sql|GERAL

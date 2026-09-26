@@ -11613,7 +11613,12 @@ Else                                                                            
             Dim dictComp As Object
             Dim sSQL_Comp As String
             Dim rS2 As ADODB.Recordset
-            If tipoEmpresa = 5 Then
+            'Exibe compatibilidade de veiculos so p/ Autopeca/Motopeca com a config ligada
+            'e tipo de OS Automoveis/Motocicletas ("veiculos" no vocabulario do usuario - exclui Recapadora)
+            Dim bMostrarCompVeic As Boolean
+            bMostrarCompVeic = (tipoEmpresa = 5) And CBool(sysConfig("HABILITAR_COMP").Value) And _
+                (sysConfig("TIPO_OS").Value = "Automóveis" Or sysConfig("TIPO_OS").Value = "Motocicletas")
+            If bMostrarCompVeic Then
                 'compatibilidade veicular pre-buscada de uma vez so (era 1 consulta por linha do resultado)
                 Set dictComp = CreateObject("Scripting.Dictionary")
                 sSQL_Comp = "SELECT pc.COD_PRODUTO, pc.MODELO, pc.ANO FROM PRODUTOS_COMP pc INNER JOIN produtos p ON p.codigo = pc.COD_PRODUTO WHERE (p.descricao LIKE '%" & txtCodBarra.Text & "%') AND (p.ativo = 1)"
@@ -11648,6 +11653,15 @@ Else                                                                            
          End If
          
          Load fGrid
+         'Sem a config ligada, esconde a coluna inteira (nao so deixa vazia) e alarga DESCRICAO
+         If tipoEmpresa = 5 Then
+            If Not bMostrarCompVeic Then
+               fGrid.lstBusca.ColumnHeaders(5).Width = 0
+               fGrid.lstBusca.ColumnHeaders(3).Width = 6800
+            Else
+               fGrid.lstBusca.ColumnHeaders(3).Width = 3800
+            End If
+         End If
          LockWindowUpdate fGrid.lstBusca.hwnd
          
       'If txtCodBarra.Text <> "" Then
@@ -11671,9 +11685,11 @@ Else                                                                            
                   If Not IsNull(r("venda")) Then ItemLst.SubItems(6) = Format(ValidateNull(r("venda")), ocMONEY)
                   If Not IsNull(r("var_local")) Then ItemLst.SubItems(5) = ValidateNull(r("var_local"))
                       'Compartibilidade (pre-buscada em lote antes do loop, evita 1 consulta por linha)
+                      If bMostrarCompVeic Then
                         If dictComp.Exists(CStr(r("var_cod"))) Then
                             ItemLst.SubItems(4) = dictComp(CStr(r("var_cod")))
                         End If
+                      End If
                   
                Else     'outros tipos de empresas
                   ItemLst.SubItems(2) = ValidateNull(r("var_desc")) & " /  " & ValidateNull(r("var_fab"))

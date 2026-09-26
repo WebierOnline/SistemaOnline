@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:13"
+            TextSave        =   "09:18"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -113,7 +113,6 @@ Begin VB.Form Configuracao_Geral
       _ExtentY        =   15796
       _Version        =   393216
       Tabs            =   5
-      Tab             =   2
       TabsPerRow      =   5
       TabHeight       =   520
       TabMaxWidth     =   2999
@@ -128,22 +127,29 @@ Begin VB.Form Configuracao_Geral
       EndProperty
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
-      Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Frame9"
-      Tab(0).Control(1)=   "FraConfiguracao"
+      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).Control(0)=   "cmdSalvarGeral"
+      Tab(0).Control(0).Enabled=   0   'False
+      Tab(0).Control(1)=   "FrameBackup"
+      Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "Frame1"
-      Tab(0).Control(3)=   "FrameBackup"
-      Tab(0).Control(4)=   "cmdSalvarGeral"
+      Tab(0).Control(2).Enabled=   0   'False
+      Tab(0).Control(3)=   "FraConfiguracao"
+      Tab(0).Control(3).Enabled=   0   'False
+      Tab(0).Control(4)=   "Frame9"
+      Tab(0).Control(4).Enabled=   0   'False
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
-      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdSalvarBalanca"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Frame3"
@@ -156,48 +162,61 @@ Begin VB.Form Configuracao_Geral
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "cboDeclararRecebedor"
-      Tab(3).Control(1)=   "txtFormaParcelasImpressao"
-      Tab(3).Control(2)=   "cboFormaParcelasImpressao"
-      Tab(3).Control(3)=   "cboINIImpNormal"
-      Tab(3).Control(4)=   "Frame7"
-      Tab(3).Control(5)=   "Frame8"
+      Tab(3).Control(0)=   "Label48"
+      Tab(3).Control(0).Enabled=   0   'False
+      Tab(3).Control(1)=   "Label14"
+      Tab(3).Control(1).Enabled=   0   'False
+      Tab(3).Control(2)=   "Label49"
+      Tab(3).Control(2).Enabled=   0   'False
+      Tab(3).Control(3)=   "Label61"
+      Tab(3).Control(3).Enabled=   0   'False
+      Tab(3).Control(4)=   "cmdSalvarImpressao"
+      Tab(3).Control(4).Enabled=   0   'False
+      Tab(3).Control(5)=   "Frame2"
+      Tab(3).Control(5).Enabled=   0   'False
       Tab(3).Control(6)=   "Frame17"
-      Tab(3).Control(7)=   "Frame2"
-      Tab(3).Control(8)=   "cmdSalvarImpressao"
-      Tab(3).Control(9)=   "Label61"
-      Tab(3).Control(10)=   "Label49"
-      Tab(3).Control(11)=   "Label14"
-      Tab(3).Control(12)=   "Label48"
+      Tab(3).Control(6).Enabled=   0   'False
+      Tab(3).Control(7)=   "Frame8"
+      Tab(3).Control(7).Enabled=   0   'False
+      Tab(3).Control(8)=   "Frame7"
+      Tab(3).Control(8).Enabled=   0   'False
+      Tab(3).Control(9)=   "cboINIImpNormal"
+      Tab(3).Control(9).Enabled=   0   'False
+      Tab(3).Control(10)=   "cboFormaParcelasImpressao"
+      Tab(3).Control(10).Enabled=   0   'False
+      Tab(3).Control(11)=   "txtFormaParcelasImpressao"
+      Tab(3).Control(11).Enabled=   0   'False
+      Tab(3).Control(12)=   "cboDeclararRecebedor"
+      Tab(3).Control(12).Enabled=   0   'False
       Tab(3).ControlCount=   13
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "chameleonButton1"
-      Tab(4).Control(1)=   "txtCodDesbloqueioTemp"
-      Tab(4).Control(2)=   "txtCodDesbloqueio"
-      Tab(4).Control(3)=   "txtFantasia"
-      Tab(4).Control(4)=   "cboAno"
-      Tab(4).Control(5)=   "cboMes"
-      Tab(4).Control(6)=   "txtRazao"
-      Tab(4).Control(7)=   "Grid"
-      Tab(4).Control(8)=   "mskCPF"
-      Tab(4).Control(9)=   "cmdAdicionar"
-      Tab(4).Control(10)=   "cmdMostrarSenha"
-      Tab(4).Control(11)=   "cmdPrepara"
+      Tab(4).Control(0)=   "Label53"
+      Tab(4).Control(1)=   "Label54"
+      Tab(4).Control(2)=   "Label56"
+      Tab(4).Control(3)=   "Label57"
+      Tab(4).Control(4)=   "Label58"
+      Tab(4).Control(5)=   "Label59"
+      Tab(4).Control(6)=   "Label60"
+      Tab(4).Control(7)=   "cmdDesmarcarTodos"
+      Tab(4).Control(8)=   "cmdDesmarcar"
+      Tab(4).Control(9)=   "cmdMarcar"
+      Tab(4).Control(10)=   "cmdLocalizar"
+      Tab(4).Control(11)=   "cmdNovo"
       Tab(4).Control(12)=   "cmdPrepara2"
-      Tab(4).Control(13)=   "cmdNovo"
-      Tab(4).Control(14)=   "cmdLocalizar"
-      Tab(4).Control(15)=   "cmdMarcar"
-      Tab(4).Control(16)=   "cmdDesmarcar"
-      Tab(4).Control(17)=   "cmdDesmarcarTodos"
-      Tab(4).Control(18)=   "Label60"
-      Tab(4).Control(19)=   "Label59"
-      Tab(4).Control(20)=   "Label58"
-      Tab(4).Control(21)=   "Label57"
-      Tab(4).Control(22)=   "Label56"
-      Tab(4).Control(23)=   "Label54"
-      Tab(4).Control(24)=   "Label53"
+      Tab(4).Control(13)=   "cmdPrepara"
+      Tab(4).Control(14)=   "cmdMostrarSenha"
+      Tab(4).Control(15)=   "cmdAdicionar"
+      Tab(4).Control(16)=   "mskCPF"
+      Tab(4).Control(17)=   "Grid"
+      Tab(4).Control(18)=   "txtRazao"
+      Tab(4).Control(19)=   "cboMes"
+      Tab(4).Control(20)=   "cboAno"
+      Tab(4).Control(21)=   "txtFantasia"
+      Tab(4).Control(22)=   "txtCodDesbloqueio"
+      Tab(4).Control(23)=   "txtCodDesbloqueioTemp"
+      Tab(4).Control(24)=   "chameleonButton1"
       Tab(4).ControlCount=   25
       Begin VB.Frame Frame13 
          Caption         =   "Cashback"
@@ -211,9 +230,9 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1695
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   219
-         Top             =   3180
+         Top             =   3360
          Width           =   8655
          Begin VB.TextBox txtCashbackValidade 
             Alignment       =   1  'Right Justify
@@ -339,7 +358,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
          Height          =   1335
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   182
          Top             =   4080
          Width           =   8655
@@ -603,9 +622,9 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1335
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   139
-         Top             =   1800
+         Top             =   1980
          Width           =   8655
          Begin VB.ComboBox cboHabilitarAluguel 
             Height          =   315
@@ -911,11 +930,18 @@ Begin VB.Form Configuracao_Geral
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   1335
-         Left            =   120
+         Height          =   1515
+         Left            =   -74880
          TabIndex        =   115
          Top             =   420
          Width           =   8655
+         Begin VB.ComboBox cboHabilitarComp 
+            Height          =   315
+            Left            =   2205
+            TabIndex        =   230
+            Top             =   1080
+            Width           =   1395
+         End
          Begin VB.ComboBox cboTipoOS 
             Height          =   315
             Left            =   2205
@@ -929,6 +955,16 @@ Begin VB.Form Configuracao_Geral
             TabIndex        =   135
             Top             =   360
             Width           =   1395
+         End
+         Begin VB.Label Label75 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Habilitar Compartibilidade:"
+            Height          =   195
+            Left            =   315
+            TabIndex        =   231
+            Top             =   1080
+            Width           =   1815
          End
          Begin VB.Label Label40 
             Alignment       =   1  'Right Justify
@@ -954,7 +990,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FraConfiguracao 
          Caption         =   "Balança e Peso"
          Height          =   1515
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   110
          Top             =   6660
          Width           =   8655
@@ -1090,7 +1126,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
          Height          =   3615
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   80
          Top             =   480
          Width           =   8655
@@ -2106,7 +2142,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
          Height          =   1155
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   12
          Top             =   5460
          Width           =   8655
@@ -2220,7 +2256,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   79
          Top             =   8220
          Width           =   2175
@@ -2259,7 +2295,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarBalanca 
          Height          =   615
-         Left            =   6600
+         Left            =   -68400
          TabIndex        =   88
          Top             =   7980
          Width           =   2175
@@ -2868,6 +2904,23 @@ dbData.Execute sSQL
 sysConfig("OS").Value = Abs(bOpt)
 End Sub
 
+Private Sub AtualizarHabilitarComp()
+Dim sSQL As String, bOptComp As Boolean
+
+If cboHabilitarComp.Text = "SIM" Then
+    bOptComp = True
+ElseIf cboHabilitarComp.Text = "NÃO" Then
+    bOptComp = False
+End If
+
+'Atualiza a base de dados
+sSQL = "UPDATE configuracao SET config_valor = '" & Abs(bOptComp) & "' WHERE (config_nome = 'HABILITAR_COMP');"
+dbData.Execute sSQL
+
+'Atualiza a configuração carregada na memória
+sysConfig("HABILITAR_COMP").Value = Abs(bOptComp)
+End Sub
+
 Private Sub AP_Mostrar_Copia()
    Set oCfg = sysConfig("COPIAS_AP")
    txtNumCopiaAP.Text = oCfg.Value
@@ -3232,7 +3285,7 @@ End Sub
 Private Sub AtualizarAVTipoImpressao()
    Dim sSQL As String
    
-   If txtTipoCadastroProduto.Text = "" Then Exit Sub
+   If txtTipoImpressaoAV.Text = "" Then Exit Sub
    
    'Atualiza a base de dados
    sSQL = "UPDATE configuracao SET config_valor = '" & txtTipoImpressaoAV.Text & "' WHERE (config_nome = 'IMPRIMIR_AV');"
@@ -3938,6 +3991,18 @@ If CBool(oCfg.Value) = True Then
      cboHabilitarOS.Text = "SIM"
  Else
      cboHabilitarOS.Text = "NÃO"
+End If
+
+Set oCfg = Nothing
+End Sub
+
+Private Sub Mostrar_HabilitarComp()
+Set oCfg = sysConfig("HABILITAR_COMP")
+
+If CBool(oCfg.Value) = True Then
+     cboHabilitarComp.Text = "SIM"
+ Else
+     cboHabilitarComp.Text = "NÃO"
 End If
 
 Set oCfg = Nothing
@@ -4846,6 +4911,15 @@ var_Texto = cboHabilitarOS.Text
 cboHabilitarOS.Text = var_Texto
 End Sub
 
+Private Sub cboHabilitarComp_GotFocus()
+Dim var_TextoComp As String
+var_TextoComp = cboHabilitarComp.Text
+   cboHabilitarComp.Clear
+   cboHabilitarComp.AddItem "SIM"
+   cboHabilitarComp.AddItem "NÃO"
+cboHabilitarComp.Text = var_TextoComp
+End Sub
+
 
 Private Sub cboIdentificarMaquina_GotFocus()
 Dim var_Texto As String
@@ -5706,6 +5780,7 @@ End Sub
 
 Private Sub cmdSalvarBalanca_Click()
 AtualizarHabilitarOS
+AtualizarHabilitarComp
 AtualizarTipoOS
 AtualizarHabilitarAluguel
 AtualizarCashback
@@ -5844,6 +5919,7 @@ DescCredito_Mostrar
 
 'GUIA: ADICIONAIS
 Mostrar_OS
+Mostrar_HabilitarComp
 Mostrar_Tipo_OS
 Mostrar_Aluguel
 MostrarCashback

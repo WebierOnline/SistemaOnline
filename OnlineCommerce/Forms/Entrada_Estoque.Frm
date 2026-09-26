@@ -32,11 +32,12 @@ Begin VB.Form Entrada_Estoque
       _ExtentY        =   16748
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Nota Fiscal"
       TabPicture(0)   =   "Entrada_Estoque.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdBuscarXML"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdExcluir"
@@ -66,51 +67,51 @@ Begin VB.Form Entrada_Estoque
       Tab(0).ControlCount=   13
       TabCaption(1)   =   "Consulta"
       TabPicture(1)   =   "Entrada_Estoque.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Frame3"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "Label14"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "GridNotas"
+      Tab(1).Control(1)=   "Label11"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "lblSomaNota"
+      Tab(1).Control(2)=   "Label15"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "lblTotalNota"
+      Tab(1).Control(3)=   "Label16"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "Label9"
+      Tab(1).Control(4)=   "Label19"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "Label13"
+      Tab(1).Control(5)=   "Label20"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "Label12"
+      Tab(1).Control(6)=   "Label21"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "Label10"
+      Tab(1).Control(7)=   "Label8"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "Label17"
+      Tab(1).Control(8)=   "Label7"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "Label18"
+      Tab(1).Control(9)=   "Label22"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "Label22"
+      Tab(1).Control(10)=   "Label18"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "Label7"
+      Tab(1).Control(11)=   "Label17"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "Label8"
+      Tab(1).Control(12)=   "Label10"
       Tab(1).Control(12).Enabled=   0   'False
-      Tab(1).Control(13)=   "Label21"
+      Tab(1).Control(13)=   "Label12"
       Tab(1).Control(13).Enabled=   0   'False
-      Tab(1).Control(14)=   "Label20"
+      Tab(1).Control(14)=   "Label13"
       Tab(1).Control(14).Enabled=   0   'False
-      Tab(1).Control(15)=   "Label19"
+      Tab(1).Control(15)=   "Label9"
       Tab(1).Control(15).Enabled=   0   'False
-      Tab(1).Control(16)=   "Label16"
+      Tab(1).Control(16)=   "lblTotalNota"
       Tab(1).Control(16).Enabled=   0   'False
-      Tab(1).Control(17)=   "Label15"
+      Tab(1).Control(17)=   "lblSomaNota"
       Tab(1).Control(17).Enabled=   0   'False
-      Tab(1).Control(18)=   "Label11"
+      Tab(1).Control(18)=   "GridNotas"
       Tab(1).Control(18).Enabled=   0   'False
-      Tab(1).Control(19)=   "Label14"
+      Tab(1).Control(19)=   "Frame3"
       Tab(1).Control(19).Enabled=   0   'False
       Tab(1).ControlCount=   20
       Begin VB.Frame frmProdFracionado 
          Height          =   3675
-         Left            =   3960
+         Left            =   -71040
          TabIndex        =   163
          Top             =   1560
          Visible         =   0   'False
@@ -306,7 +307,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin TabDlg.SSTab Tab_Entrada 
          Height          =   3195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   147
          Top             =   1380
          Width           =   15615
@@ -1066,7 +1067,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   13920
+         Left            =   -61080
          TabIndex        =   113
          TabStop         =   0   'False
          ToolTipText     =   "Cód do Pedido"
@@ -1077,7 +1078,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   14820
+         Left            =   -60180
          TabIndex        =   112
          TabStop         =   0   'False
          ToolTipText     =   "Cód da Nota"
@@ -1096,7 +1097,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   4815
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   97
          Top             =   4560
          Width           =   13395
@@ -2272,7 +2273,7 @@ Begin VB.Form Entrada_Estoque
       Begin VB.Frame Frame6 
          Caption         =   "Frame6"
          Height          =   3135
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   72
          Top             =   6120
          Width           =   15
@@ -2580,7 +2581,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1095
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   55
          Top             =   8280
          Width           =   15615
@@ -2957,7 +2958,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   31
          Top             =   360
          Width           =   15615
@@ -3143,7 +3144,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   28
          Top             =   4680
          Width           =   2175
@@ -3181,7 +3182,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   29
          Top             =   8640
          Width           =   2175
@@ -3219,7 +3220,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdImportarXML 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   27
          Top             =   6660
          Width           =   2175
@@ -3257,7 +3258,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   7515
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   37
          Top             =   480
          Width           =   15615
@@ -3270,7 +3271,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdDownloadXML 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   3
          Top             =   6000
          Width           =   2175
@@ -3308,7 +3309,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   26
          Top             =   7320
          Width           =   2175
@@ -3346,7 +3347,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdBuscarXML 
          Height          =   615
-         Left            =   13560
+         Left            =   -61440
          TabIndex        =   145
          Top             =   5340
          Width           =   2175
@@ -3396,7 +3397,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -59520
+         Left            =   15480
          TabIndex        =   141
          Top             =   8040
          Width           =   225
@@ -3414,7 +3415,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   71
          Top             =   8040
          Width           =   225
@@ -3424,7 +3425,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Placa"
          Height          =   195
-         Left            =   -66300
+         Left            =   8700
          TabIndex        =   54
          Top             =   2040
          Visible         =   0   'False
@@ -3435,7 +3436,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Numero"
          Height          =   195
-         Left            =   -70575
+         Left            =   4425
          TabIndex        =   53
          Top             =   2700
          Visible         =   0   'False
@@ -3446,7 +3447,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Marca"
          Height          =   195
-         Left            =   -71685
+         Left            =   3315
          TabIndex        =   52
          Top             =   2700
          Visible         =   0   'False
@@ -3457,7 +3458,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Qtde Vol."
          Height          =   195
-         Left            =   -73560
+         Left            =   1440
          TabIndex        =   50
          Top             =   2700
          Visible         =   0   'False
@@ -3468,7 +3469,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso bruto"
          Height          =   195
-         Left            =   -69570
+         Left            =   5430
          TabIndex        =   49
          Top             =   2700
          Visible         =   0   'False
@@ -3479,7 +3480,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso liquido"
          Height          =   195
-         Left            =   -68625
+         Left            =   6375
          TabIndex        =   48
          Top             =   2700
          Visible         =   0   'False
@@ -3490,7 +3491,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "UF"
          Height          =   195
-         Left            =   -65445
+         Left            =   9555
          TabIndex        =   47
          Top             =   2040
          Visible         =   0   'False
@@ -3501,7 +3502,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Transportadora"
          Height          =   195
-         Left            =   -70320
+         Left            =   4680
          TabIndex        =   46
          Top             =   2040
          Visible         =   0   'False
@@ -3512,7 +3513,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Fatura"
          Height          =   195
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   44
          Top             =   1200
          Visible         =   0   'False
@@ -3523,7 +3524,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS"
          Height          =   195
-         Left            =   -67605
+         Left            =   7395
          TabIndex        =   43
          Top             =   1440
          Visible         =   0   'False
@@ -3534,7 +3535,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS Sub."
          Height          =   195
-         Left            =   -66405
+         Left            =   8595
          TabIndex        =   42
          Top             =   1440
          Visible         =   0   'False
@@ -3545,7 +3546,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Seguro"
          Height          =   195
-         Left            =   -69870
+         Left            =   5130
          TabIndex        =   41
          Top             =   1440
          Visible         =   0   'False
@@ -3556,7 +3557,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Despesas"
          Height          =   195
-         Left            =   -68730
+         Left            =   6270
          TabIndex        =   40
          Top             =   1440
          Visible         =   0   'False
@@ -3567,7 +3568,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Mensagem"
          Height          =   195
-         Left            =   -72540
+         Left            =   2460
          TabIndex        =   39
          Top             =   1440
          Visible         =   0   'False
@@ -3578,7 +3579,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Especie"
          Height          =   195
-         Left            =   -72690
+         Left            =   2310
          TabIndex        =   51
          Top             =   2700
          Visible         =   0   'False
@@ -3589,7 +3590,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Valor do Frete"
          Height          =   195
-         Left            =   -64440
+         Left            =   10560
          TabIndex        =   45
          Top             =   2040
          Visible         =   0   'False
@@ -3624,7 +3625,7 @@ Begin VB.Form Entrada_Estoque
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "11:17"
+            TextSave        =   "10:39"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3689,6 +3690,7 @@ Dim Titulo, Book As Variant, NomeTabela
 Dim TbProduto As New ADODB.Recordset
 Private iRow As Long, iCol As Long
 Private lPrevEntradaDestaque As Integer  'linha do GridEntradaItens destacada em vermelho
+Private bLinhaEntradaSelecionada As Boolean  'True so apos um clique de verdade do usuario em GridEntradaItens
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim Compra As Long
@@ -3930,7 +3932,8 @@ Public Sub Load_Controls()
     'txtInfComple.Text = Format(TbEntrada("InformacoesComplementares"), "@")
 
     'habilita/desabilita botaes
-    cmdImportarXML.Enabled = True
+    'entrada em processo - so libera cmdImportarXML de novo ao clicar em Novo
+    cmdImportarXML.Enabled = False
     
     MostraStatus = MostraStatus_F9()
 
@@ -4445,7 +4448,23 @@ sData = Format$(Date, ocDATA)
 sHora = Format$(Time(), ocHORA)
 
 Dim VarCodEntradaNovo As Long
-VarCodEntradaNovo = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM produtos_entrada", "r", 0) + 1
+Dim rNovoCodEE As ADODB.Recordset
+Set rNovoCodEE = dbData.OpenRecordset("SELECT ISNULL(MAX(Codigo),0) r FROM produtos_entrada")
+If rNovoCodEE Is Nothing Then
+    MsgBox "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
+           "Exclua esta nota e leia o XML novamente.", vbExclamation, vgAtencao
+    Exit Sub
+End If
+If rNovoCodEE.EOF Then
+    MsgBox "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
+           "Exclua esta nota e leia o XML novamente.", vbExclamation, vgAtencao
+    If rNovoCodEE.State <> 0 Then rNovoCodEE.Close
+    Set rNovoCodEE = Nothing
+    Exit Sub
+End If
+VarCodEntradaNovo = ValidateNull(rNovoCodEE("r")) + 1
+If rNovoCodEE.State <> 0 Then rNovoCodEE.Close
+Set rNovoCodEE = Nothing
 
 '-- colunas: parte 1 de 3
 sSQL = "INSERT INTO produtos_entrada (CODIGO, DATA_ENTRADA, HORA_ENTRADA, XML, " & _
@@ -4536,9 +4555,17 @@ sSQL = sSQL & _
        "e.ContingenciaDataHora, e.ContingenciaJustificativa, e.Email, e.CodigoVenda " & _
        "FROM EntradaEstoque e WHERE e.CodigoNota = " & lCompra & ";"
 
-msgResultado = SQLExecuta(sSQL)
+Dim lRegsInsEE As Long
+msgResultado = SQLExecuta(sSQL, lRegsInsEE)
 If Not Vazio(msgResultado) Then
     MsgBox "Erro ao criar entrada no estoque: " & msgResultado, vbCritical, vgAtencao
+    Exit Sub
+End If
+
+If lRegsInsEE = 0 Then
+    MsgBox "Não foi possível gravar a entrada no estoque (nenhum registro foi criado)." & vbCrLf & _
+           "Isso pode acontecer por uma falha momentânea de conexão com o banco de dados." & vbCrLf & vbCrLf & _
+           "Exclua esta nota (botão Excluir) e leia o XML novamente.", vbExclamation, vgAtencao
     Exit Sub
 End If
 
@@ -5333,6 +5360,11 @@ Sub FormatarGrid_Itens(rTabela As ADODB.Recordset)
 Dim i As Integer, j As Integer
 Dim x As Integer
 
+'O grid vai ser reconstruido do zero - qualquer linha destacada em vermelho
+'anteriormente (GridNotasItens_Click) nao existe mais nesse indice
+lPrevEntradaDestaque = 0
+bLinhaEntradaSelecionada = False
+
 With GridEntradaItens
    .Clear
    .Cols = 18
@@ -5602,13 +5634,12 @@ If txtCodProdExist.Text <> "" Then
     If ShowMsg("Deseja atualizar o produto " & txtDescricaoExist & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Produtos_Cadastro
         Produtos_Cadastro.SSTab1.Tab = 0
-        Produtos_Cadastro.cmdNovo.Enabled = False
-        Produtos_Cadastro.cmdSalvar.Enabled = False
-        Produtos_Cadastro.cmdCancelar.Enabled = False
-        Produtos_Cadastro.cmdAlterar.Enabled = True
-        Produtos_Cadastro.cmdExcluir.Enabled = True
-        Produtos_Cadastro.txtCodigo.Text = txtCodProdExist.Text
-        Produtos_Cadastro.Show
+        Produtos_Cadastro.EditarProduto CLng(txtCodProdExist.Text)
+        Produtos_Cadastro.Show vbModal, Me
+        Unload Produtos_Cadastro
+
+        'Recarrega os dados exibidos (*Exist) com o que foi salvo
+        Call MostrarProdutoExistente
     End If
     Exit Sub
 End If
@@ -6081,9 +6112,18 @@ End Sub
 Private Sub cmdNovo_Click()
 Limpa_Tudo Me
 cmdExcluir.Enabled = False
+cmdImportarXML.Enabled = True
+End Sub
+
+Private Sub GridEntradaItens_Click()
+bLinhaEntradaSelecionada = True
 End Sub
 
 Private Sub cmdRemover2_Click()
+If Not bLinhaEntradaSelecionada Then
+    MsgBox "Selecione o item que deseja remover.", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
 If GridEntradaItens.rows <= 1 Then Exit Sub
 
 If GridEntradaItens.TextMatrix(GridEntradaItens.RowSel, 1) <> "" Then
@@ -8151,7 +8191,7 @@ Dim iEnt As Integer
 Dim sItemClicado As String
 
 'Restaura cor preta na linha anteriormente destacada
-If lPrevEntradaDestaque > 0 Then
+If lPrevEntradaDestaque > 0 And lPrevEntradaDestaque < GridEntradaItens.rows Then
    Dim jRest As Integer
    For jRest = 0 To GridEntradaItens.Cols - 1
       GridEntradaItens.Col = jRest
@@ -8174,6 +8214,23 @@ If GridNotasItens.Row > 0 Then
                GridEntradaItens.CellForeColor = vbRed
             Next jDest
             lPrevEntradaDestaque = iEnt
+
+            'Rola o grid ate o item destacado, so se ele nao estiver visivel (centraliza)
+            Dim iVisRows As Integer
+            If GridEntradaItens.RowHeight(1) > 0 Then
+               iVisRows = (GridEntradaItens.Height - GridEntradaItens.RowHeight(0)) \ GridEntradaItens.RowHeight(1)
+            End If
+            If iVisRows < 1 Then iVisRows = 1
+
+            If iEnt < GridEntradaItens.TopRow Or iEnt > GridEntradaItens.TopRow + iVisRows - 1 Then
+               Dim iNovoTopo As Integer
+               iNovoTopo = iEnt - iVisRows \ 2
+               If iNovoTopo < 1 Then iNovoTopo = 1
+               If iNovoTopo > GridEntradaItens.rows - iVisRows Then iNovoTopo = GridEntradaItens.rows - iVisRows
+               If iNovoTopo < 1 Then iNovoTopo = 1
+               GridEntradaItens.TopRow = iNovoTopo
+            End If
+
             Exit For
          End If
       Next iEnt
@@ -8551,6 +8608,12 @@ txtCodUsuario.Text = Tela_Principal.txtCodFuncionario.Text
 End Sub
 
 Private Sub GridNotas_DblClick()
+If txtCodEntrada.Text <> "" Or txtNumNota.Text <> "" Then
+    MsgBox "Existe uma entrada em processo!" & vbCrLf & "Clique no botão ""Novo"" para poder abrir outra entrada.", vbInformation, "Aviso do Sistema"
+    Frm_NF.Tab = 0
+    Exit Sub
+End If
+
 RsOpen TbEntrada, "SELECT *, " & _
                 "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status " & _
                 "FROM EntradaEstoque WHERE CodigoNota = " & GridNotas.TextMatrix(GridNotas.Row, 1)
