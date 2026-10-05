@@ -22,15 +22,15 @@
 022|DIFAL - Inserindo dados da Matrizes Interestaduais.sql|GERAL
 023|DIFAL - Criando a tabela.sql|GERAL
 024|DIFAL - Inserindo os dados.sql|GERAL
-025|OS_Equipamento_Auto - Modificações.sql|OS
+025|OS_Equipamento_Auto - Modificacoes.sql|OS
 026|alter_empresa_regime_tributario.sql|GERAL
 027|alter_empresa_ipi_difal.sql|GERAL
 028|alter_produtos_st.sql|GERAL
 029|alter_produtos_modbc.sql|GERAL
 030|alter_notafiscalitens_credsn.sql|GERAL
-031|Produtos - Modificações.sql|GERAL
+031|Produtos - Modificacoes.sql|GERAL
 032|AlterTable_EntradaEstoque_ICMSSTRet.sql|GERAL
-033|IBS CBS - Correções.sql|GERAL
+033|IBS CBS - Correcoes.sql|GERAL
 034|AlterTable_ProdutosEntrada_RenomearCampos.sql|GERAL
 035|AlterTable_EntradaItens_RemoveCampos.sql|GERAL
 036|AlterTable_ProdutosEntrada_AddCampos.sql|GERAL
@@ -40,7 +40,7 @@
 040|AlterTable_VinculoXMLProduto_3campos.sql|GERAL
 041|Alterar Campos Numericos para 3 casas decimais.sql|GERAL
 042|Alterar Campos Numericos para 3 casas decimais - OS.sql|OS
-043|SIMPLES NACIONAL - Correções.sql|GERAL
+043|SIMPLES NACIONAL - Correcoes.sql|GERAL
 044|CreateTable_Categorias.sql|GERAL
 045|Categoria - Preencher.sql|GERAL
 046|IBSCBS - Criar Tabela.sql|GERAL
@@ -74,16 +74,16 @@
 074|AlterTable_NotaFiscalItens_CamposReforma.sql|GERAL
 075|Fix_IS_uTrib_qTrib_NF396.sql|GERAL
 076|OS - Colocar DATA_TERMINO = DATA DE COMPRA.sql|OS
-077|Funcionarios - Modificações.sql|GERAL
+077|Funcionarios - Modificacoes.sql|GERAL
 078|alter_OS_Servicos_Auto_add_cod_servico.sql|GERAL
 079|alter_produtos_tags.sql|GERAL
 080|CreateTable_OS_ControleOleo.sql|OS
 081|AlterTable_Empresa_BackupDataHora.sql|GERAL
-082|Empresa - Modificações 2024.sql|GERAL
+082|Empresa - Modificacoes 2024.sql|GERAL
 083|AlterTable_NotaFiscal_Maquina.sql|GERAL
 084|AlterTable_Cliente_AddPK_Codigo.sql|GERAL
 085|AlterTable_Fornecedor_Complemento.sql|GERAL
-086|NFe - Modificações.sql|GERAL
+086|NFe - Modificacoes.sql|GERAL
 087|AlterTable_Produtos_Precos_Comp_Indices.sql|GERAL
 088|Fix_Parcelas_TIPO_OS_vazio.sql|OS
 089|AlterTable_Produtos_Cliente_Indices_Busca.sql|GERAL
@@ -113,3 +113,4 @@
 113|AlterView_Contador.sql|GERAL
 114|AlterTable_VinculoXMLProduto_CST.sql|GERAL
 115|AlterTable_Configuracao_HabilitarComp.sql|GERAL
+116|CreateTables_OS_Base.sql|OS
