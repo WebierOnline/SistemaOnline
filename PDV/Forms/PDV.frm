@@ -206,7 +206,7 @@ Begin VB.Form PDV
       Height          =   1815
       Left            =   6660
       TabIndex        =   149
-      Top             =   3360
+      Top             =   4320
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdOrcamento 
@@ -2301,7 +2301,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2293
             MinWidth        =   2293
-            TextSave        =   "09/09/2026"
+            TextSave        =   "09/10/2026"
             Object.ToolTipText     =   "Data atual"
          EndProperty
          BeginProperty Panel9 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -2309,7 +2309,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   1411
             MinWidth        =   1411
-            TextSave        =   "20:36"
+            TextSave        =   "10:16"
             Object.ToolTipText     =   "Hora atual"
          EndProperty
       EndProperty
@@ -4120,7 +4120,7 @@ ElseIf vTipoDesc = "2" Then
     End If
 ElseIf vTipoDesc = "3" Then
     Dim vSubtotal As Currency
-    vSubtotal = txtSubTotal.Text
+    vSubtotal = txtSubtotal.Text
 
 If vSubtotal <= vMargemDescGradual1 Then
     vEtapa = 1
@@ -4340,18 +4340,18 @@ End If
 End Function
 Private Sub Preencher_FormaPgto()
 If cboTipoPgto.Text = "À VISTA" Then
-    cboformaPgto.AddItem "1 - DINHEIRO"
-    cboformaPgto.AddItem "3 - CARTÃO - DÉBITO"
-    cboformaPgto.AddItem "4 - CARTÃO - CRÉDITO"
-    cboformaPgto.AddItem "5 - CHEQUE"
-    cboformaPgto.AddItem "7 - TRANSFERÊNCIA"
-    cboformaPgto.AddItem "8 - DEPOSITO"
-    cboformaPgto.AddItem "9 - FINANCEIRA"
-    cboformaPgto.AddItem "10 - PIX"
+    cboFormaPgto.AddItem "1 - DINHEIRO"
+    cboFormaPgto.AddItem "3 - CARTÃO - DÉBITO"
+    cboFormaPgto.AddItem "4 - CARTÃO - CRÉDITO"
+    cboFormaPgto.AddItem "5 - CHEQUE"
+    cboFormaPgto.AddItem "7 - TRANSFERÊNCIA"
+    cboFormaPgto.AddItem "8 - DEPOSITO"
+    cboFormaPgto.AddItem "9 - FINANCEIRA"
+    cboFormaPgto.AddItem "10 - PIX"
 Else
-    cboformaPgto.AddItem "2 - PROMISSÓRIA"
-    cboformaPgto.AddItem "5 - CHEQUE"
-    cboformaPgto.AddItem "6 - BOLETO"
+    cboFormaPgto.AddItem "2 - PROMISSÓRIA"
+    cboFormaPgto.AddItem "5 - CHEQUE"
+    cboFormaPgto.AddItem "6 - BOLETO"
 End If
 End Sub
 
@@ -4471,21 +4471,21 @@ frmSenha.Visible = False
         txtDesc.Text = FormatNumber(r("valor_desc"), 2)
         
         If r("pagamento") = "DINHEIRO" Then
-            cboformaPgto.Text = "1 - DINHEIRO"
+            cboFormaPgto.Text = "1 - DINHEIRO"
         ElseIf r("pagamento") = "PROMISSORIA" Then
-            cboformaPgto.Text = "2 - PROMISSÓRIA"
+            cboFormaPgto.Text = "2 - PROMISSÓRIA"
         ElseIf r("pagamento") = "CARTAO" And r("TIPO_CARTAO") = "D" Then
-            cboformaPgto.Text = "3 - CARTÃO - DÉBITO"
+            cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
         ElseIf r("pagamento") = "CARTAO" And r("TIPO_CARTAO") = "C" Then
-            cboformaPgto.Text = "4 - CARTÃO - CRÉDITO"
+            cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
         ElseIf r("pagamento") = "CHEQUE" Then
-            cboformaPgto.Text = "5 - CHEQUE"
+            cboFormaPgto.Text = "5 - CHEQUE"
         ElseIf r("pagamento") = "BOLETO" Then
-            cboformaPgto.Text = "6 - BOLETO"
+            cboFormaPgto.Text = "6 - BOLETO"
         End If
          
          txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-         txtSubTotal.Text = Format(r("subtotal"), ocMONEY)
+         txtSubtotal.Text = Format(r("subtotal"), ocMONEY)
          txtTotalDesc.Text = Format(r("total"), ocMONEY)
          'txtValorParc.Text = Format(r("valor_parc"), ocMONEY)
          txtEntrada.Text = Format(r("entrada"), ocMONEY)
@@ -4852,7 +4852,7 @@ Private Sub Calcular_Desconto()
 'End If
 
 'CALCULAR O VALOR DAS PARCELAS
-If txtSubTotal.Text = "" Or txtSubTotal.Text = "0,00" Then Exit Sub
+If txtSubtotal.Text = "" Or txtSubtotal.Text = "0,00" Then Exit Sub
 If txtDesc.Text = "" Then txtDesc.Text = FormatNumber(0, 2)
 If txtAcresc.Text = "" Then txtAcresc.Text = FormatNumber(0, 2)
 If txtFrete.Text = "" Then txtFrete.Text = FormatNumber(0, 2)
@@ -4862,7 +4862,7 @@ Dim varValorSubTotalCredito As Currency
 Dim varSubTotalBruto As Currency
 Dim varSubTotalLiquido As Currency
 
-varSubTotalBruto = txtSubTotal.Text
+varSubTotalBruto = txtSubtotal.Text
 
 'If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Then
 '   If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem acrescimo
@@ -4937,16 +4937,16 @@ vFrete = CCur(txtFrete.Text)
 If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem acrescimo
       
       If optDescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) - CCur(txtDesc.Text) + vFrete, 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - CCur(txtDesc.Text) + vFrete, 2)
       ElseIf optDescPorc.Value = True Then
          'txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) - ((CCur(txtSubTotal.Text) * CDbl(txtDesc.Text)) / 100), ocMONEY)
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) - Round(((CCur(txtSubTotal.Text) * CCur(txtDesc.Text)) / 100), 2) + vFrete, 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2) + vFrete, 2)
       End If
    ElseIf txtAcresc.Text <> "0,00" And txtDesc.Text = "0,00" Then    'sem desconto com acrescim0
       If optAscrescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) + CCur(txtAcresc.Text) + vFrete, 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + CCur(txtAcresc.Text) + vFrete, 2)
       ElseIf optAscrescPorc.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) + ((CCur(txtSubTotal.Text) * CDbl(txtAcresc.Text)) / 100) + vFrete, 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + ((CCur(txtSubtotal.Text) * CDbl(txtAcresc.Text)) / 100) + vFrete, 2)
       End If
       
       
@@ -4965,19 +4965,19 @@ If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem
     If optDescRS.Value = True Then
         vDesc = CCur(txtDesc.Text)
     Else
-        vDesc = Round(((CCur(txtSubTotal.Text) * CCur(txtDesc.Text)) / 100), 2)
+        vDesc = Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2)
     End If
 
     If optAscrescRS.Value = True Then
         vAcresc = CCur(txtAcresc.Text)
     Else
-        vAcresc = Round(((CCur(txtSubTotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
+        vAcresc = Round(((CCur(txtSubtotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
     End If
 
-    vTotDescAcresc = CCur(txtSubTotal.Text) - vDesc + vAcresc + vFrete
+    vTotDescAcresc = CCur(txtSubtotal.Text) - vDesc + vAcresc + vFrete
     txtTotalDesc.Text = FormatNumber(vTotDescAcresc, 2)
    Else
-      txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) + vFrete, 2)
+      txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + vFrete, 2)
    End If
 'End If
    
@@ -4994,12 +4994,12 @@ If optDescRS.Value = True Then      'desconto em dinheiro
         'e podendo gerar desconto negativo rateado num item (achado com desconto R$ 2,00 +
         'acrescimo R$ 8,00 - SEFAZ rejeitou: Total do Desconto difere do somatorio dos itens)
         If txtDesc.Text = "" Then Exit Sub
-        If txtSubTotal.Text = "" Then Exit Sub
+        If txtSubtotal.Text = "" Then Exit Sub
 
         Dim varValorDescProc As Double
         Dim A As Currency
 
-        A = txtSubTotal.Text
+        A = txtSubtotal.Text
 
         varValorDescProc = (CCur(txtDesc.Text) / CCur(A)) * 100
         vDescItensVenda = Abs(FormatNumber(varValorDescProc, 2))
@@ -5292,7 +5292,7 @@ Private Sub Imprimir_CupomGuilhotina()
             Printer.Print Tab(0); Tab(20); "SubTotal: ";
             
             Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubTotal.Text, "0.00"), "@@@@@@@@")
+            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
             
             'desconto
             Fonte 8, False, False
@@ -5315,7 +5315,7 @@ Private Sub Imprimir_CupomGuilhotina()
             Printer.Print Tab(0); Tab(20); "SubTotal: ";
             
             Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubTotal.Text, "0.00"), "@@@@@@@@")
+            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
             
             'desconto
             Fonte 8, False, False
@@ -5351,7 +5351,7 @@ Private Sub Imprimir_CupomGuilhotina()
             Printer.Print Tab(0); Tab(20); "SubTotal: ";
             
             Fonte 10, True, False
-            Printer.Print Tab(25); Format$(Format$(txtSubTotal.Text, "0.00"), "@@@@@@@@")
+            Printer.Print Tab(25); Format$(Format$(txtSubtotal.Text, "0.00"), "@@@@@@@@")
             
             'desconto
             Fonte 8, False, False
@@ -6062,33 +6062,33 @@ End Sub
 
 Private Sub cboformaPgto_GotFocus()
 Dim varTexto As String
-varTexto = cboformaPgto.Text
-    cboformaPgto.Clear
+varTexto = cboFormaPgto.Text
+    cboFormaPgto.Clear
     Preencher_FormaPgto
-cboformaPgto.Text = varTexto
-SelectControl cboformaPgto
-moCombo.AttachTo cboformaPgto
+cboFormaPgto.Text = varTexto
+SelectControl cboFormaPgto
+moCombo.AttachTo cboFormaPgto
 End Sub
 
 
 Private Sub cboFormaPgto_LostFocus()
 If vLimitarDesc = 1 Then
-    If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Then
+    If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Then
         If vDescCartaoDebito = "SIM" And txtDesc.Text <> "0,00" Then
             If ShowMsg("Não é permitido dar desconto para vendas com pagamento em cartão de débito!" & Chr(13) & "Deseja mudar a forma de pagamento ?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                cboformaPgto.Text = ""
-                cboformaPgto.SetFocus
+                cboFormaPgto.Text = ""
+                cboFormaPgto.SetFocus
             Else
                 MsgBox "O valor do desconto será zerado!", vbInformation, "Aviso do Sistema"
                 txtDesc.Text = FormatNumber(0, 2)
                 Calcular_Desconto
             End If
         End If
-    ElseIf cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
+    ElseIf cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
         If vDescCartaoCredito = "SIM" And txtDesc.Text <> "0,00" Then
             If ShowMsg("Não é permitido dar desconto para vendas com pagamento em cartão de crédito!" & Chr(13) & "Deseja mudar a forma de pagamento ?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes Then
-                cboformaPgto.Text = ""
-                cboformaPgto.SetFocus
+                cboFormaPgto.Text = ""
+                cboFormaPgto.SetFocus
             Else
                 MsgBox "O valor do desconto será zerado!", vbInformation, "Aviso do Sistema"
                 txtDesc.Text = FormatNumber(0, 2)
@@ -6219,7 +6219,7 @@ If cboQuantForma.Text = "1 - FORMA" Then
     txtEntrada.Enabled = False
     lblFormaEntrada.Enabled = False
     cboFormaPgtoEntrada.Enabled = False
-    cboformaPgto.Enabled = True
+    cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
     lblValorParc.Enabled = True
     txtValorRest.Enabled = True
@@ -6229,7 +6229,7 @@ ElseIf cboQuantForma.Text = "2 - FORMAS" Then
     txtEntrada.Enabled = True
     lblFormaEntrada.Enabled = True
     cboFormaPgtoEntrada.Enabled = True
-    cboformaPgto.Enabled = True
+    cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
     lblValorParc.Enabled = True
     txtValorRest.Enabled = True
@@ -6239,7 +6239,7 @@ ElseIf cboQuantForma.Text = "1 - SEM ENTRADA" Then
     txtEntrada.Enabled = False
     lblFormaEntrada.Enabled = False
     cboFormaPgtoEntrada.Enabled = False
-    cboformaPgto.Enabled = True
+    cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
     lblValorParc.Enabled = True
     txtValorRest.Enabled = True
@@ -6250,7 +6250,7 @@ ElseIf cboQuantForma.Text = "2 - COM ENTRADA" Then
     txtEntrada.Enabled = True
     lblFormaEntrada.Enabled = True
     cboFormaPgtoEntrada.Enabled = True
-    cboformaPgto.Enabled = True
+    cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
     lblValorParc.Enabled = True
     txtValorRest.Enabled = True
@@ -6313,7 +6313,7 @@ If cboTipoPgto.Text = "À VISTA" Then
     cboFormaPgtoEntrada.Enabled = False
     lblFormaEntrada.Enabled = False
     BuscarClienteConsumidor
-    cboformaPgto.Text = "1 - DINHEIRO"
+    cboFormaPgto.Text = "1 - DINHEIRO"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 ElseIf cboTipoPgto.Text = "À PRAZO" Then
     txtEntrada.Enabled = True
@@ -6340,7 +6340,7 @@ ElseIf cboTipoPgto.Text = "À PRAZO" Then
     
     cboFormaPgtoEntrada.Enabled = True
     lblFormaEntrada.Enabled = True
-    cboformaPgto.Text = "1 - PROMISSÓRIA"
+    cboFormaPgto.Text = "1 - PROMISSÓRIA"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
     txtEntrada.Enabled = False
@@ -6376,7 +6376,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
     BuscarClienteConsumidor
     cboFormaPgtoEntrada.Enabled = True
     lblFormaEntrada.Enabled = True
-    cboformaPgto.Text = "1 - DINHEIRO"
+    cboFormaPgto.Text = "1 - DINHEIRO"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 End If
 
@@ -6984,7 +6984,7 @@ If lblEstornar.Caption = "ESTORNO" Then
         HabilitaObjetosVenda False
         LimparObjetos_Prazo
         frmVendaFechamento.Visible = False
-        txtTotalGeral.Text = Format(txtSubTotal.Text, ocMONEY)
+        txtTotalGeral.Text = Format(txtSubtotal.Text, ocMONEY)
         cmdFinalizarAvista.Enabled = True
         cmdFinalizarPrazo.Enabled = True
         cmdOrçamento.Enabled = False
@@ -7009,7 +7009,7 @@ Else
     Else
         HabilitaObjetosVenda False
         frmVendaFechamento.Visible = False
-        txtTotalGeral.Text = Format(txtSubTotal.Text, ocMONEY)
+        txtTotalGeral.Text = Format(txtSubtotal.Text, ocMONEY)
         cmdFinalizarAvista.Enabled = True
         cmdFinalizarPrazo.Enabled = True
         cmdOrçamento.Enabled = True
@@ -7235,8 +7235,8 @@ Dim vSomaAcrescItens As Currency
 Dim vValorAcrescVenda As Currency
 Dim vValorSobraAcresc As Currency
 
-        If varValorRealAcresc <> 0 And CCur(txtSubTotal.Text) <> 0 Then
-            vAcrescItensVenda = FormatNumber((CCur(varValorRealAcresc) / CCur(txtSubTotal.Text)) * 100, 2)
+        If varValorRealAcresc <> 0 And CCur(txtSubtotal.Text) <> 0 Then
+            vAcrescItensVenda = FormatNumber((CCur(varValorRealAcresc) / CCur(txtSubtotal.Text)) * 100, 2)
 
             'adiciona em cada item do pedido o valor do acrescimo
             sSQL = "UPDATE pedidos_itens SET ValorAcrescimo = (subtotal * " & Replace(CDbl(vAcrescItensVenda), ",", ".") & " / 100) where (cod_pedido = " & txtCodPedido.Text & ")"
@@ -7288,8 +7288,8 @@ Dim vSomaFreteItens As Currency
 Dim vValorFreteVenda As Currency
 Dim vValorSobraFrete As Currency
 
-        If varValorRealFrete <> 0 And CCur(txtSubTotal.Text) <> 0 Then
-            vFreteItensVenda = FormatNumber((CCur(varValorRealFrete) / CCur(txtSubTotal.Text)) * 100, 2)
+        If varValorRealFrete <> 0 And CCur(txtSubtotal.Text) <> 0 Then
+            vFreteItensVenda = FormatNumber((CCur(varValorRealFrete) / CCur(txtSubtotal.Text)) * 100, 2)
 
             'adiciona em cada item do pedido o valor do frete
             sSQL = "UPDATE pedidos_itens SET ValorFrete = (subtotal * " & Replace(CDbl(vFreteItensVenda), ",", ".") & " / 100) where (cod_pedido = " & txtCodPedido.Text & ")"
@@ -7378,7 +7378,7 @@ Private Sub cmdUsarEscolhidos_Click()
       Exit Sub
    End If
 
-   dSubCB = Val(Replace(Replace(txtSubTotal.Text, ".", ""), ",", "."))
+   dSubCB = Val(Replace(Replace(txtSubtotal.Text, ".", ""), ",", "."))
    If dSubCB > 0 And dSomaCB > dSubCB Then
       MsgBox "Cashback marcado (" & FormatNumber(dSomaCB, 2) & ") maior que o valor da venda." & vbCrLf & _
              "Será abatido até o total da venda (" & FormatNumber(dSubCB, 2) & "); o saldo restante dos marcados será consumido.", vbInformation, "Cashback"
@@ -7983,9 +7983,9 @@ End If
 'TIPO DE CARTAO PARCELAS===========================================
 Dim varTipoCartao As String
 'varTipoCartao = "NULL" 'desativei em 29/01/2024
-If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Then
+If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Then
    varTipoCartao = "'D'"
-ElseIf cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
+ElseIf cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
    varTipoCartao = "'C'"
 Else
     varTipoCartao = "NULL"
@@ -7993,25 +7993,25 @@ End If
 
 'FORMA DE PAGAMENTO RESTANTE============================================
 Dim var_PAGAMENTO As String
-If cboformaPgto.Text = "1 - DINHEIRO" Then
+If cboFormaPgto.Text = "1 - DINHEIRO" Then
    var_PAGAMENTO = "DINHEIRO"
-ElseIf cboformaPgto.Text = "2 - PROMISSÓRIA" Then
+ElseIf cboFormaPgto.Text = "2 - PROMISSÓRIA" Then
    var_PAGAMENTO = "PROMISSORIA"
-ElseIf cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Then
+ElseIf cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Then
    var_PAGAMENTO = "CARTAO"
-ElseIf cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
+ElseIf cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
    var_PAGAMENTO = "CARTAO"
-ElseIf cboformaPgto.Text = "5 - CHEQUE" Then
+ElseIf cboFormaPgto.Text = "5 - CHEQUE" Then
    var_PAGAMENTO = "CHEQUE"
-ElseIf cboformaPgto.Text = "6 - BOLETO" Then
+ElseIf cboFormaPgto.Text = "6 - BOLETO" Then
    var_PAGAMENTO = "BOLETO"
-ElseIf cboformaPgto.Text = "7 - TRANSFERÊNCIA" Then
+ElseIf cboFormaPgto.Text = "7 - TRANSFERÊNCIA" Then
    var_PAGAMENTO = "TRANSFERENCIA"
-ElseIf cboformaPgto.Text = "8 - DEPOSITO" Then
+ElseIf cboFormaPgto.Text = "8 - DEPOSITO" Then
    var_PAGAMENTO = "DEPOSITO"
-ElseIf cboformaPgto.Text = "9 - FINANCEIRA" Then
+ElseIf cboFormaPgto.Text = "9 - FINANCEIRA" Then
    var_PAGAMENTO = "FINANCEIRA"
-ElseIf cboformaPgto.Text = "10 - PIX" Then
+ElseIf cboFormaPgto.Text = "10 - PIX" Then
    var_PAGAMENTO = "PIX"
 End If
 
@@ -8071,7 +8071,7 @@ ElseIf optDescPorc.Value = True Then
     If txtDesc.Text = "0,00" Then
         varValorRealDesc = FormatNumber(0, 2)
     Else
-        varValorRealDesc = FormatNumber(((txtSubTotal.Text * txtDesc.Text) / 100), 2)
+        varValorRealDesc = FormatNumber(((txtSubtotal.Text * txtDesc.Text) / 100), 2)
     End If
 End If
 
@@ -8086,7 +8086,7 @@ ElseIf optAscrescPorc.Value = True Then
     If txtAcresc.Text = "0,00" Then
         varValorRealAcresc = FormatNumber(0, 2)
     Else
-        varValorRealAcresc = FormatNumber(((CCur(txtSubTotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
+        varValorRealAcresc = FormatNumber(((CCur(txtSubtotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
     End If
 End If
 
@@ -8204,7 +8204,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
                  "RECEBIDO = " & Replace(CCur(vValorRececido), ",", ".") & ", " & _
                  "entrada = " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & _
-                 "subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", " & _
+                 "subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", " & _
                  "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
                  "tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', tipo_cartao = " & varTipoCartao & ", " & _
                  "cod_funcionario = " & txtCodFuncAP.Text & ", " & _
@@ -8321,7 +8321,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                 End If
                     
                 'dar baixa nas parcelas de de cartão
-                If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
+                If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
                    dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(varHora, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & "  WHERE (cod_pedido = " & txtCodPedido.Text & ")"
                 End If
            Else
@@ -8342,7 +8342,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                 End If
                 
                 'dar baixa nas parcelas de de cartão
-                If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
+                If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Then
                    dbData.Execute "update parcelas set pagamento = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', Status = 1, valor_final = VALOR, hora = '" & Format(Now, ocHORA) & "', forma_pgto = 'CARTAO', caixa = '" & IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text) & "', CODCAIXA = " & varCodCaixa & ", DIAS_ATRAZO = 0, JUROS = 0, MULTA = 0, DESCONTO = 0, COD_FUNCIONARIO = " & txtCodFuncAP.Text & " WHERE (cod_pedido = " & txtCodPedido.Text & ")"
                 End If
            End If
@@ -8490,7 +8490,7 @@ SemGerarNFCe:
         ImprimirVendaAP
     End If      'FIM vConfImprimeNFCeLocal = "SIM"
 
-           dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
+           If txtCodPedido.Text <> "" Then dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
 
             LimparObjetos_Pedido
             txtTotalGeral.Text = ""
@@ -8529,7 +8529,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
               "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
               "RECEBIDO = " & Replace(CCur(vValorRececido), ",", ".") & ", " & _
-              "subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", " & _
+              "subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", " & _
               "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
               "tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', tipo_cartao = " & varTipoCartao & ", " & _
               "cod_funcionario = " & txtCodFuncAP.Text & ",  " & _
@@ -8811,7 +8811,7 @@ SemGerarNFCeAV:
             ImprimirVendaAV
         End If      'fim do vConfImprimeNFCeLocal = "SIM"
         
-        dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
+        If txtCodPedido.Text <> "" Then dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
         LimparObjetos_Pedido
         LimparObjetos_Prazo
         LimparGrid_Pedido
@@ -8863,7 +8863,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                  "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
                  "TROCO = " & Replace(CCur(vValorTroco), ",", ".") & ", " & _
                  "RECEBIDO = " & Replace(CCur(vValorRececido), ",", ".") & ", " & _
-                 "subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", " & _
+                 "subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", " & _
                  "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
                  "tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', tipo_cartao = " & varTipoCartao & ", " & _
                  "cod_funcionario = " & txtCodFuncAP.Text & ", " & _
@@ -8991,7 +8991,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
         End If
     End If
 
-dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
+If txtCodPedido.Text <> "" Then dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ") AND (DATA = (SELECT MAX(DATA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & "))) AND (HORA = (SELECT MAX(HORA) FROM Pedidos_Reabertura AS Pedidos_Reabertura_1 WHERE (COD_PEDIDO = " & txtCodPedido.Text & ")));"
 
 'COLOCAR O SUBTOTAL, DESCONTO E TOTAL DE CADA ITEM
   
@@ -9165,7 +9165,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
         
         REL_Pedido_Completo.txtDHead.Caption = "RELATÓRIO DO PEDIDO Nº " & txtCodPedido.Text
         REL_Pedido_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubTotal.Text, 2)
+        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubtotal.Text, 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(varValorRealDesc, 2)
         REL_Pedido_Completo.rfTotal.Caption = FormatNumber(txtTotalDesc.Text, 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
@@ -9198,7 +9198,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
         
         REL_Pedido_Completo.txtDHead.Caption = "RELATÓRIO DO PEDIDO Nº " & txtCodPedido.Text
         REL_Pedido_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubTotal.Text, 2)
+        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubtotal.Text, 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(varValorRealDesc, 2)
         REL_Pedido_Completo.rfTotal.Caption = FormatNumber(txtTotalDesc.Text, 2)
@@ -9233,7 +9233,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
         
         REL_Pedido_Completo.txtDHead.Caption = "ORÇAMENTO Nº " & txtCodPedido.Text
         REL_Pedido_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubTotal.Text, 2)
+        REL_Pedido_Completo.rfSubTotal.Caption = FormatNumber(txtSubtotal.Text, 2)
         REL_Pedido_Completo.txtDescontoRS.Caption = FormatNumber(varValorRealDesc, 2)
         REL_Pedido_Completo.rfTotal.Caption = FormatNumber(txtTotalDesc.Text, 2)
         REL_Pedido_Completo.rfDesc.Caption = FormatNumber(vDescItensVenda, 2)
@@ -9264,7 +9264,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
         cboTipoPgto.Text = "À VISTA"
         frmVendaFechamento.Visible = True
         LimparObjetos_Prazo
-        txtSubTotal.Text = txtTotalGeral.Text
+        txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
         txtFrete.Text = FormatNumber(0, 2)
         
@@ -9310,22 +9310,22 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
         
                  If varTipoPgto = "DINHEIRO" Then
-                     cboformaPgto.Text = "1 - DINHEIRO"
+                     cboFormaPgto.Text = "1 - DINHEIRO"
                  ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboformaPgto.Text = "2 - PROMISSÓRIA"
+                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboformaPgto.Text = "3 - CARTÃO - DÉBITO"
+                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboformaPgto.Text = "4 - CARTÃO - CRÉDITO"
+                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
                  ElseIf varTipoPgto = "CHEQUE" Then
-                     cboformaPgto.Text = "5 - CHEQUE"
+                     cboFormaPgto.Text = "5 - CHEQUE"
                  ElseIf varTipoPgto = "BOLETO" Then
-                     cboformaPgto.Text = "6 - BOLETO"
+                     cboFormaPgto.Text = "6 - BOLETO"
                  ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboformaPgto.Text = "9 - FINANCEIRA"
+                     cboFormaPgto.Text = "9 - FINANCEIRA"
                  End If
                  
-                cboformaPgto.Text = "1 - DINHEIRO"
+                cboFormaPgto.Text = "1 - DINHEIRO"
                 cboQuantForma.Text = "1 - FORMA"
                 
                 txtRecebido.SetFocus
@@ -9334,7 +9334,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 'Calcular_Prazo
         Else
             
-            cboformaPgto.Text = "1 - DINHEIRO"
+            cboFormaPgto.Text = "1 - DINHEIRO"
             cboQuantForma.Text = "1 - FORMA"
             optDescPorc.Value = False
             optDescPorc.Value = True
@@ -9390,7 +9390,7 @@ Else
         cboTipoPgto.Text = "À VISTA"
         frmVendaFechamento.Visible = True
         LimparObjetos_Prazo
-        txtSubTotal.Text = txtTotalGeral.Text
+        txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
         txtFrete.Text = FormatNumber(0, 2)
         
@@ -9437,22 +9437,22 @@ Else
                 txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
         
                  If varTipoPgto = "DINHEIRO" Then
-                     cboformaPgto.Text = "1 - DINHEIRO"
+                     cboFormaPgto.Text = "1 - DINHEIRO"
                  ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboformaPgto.Text = "2 - PROMISSÓRIA"
+                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboformaPgto.Text = "3 - CARTÃO - DÉBITO"
+                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboformaPgto.Text = "4 - CARTÃO - CRÉDITO"
+                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
                  ElseIf varTipoPgto = "CHEQUE" Then
-                     cboformaPgto.Text = "5 - CHEQUE"
+                     cboFormaPgto.Text = "5 - CHEQUE"
                  ElseIf varTipoPgto = "BOLETO" Then
-                     cboformaPgto.Text = "6 - BOLETO"
+                     cboFormaPgto.Text = "6 - BOLETO"
                  ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboformaPgto.Text = "9 - FINANCEIRA"
+                     cboFormaPgto.Text = "9 - FINANCEIRA"
                  End If
                  
-                cboformaPgto.Text = "1 - DINHEIRO"
+                cboFormaPgto.Text = "1 - DINHEIRO"
                 cboQuantForma.Text = "1 - FORMA"
                 
                 txtRecebido.SetFocus
@@ -9461,7 +9461,7 @@ Else
                 'Calcular_Prazo
         Else
             
-            cboformaPgto.Text = "1 - DINHEIRO"
+            cboFormaPgto.Text = "1 - DINHEIRO"
             cboQuantForma.Text = "1 - FORMA"
             optDescPorc.Value = False
             optDescPorc.Value = True
@@ -9599,7 +9599,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
         cboTipoPgto.Text = "À PRAZO"
         frmVendaFechamento.Visible = True
         LimparObjetos_Prazo
-        txtSubTotal.Text = txtTotalGeral.Text
+        txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
         txtFrete.Text = FormatNumber(0, 2)
         HabilitaObjetosVenda True
@@ -9642,22 +9642,22 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
                 
                  If varTipoPgto = "DINHEIRO" Then
-                     cboformaPgto.Text = "1 - DINHEIRO"
+                     cboFormaPgto.Text = "1 - DINHEIRO"
                  ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboformaPgto.Text = "2 - PROMISSÓRIA"
+                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboformaPgto.Text = "3 - CARTÃO - DÉBITO"
+                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboformaPgto.Text = "4 - CARTÃO - CRÉDITO"
+                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
                  ElseIf varTipoPgto = "CHEQUE" Then
-                     cboformaPgto.Text = "5 - CHEQUE"
+                     cboFormaPgto.Text = "5 - CHEQUE"
                  ElseIf varTipoPgto = "BOLETO" Then
-                     cboformaPgto.Text = "6 - BOLETO"
+                     cboFormaPgto.Text = "6 - BOLETO"
                  ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboformaPgto.Text = "9 - FINANCEIRA"
+                     cboFormaPgto.Text = "9 - FINANCEIRA"
                  End If
                  
-                cboformaPgto.Text = "2 - PROMISSÓRIA"
+                cboFormaPgto.Text = "2 - PROMISSÓRIA"
                 cboQuantForma.Text = "1 - SEM ENTRADA"
                 
                 txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
@@ -9669,7 +9669,7 @@ If CDate(lblDataAberturaCaixa.Caption) <> Date Then
                 Calcular_Prazo
             End If
         Else
-            cboformaPgto.Text = "2 - PROMISSÓRIA"
+            cboFormaPgto.Text = "2 - PROMISSÓRIA"
             cboQuantForma.Text = "1 - SEM ENTRADA"
             'mskInicio.Text = Format(txtDataCompra, "dd/mm/yy")
             Mostrar_ValorRestante
@@ -9742,7 +9742,7 @@ Else
         cboTipoPgto.Text = "À PRAZO"
         frmVendaFechamento.Visible = True
         LimparObjetos_Prazo
-        txtSubTotal.Text = txtTotalGeral.Text
+        txtSubtotal.Text = txtTotalGeral.Text
         txtAcresc.Text = FormatNumber(0, 2)
         txtFrete.Text = FormatNumber(0, 2)
         HabilitaObjetosVenda True
@@ -9779,22 +9779,22 @@ Else
                 txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
                 
                  If varTipoPgto = "DINHEIRO" Then
-                     cboformaPgto.Text = "1 - DINHEIRO"
+                     cboFormaPgto.Text = "1 - DINHEIRO"
                  ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboformaPgto.Text = "2 - PROMISSÓRIA"
+                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboformaPgto.Text = "3 - CARTÃO - DÉBITO"
+                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
                  ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboformaPgto.Text = "4 - CARTÃO - CRÉDITO"
+                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
                  ElseIf varTipoPgto = "CHEQUE" Then
-                     cboformaPgto.Text = "5 - CHEQUE"
+                     cboFormaPgto.Text = "5 - CHEQUE"
                  ElseIf varTipoPgto = "BOLETO" Then
-                     cboformaPgto.Text = "6 - BOLETO"
+                     cboFormaPgto.Text = "6 - BOLETO"
                  ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboformaPgto.Text = "9 - FINANCEIRA"
+                     cboFormaPgto.Text = "9 - FINANCEIRA"
                  End If
                  
-                cboformaPgto.Text = "2 - PROMISSÓRIA"
+                cboFormaPgto.Text = "2 - PROMISSÓRIA"
                 cboQuantForma.Text = "1 - SEM ENTRADA"
                 
                 If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
@@ -9820,7 +9820,7 @@ Else
                 Calcular_Prazo
             End If
         Else
-            cboformaPgto.Text = "2 - PROMISSÓRIA"
+            cboFormaPgto.Text = "2 - PROMISSÓRIA"
             cboQuantForma.Text = "1 - SEM ENTRADA"
             'mskInicio.Text = Format(txtDataCompra, "dd/mm/yy")
             Mostrar_ValorRestante
@@ -10024,7 +10024,7 @@ End If
 
 frmVendaFechamento.Visible = True
 LimparObjetos_Prazo
-txtSubTotal.Text = txtTotalGeral.Text
+txtSubtotal.Text = txtTotalGeral.Text
 txtAcresc.Text = FormatNumber(0, 2)
 txtFrete.Text = FormatNumber(0, 2)
 HabilitaObjetosVenda True
@@ -10037,7 +10037,7 @@ If vTipoEdicao <> "EDITAR" Then
     txtAcresc.Text = FormatNumber(0, 2)
     txtFrete.Text = FormatNumber(0, 2)
     txtDesc.Text = FormatNumber(0, 2)
-    cboformaPgto.Text = "1 - DINHEIRO"
+    cboFormaPgto.Text = "1 - DINHEIRO"
     cboQuantForma.Text = "1 - FORMA"
     cboFormaPgtoEntrada.Enabled = False
 
@@ -10090,7 +10090,7 @@ Else
         txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
         txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
          
-        cboformaPgto.Text = "1 - DINHEIRO"
+        cboFormaPgto.Text = "1 - DINHEIRO"
         cboQuantForma.Text = "1 - FORMA"
         
         'txtRecebido.SetFocus
@@ -10452,7 +10452,7 @@ ElseIf KeyCode = vbKeyF7 Then
         If Not r Is Nothing Then
             Dim dCashSoma As Double, dCashSub As Double
             If IsNull(r("vValorSomaCash")) Then dCashSoma = 0 Else dCashSoma = CDbl(r("vValorSomaCash"))
-            dCashSub = Val(Replace(Replace(txtSubTotal.Text, ".", ""), ",", "."))
+            dCashSub = Val(Replace(Replace(txtSubtotal.Text, ".", ""), ",", "."))
             If dCashSub > 0 And dCashSoma > dCashSub Then
                 MsgBox "Saldo de cashback (" & FormatNumber(dCashSoma, 2) & ") maior que o valor da venda." & vbCrLf & _
                        "Será abatido até o total da venda (" & FormatNumber(dCashSub, 2) & "); o saldo restante será consumido.", vbInformation, "Cashback"
@@ -11276,7 +11276,7 @@ End Sub
 Private Sub txtAcresc_LostFocus()
 On Error GoTo erro
    
-If txtAcresc.Text = "" Or txtSubTotal.Text = "" Then
+If txtAcresc.Text = "" Or txtSubtotal.Text = "" Then
    txtAcresc.Text = FormatNumber(0, 2)
    SelectControl txtAcresc
    Exit Sub
@@ -11306,7 +11306,7 @@ End Sub
 Private Sub txtFrete_LostFocus()
 On Error GoTo erro
 
-If txtFrete.Text = "" Or txtSubTotal.Text = "" Then
+If txtFrete.Text = "" Or txtSubtotal.Text = "" Then
    txtFrete.Text = FormatNumber(0, 2)
    SelectControl txtFrete
    Exit Sub
@@ -11351,7 +11351,7 @@ Dim ValueTotal As Double
 Dim ValueDiscount As Double
 Dim Percent As Double
 
-ValueTotal = txtSubTotal.Text
+ValueTotal = txtSubtotal.Text
 
 If txtAcrescDinheiro.Text = "" Then
     ValueDiscount = 0
@@ -11993,7 +11993,7 @@ Private Sub txtDesc_LostFocus()
 'On Error GoTo erro
 Dim vDesc As Double
    
-If txtDesc.Text = "" Or txtSubTotal.Text = "" Then
+If txtDesc.Text = "" Or txtSubtotal.Text = "" Then
     txtDesc.Text = FormatNumber(0, 2)
     vDesc = 0
 Else
@@ -12002,7 +12002,7 @@ Else
         Dim ValueDiscount As Double
         Dim Percent As Double
         
-        ValueTotal = txtSubTotal.Text
+        ValueTotal = txtSubtotal.Text
         
         If txtDesc.Text = "" Then
             ValueDiscount = 0
@@ -12187,7 +12187,7 @@ End If
 
 'não dar desconto para vendas no cartão de débito
 If vDescCartaoDebito = "SIM" And txtDesc.Text <> "0,00" Then
-    If cboformaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgtoEntrada.Text = "3 - CARTÃO - DÉBITO" Then
+    If cboFormaPgto.Text = "3 - CARTÃO - DÉBITO" Or cboFormaPgtoEntrada.Text = "3 - CARTÃO - DÉBITO" Then
         MsgBox "Não é permitido dar desconto para vendas com pagamento em cartão de débito!" & Chr(13) & "Mude a forma de pagamento!", vbInformation, "Aviso do Sistema"
         txtDesc.Text = FormatNumber(0, 2)
     End If
@@ -12195,7 +12195,7 @@ End If
 
 'não dar desconto para vendas no cartão de crédito
 If vDescCartaoCredito = "SIM" And txtDesc.Text <> "0,00" Then
-    If cboformaPgto.Text = "4 - CARTÃO - CRÉDITO" Or cboFormaPgtoEntrada.Text = "4 - CARTÃO - CRÉDITO" Then
+    If cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO" Or cboFormaPgtoEntrada.Text = "4 - CARTÃO - CRÉDITO" Then
         MsgBox "Não é permitido dar desconto para vendas com pagamento em cartão de crédito!" & Chr(13) & "Mude a forma de pagamento!", vbInformation, "Aviso do Sistema"
         txtDesc.Text = FormatNumber(0, 2)
     End If
@@ -12228,7 +12228,7 @@ Dim ValueTotal As Double
 Dim ValueDiscount As Double
 Dim Percent As Double
 
-ValueTotal = txtSubTotal.Text
+ValueTotal = txtSubtotal.Text
 
 If txtDescDinheiro.Text = "" Then
     ValueDiscount = 0
