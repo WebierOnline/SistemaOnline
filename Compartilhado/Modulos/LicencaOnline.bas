@@ -53,6 +53,8 @@ Public LicDiasParaBloqueio As Long
 Public LicUltimaMensagem As String
 'Segundos que a chamada atual ao servidor já está esperando (a tela mostra enquanto aguarda).
 Public LicSegundosEspera As Long
+'Detalhe da última falha de comunicação (mostrado junto da mensagem de erro, para o suporte).
+Public LicErroHttp As String
 
 Private mDados As LicDados
 Private mTemDados As Boolean
@@ -258,13 +260,13 @@ Public Function LicSincronizar(ByRef Msg As String) As Boolean
    If Not LicConexao(cnpj, chave, base, Msg) Then GoTo Fim
 
    If Not LicHttp("GET", base & "/token", "", chave, st, resp) Then
-      Msg = "Sem conexão com o servidor de licenças.": GoTo Fim
+      Msg = LicSemConexao(): GoTo Fim
    End If
    If st = 401 Then
       'Chave ainda desconhecida no servidor: envia o pré-cadastro e tenta de novo.
       If Not LicEnviarPreCadastro(base, chave, Msg) Then GoTo Fim
       If Not LicHttp("GET", base & "/token", "", chave, st, resp) Then
-         Msg = "Sem conexão com o servidor de licenças.": GoTo Fim
+         Msg = LicSemConexao(): GoTo Fim
       End If
    End If
    If st = 202 Or st = 401 Then
@@ -302,7 +304,7 @@ Private Function LicEnviarPreCadastro(ByVal Base As String, ByVal Chave As Strin
    Set r = Nothing
 
    If Not LicHttp("POST", Base & "/instalacao", corpo, Chave, st, resp) Then
-      Msg = "Sem conexão com o servidor de licenças."
+      Msg = LicSemConexao()
    ElseIf st = 200 Or st = 202 Then
       LicEnviarPreCadastro = True
    ElseIf st = 400 Then
@@ -324,7 +326,7 @@ Public Function LicCriarPix(ByRef TxId As String, ByRef CopiaECola As String, By
 
    If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
    If Not LicHttp("POST", base & "/pix?formato=bmp", "", chave, st, resp) Then
-      Msg = "Sem conexão com o servidor de licenças. Use um código de liberação."
+      Msg = LicSemConexao() & " Use um código de liberação."
       Exit Function
    End If
    If st = 404 Then
@@ -414,45 +416,72 @@ Private Function LicConexao(ByRef Cnpj As String, ByRef Chave As String, ByRef B
    LicConexao = True
 End Function
 
+Private Function LicSemConexao() As String
+   LicSemConexao = "Sem conexão com o servidor de licenças" & IIf(Len(LicErroHttp) > 0, " (" & LicErroHttp & ")", "") & "."
+End Function
+
+'Tenta sem travar a tela; se essa forma falhar (não por demora do servidor), repete do jeito simples.
 Private Function LicHttp(ByVal Metodo As String, ByVal Url As String, ByVal Corpo As String, ByVal Chave As String, _
                          ByRef Status As Long, ByRef Resposta As String) As Boolean
+   Dim porTempo As Boolean
+
+   LicErroHttp = ""
+   LicHttp = LicHttpEnviar(Metodo, Url, Corpo, Chave, True, Status, Resposta, porTempo)
+   If Not LicHttp And Not porTempo Then
+      LicHttp = LicHttpEnviar(Metodo, Url, Corpo, Chave, False, Status, Resposta, porTempo)
+   End If
+End Function
+
+Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVal Corpo As String, ByVal Chave As String, _
+                               ByVal Assincrono As Boolean, ByRef Status As Long, ByRef Resposta As String, _
+                               ByRef PorTempo As Boolean) As Boolean
    On Error GoTo Falha
-   Dim x As Object
+   Dim x As Object, inicio As Single, decorrido As Single, etapa As String
 
-   Dim inicio As Single, decorrido As Single
-
+   PorTempo = False
+   etapa = "criar"
    Set x = LicCriarHttp()
-   If x Is Nothing Then Exit Function
+   If x Is Nothing Then LicErroHttp = "MSXML2.ServerXMLHTTP indisponível": Exit Function
    x.setTimeouts 3000, 4000, 8000, 15000
+   etapa = "abrir"
    'Assíncrono: enquanto espera, a tela continua respondendo (não parece travada).
-   x.Open Metodo, Url, True
+   x.Open Metodo, Url, Assincrono
    x.setRequestHeader "X-Chave-Cliente", Chave
+   etapa = "enviar"
    If Len(Corpo) > 0 Then
       x.setRequestHeader "Content-Type", "application/json"
       x.send Corpo
    Else
       x.send ""
    End If
-   inicio = Timer
-   Do Until x.waitForResponse(0.2)
-      DoEvents
-      decorrido = Timer - inicio
-      If decorrido < 0 Then decorrido = decorrido + 86400   'passou da meia-noite
-      LicSegundosEspera = Int(decorrido)
-      If decorrido > 30 Then
-         x.abort
-         GoTo Falha
-      End If
-   Loop
+   If Assincrono Then
+      etapa = "aguardar"
+      inicio = Timer
+      Do Until x.waitForResponse(1)
+         DoEvents
+         decorrido = Timer - inicio
+         If decorrido < 0 Then decorrido = decorrido + 86400   'passou da meia-noite
+         LicSegundosEspera = Int(decorrido)
+         If decorrido > 30 Then
+            x.abort
+            PorTempo = True
+            LicErroHttp = "o servidor não respondeu em 30 segundos"
+            LicSegundosEspera = 0
+            Exit Function
+         End If
+      Loop
+   End If
+   etapa = "ler"
    LicSegundosEspera = 0
    Status = x.Status
    Resposta = x.responseText
-   LicHttp = True
+   LicHttpEnviar = True
    Exit Function
 Falha:
-   Debug.Print "LicHttp: " & Err.Number & " " & Err.Description
+   LicErroHttp = IIf(Assincrono, "assíncrono", "simples") & "/" & etapa & ": " & Err.Number & " " & Err.Description
+   Debug.Print "LicHttp " & LicErroHttp
    LicSegundosEspera = 0
-   LicHttp = False
+   LicHttpEnviar = False
 End Function
 
 Private Function LicCriarHttp() As Object
