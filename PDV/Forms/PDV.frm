@@ -9549,16 +9549,8 @@ End Function
 
 
 Private Sub cmdLicenca_Click()
-'Dim varNomeProduto As String
-'varNomeProduto = 54545454
-'ShellExecute hwnd, "open", "https://cosmos.bluesoft.com.br/pesquisar?utf8=" + Chr(95) + "&q=" & varNomeProduto & "", vbNullString, vbNullString, conSwNo
-
-Dim url As String
-url = "https://pixgo.org/api/v1/checkout/checkout-public.php?id=ab6cced10452142110b4c8de47ad6755" ' Substitua pelo link desejado
-    
-' Abre a URL no navegador padrão
-ShellExecute Me.hwnd, "open", url, vbNullString, vbNullString, SW_SHOWNORMAL
-
+'Pagar pelo Pix a mensalidade que ainda vai vencer, antes do bloqueio (Compartilhado\Modulos\LicencaOnline.bas).
+LicPagarMensalidade
 End Sub
 
 

@@ -332,50 +332,8 @@ If oCfg.Value = "NOME" Then
     'Carrega o form principal
     If nivelAcesso <> 3 Then
         
-        'seleciona bloqueio em aberto
-        sSQL = "SELECT codigo, bloqueio, mes_ref, data_bloqueio FROM licenca_pagamentos where pago = 0 order by data_bloqueio;"
-        Set r = dbData.OpenRecordset(sSQL)
-
-        If Not r.BOF Then
-            If r("bloqueio") = 0 Then
-                r.MoveFirst
-                'se passou da data do bloquei, ele bloqueia
-                vCodMensalidade = r("codigo")
-                If Date >= r("data_bloqueio") Then
-                    dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 1 WHERE (codigo = " & vCodMensalidade & ");"
-                    Unload Me
-                    Load Senha_Bloqueio
-                    Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
-                    Senha_Bloqueio.lblCodMens.Caption = vCodMensalidade
-                    Senha_Bloqueio.Show 1
-                    Exit Sub
-                End If
-                'Exit Sub
-            Else
-                'se já estiver bloqueado, pede a senha de desbloqueio
-                Unload Me
-                Load Senha_Bloqueio
-                Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
-                Senha_Bloqueio.lblCodMens.Caption = r("codigo")
-                Senha_Bloqueio.Show 1
-                Exit Sub
-            End If
-        Else
-        
-            sSQL = "SELECT codigo, bloqueio, mes_ref, data_vencimento FROM licenca_pagamentos order by data_vencimento;"
-            Set r = dbData.OpenRecordset(sSQL)
-
-            If Not r.BOF Then
-                r.MoveLast
-                'Dim vDataAtual As Date
-                vUltimaData = r("data_vencimento")
-                vDataAtual = Date
-                If vUltimaData < vDataAtual Then
-                    'MsgBox "Falta parcelas"
-                    Call GerarNovaMensalidade
-                End If
-            End If
-        End If
+        'Licença online (Compartilhado\Modulos\LicencaOnline.bas): aviso, bloqueio, Pix e código de liberação.
+        If Not VerificarLicencaOnline(codUsuario) Then End
 
         Load Tela_Principal
         vCodFunc = codUsuario
@@ -410,49 +368,8 @@ Else
       
       If txtSenha = r("password") Then
             If r("nivel") <> 3 Then
-                sSQL = "SELECT codigo, bloqueio, mes_ref, data_bloqueio FROM licenca_pagamentos where pago = 0 order by data_bloqueio;"
-                Set r = dbData.OpenRecordset(sSQL)
-        
-                If Not r.BOF Then
-                    If r("bloqueio") = 0 Then
-                        r.MoveFirst
-                        'MsgBox r("data_bloqueio")
-                        
-                        vCodMensalidade = r("codigo")
-                        If Date >= r("data_bloqueio") Then
-                            dbData.Execute "UPDATE licenca_pagamentos SET bloqueio = 1 WHERE (codigo = " & vCodMensalidade & ");"
-                            Unload Me
-                            Load Senha_Bloqueio
-                            Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
-                            Senha_Bloqueio.lblCodMens.Caption = vCodMensalidade
-                            Senha_Bloqueio.Show 1
-                            Exit Sub
-                        End If
-                        'Exit Sub
-                    Else
-                        Unload Me
-                        Load Senha_Bloqueio
-                        Senha_Bloqueio.txtMesRef.Text = r("mes_ref")
-                        Senha_Bloqueio.lblCodMens.Caption = r("codigo")
-                        Senha_Bloqueio.Show 1
-                        Exit Sub
-                    End If
-                Else
-                
-                    sSQL = "SELECT codigo, bloqueio, mes_ref, data_vencimento FROM licenca_pagamentos order by data_vencimento;"
-                    Set r = dbData.OpenRecordset(sSQL)
-        
-                    If Not r.BOF Then
-                        r.MoveLast
-                        
-                        vUltimaData = r("data_vencimento")
-                        vDataAtual = Date
-                        If vUltimaData < vDataAtual Then
-                            'MsgBox "Falta parcelas"
-                            Call GerarNovaMensalidade
-                        End If
-                    End If
-                End If
+                'Licença online (Compartilhado\Modulos\LicencaOnline.bas): aviso, bloqueio, Pix e código de liberação.
+                If Not VerificarLicencaOnline(codUsuario) Then End
                     
                 Load Tela_Principal
                 vCodFunc = codUsuario

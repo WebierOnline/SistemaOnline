@@ -410,53 +410,11 @@ Dim vData As Date
    CalcularDataBloqueioOS = vData
 End Function
 
-'Verifica se a licença está em dia. Se estiver bloqueado, mostra OS_Bloqueio
-'(modal) e retorna o resultado do desbloqueio. Se faltar 1, 2 ou 3 dias, avisa.
+'Licença online (Compartilhado\Modulos\LicencaOnline.bas): consulta o servidor de licenças, avisa
+'quando faltam 1 a 3 dias e, bloqueado, mostra Licenca_Bloqueio (Pix / código de liberação).
 'Retorna True se o sistema pode continuar normalmente (não bloqueado, ou desbloqueado agora).
 Private Function VerificarBloqueioOS() As Boolean
-On Error GoTo errHandle
-Dim vDataBloqueioOS As Date
-Dim vDiasRestantes As Integer
-
-VerificarBloqueioOS = True
-
-sSQL = "SELECT codigo, mes_ref, data_bloqueio FROM licenca_pagamentos WHERE pago = 0 ORDER BY data_bloqueio;"
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not r.BOF Then
-   vDataBloqueioOS = CalcularDataBloqueioOS(r("data_bloqueio"))
-
-   If Date >= vDataBloqueioOS Then
-      Load OS_Bloqueio
-      OS_Bloqueio.txtMesRef.Text = r("mes_ref")
-      OS_Bloqueio.lblCodMens.Caption = r("codigo")
-      OS_Bloqueio.Show vbModal
-      VerificarBloqueioOS = OS_Bloqueio.pDesbloqueado
-      Unload OS_Bloqueio
-   Else
-      vDiasRestantes = vDataBloqueioOS - Date
-      If vDiasRestantes = 3 Or vDiasRestantes = 2 Or vDiasRestantes = 1 Then
-         ShowMsg "Sua licença vence em " & vDiasRestantes & IIf(vDiasRestantes = 1, " dia.", " dias."), vbInformation
-      End If
-   End If
-Else
-   sSQL = "SELECT codigo, data_vencimento FROM licenca_pagamentos ORDER BY data_vencimento;"
-   Set r = dbData.OpenRecordset(sSQL)
-   If Not r.BOF Then
-      r.MoveLast
-      vUltimaData = r("data_vencimento")
-      If vUltimaData < Date Then
-         Call GerarNovaMensalidade
-      End If
-   End If
-End If
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-Exit Function
-
-errHandle:
-VerificarBloqueioOS = True
+VerificarBloqueioOS = VerificarLicencaOnline()
 End Function
 
 Private Function Autonumeracao_Pagamentos() As Long

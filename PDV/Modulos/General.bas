@@ -566,57 +566,11 @@ Dim vData As Date
    CalcularDataBloqueioPDV = vData
 End Function
 
-'Verifica se a licença do PDV está em dia. Se estiver bloqueado, mostra PDV_Bloqueio
-'(modal) e retorna o resultado do desbloqueio. Se faltar 1, 2 ou 3 dias, avisa.
+'Licença online (Compartilhado\Modulos\LicencaOnline.bas): consulta o servidor de licenças, avisa
+'quando faltam 1 a 3 dias e, bloqueado, mostra Licenca_Bloqueio (Pix / código de liberação).
 'Retorna True se o PDV pode continuar normalmente (não bloqueado, ou desbloqueado agora).
 Public Function VerificarBloqueioPDV() As Boolean
-On Error GoTo errHandle
-Dim sSQL As String
-Dim r As ADODB.Recordset
-Dim vDataBloqueioPDV As Date
-Dim vDiasRestantes As Integer
-Dim vUltimaData As Date
-
-VerificarBloqueioPDV = True
-
-sSQL = "SELECT codigo, mes_ref, data_bloqueio FROM licenca_pagamentos WHERE pago = 0 ORDER BY data_bloqueio;"
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not r.BOF Then
-   vDataBloqueioPDV = CalcularDataBloqueioPDV(r("data_bloqueio"))
-
-   If Date >= vDataBloqueioPDV Then
-      PDV.Hide
-      Load PDV_Bloqueio
-      PDV_Bloqueio.txtMesRef.Text = r("mes_ref")
-      PDV_Bloqueio.lblCodMens.Caption = r("codigo")
-      PDV_Bloqueio.Show vbModal
-      VerificarBloqueioPDV = PDV_Bloqueio.pDesbloqueado
-      Unload PDV_Bloqueio
-   Else
-      vDiasRestantes = vDataBloqueioPDV - Date
-      If vDiasRestantes = 3 Or vDiasRestantes = 2 Or vDiasRestantes = 1 Then
-         ShowMsg "Sua licença do PDV vence em " & vDiasRestantes & IIf(vDiasRestantes = 1, " dia.", " dias."), vbInformation
-      End If
-   End If
-Else
-   sSQL = "SELECT codigo, data_vencimento FROM licenca_pagamentos ORDER BY data_vencimento;"
-   Set r = dbData.OpenRecordset(sSQL)
-   If Not r.BOF Then
-      r.MoveLast
-      vUltimaData = r("data_vencimento")
-      If vUltimaData < Date Then
-         Call GerarNovaMensalidadePDV(vUltimaData)
-      End If
-   End If
-End If
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
-Exit Function
-
-errHandle:
-VerificarBloqueioPDV = True
+VerificarBloqueioPDV = VerificarLicencaOnline()
 End Function
 
 'Cria o proximo registro de mensalidade em licenca_pagamentos (mesma logica de

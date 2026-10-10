@@ -1470,34 +1470,8 @@ End If
 '   StatusBar1.Panels(1).Text = "Este programa está licenciado para " & r("fantasia") & ".  <Denuncia: (89) 9 8817-7036>"
 'End If
 
-sSQL = "SELECT codigo, bloqueio, mes_ref, data_bloqueio FROM licenca_pagamentos where pago = 0 order by data_bloqueio;"
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not r.BOF Then
-    Dim vDataBloq As Date
-    Dim vDataAtual As Date
-    Dim vQuantDia As Integer
-    vDataBloq = r("data_bloqueio")
-    vDataAtual = Date
-    vQuantDia = vDataBloq - vDataAtual
-   
-    r.MoveFirst
-    StatusBar1.Panels(1).Text = "SUA LICENÇA VENCE EM: " & r("data_bloqueio")
-    If vQuantDia = 3 Then
-        MsgBox "Sua Licença vence em  " & vQuantDia & " dias.", vbInformation, "Aviso do Sistema"
-    ElseIf vQuantDia = 2 Then
-        MsgBox "Sua Licença vence em  " & vQuantDia & " dias.", vbInformation, "Aviso do Sistema"
-    ElseIf vQuantDia = 1 Then
-        MsgBox "Sua Licença vence em  " & vQuantDia & " dia.", vbInformation, "Aviso do Sistema"
-    ElseIf vQuantDia = 1 Then
-        MsgBox "Sua Licença venceu.", vbInformation, "Aviso do Sistema"
-    Else
-    
-    End If
-End If
-
-If r.State <> 0 Then r.Close
-Set r = Nothing
+'Licença online: verificação, avisos e bloqueio são feitos no login (LicencaOnline.bas).
+StatusBar1.Panels(1).Text = LicTextoStatus()
 
 Habilitar_OS
 VerificaAgenda
@@ -2199,6 +2173,7 @@ dbData.Execute "DELETE FROM fornecedor ;"
 dbData.Execute "DELETE FROM func_permissao ;"
 dbData.Execute "DELETE FROM funcionario WHERE codigo > 1;"
 dbData.Execute "DELETE FROM licenca_pagamentos ;"
+LicZerar   'licença online e chave desta instalação não vão para o cliente novo
 dbData.Execute "DELETE FROM NaturezaOperacaoNF ;"
 dbData.Execute "DELETE FROM NFeCartaCorrecao ;"
 dbData.Execute "DELETE FROM NFeInutilizacao ;"
