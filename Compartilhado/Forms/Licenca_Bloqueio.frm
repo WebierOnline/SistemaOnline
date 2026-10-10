@@ -21,6 +21,12 @@ Begin VB.Form Licenca_Bloqueio
       Left            =   9000
       Top             =   120
    End
+   Begin VB.Timer tmrEspera
+      Enabled         =   0   'False
+      Interval        =   500
+      Left            =   8520
+      Top             =   120
+   End
    Begin VB.TextBox txtCodigo
       BeginProperty Font
          Name            =   "Arial"
@@ -247,6 +253,9 @@ Public pDesbloqueado As Boolean
 Public pModoAviso As Boolean
 
 Private mModoPagar As Boolean
+Private mOcupado As Boolean
+Private mTextoEspera As String
+Private mPagarEstava As Boolean
 Private mCodUsuario As Long
 Private mTxId As String
 
@@ -302,13 +311,45 @@ Private Sub AtualizarTela()
    cmdCodigo.Visible = Not pModoAviso
 End Sub
 
-Private Sub cmdPagar_Click()
-   Dim copiaECola As String, arquivo As String, descricao As String, msg As String
-
+'Enquanto fala com o servidor: botões desligados e "AGUARDE!" com os segundos (a tela não parece travada).
+Private Sub Ocupar(ByVal Texto As String)
+   mOcupado = True
+   mTextoEspera = Texto
+   mPagarEstava = cmdPagar.Enabled
+   cmdPagar.Enabled = False
+   cmdVerificar.Enabled = False
+   cmdFechar.Enabled = False
+   cmdCodigo.Enabled = False
+   lblStatus.ForeColor = &HC0&
+   lblStatus.Caption = Texto & " AGUARDE!"
    Screen.MousePointer = vbHourglass
-   lblStatus.Caption = "Gerando o Pix..."
+   tmrEspera.Enabled = True
    DoEvents
-   If LicCriarPix(mTxId, copiaECola, arquivo, descricao, msg) Then
+End Sub
+
+Private Sub Desocupar()
+   tmrEspera.Enabled = False
+   lblStatus.ForeColor = &H800000
+   cmdPagar.Enabled = mPagarEstava
+   cmdVerificar.Enabled = True
+   cmdFechar.Enabled = True
+   cmdCodigo.Enabled = True
+   Screen.MousePointer = vbDefault
+   mOcupado = False
+End Sub
+
+Private Sub tmrEspera_Timer()
+   lblStatus.Caption = mTextoEspera & " AGUARDE!" & IIf(LicSegundosEspera > 0, "  (" & LicSegundosEspera & "s)", "")
+End Sub
+
+Private Sub cmdPagar_Click()
+   Dim copiaECola As String, arquivo As String, descricao As String, msg As String, ok As Boolean
+
+   If mOcupado Then Exit Sub
+   Ocupar "Gerando o Pix (QR Code)..."
+   ok = LicCriarPix(mTxId, copiaECola, arquivo, descricao, msg)
+   Desocupar
+   If ok Then
       If Len(arquivo) > 0 Then
          On Error Resume Next
          Set imgQR.Picture = LoadPicture(arquivo)
@@ -329,7 +370,6 @@ Private Sub cmdPagar_Click()
    Else
       lblStatus.Caption = msg
    End If
-   Screen.MousePointer = vbDefault
 End Sub
 
 Private Sub cmdCopiar_Click()
@@ -339,9 +379,16 @@ Private Sub cmdCopiar_Click()
 End Sub
 
 Private Sub tmrPix_Timer()
+   Dim pago As Boolean
+
    If Len(mTxId) = 0 Then tmrPix.Enabled = False: Exit Sub
+   If mOcupado Then Exit Sub
    tmrPix.Enabled = False
-   If LicVerificarPix(mTxId) Then
+   'Consulta em segundo plano: não mexe na tela, só impede clique duplo enquanto consulta.
+   mOcupado = True
+   pago = LicVerificarPix(mTxId)
+   mOcupado = False
+   If pago Then
       If PodeLiberar(LicAvaliar()) Or mModoPagar Then
          Liberar "Pagamento confirmado. Obrigado!"
          Exit Sub
@@ -352,21 +399,19 @@ Private Sub tmrPix_Timer()
 End Sub
 
 Private Sub cmdVerificar_Click()
-   Dim msg As String
+   Dim msg As String, pago As Boolean
 
-   Screen.MousePointer = vbHourglass
-   lblStatus.Caption = "Consultando o servidor de licenças..."
-   DoEvents
+   If mOcupado Then Exit Sub
+   Ocupar "Consultando o servidor de licenças..."
    'Pix gerado nesta tela: confere primeiro o pagamento.
-   If Len(mTxId) > 0 Then
-      If LicVerificarPix(mTxId) And mModoPagar Then
-         Screen.MousePointer = vbDefault
-         Liberar "Pagamento confirmado. Obrigado!"
-         Exit Sub
-      End If
+   If Len(mTxId) > 0 Then pago = LicVerificarPix(mTxId)
+   If pago And mModoPagar Then
+      Desocupar
+      Liberar "Pagamento confirmado. Obrigado!"
+      Exit Sub
    End If
    LicSincronizar msg
-   Screen.MousePointer = vbDefault
+   Desocupar
 
    If mModoPagar Then
       LicAvaliar
@@ -386,6 +431,7 @@ End Sub
 Private Sub cmdCodigo_Click()
    Dim msg As String
 
+   If mOcupado Then Exit Sub
    If Len(Trim$(txtCodigo.Text)) = 0 Then
       lblStatus.Caption = "Digite o código de liberação."
       txtCodigo.SetFocus
@@ -413,6 +459,7 @@ Private Sub txtCodigo_KeyPress(KeyAscii As Integer)
 End Sub
 
 Private Sub cmdFechar_Click()
+   If mOcupado Then Exit Sub
    tmrPix.Enabled = False
    'No aviso, continuar usando; no bloqueio, quem chamou fecha o sistema.
    pDesbloqueado = pModoAviso

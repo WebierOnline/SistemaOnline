@@ -51,6 +51,8 @@ Public LicEstadoAtual As LicEstado
 Public LicBloqueiaEm As Date
 Public LicDiasParaBloqueio As Long
 Public LicUltimaMensagem As String
+'Segundos que a chamada atual ao servidor já está esperando (a tela mostra enquanto aguarda).
+Public LicSegundosEspera As Long
 
 Private mDados As LicDados
 Private mTemDados As Boolean
@@ -328,6 +330,12 @@ Public Function LicCriarPix(ByRef TxId As String, ByRef CopiaECola As String, By
    If st = 404 Then
       Msg = "Não há mensalidade em aberto. Clique em VERIFICAR NOVAMENTE."
       Exit Function
+   ElseIf st = 401 Then
+      Msg = "Esta instalação ainda aguarda a liberação do suporte: " & SUPORTE & "."
+      Exit Function
+   ElseIf st = 429 Then
+      Msg = "Muitas tentativas. Aguarde alguns minutos e tente de novo."
+      Exit Function
    ElseIf st <> 200 Then
       Msg = "Não foi possível gerar o Pix agora. Tente novamente em instantes."
       Exit Function
@@ -411,10 +419,13 @@ Private Function LicHttp(ByVal Metodo As String, ByVal Url As String, ByVal Corp
    On Error GoTo Falha
    Dim x As Object
 
+   Dim inicio As Single, decorrido As Single
+
    Set x = LicCriarHttp()
    If x Is Nothing Then Exit Function
    x.setTimeouts 3000, 4000, 8000, 15000
-   x.Open Metodo, Url, False
+   'Assíncrono: enquanto espera, a tela continua respondendo (não parece travada).
+   x.Open Metodo, Url, True
    x.setRequestHeader "X-Chave-Cliente", Chave
    If Len(Corpo) > 0 Then
       x.setRequestHeader "Content-Type", "application/json"
@@ -422,12 +433,25 @@ Private Function LicHttp(ByVal Metodo As String, ByVal Url As String, ByVal Corp
    Else
       x.send ""
    End If
+   inicio = Timer
+   Do Until x.waitForResponse(0.2)
+      DoEvents
+      decorrido = Timer - inicio
+      If decorrido < 0 Then decorrido = decorrido + 86400   'passou da meia-noite
+      LicSegundosEspera = Int(decorrido)
+      If decorrido > 30 Then
+         x.abort
+         GoTo Falha
+      End If
+   Loop
+   LicSegundosEspera = 0
    Status = x.Status
    Resposta = x.responseText
    LicHttp = True
    Exit Function
 Falha:
    Debug.Print "LicHttp: " & Err.Number & " " & Err.Description
+   LicSegundosEspera = 0
    LicHttp = False
 End Function
 
