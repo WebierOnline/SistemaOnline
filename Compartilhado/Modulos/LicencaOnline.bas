@@ -73,6 +73,7 @@ Private Declare Function BCryptImportKeyPair Lib "bcrypt.dll" (ByVal hAlgorithm 
 Private Declare Function BCryptVerifySignature Lib "bcrypt.dll" (ByVal hKey As Long, ByVal pPaddingInfo As Long, ByVal pbHash As Long, ByVal cbHash As Long, ByVal pbSignature As Long, ByVal cbSignature As Long, ByVal dwFlags As Long) As Long
 Private Declare Function BCryptDestroyKey Lib "bcrypt.dll" (ByVal hKey As Long) As Long
 Private Declare Function BCryptGenRandom Lib "bcrypt.dll" (ByVal hAlgorithm As Long, ByVal pbBuffer As Long, ByVal cbBuffer As Long, ByVal dwFlags As Long) As Long
+Private Declare Sub LicSleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
 Private Declare Function LicMultiByteToWideChar Lib "kernel32" Alias "MultiByteToWideChar" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpMultiByteStr As Long, ByVal cbMultiByte As Long, ByVal lpWideCharStr As Long, ByVal cchWideChar As Long) As Long
 
 '=============================================================================
@@ -457,8 +458,9 @@ Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVa
    If Assincrono Then
       etapa = "aguardar"
       inicio = Timer
-      Do Until x.waitForResponse(1)
+      Do Until x.readyState = 4
          DoEvents
+         LicSleep 30
          decorrido = Timer - inicio
          If decorrido < 0 Then decorrido = decorrido + 86400   'passou da meia-noite
          LicSegundosEspera = Int(decorrido)
@@ -868,6 +870,27 @@ Private Function LicJsonTexto(ByVal Json As String, ByVal Nome As String) As Str
       p = p + 1
    Loop
    If Mid$(Json, p, 1) <> """" Then Exit Function
+
+   'Rápido: acha o fim do texto e, sem escapes (ou só "+" e "/" escapados, como na imagem do QR Code),
+   'resolve com Replace. Montar letra por letra num texto grande leva dezenas de segundos no VB6.
+   Dim fim As Long, n As Long, bruto As String
+   fim = p
+   Do
+      fim = InStr(fim + 1, Json, """")
+      If fim = 0 Then Exit Function
+      n = 0
+      Do While Mid$(Json, fim - n - 1, 1) = "\"
+         n = n + 1
+      Loop
+   Loop While n Mod 2 = 1
+   bruto = Mid$(Json, p + 1, fim - p - 1)
+   bruto = Replace(Replace(Replace(bruto, "+", "+"), "+", "+"), "\/", "/")
+   If InStr(bruto, "\") = 0 Then
+      LicJsonTexto = bruto
+      Exit Function
+   End If
+   Json = """" & bruto & """"
+   p = 1
 
    i = p + 1
    Do While i <= Len(Json)

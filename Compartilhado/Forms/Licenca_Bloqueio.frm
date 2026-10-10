@@ -23,7 +23,7 @@ Begin VB.Form Licenca_Bloqueio
    End
    Begin VB.Timer tmrEspera
       Enabled         =   0   'False
-      Interval        =   500
+      Interval        =   50
       Left            =   8520
       Top             =   120
    End
@@ -229,11 +229,29 @@ Begin VB.Form Licenca_Bloqueio
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00800000&
-      Height          =   495
+      Height          =   300
       Left            =   240
       TabIndex        =   11
-      Top             =   6120
+      Top             =   6090
       Width           =   9120
+   End
+   Begin VB.Shape shpTrilho
+      BorderColor     =   &H00C0C0C0&
+      Height          =   210
+      Left            =   240
+      Top             =   6450
+      Visible         =   0   'False
+      Width           =   9120
+   End
+   Begin VB.Shape shpBarra
+      BorderStyle     =   0  'Transparent
+      FillColor       =   &H00800000&
+      FillStyle       =   0  'Solid
+      Height          =   150
+      Left            =   270
+      Top             =   6480
+      Visible         =   0   'False
+      Width           =   1800
    End
 End
 Attribute VB_Name = "Licenca_Bloqueio"
@@ -323,12 +341,17 @@ Private Sub Ocupar(ByVal Texto As String)
    lblStatus.ForeColor = &HC0&
    lblStatus.Caption = Texto & " AGUARDE!"
    Screen.MousePointer = vbHourglass
+   shpBarra.Left = shpTrilho.Left + 30
+   shpTrilho.Visible = True
+   shpBarra.Visible = True
    tmrEspera.Enabled = True
    DoEvents
 End Sub
 
 Private Sub Desocupar()
    tmrEspera.Enabled = False
+   shpTrilho.Visible = False
+   shpBarra.Visible = False
    lblStatus.ForeColor = &H800000
    cmdPagar.Enabled = mPagarEstava
    cmdVerificar.Enabled = True
@@ -338,8 +361,17 @@ Private Sub Desocupar()
    mOcupado = False
 End Sub
 
+'Barra andando da esquerda para a direita enquanto aguarda (mostra que não travou).
 Private Sub tmrEspera_Timer()
-   lblStatus.Caption = mTextoEspera & " AGUARDE!" & IIf(LicSegundosEspera > 0, "  (" & LicSegundosEspera & "s)", "")
+   Dim texto As String
+
+   If shpBarra.Left + 150 > shpTrilho.Left + shpTrilho.Width - shpBarra.Width - 30 Then
+      shpBarra.Left = shpTrilho.Left + 30
+   Else
+      shpBarra.Left = shpBarra.Left + 150
+   End If
+   texto = mTextoEspera & " AGUARDE!" & IIf(LicSegundosEspera > 0, "  (" & LicSegundosEspera & "s)", "")
+   If lblStatus.Caption <> texto Then lblStatus.Caption = texto
 End Sub
 
 Private Sub cmdPagar_Click()
