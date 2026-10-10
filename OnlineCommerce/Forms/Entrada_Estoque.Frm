@@ -5134,6 +5134,18 @@ Else
    sCFOPEntrada2 = sCFOPEnt
 End If
 
+'-- CFOP de VENDA (pra atualizar o CADASTRO do produto - produtos.CFOP). NAO usar
+'   sCFOPEntrada2 aqui: aquele e o CFOP de ENTRADA (so serve pra produtos_entrada_itens,
+'   a tabela da nota de entrada). Normaliza pela familia do CFOP recebido na XML
+'   (2o digito "4" = operacao com ST -> 5405; senao -> 5102), igual a conversao
+'   ja usada em frmVinculoProdutoXML.
+Dim sCFOPVenda2 As String
+If Len(sCFOPEnt) >= 2 And Mid(sCFOPEnt, 2, 1) = "4" Then
+   sCFOPVenda2 = "5405"
+Else
+   sCFOPVenda2 = "5102"
+End If
+
 '-- CST->CSOSN quando regime Simples Nacional (CRT=1)
 Dim sCSTEntrada2 As String
 If sCRT2 = "1" Then
@@ -5178,8 +5190,8 @@ Dim sSetFisc As String
 sSetFisc = ""
 If sNCMEnt <> "" And sNCMEnt <> sNCMAtual2 Then _
    sSetFisc = sSetFisc & "NCM = '" & Replace(sNCMEnt, "'", "''") & "', "
-If sCFOPEntrada2 <> "" And sCFOPEntrada2 <> Trim(sCFOPAtual2) Then _
-   sSetFisc = sSetFisc & "CFOP = '" & sCFOPEntrada2 & "', "
+If sCFOPVenda2 <> "" And sCFOPVenda2 <> Trim(sCFOPAtual2) Then _
+   sSetFisc = sSetFisc & "CFOP = '" & sCFOPVenda2 & "', "
 If sICMSCST2 <> "" And sICMSCST2 <> sICMSCSTAtual2 Then _
    sSetFisc = sSetFisc & "ICMSCST = '" & sICMSCST2 & "', "
 If sPISCST2 <> "" And sPISCST2 <> sPISCSTAtual2 Then _
@@ -5592,15 +5604,54 @@ Private Function Atualizar_Dados() As Boolean
 End Function
 
 Private Sub cmdAtualCFOP_Click()
-If ShowMsg("Tem certeza que deseja alterar o CFOP do produto: " & txtCFOPExist.Text & " pelo CFOP " & txtCFOPSel.Text & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
-    dbData.Execute "UPDATE produtos SET CFOP = '" & txtCFOPSel.Text & "' WHERE (CODIGO = '" & txtCodProdExist.Text & "');"
-    Call MostrarProdutoExistente
-End If
+AtualizarCFOPeCST
 End Sub
 
 Private Sub cmdAtualCST_Click()
-If ShowMsg("Tem certeza que deseja alterar o CST do produto: " & txtCSTExist.Text & " pelo CST " & txtCSTSel.Text & " ?", vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
-    dbData.Execute "UPDATE produtos SET ICMSCST = '" & txtCSTSel.Text & "' WHERE (CODIGO = '" & txtCodProdExist.Text & "');"
+AtualizarCFOPeCST
+End Sub
+
+'CFOP e CST/CSOSN andam juntos (um implica o outro pro regime da empresa) - atualizar
+'um sem o outro deixava o cadastro incoerente (ex: CFOP 5405 com CST/CSOSN ainda em
+'102). Por isso os 2 botoes (Atualizar CFOP / Atualizar CST) disparam essa mesma rotina.
+Private Sub AtualizarCFOPeCST()
+'CFOP de venda: normaliza pela familia (2o digito "4" = operacao com ST -> 5405;
+'senao -> 5102), igual a conversao usada em cmdAdicionar2/frmVinculoProdutoXML
+Dim sCFOPNovo As String
+If Len(txtCFOPSel.Text) >= 2 And Mid(txtCFOPSel.Text, 2, 1) = "4" Then
+    sCFOPNovo = "5405"
+Else
+    sCFOPNovo = "5102"
+End If
+
+'CST/CSOSN: converte o CST cru da XML pro CSOSN quando a empresa e Simples Nacional
+'(regime normal usa o CST da XML direto, sem conversao - mesma logica do cmdAdicionar2)
+Dim nCRTAtu As Integer
+nCRTAtu = Val(SQLExecutaRetorno("SELECT TOP 1 ISNULL(CRT,1) r FROM empresa", "r", 1))
+
+Dim sCSTNovo As String
+If nCRTAtu = 1 Then
+    Select Case txtCSTSel.Text
+        Case "000": sCSTNovo = "102"
+        Case "010": sCSTNovo = "201"
+        Case "020": sCSTNovo = "101"
+        Case "030": sCSTNovo = "202"
+        Case "040": sCSTNovo = "300"
+        Case "041": sCSTNovo = "400"
+        Case "060": sCSTNovo = "500"
+        Case "070": sCSTNovo = "203"
+        Case "090": sCSTNovo = "900"
+        Case Else:  sCSTNovo = txtCSTSel.Text
+    End Select
+Else
+    sCSTNovo = txtCSTSel.Text
+End If
+
+If ShowMsg("Tem certeza que deseja alterar o CFOP/CST do produto:" & vbCrLf & _
+           "CFOP: " & txtCFOPExist.Text & " -> " & sCFOPNovo & vbCrLf & _
+           "CST : " & txtCSTExist.Text & " -> " & sCSTNovo, _
+           vbQuestion + vbYesNo + vbDefaultButton1) = vbYes Then
+    dbData.Execute "UPDATE produtos SET CFOP = '" & sCFOPNovo & "', ICMSCST = '" & sCSTNovo & "' WHERE (CODIGO = '" & txtCodProdExist.Text & "');"
     Call MostrarProdutoExistente
 End If
 End Sub
