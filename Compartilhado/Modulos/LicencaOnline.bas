@@ -146,12 +146,8 @@ Public Function LicMensagemTela() As String
    Dim s As String
    Select Case LicEstadoAtual
       Case licAviso
-         If LicDiasParaBloqueio >= 1 Then
-            s = "Sua licença será bloqueada em " & LicDiasParaBloqueio & IIf(LicDiasParaBloqueio = 1, " dia", " dias") & _
-                " (" & Format$(LicBloqueiaEm, "dd/mm/yyyy") & ")."
-         Else
-            s = "Mensalidade vencida. O sistema será bloqueado no próximo dia útil."
-         End If
+         s = "Sua licença será bloqueada em " & LicDiasParaBloqueio & IIf(LicDiasParaBloqueio = 1, " dia", " dias") & _
+             " (" & Format$(LicBloqueiaEm, "dd/mm/yyyy") & ")."
          s = s & LicTextoAbertas() & vbCrLf & vbCrLf & _
              "Pague agora pelo Pix (botão PAGAR AGORA): a liberação é automática."
       Case licBloqueada
@@ -182,7 +178,7 @@ Public Function LicAvaliar() As LicEstado
    Dim r As ADODB.Recordset
    Dim agora As Date, hoje As Date, bloqueiaEm As Date
    Dim token As String, liberadoAte As Variant, criadoEm As Variant
-   Dim podeHoje As Boolean, estado As LicEstado, relogioAtrasado As Boolean
+   Dim estado As LicEstado, relogioAtrasado As Boolean
 
    LicBloqueiaEm = 0
    LicDiasParaBloqueio = 0
@@ -212,11 +208,10 @@ Public Function LicAvaliar() As LicEstado
    End If
 
    hoje = DateValue(agora)
-   podeHoje = LicPodeBloquear(hoje)
    mTemDados = LicLerToken(token, mDados)
 
    If Not mTemDados Then
-      estado = IIf(podeHoje, licSemLicenca, licLiberada)
+      estado = licSemLicenca
       'Acabou de instalar e ainda não conseguiu falar com o servidor: alguns dias de tolerância.
       If estado = licSemLicenca And Len(token) = 0 And Not IsNull(criadoEm) Then
          If agora < DateAdd("d", DIAS_INSTALACAO, criadoEm) Then
@@ -225,7 +220,7 @@ Public Function LicAvaliar() As LicEstado
          End If
       End If
    ElseIf mDados.Cnpj <> LicCnpjEmpresa() Then
-      estado = IIf(podeHoje, licCnpjDiferente, licLiberada)
+      estado = licCnpjDiferente
    Else
       bloqueiaEm = mDados.DataBloqueio
       If Not IsNull(liberadoAte) Then
@@ -233,8 +228,8 @@ Public Function LicAvaliar() As LicEstado
       End If
       LicBloqueiaEm = bloqueiaEm
       If agora >= bloqueiaEm Then
-         'Vencida, mas hoje é fim de semana/feriado: não bloqueia, só avisa.
-         estado = IIf(podeHoje, licBloqueada, licAviso)
+         'Bloqueio fixo na data, inclusive em sábado, domingo e feriado (o Pix libera na hora).
+         estado = licBloqueada
       Else
          LicDiasParaBloqueio = DateValue(bloqueiaEm) - hoje
          If LicDiasParaBloqueio >= 1 And LicDiasParaBloqueio <= DIAS_AVISO Then
@@ -743,42 +738,6 @@ Private Function LicNovaChave() As String
    Exit Function
 Falha:
    LicNovaChave = ""
-End Function
-
-'=============================================================================
-' CALENDÁRIO: nunca bloqueia em sábado, domingo ou feriado nacional
-'=============================================================================
-Private Function LicPodeBloquear(ByVal Dia As Date) As Boolean
-   Select Case Weekday(Dia)
-      Case vbSaturday, vbSunday
-         LicPodeBloquear = False
-      Case Else
-         LicPodeBloquear = Not LicEhFeriado(Dia)
-   End Select
-End Function
-
-Private Function LicEhFeriado(ByVal Dia As Date) As Boolean
-   Dim md As String, pascoa As Date
-   md = Format$(Dia, "mm-dd")
-   Select Case md
-      Case "01-01", "04-21", "05-01", "09-07", "10-12", "11-02", "11-15", "12-25"
-         LicEhFeriado = True: Exit Function
-      Case "11-20"   'Consciência Negra (Lei 14.759/2023)
-         If Year(Dia) >= 2024 Then LicEhFeriado = True: Exit Function
-   End Select
-   pascoa = LicPascoa(Year(Dia))
-   LicEhFeriado = (Dia = pascoa - 48 Or Dia = pascoa - 47 Or Dia = pascoa - 2 Or Dia = pascoa + 60)
-End Function
-
-'Algoritmo de Meeus/Jones/Butcher (calendário gregoriano).
-Private Function LicPascoa(ByVal Ano As Long) As Date
-   Dim a As Long, b As Long, c As Long, d As Long, e As Long, f As Long, g As Long
-   Dim h As Long, i As Long, k As Long, l As Long, m As Long
-   a = Ano Mod 19: b = Ano \ 100: c = Ano Mod 100: d = b \ 4: e = b Mod 4
-   f = (b + 8) \ 25: g = (b - f + 1) \ 3: h = (19 * a + b - d - g + 15) Mod 30
-   i = c \ 4: k = c Mod 4: l = (32 + 2 * e + 2 * i - h - k) Mod 7
-   m = (a + 11 * h + 22 * l) \ 451
-   LicPascoa = DateSerial(Ano, (h + l - 7 * m + 114) \ 31, ((h + l - 7 * m + 114) Mod 31) + 1)
 End Function
 
 '=============================================================================
