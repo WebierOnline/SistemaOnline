@@ -204,9 +204,9 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   1815
-      Left            =   6660
+      Left            =   6600
       TabIndex        =   149
-      Top             =   4320
+      Top             =   3300
       Visible         =   0   'False
       Width           =   7755
       Begin ChamaleonBtn.chameleonButton cmdOrcamento 
@@ -2301,7 +2301,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2293
             MinWidth        =   2293
-            TextSave        =   "09/10/2026"
+            TextSave        =   "12/10/2026"
             Object.ToolTipText     =   "Data atual"
          EndProperty
          BeginProperty Panel9 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -2309,7 +2309,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   1411
             MinWidth        =   1411
-            TextSave        =   "10:16"
+            TextSave        =   "15:34"
             Object.ToolTipText     =   "Hora atual"
          EndProperty
       EndProperty
@@ -3687,7 +3687,7 @@ Dim varTipoCartao As String     'venda a prazo e orçamento
 
 'arquivo .ini
 Public cCfg As ConfigItem
-Public oIni As Ini
+Public oIni As ini
 Public var_Caixa As String
 Public var_Maquina As String
 'Public var_ImpTermica As String
@@ -5173,8 +5173,8 @@ Private Sub Imprimir_CupomGuilhotina()
    'Dim oIni As Ini 'desativei aqui 09/11/22
    ''Dim var_ImpTermica As String
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
    Set oIni = Nothing
    
@@ -7406,7 +7406,7 @@ Private Sub cmdMarcarTodos_Click()
    If bTodas Then cmdMarcarTodos.Caption = "Marcar Todos" Else cmdMarcarTodos.Caption = "Desmarcar Todos"
 End Sub
 
-Private Sub lstCashBack_ItemCheck(ByVal Item As MSComctlLib.ListItem)
+Private Sub lstCashBack_ItemCheck(ByVal item As MSComctlLib.ListItem)
    'mantem o caption do cmdMarcarTodos coerente quando o usuario marca/desmarca na mao
    Dim bTodas As Boolean
    bTodas = (lstCashBack.ListItems.Count > 0)
@@ -7457,9 +7457,9 @@ If (vTipoPgtoPedido = "à Prazo" Or vTipoPgtoPedido = "à PRAZO") And vNFCeConfPra
     Exit Function
 End If
 
-Dim oIni As Ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Dim oIni As ini
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_ImpNFCe = oIni.LerTexto("IMPRESSORA_NFCE", "impressora")
 Set oIni = Nothing
 
@@ -7825,8 +7825,8 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
     If vConfImprimeNFCeLocal = "SIM" Then    'se essa maquina irá imprimir nfce localmente
         'definir a impressora da nfce
         'Dim oIni As Ini 'desativei aqui 09/11/22
-        Set oIni = New Ini
-        oIni.Arquivo = appPathApp & "config.ini"
+        Set oIni = New ini
+        oIni.arquivo = appPathApp & "config.ini"
         var_ImpNFCe = oIni.LerTexto("IMPRESSORA_NFCE", "impressora")
         Set oIni = Nothing
         
@@ -9119,8 +9119,8 @@ End Sub
 Private Sub Imprimir_Pedido()
 'DEFINIR IMPRESSORA
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then
@@ -9897,8 +9897,8 @@ Set r = dbData.OpenRecordset(sSQL)
 Dim var_Impressora As String
 'Dim oIni As Ini    'desativei aqui 09/11/22
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -10538,8 +10538,8 @@ varNomeBotao = "" 'variavel usando para saber qual botao acionou a senha
 
 '===========================SETANDO ARQUIVO .INI
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'Balança
 vUsarBalanca = oIni.LerTexto("USAR_BALANCA", "resposta")
@@ -10565,7 +10565,7 @@ Set oCfg = sysConfig("FUNDO_PDV")
 sFundo = oCfg.Value
 Set oCfg = Nothing
 
-If Existe(sFundo) Then
+If existe(sFundo) Then
     If Dir$(sFundo) <> "" Then Set Picture = LoadPicture(sFundo)
     'logomarca impressa do cupom
     Dim sLogo As String
@@ -10634,8 +10634,8 @@ Verificar_Caixa
 If vUsarBalanca = "SIM" Then
     
     'pegar fabricante da balança
-    Set oIni = New Ini
-    oIni.Arquivo = appPathApp & "config.ini"
+    Set oIni = New ini
+    oIni.arquivo = appPathApp & "config.ini"
     vFabBalanca = oIni.LerTexto("FAB_BALANCA", "resposta")
 
     If vFabBalanca = "URANO" Then
@@ -11120,16 +11120,16 @@ Else
 End If
 End Sub
 
-Private Sub lstBusca_ItemClick(ByVal Item As MSComctlLib.ListItem)
-If Item Is Nothing Then Exit Sub
-Item.Selected = True
-Item.EnsureVisible
+Private Sub lstBusca_ItemClick(ByVal item As MSComctlLib.ListItem)
+If item Is Nothing Then Exit Sub
+item.Selected = True
+item.EnsureVisible
 End Sub
 
 Private Sub lstBusca_KeyPress(KeyAscii As Integer)
 txtCodProduto.Text = lstBusca.SelectedItem
-txtCodBarra.Text = Format(lstBusca.SelectedItem.ListSubItems.Item(1).Text, "0000")
-lblDesc.Caption = lstBusca.SelectedItem.ListSubItems.Item(2).Text
+txtCodBarra.Text = Format(lstBusca.SelectedItem.ListSubItems.item(1).Text, "0000")
+lblDesc.Caption = lstBusca.SelectedItem.ListSubItems.item(2).Text
 lstBusca.Visible = False
 txtCodBarra_Validate False
 End Sub
