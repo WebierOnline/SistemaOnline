@@ -1024,6 +1024,22 @@ Falha:
    LicPixVendaSituacao = -1
 End Function
 
+'Cancela o Pix: o QR Code deixa de valer no banco.
+'1 = o cliente já pagou (finalize a venda); 0 = cancelado; -1 = sem resposta.
+Public Function LicPixVendaCancelar(ByVal TxId As String) As Long
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, st As Long, resp As String, msg As String
+
+   LicPixVendaCancelar = -1
+   If Not LicConexao(cnpj, chave, base, msg) Then Exit Function
+   If Not LicHttp("POST", base & "/venda/pix/" & TxId & "/cancelar", "", chave, st, resp) Then Exit Function
+   If st <> 200 Then Exit Function
+   LicPixVendaCancelar = IIf(LicJsonValor(resp, "pago") = "true", 1, 0)
+   Exit Function
+Falha:
+   LicPixVendaCancelar = -1
+End Function
+
 'Grava "data:image/bmp;base64,..." num arquivo da pasta temporária. Devolve o caminho ou "".
 Private Function LicSalvarBmp(ByVal Imagem As String, ByVal Nome As String) As String
    On Error GoTo Falha

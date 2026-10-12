@@ -270,19 +270,24 @@ Private Sub cmdCancelar_Click()
 
    If mOcupado Or pPago Then Exit Sub
    If Len(pTxId) > 0 Then
-      'O cliente pode ter acabado de pagar.
+      'Timer parado enquanto pergunta (sem fechar a tela por trás da mensagem).
+      tmrPix.Enabled = False
+      If MsgBox("Cancelar o Pix?" & vbCrLf & vbCrLf & _
+                "O QR Code deixa de valer e o cliente não consegue mais pagá-lo.", _
+                vbQuestion + vbYesNo + vbDefaultButton2, "Pix") = vbNo Then
+         tmrPix.Enabled = Not cmdNovo.Visible
+         Exit Sub
+      End If
+      'Invalida o QR no banco. Se o cliente pagou neste instante, o banco recusa e a venda é finalizada.
       mOcupado = True
       Screen.MousePointer = vbHourglass
-      s = LicPixVendaSituacao(pTxId)
+      s = LicPixVendaCancelar(pTxId)
       Screen.MousePointer = vbDefault
       mOcupado = False
       If s = 1 Then
          Confirmar
          Exit Sub
       End If
-      If MsgBox("Cancelar o Pix?" & vbCrLf & vbCrLf & _
-                "Se o cliente ainda pagar este QR Code, finalize a venda de novo com o PIX DINÂMICO " & _
-                "(mesmo valor): o sistema reconhece o pagamento.", vbQuestion + vbYesNo + vbDefaultButton2, "Pix") = vbNo Then Exit Sub
    End If
    tmrPix.Enabled = False
    pPago = False
