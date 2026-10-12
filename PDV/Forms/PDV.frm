@@ -4347,7 +4347,8 @@ If cboTipoPgto.Text = "À VISTA" Then
     cboFormaPgto.AddItem "7 - TRANSFERÊNCIA"
     cboFormaPgto.AddItem "8 - DEPOSITO"
     cboFormaPgto.AddItem "9 - FINANCEIRA"
-    cboFormaPgto.AddItem "10 - PIX"
+    cboFormaPgto.AddItem "10 - PIX ESTÁTICO"
+    cboFormaPgto.AddItem "11 - PIX DINÂMICO"
 Else
     cboFormaPgto.AddItem "2 - PROMISSÓRIA"
     cboFormaPgto.AddItem "5 - CHEQUE"
@@ -6117,7 +6118,8 @@ cboFormaPgtoEntrada.AddItem "5 - CHEQUE"
 cboFormaPgtoEntrada.AddItem "6 - BOLETO"
 cboFormaPgtoEntrada.AddItem "7 - TRANSFERÊNCIA"
 cboFormaPgtoEntrada.AddItem "8 - DEPOSITO"
-cboFormaPgtoEntrada.AddItem "10 - PIX"
+cboFormaPgtoEntrada.AddItem "10 - PIX ESTÁTICO"
+cboFormaPgtoEntrada.AddItem "11 - PIX DINÂMICO"
 End Sub
 
 
@@ -7905,6 +7907,34 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
 End If
 End Function
 
+'Pix dinâmico (forma "11 - PIX DINÂMICO"): abre o QR Code do valor pago em Pix e espera o banco confirmar.
+'True = pode gravar a venda (pago, ou a venda não tem Pix dinâmico); False = não pagou.
+Private Function ReceberPixDinamico() As Boolean
+   Dim valor As Currency
+   Dim f As PDV_PixVenda
+
+   ReceberPixDinamico = True
+   If cboQuantForma.Text = "2 - FORMAS" Or cboQuantForma.Text = "2 - COM ENTRADA" Then
+      If cboFormaPgtoEntrada.Text = "11 - PIX DINÂMICO" Then valor = valor + CCur(txtEntrada.Text)
+   End If
+   If cboTipoPgto.Text = "À VISTA" And cboFormaPgto.Text = "11 - PIX DINÂMICO" Then
+      If cboQuantForma.Text = "2 - FORMAS" Then
+         valor = valor + CCur(txtValorRest.Text)
+      Else
+         valor = valor + CCur(txtTotalDesc.Text)
+      End If
+   End If
+   If valor <= 0 Then Exit Function
+
+   Set f = New PDV_PixVenda
+   Load f
+   f.Preparar valor, txtCodPedido.Text, IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text)
+   f.Show vbModal
+   ReceberPixDinamico = f.pPago
+   Unload f
+   Set f = Nothing
+End Function
+
 Private Sub cmdFinalizar_Click()
 Dim bTrans As Boolean
 On Error GoTo ErrHandlerFinalizar
@@ -8011,7 +8041,7 @@ ElseIf cboFormaPgto.Text = "8 - DEPOSITO" Then
    var_PAGAMENTO = "DEPOSITO"
 ElseIf cboFormaPgto.Text = "9 - FINANCEIRA" Then
    var_PAGAMENTO = "FINANCEIRA"
-ElseIf cboFormaPgto.Text = "10 - PIX" Then
+ElseIf cboFormaPgto.Text = "10 - PIX" Or cboFormaPgto.Text = "10 - PIX ESTÁTICO" Or cboFormaPgto.Text = "11 - PIX DINÂMICO" Then
    var_PAGAMENTO = "PIX"
 End If
 
@@ -8049,7 +8079,7 @@ If cboQuantForma.Text = "2 - FORMAS" Or cboQuantForma.Text = "2 - COM ENTRADA" T
        var_PGTO_Entrada = "DEPOSITO"
     ElseIf cboFormaPgtoEntrada.Text = "9 - FINANCEIRA" Then
        var_PGTO_Entrada = "FINANCEIRA"
-    ElseIf cboFormaPgtoEntrada.Text = "10 - PIX" Then
+    ElseIf cboFormaPgtoEntrada.Text = "10 - PIX" Or cboFormaPgtoEntrada.Text = "10 - PIX ESTÁTICO" Or cboFormaPgtoEntrada.Text = "11 - PIX DINÂMICO" Then
        var_PGTO_Entrada = "PIX"
     Else
         var_PGTO_Entrada = "DINHEIRO"
@@ -8186,6 +8216,9 @@ If cboTipoPgto.Text = "À PRAZO" Then
      
                  '"TROCO = " & Replace(CCur(txtTroco.Text), ",", ".") & ", " & _
                  '"RECEBIDO = " & Replace(CCur(txtRecebido.Text), ",", ".") & ", " & _
+
+           'Pix dinâmico: recebe pelo QR Code antes de gravar; sem pagamento a venda continua aberta.
+           If Not ReceberPixDinamico() Then cmdFinalizar.Enabled = True: Exit Sub
 
            'ATUALIZANDO A TABELA PEDIDOS
             dbData.Execute "BEGIN TRANSACTION"
@@ -8513,6 +8546,9 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               If ShowMsg("Deseja finalizar essa compra?", vbQuestion + vbYesNo + vbDefaultButton1) = vbNo Then Exit Sub
            End If
            
+           'Pix dinâmico: recebe pelo QR Code antes de gravar; sem pagamento a venda continua aberta.
+           If Not ReceberPixDinamico() Then cmdFinalizar.Enabled = True: Exit Sub
+
            'ATUALIZANDO A TABELA PEDIDOS
            dbData.Execute "BEGIN TRANSACTION"
            bTrans = True

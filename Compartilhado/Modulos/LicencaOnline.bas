@@ -964,3 +964,84 @@ Private Function LicSoDigitos(ByVal Texto As String) As String
    Next
    LicSoDigitos = s
 End Function
+
+'=============================================================================
+' Pix dinâmico na venda (PDV): o servidor cria a cobrança na conta Efí DO RESTAURANTE
+' (configurada no painel) e confere o pagamento. Mesma venda e mesmo valor = mesmo Pix.
+'=============================================================================
+
+'Cria (ou reaproveita) o Pix da venda. Pago = True se esta venda já tinha um Pix pago (ex.: PDV fechou no meio).
+Public Function LicPixVendaCriar(ByVal Valor As Currency, ByVal Pedido As String, ByVal Caixa As String, _
+                                 ByRef TxId As String, ByRef CopiaECola As String, ByRef ArquivoImagem As String, _
+                                 ByRef Pago As Boolean, ByRef Msg As String) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, st As Long, resp As String, corpo As String
+
+   Pago = False
+   ArquivoImagem = ""
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   corpo = "{""valor"":" & Replace(Format$(Valor, "0.00"), ",", ".") & ",""pedido"":" & LicJsonStr(Pedido) & _
+           ",""caixa"":" & LicJsonStr(Caixa) & "}"
+   If Not LicHttp("POST", base & "/venda/pix?formato=bmp", corpo, chave, st, resp) Then
+      Msg = "Sem conexão com o servidor do Pix" & IIf(Len(LicErroHttp) > 0, " (" & LicErroHttp & ")", "") & ". Use o Pix estático."
+      Exit Function
+   End If
+   If st = 401 Then
+      Msg = "Esta instalação não está liberada no servidor. Use o Pix estático."
+      Exit Function
+   ElseIf st = 429 Then
+      Msg = "Muitas tentativas. Aguarde um minuto e tente de novo."
+      Exit Function
+   ElseIf st <> 200 Then
+      Msg = LicJsonTexto(resp, "mensagem")
+      If Len(Msg) = 0 Then Msg = "Não foi possível gerar o Pix agora (" & st & "). Use o Pix estático."
+      Exit Function
+   End If
+
+   TxId = LicJsonTexto(resp, "txId")
+   CopiaECola = LicJsonTexto(resp, "copiaECola")
+   Pago = (LicJsonValor(resp, "pago") = "true")
+   If Not Pago Then ArquivoImagem = LicSalvarBmp(LicJsonTexto(resp, "imagem"), "pix_venda.bmp")
+   LicPixVendaCriar = (Len(TxId) > 0)
+   If Not LicPixVendaCriar Then Msg = "Resposta inválida do servidor do Pix."
+   Exit Function
+Falha:
+   Msg = "Falha ao gerar o Pix: " & Err.Description
+End Function
+
+'1 = pago; 0 = ainda não; -1 = sem resposta (continua tentando).
+Public Function LicPixVendaSituacao(ByVal TxId As String) As Long
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, st As Long, resp As String, msg As String
+
+   LicPixVendaSituacao = -1
+   If Not LicConexao(cnpj, chave, base, msg) Then Exit Function
+   If Not LicHttp("GET", base & "/venda/pix/" & TxId, "", chave, st, resp) Then Exit Function
+   If st <> 200 Then Exit Function
+   LicPixVendaSituacao = IIf(LicJsonValor(resp, "pago") = "true", 1, 0)
+   Exit Function
+Falha:
+   LicPixVendaSituacao = -1
+End Function
+
+'Grava "data:image/bmp;base64,..." num arquivo da pasta temporária. Devolve o caminho ou "".
+Private Function LicSalvarBmp(ByVal Imagem As String, ByVal Nome As String) As String
+   On Error GoTo Falha
+   Dim p As Long, bytes() As Byte, f As Integer, arquivo As String
+
+   p = InStr(Imagem, "base64,")
+   If p = 0 Then Exit Function
+   If Not LicBase64(Mid$(Imagem, p + 7), bytes) Then Exit Function
+   arquivo = Environ$("TEMP") & "\" & Nome
+   On Error Resume Next
+   Kill arquivo
+   On Error GoTo Falha
+   f = FreeFile
+   Open arquivo For Binary Access Write As #f
+   Put #f, , bytes
+   Close #f
+   LicSalvarBmp = arquivo
+   Exit Function
+Falha:
+   LicSalvarBmp = ""
+End Function

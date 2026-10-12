@@ -42,6 +42,7 @@ Form=Forms\REL_Caixa_Fech_Imp_Todos.frm
 Form=..\Compartilhado\Forms\REL_Caixa_Fech_Imp.frm
 Form=Forms\REL_Pedido_Aprazo.frm
 Form=Forms\REL_Pedido_Avista.frm
+Form=Forms\PDV_PixVenda.frm
 Module=NFe_DLL; ..\Compartilhado\Modulos\modNFe.bas
 Module=LicencaOnline; ..\Compartilhado\Modulos\LicencaOnline.bas
 Form=..\Compartilhado\Forms\REL_Pedido_Mod05.frm
