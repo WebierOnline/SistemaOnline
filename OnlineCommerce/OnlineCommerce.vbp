@@ -145,6 +145,7 @@ Form=..\Compartilhado\Forms\Vendas_Consulta_Pedidos.frm
 Form=..\Compartilhado\Forms\Parcelas_Consulta_Produtos.frm
 Form=Forms\REL_Cons_Venda.frm
 Form=Forms\frmVinculoProdutoXML.frm
+Form=Forms\VinculoXMLProduto_Consulta.frm
 Form=Forms\Inventario_Detalhamento.frm
 Form=Forms\REL_Comissoes.frm
 Form=Forms\frmCadProdXML.frm

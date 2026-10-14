@@ -2,7 +2,7 @@ Attribute VB_Name = "General"
 'usado no Projeto OnlineCommerce
 Option Explicit
 Public oCfg As ConfigItem               'Arquivo ini
-Public oIni As Ini                      'Arquivo ini
+Public oIni As ini                      'Arquivo ini
 Public var_IP As String                 'Arquivo ini
 Public var_Impressora As String         'Arquivo ini
 Public varValorEstimado As Double       'usando para quando apertar f2 ele mostrar o valor estimado em %
@@ -220,7 +220,7 @@ Public Sub LerConfiguracao()
    
    Dim vValue As Variant
    Dim lDC As Long
-   Dim cIni As Ini
+   Dim cIni As ini
    
    'Lê as configurações do banco de dados
    'Essas configurações são globais
@@ -251,10 +251,10 @@ Public Sub LerConfiguracao()
    Set maqConfig = New Collection
    
    'Inicializa o objeto de controle de arquivos INI
-   Set cIni = New Ini
+   Set cIni = New ini
    
    'Seta o nome do arquivo
-   cIni.Arquivo = appPathIni
+   cIni.arquivo = appPathIni
    
    'Destrói o objeto
    Set cIni = Nothing
@@ -262,13 +262,13 @@ End Sub
 
 'Grava a configuração do sistema
 Public Sub GravarConfiguracao()
-   Dim cIni As Ini
+   Dim cIni As ini
    
    'Inicializa o objeto de controle de arquivos INI
-   Set cIni = New Ini
+   Set cIni = New ini
    
    'Seta o nome do arquivo
-   cIni.Arquivo = appPathIni
+   cIni.arquivo = appPathIni
    
    'Grava os novos valores da pasta da nfe
    'cIni.EscreverTexto "NFE", "PastaNFe", appPathNFe
@@ -391,8 +391,8 @@ Public Function AbrirConexaoBD() As Boolean
    AbrirConexaoBD = False
    
    'pegar dados no arquivo txt
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_IP = oIni.LerTexto("IP_MAQUINA", "ip")
    UTC = oIni.LerTexto("FUSOHORARIO", "UTC")
    Set oIni = Nothing

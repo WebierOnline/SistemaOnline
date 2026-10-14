@@ -856,6 +856,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_Entrada_Estoque 
          Caption         =   "&Entrada de Estoque XML"
       End
+      Begin VB.Menu Menu_Prod_VinculosXML 
+         Caption         =   "Vinculos de Produtos (XML)"
+      End
       Begin VB.Menu Menu_Prod_Divisao2 
          Caption         =   "-"
       End
@@ -1668,6 +1671,10 @@ End Sub
 
 Private Sub Menu_Entrada_Estoque_Click()
 Entrada_Estoque.Show
+End Sub
+
+Private Sub Menu_Prod_VinculosXML_Click()
+VinculoXMLProduto_Consulta.Show 1
 End Sub
 
 Private Sub Menu_FAT_Difal_Click()
