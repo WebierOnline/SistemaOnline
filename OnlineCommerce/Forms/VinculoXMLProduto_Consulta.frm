@@ -306,6 +306,17 @@ Private iDots As Integer
 Public sEANInicial As String
 Public sFornecedorInicial As String
 
+'Quando sEANInicial for usado, decide o sub-toggle Compra/Interno: True = busca o
+'EAN do lado da COMPRA (EANEmbalagem, o que veio na XML do fornecedor); False
+'(padrao) = busca no cadastro INTERNO (Produtos.EAN). Quem chama deve setar antes
+'de chamar AplicarFiltroInicial.
+Public bBuscarCompra As Boolean
+
+'Numero da entrada (NumeroEntrada do frmVinculoProdutoXML) que abriu esta tela, se
+'houver. Quando preenchido, o Desvincular tambem reverte o CodigoProduto dessa
+'nota especifica (preserva as demais notas - nunca mexe em outra nota historica).
+Public lNotaOrigem As Long
+
 Private Sub Form_Load()
     iDots = 0
     fraCarregando.Visible = False
@@ -324,9 +335,13 @@ End Sub
 'filtro inicial e recarrega o grid. Precisa ser assim (nao dentro do Form_Load)
 'porque o Load do VB6 dispara o Form_Load antes do caller setar as propriedades.
 Public Sub AplicarFiltroInicial()
+    If bBuscarCompra Then
+        optCompra.Value = True
+    Else
+        optInterno.Value = True
+    End If
     If Not Vazio(sEANInicial) Then
         optEAN.Value = True
-        optCompra.Value = True
         txtFiltroEAN.Text = sEANInicial
         AtualizarTipoConsulta
         CarregarGrid
@@ -537,6 +552,11 @@ KeyAscii = Asc(UCase(Chr(KeyAscii)))
 If KeyAscii = 13 Then CarregarGrid
 End Sub
 
+'Igual ao Desvincular de dentro do frmVinculoProdutoXML (mesmas 2 protecoes: nao
+'reverte se o item ja foi Adicionada=1 ao estoque, e reverte quantidade/valor
+'quando tem Fracionamento <> 1) - mas SO aplica essa parte extra na nota indicada
+'em lNotaOrigem (quando a tela foi aberta a partir de uma nota especifica). Outras
+'notas historicas com o mesmo fornecedor+codigo NUNCA sao tocadas por aqui.
 Private Sub cmdDesvincular_Click()
     If Grid.Row < 1 Then
         MsgBox "Selecione um vinculo na lista.", vbExclamation
@@ -544,17 +564,51 @@ Private Sub cmdDesvincular_Click()
     End If
 
     Dim lIDForn As Long, sCProd As String, sDescForn As String, sDescInt As String
+    Dim sEANForn As String, sEANInt As String
     lIDForn = Val(Grid.TextMatrix(Grid.Row, 0))
     sCProd = Grid.TextMatrix(Grid.Row, 2)
+    sEANForn = Grid.TextMatrix(Grid.Row, 3)
     sDescForn = Grid.TextMatrix(Grid.Row, 4)
+    sEANInt = Grid.TextMatrix(Grid.Row, 7)
     sDescInt = Grid.TextMatrix(Grid.Row, 8)
 
-    If MsgBox("Desfazer este vinculo?" & vbCrLf & vbCrLf & _
-              "Fornecedor/Item: " & sCProd & " - " & sDescForn & vbCrLf & _
-              "Produto interno : " & sDescInt & vbCrLf & vbCrLf & _
-              "Isso NAO altera nenhuma nota ou estoque ja lancado - so impede que esse " & _
-              "codigo do fornecedor continue reconhecendo esse produto automaticamente " & _
-              "nas proximas entradas.", vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Desvinculo") = vbNo Then Exit Sub
+    Dim bTemNotaOrigem As Boolean, bAdicionadaNaOrigem As Boolean
+    bTemNotaOrigem = False
+    bAdicionadaNaOrigem = False
+    If lNotaOrigem > 0 Then
+        If SQLExecutaRetorno("SELECT COUNT(*) r FROM EntradaEstoqueItens WHERE CodigoNota = " & lNotaOrigem & _
+                             " AND Referencia = '" & Replace(sCProd, "'", "''") & "'", "r", 0) > 0 Then
+            bTemNotaOrigem = True
+            bAdicionadaNaOrigem = (SQLExecutaRetorno("SELECT COUNT(*) r FROM EntradaEstoqueItens WHERE CodigoNota = " & lNotaOrigem & _
+                             " AND Referencia = '" & Replace(sCProd, "'", "''") & "' AND Adicionada = 1", "r", 0) > 0)
+        End If
+    End If
+
+    Dim sMsgExtra As String
+    sMsgExtra = "Isso nao altera nenhuma nota ou estoque ja lancado - so impede que esse " & _
+                "codigo do fornecedor continue reconhecendo esse produto automaticamente " & _
+                "nas proximas entradas."
+    If bTemNotaOrigem And Not bAdicionadaNaOrigem Then
+        sMsgExtra = "ATENCAO: Isso tambem vai limpar o vinculo deste item nesta nota " & _
+                    "fiscal que voce esta editando. Nenhuma outra nota antiga sera alterada."
+    ElseIf bTemNotaOrigem And bAdicionadaNaOrigem Then
+        sMsgExtra = "ATENCAO: a nota fiscal que voce esta editando ja tem esse item " & _
+                    "adicionado ao estoque - o vinculo dela nao sera revertido automaticamente " & _
+                    "(remova o item do estoque primeiro, se for o caso). So o reconhecimento " & _
+                    "automatico em entradas futuras sera removido."
+    End If
+
+    If MsgBox("DESFAZER ESTE VINCULO?" & vbCrLf & _
+              "Voce esta separando o produto do fornecedor do seu produto interno." & vbCrLf & vbCrLf & _
+              "- Item do Fornecedor: " & sDescForn & ", EAN: " & sEANForn & vbCrLf & _
+              "- Seu Produto Interno: " & sDescInt & ", EAN: " & sEANInt & vbCrLf & vbCrLf & _
+              sMsgExtra, vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Desvinculo") = vbNo Then Exit Sub
+
+    'Le fracionamento antes de zerar - precisa pra reverter a quantidade da nota de origem
+    Dim dFracOrigem As Double
+    dFracOrigem = SQLExecutaRetorno("SELECT ISNULL(Fracionamento,1) r FROM VinculoXMLProduto " & _
+                  "WHERE IDFornecedor = " & lIDForn & " AND cProd = '" & Replace(sCProd, "'", "''") & "'", "r", 1)
+    If dFracOrigem <= 0 Then dFracOrigem = 1
 
     Dim msgErro As String
     msgErro = SQLExecuta("UPDATE VinculoXMLProduto SET IDProduto = 0, EANProduto = '', " & _
@@ -563,6 +617,23 @@ Private Sub cmdDesvincular_Click()
     If Not Vazio(msgErro) Then
         MsgBox "Erro ao desvincular: " & msgErro, vbCritical
         Exit Sub
+    End If
+
+    If bTemNotaOrigem And Not bAdicionadaNaOrigem Then
+        Dim sSQLOrig As String
+        If dFracOrigem <> 1 Then
+            sSQLOrig = "UPDATE EntradaEstoqueItens SET " & _
+                       "CodigoProduto = 0, " & _
+                       "QuantidadeComercial = QuantidadeComercial / " & FSQL(dFracOrigem) & ", " & _
+                       "ValorUnitarioComercializacao = ValorUnitarioComercializacao * " & FSQL(dFracOrigem) & " " & _
+                       "WHERE CodigoNota = " & lNotaOrigem & _
+                       "  AND Referencia = '" & Replace(sCProd, "'", "''") & "'"
+        Else
+            sSQLOrig = "UPDATE EntradaEstoqueItens SET CodigoProduto = 0 " & _
+                       "WHERE CodigoNota = " & lNotaOrigem & _
+                       "  AND Referencia = '" & Replace(sCProd, "'", "''") & "'"
+        End If
+        SQLExecuta sSQLOrig
     End If
 
     CarregarGrid

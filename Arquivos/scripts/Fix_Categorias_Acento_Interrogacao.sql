@@ -52,9 +52,10 @@ GO
 -- 1) Categorias: se a versao correta ainda NAO existe pro mesmo Tipo_Empresa -> corrige no lugar
 UPDATE c SET c.Categoria = m.correto
 FROM Categorias c
-INNER JOIN #mapa m ON c.Categoria = m.corrompido
+INNER JOIN #mapa m ON c.Categoria COLLATE DATABASE_DEFAULT = m.corrompido COLLATE DATABASE_DEFAULT
 WHERE NOT EXISTS (SELECT 1 FROM Categorias c2
-                  WHERE c2.Categoria = m.correto AND c2.Tipo_Empresa = c.Tipo_Empresa);
+                  WHERE c2.Categoria COLLATE DATABASE_DEFAULT = m.correto COLLATE DATABASE_DEFAULT
+                    AND c2.Tipo_Empresa = c.Tipo_Empresa);
 GO
 
 -- 2) Categorias: se a correta JA existe (dup), religa tags da corrompida pra correta e apaga a corrompida
@@ -63,28 +64,30 @@ BEGIN
     UPDATE t SET t.ID_Categoria = cok.ID_Categoria
     FROM Categorias_Tags t
     INNER JOIN Categorias cbad ON t.ID_Categoria = cbad.ID_Categoria
-    INNER JOIN #mapa m ON cbad.Categoria = m.corrompido
-    INNER JOIN Categorias cok ON cok.Categoria = m.correto AND cok.Tipo_Empresa = cbad.Tipo_Empresa
+    INNER JOIN #mapa m ON cbad.Categoria COLLATE DATABASE_DEFAULT = m.corrompido COLLATE DATABASE_DEFAULT
+    INNER JOIN Categorias cok ON cok.Categoria COLLATE DATABASE_DEFAULT = m.correto COLLATE DATABASE_DEFAULT
+                              AND cok.Tipo_Empresa = cbad.Tipo_Empresa
     WHERE NOT EXISTS (SELECT 1 FROM Categorias_Tags t2
                       WHERE t2.ID_Categoria = cok.ID_Categoria AND t2.Tags = t.Tags);
 
     DELETE t FROM Categorias_Tags t
     INNER JOIN Categorias cbad ON t.ID_Categoria = cbad.ID_Categoria
-    INNER JOIN #mapa m ON cbad.Categoria = m.corrompido;
+    INNER JOIN #mapa m ON cbad.Categoria COLLATE DATABASE_DEFAULT = m.corrompido COLLATE DATABASE_DEFAULT;
 END
 GO
 
 DELETE c FROM Categorias c
-INNER JOIN #mapa m ON c.Categoria = m.corrompido
+INNER JOIN #mapa m ON c.Categoria COLLATE DATABASE_DEFAULT = m.corrompido COLLATE DATABASE_DEFAULT
 WHERE EXISTS (SELECT 1 FROM Categorias c2
-             WHERE c2.Categoria = m.correto AND c2.Tipo_Empresa = c.Tipo_Empresa);
+             WHERE c2.Categoria COLLATE DATABASE_DEFAULT = m.correto COLLATE DATABASE_DEFAULT
+               AND c2.Tipo_Empresa = c.Tipo_Empresa);
 GO
 
 -- 3) Produtos.categoria (texto livre): alinha com o nome correto
 IF COL_LENGTH('Produtos', 'categoria') IS NOT NULL
     UPDATE p SET p.categoria = m.correto
     FROM Produtos p
-    INNER JOIN #mapa m ON p.categoria = m.corrompido;
+    INNER JOIN #mapa m ON p.categoria COLLATE DATABASE_DEFAULT = m.corrompido COLLATE DATABASE_DEFAULT;
 GO
 
 DROP TABLE #mapa;

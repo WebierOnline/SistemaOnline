@@ -27,7 +27,6 @@ Begin VB.Form Produtos_Entrada
       _ExtentX        =   26908
       _ExtentY        =   16536
       _Version        =   393216
-      Tab             =   2
       TabHeight       =   520
       TabMaxWidth     =   3528
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -41,7 +40,7 @@ Begin VB.Form Produtos_Entrada
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Produtos_Entrada.frx":23D2
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "cmdImprimirEntrada"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdFechar"
@@ -71,7 +70,7 @@ Begin VB.Form Produtos_Entrada
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Produtos_Entrada.frx":240A
-      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "Label25"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "lblValor"
@@ -127,7 +126,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   1080
+         Left            =   -73920
          TabIndex        =   106
          Top             =   8760
          Visible         =   0   'False
@@ -137,7 +136,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   2400
+         Left            =   -72600
          TabIndex        =   105
          Top             =   8760
          Visible         =   0   'False
@@ -147,7 +146,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   3720
+         Left            =   -71280
          TabIndex        =   104
          Top             =   8760
          Visible         =   0   'False
@@ -157,7 +156,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   5040
+         Left            =   -69960
          TabIndex        =   103
          Top             =   8760
          Visible         =   0   'False
@@ -167,7 +166,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   6360
+         Left            =   -68640
          TabIndex        =   102
          Top             =   8760
          Visible         =   0   'False
@@ -177,7 +176,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   7680
+         Left            =   -67320
          TabIndex        =   101
          Top             =   8760
          Visible         =   0   'False
@@ -187,7 +186,7 @@ Begin VB.Form Produtos_Entrada
          Alignment       =   1  'Right Justify
          BackColor       =   &H00FFFFFF&
          Height          =   315
-         Left            =   9000
+         Left            =   -66000
          TabIndex        =   100
          Top             =   8760
          Visible         =   0   'False
@@ -205,7 +204,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   65
          Top             =   1380
          Width           =   12735
@@ -286,7 +285,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   6915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   57
          Top             =   2340
          Width           =   12735
@@ -1004,7 +1003,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   54
          Top             =   420
          Width           =   12735
@@ -1271,7 +1270,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   5535
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   43
          Top             =   420
          Width           =   15015
@@ -1290,7 +1289,7 @@ Begin VB.Form Produtos_Entrada
          DefaultType     =   2  'UseODBC
          Exclusive       =   0   'False
          Height          =   300
-         Left            =   1680
+         Left            =   -73320
          Options         =   0
          ReadOnly        =   0   'False
          RecordsetType   =   1  'Dynaset
@@ -1307,7 +1306,7 @@ Begin VB.Form Produtos_Entrada
          DefaultType     =   2  'UseODBC
          Exclusive       =   0   'False
          Height          =   300
-         Left            =   1740
+         Left            =   -73260
          Options         =   0
          ReadOnly        =   0   'False
          RecordsetType   =   1  'Dynaset
@@ -1329,7 +1328,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1275
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   40
          Top             =   6780
          Width           =   12615
@@ -1555,7 +1554,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   29
          Top             =   1860
          Width           =   2175
@@ -1594,7 +1593,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   30
          Top             =   2520
          Width           =   2175
@@ -1633,7 +1632,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   31
          Top             =   3180
          Width           =   2175
@@ -1672,7 +1671,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   28
          Top             =   1200
          Width           =   2175
@@ -1711,7 +1710,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -1750,7 +1749,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdFechar 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   33
          Top             =   8580
          Width           =   2175
@@ -1789,7 +1788,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimirEntrada 
          Height          =   615
-         Left            =   -62040
+         Left            =   12960
          TabIndex        =   32
          Top             =   3840
          Width           =   2175
@@ -1828,7 +1827,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   555
-         Left            =   12780
+         Left            =   -62220
          TabIndex        =   89
          Top             =   7440
          Width           =   2355
@@ -1867,7 +1866,7 @@ Begin VB.Form Produtos_Entrada
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   555
-         Left            =   12780
+         Left            =   -62220
          TabIndex        =   99
          Top             =   6840
          Width           =   2355
@@ -1909,7 +1908,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. ICMS"
          Height          =   195
-         Left            =   1080
+         Left            =   -73920
          TabIndex        =   113
          Top             =   8520
          Visible         =   0   'False
@@ -1920,7 +1919,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor ICMS"
          Height          =   195
-         Left            =   2400
+         Left            =   -72600
          TabIndex        =   112
          Top             =   8520
          Visible         =   0   'False
@@ -1931,7 +1930,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. IPI"
          Height          =   195
-         Left            =   3720
+         Left            =   -71280
          TabIndex        =   111
          Top             =   8520
          Visible         =   0   'False
@@ -1942,7 +1941,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor IPI"
          Height          =   195
-         Left            =   5040
+         Left            =   -69960
          TabIndex        =   110
          Top             =   8520
          Visible         =   0   'False
@@ -1953,7 +1952,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Aliq. ICMS ST"
          Height          =   195
-         Left            =   6420
+         Left            =   -68580
          TabIndex        =   109
          Top             =   8520
          Visible         =   0   'False
@@ -1964,7 +1963,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Valor ICMS ST"
          Height          =   195
-         Left            =   7740
+         Left            =   -67260
          TabIndex        =   108
          Top             =   8520
          Visible         =   0   'False
@@ -1975,7 +1974,7 @@ Begin VB.Form Produtos_Entrada
          BackStyle       =   0  'Transparent
          Caption         =   "Custo Liquido"
          Height          =   195
-         Left            =   9000
+         Left            =   -66000
          TabIndex        =   107
          Top             =   8520
          Visible         =   0   'False
@@ -1994,7 +1993,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   10260
+         Left            =   -64740
          TabIndex        =   52
          Top             =   6000
          Width           =   735
@@ -2016,7 +2015,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   255
-         Left            =   11040
+         Left            =   -63960
          TabIndex        =   51
          Top             =   6000
          Width           =   1365
@@ -2035,7 +2034,7 @@ Begin VB.Form Produtos_Entrada
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   12600
+         Left            =   -62400
          TabIndex        =   50
          Top             =   6000
          Width           =   795
@@ -2057,7 +2056,7 @@ Begin VB.Form Produtos_Entrada
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   255
-         Left            =   13500
+         Left            =   -61500
          TabIndex        =   49
          Top             =   6000
          Width           =   1605
@@ -2067,7 +2066,7 @@ Begin VB.Form Produtos_Entrada
          Caption         =   "Dá um duplo-clique para ver mais informações"
          ForeColor       =   &H00008000&
          Height          =   195
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   39
          Top             =   6000
          Width           =   3255
@@ -2096,7 +2095,7 @@ Begin VB.Form Produtos_Entrada
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "06:00"
+            TextSave        =   "15:50"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -3013,10 +3012,10 @@ End Sub
 Private Sub cmdImprimirEntrada_Click()
 Dim r As ADODB.Recordset
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -3508,12 +3507,12 @@ End Sub
 
 Private Sub cmdImprimir_Click()
 'colocar o nome da maquina na barra de status
-Dim oIni As Ini
+Dim oIni As ini
 Dim var_Impressora As String
 Dim r As ADODB.Recordset
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 

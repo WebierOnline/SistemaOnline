@@ -1,8 +1,28 @@
+-- Protege contra dado corrompido (valor fora da faixa do novo tipo) antes de cada
+-- ALTER. Sem isso, o SQL Server tenta converter a coluna inteira e falha (Msg 8115 -
+-- estouro aritmetico) se existir UMA linha so com lixo (ex: codigo de barra gravado
+-- no lugar do valor - ja visto em clientes reais). Os limiares abaixo sao exatamente
+-- o maximo que decimal(16,2)/decimal(16,3) aceitam - zera so o que ja ia estourar.
+
+UPDATE pedidos_itens SET PRECO = 0 WHERE PRECO >= 99999999999999.99 OR PRECO <= -99999999999999.99;
+UPDATE pedidos_itens SET Desconto = 0 WHERE Desconto >= 99999999999999.99 OR Desconto <= -99999999999999.99;
+UPDATE pedidos_itens SET Subtotal = 0 WHERE Subtotal >= 99999999999999.99 OR Subtotal <= -99999999999999.99;
+UPDATE pedidos_itens SET Total = 0 WHERE Total >= 99999999999999.99 OR Total <= -99999999999999.99;
+UPDATE pedidos_itens SET QUANTIDADE = 0 WHERE QUANTIDADE >= 9999999999999.999 OR QUANTIDADE <= -9999999999999.999;
+
 ALTER TABLE pedidos_itens ALTER COLUMN PRECO decimal(16,2);
 ALTER TABLE pedidos_itens ALTER COLUMN QUANTIDADE decimal(16,3);
 ALTER TABLE pedidos_itens ALTER COLUMN Desconto decimal(16,2);
 ALTER TABLE pedidos_itens ALTER COLUMN Subtotal decimal(16,2);
 ALTER TABLE pedidos_itens ALTER COLUMN Total decimal(16,2);
+
+UPDATE pedidos SET SUBTOTAL = 0 WHERE SUBTOTAL >= 99999999999999.99 OR SUBTOTAL <= -99999999999999.99;
+UPDATE pedidos SET TOTAL = 0 WHERE TOTAL >= 99999999999999.99 OR TOTAL <= -99999999999999.99;
+UPDATE pedidos SET ENTRADA = 0 WHERE ENTRADA >= 99999999999999.99 OR ENTRADA <= -99999999999999.99;
+UPDATE pedidos SET VALOR_DESC = 0 WHERE VALOR_DESC >= 99999999999999.99 OR VALOR_DESC <= -99999999999999.99;
+UPDATE pedidos SET VALOR_ACRESCIMO = 0 WHERE VALOR_ACRESCIMO >= 99999999999999.99 OR VALOR_ACRESCIMO <= -99999999999999.99;
+UPDATE pedidos SET ValorDescReal = 0 WHERE ValorDescReal >= 99999999999999.99 OR ValorDescReal <= -99999999999999.99;
+UPDATE pedidos SET ValorAcrescReal = 0 WHERE ValorAcrescReal >= 99999999999999.99 OR ValorAcrescReal <= -99999999999999.99;
 
 ALTER TABLE pedidos ALTER COLUMN SUBTOTAL decimal(16,2);
 ALTER TABLE pedidos ALTER COLUMN TOTAL decimal(16,2);
@@ -12,12 +32,26 @@ ALTER TABLE pedidos ALTER COLUMN VALOR_ACRESCIMO decimal(16,2);
 ALTER TABLE pedidos ALTER COLUMN ValorDescReal decimal(16,2);
 ALTER TABLE pedidos ALTER COLUMN ValorAcrescReal decimal(16,2);
 
+UPDATE produtos SET quant_estoque = 0 WHERE quant_estoque >= 9999999999999.999 OR quant_estoque <= -9999999999999.999;
+UPDATE produtos SET quant_min = 0 WHERE quant_min >= 9999999999999.999 OR quant_min <= -9999999999999.999;
+
 ALTER TABLE produtos ALTER COLUMN quant_estoque decimal(16,3);
 ALTER TABLE produtos ALTER COLUMN quant_min decimal(16,3);
+
+UPDATE TbNFCe_Itens SET QtdeMov = 0 WHERE QtdeMov >= 9999999999999.999 OR QtdeMov <= -9999999999999.999;
+UPDATE TbNFCe_Itens SET desconto = 0 WHERE desconto >= 99999999999999.99 OR desconto <= -99999999999999.99;
+UPDATE TbNFCe_Itens SET ValorUnit = 0 WHERE ValorUnit >= 99999999999999.99 OR ValorUnit <= -99999999999999.99;
 
 ALTER TABLE TbNFCe_Itens ALTER COLUMN QtdeMov decimal(16,3);
 ALTER TABLE TbNFCe_Itens ALTER COLUMN desconto decimal(16,2);
 ALTER TABLE TbNFCe_Itens ALTER COLUMN ValorUnit decimal(16,2);
+
+UPDATE NotaFiscalItens SET ValorTotalBruto = 0 WHERE ValorTotalBruto >= 99999999999999.99 OR ValorTotalBruto <= -99999999999999.99;
+UPDATE NotaFiscalItens SET ValorUnitarioComercializacao = 0 WHERE ValorUnitarioComercializacao >= 99999999999999.99 OR ValorUnitarioComercializacao <= -99999999999999.99;
+UPDATE NotaFiscalItens SET vBC = 0 WHERE vBC >= 99999999999999.99 OR vBC <= -99999999999999.99;
+UPDATE NotaFiscalItens SET Desconto = 0 WHERE Desconto >= 99999999999999.99 OR Desconto <= -99999999999999.99;
+UPDATE NotaFiscalItens SET ValorDesconto = 0 WHERE ValorDesconto >= 99999999999999.99 OR ValorDesconto <= -99999999999999.99;
+UPDATE NotaFiscalItens SET QuantidadeComercial = 0 WHERE QuantidadeComercial >= 9999999999999.999 OR QuantidadeComercial <= -9999999999999.999;
 
 ALTER TABLE NotaFiscalItens ALTER COLUMN ValorTotalBruto decimal(16,2);
 ALTER TABLE NotaFiscalItens ALTER COLUMN ValorUnitarioComercializacao decimal(16,2);
@@ -26,16 +60,37 @@ ALTER TABLE NotaFiscalItens ALTER COLUMN Desconto decimal(16,2);
 ALTER TABLE NotaFiscalItens ALTER COLUMN ValorDesconto decimal(16,2);
 ALTER TABLE NotaFiscalItens ALTER COLUMN QuantidadeComercial decimal(16,3);
 
+UPDATE NotaFiscal SET ValorProdutos = 0 WHERE ValorProdutos >= 99999999999999.99 OR ValorProdutos <= -99999999999999.99;
+UPDATE NotaFiscal SET ValorNota = 0 WHERE ValorNota >= 99999999999999.99 OR ValorNota <= -99999999999999.99;
+UPDATE NotaFiscal SET ValorOriginalFatura = 0 WHERE ValorOriginalFatura >= 99999999999999.99 OR ValorOriginalFatura <= -99999999999999.99;
+UPDATE NotaFiscal SET ValorLiquidoFatura = 0 WHERE ValorLiquidoFatura >= 99999999999999.99 OR ValorLiquidoFatura <= -99999999999999.99;
+
 ALTER TABLE NotaFiscal ALTER COLUMN ValorProdutos decimal(16,2);
 ALTER TABLE NotaFiscal ALTER COLUMN ValorNota decimal(16,2);
 ALTER TABLE NotaFiscal ALTER COLUMN ValorOriginalFatura decimal(16,2);
 ALTER TABLE NotaFiscal ALTER COLUMN ValorLiquidoFatura decimal(16,2);
+
+UPDATE parcelas SET JUROS = 0 WHERE JUROS >= 99999999999999.99 OR JUROS <= -99999999999999.99;
+UPDATE parcelas SET MULTA = 0 WHERE MULTA >= 99999999999999.99 OR MULTA <= -99999999999999.99;
+UPDATE parcelas SET VALOR = 0 WHERE VALOR >= 99999999999999.99 OR VALOR <= -99999999999999.99;
+UPDATE parcelas SET VALOR_FINAL = 0 WHERE VALOR_FINAL >= 99999999999999.99 OR VALOR_FINAL <= -99999999999999.99;
+UPDATE parcelas SET DESCONTO = 0 WHERE DESCONTO >= 99999999999999.99 OR DESCONTO <= -99999999999999.99;
 
 ALTER TABLE parcelas ALTER COLUMN JUROS decimal(16,2);
 ALTER TABLE parcelas ALTER COLUMN MULTA decimal(16,2);
 ALTER TABLE parcelas ALTER COLUMN VALOR decimal(16,2);
 ALTER TABLE parcelas ALTER COLUMN VALOR_FINAL decimal(16,2);
 ALTER TABLE parcelas ALTER COLUMN DESCONTO decimal(16,2);
+
+UPDATE Produtos_Precos SET CUSTO = 0 WHERE CUSTO >= 99999999999999.99 OR CUSTO <= -99999999999999.99;
+UPDATE Produtos_Precos SET VALOR_VV = 0 WHERE VALOR_VV >= 99999999999999.99 OR VALOR_VV <= -99999999999999.99;
+UPDATE Produtos_Precos SET VALOR_VP = 0 WHERE VALOR_VP >= 99999999999999.99 OR VALOR_VP <= -99999999999999.99;
+UPDATE Produtos_Precos SET VALOR_AV = 0 WHERE VALOR_AV >= 99999999999999.99 OR VALOR_AV <= -99999999999999.99;
+UPDATE Produtos_Precos SET VALOR_AP = 0 WHERE VALOR_AP >= 99999999999999.99 OR VALOR_AP <= -99999999999999.99;
+UPDATE Produtos_Precos SET MARGEM_VV = 0 WHERE MARGEM_VV >= 99999999999999.99 OR MARGEM_VV <= -99999999999999.99;
+UPDATE Produtos_Precos SET MARGEM_VP = 0 WHERE MARGEM_VP >= 99999999999999.99 OR MARGEM_VP <= -99999999999999.99;
+UPDATE Produtos_Precos SET MARGEM_AV = 0 WHERE MARGEM_AV >= 99999999999999.99 OR MARGEM_AV <= -99999999999999.99;
+UPDATE Produtos_Precos SET MARGEM_AP = 0 WHERE MARGEM_AP >= 99999999999999.99 OR MARGEM_AP <= -99999999999999.99;
 
 ALTER TABLE Produtos_Precos ALTER COLUMN CUSTO decimal(16,2);
 ALTER TABLE Produtos_Precos ALTER COLUMN VALOR_VV decimal(16,2);
@@ -48,4 +103,7 @@ ALTER TABLE Produtos_Precos ALTER COLUMN MARGEM_AV decimal(16,2);
 ALTER TABLE Produtos_Precos ALTER COLUMN MARGEM_AP decimal(16,2);
 
 IF OBJECT_ID('a_receber_itens', 'U') IS NOT NULL
+BEGIN
+    EXEC('UPDATE a_receber_itens SET preco = 0 WHERE preco >= 99999999999999.99 OR preco <= -99999999999999.99');
     EXEC('ALTER TABLE a_receber_itens ALTER COLUMN preco decimal(16,2)');
+END

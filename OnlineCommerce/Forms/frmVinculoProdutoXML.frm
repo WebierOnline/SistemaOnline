@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form frmVinculoProdutoXML 
    BorderStyle     =   3  'Fixed Dialog
@@ -14,27 +15,11 @@ Begin VB.Form frmVinculoProdutoXML
    ScaleWidth      =   10095
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.CommandButton cmdCopiarEAN1 
-      Caption         =   "Copiar EAN"
-      Height          =   255
-      Left            =   6540
-      TabIndex        =   36
-      Top             =   2640
-      Width           =   1140
-   End
-   Begin VB.CommandButton cmdBuscarVinculo 
-      Caption         =   "Mostrar todos os vinculos"
-      Height          =   255
-      Left            =   7800
-      TabIndex        =   35
-      Top             =   2640
-      Width           =   2220
-   End
    Begin MSFlexGridLib.MSFlexGrid lstItens 
       Height          =   1815
       Left            =   60
       TabIndex        =   16
-      Top             =   780
+      Top             =   660
       Width           =   9960
       _ExtentX        =   17568
       _ExtentY        =   3201
@@ -207,14 +192,6 @@ Begin VB.Form frmVinculoProdutoXML
       TabIndex        =   7
       Top             =   3960
       Width           =   9960
-      Begin VB.CommandButton cmdCopiarEAN2 
-         Caption         =   "Copiar EAN"
-         Height          =   315
-         Left            =   8580
-         TabIndex        =   37
-         Top             =   480
-         Width           =   1215
-      End
       Begin VB.TextBox txtBusca 
          Height          =   315
          Left            =   120
@@ -255,6 +232,82 @@ Begin VB.Form frmVinculoProdutoXML
          Top             =   4200
          Width           =   735
       End
+      Begin ChamaleonBtn.chameleonButton cmdCopiarEAN2 
+         Height          =   255
+         Left            =   6000
+         TabIndex        =   37
+         Top             =   4200
+         Width           =   1155
+         _ExtentX        =   2037
+         _ExtentY        =   450
+         BTYPE           =   3
+         TX              =   "Copiar EAN"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "frmVinculoProdutoXML.frx":0000
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdBuscarVinculo2 
+         Height          =   255
+         Left            =   7200
+         TabIndex        =   38
+         Top             =   4200
+         Width           =   2595
+         _ExtentX        =   4577
+         _ExtentY        =   450
+         BTYPE           =   3
+         TX              =   "Buscar Vinculo Deste Produtos"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "frmVinculoProdutoXML.frx":001C
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin VB.Label lblBuscaHint 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -281,9 +334,9 @@ Begin VB.Form frmVinculoProdutoXML
          EndProperty
          ForeColor       =   &H00004080&
          Height          =   225
-         Left            =   6660
+         Left            =   2160
          TabIndex        =   26
-         Top             =   4200
+         Top             =   4320
          Width           =   3165
       End
       Begin VB.Label lblFracLabel 
@@ -358,6 +411,82 @@ Begin VB.Form frmVinculoProdutoXML
       Top             =   8580
       Width           =   1635
    End
+   Begin ChamaleonBtn.chameleonButton cmdCopiarEAN1 
+      Height          =   255
+      Left            =   6240
+      TabIndex        =   35
+      Top             =   2520
+      Width           =   1155
+      _ExtentX        =   2037
+      _ExtentY        =   450
+      BTYPE           =   3
+      TX              =   "Copiar EAN"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmVinculoProdutoXML.frx":0038
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdBuscarVinculo 
+      Height          =   255
+      Left            =   7440
+      TabIndex        =   36
+      Top             =   2520
+      Width           =   2595
+      _ExtentX        =   4577
+      _ExtentY        =   450
+      BTYPE           =   3
+      TX              =   "Buscar Vinculo Deste Produtos"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmVinculoProdutoXML.frx":0054
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label Label73 
       AutoSize        =   -1  'True
       BackColor       =   &H00000000&
@@ -366,7 +495,7 @@ Begin VB.Form frmVinculoProdutoXML
       Index           =   0
       Left            =   7500
       TabIndex        =   33
-      Top             =   540
+      Top             =   480
       Width           =   180
    End
    Begin VB.Label Label73 
@@ -377,7 +506,7 @@ Begin VB.Form frmVinculoProdutoXML
       Index           =   2
       Left            =   8820
       TabIndex        =   32
-      Top             =   540
+      Top             =   480
       Width           =   180
    End
    Begin VB.Label Label74 
@@ -397,7 +526,7 @@ Begin VB.Form frmVinculoProdutoXML
       Index           =   0
       Left            =   6660
       TabIndex        =   31
-      Top             =   540
+      Top             =   480
       Width           =   810
    End
    Begin VB.Label Label74 
@@ -408,7 +537,7 @@ Begin VB.Form frmVinculoProdutoXML
       Index           =   1
       Left            =   7800
       TabIndex        =   30
-      Top             =   540
+      Top             =   480
       Width           =   870
    End
    Begin VB.Label Label74 
@@ -419,7 +548,7 @@ Begin VB.Form frmVinculoProdutoXML
       Index           =   3
       Left            =   9120
       TabIndex        =   29
-      Top             =   540
+      Top             =   480
       Width           =   870
    End
    Begin VB.Label Label6 
@@ -455,9 +584,9 @@ Begin VB.Form frmVinculoProdutoXML
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   120
+      Left            =   60
       TabIndex        =   15
-      Top             =   540
+      Top             =   420
       Width           =   4140
    End
    Begin VB.Label lblContador 
@@ -565,11 +694,17 @@ Private TbBusca As ADODB.Recordset
 '--- Array paralelo ao lstProdutos ---
 Private arrIDProduto() As Long
 
+'-1 = nenhum produto selecionado em lstProdutos ainda (so vira >= 0 apos um clique
+'explicito do usuario, em lstProdutos_Click). Os botoes cmdVincular/cmdDesvincular/
+'cmdAlterar so habilitam depois disso - nao basta o grid ter resultados carregados.
+Private iProdSelecionado As Integer
+
 '==============================================================
 Private Sub Form_Load()
    On Error GoTo ErrForm_Load
 
    iSelecionado = -1
+   iProdSelecionado = -1
 
    'Botoes inicialmente desabilitados ate o usuario selecionar itens
    cmdVincular.Enabled = False
@@ -777,6 +912,46 @@ Private Sub AtualizarItemLista(idx As Integer)
    lstItens.Col = 4: lstItens.Text = IIf(arrItens(idx).Vinculado, "[OK]", "")
 End Sub
 
+'A tela VinculoXMLProduto_Consulta pode alterar o vinculo (CodigoProduto) desta nota
+'por fora, direto no banco (via lNotaOrigem). Como arrItens() so e lido do banco uma
+'vez, no Form_Load, precisamos reconsultar e atualizar a tela ao voltar de la - senao
+'o [OK] fica desatualizado (so corrigia fechando e reabrindo o formulario).
+Private Sub RecarregarStatusItens()
+   Dim rStatus As ADODB.Recordset
+   RsOpen rStatus, "SELECT Referencia AS cProd, ISNULL(CodigoProduto,0) AS IDProdVinculado " & _
+                  "FROM EntradaEstoqueItens WHERE CodigoNota = " & NumeroEntrada
+
+   Dim nR As Integer
+   For nR = 0 To iTotalItens - 1
+      rStatus.MoveFirst
+      Do While Not rStatus.EOF
+         If Trim(rStatus!cProd & "") = arrItens(nR).cProd Then
+            Dim lIDAtual As Long
+            lIDAtual = 0
+            On Error Resume Next
+            lIDAtual = CLng(rStatus!IDProdVinculado)
+            On Error GoTo 0
+            arrItens(nR).IDProdVinculado = lIDAtual
+            arrItens(nR).Vinculado = (lIDAtual <> 0)
+            Exit Do
+         End If
+         rStatus.MoveNext
+      Loop
+      AtualizarItemLista nR
+   Next nR
+   If rStatus.State <> 0 Then rStatus.Close
+
+   'AtualizarItemLista move lstItens.Row pra cada linha que redesenha (efeito colateral);
+   'sem isso, Row fica parado na ULTIMA linha do loop, e o proximo clique em
+   'cmdBuscarVinculo (que le lstItens.Row direto) acabaria pegando o item errado
+   If iSelecionado >= 0 Then lstItens.Row = iSelecionado
+
+   'Reatualiza tambem o realce (vermelho) do produto vinculado no lstProdutos,
+   'que tambem e desenhado a partir do arrItens() em memoria
+   If iSelecionado >= 0 Then cmdBuscar_Click
+   AtualizarBotoes
+End Sub
+
 '==============================================================
 Private Sub lstItens_Click()
    Dim idx As Integer
@@ -950,6 +1125,8 @@ Private Sub cmdBuscarVinculo_Click()
    Load VinculoXMLProduto_Consulta
    VinculoXMLProduto_Consulta.sEANInicial = ""
    VinculoXMLProduto_Consulta.sFornecedorInicial = ""
+   VinculoXMLProduto_Consulta.bBuscarCompra = True
+   VinculoXMLProduto_Consulta.lNotaOrigem = NumeroEntrada
    If Not Vazio(item.sEAN) And UCase(item.sEAN) <> "SEM GTIN" Then
       VinculoXMLProduto_Consulta.sEANInicial = item.sEAN
    Else
@@ -958,6 +1135,7 @@ Private Sub cmdBuscarVinculo_Click()
    VinculoXMLProduto_Consulta.AplicarFiltroInicial
    VinculoXMLProduto_Consulta.Show vbModal, Me
    Unload VinculoXMLProduto_Consulta
+   RecarregarStatusItens
 End Sub
 
 'Copia pra area de transferencia o EAN do item marcado em lstItens (produto da XML)
@@ -1010,6 +1188,42 @@ Private Sub cmdCopiarEAN2_Click()
    MsgBox "EAN copiado: " & sEANCopiar2, vbInformation
 End Sub
 
+'Abre VinculoXMLProduto_Consulta filtrada pelo EAN do produto marcado em lstProdutos
+'(estoque interno) - diferente do cmdBuscarVinculo (lstItens), aqui o EAN vem do
+'cadastro interno, entao busca do lado Interno (nao Compra).
+Private Sub cmdBuscarVinculo2_Click()
+   Dim idxLista3 As Integer
+   idxLista3 = lstProdutos.Row + 1
+   Dim bProdValido3 As Boolean
+   bProdValido3 = False
+   If idxLista3 >= 1 Then
+      If idxLista3 <= UBound(arrIDProduto) Then
+         bProdValido3 = (arrIDProduto(idxLista3) <> 0)
+      End If
+   End If
+   If Not bProdValido3 Then
+      MsgBox "Selecione um produto na lista de baixo (Produtos do seu estoque atual).", vbExclamation
+      Exit Sub
+   End If
+
+   Dim sEANBusca3 As String
+   sEANBusca3 = Trim(lstProdutos.TextMatrix(lstProdutos.Row, 3))
+   If Vazio(sEANBusca3) Then
+      MsgBox "Esse produto nao tem EAN cadastrado.", vbInformation
+      Exit Sub
+   End If
+
+   Load VinculoXMLProduto_Consulta
+   VinculoXMLProduto_Consulta.sEANInicial = sEANBusca3
+   VinculoXMLProduto_Consulta.sFornecedorInicial = ""
+   VinculoXMLProduto_Consulta.bBuscarCompra = False
+   VinculoXMLProduto_Consulta.lNotaOrigem = NumeroEntrada
+   VinculoXMLProduto_Consulta.AplicarFiltroInicial
+   VinculoXMLProduto_Consulta.Show vbModal, Me
+   Unload VinculoXMLProduto_Consulta
+   RecarregarStatusItens
+End Sub
+
 '==============================================================
 Private Sub txtBusca_KeyPress(KeyAscii As Integer)
 KeyAscii = Asc(UCase(Chr(KeyAscii)))
@@ -1022,6 +1236,7 @@ Private Sub txtFracionamento_Change()
 End Sub
 
 Private Sub lstProdutos_Click()
+   iProdSelecionado = lstProdutos.Row
    AtualizarCustoCalc
    AtualizarBotoes
 End Sub
@@ -1472,19 +1687,42 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
    IDForn = SQLExecutaRetorno("SELECT CodigoCorrentista FROM EntradaEstoque WHERE CodigoNota = " & NumeroEntrada, "CodigoCorrentista", 0)
 
    'Verifica se o produto interno ja esta vinculado a outro cProd deste fornecedor
-   Dim sOutroCProd As String
-   sOutroCProd = SQLExecutaRetorno("SELECT TOP 1 cProd + ' - ' + xProd r FROM VinculoXMLProduto " & _
+   Dim rOutroVinc As ADODB.Recordset
+   RsOpen rOutroVinc, "SELECT TOP 1 cProd, xProd, EANEmbalagem FROM VinculoXMLProduto " & _
                   "WHERE IDFornecedor = " & IDForn & _
                   "  AND IDProduto = " & IDProdSel & _
-                  "  AND cProd <> '" & Replace(item.cProd, "'", "''") & "'", "r", "")
-   If Len(Trim(sOutroCProd)) > 0 Then
-      MsgBox "Este produto interno ja esta vinculado a outro item da NF-e:" & vbCrLf & vbCrLf & _
-             sOutroCProd & vbCrLf & vbCrLf & _
-             "Nao e permitido vincular o mesmo produto a dois itens diferentes." & vbCrLf & _
-             "Selecione outro produto na lista ou utilize 'Cadastrar da XML' para criar um novo cadastro.", _
-             vbExclamation, "Vinculo Duplicado"
+                  "  AND cProd <> '" & Replace(item.cProd, "'", "''") & "'"
+   If Not rOutroVinc.EOF Then
+      Dim sOutroDesc As String, sOutroEAN As String
+      sOutroDesc = Trim(rOutroVinc!xProd & "")
+      sOutroEAN = Trim(rOutroVinc!EANEmbalagem & "")
+      If rOutroVinc.State <> 0 Then rOutroVinc.Close
+
+      Dim respAlerta As Integer
+      respAlerta = MsgBox("Aviso: ESTE PRODUTO JA FOI USADO!" & vbCrLf & vbCrLf & _
+             "Voce nao pode vincular este produto porque ele ja esta associado a outro produto da nota fiscal (Produto: " & sOutroDesc & ", EAN: " & sOutroEAN & ")." & vbCrLf & vbCrLf & _
+             "O que fazer agora?" & vbCrLf & _
+             "1. Verifique a sua lista de produtos." & vbCrLf & _
+             "2. Encontre o produto que foi vinculado errado e desfaca esse vinculo." & vbCrLf & _
+             "3. Depois, tente vincular este produto novamente." & vbCrLf & vbCrLf & _
+             "Deseja que eu encontre o vinculo desse produto anterior?", _
+             vbExclamation + vbYesNo, "ALERTA!")
+
+      If respAlerta = vbYes Then
+         Load VinculoXMLProduto_Consulta
+         VinculoXMLProduto_Consulta.sEANInicial = sOutroEAN
+         VinculoXMLProduto_Consulta.sFornecedorInicial = ""
+         VinculoXMLProduto_Consulta.bBuscarCompra = True
+         VinculoXMLProduto_Consulta.lNotaOrigem = NumeroEntrada
+         VinculoXMLProduto_Consulta.AplicarFiltroInicial
+         VinculoXMLProduto_Consulta.Show vbModal, Me
+         Unload VinculoXMLProduto_Consulta
+         RecarregarStatusItens
+      End If
+
       Exit Function
    End If
+   If rOutroVinc.State <> 0 Then rOutroVinc.Close
 
    'INSERT ou UPDATE em VinculoXMLProduto
    Dim qtdExiste As Long
@@ -1533,8 +1771,8 @@ Private Function ExecutarVinculo(IDProdSel As Long, frac As Double) As Boolean
       Exit Function
    End If
 
-   'Atualiza EANEmbalagem e Fracionamento em Produtos
-   SQLExecuta "UPDATE Produtos SET EANEmbalagem = '" & sEANEmb & "', " & _
+   'Atualiza EANCaixa e Fracionamento em Produtos
+   SQLExecuta "UPDATE Produtos SET EANCaixa = '" & sEANEmb & "', " & _
               "Fracionamento = " & FSQL(frac) & " WHERE Codigo = " & IDProdSel
 
    'Vincula CodigoProduto em EntradaEstoqueItens (dados brutos da XML preservados)
@@ -1605,21 +1843,35 @@ Private Sub cmdDesvincular_Click()
    Dim IDForn As Long
    IDForn = SQLExecutaRetorno("SELECT CodigoCorrentista FROM EntradaEstoque WHERE CodigoNota = " & NumeroEntrada, "CodigoCorrentista", 0)
 
-   'Le fracionamento e produto vinculado antes de excluir
+   'Le fracionamento e dados do produto interno vinculado antes de excluir
    Dim dFrac As Double
-   Dim sDescVinc As String
    dFrac = SQLExecutaRetorno("SELECT ISNULL(Fracionamento,1) r FROM VinculoXMLProduto " & _
                              "WHERE IDFornecedor = " & IDForn & _
                              "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'", "r", 1)
-   sDescVinc = SQLExecutaRetorno("SELECT TOP 1 CAST(IDProduto AS VARCHAR) + ' - ' + xProd r FROM VinculoXMLProduto " & _
-                                 "WHERE IDFornecedor = " & IDForn & _
-                                 "  AND cProd = '" & Replace(item.cProd, "'", "''") & "'", "r", "")
    If dFrac <= 0 Then dFrac = 1
 
-   If MsgBox("Desfazer vinculo do item:" & vbCrLf & vbCrLf & _
-             "NF-e    : " & item.cProd & " - " & item.Nome & vbCrLf & _
-             "Produto : " & sDescVinc & vbCrLf & vbCrLf & _
-             "O CodigoProduto sera zerado na entrada e o produto sera desvinculado.", _
+   Dim sDescInt As String, sEANInt As String
+   Dim rProdInt As ADODB.Recordset
+   RsOpen rProdInt, "SELECT ISNULL(DESCRICAO,'') AS DESCRICAO, ISNULL(EAN,'') AS EAN " & _
+                    "FROM Produtos WHERE Codigo = " & item.IDProdVinculado
+   sDescInt = "": sEANInt = ""
+   If Not rProdInt.EOF Then
+      sDescInt = Trim(rProdInt!DESCRICAO & "")
+      sEANInt = Trim(rProdInt!EAN & "")
+   End If
+   If rProdInt.State <> 0 Then rProdInt.Close
+
+   Dim sEANForn As String
+   sEANForn = IIf(Vazio(item.sEAN), "(sem EAN)", item.sEAN)
+   If Vazio(sEANInt) Then sEANInt = "(sem EAN)"
+
+   If MsgBox("DESFAZER ESTE VINCULO?" & vbCrLf & _
+             "Voce esta separando o produto do fornecedor do seu produto interno." & vbCrLf & vbCrLf & _
+             "- Item do Fornecedor: " & item.Nome & ", EAN: " & sEANForn & vbCrLf & _
+             "- Seu Produto Interno: " & sDescInt & ", EAN: " & sEANInt & vbCrLf & vbCrLf & _
+             "ATENCAO: Isso vai desfazer o vinculo deste item nesta nota fiscal e tambem " & _
+             "impedir que esse codigo do fornecedor continue reconhecendo esse produto " & _
+             "automaticamente nas proximas entradas. Nenhuma outra nota antiga sera alterada.", _
              vbQuestion + vbYesNo + vbDefaultButton2, "Confirmar Desvinculo") = vbNo Then Exit Sub
 
    'Limpa campos do produto (mantem dados do XML)
@@ -1724,6 +1976,7 @@ End Sub
 '==============================================================
 'Limpa o FlexGrid de produtos (equivalente a lstProdutos.Clear)
 Private Sub LimparProdutos()
+   iProdSelecionado = -1
    lstProdutos.rows = 1
    lstProdutos.Row = 0
    Dim jcL As Integer
@@ -1748,10 +2001,12 @@ Private Sub AtualizarBotoes()
    If bTemItem Then bVinculado = arrItens(iSelecionado).Vinculado
 
    Dim idxP As Integer
-   idxP = lstProdutos.Row + 1
    bTemProd = False
-   If UBound(arrIDProduto) >= idxP Then
-      bTemProd = (arrIDProduto(idxP) > 0)
+   If iProdSelecionado >= 0 Then
+      idxP = iProdSelecionado + 1
+      If UBound(arrIDProduto) >= idxP Then
+         bTemProd = (arrIDProduto(idxP) > 0)
+      End If
    End If
 
    cmdVincular.Enabled = bTemItem And (Not bVinculado) And bTemProd
