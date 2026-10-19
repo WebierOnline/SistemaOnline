@@ -1,21 +1,21 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CONSULTA DE ENTRADAS"
-   ClientHeight    =   9840
+   ClientHeight    =   10080
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   10005
+   ClientWidth     =   11070
    Icon            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   9840
-   ScaleWidth      =   10005
+   ScaleHeight     =   10080
+   ScaleWidth      =   11070
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
@@ -24,11 +24,11 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       Height          =   2595
       Left            =   60
       ScaleHeight     =   2565
-      ScaleWidth      =   9825
+      ScaleWidth      =   10905
       TabIndex        =   7
       ToolTipText     =   "Imprimir"
       Top             =   840
-      Width           =   9855
+      Width           =   10935
       Begin VB.Frame Frame8 
          Caption         =   "Consulta"
          BeginProperty Font 
@@ -41,11 +41,11 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H000000C0&
-         Height          =   1875
+         Height          =   2415
          Left            =   60
          TabIndex        =   8
          Top             =   60
-         Width           =   9675
+         Width           =   10695
          Begin VB.Frame Frame1 
             Caption         =   "Critérios"
             BeginProperty Font 
@@ -57,97 +57,105 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1515
+            Height          =   2055
             Left            =   120
-            TabIndex        =   25
+            TabIndex        =   19
             Top             =   240
-            Width           =   2535
-            Begin VB.ComboBox cboIndice 
+            Width           =   2415
+            Begin VB.ComboBox cboCriterioSec 
                Height          =   315
                Left            =   120
-               TabIndex        =   27
-               Top             =   1080
+               TabIndex        =   30
+               Top             =   420
                Width           =   2175
             End
             Begin VB.ComboBox cboCriterioPrinc 
                Height          =   315
                Left            =   120
-               TabIndex        =   26
-               Top             =   480
+               TabIndex        =   20
+               Top             =   1020
                Width           =   2175
+            End
+            Begin VB.ComboBox cboIndice 
+               Height          =   315
+               Left            =   120
+               TabIndex        =   21
+               Top             =   1620
+               Width           =   2175
+            End
+            Begin VB.Label Label5 
+               AutoSize        =   -1  'True
+               Caption         =   "Consultar por:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   22
+               Top             =   180
+               Width           =   975
+            End
+            Begin VB.Label Label6 
+               AutoSize        =   -1  'True
+               Caption         =   "Filtrar por:"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   31
+               Top             =   780
+               Width           =   750
             End
             Begin VB.Label Label7 
                AutoSize        =   -1  'True
                Caption         =   "Organizar por:"
                Height          =   195
                Left            =   120
-               TabIndex        =   29
-               Top             =   840
+               TabIndex        =   23
+               Top             =   1390
                Width           =   990
-            End
-            Begin VB.Label Label5 
-               AutoSize        =   -1  'True
-               Caption         =   "Criterio"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   28
-               Top             =   240
-               Width           =   480
             End
          End
          Begin VB.Frame frmFiltro1 
             Height          =   1500
-            Left            =   2760
+            Left            =   2640
             TabIndex        =   9
             Top             =   240
-            Width           =   6795
+            Width           =   7935
             Begin VB.ComboBox cboAno 
                Height          =   315
                Left            =   1500
                Sorted          =   -1  'True
-               TabIndex        =   14
-               Top             =   480
+               TabIndex        =   13
+               Top             =   1020
                Visible         =   0   'False
                Width           =   1155
             End
             Begin VB.ComboBox cboMes 
                Height          =   315
                Left            =   120
-               TabIndex        =   13
-               Top             =   480
+               TabIndex        =   12
+               Top             =   1020
                Visible         =   0   'False
                Width           =   1335
-            End
-            Begin VB.ComboBox cboCategoria 
-               Height          =   315
-               Left            =   120
-               TabIndex        =   12
-               Top             =   1080
-               Visible         =   0   'False
-               Width           =   4125
             End
             Begin VB.ComboBox cboDescricao 
                Height          =   315
                Left            =   120
                TabIndex        =   11
-               Top             =   1080
+               Top             =   420
                Visible         =   0   'False
-               Width           =   6615
+               Width           =   5955
             End
             Begin VB.TextBox txtCodBarra 
                Height          =   315
                Left            =   120
                TabIndex        =   10
-               Top             =   1080
+               Top             =   420
                Visible         =   0   'False
                Width           =   2355
             End
             Begin ChamaleonBtn.chameleonButton cmdCalendario1 
                Height          =   315
                Left            =   1080
-               TabIndex        =   30
+               TabIndex        =   24
                Tag             =   "Calendario"
-               Top             =   480
+               Top             =   1020
                Visible         =   0   'False
                Width           =   315
                _ExtentX        =   556
@@ -187,9 +195,9 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             Begin ChamaleonBtn.chameleonButton cmdCalendario2 
                Height          =   315
                Left            =   2460
-               TabIndex        =   31
+               TabIndex        =   25
                Tag             =   "Calendario"
-               Top             =   480
+               Top             =   1020
                Visible         =   0   'False
                Width           =   315
                _ExtentX        =   556
@@ -229,8 +237,8 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             Begin MSMask.MaskEdBox mskInicio 
                Height          =   315
                Left            =   120
-               TabIndex        =   32
-               Top             =   480
+               TabIndex        =   26
+               Top             =   1020
                Visible         =   0   'False
                Width           =   1290
                _ExtentX        =   2275
@@ -242,8 +250,8 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             Begin MSMask.MaskEdBox mskFim 
                Height          =   315
                Left            =   1500
-               TabIndex        =   33
-               Top             =   480
+               TabIndex        =   27
+               Top             =   1020
                Visible         =   0   'False
                Width           =   1290
                _ExtentX        =   2275
@@ -252,14 +260,22 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
                Format          =   "dd/mm/yy"
                PromptChar      =   "_"
             End
+            Begin VB.ComboBox cboFormaEntrada 
+               Height          =   315
+               Left            =   2520
+               Style           =   2  'Dropdown List
+               TabIndex        =   29
+               Top             =   420
+               Width           =   1700
+            End
             Begin VB.Label lblAno 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
                Caption         =   "Ano:"
                Height          =   195
                Left            =   1500
-               TabIndex        =   19
-               Top             =   240
+               TabIndex        =   16
+               Top             =   780
                Visible         =   0   'False
                Width           =   330
             End
@@ -269,158 +285,149 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
                Caption         =   "Mês:"
                Height          =   195
                Left            =   120
-               TabIndex        =   18
-               Top             =   240
+               TabIndex        =   15
+               Top             =   780
                Visible         =   0   'False
                Width           =   345
             End
-            Begin VB.Label lblCategoria 
-               AutoSize        =   -1  'True
-               BackStyle       =   0  'Transparent
-               Caption         =   "Categoria:"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   17
-               Top             =   840
-               Visible         =   0   'False
-               Width           =   720
-            End
             Begin VB.Label lblDescricao 
+               AutoSize        =   -1  'True
                Caption         =   "Descrição:"
                Height          =   195
                Left            =   120
-               TabIndex        =   16
-               Top             =   840
+               TabIndex        =   14
+               Top             =   180
                Visible         =   0   'False
-               Width           =   795
+               Width           =   765
             End
-            Begin VB.Label lblCodBarra 
-               Caption         =   "Cod. Barra:"
+            Begin VB.Label lblFormaEntrada 
+               AutoSize        =   -1  'True
+               BackStyle       =   0  'Transparent
+               Caption         =   "Forma:"
                Height          =   195
-               Left            =   120
-               TabIndex        =   15
-               Top             =   840
-               Visible         =   0   'False
-               Width           =   855
+               Left            =   2520
+               TabIndex        =   28
+               Top             =   180
+               Width           =   480
             End
          End
-      End
-      Begin ChamaleonBtn.chameleonButton cmdSair 
-         Height          =   495
-         Left            =   8400
-         TabIndex        =   20
-         Top             =   1980
-         Width           =   1335
-         _ExtentX        =   2355
-         _ExtentY        =   873
-         BTYPE           =   3
-         TX              =   "&Fechar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B156
-         PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B172
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdImprimir 
-         Height          =   495
-         Left            =   6960
-         TabIndex        =   21
-         Top             =   1980
-         Width           =   1395
-         _ExtentX        =   2461
-         _ExtentY        =   873
-         BTYPE           =   3
-         TX              =   "&Imprimir"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B48C
-         PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B4A8
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton chameleonButton1 
-         Height          =   495
-         Left            =   5460
-         TabIndex        =   24
-         Top             =   1980
-         Width           =   1455
-         _ExtentX        =   2566
-         _ExtentY        =   873
-         BTYPE           =   3
-         TX              =   "&Exibir"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B7C2
-         PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B7DE
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
+         Begin ChamaleonBtn.chameleonButton cmdSair 
+            Height          =   495
+            Left            =   9240
+            TabIndex        =   32
+            Top             =   1800
+            Width           =   1335
+            _ExtentX        =   2355
+            _ExtentY        =   873
+            BTYPE           =   3
+            TX              =   "&Fechar"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B156
+            PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B172
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin ChamaleonBtn.chameleonButton cmdImprimir 
+            Height          =   495
+            Left            =   7800
+            TabIndex        =   33
+            Top             =   1800
+            Width           =   1395
+            _ExtentX        =   2461
+            _ExtentY        =   873
+            BTYPE           =   3
+            TX              =   "&Imprimir"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B48C
+            PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B4A8
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin ChamaleonBtn.chameleonButton chameleonButton1 
+            Height          =   495
+            Left            =   6300
+            TabIndex        =   34
+            Top             =   1800
+            Width           =   1455
+            _ExtentX        =   2566
+            _ExtentY        =   873
+            BTYPE           =   3
+            TX              =   "&Exibir"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B7C2
+            PICN            =   "Entrada_Consulta_PorProdutosAgrupadas.frx":B7DE
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
       End
    End
    Begin VB.PictureBox picAguarde 
@@ -429,12 +436,12 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       BorderStyle     =   0  'None
       ForeColor       =   &H80000008&
       Height          =   1095
-      Left            =   3600
+      Left            =   3960
       Picture         =   "Entrada_Consulta_PorProdutosAgrupadas.frx":C0B8
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   3
-      Top             =   6660
+      Top             =   5760
       Visible         =   0   'False
       Width           =   2895
    End
@@ -445,10 +452,10 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       Height          =   735
       Left            =   60
       ScaleHeight     =   705
-      ScaleWidth      =   9825
+      ScaleWidth      =   10905
       TabIndex        =   0
       Top             =   60
-      Width           =   9855
+      Width           =   10935
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -485,25 +492,25 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       Height          =   270
       Left            =   0
       TabIndex        =   6
-      Top             =   9570
-      Width           =   10005
-      _ExtentX        =   17648
+      Top             =   9810
+      Width           =   11070
+      _ExtentX        =   19526
       _ExtentY        =   476
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
          NumPanels       =   3
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   13309
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Object.Width           =   15187
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:50"
+            TextSave        =   "14:49"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -522,13 +529,13 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       EndProperty
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   5715
+      Height          =   5955
       Left            =   60
-      TabIndex        =   22
+      TabIndex        =   17
       Top             =   3480
-      Width           =   9855
-      _ExtentX        =   17383
-      _ExtentY        =   10081
+      Width           =   10935
+      _ExtentX        =   19288
+      _ExtentY        =   10504
       _Version        =   393216
       ScrollBars      =   2
       SelectionMode   =   1
@@ -537,13 +544,13 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
    Begin ChamaleonBtn.chameleonButton cmdExibirEntradas 
       Height          =   255
       Left            =   60
-      TabIndex        =   23
-      Top             =   9240
-      Width           =   3315
-      _ExtentX        =   5847
+      TabIndex        =   18
+      Top             =   9480
+      Width           =   2115
+      _ExtentX        =   3731
       _ExtentY        =   450
       BTYPE           =   3
-      TX              =   "MOSTRAR TODAS AS ENTRADAS"
+      TX              =   "MOSTRAR ENTRADAS"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -586,9 +593,9 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
          Strikethrough   =   0   'False
       EndProperty
       Height          =   195
-      Left            =   7440
+      Left            =   8520
       TabIndex        =   5
-      Top             =   9300
+      Top             =   9540
       Visible         =   0   'False
       Width           =   780
    End
@@ -608,9 +615,9 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       EndProperty
       ForeColor       =   &H000000C0&
       Height          =   285
-      Left            =   8280
+      Left            =   9360
       TabIndex        =   4
-      Top             =   9240
+      Top             =   9480
       Width           =   1635
    End
    Begin VB.Label Label3 
@@ -618,7 +625,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       Height          =   255
       Left            =   5700
       TabIndex        =   2
-      Top             =   9240
+      Top             =   9480
       Visible         =   0   'False
       Width           =   1215
    End
@@ -648,17 +655,19 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 4
+      .Cols = 5
       .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 900
-      .ColWidth(2) = 6660
-      .ColWidth(3) = 1000
+      .ColWidth(2) = 1300
+      .ColWidth(3) = 5395
+      .ColWidth(4) = 850
       
       .TextMatrix(0, 1) = "CÓD."
-      .TextMatrix(0, 2) = "DESCRIÇÃO"
-      .TextMatrix(0, 3) = "QTDE"
+      .TextMatrix(0, 2) = "CÓD. BARRA"
+      .TextMatrix(0, 3) = "DESCRIÇÃO"
+      .TextMatrix(0, 4) = "QTDE"
       
       .Redraw = False
       
@@ -683,8 +692,9 @@ DoEvents
       
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("COD_PRODUTO"))
-            .TextMatrix(.rows - 1, 2) = rTabela("DESCRICAO") & " /  " & rTabela("FABRICANTE")
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("VsOMAQUANT"))
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("cod_barra"))
+            .TextMatrix(.rows - 1, 3) = rTabela("DESCRICAO") & " /  " & rTabela("FABRICANTE")
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("VsOMAQUANT"))
             
             rTabela.MoveNext
             .rows = .rows + 1
@@ -694,22 +704,24 @@ DoEvents
       'MUDAR COR DE FONTE DA COLUNA
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 3
+         .Col = 4
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
       
       .rows = .rows - 1
       .Redraw = True
+      .Row = 0
+      .Col = 0
    End With
    
-   lblQtda.Caption = Format(SomaGrid(Grid, 3), ocPESO)
+   lblQtda.Caption = Format(SomaGrid(Grid, 4), ocPESO)
 picAguarde.Visible = False
 End Sub
 Private Sub LimparObjetos_Consulta()
 cboMes.Text = ""
 cboAno.Text = ""
-cboCategoria.Text = ""
+cboDescricao.Text = ""
 End Sub
 
 Private Sub cboAno_GotFocus()
@@ -729,43 +741,77 @@ Next
 moCombo.AttachTo cboAno
 End Sub
 
-Private Sub cboCategoria_GotFocus()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   cboCategoria.Clear
-   
-   sSQL = "SELECT categoria FROM produtos GROUP BY categoria;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   Do While Not r.EOF
-      cboCategoria.AddItem ValidateNull(r("categoria"))
-      r.MoveNext
-   Loop
-   
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-   
-   moCombo.AttachTo cboCategoria
+Private Sub PreencherConsulta()
+cboCriterioSec.AddItem "DESCRIÇÃO"
+cboCriterioSec.AddItem "CÓD. BARRA"
+cboCriterioSec.AddItem "CÓD. PRODUTO"
+cboCriterioSec.AddItem "CATEGORIA"
 End Sub
 
-Private Sub cboCriterioPrinc_Click()
-cboCriterioPrinc_LostFocus
+Private Sub AtualizarCriterioSec()
+If cboCriterioSec.Text = "" Then cboCriterioSec.Text = "DESCRIÇÃO"
+
+lblDescricao.Visible = False
+txtCodBarra.Visible = False
+cboDescricao.Visible = False
+
+If cboCriterioSec.Text = "CÓD. BARRA" Then
+   lblDescricao.Caption = "Cod. Barra:"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = True
+   txtCodBarra.Text = ""
+   cboFormaEntrada.Left = 2520
+   lblFormaEntrada.Left = 2520
+ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" Then
+   lblDescricao.Caption = "Cód. Produto:"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = True
+   txtCodBarra.Text = ""
+   cboFormaEntrada.Left = 2520
+   lblFormaEntrada.Left = 2520
+ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
+   lblDescricao.Caption = "Descrição:"
+   lblDescricao.Visible = True
+   cboDescricao.Visible = True
+   cboFormaEntrada.Left = 6120
+   lblFormaEntrada.Left = 6120
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+   lblDescricao.Caption = "Categoria:"
+   lblDescricao.Visible = True
+   cboDescricao.Visible = True
+   cboFormaEntrada.Left = 6120
+   lblFormaEntrada.Left = 6120
+End If
 End Sub
 
-Private Sub cboCriterioPrinc_GotFocus()
-cboCriterioPrinc.Clear
-cboCriterioPrinc.AddItem "TODOS"
-cboCriterioPrinc.AddItem "MENSAL"
-cboCriterioPrinc.AddItem "PERÍODO"
-cboCriterioPrinc.AddItem "MENSAL/CÓD.BARRA"
-cboCriterioPrinc.AddItem "MENSAL/DESCRIÇÃO"
-cboCriterioPrinc.AddItem "MENSAL/CATEGORIA"
-moCombo.AttachTo cboCriterioPrinc
+Private Sub cboCriterioSec_Click()
+'Não espera perder o foco - exibe os objetos e dá foco na hora que escolhe.
+'SetFocus fica só aqui (não em LostFocus) pra evitar reentrância (erro 5)
+AtualizarCriterioSec
+DoEvents
+If txtCodBarra.Visible Then
+   txtCodBarra.SetFocus
+ElseIf cboDescricao.Visible Then
+   cboDescricao.SetFocus
+End If
 End Sub
 
+Private Sub cboCriterioSec_GotFocus()
+Dim vTexto As String
+vTexto = cboCriterioSec.Text
 
-Private Sub cboCriterioPrinc_LostFocus()
+cboCriterioSec.Clear
+PreencherConsulta
+
+cboCriterioSec.Text = vTexto
+moCombo.AttachTo cboCriterioSec
+End Sub
+
+Private Sub cboCriterioSec_LostFocus()
+AtualizarCriterioSec
+End Sub
+
+Private Sub AtualizarCriterioPrinc()
 If cboCriterioPrinc.Text = "TODOS" Then
    lblMes.Visible = False
    lblAno.Visible = False
@@ -775,12 +821,6 @@ If cboCriterioPrinc.Text = "TODOS" Then
    mskFim.Visible = False
    cboMes.Visible = False
    cboAno.Visible = False
-   lblCodBarra.Visible = False
-   lblDescricao.Visible = False
-   lblCategoria.Visible = False
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = False
-   cboCategoria.Visible = False
 ElseIf cboCriterioPrinc.Text = "MENSAL" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -792,13 +832,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL" Then
    mskFim.Visible = False
    cboMes.Visible = True
    cboAno.Visible = True
-   lblCodBarra.Visible = False
-   lblDescricao.Visible = False
-   lblCategoria.Visible = False
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = False
-   cboCategoria.Visible = False
-   cboMes.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -810,64 +843,35 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
    mskFim.Visible = True
    cboMes.Visible = False
    cboAno.Visible = False
-   lblCodBarra.Visible = False
-   lblDescricao.Visible = False
-   lblCategoria.Visible = False
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = False
-   cboCategoria.Visible = False
-   mskInicio.SetFocus
-ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
-   lblMes.Visible = True
-   lblAno.Visible = True
-    cmdCalendario1.Visible = False
-   cmdCalendario2.Visible = False
-   mskInicio.Visible = False
-   mskFim.Visible = False
-   cboMes.Visible = True
-   cboAno.Visible = True
-   lblCodBarra.Visible = True
-   lblDescricao.Visible = False
-   lblCategoria.Visible = False
-   txtCodBarra.Visible = True
-   cboDescricao.Visible = False
-   cboCategoria.Visible = False
-   txtCodBarra.SetFocus
-ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
-   lblMes.Visible = True
-   lblAno.Visible = True
-   cmdCalendario1.Visible = False
-   cmdCalendario2.Visible = False
-   mskInicio.Visible = False
-   mskFim.Visible = False
-   cboMes.Visible = True
-   cboAno.Visible = True
-   lblCodBarra.Visible = False
-   lblDescricao.Visible = True
-   lblCategoria.Visible = False
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = True
-   cboCategoria.Visible = False
-   cboDescricao.SetFocus
-ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
-   lblMes.Visible = True
-   lblAno.Visible = True
-   cmdCalendario1.Visible = False
-   cmdCalendario2.Visible = False
-   mskInicio.Visible = False
-   mskFim.Visible = False
-   cboMes.Visible = True
-   cboAno.Visible = True
-   lblCodBarra.Visible = False
-   lblDescricao.Visible = False
-   lblCategoria.Visible = True
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = False
-   cboCategoria.Visible = True
-   cboCategoria.SetFocus
 Else
 End If
+End Sub
 
+Private Sub cboCriterioPrinc_Click()
+'Não espera perder o foco - exibe os objetos na hora que escolhe. SetFocus
+'fica só aqui (não em LostFocus) pra evitar reentrância: dar SetFocus tira
+'o foco do combo, o que dispararia o LostFocus de verdade de novo, numa
+'hora ruim (erro 5)
+AtualizarCriterioPrinc
+DoEvents
+If cboMes.Visible Then
+   cboMes.SetFocus
+ElseIf mskInicio.Visible Then
+   mskInicio.SetFocus
+End If
+End Sub
+
+Private Sub cboCriterioPrinc_GotFocus()
+cboCriterioPrinc.Clear
+cboCriterioPrinc.AddItem "TODOS"
+cboCriterioPrinc.AddItem "MENSAL"
+cboCriterioPrinc.AddItem "PERÍODO"
+moCombo.AttachTo cboCriterioPrinc
+End Sub
+
+
+Private Sub cboCriterioPrinc_LostFocus()
+AtualizarCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
@@ -887,13 +891,25 @@ Dim r As ADODB.Recordset
 
 cboDescricao.Clear
 
-sSQL = "SELECT DISTINCT descricao FROM produtos ORDER BY descricao;"
-Set r = dbData.OpenRecordset(sSQL)
+If cboCriterioSec.Text = "DESCRIÇÃO" Then
+   sSQL = "SELECT DISTINCT descricao FROM produtos ORDER BY descricao;"
+   Set r = dbData.OpenRecordset(sSQL)
 
-Do While Not r.EOF
-   cboDescricao.AddItem r("descricao")
-   r.MoveNext
-Loop
+   Do While Not r.EOF
+      cboDescricao.AddItem r("descricao")
+      r.MoveNext
+   Loop
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+   sSQL = "SELECT DISTINCT categoria FROM produtos ORDER BY categoria;"
+   Set r = dbData.OpenRecordset(sSQL)
+
+   Do While Not r.EOF
+      cboDescricao.AddItem ValidateNull(r("categoria"))
+      r.MoveNext
+   Loop
+Else
+   Exit Sub
+End If
 
 If r.State <> 0 Then r.Close
 Set r = Nothing
@@ -933,6 +949,13 @@ End Sub
 
 Private Sub chameleonButton1_Click()
 Dim INDICE As String
+Dim sFormaFiltro As String
+Dim sPeriodoFiltro As String
+Dim sSecFiltro As String
+
+If cboCriterioPrinc.Text = "" Then Exit Sub
+If cboCriterioSec.Text = "" Then Exit Sub
+
 If cboIndice.Text = "QUANT." Then
    INDICE = "SUM(Produtos_Quant.QUANT) DESC;"
 ElseIf cboIndice.Text = "DESCRIÇÃO" Then
@@ -940,53 +963,50 @@ ElseIf cboIndice.Text = "DESCRIÇÃO" Then
 Else
    INDICE = "Produtos.DESCRICAO;"
 End If
-   
-If cboCriterioPrinc.Text = "TODOS" Then
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') " & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-ElseIf cboCriterioPrinc.Text = "MENSAL" Then
-    If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') AND (MONTH(Produtos_Quant.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.data) = " & cboAno & ")" & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
-    If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') AND (Produtos_Quant.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) " & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
-    If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') AND (produtos.cod_barra = '" & txtCodBarra.Text & "') AND (MONTH(Produtos_Quant.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.data) = " & cboAno & ")" & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-'(produtos.cod_barra = '" & txtCodBarra.Text & "')
-ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
-    If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') AND (produtos.descricao = '" & cboDescricao.Text & "') AND (MONTH(Produtos_Quant.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.data) = " & cboAno & ")" & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-'(produtos.descricao = '" & cboDescricao.Text & "')
-ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
-    If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') AND (produtos.categoria = '" & cboCategoria.Text & "') AND (MONTH(Produtos_Quant.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.data) = " & cboAno & ")" & _
-        "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE " & _
-        "ORDER BY " & INDICE
-'(produtos.FABRICANTE = '" & cboDescricao.Text & "')
 
+'Filtro de período (TODOS/MENSAL/PERÍODO)
+sPeriodoFiltro = ""
+If cboCriterioPrinc.Text = "MENSAL" Then
+   If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
+   sPeriodoFiltro = "AND (MONTH(Produtos_Quant.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.data) = " & cboAno & ") "
+ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
+   If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
+   sPeriodoFiltro = "AND (Produtos_Quant.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
 End If
+
+'Filtro por produto (DESCRIÇÃO/CÓD.BARRA/CÓD.PRODUTO/CATEGORIA)
+sSecFiltro = ""
+If cboCriterioSec.Text = "CÓD. BARRA" Then
+   If txtCodBarra.Text = "" Then Exit Sub
+   sSecFiltro = "AND (produtos.cod_barra = '" & txtCodBarra.Text & "') "
+ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" Then
+   If txtCodBarra.Text = "" Or Not IsNumeric(txtCodBarra.Text) Then Exit Sub
+   sSecFiltro = "AND (produtos.CODIGO = " & txtCodBarra.Text & ") "
+ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
+   If cboDescricao.Text = "" Then Exit Sub
+   sSecFiltro = "AND (produtos.descricao = '" & cboDescricao.Text & "') "
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+   If cboDescricao.Text = "" Then Exit Sub
+   sSecFiltro = "AND (produtos.categoria = '" & cboDescricao.Text & "') "
+End If
+
+'Filtro extra por FORMA (TODOS/CADASTRO/ENTRADA/AJUSTE) - independente dos
+'outros dois critérios
+sFormaFiltro = ""
+If cboFormaEntrada.Text = "CADASTRO" Then
+   sFormaFiltro = "AND (Produtos_Quant.FORMA = 'CADASTRO') "
+ElseIf cboFormaEntrada.Text = "ENTRADA" Then
+   sFormaFiltro = "AND (Produtos_Quant.FORMA = 'ENTRADA') "
+ElseIf cboFormaEntrada.Text = "AJUSTE" Then
+   sFormaFiltro = "AND (Produtos_Quant.FORMA = 'AJUSTE') "
+End If
+
+sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE, produtos.cod_barra " & _
+    "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
+    "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') " & sPeriodoFiltro & sSecFiltro & sFormaFiltro & _
+    "GROUP BY Produtos_Quant.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.cod_barra " & _
+    "ORDER BY " & INDICE
+
 Debug.Print sSQL
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
@@ -994,7 +1014,7 @@ FormatarGrid_Produtos r
 
 If r.State <> 0 Then r.Close
 Set r = Nothing
-   
+
 printSQL = sSQL
 
 End Sub
@@ -1042,12 +1062,31 @@ End Sub
 
 
 Private Sub cmdExibirEntradas_Click()
-If Grid.Col = 0 Then Exit Sub
-If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.loadPedidos (Grid.TextMatrix(Grid.Row, 1))
-      'Me.Hide
-      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.Show
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
+If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
+If Val(Grid.TextMatrix(Grid.Row, 1)) = 0 Then Exit Sub
+
+Dim lMes As Integer
+Dim sAno As String
+Dim sDataIni As String
+Dim sDataFim As String
+
+lMes = 0
+sAno = ""
+sDataIni = ""
+sDataFim = ""
+
+If cboCriterioPrinc.Text = "MENSAL" Then
+   lMes = cboMes.ListIndex + 1
+   sAno = cboAno.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
+   sDataIni = mskInicio.Text
+   sDataFim = mskFim.Text
 End If
+
+Entrada_Consulta_PorProdutos.FiltrarPorProdutoEForma Val(Grid.TextMatrix(Grid.Row, 1)), cboFormaEntrada.Text, cboCriterioPrinc.Text, lMes, sAno, sDataIni, sDataFim
+Me.Hide
+Entrada_Consulta_PorProdutos.Show
 End Sub
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
    Dim i As Integer, Valor As Currency
@@ -1067,10 +1106,10 @@ Private Sub cmdImprimir_Click()
 Dim r As ADODB.Recordset
 
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1085,18 +1124,19 @@ If cboCriterioPrinc.Text = "TODOS" Then
 ElseIf cboCriterioPrinc.Text = "MENSAL" Then
     REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL"
     REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/CÓD.BARRA"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "Cód. Barra = " & txtCodBarra.Text & ""
-ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/DESCRIÇÃO"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "PERÍODO"
+    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Intervalo de " & mskInicio.Text & " a " & mskFim.Text
+End If
+
+If cboCriterioSec.Text = "CÓD. BARRA" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CÓD. BARRA = " & txtCodBarra.Text & ""
+ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CÓD. PRODUTO = " & txtCodBarra.Text & ""
+ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
     REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text & ""
-ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/CATEGORIA"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CATEGORIA = " & cboCategoria.Text & ""
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CATEGORIA = " & cboDescricao.Text & ""
 End If
 
 'REL_Cons_Entrada_ProdAgrupado.dfQuant.Caption = lblQtda.Caption
@@ -1133,6 +1173,20 @@ With Grid
    .ColWidth(5) = 0
    .ColWidth(6) = 0
 End With
+
+PreencherConsulta
+cboCriterioSec.ListIndex = 1   'CÓD. BARRA
+
+cboCriterioPrinc.AddItem "TODOS"
+cboCriterioPrinc.AddItem "MENSAL"
+cboCriterioPrinc.AddItem "PERÍODO"
+cboCriterioPrinc.ListIndex = 0   'TODOS
+
+cboFormaEntrada.AddItem "TODOS"
+cboFormaEntrada.AddItem "CADASTRO"
+cboFormaEntrada.AddItem "ENTRADA"
+cboFormaEntrada.AddItem "AJUSTE"
+cboFormaEntrada.ListIndex = 0
 
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 Set moCombo = New cComboHelper

@@ -479,6 +479,47 @@ Begin VB.Form Parcelas_Consulta_Produtos
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label lblDataCompra 
+      Alignment       =   1  'Right Justify
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "NENHUM"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   225
+      Left            =   8520
+      TabIndex        =   28
+      Top             =   5640
+      Width           =   630
+   End
+   Begin VB.Label Label3 
+      Alignment       =   1  'Right Justify
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Compra:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   8550
+      TabIndex        =   27
+      Top             =   5400
+      Width           =   600
+   End
    Begin VB.Label lblRecebedorTit 
       Alignment       =   1  'Right Justify
       AutoSize        =   -1  'True
@@ -496,7 +537,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
       Height          =   225
       Left            =   8220
       TabIndex        =   18
-      Top             =   5460
+      Top             =   5940
       Width           =   945
    End
    Begin VB.Label lblRecebedor 
@@ -517,7 +558,7 @@ Begin VB.Form Parcelas_Consulta_Produtos
       Height          =   225
       Left            =   8520
       TabIndex        =   16
-      Top             =   5700
+      Top             =   6180
       Width           =   630
    End
    Begin VB.Label Label2 
@@ -696,7 +737,7 @@ Call MostrarParcelas
 Call MostrarFuncionario
 
 'pegar os totais
-sSQL = "SELECT SUBTOTAL,TOTAL, ValorDescReal, ValorAcrescReal, ValorFreteReal FROM pedidos WHERE (cod_pedido = " & Pedido & ");"
+sSQL = "SELECT SUBTOTAL,TOTAL, ValorDescReal, ValorAcrescReal, ValorFreteReal, DATA_COMPRA FROM pedidos WHERE (cod_pedido = " & Pedido & ");"
 Set r = dbData.OpenRecordset(sSQL)
 
 If Not r.BOF Then
@@ -710,12 +751,19 @@ If Not r.BOF Then
    'Else
    '   lblTotalDesc.Caption = FormatNumber(r("valor_desc")) & "%"
    'End If
+
+   If IsDate(r("DATA_COMPRA")) Then
+      lblDataCompra.Caption = Format(r("DATA_COMPRA"), "dd/mm/yy")
+   Else
+      lblDataCompra.Caption = "NENHUM"
+   End If
 Else
     lblTotal.Caption = Format(0, ocMONEY)
     lblTotalGeral.Caption = Format(0, ocMONEY)
     lblTotalDesc.Caption = Format(0, ocMONEY)
     lblTotalAcresc.Caption = Format(0, ocMONEY)
     lblTotalFrete.Caption = Format(0, ocMONEY)
+    lblDataCompra.Caption = "NENHUM"
 End If
 
 If r.State <> 0 Then r.Close
@@ -778,7 +826,7 @@ Dim i As Integer
 With grid_Parcelas
    .Clear
    .Cols = 12
-   .Rows = 2
+   .rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 800
@@ -826,23 +874,23 @@ With grid_Parcelas
    'VALOR, JUROS, DESCONTO, parcelas_haver
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-         .TextMatrix(.Rows - 1, 1) = Format(rTabela("DATA"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 2) = FormatNumber(rTabela("VALOR"), 2)
-         .TextMatrix(.Rows - 1, 3) = FormatNumber(rTabela("JUROS"), 2)
-         .TextMatrix(.Rows - 1, 4) = FormatNumber(rTabela("DESCONTO"), 2)
-         .TextMatrix(.Rows - 1, 5) = FormatNumber(rTabela("varSomaHaveres"), 2)
-         .TextMatrix(.Rows - 1, 6) = FormatNumber(rTabela("VALOR_FINAL"), 2)
-         .TextMatrix(.Rows - 1, 7) = rTabela("varSTATUS")
-         .TextMatrix(.Rows - 1, 8) = Format(rTabela("PAGAMENTO"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("FORMA_PGTO"))
-         .TextMatrix(.Rows - 1, 10) = ValidateNull(rTabela("CAIXA"))
-         .TextMatrix(.Rows - 1, 11) = ValidateNull(rTabela("CODCAIXA"))
+         .TextMatrix(.rows - 1, 1) = Format(rTabela("DATA"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 2) = FormatNumber(rTabela("VALOR"), 2)
+         .TextMatrix(.rows - 1, 3) = FormatNumber(rTabela("JUROS"), 2)
+         .TextMatrix(.rows - 1, 4) = FormatNumber(rTabela("DESCONTO"), 2)
+         .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("varSomaHaveres"), 2)
+         .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("VALOR_FINAL"), 2)
+         .TextMatrix(.rows - 1, 7) = rTabela("varSTATUS")
+         .TextMatrix(.rows - 1, 8) = Format(rTabela("PAGAMENTO"), "dd/mm/yy")
+         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("FORMA_PGTO"))
+         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("CAIXA"))
+         .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("CODCAIXA"))
          rTabela.MoveNext
-         .Rows = .Rows + 1
+         .rows = .rows + 1
       Loop
    End If
    
-   .Rows = .Rows - 1
+   .rows = .rows - 1
 End With
 End Sub
 
@@ -858,7 +906,7 @@ Private Sub FormatarGrid_Itens(rTabela As ADODB.Recordset)
    With Grid
       .Clear
       .Cols = 12
-      .Rows = 2
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 900
@@ -904,39 +952,39 @@ Private Sub FormatarGrid_Itens(rTabela As ADODB.Recordset)
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = rTabela("tipo_item")
-            .TextMatrix(.Rows - 1, 2) = ValidateNull(rTabela("var_CodBarra"))
+            .TextMatrix(.rows - 1, 1) = rTabela("tipo_item")
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("var_CodBarra"))
             
             If tipoEmpresa = 4 Then
-            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc") & " /  " & rTabela("var_tam") & " / " & rTabela("var_fab")
+            .TextMatrix(.rows - 1, 3) = rTabela("var_desc") & " /  " & rTabela("var_tam") & " / " & rTabela("var_fab")
             Else
-            .TextMatrix(.Rows - 1, 3) = rTabela("var_desc") & " /  " & ValidateNull(rTabela("var_fab"))
+            .TextMatrix(.rows - 1, 3) = rTabela("var_desc") & " /  " & ValidateNull(rTabela("var_fab"))
             End If
             
-            .TextMatrix(.Rows - 1, 4) = Format(rTabela("preco"), ocMONEY)
-            .TextMatrix(.Rows - 1, 5) = rTabela("quantidade")
-            .TextMatrix(.Rows - 1, 6) = Format(rTabela("var_Subtotal"), ocMONEY)
-            .TextMatrix(.Rows - 1, 7) = Format(rTabela("var_Acresc"), ocMONEY)
-            .TextMatrix(.Rows - 1, 8) = Format(rTabela("var_Frete"), ocMONEY)
-            .TextMatrix(.Rows - 1, 9) = Format(rTabela("desconto"), ocMONEY)
-            .TextMatrix(.Rows - 1, 10) = Format(rTabela("total") + rTabela("var_Acresc") + rTabela("var_Frete"), ocMONEY)
-            .TextMatrix(.Rows - 1, 11) = ValidateNull(rTabela("var_CodProd"))
+            .TextMatrix(.rows - 1, 4) = Format(rTabela("preco"), ocMONEY)
+            .TextMatrix(.rows - 1, 5) = rTabela("quantidade")
+            .TextMatrix(.rows - 1, 6) = Format(rTabela("var_Subtotal"), ocMONEY)
+            .TextMatrix(.rows - 1, 7) = Format(rTabela("var_Acresc"), ocMONEY)
+            .TextMatrix(.rows - 1, 8) = Format(rTabela("var_Frete"), ocMONEY)
+            .TextMatrix(.rows - 1, 9) = Format(rTabela("desconto"), ocMONEY)
+            .TextMatrix(.rows - 1, 10) = Format(rTabela("total") + rTabela("var_Acresc") + rTabela("var_Frete"), ocMONEY)
+            .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("var_CodProd"))
 
             If rTabela("tipo_item") = "SERVIÇO" Then
                Dim j As Integer
                For j = 0 To .Cols - 1
-                  .Row = .Rows - 1
+                  .Row = .rows - 1
                   .Col = j
                   .CellForeColor = &H80&
                Next j
             End If
 
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
          Loop
       End If
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
    End With
 End Sub
 

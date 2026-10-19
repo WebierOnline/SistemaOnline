@@ -7019,6 +7019,8 @@ Private Sub cmdAdicionarPecas_Click()
    Dim Valor As Currency
    Dim Total As Currency
    Dim sSQL As String
+   Dim dQuantAntesPeca As Double
+   Dim lAutoNumPeca As Long
    
    If txtCodPeca.Text = "" Or txtCodOS.Text = "" Or txtCodPedido.Text = "" Then Exit Sub
    If txtQuantPeca.Text = "" Then txtQuantPeca.Text = 1
@@ -7082,7 +7084,15 @@ Private Sub cmdAdicionarPecas_Click()
       "'OFICINA')"
 
    dbData.Execute sSQL
+
+   'Loga a baixa em Produtos_Quant na hora (nao depende da OS fechar/pagar
+   'depois) - FORMA='OFICINA', excluida da fonte VENDA no historico pra nao
+   'contar duas vezes quando essa OS for fechada com pagamento
+   dQuantAntesPeca = Val(SQLExecutaRetorno("SELECT quant_estoque FROM produtos WHERE codigo = " & txtCodPeca.Text, "quant_estoque", "0"))
    dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque - " & Replace(CDbl(txtQuantPeca.Text), ",", ".") & " WHERE (codigo = " & txtCodPeca.Text & ");"
+   lAutoNumPeca = Val(SQLExecutaRetorno("SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant", "cod_itens", "0")) + 1
+   dbData.Execute "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
+      lAutoNumPeca & ", " & txtCodPeca.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'OFICINA', " & Replace(CDbl(txtQuantPeca.Text), ",", ".") & ", 'REMOÇÃO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", " & Replace(CStr(dQuantAntesPeca), ",", ".") & ");"
    
 MostrarGrid_Servicos
 
@@ -7637,7 +7647,7 @@ ElseIf cboTipoOS.Text = "ORÇAMENTO" And cboStatus.Text = "TERMINADO" Then
    dbData.Execute "UPDATE os SET status_os = 0 WHERE (cod_os = " & txtCodOS.Text & ");"
 
    'ATUALIZANDO A TABELA PEDIDOS
-   dbData.Execute "UPDATE pedidos SET tipo_desc = 'P', valor_desc = 0, tipo_acrescimo = 'P', valor_acrescimo = 0, subtotal = " & Replace(CCur(txtTotalPecasServicos.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalPecasServicos.Text), ",", ".") & ", tipo_pagamento = 'À Vista', pagamento = 'AVULSO', entrada = 0, tipo_pedido = 'OFICINA', maquina = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', status_pedido = 1 WHERE (cod_pedido = " & txtCodPedido.Text & ");"
+   dbData.Execute "UPDATE pedidos SET tipo_desc = 'P', valor_desc = 0, tipo_acrescimo = 'P', valor_acrescimo = 0, subtotal = " & Replace(CCur(txtTotalPecasServicos.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalPecasServicos.Text), ",", ".") & ", tipo_pagamento = 'À Vista', pagamento = 'AVULSO', entrada = 0, tipo_pedido = 'OFICINA', maquina = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "', HORA_COMPRA = '" & Format(Now, ocHORA) & "', status_pedido = 1 WHERE (cod_pedido = " & txtCodPedido.Text & ");"
     ', validade = CONVERT(DATETIME, '" & Format(lblValidade.Caption, ocDATA) & "', 103)  'desativei essa parte por causa do campo nao encontrado
    'menu_Impressao_Orcamento_Click
 End If
@@ -7748,6 +7758,14 @@ Form_Load
 End Sub
 
 Private Sub Retorna_Produtos_Estoque()
+'Loga a devolucao em Produtos_Quant (1 linha por produto do pedido, FORMA=
+'OFICINA, TIPO=ADIÇÃO) ANTES do UPDATE em lote abaixo, usando o saldo atual
+'(pre-devolucao) como ESTOQUE
+dbData.Execute "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) " & _
+   "SELECT (SELECT ISNULL(MAX(codigo), 0) FROM Produtos_Quant) + ROW_NUMBER() OVER (ORDER BY pedidos_itens.codigo), " & _
+   "pedidos_itens.cod_produto, CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'OFICINA', pedidos_itens.quantidade, 'ADIÇÃO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", produtos.quant_estoque " & _
+   "FROM pedidos_itens INNER JOIN produtos ON produtos.codigo = pedidos_itens.cod_produto " & _
+   "WHERE (pedidos_itens.cod_pedido = " & codPedido & ") AND (ISNULL(pedidos_itens.tipo_venda,'') = 'OFICINA');"
 dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + pedidos_itens.quantidade " & _
    "FROM produtos INNER JOIN pedidos_itens ON produtos.codigo = pedidos_itens.cod_produto " & _
    "WHERE (pedidos_itens.cod_pedido = " & codPedido & ");"
@@ -8710,6 +8728,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "cod_pedido = " & txtCodPedido.Text & ", " & _
                  "cod_cliente = " & txtCodCliente.Text & ", " & _
                  "data_compra = '" & Format$(Date, "yyyy-dd-MM") & "', " & _
+                 "HORA_COMPRA = '" & Format(Now, ocHORA) & "', " & _
                  "tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', " & _
                  "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
                  "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
@@ -8900,6 +8919,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "cod_pedido = " & txtCodPedido.Text & ", " & _
               "cod_cliente = " & txtCodCliente.Text & ", " & _
               "data_compra = '" & Format$(Date, "yyyy-dd-MM") & "', " & _
+              "HORA_COMPRA = '" & Format(Now, ocHORA) & "', " & _
               "tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', " & _
               "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
               "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
@@ -11508,6 +11528,8 @@ End Sub
 Private Sub cmdRemoverPecas_Click()
 On Error GoTo erro
 i = Grid_Servicos.Row
+Dim dQuantAntesRem As Double
+Dim lAutoNumRem As Long
 
 'CHECAR SE A OS ESTÁ FECHADA
 Verificar_OS_Fechada
@@ -11519,13 +11541,21 @@ If Grid_Servicos.TextMatrix(i, 2) = "SERVIÇO" Then MsgBox "Esse botão só permite
 If ShowMsg("Deseja remover da lista a peça: " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 3) & " ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
+    dQuantAntesRem = Val(SQLExecutaRetorno("SELECT quant_estoque FROM produtos WHERE codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10), "quant_estoque", "0"))
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
     dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
+    lAutoNumRem = Val(SQLExecutaRetorno("SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant", "cod_itens", "0")) + 1
+    dbData.Execute "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
+       lAutoNumRem & ", " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'OFICINA', " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & ", 'ADIÇÃO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", " & Replace(CStr(dQuantAntesRem), ",", ".") & ");"
 ElseIf vTipoOS = "Recapadora" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 12) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+    dQuantAntesRem = Val(SQLExecutaRetorno("SELECT quant_estoque FROM produtos WHERE codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10), "quant_estoque", "0"))
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
     dbData.Execute "UPDATE produtos SET quant_estoque = quant_estoque + " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & " WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ");"
+    lAutoNumRem = Val(SQLExecutaRetorno("SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant", "cod_itens", "0")) + 1
+    dbData.Execute "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
+       lAutoNumRem & ", " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 10) & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'OFICINA', " & Replace(CDbl(Grid_Servicos.TextMatrix(Grid_Servicos.Row, 5)), ",", ".") & ", 'ADIÇÃO', '" & Format(Now, ocHRMN) & "', " & vCodFunc & ", " & Replace(CStr(dQuantAntesRem), ",", ".") & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
     dbData.Execute "DELETE FROM pedidos_itens WHERE (codigo = " & Grid_Servicos.TextMatrix(Grid_Servicos.Row, 9) & ") AND (cod_pedido = " & txtCodPedido.Text & ");"
 End If

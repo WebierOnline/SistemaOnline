@@ -8227,6 +8227,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "cod_pedido = " & txtCodPedido.Text & ", " & _
                  "cod_cliente = " & txtCodCliente.Text & ", " & _
                  "data_compra = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', " & _
+                 "HORA_COMPRA = '" & Format(Now, ocHORA) & "', " & _
                  "tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', " & _
                  "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
                  "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
@@ -8556,6 +8557,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "cod_pedido = " & txtCodPedido.Text & ", " & _
               "cod_cliente = " & txtCodCliente.Text & ", " & _
               "data_compra = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', " & _
+              "HORA_COMPRA = '" & Format(Now, ocHORA) & "', " & _
               "tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', " & _
               "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _
               "ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", " & _
@@ -8889,6 +8891,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
                  "cod_pedido = " & txtCodPedido.Text & ", " & _
                  "cod_cliente = " & txtCodCliente.Text & ", " & _
                  "data_compra = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "', " & _
+                 "HORA_COMPRA = '" & Format(Now, ocHORA) & "', " & _
                  "DATA_ENTREGA = '" & Format$(mskInicio, "yyyy-dd-MM") & "', " & _
                  "tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', " & _
                  "valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", " & _

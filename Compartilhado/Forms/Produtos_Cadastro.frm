@@ -4390,8 +4390,8 @@ If cmdSalvar.Enabled = True Then
    Set r = Nothing
 
    
-   sSQL = "INSERT INTO produtos_quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO) VALUES (" & _
-      AutoNumeracao & ", " & txtCodigo.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'CADASTRO', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", 'ADIÇÃO');"
+   sSQL = "INSERT INTO produtos_quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO) VALUES (" & _
+      AutoNumeracao & ", " & txtCodigo.Text & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'CADASTRO', " & Replace(CDbl(txtQuant.Text), ",", ".") & ", 'ADIÇÃO', '" & Format(Now, ocHORA) & "', " & vCodFunc & ");"
    dbData.Execute sSQL
 End If
 End Sub
@@ -4485,90 +4485,95 @@ Dim x As Integer
 
 With Grid_Quant
    .Clear
-   .Cols = 11
+   .Cols = 10
    .rows = 2
-   
+
    .ColWidth(0) = 0
    .ColWidth(1) = 0
    .ColWidth(2) = 1000
-   .ColWidth(3) = 1000
+   .ColWidth(3) = 900
    .ColWidth(4) = 0
-   .ColWidth(5) = 1500
-   .ColWidth(6) = 1800
-   .ColWidth(7) = 1800
-   .ColWidth(8) = 1000
+   .ColWidth(5) = 1200
+   .ColWidth(6) = 750
+   .ColWidth(7) = 1260
+   .ColWidth(8) = 1260
    .ColWidth(9) = 1000
-   .ColWidth(10) = 2000
+
+   .ColAlignment(2) = 3
+   .ColAlignment(3) = 3
+   .ColAlignment(6) = 3
 
    .TextMatrix(0, 1) = "COD"
    .TextMatrix(0, 2) = "DATA"
    .TextMatrix(0, 3) = "HORA"
    .TextMatrix(0, 4) = "COD_PRODUTO"
-   .TextMatrix(0, 5) = "NOTA FISCAL"
-   .TextMatrix(0, 6) = "TIPO"
-   .TextMatrix(0, 7) = "FORMA"
-   .TextMatrix(0, 8) = "QUANT"
-   .TextMatrix(0, 9) = "USUÁRIO"
-   .TextMatrix(0, 10) = "ESTOQUE NO DIA"
-   
+   .TextMatrix(0, 5) = "USUÁRIO"
+   .TextMatrix(0, 6) = "DOC."
+   .TextMatrix(0, 7) = "TIPO"
+   .TextMatrix(0, 8) = "FORMA"
+   .TextMatrix(0, 9) = "QUANT"
+
    'colocar os cabeçalho em negrito
    For x = 0 To .Cols - 1
       .Col = x
       .Row = 0
       .CellFontBold = True
    Next
-   
+
    'centralizar o titulo
    For j = 0 To .Cols - 1
       .Row = 0
       .Col = j
       .CellAlignment = flexAlignCenterCenter
    Next
-   
+
    .Redraw = False
-   
+
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("Codigo"))
          .TextMatrix(.rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = Format$(rTabela("HORA"), ocHORA)
+         If Trim(ValidateNull(rTabela("HORA"))) = "" Then
+            .TextMatrix(.rows - 1, 3) = ""
+         Else
+            .TextMatrix(.rows - 1, 3) = Format$(rTabela("HORA"), ocHORA)
+         End If
          .TextMatrix(.rows - 1, 4) = rTabela("COD_PRODUTO")
-         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("NumeroNota"))
-         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("TIPO"))
-         .TextMatrix(.rows - 1, 7) = rTabela("FORMA")
-         .TextMatrix(.rows - 1, 8) = rTabela("QUANT")
-         .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("COD_USUARIO"))
-         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("ESTOQUE"))
+         .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("varNomeUsuario"))
+         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("NumeroNota"))
+         .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("TIPO"))
+         .TextMatrix(.rows - 1, 8) = rTabela("FORMA")
+         .TextMatrix(.rows - 1, 9) = rTabela("QUANT")
 
-         
+
          rTabela.MoveNext
          .rows = .rows + 1
       Loop
    End If
-   
-   
+
+
     'Deixar negrito quando vencido
     For i = 1 To .rows - 1
        For j = 0 To .Cols - 1
           .Col = j
           .Row = i
-          
-          If .TextMatrix(i, 5) = "REMOÇÃO" Then
+
+          If .TextMatrix(i, 7) = "REMOÇÃO" Then
              .CellForeColor = vbRed
              .CellFontBold = True
           End If
        Next
     Next
 
-      
+
     'MUDAR COR DE FONTE DA COLUNA
      For i = 1 To .rows - 1
         .Row = i
-        .Col = 7
+        .Col = 8
         .CellBackColor = &HC0FFFF
         .CellFontBold = True
      Next
-   
+
    .Redraw = True
    .rows = .rows - 1
 End With
@@ -6840,19 +6845,31 @@ Private Sub cmdExibirQuant_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-'Monta a consulta básica
-sSQL = "SELECT Produtos_Quant.*, produtos_entrada.* " & _
-       "FROM Produtos_Quant LEFT JOIN produtos_entrada ON Produtos_Quant.cod_entrada = produtos_entrada.codigo "
+'Monta a consulta básica (mesma união de fontes de Mostrar_HistoricoQuant,
+'aqui com filtro adicional de mês/ano)
+sSQL = "SELECT mv.*, funcionario.NOME AS varNomeUsuario FROM (" & _
+   "SELECT Produtos_Quant.codigo AS codigo, Produtos_Quant.Hora AS Hora, Produtos_Quant.DATA AS DATA, " & _
+      "ABS(Produtos_Quant.QUANT) AS QUANT, Produtos_Quant.cod_usuario AS cod_usuario, " & _
+      "Produtos_Quant.TIPO AS TIPO, Produtos_Quant.FORMA AS FORMA, Produtos_Quant.COD_ENTRADA AS COD_ENTRADA, " & _
+      "Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos_entrada.NumeroNota AS NumeroNota " & _
+      "FROM Produtos_Quant LEFT JOIN produtos_entrada ON Produtos_Quant.cod_entrada = produtos_entrada.codigo " & _
+   "UNION ALL " & _
+   "SELECT pedidos_itens.codigo, CASE WHEN pedidos.HORA_COMPRA = '00:00:00' THEN '' ELSE CONVERT(VARCHAR(8), pedidos.HORA_COMPRA) END, pedidos.DATA_COMPRA, pedidos_itens.quantidade, " & _
+      "ISNULL(CONVERT(VARCHAR(10), pedidos.cod_funcionario), ''), " & _
+      "'REMOÇÃO', 'VENDA', 0, pedidos_itens.cod_produto, CONVERT(VARCHAR(20), pedidos_itens.cod_pedido) " & _
+      "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+      "WHERE (pedidos.CANCELADO = 0) AND (pedidos.tipo_pedido <> 'ORÇAMENTO') AND (pedidos.tipo_pagamento IN ('À Vista', 'À prazo')) AND (ISNULL(pedidos_itens.tipo_venda,'') <> 'OFICINA') " & _
+   ") AS mv LEFT JOIN funcionario ON funcionario.CODIGO = mv.cod_usuario "
 
 'Define o filtro
 If txtCodigo.Text = "" Then
    sSQL = sSQL & "WHERE 1 = 0 "
 Else
-   sSQL = sSQL & "WHERE (cod_produto = " & txtCodigo.Text & ") and (MONTH(data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(data) = " & cboAnoCons & ")"
+   sSQL = sSQL & "WHERE (mv.COD_PRODUTO = " & txtCodigo.Text & ") and (MONTH(mv.DATA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(mv.DATA) = " & cboAnoCons & ")"
 End If
 
 'Monta a ordem de exibição
-sSQL = sSQL & "ORDER BY data "
+sSQL = sSQL & "ORDER BY mv.DATA "
 Set r = dbData.OpenRecordset(sSQL)
 
 FormatarGrid_Quant r
@@ -7826,8 +7843,8 @@ Private Sub SomaQuantRemocao()
    soma = 0
    With Grid_Quant
       For i = 1 To .rows - 1
-         If .TextMatrix(i, 6) = "REMOÇÃO" And IsNumeric(.TextMatrix(i, 8)) Then
-            soma = soma + CCur(.TextMatrix(i, 8))
+         If .TextMatrix(i, 7) = "REMOÇÃO" And IsNumeric(.TextMatrix(i, 9)) Then
+            soma = soma + CCur(.TextMatrix(i, 9))
          End If
       Next
    End With
@@ -7844,8 +7861,8 @@ Private Sub SomaQuantAdicao()
    soma = 0
    With Grid_Quant
       For i = 1 To .rows - 1
-         If .TextMatrix(i, 6) = "ADIÇÃO" And IsNumeric(.TextMatrix(i, 8)) Then
-            soma = soma + CCur(.TextMatrix(i, 8))
+         If .TextMatrix(i, 7) = "ADIÇÃO" And IsNumeric(.TextMatrix(i, 9)) Then
+            soma = soma + CCur(.TextMatrix(i, 9))
          End If
       Next
    End With
@@ -7885,19 +7902,35 @@ Private Sub Mostrar_HistoricoQuant()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-'Monta a consulta básica
-sSQL = "SELECT Produtos_Quant.codigo, Produtos_Quant.Hora, Produtos_Quant.DATA, Produtos_Quant.QUANT, Produtos_Quant.cod_usuario, Produtos_Quant.Estoque, Produtos_Quant.TIPO, Produtos_Quant.FORMA, Produtos_Quant.COD_ENTRADA, Produtos_Quant.COD_PRODUTO, produtos_entrada.NumeroNota " & _
-       "FROM Produtos_Quant LEFT JOIN produtos_entrada ON Produtos_Quant.cod_entrada = produtos_entrada.codigo "
+'Monta a consulta básica - une Produtos_Quant (CADASTRO/ENTRADA/AJUSTE/
+'SAÍDA, já logados ali) com VENDA (pedidos/pedidos_itens, que não tem
+'log em Produtos_Quant - mesmo filtro usado em Vendas_Consulta_
+'PorProdutos.frm e em Saida_Consulta_PorProdutos.frm). ABS() no QUANT
+'mantém a convenção já usada aqui (quantidade sempre positiva, TIPO
+'que indica ADIÇÃO/REMOÇÃO)
+sSQL = "SELECT mv.*, funcionario.NOME AS varNomeUsuario FROM (" & _
+   "SELECT Produtos_Quant.codigo AS codigo, Produtos_Quant.Hora AS Hora, Produtos_Quant.DATA AS DATA, " & _
+      "ABS(Produtos_Quant.QUANT) AS QUANT, Produtos_Quant.cod_usuario AS cod_usuario, " & _
+      "Produtos_Quant.TIPO AS TIPO, Produtos_Quant.FORMA AS FORMA, Produtos_Quant.COD_ENTRADA AS COD_ENTRADA, " & _
+      "Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos_entrada.NumeroNota AS NumeroNota " & _
+      "FROM Produtos_Quant LEFT JOIN produtos_entrada ON Produtos_Quant.cod_entrada = produtos_entrada.codigo " & _
+   "UNION ALL " & _
+   "SELECT pedidos_itens.codigo, CASE WHEN pedidos.HORA_COMPRA = '00:00:00' THEN '' ELSE CONVERT(VARCHAR(8), pedidos.HORA_COMPRA) END, pedidos.DATA_COMPRA, pedidos_itens.quantidade, " & _
+      "ISNULL(CONVERT(VARCHAR(10), pedidos.cod_funcionario), ''), " & _
+      "'REMOÇÃO', 'VENDA', 0, pedidos_itens.cod_produto, CONVERT(VARCHAR(20), pedidos_itens.cod_pedido) " & _
+      "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
+      "WHERE (pedidos.CANCELADO = 0) AND (pedidos.tipo_pedido <> 'ORÇAMENTO') AND (pedidos.tipo_pagamento IN ('À Vista', 'À prazo')) AND (ISNULL(pedidos_itens.tipo_venda,'') <> 'OFICINA') " & _
+   ") AS mv LEFT JOIN funcionario ON funcionario.CODIGO = mv.cod_usuario "
 
 'Define o filtro
 If txtCodigo.Text = "" Then
    sSQL = sSQL & "WHERE 1 = 0 "
 Else
-   sSQL = sSQL & "WHERE (cod_produto = " & txtCodigo.Text & ") "
+   sSQL = sSQL & "WHERE (mv.COD_PRODUTO = " & txtCodigo.Text & ") "
 End If
 
 'Monta a ordem de exibição
-sSQL = sSQL & "ORDER BY data, hora "
+sSQL = sSQL & "ORDER BY mv.DATA, mv.Hora "
 Debug.Print sSQL
 Set r = dbData.OpenRecordset(sSQL)
 

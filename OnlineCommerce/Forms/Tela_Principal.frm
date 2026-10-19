@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:03"
+            TextSave        =   "15:29"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1035,11 +1035,15 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_CONS_SaidasPorProdutos 
          Caption         =   "Saídas por Produtos"
-         Enabled         =   0   'False
       End
       Begin VB.Menu Menu_CONS_SaidaPorProdAgrupadas 
          Caption         =   "Saídas por Produtos Agrupados"
-         Enabled         =   0   'False
+      End
+      Begin VB.Menu Menu_CONS_AjustesPorProdutos 
+         Caption         =   "Ajustes por Produtos"
+      End
+      Begin VB.Menu Menu_CONS_HistoricoProduto 
+         Caption         =   "Histórico do Produto (linha do tempo)"
       End
       Begin VB.Menu menuseparar8 
          Caption         =   "-"
@@ -1104,6 +1108,7 @@ Begin VB.MDIForm Tela_Principal
       Caption         =   "Aj&uda"
       Begin VB.Menu menuajudaonline 
          Caption         =   "&Sobre Nós"
+         Enabled         =   0   'False
       End
    End
 End
@@ -1601,6 +1606,10 @@ Private Sub Menu_CONS_EntradaPorProdAgrupadas_Click()
 Entrada_Consulta_PorProdutosAgrupadas.Show
 End Sub
 
+Private Sub Menu_CONS_SaidaPorProdAgrupadas_Click()
+Saida_Consulta_PorProdutosAgrupadas.Show
+End Sub
+
 Private Sub Menu_CONS_EntradaPorProdutos_Click()
 Entrada_Consulta_PorProdutos.Show
 End Sub
@@ -1630,6 +1639,14 @@ End Sub
 
 Private Sub Menu_CONS_SaidasPorProdutos_Click()
 Saida_Consulta_PorProdutos.Show
+End Sub
+
+Private Sub Menu_CONS_AjustesPorProdutos_Click()
+Ajuste_Consulta_PorProdutos.Show
+End Sub
+
+Private Sub Menu_CONS_HistoricoProduto_Click()
+Consulta_HistoricoProduto.Show
 End Sub
 
 Private Sub Menu_CONS_Vendas_Click()
@@ -2040,9 +2057,9 @@ End If
 xCaminhoBK = dirXML & "backup"
 
 'cria a pasta caso não exista
-If Not Existe(xCaminhoBK) Then MkDir xCaminhoBK
+If Not existe(xCaminhoBK) Then MkDir xCaminhoBK
 
-If Not Existe(xCaminhoBK) Then Exit Sub
+If Not existe(xCaminhoBK) Then Exit Sub
 
 nomeArquivoBK = Format(Date, "yyyy-mm-dd") & "__" & rEmpresa!Razao & ".bak"
 DoEvents
@@ -2114,7 +2131,7 @@ If IniciaComponenteCompactacao Then
    'DiretorioDestino = vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMes
    'DiretorioOrigem = nomeArquivoBK  'vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMesNum
      
-   If Not Existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK) Then MsgBox "Não existe o arquivo de BACKUP informado!", vbInformation, "Aviso do Sistema": Exit Function
+   If Not existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK) Then MsgBox "Não existe o arquivo de BACKUP informado!", vbInformation, "Aviso do Sistema": Exit Function
    
    PathToCompress = Transforma(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK)
    
@@ -2287,11 +2304,11 @@ Dim IniciouProcesso As Boolean
         
    xCaminhoBK = dirXML & "backup"
       
-   nomeArquivoBK = Retira(r!CNPJ, ".-/ ", UM_A_UM) & ".rar"
+   nomeArquivoBK = Retira(r!cnpj, ".-/ ", UM_A_UM) & ".rar"
         
    DataHora = Now
         
-   If Not Existe(xCaminhoBK & "\" & nomeArquivoBK) Then
+   If Not existe(xCaminhoBK & "\" & nomeArquivoBK) Then
       MsgBox "Nenhum backup local encontrado para enviar." & vbCrLf & vbCrLf & xCaminhoBK & "\" & nomeArquivoBK, vbExclamation, "Backup Nuvem"
       Exit Sub
    End If

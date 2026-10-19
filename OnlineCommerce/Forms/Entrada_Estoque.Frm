@@ -31,12 +31,11 @@ Begin VB.Form Entrada_Estoque
       _ExtentY        =   17277
       _Version        =   393216
       Tabs            =   2
-      Tab             =   1
       TabsPerRow      =   4
       TabHeight       =   520
       TabCaption(0)   =   "Nota Fiscal"
       TabPicture(0)   =   "Entrada_Estoque.frx":0000
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "frmNota"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "Frame6"
@@ -54,7 +53,7 @@ Begin VB.Form Entrada_Estoque
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "Consulta"
       TabPicture(1)   =   "Entrada_Estoque.frx":001C
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label14"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Label11"
@@ -98,7 +97,7 @@ Begin VB.Form Entrada_Estoque
       Tab(1).ControlCount=   20
       Begin VB.Frame frmProdFracionado 
          Height          =   3675
-         Left            =   -72480
+         Left            =   2520
          TabIndex        =   156
          Top             =   300
          Visible         =   0   'False
@@ -294,7 +293,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin TabDlg.SSTab Tab_Entrada 
          Height          =   3195
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   140
          Top             =   1380
          Width           =   15615
@@ -335,9 +334,9 @@ Begin VB.Form Entrada_Estoque
          TabCaption(2)   =   "Parcelas e Transportes"
          TabPicture(2)   =   "Entrada_Estoque.frx":00A8
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Frame13"
+         Tab(2).Control(0)=   "Frame2"
          Tab(2).Control(1)=   "Frame18"
-         Tab(2).Control(2)=   "Frame2"
+         Tab(2).Control(2)=   "Frame13"
          Tab(2).ControlCount=   3
          Begin VB.Frame Frame13 
             Caption         =   "Informações"
@@ -986,7 +985,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   -61080
+         Left            =   13920
          TabIndex        =   107
          TabStop         =   0   'False
          ToolTipText     =   "Cód do Pedido"
@@ -997,7 +996,7 @@ Begin VB.Form Entrada_Estoque
          Appearance      =   0  'Flat
          Enabled         =   0   'False
          Height          =   285
-         Left            =   -60180
+         Left            =   14820
          TabIndex        =   106
          TabStop         =   0   'False
          ToolTipText     =   "Cód da Nota"
@@ -1016,7 +1015,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5115
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   91
          Top             =   4620
          Width           =   15615
@@ -2495,7 +2494,7 @@ Begin VB.Form Entrada_Estoque
       Begin VB.Frame Frame6 
          Caption         =   "Frame6"
          Height          =   3135
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   66
          Top             =   6120
          Width           =   15
@@ -2803,7 +2802,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1095
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   49
          Top             =   8280
          Width           =   15615
@@ -3180,7 +3179,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   26
          Top             =   360
          Width           =   15615
@@ -3366,7 +3365,7 @@ Begin VB.Form Entrada_Estoque
       End
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   7515
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   32
          Top             =   480
          Width           =   15615
@@ -3391,7 +3390,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   15480
+         Left            =   -59520
          TabIndex        =   135
          Top             =   8040
          Width           =   225
@@ -3409,7 +3408,7 @@ Begin VB.Form Entrada_Estoque
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   65
          Top             =   8040
          Width           =   225
@@ -3419,7 +3418,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Placa"
          Height          =   195
-         Left            =   8700
+         Left            =   -66300
          TabIndex        =   48
          Top             =   2040
          Visible         =   0   'False
@@ -3430,7 +3429,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Numero"
          Height          =   195
-         Left            =   4425
+         Left            =   -70575
          TabIndex        =   47
          Top             =   2700
          Visible         =   0   'False
@@ -3441,7 +3440,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Marca"
          Height          =   195
-         Left            =   3315
+         Left            =   -71685
          TabIndex        =   46
          Top             =   2700
          Visible         =   0   'False
@@ -3452,7 +3451,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Qtde Vol."
          Height          =   195
-         Left            =   1440
+         Left            =   -73560
          TabIndex        =   44
          Top             =   2700
          Visible         =   0   'False
@@ -3463,7 +3462,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso bruto"
          Height          =   195
-         Left            =   5430
+         Left            =   -69570
          TabIndex        =   43
          Top             =   2700
          Visible         =   0   'False
@@ -3474,7 +3473,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Peso liquido"
          Height          =   195
-         Left            =   6375
+         Left            =   -68625
          TabIndex        =   42
          Top             =   2700
          Visible         =   0   'False
@@ -3485,7 +3484,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "UF"
          Height          =   195
-         Left            =   9555
+         Left            =   -65445
          TabIndex        =   41
          Top             =   2040
          Visible         =   0   'False
@@ -3496,7 +3495,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Transportadora"
          Height          =   195
-         Left            =   4680
+         Left            =   -70320
          TabIndex        =   40
          Top             =   2040
          Visible         =   0   'False
@@ -3507,7 +3506,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Fatura"
          Height          =   195
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   38
          Top             =   1200
          Visible         =   0   'False
@@ -3518,7 +3517,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS"
          Height          =   195
-         Left            =   7395
+         Left            =   -67605
          TabIndex        =   37
          Top             =   1440
          Visible         =   0   'False
@@ -3529,7 +3528,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "B. ICMS Sub."
          Height          =   195
-         Left            =   8595
+         Left            =   -66405
          TabIndex        =   36
          Top             =   1440
          Visible         =   0   'False
@@ -3540,7 +3539,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Seguro"
          Height          =   195
-         Left            =   5130
+         Left            =   -69870
          TabIndex        =   35
          Top             =   1440
          Visible         =   0   'False
@@ -3551,7 +3550,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Despesas"
          Height          =   195
-         Left            =   6270
+         Left            =   -68730
          TabIndex        =   34
          Top             =   1440
          Visible         =   0   'False
@@ -3562,7 +3561,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Mensagem"
          Height          =   195
-         Left            =   2460
+         Left            =   -72540
          TabIndex        =   33
          Top             =   1440
          Visible         =   0   'False
@@ -3573,7 +3572,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Especie"
          Height          =   195
-         Left            =   2310
+         Left            =   -72690
          TabIndex        =   45
          Top             =   2700
          Visible         =   0   'False
@@ -3584,7 +3583,7 @@ Begin VB.Form Entrada_Estoque
          BackStyle       =   0  'Transparent
          Caption         =   "Valor do Frete"
          Height          =   195
-         Left            =   10560
+         Left            =   -64440
          TabIndex        =   39
          Top             =   2040
          Visible         =   0   'False

@@ -1,11 +1,11 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Entrada_Consulta_PorProdutos 
    BorderStyle     =   1  'Fixed Single
-   Caption         =   "CONSULTA DE VENDAS"
+   Caption         =   "CONSULTA DE ENTRADAS"
    ClientHeight    =   9780
    ClientLeft      =   45
    ClientTop       =   330
@@ -371,6 +371,24 @@ Begin VB.Form Entrada_Consulta_PorProdutos
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
+         Begin VB.ComboBox cboFormaEntrada 
+            Height          =   315
+            Left            =   3300
+            Style           =   2  'Dropdown List
+            TabIndex        =   43
+            Top             =   480
+            Width           =   1700
+         End
+         Begin VB.Label lblFormaEntrada 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Forma:"
+            Height          =   195
+            Left            =   3300
+            TabIndex        =   42
+            Top             =   240
+            Width           =   420
+         End
          Begin VB.Label lblFim 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
@@ -383,13 +401,14 @@ Begin VB.Form Entrada_Consulta_PorProdutos
             Width           =   720
          End
          Begin VB.Label lblDescricao 
+            AutoSize        =   -1  'True
             Caption         =   "Descrição:"
             Height          =   195
             Left            =   60
             TabIndex        =   29
             Top             =   240
             Visible         =   0   'False
-            Width           =   795
+            Width           =   765
          End
          Begin VB.Label lblInicio 
             AutoSize        =   -1  'True
@@ -505,7 +524,7 @@ Begin VB.Form Entrada_Consulta_PorProdutos
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:18"
+            TextSave        =   "06:21"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -785,6 +804,9 @@ Option Explicit
 
 Private moCombo As cComboHelper
 Private printSQL As String
+'True quando essa tela foi aberta a partir do Entrada_Consulta_PorProdutosAgrupadas
+'(cmdExibirEntradas) - controla se ao fechar volta pra tela agrupada
+Private vAbrirDaAgrupada As Boolean
 
 Dim posX As Single
 
@@ -824,6 +846,7 @@ End Sub
 Private Sub PreencherConsulta()
 cboCriterioSec.AddItem "DESCRIÇÃO"
 cboCriterioSec.AddItem "CÓD. BARRA"
+cboCriterioSec.AddItem "CÓD. PRODUTO"
 cboCriterioSec.AddItem "CATEGORIA"
 End Sub
 
@@ -860,24 +883,7 @@ Private Sub cboAno_KeyPress(KeyAscii As Integer)
    If KeyAscii = 13 Then cmdLocalizar_Click
 End Sub
 
-Private Sub cboCriterioPrinc_Click()
-cboCriterioPrinc_LostFocus
-End Sub
-
-Private Sub cboCriterioPrinc_GotFocus()
-SelectControl cboCriterioPrinc
-Dim vTexto As String
-vTexto = cboCriterioPrinc.Text
-
-cboCriterioPrinc.Clear
-PreencherCriterios
-
-cboCriterioPrinc.Text = vTexto
-moCombo.AttachTo cboCriterioPrinc
-End Sub
-
-
-Private Sub cboCriterioPrinc_LostFocus()
+Private Sub AtualizarCriterioPrinc()
 If cboCriterioPrinc.Text = "TODOS" Then
    lblMes.Visible = False
    lblAno.Visible = False
@@ -900,7 +906,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL" Then
     lblFim.Visible = False
     mskFim.Visible = False
     cmdCalendario2.Visible = False
-    If cboAno.Visible = True Then cboAno.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
     lblMes.Visible = False
     lblAno.Visible = False
@@ -912,9 +917,38 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
     lblFim.Visible = True
     mskFim.Visible = True
     cmdCalendario2.Visible = True
-    mskInicio.SetFocus
 Else
 End If
+End Sub
+
+Private Sub cboCriterioPrinc_Click()
+'Não espera perder o foco - exibe os objetos na hora que escolhe. SetFocus
+'fica só aqui (não em LostFocus), mesmo motivo do cboCriterioSec: evita
+'reentrância (erro 5)
+AtualizarCriterioPrinc
+DoEvents
+If cboAno.Visible Then
+   cboAno.SetFocus
+ElseIf mskInicio.Visible Then
+   mskInicio.SetFocus
+End If
+End Sub
+
+Private Sub cboCriterioPrinc_GotFocus()
+SelectControl cboCriterioPrinc
+Dim vTexto As String
+vTexto = cboCriterioPrinc.Text
+
+cboCriterioPrinc.Clear
+PreencherCriterios
+
+cboCriterioPrinc.Text = vTexto
+moCombo.AttachTo cboCriterioPrinc
+End Sub
+
+
+Private Sub cboCriterioPrinc_LostFocus()
+AtualizarCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
@@ -928,8 +962,54 @@ If cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
 End If
 End Sub
 
+Private Sub AtualizarCriterioSec()
+If cboCriterioSec.Text = "" Then cboCriterioSec.Text = "DESCRIÇÃO"
+
+If cboCriterioSec.Text = "CÓD. BARRA" Then
+   lblDescricao.Caption = "Cód. Barra"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = True
+   txtCodBarra.Text = ""
+   cboDescricao.Visible = False
+   cboFormaEntrada.Left = 3060
+   lblFormaEntrada.Left = 3060
+ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" Then
+   lblDescricao.Caption = "Cód. Produto"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = True
+   txtCodBarra.Text = ""
+   cboDescricao.Visible = False
+   cboFormaEntrada.Left = 3060
+   lblFormaEntrada.Left = 3060
+ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
+   lblDescricao.Caption = "Descrição"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = False
+   cboDescricao.Visible = True
+   cboFormaEntrada.Left = 6120
+   lblFormaEntrada.Left = 6120
+ElseIf cboCriterioSec.Text = "CATEGORIA" Then
+   lblDescricao.Caption = "Categoria"
+   lblDescricao.Visible = True
+   txtCodBarra.Visible = False
+   cboDescricao.Visible = True
+   cboFormaEntrada.Left = 6120
+   lblFormaEntrada.Left = 6120
+End If
+End Sub
+
 Private Sub cboCriterioSec_Click()
-cboCriterioSec_LostFocus
+'Não espera perder o foco - exibe os objetos e dá foco na hora que escolhe.
+'SetFocus fica só aqui (não em LostFocus) pra evitar reentrância: dar
+'SetFocus tira o foco do combo, o que dispararia o LostFocus de verdade de
+'novo, numa hora ruim (erro 5)
+AtualizarCriterioSec
+DoEvents
+If txtCodBarra.Visible Then
+   txtCodBarra.SetFocus
+ElseIf cboDescricao.Visible Then
+   cboDescricao.SetFocus
+End If
 End Sub
 
 Private Sub cboCriterioSec_GotFocus()
@@ -947,27 +1027,7 @@ moCombo.AttachTo cboCriterioSec
 End Sub
 
 Private Sub cboCriterioSec_LostFocus()
-If cboCriterioSec.Text = "" Then cboCriterioSec.Text = "DESCRIÇÃO"
-   
-If cboCriterioSec.Text = "CÓD. BARRA" Then
-   lblDescricao.Caption = "Cód. Barra"
-   lblDescricao.Visible = True
-   txtCodBarra.Visible = True
-   cboDescricao.Visible = False
-   'If txtCodBarra.Visible = True And cboCriterioPrinc.Text <> "" Then txtCodBarra.SetFocus
-ElseIf cboCriterioSec.Text = "DESCRIÇÃO" Then
-   lblDescricao.Caption = "Descrição"
-   lblDescricao.Visible = True
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = True
-   'If cboDescricao.Visible = True And cboCriterioPrinc.Text <> "" Then cboDescricao.SetFocus
-ElseIf cboCriterioSec.Text = "CATEGORIA" Then
-   lblDescricao.Caption = "Categoria"
-   lblDescricao.Visible = True
-   txtCodBarra.Visible = False
-   cboDescricao.Visible = True
-   'If cboDescricao.Visible = True And cboCriterioPrinc.Text <> "" Then cboDescricao.SetFocus
-End If
+AtualizarCriterioSec
 End Sub
 
 Private Sub cboDescricao_GotFocus()
@@ -1089,11 +1149,23 @@ End Sub
 Private Sub cmdExibirPedidos_Click()
 If Grid.Col = 0 Then Exit Sub
 
-If IsNumeric(Grid.TextMatrix(Grid.Row, 4)) = True Then
-    If Grid.TextMatrix(Grid.Row, 4) <> "0000" Then
-      Produtos_Entrada.txtCodigo.Text = (Grid.TextMatrix(Grid.Row, 4))
-      'Me.Hide
-      Produtos_Entrada.Show
+If Grid.TextMatrix(Grid.Row, 7) = "ENTRADA" Then
+    'Veio de nota fiscal - abre direto a nota exata (coluna 5 = vCodEntrada)
+    If IsNumeric(Grid.TextMatrix(Grid.Row, 5)) = True Then
+        If Val(Grid.TextMatrix(Grid.Row, 5)) <> 0 Then
+            Produtos_Entrada.AbrirNotaDireto Val(Grid.TextMatrix(Grid.Row, 5))
+            Produtos_Entrada.Show
+        End If
+    End If
+Else
+    'CADASTRO/AJUSTE - sem nota; abre o histórico de ajuste desse produto.
+    'O codigo do produto esta na coluna oculta 11 (COD_PRODUTO), adicionada
+    'em FormatarGrid_Quant
+    If IsNumeric(Grid.TextMatrix(Grid.Row, 11)) = True Then
+        If Val(Grid.TextMatrix(Grid.Row, 11)) <> 0 Then
+            Ajuste_Consulta_PorProdutos.FiltrarPorProduto Val(Grid.TextMatrix(Grid.Row, 11))
+            Ajuste_Consulta_PorProdutos.Show
+        End If
     End If
 End If
 End Sub
@@ -1114,10 +1186,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1182,8 +1254,8 @@ If cboCriterioSec.Text = "" Then Exit Sub
         INDICE = "produtos.descricao;"
     End If
 
-sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, Produtos_Quant.QUANT, ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, Produtos_Quant.FORMA, Produtos_Quant.COD_ENTRADA, Produtos_Quant.COD_PRODUTO, produtos_entrada.NumeroNota, produtos.descricao, isnull(produtos_entrada.CODIGO,0) AS vCodEntrada " & _
-       "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO LEFT OUTER JOIN produtos_entrada ON Produtos_Quant.COD_ENTRADA = produtos_entrada.CODIGO " & _
+sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, Produtos_Quant.QUANT, ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, Produtos_Quant.FORMA, Produtos_Quant.COD_ENTRADA, Produtos_Quant.COD_PRODUTO, produtos_entrada.NumeroNota, produtos.descricao, isnull(produtos_entrada.CODIGO,0) AS vCodEntrada, funcionario.NOME AS varNomeUsuario " & _
+       "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO LEFT OUTER JOIN produtos_entrada ON Produtos_Quant.COD_ENTRADA = produtos_entrada.CODIGO LEFT JOIN funcionario ON funcionario.CODIGO = Produtos_Quant.cod_usuario " & _
        "WHERE (Produtos_Quant.TIPO <> 'REMOÇÃO') "
     
     If cboCriterioSec.Text = "CÓD. BARRA" And cboCriterioPrinc.Text = "TODOS" Then
@@ -1197,6 +1269,19 @@ sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, 
         If txtCodBarra.Text = "" Then Exit Sub
         If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
         sSQL = sSQL & "AND (Produtos.COD_BARRA = '" & txtCodBarra.Text & "') and (Produtos_Quant.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
+    End If
+    
+    If cboCriterioSec.Text = "CÓD. PRODUTO" And cboCriterioPrinc.Text = "TODOS" Then
+        If txtCodBarra.Text = "" Then Exit Sub
+        sSQL = sSQL & "AND (Produtos.CODIGO = " & txtCodBarra.Text & ")"
+    ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" And cboCriterioPrinc.Text = "MENSAL" Then
+        If txtCodBarra.Text = "" Then Exit Sub
+        If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
+        sSQL = sSQL & "AND (Produtos.CODIGO = " & txtCodBarra.Text & ") and (MONTH(Produtos_Quant.DATA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant.DATA) = " & cboAno & ") "
+    ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" And cboCriterioPrinc.Text = "PERÍODO" Then
+        If txtCodBarra.Text = "" Then Exit Sub
+        If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
+        sSQL = sSQL & "AND (Produtos.CODIGO = " & txtCodBarra.Text & ") and (Produtos_Quant.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
     End If
     
     If cboCriterioSec.Text = "DESCRIÇÃO" And cboCriterioPrinc.Text = "TODOS" Then
@@ -1224,6 +1309,16 @@ sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, 
         If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
         sSQL = sSQL & "AND (Produtos.CATEGORIA = '" & cboDescricao.Text & "') and (Produtos_Quant.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
     End If
+
+    'Filtro extra por FORMA (TODOS/CADASTRO/ENTRADA/AJUSTE) - independente do
+    'filtro por produto
+    If cboFormaEntrada.Text = "CADASTRO" Then
+        sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'CADASTRO') "
+    ElseIf cboFormaEntrada.Text = "ENTRADA" Then
+        sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'ENTRADA') "
+    ElseIf cboFormaEntrada.Text = "AJUSTE" Then
+        sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'AJUSTE') "
+    End If
    
 sSQL = sSQL & " ORDER BY " & INDICE
 
@@ -1247,9 +1342,9 @@ soma = 0
 contar = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 6) = "CADASTRO" Then
+      If .TextMatrix(i, 7) = "CADASTRO" Then
             contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 8))
+            soma = soma + CCur(.TextMatrix(i, 9))
       End If
    Next
 End With
@@ -1261,9 +1356,9 @@ soma = 0
 contar = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 6) = "ENTRADA" Then
+      If .TextMatrix(i, 7) = "ENTRADA" Then
             contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 8))
+            soma = soma + CCur(.TextMatrix(i, 9))
       End If
    Next
 End With
@@ -1275,9 +1370,9 @@ soma = 0
 contar = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 6) = "AJUSTE" Then
+      If .TextMatrix(i, 7) = "AJUSTE" Then
             contar = contar + 1
-            soma = soma + CCur(.TextMatrix(i, 8))
+            soma = soma + CCur(.TextMatrix(i, 9))
       End If
    Next
 End With
@@ -1293,34 +1388,35 @@ Dim i As Integer
 
 With Grid
    .Clear
-   .Cols = 11
+   .Cols = 12
    .rows = 2
    .ColWidth(0) = 0
-   .ColWidth(1) = 1000
-   .ColWidth(2) = 0
-   .ColWidth(3) = 850
-   .ColWidth(4) = 750
+   .ColWidth(1) = 0
+   .ColWidth(2) = 850
+   .ColWidth(3) = 750
+   .ColWidth(4) = 1000
    .ColWidth(5) = 0
-   .ColWidth(6) = 3300
+   .ColWidth(6) = 4455
    .ColWidth(7) = 1100
    .ColWidth(8) = 0
-   .ColWidth(9) = 1200
-   .ColWidth(10) = 1500
+   .ColWidth(9) = 1020
+   .ColWidth(10) = 1200
+   .ColWidth(11) = 0
    
-   .ColAlignment(1) = 3
+   .ColAlignment(1) = 5
    .ColAlignment(2) = 5
-   .ColAlignment(3) = 5
+   .ColAlignment(4) = 3
 
-    .TextMatrix(0, 1) = "USUÁRIO"
-    .TextMatrix(0, 2) = "COD"
-    .TextMatrix(0, 3) = "DATA"
-    .TextMatrix(0, 4) = "HORA"
+    .TextMatrix(0, 1) = "COD"
+    .TextMatrix(0, 2) = "DATA"
+    .TextMatrix(0, 3) = "HORA"
+    .TextMatrix(0, 4) = "USUÁRIO"
     .TextMatrix(0, 5) = "ENTRADA"
     .TextMatrix(0, 6) = "PRODUTO"
     .TextMatrix(0, 7) = "FORMA"
     .TextMatrix(0, 8) = "NOTA FISCAL"
     .TextMatrix(0, 9) = "QUANT"
-    .TextMatrix(0, 10) = "ESTOQUE/DIA"
+    .TextMatrix(0, 10) = "SALDO/DIA"
    
    'colocar os cabeçalho em negrito
    For x = 0 To .Cols - 1
@@ -1340,16 +1436,17 @@ With Grid
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
-        .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("vUsuario"))
-        .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("Codigo"))
-        .TextMatrix(.rows - 1, 3) = Format$(rTabela("Data"), "dd/mm/yy")
-        .TextMatrix(.rows - 1, 4) = Format$(rTabela("HORA"), ocHORA)
+        .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("Codigo"))
+        .TextMatrix(.rows - 1, 2) = Format$(rTabela("Data"), "dd/mm/yy")
+        .TextMatrix(.rows - 1, 3) = Format$(rTabela("HORA"), ocHORA)
+        .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("varNomeUsuario"))
         .TextMatrix(.rows - 1, 5) = rTabela("vCodEntrada")
         .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("DESCRICAO"))
         .TextMatrix(.rows - 1, 7) = rTabela("FORMA")
         .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("NumeroNota"))
         .TextMatrix(.rows - 1, 9) = rTabela("QUANT")
         .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("vQuantEstoque"))
+        .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("COD_PRODUTO"))
          rTabela.MoveNext
          .rows = .rows + 1
       Loop
@@ -1387,6 +1484,38 @@ End Function
 
 
 
+'Chamado de fora (Entrada_Consulta_PorProdutosAgrupadas.frm, cmdExibirEntradas) pra
+'abrir já filtrado no produto + forma + período escolhidos na tela agrupada.
+'Chamar ANTES do .Show. CriterioPrinc = "TODOS"/"MENSAL"/"PERÍODO"; Mes/Ano só
+'valem para MENSAL, DataIni/DataFim só valem para PERÍODO.
+Public Sub FiltrarPorProdutoEForma(ByVal CodProduto As Long, ByVal Forma As String, ByVal CriterioPrinc As String, Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "")
+cboCriterioSec.ListIndex = 2   'CÓD. PRODUTO
+txtCodBarra.Text = CodProduto
+
+If Forma = "" Then
+   cboFormaEntrada.ListIndex = 0   'TODOS
+Else
+   cboFormaEntrada.Text = Forma
+End If
+
+If CriterioPrinc = "MENSAL" Then
+   cboCriterioPrinc.ListIndex = 1   'MENSAL
+   cboMes_GotFocus
+   If Mes >= 1 And Mes <= 12 Then cboMes.ListIndex = Mes - 1
+   cboAno_GotFocus
+   cboAno.Text = Ano
+ElseIf CriterioPrinc = "PERÍODO" Then
+   cboCriterioPrinc.ListIndex = 2   'PERÍODO
+   mskInicio.Text = DataIni
+   mskFim.Text = DataFim
+Else
+   cboCriterioPrinc.ListIndex = 0   'TODOS
+End If
+
+vAbrirDaAgrupada = True
+cmdLocalizar_Click
+End Sub
+
 Private Sub Form_Load()
 Set cCfg = sysConfig("TIPO_EMPRESA")
 tipoEmpresa = cCfg.Value
@@ -1407,6 +1536,12 @@ cboCriterioPrinc.ListIndex = 0
 PreencherIndice
 cboIndice.ListIndex = 0
 
+cboFormaEntrada.AddItem "TODOS"
+cboFormaEntrada.AddItem "CADASTRO"
+cboFormaEntrada.AddItem "ENTRADA"
+cboFormaEntrada.AddItem "AJUSTE"
+cboFormaEntrada.ListIndex = 0
+
 If txtCodBarra.Visible = True Then txtCodBarra.SetFocus
 
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
@@ -1415,6 +1550,10 @@ End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
    Set moCombo = Nothing
+   If vAbrirDaAgrupada Then
+      vAbrirDaAgrupada = False
+      Entrada_Consulta_PorProdutosAgrupadas.Show
+   End If
 End Sub
 
 Private Sub Grid_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)

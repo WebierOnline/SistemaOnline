@@ -586,7 +586,7 @@ Begin VB.Form Consulta_EntradavsSaida
       _ExtentY        =   450
       BTYPE           =   3
       TX              =   "EXIBIR SAÍDAS"
-      ENAB            =   0   'False
+      ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -719,6 +719,8 @@ DoEvents
       Next
       
       .rows = .rows - 1
+      .Row = 0
+      .Col = 0
       .Redraw = True
    End With
    
@@ -772,28 +774,7 @@ Private Sub cboCategoria_GotFocus()
    moCombo.AttachTo cboCategoria
 End Sub
 
-Private Sub cboCriterioPrinc_Click()
-cboCriterioPrinc_LostFocus
-End Sub
-
-Private Sub cboCriterioPrinc_GotFocus()
-cboCriterioPrinc.Clear
-cboCriterioPrinc.AddItem "TODOS"
-cboCriterioPrinc.AddItem "CÓD.BARRA"
-cboCriterioPrinc.AddItem "DESCRIÇÃO"
-cboCriterioPrinc.AddItem "MENSAL"
-cboCriterioPrinc.AddItem "PERÍODO"
-cboCriterioPrinc.AddItem "MENSAL/CÓD.BARRA"
-cboCriterioPrinc.AddItem "MENSAL/DESCRIÇÃO"
-cboCriterioPrinc.AddItem "MENSAL/CATEGORIA"
-cboCriterioPrinc.AddItem "PERÍODO/CÓD.BARRA"
-cboCriterioPrinc.AddItem "PERÍODO/DESCRIÇÃO"
-cboCriterioPrinc.AddItem "PERÍODO/CATEGORIA"
-moCombo.AttachTo cboCriterioPrinc
-End Sub
-
-
-Private Sub cboCriterioPrinc_LostFocus()
+Private Sub AtualizarCriterioPrinc()
 If cboCriterioPrinc.Text = "TODOS" Then
    lblMes.Visible = False
    lblAno.Visible = False
@@ -826,7 +807,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = False
    cboCategoria.Visible = False
-   If cboMes.Visible = True Then cboMes.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -844,7 +824,6 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = False
    cboCategoria.Visible = False
-   mskInicio.SetFocus
 ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -862,7 +841,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
    txtCodBarra.Visible = True
    cboDescricao.Visible = False
    cboCategoria.Visible = False
-   txtCodBarra.SetFocus
 ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -880,7 +858,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = True
    cboCategoria.Visible = False
-   cboDescricao.SetFocus
 ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -898,7 +875,6 @@ ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = False
    cboCategoria.Visible = True
-   cboCategoria.SetFocus
 ElseIf cboCriterioPrinc.Text = "CÓD.BARRA" Then
    lblMes.Visible = False
    lblAno.Visible = False
@@ -914,7 +890,6 @@ ElseIf cboCriterioPrinc.Text = "CÓD.BARRA" Then
    txtCodBarra.Visible = True
    cboDescricao.Visible = False
    cboCategoria.Visible = False
-   txtCodBarra.SetFocus
 ElseIf cboCriterioPrinc.Text = "DESCRIÇÃO" Then
    lblMes.Visible = False
    lblAno.Visible = False
@@ -930,7 +905,6 @@ ElseIf cboCriterioPrinc.Text = "DESCRIÇÃO" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = True
    cboCategoria.Visible = False
-   cboDescricao.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO/CÓD.BARRA" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -948,7 +922,6 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO/CÓD.BARRA" Then
    txtCodBarra.Visible = True
    cboDescricao.Visible = False
    cboCategoria.Visible = False
-   txtCodBarra.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO/DESCRIÇÃO" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -966,7 +939,6 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO/DESCRIÇÃO" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = True
    cboCategoria.Visible = False
-   cboDescricao.SetFocus
 ElseIf cboCriterioPrinc.Text = "PERÍODO/CATEGORIA" Then
    lblMes.Visible = True
    lblAno.Visible = True
@@ -984,11 +956,51 @@ ElseIf cboCriterioPrinc.Text = "PERÍODO/CATEGORIA" Then
    txtCodBarra.Visible = False
    cboDescricao.Visible = False
    cboCategoria.Visible = True
-   cboCategoria.SetFocus
 
 Else
 End If
 
+End Sub
+
+Private Sub cboCriterioPrinc_Click()
+'Não espera perder o foco - exibe os objetos na hora que escolhe. SetFocus
+'fica só aqui (não em LostFocus) pra evitar reentrância: dar SetFocus tira
+'o foco do combo, o que dispararia o LostFocus de verdade de novo, numa
+'hora ruim (erro 5)
+AtualizarCriterioPrinc
+DoEvents
+If txtCodBarra.Visible Then
+   txtCodBarra.SetFocus
+ElseIf cboDescricao.Visible Then
+   cboDescricao.SetFocus
+ElseIf cboCategoria.Visible Then
+   cboCategoria.SetFocus
+ElseIf cboMes.Visible Then
+   cboMes.SetFocus
+ElseIf mskInicio.Visible Then
+   mskInicio.SetFocus
+End If
+End Sub
+
+Private Sub cboCriterioPrinc_GotFocus()
+cboCriterioPrinc.Clear
+cboCriterioPrinc.AddItem "TODOS"
+cboCriterioPrinc.AddItem "CÓD.BARRA"
+cboCriterioPrinc.AddItem "DESCRIÇÃO"
+cboCriterioPrinc.AddItem "MENSAL"
+cboCriterioPrinc.AddItem "PERÍODO"
+cboCriterioPrinc.AddItem "MENSAL/CÓD.BARRA"
+cboCriterioPrinc.AddItem "MENSAL/DESCRIÇÃO"
+cboCriterioPrinc.AddItem "MENSAL/CATEGORIA"
+cboCriterioPrinc.AddItem "PERÍODO/CÓD.BARRA"
+cboCriterioPrinc.AddItem "PERÍODO/DESCRIÇÃO"
+cboCriterioPrinc.AddItem "PERÍODO/CATEGORIA"
+moCombo.AttachTo cboCriterioPrinc
+End Sub
+
+
+Private Sub cboCriterioPrinc_LostFocus()
+AtualizarCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
@@ -1121,9 +1133,9 @@ sSQL = "SELECT DISTINCT C.CODIGO, C.DESCRICAO, C.FABRICANTE, C.COD_BARRA, " & _
        "(SELECT isnull(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant & " " & vCriterio & ") AS vEntradas, " & _
        "(SELECT isnull(SUM(pedidos_itens.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO WHERE (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens & " " & vCriterio & ") AS vVendas, " & _
        "(SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida & " " & vCriterio & ") AS vSaidas, " & _
-       "(SELECT ISNULL(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ") AS vRemocao, " & _
+       "(SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ") AS vRemocao, " & _
        "(SELECT SUM(QUANT) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_1 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant1 & " " & vCriterio & ") -  " & _
-       "((SELECT SUM(pedidos_itens_1.QUANTIDADE) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
+       "((SELECT SUM(pedidos_itens_1.QUANTIDADE) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
        "C.QUANT_ESTOQUE " & _
        "FROM produtos AS C INNER JOIN Produtos_Quant AS Produtos_Quant_2 ON C.CODIGO = Produtos_Quant_2.COD_PRODUTO " & _
        "WHERE (Produtos_Quant_2.TIPO <> 'REMOÇÃO') "
@@ -1228,10 +1240,9 @@ End Sub
 
 
 Private Sub cmdExibirEntradas_Click()
-If Grid.Col = 0 Then Exit Sub
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
       Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.loadPedidos (Grid.TextMatrix(Grid.Row, 1))
-      'Me.Hide
       Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.Show
 End If
 End Sub
@@ -1250,15 +1261,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
 End Function
 
 Private Sub cmdExibirVendas_Click()
-'Vendas_Consulta_PorProdutos
-
-If Grid.Col = 0 Then Exit Sub
-'If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-'      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.loadPedidos (Grid.TextMatrix(Grid.Row, 1))
-'      'Me.Hide
-'      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.Show
-'End If
-
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 
 Vendas_Consulta_PorProdutos.cboCriterioPrinc.Text = "TODOS"
 Vendas_Consulta_PorProdutos.cboTipo.Text = "POR PRODUTOS"
@@ -1266,6 +1269,18 @@ Vendas_Consulta_PorProdutos.cboCriterioSec.Text = "CÓD. BARRA"
 Vendas_Consulta_PorProdutos.txtCodBarra.Text = Grid.TextMatrix(Grid.Row, 9)
 Vendas_Consulta_PorProdutos.cmdLocalizar_Click
 Vendas_Consulta_PorProdutos.Show
+End Sub
+
+'Chamado a partir da linha selecionada no Grid - abre o historico de saida
+'desse produto (coluna 1 = CODIGO)
+Private Sub cmdExibirSaidas_Click()
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
+
+Saida_Consulta_PorProdutos.cboCriterioPrinc.ListIndex = 0   'TODOS
+Saida_Consulta_PorProdutos.cboCriterioSec.ListIndex = 2     'CÓD. PRODUTO
+Saida_Consulta_PorProdutos.txtCodBarra.Text = Grid.TextMatrix(Grid.Row, 1)
+Saida_Consulta_PorProdutos.cmdLocalizar_Click
+Saida_Consulta_PorProdutos.Show
 End Sub
 
 Private Sub cmdImprimir_Click()

@@ -1276,6 +1276,10 @@ End Sub
 
 Private Sub cmdAtualizar_Click()
 Dim i As Integer
+Dim dQuantAntiga As Double
+Dim dQuantNova As Double
+Dim AutoNumeracaoAjuste As Long
+Dim vCodUsuarioLog As String
 
 picAguarde.Visible = True
 DoEvents
@@ -1294,7 +1298,22 @@ If iSemCatTag > 0 Then
 End If
 
     'txtDescricao.Text = TirarEspaco(txtDescricao.Text)
+
+'Prepara o log de ajuste de estoque em produtos_quant (historico/auditoria),
+'igual ao que CADASTRO/ENTRADA ja fazem - antes nao existia pra essa tela
+AutoNumeracaoAjuste = Val(SQLExecutaRetorno("SELECT ISNULL(MAX(codigo), 0) AS cod_itens FROM produtos_quant", "cod_itens", "0"))
+If Trim(lblCodUsuario.Caption) = "" Then
+   vCodUsuarioLog = "0"
+Else
+   vCodUsuarioLog = lblCodUsuario.Caption
+End If
+
 For i = 1 To Grid.rows - 1
+   If Not optMostrarFiscal.Value Then
+      dQuantAntiga = Val(SQLExecutaRetorno("SELECT quant_estoque FROM produtos WHERE codigo = " & Grid.TextMatrix(i, 2), "quant_estoque", "0"))
+      dQuantNova = Val(Replace(Replace(Grid.TextMatrix(i, 10), ".", ""), ",", "."))
+   End If
+
    'Atualiza a tabela de produtos
    sSQL = "UPDATE produtos SET " & _
       "cod_barra = '" & Replace(Trim(Grid.TextMatrix(i, 3)), "'", "''") & "', " & _
@@ -1311,6 +1330,19 @@ For i = 1 To Grid.rows - 1
    End If
    sSQL = sSQL & " WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
    dbData.Execute sSQL
+
+   'Loga o ajuste em produtos_quant (historico) - so quando quant_estoque
+   'realmente mudou; ESTOQUE_FISCAL nao gera log aqui (conceito a parte,
+   'nao faz parte do historico operacional de Cadastro/Entrada/Ajuste)
+   If Not optMostrarFiscal.Value Then
+      If dQuantNova <> dQuantAntiga Then
+         AutoNumeracaoAjuste = AutoNumeracaoAjuste + 1
+         dbData.Execute "INSERT INTO produtos_quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORMA, QUANT, TIPO, HORA, COD_USUARIO, ESTOQUE) VALUES (" & _
+            AutoNumeracaoAjuste & ", " & Grid.TextMatrix(i, 2) & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 0, 'AJUSTE', " & _
+            Replace(CStr(Abs(dQuantNova - dQuantAntiga)), ",", ".") & ", '" & IIf(dQuantNova > dQuantAntiga, "ADIÇÃO", "REMOÇÃO") & "', '" & Format(Now, ocHRMN) & "', " & vCodUsuarioLog & ", " & Replace(CStr(dQuantNova), ",", ".") & ");"
+      End If
+   End If
+
    If Len(Trim(Grid.TextMatrix(i, 8))) > 0 Then
       InserirTagSeNova Grid.TextMatrix(i, 7), Trim(Grid.TextMatrix(i, 8))
    End If

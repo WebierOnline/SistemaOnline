@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "ChamaleonBtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas_Detralhamento 
    BackColor       =   &H00C0FFC0&
    BorderStyle     =   0  'None
@@ -40,6 +40,26 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas_Detralhamento
       TabIndex        =   1
       Top             =   180
       Width           =   10395
+      Begin VB.Label lblProduto 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   270
+         Left            =   1380
+         TabIndex        =   12
+         Top             =   420
+         Width           =   240
+      End
       Begin VB.Label Label33 
          Alignment       =   2  'Center
          AutoSize        =   -1  'True
@@ -58,7 +78,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas_Detralhamento
          Height          =   360
          Left            =   1380
          TabIndex        =   2
-         Top             =   300
+         Top             =   120
          Width           =   4275
       End
       Begin VB.Image Image1 
@@ -116,7 +136,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas_Detralhamento
       _ExtentX        =   4683
       _ExtentY        =   556
       BTYPE           =   3
-      TX              =   "MOSTRAR NOTA FISCAL"
+      TX              =   "MOSTRAR ENTRADAS"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -305,16 +325,21 @@ Dim tipoEmpresa As Integer
 Public Sub loadPedidos(ByVal Pedido As Long)
 Dim sSQL As String
 Dim r As ADODB.Recordset
-Dim r2 As ADODB.Recordset
 
-'sSQL = "SELECT produtos_entrada_itens.CODIGO_ENTRADA, produtos_entrada_itens.descricao, produtos_entrada_itens.quant, produtos_entrada.DATA_ENTRADA, produtos_entrada.HORA_ENTRADA, produtos_entrada.NOTAFISCAL, produtos_entrada.CODIGO AS vCod " & _
-      "FROM  produtos_entrada_itens INNER JOIN produtos_entrada ON produtos_entrada_itens.CODIGO_ENTRADA = produtos_entrada.CODIGO " & _
-      "WHERE (produtos_entrada_itens.CODIGO_PRODUTO = " & Pedido & ")"
+sSQL = "SELECT descricao FROM produtos WHERE (codigo = " & Pedido & ");"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then
+   lblProduto.Caption = "Produto: " & ValidateNull(r("descricao"))
+Else
+   lblProduto.Caption = "Produto: ?"
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
 
-sSQL = "SELECT Codigo AS vCod, COD_PRODUTO, COD_ENTRADA, FORMA, Tipo, QUANT, Data " & _
-      "FROM  Produtos_Quant " & _
-      "WHERE (COD_PRODUTO = " & Pedido & ") " & _
-      "ORDER BY data"
+sSQL = "SELECT Produtos_Quant.Codigo AS vCod, Produtos_Quant.Hora AS vHora, Produtos_Quant.COD_PRODUTO, Produtos_Quant.COD_ENTRADA, Produtos_Quant.FORMA, Produtos_Quant.Tipo, Produtos_Quant.QUANT, Produtos_Quant.Data, ISNULL(funcionario.NOME, '') AS varNomeUsuario " & _
+      "FROM Produtos_Quant LEFT JOIN funcionario ON funcionario.CODIGO = Produtos_Quant.cod_usuario " & _
+      "WHERE (Produtos_Quant.COD_PRODUTO = " & Pedido & ") " & _
+      "ORDER BY Produtos_Quant.data"
 
 Set r = dbData.OpenRecordset(sSQL)
 
@@ -325,13 +350,26 @@ Set r = Nothing
 End Sub
 
 Private Sub cmdExibirNota_Click()
-If Grid.Col = 0 Then Exit Sub
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 
-If IsNumeric(Grid.TextMatrix(Grid.Row, 4)) = True Then
-    If Grid.TextMatrix(Grid.Row, 4) <> "0000" Then
-      Produtos_Entrada.txtCodigo.Text = (Grid.TextMatrix(Grid.Row, 4))
-      Me.Hide
-      Produtos_Entrada.Show
+If Grid.TextMatrix(Grid.Row, 7) = "ENTRADA" Then
+    'Veio de nota fiscal - abre direto a nota exata (coluna 6 = COD_ENTRADA)
+    If IsNumeric(Grid.TextMatrix(Grid.Row, 6)) = True Then
+        If Grid.TextMatrix(Grid.Row, 6) <> "0000" Then
+            Produtos_Entrada.AbrirNotaDireto Val(Grid.TextMatrix(Grid.Row, 6))
+            Me.Hide
+            Produtos_Entrada.Show
+        End If
+    End If
+Else
+    'CADASTRO/AJUSTE - sem nota; abre o historico de ajuste desse produto
+    '(coluna 5 = COD_PRODUTO)
+    If IsNumeric(Grid.TextMatrix(Grid.Row, 5)) = True Then
+        If Grid.TextMatrix(Grid.Row, 5) <> "0000" Then
+            Ajuste_Consulta_PorProdutos.FiltrarPorProduto Val(Grid.TextMatrix(Grid.Row, 5))
+            Me.Hide
+            Ajuste_Consulta_PorProdutos.Show
+        End If
     End If
 End If
 End Sub
@@ -344,54 +382,65 @@ Dim i As Integer
 
 With Grid
    .Clear
-   .Cols = 8
+   .Cols = 10
    .Rows = 2
-   
+
    .ColWidth(0) = 150
    .ColWidth(1) = 0
    .ColWidth(2) = 800
-   .ColWidth(3) = 0
-   .ColWidth(4) = 1000
-   .ColWidth(5) = 1220
-   .ColWidth(6) = 2000
+   .ColWidth(3) = 700
+   .ColWidth(4) = 1300
+   .ColWidth(5) = 0
+   .ColWidth(6) = 0
    .ColWidth(7) = 1220
-   
+   .ColWidth(8) = 1000
+   .ColWidth(9) = 1220
+
    .TextMatrix(0, 1) = "CÓD."
    .TextMatrix(0, 2) = "DATA"
-   .TextMatrix(0, 3) = "CÓD.PROD"
-   .TextMatrix(0, 4) = "CÓD. ENT."
-   .TextMatrix(0, 5) = "FORMA"
-   .TextMatrix(0, 6) = "TIPO"
-   .TextMatrix(0, 7) = "QUANT."
+   .TextMatrix(0, 3) = "HORA"
+   .TextMatrix(0, 4) = "USUÁRIO"
+   .TextMatrix(0, 7) = "FORMA"
+   .TextMatrix(0, 8) = "TIPO"
+   .TextMatrix(0, 9) = "QUANT."
    .Redraw = False
-   
+
    'colocar os cabeçalho em negrito
    For i = 0 To .Cols - 1
       .Col = i
       .Row = 0
       .CellFontBold = True
    Next i
-   
+
    .ColAlignment(1) = 3
    .ColAlignment(2) = 3
+   .ColAlignment(3) = 3
    i = 1
-   
+
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          .TextMatrix(.Rows - 1, 1) = Format(rTabela("VCOD"), "00000")
          .TextMatrix(.Rows - 1, 2) = Format(rTabela("Data"), "dd/mm/yy")
-         .TextMatrix(.Rows - 1, 3) = Format(rTabela("COD_PRODUTO"), "0000")
-         .TextMatrix(.Rows - 1, 4) = Format(rTabela("COD_ENTRADA"), "0000")
-         .TextMatrix(.Rows - 1, 5) = rTabela("FORMA")
-         .TextMatrix(.Rows - 1, 6) = rTabela("TIPO")
-         .TextMatrix(.Rows - 1, 7) = rTabela("QUANT")
-         
+         If Trim(ValidateNull(rTabela("vHora"))) = "" Then
+            .TextMatrix(.Rows - 1, 3) = ""
+         ElseIf Format(rTabela("vHora"), "hh:mm:ss") = "00:00:00" Then
+            .TextMatrix(.Rows - 1, 3) = ""
+         Else
+            .TextMatrix(.Rows - 1, 3) = Format(rTabela("vHora"), "hh:mm:ss")
+         End If
+         .TextMatrix(.Rows - 1, 4) = ValidateNull(rTabela("varNomeUsuario"))
+         .TextMatrix(.Rows - 1, 5) = Format(rTabela("COD_PRODUTO"), "0000")
+         .TextMatrix(.Rows - 1, 6) = Format(rTabela("COD_ENTRADA"), "0000")
+         .TextMatrix(.Rows - 1, 7) = rTabela("FORMA")
+         .TextMatrix(.Rows - 1, 8) = rTabela("TIPO")
+         .TextMatrix(.Rows - 1, 9) = rTabela("QUANT")
+
          rTabela.MoveNext
          .Rows = .Rows + 1
          i = i + 1
       Loop
    End If
-   
+
    'MUDAR COR DE FONTE DA COLUNA
    'For i = 1 To .Rows - 1
    '   .Row = i
@@ -399,42 +448,44 @@ With Grid
    '   .CellForeColor = &HC0&
    '   .CellFontBold = True
    'Next
-   
+
    'MUDAR COR DE FONTE DA COLUNA
    For i = 1 To .Rows - 1
       .Row = i
-      .Col = 7
+      .Col = 9
       .CellForeColor = &H8000&
       .CellFontBold = True
    Next
-   
+
     Dim j As Integer
     For i = 1 To .Rows - 1
        For j = 0 To .Cols - 1
           .Col = j
           .Row = i
-        
-          If .TextMatrix(i, 6) = "REMOÇÃO" Then
+
+          If .TextMatrix(i, 8) = "REMOÇÃO" Then
              .CellForeColor = vbRed
           Else
              .CellForeColor = vbBlack
           End If
-          
+
        Next
     Next
-   
+
    .Rows = .Rows - 1
+   .Row = 0
+   .Col = 0
    Grid.Redraw = True
 End With
 
 SomaTotais
-'lblTotalGeral.Caption = SomaGrid(Grid, 7)
+'lblTotalGeral.Caption = SomaGrid(Grid, 9)
 End Sub
 Public Function SomaGrid(Grid As MSFlexGrid, Col As Integer) As Currency
 Dim i As Integer, Valor As Currency
 
 Valor = 0
-For i = 0 To Grid.Rows - 1
+For i = 0 To Grid.rows - 1
    If IsNumeric(Grid.TextMatrix(i, Col)) Then
       Valor = Valor + CCur(Grid.TextMatrix(i, Col))
    End If
@@ -450,9 +501,9 @@ Dim i As Integer
 soma = 0
 QUANT = 0
 With Grid
-   For i = 1 To .Rows - 1
-      If .TextMatrix(i, 6) = "ADIÇÃO" Then
-         soma = soma + CCur(.TextMatrix(i, 7))
+   For i = 1 To .rows - 1
+      If .TextMatrix(i, 8) = "ADIÇÃO" Then
+         soma = soma + CCur(.TextMatrix(i, 9))
          QUANT = QUANT + 1
       End If
    Next
@@ -465,9 +516,9 @@ soma = 0
 QUANT = 0
 
 With Grid
-   For i = 1 To .Rows - 1
-      If .TextMatrix(i, 6) = "REMOÇÃO" Then
-         soma = soma + CCur(.TextMatrix(i, 7))
+   For i = 1 To .rows - 1
+      If .TextMatrix(i, 8) = "REMOÇÃO" Then
+         soma = soma + CCur(.TextMatrix(i, 9))
          QUANT = QUANT + 1
       End If
    Next

@@ -116,3 +116,5 @@
 116|CreateTables_OS_Base.sql|OS
 117|CreateTables_Licenca_Online.sql|GERAL
 118|AlterTable_Pedidos_AddDataEntrega.sql|GERAL
+119|AlterTable_Pedidos_AddHoraCompra.sql|GERAL
+120|AlterTable_ProdutosSaida_AddHora.sql|GERAL

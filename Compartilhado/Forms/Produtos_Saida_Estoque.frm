@@ -1,8 +1,8 @@
 VERSION 5.00
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Produtos_Saida_Estoque 
    BorderStyle     =   4  'Fixed ToolWindow
@@ -28,6 +28,7 @@ Begin VB.Form Produtos_Saida_Estoque
       _ExtentX        =   20558
       _ExtentY        =   11456
       _Version        =   393216
+      Tab             =   2
       TabHeight       =   520
       TabMaxWidth     =   3528
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -41,36 +42,41 @@ Begin VB.Form Produtos_Saida_Estoque
       EndProperty
       TabCaption(0)   =   "SAÍDA"
       TabPicture(0)   =   "Produtos_Saida_Estoque.frx":23D2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdNovo"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdExcluir"
       Tab(0).Control(1).Enabled=   0   'False
       Tab(0).Control(2)=   "cmdCancelar"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "cmdAlterar"
+      Tab(0).Control(3)=   "cmdSalvar"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "cmdSalvar"
+      Tab(0).Control(4)=   "cmdSair"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cmdSair"
+      Tab(0).Control(5)=   "frmCadastro"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "frmCadastro"
-      Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).ControlCount=   7
+      Tab(0).ControlCount=   6
       TabCaption(1)   =   "HISTÓRICO"
       TabPicture(1)   =   "Produtos_Saida_Estoque.frx":23EE
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Grid_Historico"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Produtos_Saida_Estoque.frx":240A
-      Tab(2).ControlEnabled=   0   'False
+      Tab(2).ControlEnabled=   -1  'True
       Tab(2).Control(0)=   "cmdImprimir"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdExibir"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Grid_Consulta"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "Frame2"
+      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "Frame8"
+      Tab(2).Control(4).Enabled=   0   'False
       Tab(2).Control(5)=   "Frame9"
+      Tab(2).Control(5).Enabled=   0   'False
       Tab(2).ControlCount=   6
       Begin VB.Frame frmCadastro 
          Caption         =   "Cadastro"
@@ -86,7 +92,7 @@ Begin VB.Form Produtos_Saida_Estoque
          EndProperty
          ForeColor       =   &H00000080&
          Height          =   5955
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   37
          Top             =   420
          Width           =   9555
@@ -212,7 +218,7 @@ Begin VB.Form Produtos_Saida_Estoque
             Caption         =   "Funcionário"
             Height          =   195
             Left            =   120
-            TabIndex        =   47
+            TabIndex        =   10
             Top             =   360
             Width           =   825
          End
@@ -222,7 +228,7 @@ Begin VB.Form Produtos_Saida_Estoque
             Caption         =   "Cód. de Barra"
             Height          =   195
             Left            =   3120
-            TabIndex        =   46
+            TabIndex        =   23
             Top             =   360
             Width           =   975
          End
@@ -232,7 +238,7 @@ Begin VB.Form Produtos_Saida_Estoque
             Caption         =   "Produto"
             Height          =   195
             Left            =   4860
-            TabIndex        =   45
+            TabIndex        =   24
             Top             =   360
             Width           =   555
          End
@@ -242,7 +248,7 @@ Begin VB.Form Produtos_Saida_Estoque
             Caption         =   "Atual"
             Height          =   195
             Left            =   120
-            TabIndex        =   44
+            TabIndex        =   27
             Top             =   1080
             Width           =   360
          End
@@ -290,78 +296,17 @@ Begin VB.Form Produtos_Saida_Estoque
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1095
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   25
          Top             =   420
          Width           =   1695
-         Begin VB.OptionButton optTodos 
-            Caption         =   "Todos"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
+         Begin VB.ComboBox cboCriterioConsulta 
+            Height          =   315
             Left            =   120
-            TabIndex        =   29
-            Top             =   300
-            Value           =   -1  'True
-            Width           =   915
-         End
-         Begin VB.OptionButton optCodBarra 
-            Caption         =   "Cód. de Barra"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
-            TabIndex        =   28
-            Top             =   480
-            Width           =   1515
-         End
-         Begin VB.OptionButton optProduto 
-            Caption         =   "Produto"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
-            TabIndex        =   27
-            Top             =   660
-            Width           =   1095
-         End
-         Begin VB.OptionButton optMensal 
-            Caption         =   "Mensal"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
+            Style           =   2  'Dropdown List
             TabIndex        =   26
-            Top             =   840
-            Width           =   1395
+            Top             =   480
+            Width           =   1455
          End
       End
       Begin VB.Frame Frame8 
@@ -377,61 +322,17 @@ Begin VB.Form Produtos_Saida_Estoque
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1095
-         Left            =   -73140
+         Left            =   1860
          TabIndex        =   21
          Top             =   420
          Width           =   1515
-         Begin VB.OptionButton optOrdData 
-            Caption         =   "Data"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
+         Begin VB.ComboBox cboOrdemConsulta 
+            Height          =   315
             Left            =   120
-            TabIndex        =   24
-            Top             =   300
-            Value           =   -1  'True
-            Width           =   855
-         End
-         Begin VB.OptionButton optOrdProduto 
-            Caption         =   "Produto"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
-            TabIndex        =   23
-            Top             =   480
-            Width           =   1095
-         End
-         Begin VB.OptionButton optVOrdFunc 
-            Caption         =   "Funcionário"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   120
+            Style           =   2  'Dropdown List
             TabIndex        =   22
-            Top             =   660
-            Width           =   1335
+            Top             =   480
+            Width           =   1275
          End
       End
       Begin VB.Frame Frame2 
@@ -447,14 +348,14 @@ Begin VB.Form Produtos_Saida_Estoque
          EndProperty
          ForeColor       =   &H000000C0&
          Height          =   1095
-         Left            =   -71580
+         Left            =   3420
          TabIndex        =   18
          Top             =   420
          Width           =   4695
          Begin VB.TextBox txtCodBarraConsulta 
             Height          =   315
             Left            =   120
-            TabIndex        =   48
+            TabIndex        =   28
             Top             =   540
             Visible         =   0   'False
             Width           =   3855
@@ -481,11 +382,11 @@ Begin VB.Form Produtos_Saida_Estoque
          Begin VB.TextBox txtCodProdConsulta 
             Appearance      =   0  'Flat
             Height          =   285
-            Left            =   3900
+            Left            =   120
             TabIndex        =   32
-            Top             =   180
+            Top             =   540
             Visible         =   0   'False
-            Width           =   555
+            Width           =   1500
          End
          Begin VB.ComboBox cboConsulta 
             Height          =   315
@@ -518,7 +419,7 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_Consulta 
          Height          =   4575
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   16
          Top             =   1560
          Width           =   11535
@@ -530,22 +431,23 @@ Begin VB.Form Produtos_Saida_Estoque
          Appearance      =   0
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_Historico 
-         Height          =   4395
+         Height          =   5475
          Left            =   -74940
          TabIndex        =   17
          Top             =   480
-         Width           =   8415
-         _ExtentX        =   14843
-         _ExtentY        =   7752
+         Width           =   11475
+         _ExtentX        =   20241
+         _ExtentY        =   9657
          _Version        =   393216
          ScrollBars      =   2
          SelectionMode   =   1
+         Appearance      =   0
       End
       Begin ChamaleonBtn.chameleonButton cmdSair 
          Height          =   615
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   12
-         Top             =   3720
+         Top             =   3060
          Width           =   1815
          _ExtentX        =   3201
          _ExtentY        =   1085
@@ -570,7 +472,6 @@ Begin VB.Form Produtos_Saida_Estoque
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Produtos_Saida_Estoque.frx":6AEC
-         PICN            =   "Produtos_Saida_Estoque.frx":6B08
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -582,14 +483,14 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   8
          Top             =   1080
          Width           =   1815
          _ExtentX        =   3201
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   ""
+         TX              =   "Salvar"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -608,8 +509,7 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":6E22
-         PICN            =   "Produtos_Saida_Estoque.frx":6E3E
+         MICON           =   "Produtos_Saida_Estoque.frx":6B08
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -619,55 +519,16 @@ Begin VB.Form Produtos_Saida_Estoque
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdAlterar 
-         Height          =   615
-         Left            =   9720
-         TabIndex        =   10
-         Top             =   2400
-         Width           =   1815
-         _ExtentX        =   3201
-         _ExtentY        =   1085
-         BTYPE           =   3
-         TX              =   "&Alterar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":D708
-         PICN            =   "Produtos_Saida_Estoque.frx":D724
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   9
          Top             =   1740
          Width           =   1815
          _ExtentX        =   3201
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   ""
+         TX              =   "Cancelar"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -686,8 +547,7 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":DFFE
-         PICN            =   "Produtos_Saida_Estoque.frx":E01A
+         MICON           =   "Produtos_Saida_Estoque.frx":6B24
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -699,15 +559,15 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   11
-         Top             =   3060
+         Top             =   2400
          Width           =   1815
          _ExtentX        =   3201
          _ExtentY        =   1085
          BTYPE           =   3
          TX              =   "&Excluir"
-         ENAB            =   -1  'True
+         ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -725,8 +585,7 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":14ABE
-         PICN            =   "Produtos_Saida_Estoque.frx":14ADA
+         MICON           =   "Produtos_Saida_Estoque.frx":6B40
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -738,7 +597,7 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   9720
+         Left            =   -65280
          TabIndex        =   0
          Top             =   420
          Width           =   1815
@@ -764,8 +623,7 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":14DF4
-         PICN            =   "Produtos_Saida_Estoque.frx":14E10
+         MICON           =   "Produtos_Saida_Estoque.frx":6B5C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -777,7 +635,7 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdExibir 
          Height          =   675
-         Left            =   -66780
+         Left            =   8220
          TabIndex        =   30
          Top             =   540
          Width           =   1515
@@ -803,8 +661,8 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":15AEA
-         PICN            =   "Produtos_Saida_Estoque.frx":15B06
+         MICON           =   "Produtos_Saida_Estoque.frx":6B78
+         PICN            =   "Produtos_Saida_Estoque.frx":6B94
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -816,7 +674,7 @@ Begin VB.Form Produtos_Saida_Estoque
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   675
-         Left            =   -65220
+         Left            =   9780
          TabIndex        =   31
          Top             =   540
          Width           =   1515
@@ -842,8 +700,8 @@ Begin VB.Form Produtos_Saida_Estoque
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Produtos_Saida_Estoque.frx":163E0
-         PICN            =   "Produtos_Saida_Estoque.frx":163FC
+         MICON           =   "Produtos_Saida_Estoque.frx":746E
+         PICN            =   "Produtos_Saida_Estoque.frx":748A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -870,7 +728,7 @@ Begin VB.Form Produtos_Saida_Estoque
          BorderStyle     =   0  'None
          Height          =   285
          Left            =   10740
-         TabIndex        =   49
+         TabIndex        =   29
          Top             =   180
          Visible         =   0   'False
          Width           =   735
@@ -878,7 +736,7 @@ Begin VB.Form Produtos_Saida_Estoque
       Begin VB.Image Image1 
          Height          =   645
          Left            =   300
-         Picture         =   "Produtos_Saida_Estoque.frx":16716
+         Picture         =   "Produtos_Saida_Estoque.frx":77A4
          Top             =   0
          Width           =   735
       End
@@ -921,15 +779,15 @@ Begin VB.Form Produtos_Saida_Estoque
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   16431
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "16:42"
+            TextSave        =   "10:48"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -965,28 +823,12 @@ Dim sSQL As String
 
 'Comando de inclusão
 sSQL = "INSERT INTO produtos_saida (" & _
-   "codigo, cod_produto, data, saida, motivo, cod_funcionario, excluido) VALUES (" & _
+   "codigo, cod_produto, data, saida, motivo, cod_funcionario, excluido, HORA) VALUES (" & _
    txtCodigo.Text & ", " & txtCodProduto.Text & ", CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), " & _
-   Replace(CDbl(txtSaida.Text), ",", ".") & ", '" & cboMotivo.Text & "', " & vCodFunc & ", 0);"
+   Replace(CDbl(txtSaida.Text), ",", ".") & ", '" & cboMotivo.Text & "', " & vCodFunc & ", 0, '" & Format(Now, ocHORA) & "');"
 
 'Retorna o resultado da inclusão
 Inserir_Dados = dbData.Execute(sSQL)
-End Function
-
-Private Function Atualizar_Dados() As Boolean
- 'Comando de atualização
-sSQL = "UPDATE produtos_saida SET " & _
-   "cod_produto = " & txtCodProduto.Text & ", " & _
-   "data = CONVERT(DATETIME, '" & Format$(mskData.Text, ocDATA) & "', 103), " & _
-   "motivo = '" & cboMotivo.Text & "', " & _
-   "cod_funcionario = " & vCodFunc
-'   "saida = " & Replace(CDbl(txtSaida.Text), ",", ".") & ", " & _
-
-'Condição para atualização
-sSQL = sSQL & " WHERE (codigo = " & txtCodigo.Text & ");"
-
-'Retorna o resultado da atualização
-Atualizar_Dados = dbData.Execute(sSQL)
 End Function
 
 Private Sub Auto_Numeracao()
@@ -1008,19 +850,20 @@ Private Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
    
    With Grid_Consulta
       .Clear
-      .Cols = 10
-      .Rows = 2
+      .Cols = 11
+      .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 0
       .ColWidth(2) = 0
       .ColWidth(3) = 800
-      .ColWidth(4) = 5300
-      .ColWidth(5) = 700
-      .ColWidth(6) = 2100
-      .ColWidth(7) = 0
-      .ColWidth(8) = 1400
-      .ColWidth(9) = 1000
+      .ColWidth(4) = 700
+      .ColWidth(5) = 1071
+      .ColWidth(6) = 5300
+      .ColWidth(7) = 700
+      .ColWidth(8) = 2100
+      .ColWidth(9) = 0
+      .ColWidth(10) = 1000
       
       For x = 0 To .Cols - 1
          .Col = x
@@ -1031,59 +874,54 @@ Private Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
       .TextMatrix(0, 1) = "COD"
       .TextMatrix(0, 2) = "COD.PROD"
       .TextMatrix(0, 3) = "DATA"
-      .TextMatrix(0, 4) = "PRODUTO"
-      .TextMatrix(0, 5) = "SAIDA"
-      .TextMatrix(0, 6) = "MOTIVO"
-      .TextMatrix(0, 7) = "COD.FUNC"
-      .TextMatrix(0, 8) = "FUNCIONÁRIO"
-      .TextMatrix(0, 9) = "EXCLUIDO"
+      .TextMatrix(0, 4) = "HORA"
+      .TextMatrix(0, 5) = "USUÁRIO"
+      .TextMatrix(0, 6) = "PRODUTO"
+      .TextMatrix(0, 7) = "SAIDA"
+      .TextMatrix(0, 8) = "MOTIVO"
+      .TextMatrix(0, 9) = "COD.FUNC"
+      .TextMatrix(0, 10) = "EXCLUIDO"
       
       .Redraw = False
       i = 1
       
       If Not rTabela Is Nothing Then
          Do While Not rTabela.EOF
-            .TextMatrix(.Rows - 1, 1) = rTabela("var_cod")
-            .TextMatrix(.Rows - 1, 2) = rTabela("var_codpro")
-            .TextMatrix(.Rows - 1, 3) = Format$(rTabela("var_data"), "dd/mm/yy")
-            .TextMatrix(.Rows - 1, 4) = rTabela("var_desc")
-            .TextMatrix(.Rows - 1, 5) = rTabela("var_saida")
-            .TextMatrix(.Rows - 1, 6) = rTabela("var_mot")
-            .TextMatrix(.Rows - 1, 7) = rTabela("var_codfunc")
-            .TextMatrix(.Rows - 1, 8) = rTabela("var_nome")
-            .TextMatrix(.Rows - 1, 9) = rTabela("varExcluido")
+            .TextMatrix(.rows - 1, 1) = rTabela("var_cod")
+            .TextMatrix(.rows - 1, 2) = rTabela("var_codpro")
+            .TextMatrix(.rows - 1, 3) = Format$(rTabela("var_data"), "dd/mm/yy")
+            If Format$(rTabela("var_hora"), "hh:mm:ss") = "00:00:00" Then
+               .TextMatrix(.rows - 1, 4) = ""
+            Else
+               .TextMatrix(.rows - 1, 4) = Format$(rTabela("var_hora"), "hh:mm:ss")
+            End If
+            .TextMatrix(.rows - 1, 5) = rTabela("var_nome")
+            .TextMatrix(.rows - 1, 6) = rTabela("var_desc")
+            .TextMatrix(.rows - 1, 7) = rTabela("var_saida")
+            .TextMatrix(.rows - 1, 8) = rTabela("var_mot")
+            .TextMatrix(.rows - 1, 9) = rTabela("var_codfunc")
+            .TextMatrix(.rows - 1, 10) = rTabela("varExcluido")
             
             rTabela.MoveNext
-            .Rows = .Rows + 1
+            .rows = .rows + 1
             i = i + 1
          Loop
       End If
       
       'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .Rows - 1
+      For i = 1 To .rows - 1
          .Row = i
-         .Col = 5
+         .Col = 7
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
     
-'         For j = 1 To .Rows - 1
-'         .Row = j
-'         '.Col = 9
-'          If .TextMatrix(i, 9) = "SIM" Then
-'             .CellForeColor = vbRed
-'          Else
-'             .CellForeColor = vbBlack
-'          End If
-'      Next
-    
-    
-    For i = 1 To .Rows - 1
+    For i = 1 To .rows - 1
        For j = 0 To .Cols - 1
           .Col = j
           .Row = i
           
-          If .TextMatrix(i, 9) = "SIM" Then
+          If .TextMatrix(i, 10) = "SIM" Then
              .CellForeColor = vbRed
           Else
              .CellForeColor = vbBlack
@@ -1091,7 +929,7 @@ Private Sub FormatarGridConsulta(rTabela As ADODB.Recordset)
        Next
     Next
       
-      .Rows = .Rows - 1
+      .rows = .rows - 1
       .Redraw = True
    End With
 End Sub
@@ -1165,7 +1003,7 @@ End Sub
 Private Sub cboConsulta_GotFocus()
 Dim var_cboTexto As String
    
-   If optProduto.Value = True Then
+   If cboCriterioConsulta.Text = "Produto" Then
       If Not vCatalogoProdutosCarregado Then
          sSQL = "SELECT DISTINCT descricao, codigo FROM produtos ORDER BY descricao;"
          Set r = dbData.OpenRecordset(sSQL)
@@ -1246,7 +1084,7 @@ Private Sub cboFunc_LostFocus()
 
 If cboFunc.Text = "" Then txtCodFunc.Text = "": Exit Sub
 
-If cmdAlterar.Visible = False Then
+If False Then
    If cboFunc.ListIndex = -1 Then
       txtCodFunc.Text = ""
       vCodFunc = 0
@@ -1271,7 +1109,7 @@ Private Sub cboMes_GotFocus()
    cboMes.Clear
    
    For vMes = 1 To 12
-      cboMes.AddItem StrConv(monthName(vMes), vbProperCase)
+      cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
    
    moCombo.AttachTo cboMes
@@ -1372,38 +1210,11 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
-Private Sub cmdAlterar_Click()
-Dim r As ADODB.Recordset
-Dim saldoEsto As Double
-
-If txtCodigo.Text = "" Or cboProduto.Text = "" Or cboMotivo.Text = "" Then Exit Sub
-
-If Not Atualizar_Dados Then
-   ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
-   Exit Sub
-End If
-
-'saldoEsto = TotalizarEstoque
-
-'Atualiza o saldo em estoque
-'sSQL = "UPDATE produtos SET quant_estoque = " & Replace(saldoEsto, ",", ".") & " WHERE (codigo = " & txtCodProduto & ");"
-'dbData.Execute sSQL
-
-Limpar_Objetos
-cmdAlterar.Enabled = False
-cmdExcluir.Enabled = False
-cmdSalvar.Enabled = False
-cmdCancelar.Enabled = False
-frmCadastro.Enabled = False
-cmdExibir_Click
-End Sub
-
 Private Sub cmdCancelar_Click()
    Limpar_Objetos
    frmCadastro.Enabled = False
    cmdSalvar.Enabled = False
    cmdCancelar.Enabled = False
-   cmdAlterar.Enabled = False
    cmdExcluir.Enabled = False
 End Sub
 
@@ -1459,7 +1270,6 @@ sSQL = "INSERT INTO Produtos_Quant (Codigo, COD_PRODUTO, Data, COD_ENTRADA, FORM
 dbData.Execute sSQL
 
 Limpar_Objetos
-cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 cmdSalvar.Enabled = False
 cmdCancelar.Enabled = False
@@ -1473,43 +1283,58 @@ Dim r As ADODB.Recordset
 
 Dim INDICE As String
 
-If optOrdData.Value = True Then
+If cboOrdemConsulta.Text = "Data" Then
    INDICE = "produtos_saida.data;"
-ElseIf optOrdProduto.Value = True Then
+ElseIf cboOrdemConsulta.Text = "Produto" Then
    INDICE = "produtos_saida.cod_produto;"
-ElseIf optVOrdFunc.Value = True Then
+ElseIf cboOrdemConsulta.Text = "Funcionário" Then
    INDICE = "produtos_saida.cod_funcionario;"
+Else
+   INDICE = "produtos_saida.data;"
 End If
- 
-If optTodos.Value = True Then
-   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, " & _
+
+If cboCriterioConsulta.Text = "Todos" Then
+   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, produtos_saida.HORA AS var_hora, " & _
       "produtos.descricao AS var_desc, produtos_saida.saida AS var_saida, produtos_saida.motivo AS var_mot, " & _
       "produtos_saida.cod_funcionario AS var_codfunc, funcionario.nome AS var_nome, " & _
       "(CASE WHEN produtos_saida.excluido = 1 THEN 'SIM' ELSE 'NÃO' END) AS varExcluido " & _
       "FROM produtos_saida INNER JOIN produtos ON produtos_saida.cod_produto = produtos.codigo " & _
       "INNER JOIN funcionario ON funcionario.codigo = produtos_saida.cod_funcionario " & _
       "ORDER BY " & INDICE
-   
-ElseIf optCodBarra.Value = True Then
-   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, " & _
+
+ElseIf cboCriterioConsulta.Text = "Cód. de Barra" Then
+   If txtCodBarraConsulta.Text = "" Then Exit Sub
+   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, produtos_saida.HORA AS var_hora, " & _
       "produtos.descricao AS var_desc, produtos_saida.saida AS var_saida, produtos_saida.motivo AS var_mot, " & _
       "produtos_saida.cod_funcionario AS var_codfunc, funcionario.nome AS var_nome, " & _
       "(CASE WHEN produtos_saida.excluido = 1 THEN 'SIM' ELSE 'NÃO' END) AS varExcluido " & _
       "FROM produtos_saida INNER JOIN produtos ON produtos_saida.cod_produto = produtos.codigo " & _
       "INNER JOIN funcionario ON funcionario.codigo = produtos_saida.cod_funcionario " & _
       "WHERE (produtos.cod_barra = '" & txtCodBarraConsulta.Text & "') ORDER BY " & INDICE
-   
-ElseIf optProduto.Value = True Then
-    sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, " & _
+
+ElseIf cboCriterioConsulta.Text = "Cód. Produto" Then
+   If txtCodProdConsulta.Text = "" Or Not IsNumeric(txtCodProdConsulta.Text) Then Exit Sub
+   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, produtos_saida.HORA AS var_hora, " & _
       "produtos.descricao AS var_desc, produtos_saida.saida AS var_saida, produtos_saida.motivo AS var_mot, " & _
       "produtos_saida.cod_funcionario AS var_codfunc, funcionario.nome AS var_nome, " & _
       "(CASE WHEN produtos_saida.excluido = 1 THEN 'SIM' ELSE 'NÃO' END) AS varExcluido " & _
       "FROM produtos_saida INNER JOIN produtos ON produtos_saida.cod_produto = produtos.codigo " & _
       "INNER JOIN funcionario ON funcionario.codigo = produtos_saida.cod_funcionario " & _
       "WHERE (produtos_saida.cod_produto = " & txtCodProdConsulta.Text & ") ORDER BY " & INDICE
-   
-ElseIf optMensal.Value = True Then
-   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, " & _
+
+ElseIf cboCriterioConsulta.Text = "Produto" Then
+    If txtCodProdConsulta.Text = "" Then Exit Sub
+    sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, produtos_saida.HORA AS var_hora, " & _
+      "produtos.descricao AS var_desc, produtos_saida.saida AS var_saida, produtos_saida.motivo AS var_mot, " & _
+      "produtos_saida.cod_funcionario AS var_codfunc, funcionario.nome AS var_nome, " & _
+      "(CASE WHEN produtos_saida.excluido = 1 THEN 'SIM' ELSE 'NÃO' END) AS varExcluido " & _
+      "FROM produtos_saida INNER JOIN produtos ON produtos_saida.cod_produto = produtos.codigo " & _
+      "INNER JOIN funcionario ON funcionario.codigo = produtos_saida.cod_funcionario " & _
+      "WHERE (produtos_saida.cod_produto = " & txtCodProdConsulta.Text & ") ORDER BY " & INDICE
+
+ElseIf cboCriterioConsulta.Text = "Mensal" Then
+   If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+   sSQL = "SELECT produtos_saida.codigo AS var_cod, produtos_saida.cod_produto AS var_codpro, produtos_saida.data AS var_data, produtos_saida.HORA AS var_hora, " & _
       "produtos.descricao AS var_desc, produtos_saida.saida AS var_saida, produtos_saida.motivo AS var_mot, " & _
       "produtos_saida.cod_funcionario AS var_codfunc, funcionario.nome AS var_nome, " & _
       "(CASE WHEN produtos_saida.excluido = 1 THEN 'SIM' ELSE 'NÃO' END) AS varExcluido " & _
@@ -1531,7 +1356,6 @@ Private Sub cmdNovo_Click()
 frmCadastro.Enabled = True
 cmdSalvar.Enabled = True
 cmdCancelar.Enabled = True
-cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 Limpar_Objetos
 Auto_Numeracao
@@ -1561,7 +1385,11 @@ If txtQuantAtual.Text <= 0 Then
    Exit Sub
 End If
 
-If txtSaida.Text = "" Then Exit Sub
+If txtSaida.Text = "" Or Not IsNumeric(txtSaida.Text) Or CDbl(txtSaida.Text) <= 0 Then
+   ShowMsg "Digite uma quantidade de saída válida (maior que zero).", vbInformation
+   txtSaida.SetFocus
+   Exit Sub
+End If
 
 If CDbl(txtQuantAtual.Text) < CDbl(txtSaida.Text) Then
    ShowMsg "Quantidade atual é menor que saída de estoque!", vbInformation
@@ -1603,7 +1431,6 @@ dbData.Execute sSQL
 Limpar_Objetos
 frmCadastro.Enabled = False
 cmdNovo.Enabled = True
-cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 cmdSalvar.Enabled = False
 cmdCancelar.Enabled = False
@@ -1617,8 +1444,38 @@ Exit Sub
 '   End If
 End Sub
 
+'Chamado de fora (Saida_Consulta_PorProdutos.frm, cmdExibirPedidos) pra abrir
+'já na guia CONSULTA, filtrado no produto, quando a origem do movimento foi
+'FORMA = 'SAÍDA'.
+Public Sub FiltrarPorProduto(ByVal CodProduto As Long)
+SSTab1.Tab = 2
+cboCriterioConsulta.ListIndex = 2   'Cód. Produto
+txtCodProdConsulta.Text = CodProduto
+cmdExibir_Click
+End Sub
+
 Private Sub Form_Load()
 Set moCombo = New cComboHelper
+
+cboCriterioConsulta.AddItem "Todos"
+cboCriterioConsulta.AddItem "Cód. de Barra"
+cboCriterioConsulta.AddItem "Cód. Produto"
+cboCriterioConsulta.AddItem "Produto"
+cboCriterioConsulta.AddItem "Mensal"
+
+'Abre já filtrando o mês atual (ver pedido do usuário) - setado ANTES do
+'Ordem pra não rodar o cmdExibir_Click (disparado pelo ListIndex do Ordem)
+'sem nenhum filtro selecionado ainda
+cboCriterioConsulta.ListIndex = 4   'Mensal
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.Text = Year(Date)
+
+cboOrdemConsulta.AddItem "Data"
+cboOrdemConsulta.AddItem "Produto"
+cboOrdemConsulta.AddItem "Funcionário"
+cboOrdemConsulta.ListIndex = 0
 
 cmdExibir_Click
 Call PreencheProdutos
@@ -1628,7 +1485,6 @@ mskData.Text = Format(Date, "dd/mm/yy")
 
 frmCadastro.Enabled = False
 cmdNovo.Enabled = True
-cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 cmdSalvar.Enabled = False
 cmdCancelar.Enabled = False
@@ -1664,9 +1520,8 @@ End Sub
 
 Private Sub Grid_Consulta_DblClick()
 i = Grid_Consulta.Row
-If Grid_Consulta.TextMatrix(i, 9) = "SIM" Then
+If Grid_Consulta.TextMatrix(i, 10) = "SIM" Then
     MsgBox "Essa saída já foi excluída", vbInformation, "Aviso do Sistema"
-    cmdAlterar.Enabled = False
     cmdExcluir.Enabled = False
     cmdSalvar.Enabled = False
     cmdCancelar.Enabled = False
@@ -1677,19 +1532,17 @@ If Grid_Consulta.TextMatrix(i, 9) = "SIM" Then
     txtCodigo.Text = (Grid_Consulta.TextMatrix(Grid_Consulta.Row, 1))
     SSTab1.Tab = 0
 Else
-    cmdAlterar.Enabled = True
+    'Sem Alterar: a saída carregada aqui é somente pra visualização antes de
+    '"Excluir" - evita o bug de trocar produto/data/motivo sem nunca corrigir
+    'quant_estoque (nem do produto antigo, nem do novo)
     cmdExcluir.Enabled = True
     cmdSalvar.Enabled = False
     cmdCancelar.Enabled = False
-    frmCadastro.Enabled = True
+    frmCadastro.Enabled = False
     Limpar_Objetos
     txtCodigo.Text = ""
     txtCodigo.Text = (Grid_Consulta.TextMatrix(Grid_Consulta.Row, 1))
     SSTab1.Tab = 0
-    If cmdAlterar.Enabled = True Or cmdExcluir.Enabled = True Then
-        txtSaida.Enabled = False
-        Label4.Enabled = False
-    End If
 End If
 End Sub
 
@@ -1713,71 +1566,65 @@ Private Sub mskData_LostFocus()
    End If
 End Sub
 
-Private Sub optCodBarra_Click()
+Private Sub AtualizarCriterioConsulta()
    cboMes.Text = ""
    cboAno.Text = ""
    cboConsulta.Text = ""
-   lblConsulta.Caption = "Cód. de Barra"
-   lblConsulta.Visible = True
-   txtCodBarraConsulta.Visible = True
-   cboConsulta.Visible = False
-   lblConsulta2.Visible = False
-   cboMes.Visible = False
-   cboAno.Visible = False
-   txtCodBarraConsulta.SetFocus
-End Sub
-
-Private Sub optMensal_Click()
-   cboMes.Text = ""
-   cboAno.Text = ""
-   cboConsulta.Text = ""
-   txtCodBarraConsulta.Visible = False
-   lblConsulta.Caption = "Mês"
-   lblConsulta.Visible = True
-   cboConsulta.Visible = False
-   lblConsulta2.Visible = True
-   cboMes.Visible = True
-   cboAno.Visible = True
-   cboMes.SetFocus
-End Sub
-
-Private Sub optOrdData_Click()
-   cmdExibir_Click
-End Sub
-
-Private Sub optORDProduto_Click()
-   cmdExibir_Click
-End Sub
-
-Private Sub optProduto_Click()
-   cboMes.Text = ""
-   cboAno.Text = ""
-   cboConsulta.Text = ""
-   txtCodBarraConsulta.Visible = False
-   lblConsulta.Caption = "Produto"
-   lblConsulta.Visible = True
-   cboConsulta.Visible = True
-   lblConsulta2.Visible = False
-   cboMes.Visible = False
-   cboAno.Visible = False
-   cboConsulta.SetFocus
-End Sub
-
-Private Sub optTodos_Click()
+   txtCodBarraConsulta.Text = ""
+   txtCodProdConsulta.Text = ""
    lblConsulta.Visible = False
    cboConsulta.Visible = False
    lblConsulta2.Visible = False
    txtCodBarraConsulta.Visible = False
+   txtCodProdConsulta.Visible = False
    cboMes.Visible = False
    cboAno.Visible = False
-   cboMes.Text = ""
-   cboAno.Text = ""
-   cboConsulta.Text = ""
-   cmdExibir_Click
+
+   Select Case cboCriterioConsulta.Text
+      Case "Cód. de Barra"
+         lblConsulta.Caption = "Cód. de Barra"
+         lblConsulta.Visible = True
+         txtCodBarraConsulta.Visible = True
+      Case "Cód. Produto"
+         lblConsulta.Caption = "Cód. Produto"
+         lblConsulta.Visible = True
+         txtCodProdConsulta.Visible = True
+      Case "Produto"
+         lblConsulta.Caption = "Produto"
+         lblConsulta.Visible = True
+         cboConsulta.Visible = True
+      Case "Mensal"
+         lblConsulta.Caption = "Mês"
+         lblConsulta.Visible = True
+         lblConsulta2.Visible = True
+         cboMes.Visible = True
+         cboAno.Visible = True
+   End Select
 End Sub
 
-Private Sub optVOrdFunc_Click()
-   cmdExibir_Click
+Private Sub cboCriterioConsulta_Click()
+AtualizarCriterioConsulta
+DoEvents
+Select Case cboCriterioConsulta.Text
+   Case "Cód. de Barra"
+      If txtCodBarraConsulta.Visible Then txtCodBarraConsulta.SetFocus
+   Case "Cód. Produto"
+      If txtCodProdConsulta.Visible Then txtCodProdConsulta.SetFocus
+   Case "Produto"
+      If cboConsulta.Visible Then cboConsulta.SetFocus
+   Case "Mensal"
+      If cboMes.Visible Then cboMes.SetFocus
+   Case Else
+      cmdExibir_Click
+End Select
+End Sub
+
+Private Sub cboCriterioConsulta_LostFocus()
+AtualizarCriterioConsulta
+End Sub
+
+Private Sub cboOrdemConsulta_Click()
+cmdExibir_Click
 End Sub
 
 Private Sub txtCodBarra_Change()
