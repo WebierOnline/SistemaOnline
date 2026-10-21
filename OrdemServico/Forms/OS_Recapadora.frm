@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "17:28"
+            TextSave        =   "19:48"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -166,7 +166,7 @@ Begin VB.Form OS_Recapadora
       _ExtentY        =   15637
       _Version        =   393216
       Tabs            =   5
-      Tab             =   1
+      Tab             =   2
       TabsPerRow      =   5
       TabHeight       =   452
       TabMaxWidth     =   2646
@@ -182,54 +182,54 @@ Begin VB.Form OS_Recapadora
       TabCaption(0)   =   "SITUAÇÃO"
       TabPicture(0)   =   "OS_Recapadora.frx":2441
       Tab(0).ControlEnabled=   0   'False
-      Tab(0).Control(0)=   "Text1"
+      Tab(0).Control(0)=   "lblPecasServicos"
       Tab(0).Control(0).Enabled=   0   'False
-      Tab(0).Control(1)=   "Frame6"
+      Tab(0).Control(1)=   "lblQuantOS"
       Tab(0).Control(1).Enabled=   0   'False
-      Tab(0).Control(2)=   "optFinanceiroFechado"
+      Tab(0).Control(2)=   "lblSomaDesconto"
       Tab(0).Control(2).Enabled=   0   'False
-      Tab(0).Control(3)=   "optFinanceiroAberto"
+      Tab(0).Control(3)=   "llblTotalSemDesconto"
       Tab(0).Control(3).Enabled=   0   'False
-      Tab(0).Control(4)=   "Text2"
+      Tab(0).Control(4)=   "Label15"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "Grid_OS"
+      Tab(0).Control(5)=   "cmdExcluir"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "GridPecasServicos"
+      Tab(0).Control(6)=   "cmdPedidoPDF"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cmdEditarOS"
+      Tab(0).Control(7)=   "cmdOrcamentoPDF"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cmdNovoOS"
+      Tab(0).Control(8)=   "cmdImpGarantia1"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cmdFinanceiroOS"
+      Tab(0).Control(9)=   "cmdImpPedido1"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cmdImpEntrada1"
+      Tab(0).Control(10)=   "cmdImpOrcamento1"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "cmdImpOrcamento1"
+      Tab(0).Control(11)=   "cmdImpEntrada1"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "cmdImpPedido1"
+      Tab(0).Control(12)=   "cmdFinanceiroOS"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "cmdImpGarantia1"
+      Tab(0).Control(13)=   "cmdNovoOS"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "cmdOrcamentoPDF"
+      Tab(0).Control(14)=   "cmdEditarOS"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "cmdPedidoPDF"
+      Tab(0).Control(15)=   "GridPecasServicos"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "cmdExcluir"
+      Tab(0).Control(16)=   "Grid_OS"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "Label15"
+      Tab(0).Control(17)=   "Text2"
       Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "llblTotalSemDesconto"
+      Tab(0).Control(18)=   "optFinanceiroAberto"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "lblSomaDesconto"
+      Tab(0).Control(19)=   "optFinanceiroFechado"
       Tab(0).Control(19).Enabled=   0   'False
-      Tab(0).Control(20)=   "lblQuantOS"
+      Tab(0).Control(20)=   "Frame6"
       Tab(0).Control(20).Enabled=   0   'False
-      Tab(0).Control(21)=   "lblPecasServicos"
+      Tab(0).Control(21)=   "Text1"
       Tab(0).Control(21).Enabled=   0   'False
       Tab(0).ControlCount=   22
       TabCaption(1)   =   "CADASTRO"
       TabPicture(1)   =   "OS_Recapadora.frx":245D
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lblDataAberturaCaixa"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdImpPedido2"
@@ -259,10 +259,13 @@ Begin VB.Form OS_Recapadora
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "FINANCEIRO"
       TabPicture(2)   =   "OS_Recapadora.frx":2479
-      Tab(2).ControlEnabled=   0   'False
+      Tab(2).ControlEnabled=   -1  'True
       Tab(2).Control(0)=   "cmdFinalizarAP"
+      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdFinalizarAV"
+      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "frmVendaFechamento"
+      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
       TabPicture(3)   =   "OS_Recapadora.frx":2495
@@ -286,7 +289,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2955
-         Left            =   2940
+         Left            =   -72060
          TabIndex        =   226
          Top             =   3180
          Visible         =   0   'False
@@ -454,11 +457,57 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   5835
-         Left            =   -72840
+         Left            =   2160
          TabIndex        =   165
          Top             =   1620
          Visible         =   0   'False
          Width           =   7515
+         Begin VB.Frame frmDescAplicado 
+            BackColor       =   &H00C0FFFF&
+            Caption         =   "Desconto aplicado"
+            BeginProperty Font 
+               Name            =   "Arial Narrow"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            Height          =   1095
+            Left            =   120
+            TabIndex        =   237
+            Top             =   900
+            Width           =   1695
+            Begin VB.OptionButton optServicos 
+               BackColor       =   &H00C0FFFF&
+               Caption         =   "Serviços"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   240
+               Top             =   720
+               Width           =   975
+            End
+            Begin VB.OptionButton optProdutos 
+               BackColor       =   &H00C0FFFF&
+               Caption         =   "Produtos"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   239
+               Top             =   480
+               Value           =   -1  'True
+               Width           =   1035
+            End
+            Begin VB.OptionButton optTudo 
+               BackColor       =   &H00C0FFFF&
+               Caption         =   "Tudo"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   238
+               Top             =   240
+               Width           =   795
+            End
+         End
          Begin VB.CommandButton Command1 
             Caption         =   "X"
             Height          =   195
@@ -1246,7 +1295,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H00000080&
          Height          =   360
-         Left            =   11160
+         Left            =   -63840
          TabIndex        =   128
          TabStop         =   0   'False
          Top             =   7800
@@ -1257,7 +1306,7 @@ Begin VB.Form OS_Recapadora
          Enabled         =   0   'False
          ForeColor       =   &H80000008&
          Height          =   7515
-         Left            =   120
+         Left            =   -74880
          ScaleHeight     =   7485
          ScaleWidth      =   10305
          TabIndex        =   114
@@ -2977,7 +3026,7 @@ Begin VB.Form OS_Recapadora
          Appearance      =   0  'Flat
          ForeColor       =   &H80000008&
          Height          =   795
-         Left            =   120
+         Left            =   -74880
          ScaleHeight     =   765
          ScaleWidth      =   10305
          TabIndex        =   30
@@ -3266,7 +3315,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarEntrada 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   66
          Top             =   1740
          Width           =   1995
@@ -3305,7 +3354,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   67
          Top             =   2400
          Width           =   1995
@@ -3344,7 +3393,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdApagar 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   68
          Top             =   3060
          Width           =   1995
@@ -3383,7 +3432,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdGerarEntrada 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   65
          Top             =   1080
          Width           =   1995
@@ -3422,7 +3471,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   10
          Top             =   360
          Width           =   1995
@@ -3589,7 +3638,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpEntrada2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   69
          Top             =   4260
          Width           =   1995
@@ -3628,7 +3677,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpOrcamento2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   70
          Top             =   4920
          Width           =   1995
@@ -3781,7 +3830,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpPedido2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   71
          Top             =   5580
          Width           =   1995
@@ -3934,7 +3983,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdFinalizarAV 
          Height          =   555
-         Left            =   -74640
+         Left            =   360
          TabIndex        =   72
          Top             =   540
          Visible         =   0   'False
@@ -3973,7 +4022,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdFinalizarAP 
          Height          =   555
-         Left            =   -72120
+         Left            =   2880
          TabIndex        =   73
          Top             =   540
          Visible         =   0   'False
@@ -4064,7 +4113,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H000000FF&
          Height          =   195
-         Left            =   11040
+         Left            =   -63960
          TabIndex        =   141
          Top             =   6600
          Width           =   1035
@@ -4255,6 +4304,12 @@ Dim rOS As ADODB.Recordset
 Dim rCliente As ADODB.Recordset
 Dim rEquip As ADODB.Recordset
 
+'Usados no rateio de desconto geral entre produtos/servicos no fechamento da
+'OS (ver ValidarRateioDescontoOS/RatearDescontoProdutosServicosOS) - subtotal
+'bruto calculado antes do BEGIN TRANSACTION e reaproveitado dentro dela
+Dim vSubtotalProdOS As Currency
+Dim vSubtotalServOS As Currency
+
 Dim xParc As Long, xAcess As Long
 Dim xPeca As Long, xServ As Long, xPecaItem As Long
 
@@ -4263,7 +4318,7 @@ Dim vCodPedido As Long
 Dim numCol As Integer
 Dim numRow As Integer
 
-Dim Texto As String         'usado pra preencher os combos
+Dim texto As String         'usado pra preencher os combos
 Dim i, Posicao As Integer   'usado pra preencher os combos
 Dim Posicionar As Boolean   'usado pra preencher os combos
 
@@ -4292,7 +4347,7 @@ Dim r As ADODB.Recordset
 Dim sSQL As String
 
 Public cCfg As ConfigItem       'arquivo .ini
-Public oIni As Ini              'arquivo .ini
+Public oIni As ini              'arquivo .ini
 Dim var_ImpNormal As String
 
 Dim NFCe_OK As Boolean
@@ -5046,8 +5101,8 @@ Dim lKmProximaGar As Long
 If Grid_OS.Rows <= 1 Or Grid_OS.TextMatrix(Grid_OS.Row, 0) = "" Then Exit Sub
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
 
 Dim Prt As Printer
@@ -7949,8 +8004,8 @@ End Sub
 
 Private Sub Imprimir_Pedido()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then
@@ -8414,6 +8469,139 @@ Me.Show
 ''End If
 End Sub
 
+'============================================================================
+'RATEIO DE DESCONTO ENTRE PRODUTOS E SERVICOS (fechamento da OS)
+'Adaptado do padrao RatearDescontoItensPedido do PDV (PDV.frm). So se aplica
+'quando o desconto informado no fechamento (txtDesc/txtDescDinheiro) e GERAL,
+'ou seja, txtDesc.Enabled = True. Quando ja existe desconto individual dado
+'por item/servico (txtDescGeral > 0), o sistema trava o txtDesc espelhando a
+'soma (ver os pontos que fazem txtDesc.Enabled = False) - nesse caso o
+'rateio NAO roda, pra nao estragar a precisao que ja esta correta.
+'
+'frmDescAplicado (optTudo/optProdutos/optServicos) decide como distribuir:
+' - optTudo:      rateia proporcional entre produtos e servicos (pelo
+'                 subtotal bruto de cada lado)
+' - optProdutos:  desconto 100% nos produtos (servicos fica sem desconto)
+' - optServicos:  desconto 100% nos servicos (produtos fica sem desconto)
+'============================================================================
+
+'Soma o subtotal bruto dos produtos (pedidos_itens) e servicos
+'(OS_Servicos_Auto) do pedido/OS atual - usado pra validar e pra calcular o
+'percentual do rateio. Le ANTES do BEGIN TRANSACTION (nunca dentro).
+Private Sub CarregarSubtotaisRateioOS()
+Dim rSub As ADODB.Recordset
+
+Set rSub = dbData.OpenRecordset("SELECT ISNULL(SUM(Subtotal),0) AS vSoma FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")")
+vSubtotalProdOS = ValidateNull(rSub("vSoma"))
+rSub.Close
+
+Set rSub = dbData.OpenRecordset("SELECT ISNULL(SUM(subtotal),0) AS vSoma FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")")
+vSubtotalServOS = ValidateNull(rSub("vSoma"))
+rSub.Close
+Set rSub = Nothing
+End Sub
+
+'Confere se o modo de rateio escolhido e compativel com o valor do desconto -
+'evita desconto maior que o subtotal da categoria escolhida (daria
+'desconto/total negativo no item). So valida quando o desconto e geral
+'(txtDesc habilitado); quando e individual, nao ha rateio, nao ha o que
+'validar.
+Private Function ValidarRateioDescontoOS(ByVal vValorDesc As Currency) As Boolean
+ValidarRateioDescontoOS = True
+If txtDesc.Enabled = False Then Exit Function
+
+CarregarSubtotaisRateioOS
+
+If optProdutos.Value = True Then
+    If vValorDesc > vSubtotalProdOS Then
+        ShowMsg "O desconto (" & Format(vValorDesc, ocMONEY) & ") é maior que o subtotal dos PRODUTOS (" & Format(vSubtotalProdOS, ocMONEY) & "). Marque ""Tudo"" no desconto aplicado, ou ajuste o valor do desconto.", vbExclamation
+        ValidarRateioDescontoOS = False
+    End If
+ElseIf optServicos.Value = True Then
+    If vValorDesc > vSubtotalServOS Then
+        ShowMsg "O desconto (" & Format(vValorDesc, ocMONEY) & ") é maior que o subtotal dos SERVIÇOS (" & Format(vSubtotalServOS, ocMONEY) & "). Marque ""Tudo"" no desconto aplicado, ou ajuste o valor do desconto.", vbExclamation
+        ValidarRateioDescontoOS = False
+    End If
+End If
+End Function
+
+'Aplica o desconto geral (vValorDesc) nos itens/servicos, conforme
+'frmDescAplicado. Chamado DENTRO da transacao do fechamento, logo depois do
+'UPDATE da tabela pedidos. Pula completamente quando o desconto e
+'individual (txtDesc.Enabled = False).
+Private Sub RatearDescontoProdutosServicosOS(ByVal vValorDesc As Currency)
+If txtDesc.Enabled = False Then Exit Sub
+
+Dim vValorAlvoProd As Currency, vValorAlvoServ As Currency
+Dim vPctProd As Double, vPctServ As Double
+Dim vSubtotalTudo As Currency
+
+If optTudo.Value = True Then
+    vSubtotalTudo = vSubtotalProdOS + vSubtotalServOS
+    If vSubtotalTudo <> 0 And vValorDesc <> 0 Then
+        vValorAlvoProd = FormatNumber(vValorDesc * (vSubtotalProdOS / vSubtotalTudo), 2)
+        vValorAlvoServ = vValorDesc - vValorAlvoProd
+    Else
+        vValorAlvoProd = 0
+        vValorAlvoServ = 0
+    End If
+ElseIf optProdutos.Value = True Then
+    vValorAlvoProd = vValorDesc
+    vValorAlvoServ = 0
+ElseIf optServicos.Value = True Then
+    vValorAlvoProd = 0
+    vValorAlvoServ = vValorDesc
+End If
+
+If vSubtotalProdOS <> 0 Then vPctProd = (vValorAlvoProd / vSubtotalProdOS) * 100 Else vPctProd = 0
+If vSubtotalServOS <> 0 Then vPctServ = (vValorAlvoServ / vSubtotalServOS) * 100 Else vPctServ = 0
+
+RatearDescontoPedidosItensOS vPctProd, vValorAlvoProd
+RatearDescontoServicosAutoOS vPctServ, vValorAlvoServ
+End Sub
+
+'Rateia o percentual vPct em cada pedidos_itens do pedido (proporcional ao
+'subtotal de cada item), e ajusta o item de maior CODIGO pra bater
+'exatamente com vValorAlvo - mesmo padrao do RatearDescontoItensPedido do
+'PDV (PDV.frm).
+Private Sub RatearDescontoPedidosItensOS(ByVal vPct As Double, ByVal vValorAlvo As Currency)
+Dim vSomaDescItens As Currency
+Dim rSub As ADODB.Recordset
+
+dbData.Execute "UPDATE pedidos_itens SET Desconto = ROUND(Subtotal * " & Replace(CStr(vPct), ",", ".") & " / 100, 2), Total = Subtotal - ROUND(Subtotal * " & Replace(CStr(vPct), ",", ".") & " / 100, 2) WHERE (cod_pedido = " & txtCodPedido.Text & ")"
+
+If vPct <> 0 Then
+    Set rSub = dbData.OpenRecordset("SELECT ISNULL(SUM(Desconto),0) AS vSoma FROM pedidos_itens WHERE (cod_pedido = " & txtCodPedido.Text & ")")
+    vSomaDescItens = FormatNumber(ValidateNull(rSub("vSoma")), 2)
+    rSub.Close
+    Set rSub = Nothing
+
+    If vValorAlvo <> vSomaDescItens Then
+        dbData.Execute "UPDATE pedidos_itens SET Desconto = Desconto + (" & Replace(CStr(vValorAlvo - vSomaDescItens), ",", ".") & "), Total = Total - (" & Replace(CStr(vValorAlvo - vSomaDescItens), ",", ".") & ") WHERE (CODIGO = (SELECT MAX(CODIGO) FROM pedidos_itens WHERE cod_pedido = " & txtCodPedido.Text & "))"
+    End If
+End If
+End Sub
+
+'Mesma logica de RatearDescontoPedidosItensOS, mas pra OS_Servicos_Auto
+'(colunas em minusculo: desconto/total/subtotal).
+Private Sub RatearDescontoServicosAutoOS(ByVal vPct As Double, ByVal vValorAlvo As Currency)
+Dim vSomaDescServ As Currency
+Dim rSub As ADODB.Recordset
+
+dbData.Execute "UPDATE OS_Servicos_Auto SET desconto = ROUND(subtotal * " & Replace(CStr(vPct), ",", ".") & " / 100, 2), total = subtotal - ROUND(subtotal * " & Replace(CStr(vPct), ",", ".") & " / 100, 2) WHERE (cod_os = " & vCodOS & ")"
+
+If vPct <> 0 Then
+    Set rSub = dbData.OpenRecordset("SELECT ISNULL(SUM(desconto),0) AS vSoma FROM OS_Servicos_Auto WHERE (cod_os = " & vCodOS & ")")
+    vSomaDescServ = FormatNumber(ValidateNull(rSub("vSoma")), 2)
+    rSub.Close
+    Set rSub = Nothing
+
+    If vValorAlvo <> vSomaDescServ Then
+        dbData.Execute "UPDATE OS_Servicos_Auto SET desconto = desconto + (" & Replace(CStr(vValorAlvo - vSomaDescServ), ",", ".") & "), total = total - (" & Replace(CStr(vValorAlvo - vSomaDescServ), ",", ".") & ") WHERE (codigo = (SELECT MAX(codigo) FROM OS_Servicos_Auto WHERE cod_os = " & vCodOS & "))"
+    End If
+End If
+End Sub
+
 Private Sub cmdFinalizar_Click()
 If txtTotalPecasServicos.Text = "" Then Exit Sub
 If txtCodPedido.Text = "" Then Exit Sub
@@ -8651,6 +8839,15 @@ ElseIf optAscrescPorc.Value = True Then
     End If
 End If
 
+'validar o rateio do desconto geral entre produtos/servicos (frmDescAplicado:
+'optTudo/optProdutos/optServicos) - so se aplica quando o desconto e geral
+'(txtDesc habilitado); quando ja tem desconto individual por item/servico,
+'nao ha nada pra validar (ValidarRateioDescontoOS sai sem fazer nada)
+If Not ValidarRateioDescontoOS(CCur(varValorRealDesc)) Then
+    cmdFinalizar.Enabled = True
+    Exit Sub
+End If
+
 'declarar quem receber os produtos
 'If vDeclararRecebedor = "SIM" Then
 '    Dim vRevebedor As String
@@ -8747,6 +8944,10 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "status_pedido = 1 " & _
                  "WHERE (cod_pedido = " & txtCodPedido.Text & ");"
               dbData.Execute sSQL
+           
+           'rateia o desconto geral entre produtos/servicos (pula se for
+           'desconto individual) - ver ValidarRateioDescontoOS acima
+           RatearDescontoProdutosServicosOS CCur(varValorRealDesc)
            
            'COM ENTRADA =========================================================================
            If txtEntrada.Text <> "0,00" And txtValorParc.Text <> "0,00" Then
@@ -8935,6 +9136,10 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "status_pedido = 1 " & _
               "WHERE (cod_pedido = " & txtCodPedido.Text & ");"
            dbData.Execute sSQL
+           
+           'rateia o desconto geral entre produtos/servicos (pula se for
+           'desconto individual) - ver ValidarRateioDescontoOS acima
+           RatearDescontoProdutosServicosOS CCur(varValorRealDesc)
            
            '===========================================CRIAR E DAR BAIXA EM PARCELAS ==========================================
             If cboTipoPgto.Text = "À VISTA" And cboQuantForma.Text = "1 - FORMA" Then
@@ -9790,8 +9995,8 @@ End Sub
 
 Private Sub cmdImpOrcamento1_Click()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then
@@ -10041,8 +10246,8 @@ End Sub
 
 Private Sub cmdImpPedido1_Click()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then
@@ -10632,8 +10837,8 @@ End Sub
 Private Sub cmdOrcamentoPDF_Click()
 varImpPDF = True
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then
@@ -10881,8 +11086,8 @@ End Sub
 
 Private Sub cmdPedidoPDF_Click()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 varImpPDF = True
 
 'nome da maquina
@@ -11873,10 +12078,10 @@ ExibirObjetosServicos
 Dim var_Maquina As String
 Dim var_Caixa As String
 
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Maquina = oIni.LerTexto("DADOS_MAQUINA", "maquina")
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
 Set oIni = Nothing
@@ -12409,8 +12614,8 @@ End Sub
 
 Private Sub menu_Impressao_Entrada_Click()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -12582,10 +12787,10 @@ End Sub
 Private Sub menu_Impressao_Garantia_Click()
    'colocar o nome da maquina na barra de status
    Dim var_Impressora As String
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
    Set oIni = Nothing
    
@@ -12621,8 +12826,8 @@ End Sub
 
 Private Sub menu_Impressao_Orcamento_Click()
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 If varImpPDF = True Then

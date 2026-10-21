@@ -7185,7 +7185,7 @@ Dim vValorSobraDesc As Currency
 
         If vDescItensVenda <> "0,00" Then
             'adiciona em cada item do pedido o valor do desconto
-            sSQL = "UPDATE pedidos_itens SET desconto = (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), total = subtotal - (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
+            sSQL = "UPDATE pedidos_itens SET desconto = ROUND(subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100, 2), total = subtotal - ROUND(subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100, 2), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
             dbData.Execute sSQL
             
             'soma todos os descontos dos itens da venda em real
@@ -8942,7 +8942,7 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Or cboTipoPgto.Text = "CONSIGNADO" Then
         
         If vDescItensVenda <> "0,00" Then
             'adiciona em cada item do pedido o valor do desconto
-            sSQL = "UPDATE pedidos_itens SET desconto = (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), total = subtotal - (subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
+            sSQL = "UPDATE pedidos_itens SET desconto = ROUND(subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100, 2), total = subtotal - ROUND(subtotal * " & Replace(CDbl(vDescItensVenda), ",", ".") & " / 100, 2), data = '" & Format$(txtDataCompra, "yyyy-dd-MM") & "' where (cod_pedido = " & txtCodPedido.Text & ")"
             dbData.Execute sSQL
             
             'soma todos os descontos dos itens da venda em real
