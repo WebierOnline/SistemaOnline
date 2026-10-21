@@ -1134,8 +1134,8 @@ sSQL = "SELECT DISTINCT C.CODIGO, C.DESCRICAO, C.FABRICANTE, C.COD_BARRA, " & _
        "(SELECT isnull(SUM(pedidos_itens.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO WHERE (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens & " " & vCriterio & ") AS vVendas, " & _
        "(SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida & " " & vCriterio & ") AS vSaidas, " & _
        "(SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ") AS vRemocao, " & _
-       "(SELECT SUM(QUANT) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_1 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant1 & " " & vCriterio & ") -  " & _
-       "((SELECT SUM(pedidos_itens_1.QUANTIDADE) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
+       "(SELECT ISNULL(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_1 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant1 & " " & vCriterio & ") -  " & _
+       "((SELECT ISNULL(SUM(pedidos_itens_1.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
        "C.QUANT_ESTOQUE " & _
        "FROM produtos AS C INNER JOIN Produtos_Quant AS Produtos_Quant_2 ON C.CODIGO = Produtos_Quant_2.COD_PRODUTO " & _
        "WHERE (Produtos_Quant_2.TIPO <> 'REMOÇÃO') "
@@ -1299,24 +1299,36 @@ Me.Hide    'ver depois como nao exibir
 Set r = dbData.OpenRecordset(printSQL)
 Set REL_Cons_Entrada_ProdAgrupado.Relatorio.Recordset = r
 
-If cboCriterioPrinc.Text = "TODOS" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "TODOS"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = ""
-ElseIf cboCriterioPrinc.Text = "MENSAL" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+'Cobre os 11 valores possiveis de cboCriterioPrinc (ver PreencherCriterio) -
+'antes so cobria 5 (TODOS/MENSAL/MENSAL+3 variantes), deixando CoD.BARRA/
+'DESCRICAO/PERIODO(sozinho)/PERIODO+3 variantes sem atualizar o resumo do
+'criterio no relatorio (ficava em branco ou com o valor da impressao anterior)
+REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = cboCriterioPrinc.Text
+REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = ""
+REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = ""
+
+If cboCriterioPrinc.Text = "CÓD.BARRA" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "Cód. Barra = " & txtCodBarra.Text
+ElseIf cboCriterioPrinc.Text = "DESCRIÇÃO" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
 ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/CÓD.BARRA"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "Cód. Barra = " & txtCodBarra.Text & ""
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "Cód. Barra = " & txtCodBarra.Text
 ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/DESCRIÇÃO"
-    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text & ""
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
 ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
-    REL_Cons_Entrada_ProdAgrupado.rfCons1.Caption = "MENSAL/CATEGORIA"
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CATEGORIA = " & cboCategoria.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO/CÓD.BARRA" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "Cód. Barra = " & txtCodBarra.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO/DESCRIÇÃO" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "DESCRIÇÃO = " & cboDescricao.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO/CATEGORIA" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CATEGORIA = " & cboCategoria.Text
+End If
+
+If Left(cboCriterioPrinc.Text, 6) = "MENSAL" Then
     REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
-    REL_Cons_Entrada_ProdAgrupado.rfCons2.Caption = "CATEGORIA = " & cboCategoria.Text & ""
+ElseIf Left(cboCriterioPrinc.Text, 7) = "PERÍODO" Then
+    REL_Cons_Entrada_ProdAgrupado.rfCons3.Caption = "Intervalo de " & mskInicio.Text & " à " & mskFim.Text
 End If
 
 'REL_Cons_Entrada_ProdAgrupado.dfQuant.Caption = lblQtda.Caption
@@ -1325,7 +1337,7 @@ End If
 REL_Cons_Entrada_ProdAgrupado.Relatorio.Ativar
 Unload REL_Cons_Entrada_ProdAgrupado
 
-Me.Show 1   'ver depois como nao exibir
+Me.Show   'sem vbModal - essa tela sempre abre non-modal (Tela_Principal), e o 1 aqui travava Show nao-modal de outras telas depois do 1o print
 End Sub
 
 Private Sub Form_Load()

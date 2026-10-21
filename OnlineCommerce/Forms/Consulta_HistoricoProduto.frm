@@ -2,10 +2,11 @@ VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Consulta_HistoricoProduto 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "HISTÓRICO DO PRODUTO"
-   ClientHeight    =   8580
+   ClientHeight    =   8460
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   10650
@@ -13,7 +14,7 @@ Begin VB.Form Consulta_HistoricoProduto
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8580
+   ScaleHeight     =   8460
    ScaleWidth      =   10650
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox Picture5 
@@ -24,7 +25,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Left            =   60
       ScaleHeight     =   885
       ScaleWidth      =   10485
-      TabIndex        =   35
+      TabIndex        =   34
       Top             =   60
       Width           =   10515
       Begin VB.Label lblInfoProduto 
@@ -43,7 +44,7 @@ Begin VB.Form Consulta_HistoricoProduto
          ForeColor       =   &H00000080&
          Height          =   240
          Left            =   1680
-         TabIndex        =   37
+         TabIndex        =   18
          Top             =   480
          Width           =   4395
       End
@@ -71,7 +72,7 @@ Begin VB.Form Consulta_HistoricoProduto
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1620
-         TabIndex        =   36
+         TabIndex        =   35
          Top             =   120
          Width           =   4860
       End
@@ -89,20 +90,20 @@ Begin VB.Form Consulta_HistoricoProduto
       EndProperty
       Height          =   2115
       Left            =   60
-      TabIndex        =   20
+      TabIndex        =   19
       Top             =   1020
       Width           =   2295
       Begin VB.ComboBox cboCriterioSec 
          Height          =   315
          Left            =   120
-         TabIndex        =   21
+         TabIndex        =   20
          Top             =   480
          Width           =   1995
       End
       Begin VB.ComboBox cboCriterioPrinc 
          Height          =   315
          Left            =   120
-         TabIndex        =   22
+         TabIndex        =   21
          Top             =   1080
          Width           =   1995
       End
@@ -111,7 +112,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Consultar por:"
          Height          =   195
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   33
          Top             =   280
          Width           =   975
       End
@@ -120,7 +121,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Filtrar por:"
          Height          =   195
          Left            =   120
-         TabIndex        =   10
+         TabIndex        =   9
          Top             =   880
          Width           =   690
       End
@@ -139,13 +140,13 @@ Begin VB.Form Consulta_HistoricoProduto
       ForeColor       =   &H000000C0&
       Height          =   2115
       Left            =   2400
-      TabIndex        =   23
+      TabIndex        =   22
       Top             =   1020
       Width           =   8175
       Begin VB.TextBox txtCodBarra 
          Height          =   315
          Left            =   60
-         TabIndex        =   11
+         TabIndex        =   10
          Top             =   480
          Visible         =   0   'False
          Width           =   2895
@@ -153,7 +154,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin VB.ComboBox cboDescricao 
          Height          =   315
          Left            =   60
-         TabIndex        =   12
+         TabIndex        =   11
          Top             =   480
          Visible         =   0   'False
          Width           =   5535
@@ -162,14 +163,14 @@ Begin VB.Form Consulta_HistoricoProduto
          Height          =   315
          Left            =   3060
          Style           =   2  'Dropdown List
-         TabIndex        =   24
+         TabIndex        =   23
          Top             =   480
          Width           =   1700
       End
       Begin VB.ComboBox cboMes 
          Height          =   315
          Left            =   60
-         TabIndex        =   25
+         TabIndex        =   24
          Top             =   1080
          Visible         =   0   'False
          Width           =   1335
@@ -178,7 +179,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Height          =   315
          Left            =   1440
          Sorted          =   -1  'True
-         TabIndex        =   26
+         TabIndex        =   25
          Top             =   1080
          Visible         =   0   'False
          Width           =   1155
@@ -186,7 +187,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin MSMask.MaskEdBox mskInicio 
          Height          =   315
          Left            =   60
-         TabIndex        =   27
+         TabIndex        =   26
          Top             =   1080
          Visible         =   0   'False
          Width           =   990
@@ -199,7 +200,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin MSMask.MaskEdBox mskFim 
          Height          =   315
          Left            =   1380
-         TabIndex        =   28
+         TabIndex        =   27
          Top             =   1080
          Visible         =   0   'False
          Width           =   990
@@ -212,7 +213,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin ChamaleonBtn.chameleonButton cmdCalendario1 
          Height          =   315
          Left            =   1020
-         TabIndex        =   29
+         TabIndex        =   28
          TabStop         =   0   'False
          Tag             =   "Calendario"
          Top             =   1080
@@ -253,7 +254,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin ChamaleonBtn.chameleonButton cmdCalendario2 
          Height          =   315
          Left            =   2340
-         TabIndex        =   30
+         TabIndex        =   29
          TabStop         =   0   'False
          Tag             =   "Calendario"
          Top             =   1080
@@ -294,7 +295,7 @@ Begin VB.Form Consulta_HistoricoProduto
       Begin ChamaleonBtn.chameleonButton cmdBuscar 
          Height          =   495
          Left            =   60
-         TabIndex        =   13
+         TabIndex        =   12
          Top             =   1560
          Width           =   1515
          _ExtentX        =   2672
@@ -334,7 +335,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Cód. Barra:"
          Height          =   195
          Left            =   60
-         TabIndex        =   31
+         TabIndex        =   30
          Top             =   240
          Width           =   825
       End
@@ -344,7 +345,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Forma:"
          Height          =   195
          Left            =   3060
-         TabIndex        =   32
+         TabIndex        =   31
          Top             =   240
          Width           =   480
       End
@@ -354,7 +355,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Mês:"
          Height          =   195
          Left            =   60
-         TabIndex        =   14
+         TabIndex        =   13
          Top             =   840
          Visible         =   0   'False
          Width           =   345
@@ -365,7 +366,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Ano:"
          Height          =   195
          Left            =   1440
-         TabIndex        =   15
+         TabIndex        =   14
          Top             =   840
          Visible         =   0   'False
          Width           =   330
@@ -376,7 +377,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Data inicial:"
          Height          =   195
          Left            =   60
-         TabIndex        =   18
+         TabIndex        =   17
          Top             =   840
          Visible         =   0   'False
          Width           =   825
@@ -387,7 +388,7 @@ Begin VB.Form Consulta_HistoricoProduto
          Caption         =   "Data final:"
          Height          =   195
          Left            =   1380
-         TabIndex        =   33
+         TabIndex        =   32
          Top             =   840
          Visible         =   0   'False
          Width           =   720
@@ -396,7 +397,7 @@ Begin VB.Form Consulta_HistoricoProduto
    Begin MSFlexGridLib.MSFlexGrid Grid 
       Height          =   4200
       Left            =   60
-      TabIndex        =   1
+      TabIndex        =   0
       Top             =   3180
       Width           =   10515
       _ExtentX        =   18547
@@ -405,51 +406,13 @@ Begin VB.Form Consulta_HistoricoProduto
       SelectionMode   =   1
       Appearance      =   0
    End
-   Begin ChamaleonBtn.chameleonButton cmdFechar 
-      Height          =   315
-      Left            =   4800
-      TabIndex        =   0
-      Top             =   8160
-      Width           =   1905
-      _ExtentX        =   3360
-      _ExtentY        =   556
-      BTYPE           =   3
-      TX              =   "&Fechar"
-      ENAB            =   -1  'True
-      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   400
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      COLTYPE         =   1
-      FOCUSR          =   -1  'True
-      BCOL            =   12632256
-      BCOLO           =   12632256
-      FCOL            =   0
-      FCOLO           =   0
-      MCOL            =   12632256
-      MPTR            =   1
-      MICON           =   "Consulta_HistoricoProduto.frx":8C6C
-      UMCOL           =   -1  'True
-      SOFT            =   0   'False
-      PICPOS          =   0
-      NGREY           =   0   'False
-      FX              =   0
-      HAND            =   0   'False
-      CHECK           =   0   'False
-      VALUE           =   0   'False
-   End
    Begin ChamaleonBtn.chameleonButton cmdExibirNota 
       Height          =   315
-      Left            =   120
-      TabIndex        =   2
-      Top             =   8160
-      Width           =   2655
-      _ExtentX        =   4683
+      Left            =   60
+      TabIndex        =   1
+      Top             =   7440
+      Width           =   2355
+      _ExtentX        =   4154
       _ExtentY        =   556
       BTYPE           =   3
       TX              =   "MOSTRAR DETALHE"
@@ -471,7 +434,7 @@ Begin VB.Form Consulta_HistoricoProduto
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Consulta_HistoricoProduto.frx":8C88
+      MICON           =   "Consulta_HistoricoProduto.frx":8C6C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -483,15 +446,15 @@ Begin VB.Form Consulta_HistoricoProduto
    End
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   315
-      Left            =   2820
-      TabIndex        =   9
-      Top             =   8160
+      Left            =   2460
+      TabIndex        =   8
+      Top             =   7440
       Width           =   1905
       _ExtentX        =   3360
       _ExtentY        =   556
       BTYPE           =   3
-      TX              =   "&Imprimir"
-      ENAB            =   0   'False
+      TX              =   "IMPRIMIR"
+      ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
          Size            =   8.25
@@ -509,7 +472,7 @@ Begin VB.Form Consulta_HistoricoProduto
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "Consulta_HistoricoProduto.frx":8CA4
+      MICON           =   "Consulta_HistoricoProduto.frx":8C88
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -519,25 +482,66 @@ Begin VB.Form Consulta_HistoricoProduto
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin MSComctlLib.StatusBar StatusBar1 
+      Align           =   2  'Align Bottom
+      Height          =   270
+      Left            =   0
+      TabIndex        =   36
+      Top             =   8190
+      Width           =   10650
+      _ExtentX        =   18785
+      _ExtentY        =   476
+      _Version        =   393216
+      BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
+         NumPanels       =   3
+         BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            AutoSize        =   1
+            Object.Width           =   14446
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+         EndProperty
+         BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Style           =   5
+            Alignment       =   1
+            Object.Width           =   2117
+            MinWidth        =   2117
+            TextSave        =   "19:21"
+         EndProperty
+         BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
+            Alignment       =   1
+            Object.Width           =   2117
+            MinWidth        =   2117
+         EndProperty
+      EndProperty
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+   End
    Begin VB.Label lblLegendaEntrada 
       AutoSize        =   -1  'True
-      Caption         =   "Entrada / Adição"
+      Caption         =   "Preto: Entrada / Adição"
       ForeColor       =   &H00000000&
       Height          =   195
-      Left            =   60
-      TabIndex        =   16
-      Top             =   7380
-      Width           =   1590
+      Left            =   4500
+      TabIndex        =   15
+      Top             =   7600
+      Width           =   1680
    End
    Begin VB.Label lblLegendaSaida 
       AutoSize        =   -1  'True
-      Caption         =   "Saída / Remoção"
+      Caption         =   "Vermelho: Saída / Remoção"
       ForeColor       =   &H00000080&
       Height          =   195
-      Left            =   1800
-      TabIndex        =   17
-      Top             =   7380
-      Width           =   1500
+      Left            =   4500
+      TabIndex        =   16
+      Top             =   7400
+      Width           =   2040
    End
    Begin VB.Label Label2 
       AutoSize        =   -1  'True
@@ -552,10 +556,10 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
-      Left            =   7620
-      TabIndex        =   8
-      Top             =   7680
+      Height          =   300
+      Left            =   7500
+      TabIndex        =   7
+      Top             =   7800
       Width           =   960
    End
    Begin VB.Label Label1 
@@ -571,15 +575,17 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
-      Left            =   7860
-      TabIndex        =   7
+      Height          =   300
+      Left            =   7740
+      TabIndex        =   6
       Top             =   7440
       Width           =   720
    End
    Begin VB.Label lblQuantRemocao 
       Alignment       =   1  'Right Justify
-      BackColor       =   &H00FFFFFF&
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -590,15 +596,18 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
+      ForeColor       =   &H80000008&
+      Height          =   300
       Left            =   8595
-      TabIndex        =   6
-      Top             =   7680
+      TabIndex        =   5
+      Top             =   7800
       Width           =   630
    End
    Begin VB.Label lblQuantAdicao 
       Alignment       =   1  'Right Justify
-      BackColor       =   &H00FFFFFF&
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -609,15 +618,18 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
+      ForeColor       =   &H80000008&
+      Height          =   300
       Left            =   8610
-      TabIndex        =   5
+      TabIndex        =   4
       Top             =   7440
       Width           =   630
    End
    Begin VB.Label lblTotalRemocao 
       Alignment       =   1  'Right Justify
-      BackColor       =   &H00FFFFFF&
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -628,15 +640,18 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
+      ForeColor       =   &H80000008&
+      Height          =   300
       Left            =   9270
-      TabIndex        =   4
-      Top             =   7680
+      TabIndex        =   3
+      Top             =   7800
       Width           =   1230
    End
    Begin VB.Label lblTotalAdicao 
       Alignment       =   1  'Right Justify
-      BackColor       =   &H00FFFFFF&
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -647,9 +662,10 @@ Begin VB.Form Consulta_HistoricoProduto
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   240
+      ForeColor       =   &H80000008&
+      Height          =   300
       Left            =   9270
-      TabIndex        =   3
+      TabIndex        =   2
       Top             =   7440
       Width           =   1230
    End
@@ -692,13 +708,13 @@ End Type
 Private eventos() As TEvento
 Private nEventos As Integer
 
-Public Sub loadHistorico(ByVal CodProduto As Long, Optional ByVal CriterioPrinc As String = "TODOS", Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "", Optional ByVal FormaFiltro As String = "")
+Public Sub loadHistorico(ByVal CodProduto As Long, Optional ByVal CriterioPrinc As String = "TODOS", Optional ByVal MES As Integer = 0, Optional ByVal ANO As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "", Optional ByVal FormaFiltro As String = "")
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
 vFiltroCriterioPrinc = CriterioPrinc
-vFiltroMes = Mes
-vFiltroAno = Ano
+vFiltroMes = MES
+vFiltroAno = ANO
 vFiltroDataIni = DataIni
 vFiltroDataFim = DataFim
 
@@ -740,7 +756,7 @@ sSQL = "SELECT Produtos_Quant.Data AS vData, " & _
 
 Set r = dbData.OpenRecordset(sSQL)
 
-MontarEventos r, CodProduto, CriterioPrinc, Mes, Ano, DataIni, DataFim, FormaFiltro
+MontarEventos r, CodProduto, CriterioPrinc, MES, ANO, DataIni, DataFim, FormaFiltro
 
 If r.State <> 0 Then r.Close
 Set r = Nothing
@@ -754,7 +770,7 @@ End Sub
 'array exibido (conforme FormaFiltro/CriterioPrinc). Assim o saldo de uma
 'linha filtrada continua sendo o saldo real naquele ponto da historia, nao
 'um saldo que reinicia do zero no primeiro evento do filtro
-Private Sub MontarEventos(rTabela As ADODB.Recordset, ByVal CodProduto As Long, ByVal CriterioPrinc As String, ByVal Mes As Integer, ByVal Ano As String, ByVal DataIni As String, ByVal DataFim As String, ByVal FormaFiltro As String)
+Private Sub MontarEventos(rTabela As ADODB.Recordset, ByVal CodProduto As Long, ByVal CriterioPrinc As String, ByVal MES As Integer, ByVal ANO As String, ByVal DataIni As String, ByVal DataFim As String, ByVal FormaFiltro As String)
 Dim saldoAcumulado As Double
 Dim n As Integer
 Dim incluir As Boolean
@@ -781,7 +797,7 @@ Do While Not rTabela.EOF
       If sForma <> FormaFiltro Then incluir = False
    End If
    If incluir And CriterioPrinc = "MENSAL" Then
-      If Month(dData) <> Mes Or CStr(Year(dData)) <> Ano Then incluir = False
+      If Month(dData) <> MES Or CStr(Year(dData)) <> ANO Then incluir = False
    ElseIf incluir And CriterioPrinc = "PERÍODO" Then
       If dData < CDate(DataIni) Or dData > CDate(DataFim) Then incluir = False
    End If
@@ -1073,6 +1089,107 @@ Select Case sForma
 End Select
 End Sub
 
+Private Sub cmdImprimir_Click()
+If nEventos = 0 Then
+   ShowMsg "Nada para imprimir - faça uma busca primeiro.", vbInformation
+   Exit Sub
+End If
+
+Dim sDescricaoProduto As String
+sDescricaoProduto = SQLExecutaRetorno("SELECT descricao FROM produtos WHERE (codigo = " & eventos(0).CodProduto & ")", "descricao", "")
+
+'Essa tela nao guarda um printSQL como as outras 3 (o filtro de periodo/
+'forma e aplicado em VB, nao em SQL - ver MontarEventos) - entao o jeito de
+'garantir que o relatorio mostre exatamente o que esta na tela e montar um
+'recordset em memoria a partir do proprio array eventos() ja filtrado
+Dim rPrint As ADODB.Recordset
+Set rPrint = New ADODB.Recordset
+rPrint.CursorLocation = adUseClient
+rPrint.Fields.Append "DATA", adDate
+rPrint.Fields.Append "HORA", adDate
+rPrint.Fields.Append "varNomeUsuario", adVarChar, 100
+rPrint.Fields.Append "DESCRICAO", adVarChar, 200
+rPrint.Fields.Append "FORMA", adVarChar, 20
+rPrint.Fields.Append "TIPO", adVarChar, 20
+rPrint.Fields.Append "QUANT", adDouble
+rPrint.Open
+
+Dim i As Integer
+For i = 0 To nEventos - 1
+   rPrint.AddNew
+   rPrint("DATA") = eventos(i).DATA
+   If eventos(i).hora <> "" Then rPrint("HORA") = CDate(eventos(i).hora)
+   rPrint("varNomeUsuario") = eventos(i).Usuario
+   rPrint("DESCRICAO") = sDescricaoProduto
+   rPrint("FORMA") = eventos(i).Forma
+   rPrint("TIPO") = eventos(i).Tipo
+   rPrint("QUANT") = eventos(i).QUANT
+   rPrint.Update
+Next
+rPrint.MoveFirst
+
+'So tem 3 quadradinhos de total no relatorio compartilhado (rotulos fixos
+'CADASTRO/ENTRADA/AJUSTE), mas essa tela tem 6 tipos de movimento - por
+'pedido do usuario, usa ADIÇÃO no 1º quadro e REMOÇÃO no 2º (mesmos totais que
+'ja aparecem no rodape da tela - lblTotalAdicao/lblTotalRemocao), e deixa o
+'3º sem uso. O TOTAL geral (abaixo) continua somando tudo, incluindo
+'SAÍDA/VENDA/OFICINA que não tem quadradinho proprio
+Dim somaTotalGeral As Double
+For i = 0 To nEventos - 1
+   somaTotalGeral = somaTotalGeral + eventos(i).QUANT
+Next
+
+Me.Hide
+
+Set REL_Entrada_PorProduto.Relatorio.Recordset = rPrint
+
+REL_Entrada_PorProduto.lblTitulo.Caption = "RELATÓRIO DE HISTÓRICO DO PRODUTO"
+
+'Os rotulos dos 2 quadradinhos usados viram ADICAO/REMOCAO (em vez de
+'CADASTRO/ENTRADA, que nao fazem sentido aqui) - Unload no final restaura
+'tudo isso pro proximo print, seja dessa tela ou de outra
+REL_Entrada_PorProduto.Label6.Caption = "ADIÇÃO:"
+REL_Entrada_PorProduto.Label7.Caption = "REMOÇÃO:"
+
+REL_Entrada_PorProduto.dfQuantTotal.Caption = somaTotalGeral & "  "
+REL_Entrada_PorProduto.dfQuantCadastroSoma.Caption = lblTotalAdicao.Caption & "  "
+REL_Entrada_PorProduto.dfQuantEntradaSoma.Caption = lblTotalRemocao.Caption & "  "
+REL_Entrada_PorProduto.dfQuantAjusteSoma.Caption = "0  "
+
+REL_Entrada_PorProduto.dfQuantCadastro.Caption = lblQuantAdicao.Caption & "  "
+REL_Entrada_PorProduto.dfQuantEntrada.Caption = lblQuantRemocao.Caption & "  "
+REL_Entrada_PorProduto.dfQuantAjuste.Caption = Format(0, "000") & "  "
+
+REL_Entrada_PorProduto.rfCons1.Caption = "PRODUTO = " & sDescricaoProduto
+
+If vFiltroCriterioPrinc = "MENSAL" Then
+   REL_Entrada_PorProduto.rfCons2.Caption = "Mês/Ano = " & vFiltroMes & "/" & vFiltroAno
+ElseIf vFiltroCriterioPrinc = "PERÍODO" Then
+   REL_Entrada_PorProduto.rfCons2.Caption = "Intervalo de " & vFiltroDataIni & " à " & vFiltroDataFim
+Else
+   REL_Entrada_PorProduto.rfCons2.Caption = "TODOS"
+End If
+
+'O 3 quadrado (AJUSTE) fica sem uso nessa tela - Visible precisa ser
+'setado por ULTIMO, depois de mexer no Caption dos campos, porque
+'setar Caption nesse controle (ReportX.ReportField) reativa o Visible.
+'Tambem zera Width/Height - Visible sozinho pode nao bastar pra sumir
+'com a borda (Borda=15) desenhada pela secao do relatorio. O Unload
+'no final restaura tudo (tamanho/visibilidade/rotulo) pro proximo print
+REL_Entrada_PorProduto.Label11.Visible = False
+REL_Entrada_PorProduto.dfQuantAjuste.Visible = False
+REL_Entrada_PorProduto.dfQuantAjuste.Width = 0
+REL_Entrada_PorProduto.dfQuantAjuste.Height = 0
+REL_Entrada_PorProduto.dfQuantAjusteSoma.Visible = False
+REL_Entrada_PorProduto.dfQuantAjusteSoma.Width = 0
+REL_Entrada_PorProduto.dfQuantAjusteSoma.Height = 0
+
+REL_Entrada_PorProduto.Relatorio.Ativar
+Unload REL_Entrada_PorProduto
+
+Me.Show
+End Sub
+
 Private Sub PreencherConsulta()
 cboCriterioSec.AddItem "DESCRIÇÃO"
 cboCriterioSec.AddItem "CÓD. BARRA"
@@ -1343,10 +1460,6 @@ End Sub
 
 Private Sub txtCodBarra_GotFocus()
 SelectControl txtCodBarra
-End Sub
-
-Private Sub cmdFechar_Click()
-   Unload Me
 End Sub
 
 Private Sub Form_Load()

@@ -18,13 +18,13 @@ Begin VB.Form Saida_Consulta_PorProdutos
    ScaleWidth      =   11535
    StartUpPosition =   2  'CenterScreen
    Begin ChamaleonBtn.chameleonButton cmdExibirPedidos 
-      Height          =   255
+      Height          =   315
       Left            =   60
       TabIndex        =   25
-      Top             =   8160
-      Width           =   2535
-      _ExtentX        =   4471
-      _ExtentY        =   450
+      Top             =   8100
+      Width           =   1995
+      _ExtentX        =   3519
+      _ExtentY        =   556
       BTYPE           =   3
       TX              =   "MOSTRAR SAÍDAS"
       ENAB            =   -1  'True
@@ -332,50 +332,11 @@ Begin VB.Form Saida_Consulta_PorProdutos
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
-         Begin ChamaleonBtn.chameleonButton cmdImprimir 
-            Height          =   495
-            Left            =   1620
-            TabIndex        =   41
-            Top             =   1560
-            Width           =   1515
-            _ExtentX        =   2672
-            _ExtentY        =   873
-            BTYPE           =   3
-            TX              =   "&Imprimir"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   12632256
-            BCOLO           =   12632256
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "Saida_Consulta_PorProdutos.frx":BA68
-            PICN            =   "Saida_Consulta_PorProdutos.frx":BA84
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
          Begin VB.ComboBox cboFormaSaida 
             Height          =   315
             Left            =   3300
             Style           =   2  'Dropdown List
-            TabIndex        =   43
+            TabIndex        =   42
             Top             =   480
             Width           =   1700
          End
@@ -385,7 +346,7 @@ Begin VB.Form Saida_Consulta_PorProdutos
             Caption         =   "Forma:"
             Height          =   195
             Left            =   3300
-            TabIndex        =   42
+            TabIndex        =   41
             Top             =   240
             Width           =   420
          End
@@ -452,7 +413,7 @@ Begin VB.Form Saida_Consulta_PorProdutos
       ForeColor       =   &H80000008&
       Height          =   1095
       Left            =   3960
-      Picture         =   "Saida_Consulta_PorProdutos.frx":BD9E
+      Picture         =   "Saida_Consulta_PorProdutos.frx":BA68
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   15
@@ -471,6 +432,26 @@ Begin VB.Form Saida_Consulta_PorProdutos
       TabIndex        =   12
       Top             =   60
       Width           =   11415
+      Begin VB.Label lblInfoProduto 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   270
+         Left            =   1500
+         TabIndex        =   45
+         Top             =   480
+         Width           =   240
+      End
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -490,13 +471,13 @@ Begin VB.Form Saida_Consulta_PorProdutos
          Height          =   360
          Left            =   1440
          TabIndex        =   13
-         Top             =   240
+         Top             =   180
          Width           =   5895
       End
       Begin VB.Image Image1 
          Height          =   825
          Left            =   240
-         Picture         =   "Saida_Consulta_PorProdutos.frx":CDD6
+         Picture         =   "Saida_Consulta_PorProdutos.frx":CAA0
          Top             =   0
          Width           =   1140
       End
@@ -524,7 +505,7 @@ Begin VB.Form Saida_Consulta_PorProdutos
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "15:41"
+            TextSave        =   "17:46"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -555,6 +536,44 @@ Begin VB.Form Saida_Consulta_PorProdutos
       SelectionMode   =   1
       Appearance      =   0
    End
+   Begin ChamaleonBtn.chameleonButton cmdImprimir 
+      Height          =   315
+      Left            =   2160
+      TabIndex        =   44
+      Top             =   8100
+      Width           =   1995
+      _ExtentX        =   3519
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "IMPRIMIR"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Saida_Consulta_PorProdutos.frx":132E6
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblEstoqueAtual 
       AutoSize        =   -1  'True
       Caption         =   "00"
@@ -568,8 +587,8 @@ Begin VB.Form Saida_Consulta_PorProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   120
-      TabIndex        =   44
+      Left            =   4260
+      TabIndex        =   43
       Top             =   8100
       Width           =   150
    End
@@ -806,9 +825,9 @@ Begin VB.Form Saida_Consulta_PorProdutos
    Begin VB.Label Label3 
       Caption         =   "Label3"
       Height          =   495
-      Left            =   6180
+      Left            =   6240
       TabIndex        =   14
-      Top             =   8220
+      Top             =   8880
       Visible         =   0   'False
       Width           =   1215
    End
@@ -1227,14 +1246,16 @@ Set r = dbData.OpenRecordset(printSQL)
 
 Set REL_Entrada_PorProduto.Relatorio.Recordset = r
 
-    REL_Entrada_PorProduto.dfQuantTotal.Caption = lblQtdaTotal.Caption
-    REL_Entrada_PorProduto.dfQuantCadastroSoma.Caption = lblQtdaCadastroSoma.Caption
-    REL_Entrada_PorProduto.dfQuantEntradaSoma.Caption = lblQtdaEntradaSoma.Caption
-    REL_Entrada_PorProduto.dfQuantAjusteSoma.Caption = lblQtdaAjusteSoma.Caption
+    REL_Entrada_PorProduto.lblTitulo.Caption = "RELATÓRIO DE SAÍDA POR PRODUTO"
+
+    REL_Entrada_PorProduto.dfQuantTotal.Caption = lblQtdaTotal.Caption & "  "
+    REL_Entrada_PorProduto.dfQuantCadastroSoma.Caption = lblQtdaCadastroSoma.Caption & "  "
+    REL_Entrada_PorProduto.dfQuantEntradaSoma.Caption = lblQtdaEntradaSoma.Caption & "  "
+    REL_Entrada_PorProduto.dfQuantAjusteSoma.Caption = lblQtdaAjusteSoma.Caption & "  "
     
-    REL_Entrada_PorProduto.dfQuantCadastro.Caption = lblQtdaCadastro.Caption
-    REL_Entrada_PorProduto.dfQuantEntrada.Caption = lblQtdaEntrada.Caption
-    REL_Entrada_PorProduto.dfQuantAjuste.Caption = lblQtdaAjuste.Caption
+    REL_Entrada_PorProduto.dfQuantCadastro.Caption = lblQtdaCadastro.Caption & "  "
+    REL_Entrada_PorProduto.dfQuantEntrada.Caption = lblQtdaEntrada.Caption & "  "
+    REL_Entrada_PorProduto.dfQuantAjuste.Caption = lblQtdaAjuste.Caption & "  "
     
     If cboCriterioPrinc.Text = "TODOS" Then
        REL_Entrada_PorProduto.rfCons2.Caption = "TODOS"
@@ -1260,7 +1281,7 @@ Set REL_Entrada_PorProduto.Relatorio.Recordset = r
     REL_Entrada_PorProduto.Relatorio.Ativar
     Unload REL_Entrada_PorProduto
 
- Me.Show 1
+ Me.Show
 End Sub
 
 Public Sub cmdLocalizar_Click()
@@ -1355,20 +1376,20 @@ End If
 sSQL = "SELECT mv.*, funcionario.NOME AS varNomeUsuario FROM (" & _
    "SELECT Produtos_Quant.CODIGO AS CODIGO, Produtos_Quant.Hora AS Hora, Produtos_Quant.DATA AS DATA, ABS(Produtos_Quant.QUANT) AS QUANT, " & _
       "ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, " & _
-      "'AJUSTE' AS FORMA, Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos.descricao AS DESCRICAO, produtos.COD_BARRA AS COD_BARRA, produtos.CATEGORIA AS CATEGORIA, produtos.quant_estoque AS varEstoqueAtual, 0 AS vCodPedido " & _
+      "'AJUSTE' AS FORMA, 'REMOÇÃO' AS TIPO, Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos.descricao AS DESCRICAO, produtos.COD_BARRA AS COD_BARRA, produtos.CATEGORIA AS CATEGORIA, produtos.quant_estoque AS varEstoqueAtual, 0 AS vCodPedido " & _
       "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
       "WHERE (Produtos_Quant.FORMA = 'AJUSTE') AND (Produtos_Quant.TIPO = 'REMOÇÃO') " & _
    "UNION ALL " & _
    "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, " & _
       "ABS(Produtos_Quant.QUANT), " & _
       "ISNULL(Produtos_Quant.cod_usuario, ''), ISNULL(Produtos_Quant.Estoque, ' '), " & _
-      "'SAÍDA', Produtos_Quant.COD_PRODUTO, produtos.descricao, produtos.COD_BARRA, produtos.CATEGORIA, produtos.quant_estoque, 0 " & _
+      "'SAÍDA', 'REMOÇÃO', Produtos_Quant.COD_PRODUTO, produtos.descricao, produtos.COD_BARRA, produtos.CATEGORIA, produtos.quant_estoque, 0 " & _
       "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
       "WHERE (Produtos_Quant.FORMA = 'SAÍDA') AND (Produtos_Quant.TIPO = 'REMOÇÃO') " & _
    "UNION ALL " & _
    "SELECT pedidos_itens.codigo, CASE WHEN pedidos.HORA_COMPRA = '00:00:00' THEN '' ELSE CONVERT(VARCHAR(8), pedidos.HORA_COMPRA) END, pedidos.DATA_COMPRA, pedidos_itens.quantidade, " & _
       "ISNULL(CONVERT(VARCHAR(10), pedidos.cod_funcionario), ''), ' ', " & _
-      "'VENDA', pedidos_itens.cod_produto, produtos.descricao, produtos.COD_BARRA, produtos.CATEGORIA, produtos.quant_estoque, pedidos_itens.cod_pedido " & _
+      "'VENDA', 'REMOÇÃO', pedidos_itens.cod_produto, produtos.descricao, produtos.COD_BARRA, produtos.CATEGORIA, produtos.quant_estoque, pedidos_itens.cod_pedido " & _
       "FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.cod_pedido = pedidos.cod_pedido " & _
       "INNER JOIN produtos ON pedidos_itens.cod_produto = produtos.codigo " & _
       "WHERE (pedidos.CANCELADO = 0) AND (pedidos.tipo_pedido <> 'ORÇAMENTO') AND (pedidos.tipo_pagamento IN ('À Vista', 'À prazo')) AND (ISNULL(pedidos_itens.tipo_venda,'') <> 'OFICINA') " & _
@@ -1377,9 +1398,11 @@ sSQL = "SELECT mv.*, funcionario.NOME AS varNomeUsuario FROM (" & _
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 If Not r.EOF Then
-   lblEstoqueAtual.Caption = "ESTOQUE ATUAL: " & ValidateNull(r("varEstoqueAtual"))
+   lblInfoProduto.Caption = "PRODUTO: " & ValidateNull(r("DESCRICAO"))
+   lblEstoqueAtual.Caption = "Estoque Atual: " & ValidateNull(r("varEstoqueAtual"))
 Else
-   lblEstoqueAtual.Caption = "ESTOQUE ATUAL: ?"
+   lblInfoProduto.Caption = ""
+   lblEstoqueAtual.Caption = "Estoque Atual: ?"
 End If
 
 FormatarGrid_Quant r
@@ -1451,25 +1474,25 @@ With Grid
 
    .ColWidth(0) = 0
    .ColWidth(1) = 1000
-   .ColWidth(2) = 850
-   .ColWidth(3) = 750
-   .ColWidth(4) = 4290
+   .ColWidth(2) = 1100
+   .ColWidth(3) = 850
+   .ColWidth(4) = 750
    .ColWidth(5) = 990
    .ColWidth(6) = 1020
-   .ColWidth(7) = 1275
+   .ColWidth(7) = 0
    .ColWidth(8) = 0
    .ColWidth(9) = 0
 
    .ColAlignment(1) = 3
-   .ColAlignment(2) = 3
    .ColAlignment(3) = 3
+   .ColAlignment(4) = 3
    .ColAlignment(6) = 5
    .ColAlignment(7) = 5
 
     .TextMatrix(0, 1) = "USUÁRIO"
-    .TextMatrix(0, 2) = "DATA"
-    .TextMatrix(0, 3) = "HORA"
-    .TextMatrix(0, 4) = "PRODUTO"
+    .TextMatrix(0, 2) = "TIPO"
+    .TextMatrix(0, 3) = "DATA"
+    .TextMatrix(0, 4) = "HORA"
     .TextMatrix(0, 5) = "FORMA"
     .TextMatrix(0, 6) = "QUANT"
     .TextMatrix(0, 7) = "SALDO/DIA"
@@ -1493,13 +1516,13 @@ With Grid
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
         .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("varNomeUsuario"))
-        .TextMatrix(.rows - 1, 2) = Format$(rTabela("DATA"), "dd/mm/yy")
+        .TextMatrix(.rows - 1, 2) = rTabela("TIPO")
+        .TextMatrix(.rows - 1, 3) = Format$(rTabela("DATA"), "dd/mm/yy")
         If Trim(ValidateNull(rTabela("Hora"))) = "" Then
-           .TextMatrix(.rows - 1, 3) = ""
+           .TextMatrix(.rows - 1, 4) = ""
         Else
-           .TextMatrix(.rows - 1, 3) = Format$(rTabela("Hora"), ocHORA)
+           .TextMatrix(.rows - 1, 4) = Format$(rTabela("Hora"), ocHORA)
         End If
-        .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("DESCRICAO"))
         .TextMatrix(.rows - 1, 5) = rTabela("FORMA")
         .TextMatrix(.rows - 1, 6) = rTabela("QUANT")
         .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("vQuantEstoque"))

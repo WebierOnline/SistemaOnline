@@ -380,7 +380,7 @@ Begin VB.Form Vendas_Consulta
          Begin VB.Label lblCodigo 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
-            Caption         =   "Pedido:"
+            Caption         =   "Cód. Venda:"
             Height          =   195
             Left            =   120
             TabIndex        =   49
@@ -451,6 +451,7 @@ Begin VB.Form Vendas_Consulta
          Top             =   180
          Width           =   5475
          Begin VB.ComboBox cboTipoVenda 
+            BackColor       =   &H00C0FFFF&
             Height          =   315
             Left            =   120
             TabIndex        =   53
@@ -458,17 +459,18 @@ Begin VB.Form Vendas_Consulta
             Width           =   2595
          End
          Begin VB.ComboBox cboFormaPgto 
+            BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   2760
+            Left            =   120
             TabIndex        =   23
             Top             =   1620
             Width           =   2595
          End
          Begin VB.ComboBox cboIndice 
             Height          =   315
-            Left            =   120
+            Left            =   2760
             TabIndex        =   22
-            Top             =   1620
+            Top             =   420
             Width           =   2595
          End
          Begin VB.ComboBox cboCriterioSec 
@@ -499,7 +501,7 @@ Begin VB.Form Vendas_Consulta
             AutoSize        =   -1  'True
             Caption         =   "Forma de Pgto"
             Height          =   195
-            Left            =   2760
+            Left            =   120
             TabIndex        =   27
             Top             =   1380
             Width           =   1035
@@ -508,9 +510,9 @@ Begin VB.Form Vendas_Consulta
             AutoSize        =   -1  'True
             Caption         =   "Organizar por:"
             Height          =   195
-            Left            =   120
+            Left            =   2760
             TabIndex        =   26
-            Top             =   1380
+            Top             =   180
             Width           =   990
          End
          Begin VB.Label Label5 
@@ -614,7 +616,7 @@ Begin VB.Form Vendas_Consulta
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "17:43"
+            TextSave        =   "08:46"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -720,6 +722,92 @@ Begin VB.Form Vendas_Consulta
       HAND            =   0   'False
       CHECK           =   0   'False
       VALUE           =   0   'False
+   End
+   Begin VB.Label Label2 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Oficina:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   6885
+      TabIndex        =   58
+      Top             =   8160
+      Width           =   525
+   End
+   Begin VB.Label lblTotalOficina 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   7560
+      TabIndex        =   57
+      Top             =   8160
+      Width           =   1275
+   End
+   Begin VB.Label lblTotalBalcao 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   7560
+      TabIndex        =   56
+      Top             =   7860
+      Width           =   1275
+   End
+   Begin VB.Label Label13 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Balcão:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   6900
+      TabIndex        =   55
+      Top             =   7860
+      Width           =   510
+   End
+   Begin VB.Shape Shape2 
+      Height          =   735
+      Left            =   6600
+      Top             =   7800
+      Width           =   2355
    End
    Begin VB.Label Label14 
       AutoSize        =   -1  'True
@@ -930,9 +1018,9 @@ Begin VB.Form Vendas_Consulta
    Begin VB.Label Label3 
       Caption         =   "Label3"
       Height          =   195
-      Left            =   6840
+      Left            =   2340
       TabIndex        =   2
-      Top             =   7860
+      Top             =   8520
       Visible         =   0   'False
       Width           =   1215
    End
@@ -946,6 +1034,11 @@ Option Explicit
 
 Private moCombo As cComboHelper
 Private printSQL As String
+'True so durante o Form_Load - o ListIndex do cboCriterioPrinc setado la
+'embaixo cascateia pra cboCriterioPrinc_Change, que da SetFocus num campo
+'(ex: cboMes) - SetFocus antes da janela existir da erro 5, e o GotFocus
+'resultante usa moCombo, que nem foi instanciado ainda nesse ponto
+Private bCarregando As Boolean
 
 Dim posX As Single
 
@@ -1016,6 +1109,11 @@ DoEvents
    
    lblQtda.Caption = Format(0, ocMONEY)
    lblSubtotal.Caption = Format(0, ocMONEY)
+   lblTotalDesc.Caption = Format(0, ocMONEY)
+   lblTotalAcresc.Caption = Format(0, ocMONEY)
+   lblSubtotalBruto.Caption = Format(0, ocMONEY)
+   lblTotalBalcao.Caption = Format(0, ocMONEY)
+   lblTotalOficina.Caption = Format(0, ocMONEY)
 picAguarde.Visible = False
 End Sub
 
@@ -1040,13 +1138,13 @@ cboCriterioPrinc.Clear
 cboCriterioPrinc.AddItem "VENDEDOR"
 cboCriterioPrinc.AddItem "CLIENTE"
 cboCriterioPrinc.AddItem "PERIODO"
-cboCriterioPrinc.AddItem "CÓDIGO"
+cboCriterioPrinc.AddItem "CÓD. VENDA"
 cboCriterioPrinc.AddItem "MENSAL"
 End Sub
 
 Private Sub PreencherIndice()
 cboIndice.Clear
-cboIndice.AddItem "PEDIDO"
+cboIndice.AddItem "CÓD. VENDA"
 cboIndice.AddItem "DATA"
 cboIndice.AddItem "POR NOME"
 cboIndice.AddItem "FORMA PGTO"
@@ -1069,7 +1167,7 @@ End Sub
 Private Sub PreencherTipoVendas()
 cboTipoVenda.Clear
 cboTipoVenda.AddItem "TODOS"
-cboTipoVenda.AddItem "VENDAS"
+cboTipoVenda.AddItem "BALCÃO"
 cboTipoVenda.AddItem "OFICINA"
 End Sub
 
@@ -1140,36 +1238,7 @@ Private Sub cboCriterioPrinc_Change()
 If cboCriterioPrinc.Text = "CLIENTE" Then cboCriterioSec.Text = "TODOS"
 If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
    
-   'If cboCriterioPrinc.Text = "TODOS" Then
-      'lblVendedor.Visible = False
-      'cboVendedor.Visible = False
-      
-      'lblInicio.Visible = False
-      'mskInicio.Visible = False
-      'lblFim.Visible = False
-      'mskFim.Visible = False
-      'lblAte.Visible = False
-      'cmdCalendario1.Visible = False
-      'cmdCalendario2.Visible = False
-      
-      'lblClientes.Visible = False
-      'cboCliente.Visible = False
-      
-      'lblCodigo.Visible = False
-      'txtCodigo.Visible = False
-      
-      'lblMes.Visible = False
-      'cboMes.Visible = False
-      'lblAno.Visible = False
-      'cboAno.Visible = False
-      
-      'cboCriterioSec.Visible = False
-      'lblSubConsulta.Visible = False
-      'cmdLocalizar.Top = 180
-      'cmdImprimir.Top = 180
-
-      
-   If cboCriterioPrinc.Text = "VENDEDOR" And cboCriterioSec.Text = "TODOS" Then
+      If cboCriterioPrinc.Text = "VENDEDOR" And cboCriterioSec.Text = "TODOS" Then
       lblVendedor.Visible = True
       cboVendedor.Visible = True
       
@@ -1200,7 +1269,7 @@ If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 840
     cmdImprimir.Top = 840
 
-      cboVendedor.SetFocus
+      If Not bCarregando Then cboVendedor.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "CLIENTE" And cboCriterioSec.Text = "TODOS" Then
       lblVendedor.Visible = False
@@ -1232,7 +1301,7 @@ If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 840
     cmdImprimir.Top = 840
       
-      cboCliente.SetFocus
+      If Not bCarregando Then cboCliente.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "PERIODO" Then
       lblVendedor.Visible = False
@@ -1272,9 +1341,9 @@ If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 840
     cmdImprimir.Top = 840
       
-      mskInicio.SetFocus
+      If Not bCarregando Then mskInicio.SetFocus
       
-   ElseIf cboCriterioPrinc.Text = "CÓDIGO" Then
+   ElseIf cboCriterioPrinc.Text = "CÓD. VENDA" Then
       lblVendedor.Visible = False
       cboVendedor.Visible = False
       
@@ -1308,7 +1377,7 @@ If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 840
     cmdImprimir.Top = 840
       
-      txtCodigo.SetFocus
+      If Not bCarregando Then txtCodigo.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "MENSAL" Then
       lblVendedor.Visible = False
@@ -1346,103 +1415,12 @@ If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 840
     cmdImprimir.Top = 840
       
-      If cboMes.Visible = True Then cboMes.SetFocus
+      If cboMes.Visible = True And Not bCarregando Then cboMes.SetFocus
       
-   ElseIf cboCriterioPrinc.Text = "CATEGORIA" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCriterioSec.Enabled = True
-      lblSubConsulta.Enabled = False
-            cmdLocalizar.Top = 180
-      cmdImprimir.Top = 180
-      
-   ElseIf cboCriterioPrinc.Text = "ESPECIFICO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-
-      cboCriterioSec.Enabled = True
-      lblSubConsulta.Enabled = False
-            cmdLocalizar.Top = 180
-      cmdImprimir.Top = 180
-
-      cboCriterioSec.Text = "DESCRIÇÃO"
-   ElseIf cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      cboCriterioSec.Enabled = True
-
-      cboCriterioSec.Text = "DESCRIÇÃO"
-      lblMes.Visible = True
-      cboMes.Visible = True
-      lblAno.Visible = True
-      cboAno.Visible = True
-      cmdLocalizar.Top = 180
-      cmdImprimir.Top = 180
    Else
       Exit Sub
    End If
    
-   'cboCriterioSec.Clear
-   'cboIndice.Clear
-   'cboFormaPgto.Clear
-   'cboTipoPgto.Clear
-   'CboFormaPgtoSec.Clear
-   'cboTipoPgtoSec.Clear
-  
    If cboCriterioPrinc.Text = "VENDEDOR" Or cboCriterioPrinc.Text = "CLIENTE" Then
       cboCriterioSec.Text = "TODOS"
    Else
@@ -1459,14 +1437,6 @@ moCombo.AttachTo cboCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
-'If cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
-'   lblMes.Visible = True
-'   cboMes.Visible = True
-'   lblAno.Visible = True
-'   cboAno.Visible = True
-'End If
-'End Sub
-
 If cboCriterioSec.Text = "TODOS" Then
    lblMes.Visible = False
    cboMes.Visible = False
@@ -1738,10 +1708,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1749,8 +1719,7 @@ Me.Hide
 
 Set r = dbData.OpenRecordset(printSQL)
 
-'If cboTipo.Text = "VENDA" Or cboTipo.Text = "ORÇAMENTOS" Or cboTipo.Text = "OFICINA" Then
-   Set REL_Cons_Venda.Relatorio.Recordset = r
+Set REL_Cons_Venda.Relatorio.Recordset = r
    
    REL_Cons_Venda.dfQuant.Caption = lblQtda.Caption
    REL_Cons_Venda.dfSubtotal.Caption = lblSubtotal.Caption
@@ -1759,14 +1728,7 @@ Set r = dbData.OpenRecordset(printSQL)
    REL_Cons_Venda.dfSubtotalBruto.Caption = lblSubtotalBruto.Caption
    
    
-   'REL_Cons_Venda.dfDesc.Caption = lblDesc.Caption
-   'REL_Cons_Venda.dfAcresc.Caption = lblAcresc.Caption
-
-   'If cboTipo.Text = "VENDA" Then
-      REL_Cons_Venda.lblTitulo.Caption = "RELATÓRIO DE VENDAS POR PEDIDOS"
-   'ElseIf cboTipo.Text = "ORÇAMENTOS" Then
-   '   REL_Cons_Venda.lblTitulo.Caption = "RELATÓRIO DE ORÇAMENTOS"
-   'End If
+   REL_Cons_Venda.lblTitulo.Caption = "RELATÓRIO DE VENDAS POR PEDIDOS"
 
    If cboFormaPgto.Text = "TODOS" Then
       REL_Cons_Venda.rfForma.Caption = "TODAS"
@@ -1778,32 +1740,14 @@ Set r = dbData.OpenRecordset(printSQL)
       REL_Cons_Venda.rfForma.Caption = "TODAS"
    End If
 
-   'If cboTipoPgto.Text = "TODOS" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "TODAS"
-   'ElseIf cboTipoPgto.Text = "AVULSO" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "AVULSO"
-   'ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "DINHEIRO"
-   'ElseIf cboTipoPgto.Text = "CARTÃO" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "CARTÃO"
-   'ElseIf cboTipoPgto.Text = "CHEQUE" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "CHEQUE"
-   'ElseIf cboTipoPgto.Text = "PROMISSORIA" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "PROMISSÓRIA"
-   'ElseIf cboTipoPgto.Text = "PIX" Then
-   '   REL_Cons_Venda.rfTipo.Caption = "PIX"
-   'Else
-   '   REL_Cons_Venda.rfTipo.Caption = "TODAS"
-   'End If
-
    If cboCriterioPrinc.Text = "VENDEDOR" Then
       REL_Cons_Venda.rfCons1.Caption = "Vendedor = " & cboVendedor.Text & ""
    ElseIf cboCriterioPrinc.Text = "CLIENTE" Then
       REL_Cons_Venda.rfCons1.Caption = "Cliente = " & cboCliente.Text & ""
    ElseIf cboCriterioPrinc.Text = "PERIODO" Then
       REL_Cons_Venda.rfCons1.Caption = "Intervalo de " & mskInicio.Text & " à " & mskFim.Text
-   ElseIf cboCriterioPrinc.Text = "CÓDIGO" Then
-      REL_Cons_Venda.rfCons1.Caption = "Código = " & txtCodigo.Text & ""
+   ElseIf cboCriterioPrinc.Text = "CÓD. VENDA" Then
+      REL_Cons_Venda.rfCons1.Caption = "Cód. Venda = " & txtCodigo.Text & ""
    ElseIf cboCriterioPrinc.Text = "MENSAL" Then
       REL_Cons_Venda.rfCons1.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
    ElseIf cboCriterioPrinc.Text = "TODOS" Then
@@ -1814,12 +1758,12 @@ Set r = dbData.OpenRecordset(printSQL)
 
    If cboCriterioSec.Text = "MENSAL" Then
       REL_Cons_Venda.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+   ElseIf cboCriterioSec.Text = "DATA" Then
+      REL_Cons_Venda.rfCons2.Caption = "Data = " & mskData.Text
    End If
    
    REL_Cons_Venda.Relatorio.Ativar
    Unload REL_Cons_Venda
-
-'End If
 
 Me.Show 1
 End Sub
@@ -1842,7 +1786,7 @@ ElseIf cboIndice.Text = "FORMA PGTO" Then
    INDICE = "tipo_pagamento;"
 ElseIf cboIndice.Text = "VALOR" Then
    INDICE = "pedidos_1.total;"
-ElseIf cboIndice.Text = "PEDIDO" Then
+ElseIf cboIndice.Text = "CÓD. VENDA" Then
    INDICE = "pedidos_1.cod_pedido;"
 Else
    INDICE = "pedidos_1.cod_pedido;"
@@ -1859,115 +1803,15 @@ Else
     TipoPgto = " AND (pedidos_1.tipo_pagamento IN ('À Vista', 'À prazo'))"
 End If
 
-'TIPO DE PAGAMENTO (PARCELAS)
+'Usada dentro das SQLs de alguns ramos (concatenada no WHERE) - nunca
+'chegou a ser preenchida de fato (a logica que montava isso, baseada
+'num combo cboTipoPgto que nem existe mais, estava toda comentada e foi
+'removida); fica sempre vazia, sem efeito nenhum no filtro
 Dim vTipoPgtoParcelas As String
-'If cboFormaPgto.Text = "À VISTA" Then
-'    If cboTipoPgto.Text = "TODOS" Then
-'    ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DINHEIRO')"
-'    ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'D')"""
-'    ElseIf cboTipoPgto.Text = "CARTÃO CRÉDITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'C')"""
-'    ElseIf cboTipoPgto.Text = "TRANSFERÊNCIA" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'TRANSFERENCIA')"
-'    ElseIf cboTipoPgto.Text = "DEPOSITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DEPOSITO')"
-'    ElseIf cboTipoPgto.Text = "FINANCEIRA" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'FINANCEIRA')"
-'    ElseIf cboTipoPgto.Text = "PROMISSÓRIA" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PROMISSORIA')"
-'    ElseIf cboTipoPgto.Text = "CHEQUE" Then
- '       vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CHEQUE')"
- '   ElseIf cboTipoPgto.Text = "BOLETO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'BOLETO')"
-'    ElseIf cboTipoPgto.Text = "PIX" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PIX')"
-'    End If
-'ElseIf cboFormaPgto.Text = "À PRAZO" Then
-'    If cboTipoPgto.Text = "TODOS" Then
-'    ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DINHEIRO')"
-'    ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'D')"""
-'    ElseIf cboTipoPgto.Text = "CARTÃO CRÉDITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CARTAO') and (parcelas.TIPO_CARTAO = 'C')"""
-'    ElseIf cboTipoPgto.Text = "TRANSFERÊNCIA" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'TRANSFERENCIA')"
-'    ElseIf cboTipoPgto.Text = "DEPOSITO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'DEPOSITO')"
-'    ElseIf cboTipoPgto.Text = "FINANCEIRA" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'FINANCEIRA')"
-'    ElseIf cboTipoPgto.Text = "PROMISSÓRIA" Then
- '       vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PROMISSORIA')"
-'    ElseIf cboTipoPgto.Text = "CHEQUE" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'CHEQUE')"
-'    ElseIf cboTipoPgto.Text = "BOLETO" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'BOLETO')"
-'    ElseIf cboTipoPgto.Text = "PIX" Then
-'        vTipoPgtoParcelas = " AND (parcelas.FORMA_PGTO = 'PIX')"
-'    End If
-'Else
-'End If
-
-If cboFormaPgto.Text = "À PRAZO" Then
-    'If cboTipoPgto.Text = "TODOS" Then
-    '   vTipoPgtoParcelas = ""
-    'ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'DINHEIRO')"
-    'ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'CARTAO') and (parcelas.TIPO_CARTAO = 'D')"
-    'ElseIf cboTipoPgto.Text = "CARTÃO CRÉDITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'CARTAO') and (parcelas.TIPO_CARTAO = 'C')"
-    'ElseIf cboTipoPgto.Text = "TRANSFERÊNCIA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'TRANSFERENCIA')"
-    'ElseIf cboTipoPgto.Text = "DEPOSITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'DEPOSITO')"
-    'ElseIf cboTipoPgto.Text = "FINANCEIRA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'FINANCEIRA')"
-    'ElseIf cboTipoPgto.Text = "PROMISSÓRIA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'PROMISSORIA')"
-    'ElseIf cboTipoPgto.Text = "CHEQUE" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'Cheque')"
-    'ElseIf cboTipoPgto.Text = "BOLETO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'BOLETO')"
-    'ElseIf cboTipoPgto.Text = "PIX" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) = 'PIX')"
-    'Else
-    '    vTipoPgtoParcelas = ""
-    'End If
-ElseIf cboFormaPgto.Text = "À VISTA" Then
-    'If cboTipoPgto.Text = "TODOS" Then
-    '   vTipoPgtoParcelas = ""
-    'ElseIf cboTipoPgto.Text = "DINHEIRO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'DINHEIRO')"
-    'ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'CARTAO') and (parcelas.TIPO_CARTAO = 'D')"
-    'ElseIf cboTipoPgto.Text = "CARTÃO CRÉDITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'CARTAO') and (parcelas.TIPO_CARTAO = 'C')"
-    'ElseIf cboTipoPgto.Text = "TRANSFERÊNCIA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'TRANSFERENCIA')"
-    'ElseIf cboTipoPgto.Text = "DEPOSITO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'DEPOSITO')"
-    'ElseIf cboTipoPgto.Text = "FINANCEIRA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'FINANCEIRA')"
-    'ElseIf cboTipoPgto.Text = "PROMISSÓRIA" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'PROMISSORIA')"
-    'ElseIf cboTipoPgto.Text = "CHEQUE" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'Cheque')"
-    'ElseIf cboTipoPgto.Text = "BOLETO" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'BOLETO')"
-    'ElseIf cboTipoPgto.Text = "PIX" Then
-    '   vTipoPgtoParcelas = " AND ((CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Vista' THEN parcelas.FORMA_PGTO else pedidos_1.PAGAMENTO END) = 'PIX')"
-    'Else
-    '    vTipoPgtoParcelas = ""
-    'End If
-Else
-End If
 
 'TIPO DE VENDAS
 Dim varTipoConsulta As String
-If cboTipoVenda.Text = "VENDAS" Then
+If cboTipoVenda.Text = "BALCÃO" Then
    varTipoConsulta = " = 'VENDA'"
 ElseIf cboTipoVenda.Text = "OFICINA" Then
    varTipoConsulta = " = 'OFICINA'"
@@ -2112,7 +1956,7 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
             "ORDER BY var_codped"
    'Debug.Print sSQL
    'CODIGO
-    ElseIf cboCriterioPrinc.Text = "CÓDIGO" And cboCriterioSec.Text = "" Then
+    ElseIf cboCriterioPrinc.Text = "CÓD. VENDA" And cboCriterioSec.Text = "" Then
         If txtCodigo.Text = "" Then Limpar_Grid_Venda: Exit Sub
         
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO as pFormaPgto, parcelas.VALOR_FINAL as pValorPgto, parcelas.TIPO_CARTAO, cliente.nome, " & _
@@ -2160,32 +2004,7 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
             
             
    
-   'TODOS
-    ElseIf cboCriterioPrinc.Text = "TODOS" And cboCriterioSec.Text = "" Then
-
-        sSQL = sSQL & vTABELAS & " Where (pedidos_1.tipo_pedido " & varTipoConsulta & ") and cancelado = '0' " & vTipoPgtoParcelas & " " & TipoPgto & " "
-        SQLWhere = " Where (pedidos_1.tipo_pedido " & varTipoConsulta & ") and cancelado = '0' " & vTipoPgtoParcelas & " " & TipoPgto & " "
-        
-        'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
-            "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
-            "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
-            "ORDER BY var_codped"
-        
-        sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
-            "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
-            "ORDER BY var_codped"
-        sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
-            "FROM pedidos AS pedidos_1 " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
-            "ORDER BY var_codped"
-
-   End If
+      End If
    
  'SQLCount = "SELECT COUNT (DISTINCT pedidos_1.COD_PEDIDO) AS vQuant " & vTABELAS & " " & SQLWhere & ""
 ' sSQL = sSQL & " ORDER BY " & INDICE
@@ -2202,6 +2021,22 @@ Set r = Nothing
 
 printSQL = sSQL
 End Sub
+
+Public Function SomaGridSeTipo(var_Grid As MSFlexGrid, Col As Integer, ColTipo As Integer, Tipo As String) As Double
+   Dim i As Integer, Valor As Currency
+   
+   Valor = 0
+   
+   For i = 1 To var_Grid.rows - 1
+      If var_Grid.TextMatrix(i, ColTipo) = Tipo Then
+         If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
+            Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
+         End If
+      End If
+   Next
+   
+   SomaGridSeTipo = Valor
+End Function
 
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
    Dim i As Integer, Valor As Currency
@@ -2220,6 +2055,9 @@ End Function
 
 
 Private Sub Form_Load()
+bCarregando = True
+Set moCombo = New cComboHelper
+
 Set cCfg = sysConfig("TIPO_EMPRESA")
 tipoEmpresa = cCfg.Value
 Set cCfg = Nothing
@@ -2229,6 +2067,13 @@ Set cCfg = Nothing
 PreencherPrincipal
 cboCriterioPrinc.ListIndex = 4
 
+'MENSAL ja vem selecionado por padrao - preenche mes/ano com o atual, pra
+'nao abrir a tela com os combos vazios esperando o usuario clicar neles
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.ListIndex = 2
+
 PreencherIndice
 cboIndice.ListIndex = 0
 
@@ -2236,13 +2081,13 @@ PreencherTipoVendas
 cboTipoVenda.ListIndex = 1
 
 PreencherFormaPgto
-cboFormaPgto.ListIndex = 0
+cboFormaPgto.ListIndex = 2
 
 'PreencherTipoPgto
 'cboTipoPgto.ListIndex = 0
 
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
-Set moCombo = New cComboHelper
+bCarregando = False
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -2354,7 +2199,11 @@ DoEvents
             .TextMatrix(.rows - 1, 6) = Format(rTabela("ValorAcrescReal"), ocMONEY)
             .TextMatrix(.rows - 1, 7) = Format(rTabela("var_total"), ocMONEY)
             .TextMatrix(.rows - 1, 8) = rTabela("tipo_pagamento")
-            .TextMatrix(.rows - 1, 9) = rTabela("TIPO_PEDIDO")
+            If rTabela("TIPO_PEDIDO") = "VENDA" Then
+               .TextMatrix(.rows - 1, 9) = "BALCÃO"
+            Else
+               .TextMatrix(.rows - 1, 9) = rTabela("TIPO_PEDIDO")
+            End If
             
 '            .TextMatrix(.rows - 1, 9) = Format(rTabela("pvalorPgto"), ocMONEY)
 '            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("vTipoPgto"))
@@ -2389,6 +2238,8 @@ DoEvents
     lblTotalDesc = Format(SomaGrid(Grid, 5), ocMONEY)
     lblTotalAcresc = Format(SomaGrid(Grid, 6), ocMONEY)
     lblSubtotalBruto = Format(SomaGrid(Grid, 7), ocMONEY)
+    lblTotalBalcao = Format(SomaGridSeTipo(Grid, 7, 9, "BALCÃO"), ocMONEY)
+    lblTotalOficina = Format(SomaGridSeTipo(Grid, 7, 9, "OFICINA"), ocMONEY)
 
     'lblSubtotal.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
     'lblSubtotalBruto.Caption = Format(SomaGrid(Grid, 7), ocMONEY)

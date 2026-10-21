@@ -8,13 +8,13 @@ Begin VB.Form VendasServicos_Consulta
    ClientHeight    =   9510
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   13050
+   ClientWidth     =   13215
    Icon            =   "VendasServicos_Consulta.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   9510
-   ScaleWidth      =   13050
+   ScaleWidth      =   13215
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame8 
       Caption         =   "Critérios"
@@ -32,13 +32,13 @@ Begin VB.Form VendasServicos_Consulta
       Left            =   60
       TabIndex        =   26
       Top             =   720
-      Width           =   12915
+      Width           =   13095
       Begin VB.Frame frmFiltro1 
          Height          =   2055
          Left            =   5700
          TabIndex        =   32
          Top             =   180
-         Width           =   7095
+         Width           =   7275
          Begin VB.TextBox txtCodFunc 
             Appearance      =   0  'Flat
             Height          =   195
@@ -517,10 +517,10 @@ Begin VB.Form VendasServicos_Consulta
       Height          =   675
       Left            =   60
       ScaleHeight     =   645
-      ScaleWidth      =   12885
+      ScaleWidth      =   13065
       TabIndex        =   9
-      Top             =   60
-      Width           =   12915
+      Top             =   0
+      Width           =   13095
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -557,8 +557,8 @@ Begin VB.Form VendasServicos_Consulta
       Left            =   60
       TabIndex        =   15
       Top             =   3120
-      Width           =   12915
-      _ExtentX        =   22781
+      Width           =   13095
+      _ExtentX        =   23098
       _ExtentY        =   8176
       _Version        =   393216
       ScrollBars      =   2
@@ -980,6 +980,92 @@ Begin VB.Form VendasServicos_Consulta
       Visible         =   0   'False
       Width           =   1215
    End
+   Begin VB.Shape Shape3 
+      Height          =   735
+      Left            =   8220
+      Top             =   8580
+      Width           =   2355
+   End
+   Begin VB.Label Label15 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Balcão:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   8460
+      TabIndex        =   58
+      Top             =   8640
+      Width           =   510
+   End
+   Begin VB.Label lblTotalBalcao 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   9180
+      TabIndex        =   59
+      Top             =   8640
+      Width           =   1275
+   End
+   Begin VB.Label Label16 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Oficina:"
+      BeginProperty Font 
+         Name            =   "Arial Narrow"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   225
+      Left            =   8460
+      TabIndex        =   60
+      Top             =   8940
+      Width           =   525
+   End
+   Begin VB.Label lblTotalOficina 
+      Alignment       =   1  'Right Justify
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      BorderStyle     =   1  'Fixed Single
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
+      Height          =   285
+      Left            =   9180
+      TabIndex        =   61
+      Top             =   8940
+      Width           =   1275
+   End
 End
 Attribute VB_Name = "VendasServicos_Consulta"
 Attribute VB_GlobalNameSpace = False
@@ -1060,6 +1146,13 @@ DoEvents
    
    lblQtda.Caption = Format(0, ocMONEY)
    lblSubtotal.Caption = Format(0, ocMONEY)
+   lblTotalProdutos.Caption = Format(0, ocMONEY)
+   lblTotalServicos.Caption = Format(0, ocMONEY)
+   lblTotalDesc.Caption = Format(0, ocMONEY)
+   lblTotalAcresc.Caption = Format(0, ocMONEY)
+   lblSubtotalBruto.Caption = Format(0, ocMONEY)
+   lblTotalBalcao.Caption = Format(0, ocMONEY)
+   lblTotalOficina.Caption = Format(0, ocMONEY)
 picAguarde.Visible = False
 End Sub
 
@@ -1107,8 +1200,8 @@ End Sub
 Private Sub PreencherTipoConsulta()
 cboTipo.Clear
 cboTipo.AddItem "TODOS"
-cboTipo.AddItem "PDV"
-cboTipo.AddItem "OS"
+cboTipo.AddItem "BALCÃO"
+cboTipo.AddItem "OFICINA"
 End Sub
 
 
@@ -1455,14 +1548,6 @@ moCombo.AttachTo cboCriterioPrinc
 End Sub
 
 Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
-'If cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
-'   lblMes.Visible = True
-'   cboMes.Visible = True
-'   lblAno.Visible = True
-'   cboAno.Visible = True
-'End If
-'End Sub
-
 If cboCriterioSec.Text = "TODOS" Then
    lblMes.Visible = False
    cboMes.Visible = False
@@ -1731,10 +1816,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1752,6 +1837,9 @@ Set r = dbData.OpenRecordset(printSQL)
    REL_Cons_Venda.dfSubtotalBruto.Caption = lblSubtotalBruto.Caption
    REL_Cons_Venda.dfProdutos.Caption = lblTotalProdutos.Caption
    REL_Cons_Venda.dfServicos.Caption = lblTotalServicos.Caption
+   REL_Cons_Venda.dfBalcao.Caption = lblTotalBalcao.Caption
+   REL_Cons_Venda.dfOficina.Caption = lblTotalOficina.Caption
+   REL_Cons_Venda.dfTotal.Caption = lblSubtotalBruto.Caption
    
    'REL_Cons_Venda.dfDesc.Caption = lblDesc.Caption
    'REL_Cons_Venda.dfAcresc.Caption = lblAcresc.Caption
@@ -1982,17 +2070,17 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         'SQLWhere = " Where (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") and cancelado = '0' " & vTipoPgtoParcelas & " " & TipoPgto & " "
 
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
             
         
 
         'sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
         
    'VENDEDOR - MENSAL
@@ -2005,15 +2093,15 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
 
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
             
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
    'VENDEDOR - DATA
@@ -2026,14 +2114,14 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
 
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_funcionario = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
    'MECÂNICO - TODOS
@@ -2043,7 +2131,7 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
             "(SELECT DISTINCT cliente.Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN OS ON OS.COD_PEDIDO = pedidos_1.COD_PEDIDO " & _
-            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
    'MECÂNICO - MENSAL
@@ -2054,7 +2142,7 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
             "(SELECT DISTINCT cliente.Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN OS ON OS.COD_PEDIDO = pedidos_1.COD_PEDIDO " & _
-            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
    'MECÂNICO - DATA
@@ -2065,7 +2153,7 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE,  " & _
             "(SELECT DISTINCT cliente.Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN OS ON OS.COD_PEDIDO = pedidos_1.COD_PEDIDO " & _
-            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (OS.COD_RESPONSAVEL = " & txtCodFunc.Text & ") AND (pedidos_1.data_compra = CONVERT(DATETIME, '" & Format(mskData, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
    'CLIENTE - TODOS
@@ -2080,9 +2168,9 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         SQLWhere = " Where (cliente.codigo = " & txtCodCliente.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") and cancelado = '0' " & TipoPgto & " "
 
         'sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
+            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
             "ORDER BY var_codped"
 
    'CLIENTE - MENSAL
@@ -2116,20 +2204,20 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
         sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
             
         'sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.data_compra >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_1.data_compra <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
    'Debug.Print sSQL
    'CODIGO
@@ -2151,15 +2239,15 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         sSQL = sSQL & vTABELAS & " Where (pedidos_1.cod_pedido = " & txtCodigo.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") and cancelado = '0' " & TipoPgto & " "
         
                sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_pedido = " & txtCodigo.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.cod_pedido = " & txtCodigo.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.cod_pedido = " & txtCodigo.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.cod_pedido = " & txtCodigo.Text & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
 
         'sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
+            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
             "ORDER BY var_codped"
 
    'MENSAL
@@ -2167,17 +2255,17 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         If cboMes.Text = "" Or cboAno.Text = "" Then Limpar_Grid_Venda: Exit Sub
     
         sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
+            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
             "ORDER BY var_codped"
         Debug.Print sSQL
             
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
+            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
             "ORDER BY var_codped"
             
             
@@ -2190,31 +2278,31 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
         
         'sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, pedidos_1.DATA_COMPRA, pedidos_1.SUBTOTAL, pedidos_1.ValorAcrescReal, pedidos_1.ValorDescReal, pedidos_1.TOTAL AS var_total, pedidos_1.TIPO_PAGAMENTO, pedidos_1.PAGAMENTO, pedidos_1.TIPO_PEDIDO, pedidos_1.COD_CLIENTE, parcelas.FORMA_PGTO AS pFormaPgto, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 INNER JOIN  parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO " & _
-            "WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.tipo_pedido = " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
         
         sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
             "(CASE pedidos_1.TIPO_PAGAMENTO WHEN 'À Prazo' THEN pedidos_1.PAGAMENTO ELSE parcelas.FORMA_PGTO END) AS vTipoPgto, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & _
+            "WHERE (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & _
             "ORDER BY var_codped"
         sSQL = "SELECT DISTINCT COD_PEDIDO AS var_codped, DATA_COMPRA, SUBTOTAL, ValorAcrescReal, ValorDescReal, TOTAL AS var_total, TIPO_PAGAMENTO, PAGAMENTO, TIPO_PEDIDO, COD_CLIENTE, " & _
-            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') " & TipoPgto & ") AS Nome " & _
+            "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = '0') AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & ") AS Nome " & _
             "FROM pedidos AS pedidos_1 " & _
-            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
+            "WHERE (Month(pedidos_1.data_compra) = " & cboMes.ListIndex + 1 & ") And (Year(pedidos_1.data_compra) = " & cboAno & ") AND (pedidos_1.tipo_pedido " & varTipoConsulta & ") AND (pedidos_1.CANCELADO = 0) AND (pedidos_1.STATUS_PEDIDO = 1) " & TipoPgto & " " & vTipoPgtoParcelas & "      " & _
             "ORDER BY var_codped"
 
    End If
    
-   'Filtro cboTipo (TODOS/PDV/OS) - via subquery, sem alterar as variantes de SELECT acima
-   If cboTipo.Text = "PDV" Or cboTipo.Text = "OS" Then
+   'Filtro cboTipo (TODOS/BALCAO/OFICINA) - via subquery, sem alterar as variantes de SELECT acima
+   If cboTipo.Text = "BALCÃO" Or cboTipo.Text = "OFICINA" Then
       Dim idxOrderTipo As Long
       idxOrderTipo = InStrRev(sSQL, "ORDER BY")
       If idxOrderTipo > 0 Then sSQL = Left(sSQL, idxOrderTipo - 1)
-      If cboTipo.Text = "PDV" Then
+      If cboTipo.Text = "BALCÃO" Then
          sSQL = "SELECT * FROM (" & sSQL & ") AS qTipo WHERE NOT EXISTS (SELECT 1 FROM OS WHERE OS.COD_PEDIDO = qTipo.var_codped)"
       Else
          sSQL = "SELECT * FROM (" & sSQL & ") AS qTipo WHERE EXISTS (SELECT 1 FROM OS WHERE OS.COD_PEDIDO = qTipo.var_codped)"
@@ -2253,9 +2341,26 @@ sOrder = Replace(sOrder, "cod_pedido", "var_codped")
 printSQL = "SELECT *, " & _
     "(SELECT ISNULL(SUM(pi.total),0) FROM pedidos_itens pi WHERE pi.cod_pedido=q.var_codped) AS vProd, " & _
     "(SELECT ISNULL(SUM(sv.total),0) FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=q.var_codped) AS vServ, " & _
-    "(SELECT COD_OS FROM OS WHERE OS.COD_PEDIDO=q.var_codped) AS var_CodOS " & _
+    "(SELECT COD_OS FROM OS WHERE OS.COD_PEDIDO=q.var_codped) AS var_CodOS, " & _
+    "CASE q.TIPO_PEDIDO WHEN 'OFICINA' THEN 'OFICINA' WHEN 'VENDA' THEN 'BALCÃO' ELSE q.TIPO_PEDIDO END AS var_tipo_exibicao " & _
     "FROM (" & sPrintBase & ") AS q ORDER BY " & sOrder
 End Sub
+
+Public Function SomaGridSeTipo(var_Grid As MSFlexGrid, Col As Integer, ColTipo As Integer, Tipo As String) As Double
+   Dim i As Integer, Valor As Currency
+   
+   Valor = 0
+   
+   For i = 1 To var_Grid.rows - 1
+      If var_Grid.TextMatrix(i, ColTipo) = Tipo Then
+         If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
+            Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
+         End If
+      End If
+   Next
+   
+   SomaGridSeTipo = Valor
+End Function
 
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
    Dim i As Integer, Valor As Currency
@@ -2274,6 +2379,8 @@ End Function
 
 
 Private Sub Form_Load()
+Set moCombo = New cComboHelper
+
 Set cCfg = sysConfig("TIPO_EMPRESA")
 tipoEmpresa = cCfg.Value
 Set cCfg = Nothing
@@ -2295,7 +2402,11 @@ cboTipo.ListIndex = 0
 'PreencherTipoPgto
 'cboTipoPgto.ListIndex = 0
 
-Set moCombo = New cComboHelper
+'MENSAL ja vem selecionado por padrao - preenche mes/ano atual
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.ListIndex = 2
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -2365,10 +2476,10 @@ DoEvents
       .ColWidth(0) = 150
       .ColWidth(1) = 800
       .ColWidth(2) = 700
-      .ColWidth(3) = 900
+      .ColWidth(3) = 990
       .ColWidth(4) = 850
       .ColWidth(5) = 3000
-      .ColWidth(6) = 1050
+      .ColWidth(6) = 1155
       .ColWidth(7) = 1050
       .ColWidth(8) = 1050
       .ColWidth(9) = 700
@@ -2381,7 +2492,7 @@ DoEvents
       .TextMatrix(0, 3) = "TIPO"
       .TextMatrix(0, 4) = "DATA"
       .TextMatrix(0, 5) = "NOME DO CLIENTE"
-      .TextMatrix(0, 6) = "ITENS"
+      .TextMatrix(0, 6) = "PRODUTOS"
       .TextMatrix(0, 7) = "SERVIÇOS"
       .TextMatrix(0, 8) = "SUBTOTAL"
       .TextMatrix(0, 9) = "DESC."
@@ -2407,9 +2518,9 @@ DoEvents
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = Format(rTabela("var_codped"), "000000")
             If rTabela("TIPO_PEDIDO") = "OFICINA" Then
-                .TextMatrix(.rows - 1, 3) = "OS"
+                .TextMatrix(.rows - 1, 3) = "OFICINA"
             ElseIf rTabela("TIPO_PEDIDO") = "VENDA" Then
-                .TextMatrix(.rows - 1, 3) = "PDV"
+                .TextMatrix(.rows - 1, 3) = "BALCÃO"
             Else
                 .TextMatrix(.rows - 1, 3) = rTabela("TIPO_PEDIDO")
             End If
@@ -2425,11 +2536,14 @@ DoEvents
                 .TextMatrix(.rows - 1, 2) = ""
             End If
             rSub.Close
+            Dim dProdRaw As Double, dServRaw As Double
             RsOpen rSub, "SELECT ISNULL(SUM(total),0) AS vProd FROM pedidos_itens WHERE cod_pedido=" & lCodPed
-            .TextMatrix(.rows - 1, 6) = Format(rSub("vProd"), ocMONEY)
+            dProdRaw = rSub("vProd")
+            .TextMatrix(.rows - 1, 6) = Format(dProdRaw, ocMONEY)
             rSub.Close
             RsOpen rSub, "SELECT ISNULL(SUM(sv.total),0) AS vServ FROM OS_Servicos_Auto sv INNER JOIN OS ON sv.cod_os=OS.COD_OS WHERE OS.COD_PEDIDO=" & lCodPed
-            .TextMatrix(.rows - 1, 7) = Format(rSub("vServ"), ocMONEY)
+            dServRaw = rSub("vServ")
+            .TextMatrix(.rows - 1, 7) = Format(dServRaw, ocMONEY)
             rSub.Close
             Set rSub = Nothing
             .TextMatrix(.rows - 1, 8) = Format(rTabela("subtotal"), ocMONEY)
@@ -2478,6 +2592,8 @@ DoEvents
    
     lblTotalProdutos = Format(SomaGrid(Grid, 6), ocMONEY)
     lblTotalServicos = Format(SomaGrid(Grid, 7), ocMONEY)
+    lblTotalBalcao = Format(SomaGridSeTipo(Grid, 11, 3, "BALCÃO"), ocMONEY)
+    lblTotalOficina = Format(SomaGridSeTipo(Grid, 11, 3, "OFICINA"), ocMONEY)
     lblSubtotal = Format(SomaGrid(Grid, 8), ocMONEY)
     lblTotalDesc = Format(SomaGrid(Grid, 9), ocMONEY)
     lblTotalAcresc = Format(SomaGrid(Grid, 10), ocMONEY)

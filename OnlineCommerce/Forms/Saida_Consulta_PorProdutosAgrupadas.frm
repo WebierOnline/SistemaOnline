@@ -360,7 +360,7 @@ Begin VB.Form Saida_Consulta_PorProdutosAgrupadas
             _ExtentY        =   873
             BTYPE           =   3
             TX              =   "&Imprimir"
-            ENAB            =   -1  'True
+            ENAB            =   0   'False
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -510,7 +510,7 @@ Begin VB.Form Saida_Consulta_PorProdutosAgrupadas
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "14:49"
+            TextSave        =   "21:28"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1

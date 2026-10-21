@@ -47,13 +47,13 @@ Begin VB.Form REL_Cons_Entrada_ProdAgrupado
       End
       Begin ReportX.ReportField ReportField6 
          Height          =   210
-         Left            =   9840
+         Left            =   9600
          TabIndex        =   12
          Top             =   60
          Width           =   1995
          _ExtentX        =   3519
          _ExtentY        =   370
-         Campo           =   "= [Pagina] de [Paginas]"
+         Campo           =   "= Pág.: [Pagina] / [Paginas]"
          Caption         =   "ReportField1"
          Formula         =   -1  'True
          Alignment       =   1
@@ -573,7 +573,7 @@ Begin VB.Form REL_Cons_Entrada_ProdAgrupado
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "QTDE"
+         Caption         =   "ENTRADAS"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   8.25
@@ -584,10 +584,10 @@ Begin VB.Form REL_Cons_Entrada_ProdAgrupado
             Strikethrough   =   0   'False
          EndProperty
          Height          =   210
-         Left            =   6840
+         Left            =   6420
          TabIndex        =   19
          Top             =   2040
-         Width           =   420
+         Width           =   855
       End
       Begin VB.Image imgLogo 
          Height          =   1215

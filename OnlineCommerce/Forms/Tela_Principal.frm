@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "15:29"
+            TextSave        =   "11:47"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1000,74 +1000,68 @@ Begin VB.MDIForm Tela_Principal
    End
    Begin VB.Menu Menu_CON 
       Caption         =   "&Consultas"
-      Begin VB.Menu Menu_CONS_Vendas 
-         Caption         =   "&Vendas"
+      Begin VB.Menu MenuVendas 
+         Caption         =   "Vendas"
+         Begin VB.Menu Menu_CONS_Vendas 
+            Caption         =   "&Vendas"
+         End
+         Begin VB.Menu Menu_CONS_VendasPorProdutos 
+            Caption         =   "Vendas por Produtos e Serviços"
+         End
+         Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
+            Caption         =   "Vendas por Produtos Agrupados"
+         End
+         Begin VB.Menu Menu_CONS_VendasServicos 
+            Caption         =   "Venda e Ordem Serviço"
+         End
       End
-      Begin VB.Menu Menu_CONS_VendasRecebiveis 
-         Caption         =   "Vendas por &Recebíveis"
+      Begin VB.Menu MenuFinanceiro 
+         Caption         =   "Financeiro"
+         Begin VB.Menu Menu_CONS_VendasRecebiveis 
+            Caption         =   "&Recebimentos"
+         End
+         Begin VB.Menu Menu_CONS_Parcelas 
+            Caption         =   "&Parcelas"
+         End
+         Begin VB.Menu Menu_CONS_VendasLucro 
+            Caption         =   "&Lucro por Produtos Agrupados"
+         End
       End
-      Begin VB.Menu Menu_Fin_traco5 
-         Caption         =   "-"
+      Begin VB.Menu MenuEstoque 
+         Caption         =   "Estoque"
+         Begin VB.Menu Menu_CONS_EntradaPorProdutos 
+            Caption         =   "Entradas por Produtos"
+         End
+         Begin VB.Menu Menu_CONS_EntradaPorProdAgrupadas 
+            Caption         =   "Entradas por Produtos Agrupados"
+         End
+         Begin VB.Menu menuseparar10 
+            Caption         =   "-"
+         End
+         Begin VB.Menu Menu_CONS_SaidasPorProdutos 
+            Caption         =   "Saídas por Produtos"
+         End
+         Begin VB.Menu Menu_CONS_SaidaPorProdAgrupadas 
+            Caption         =   "Saídas por Produtos Agrupados"
+         End
+         Begin VB.Menu menuseparar13a 
+            Caption         =   "-"
+         End
+         Begin VB.Menu Menu_CONS_AjustesPorProdutos 
+            Caption         =   "Ajustes por Produtos"
+         End
+         Begin VB.Menu Menu_CONS_HistoricoProduto 
+            Caption         =   "Histórico do Produto (Estoque)"
+         End
+         Begin VB.Menu Menu_CONS_EntradavsSaida 
+            Caption         =   "Comparativo - Entradas vs Saídas"
+         End
       End
-      Begin VB.Menu Menu_CONS_VendasLucro 
-         Caption         =   "&Lucro por Produtos Agrupados"
-      End
-      Begin VB.Menu menuseparar11 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_VendasPorProdutos 
-         Caption         =   "Vendas por Produtos e Serviços"
-      End
-      Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
-         Caption         =   "Vendas por Produtos Agrupados"
-      End
-      Begin VB.Menu menuseparar7 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_EntradaPorProdutos 
-         Caption         =   "Entradas por Produtos"
-      End
-      Begin VB.Menu Menu_CONS_EntradaPorProdAgrupadas 
-         Caption         =   "Entradas por Produtos Agrupados"
-      End
-      Begin VB.Menu menuseparar10 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_SaidasPorProdutos 
-         Caption         =   "Saídas por Produtos"
-      End
-      Begin VB.Menu Menu_CONS_SaidaPorProdAgrupadas 
-         Caption         =   "Saídas por Produtos Agrupados"
-      End
-      Begin VB.Menu Menu_CONS_AjustesPorProdutos 
-         Caption         =   "Ajustes por Produtos"
-      End
-      Begin VB.Menu Menu_CONS_HistoricoProduto 
-         Caption         =   "Histórico do Produto (linha do tempo)"
-      End
-      Begin VB.Menu menuseparar8 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_VendasServicos 
-         Caption         =   "Venda e Ordem Serviço"
-      End
-      Begin VB.Menu menuseparar13 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_EntradavsSaida 
-         Caption         =   "Comparativo - Entradas vs Saídas"
-      End
-      Begin VB.Menu menuseparar9 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_Comissoes 
-         Caption         =   "Vendedores - Comissões"
-      End
-      Begin VB.Menu menuseparar12 
-         Caption         =   "-"
-      End
-      Begin VB.Menu Menu_CONS_Parcelas 
-         Caption         =   "&Parcelas - Financeiro"
+      Begin VB.Menu MenuGeral 
+         Caption         =   "Geral"
+         Begin VB.Menu Menu_CONS_Comissoes 
+            Caption         =   "Vendedores - Comissões"
+         End
       End
    End
    Begin VB.Menu Menu_IMP 
@@ -1672,7 +1666,18 @@ Vendas_Consulta_PorRecebiveis.Show 1
 End Sub
 
 Private Sub Menu_CONS_VendasServicos_Click()
-VendasServicos_Consulta.Show 1
+'config_nome=ALUGUEL na tabela configuracao decide qual tela abrir -
+'config_valor=1 usa a versao com coluna/total de Aluguel, senao a normal
+Dim vConfAluguel As String
+On Error Resume Next
+vConfAluguel = sysConfig("ALUGUEL").Value
+On Error GoTo 0
+
+If vConfAluguel = "1" Then
+    VendasAluguel_Consulta.Show 1
+Else
+    VendasServicos_Consulta.Show 1
+End If
 End Sub
 
 Private Sub Menu_Diversos_Calculadora_Click()

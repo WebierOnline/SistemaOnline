@@ -294,45 +294,6 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
-         Begin ChamaleonBtn.chameleonButton cmdImprimir 
-            Height          =   495
-            Left            =   1620
-            TabIndex        =   41
-            Top             =   1560
-            Width           =   1515
-            _ExtentX        =   2672
-            _ExtentY        =   873
-            BTYPE           =   3
-            TX              =   "&Imprimir"
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   12632256
-            BCOLO           =   12632256
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "Ajuste_Consulta_PorProdutos.frx":BA4C
-            PICN            =   "Ajuste_Consulta_PorProdutos.frx":BA68
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
          Begin VB.ComboBox cboTipoAjuste 
             Height          =   315
             Left            =   3000
@@ -347,7 +308,7 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
             Caption         =   "Tipo:"
             Height          =   195
             Left            =   3000
-            TabIndex        =   42
+            TabIndex        =   41
             Top             =   240
             Width           =   360
          End
@@ -414,7 +375,7 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
       ForeColor       =   &H80000008&
       Height          =   1095
       Left            =   3960
-      Picture         =   "Ajuste_Consulta_PorProdutos.frx":BD82
+      Picture         =   "Ajuste_Consulta_PorProdutos.frx":BA4C
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   15
@@ -433,6 +394,26 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
       TabIndex        =   12
       Top             =   60
       Width           =   11415
+      Begin VB.Label lblInfoProduto 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   270
+         Left            =   1440
+         TabIndex        =   43
+         Top             =   420
+         Width           =   240
+      End
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -452,13 +433,13 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
          Height          =   360
          Left            =   1440
          TabIndex        =   13
-         Top             =   240
+         Top             =   120
          Width           =   5895
       End
       Begin VB.Image Image1 
          Height          =   825
          Left            =   240
-         Picture         =   "Ajuste_Consulta_PorProdutos.frx":CDBA
+         Picture         =   "Ajuste_Consulta_PorProdutos.frx":CA84
          Top             =   0
          Width           =   1140
       End
@@ -486,7 +467,7 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "07:45"
+            TextSave        =   "17:44"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -517,6 +498,44 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
       SelectionMode   =   1
       Appearance      =   0
    End
+   Begin ChamaleonBtn.chameleonButton cmdImprimir 
+      Height          =   315
+      Left            =   60
+      TabIndex        =   44
+      Top             =   8100
+      Width           =   1515
+      _ExtentX        =   2672
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "IMPRIMIR"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Ajuste_Consulta_PorProdutos.frx":132CA
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblEstoqueAtual 
       AutoSize        =   -1  'True
       Caption         =   "00"
@@ -530,8 +549,8 @@ Begin VB.Form Ajuste_Consulta_PorProdutos
          Strikethrough   =   0   'False
       EndProperty
       Height          =   225
-      Left            =   120
-      TabIndex        =   43
+      Left            =   1680
+      TabIndex        =   42
       Top             =   8100
       Width           =   150
    End
@@ -1137,10 +1156,53 @@ End If
 End Sub
 
 Private Sub cmdImprimir_Click()
-'Essa tela ainda não tem um relatório próprio (REL_Entrada_PorProduto não
-'bate com os campos de ajuste - ADIÇÃO/REMOÇÃO, sem Cadastro/Entrada). Fica
-'pendente até criarmos um relatório dedicado.
-ShowMsg "Impressão ainda não implementada pra essa tela.", vbInformation
+'Usa o mesmo relatorio compartilhado das outras 2 telas (REL_Entrada_
+'PorProduto) - a coluna TIPO que ele tem serve bem pro ADICAO/REMOCAO
+'dessa tela; so os 2 primeiros totais (dfQuantCadastro* e dfQuantEntrada*)
+'sao usados aqui (ADICAO/REMOCAO), o terceiro fica zerado
+Dim r As ADODB.Recordset
+
+Me.Hide
+
+Set r = dbData.OpenRecordset(printSQL)
+
+Set REL_Entrada_PorProduto.Relatorio.Recordset = r
+
+REL_Entrada_PorProduto.lblTitulo.Caption = "RELATÓRIO DE AJUSTE POR PRODUTO"
+
+REL_Entrada_PorProduto.dfQuantTotal.Caption = lblQtdaTotal.Caption & "  "
+REL_Entrada_PorProduto.dfQuantCadastroSoma.Caption = lblQtdaCadastroSoma.Caption & "  "
+REL_Entrada_PorProduto.dfQuantEntradaSoma.Caption = lblQtdaEntradaSoma.Caption & "  "
+REL_Entrada_PorProduto.dfQuantAjusteSoma.Caption = lblQtdaAjusteSoma.Caption & "  "
+
+REL_Entrada_PorProduto.dfQuantCadastro.Caption = lblQtdaCadastro.Caption & "  "
+REL_Entrada_PorProduto.dfQuantEntrada.Caption = lblQtdaEntrada.Caption & "  "
+REL_Entrada_PorProduto.dfQuantAjuste.Caption = lblQtdaAjuste.Caption & "  "
+
+If cboCriterioPrinc.Text = "TODOS" Then
+   REL_Entrada_PorProduto.rfCons2.Caption = "TODOS"
+ElseIf cboCriterioPrinc.Text = "MENSAL" Then
+   REL_Entrada_PorProduto.rfCons2.Caption = "Mês/Ano = " & cboMes.Text & "/" & cboAno.Text
+ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
+   REL_Entrada_PorProduto.rfCons2.Caption = "Intervalo de " & mskInicio.Text & " à " & mskFim.Text
+Else
+   REL_Entrada_PorProduto.rfCons2.Caption = "TODOS"
+End If
+
+If cboCriterioSec.Text = "DESCRIÇÃO" Then
+   REL_Entrada_PorProduto.rfCons1.Caption = "PRODUTO = " & cboDescricao.Text
+ElseIf cboCriterioSec.Text = "CÓD. BARRA" Then
+   REL_Entrada_PorProduto.rfCons1.Caption = "CÓD. BARRA = " & txtCodBarra.Text
+ElseIf cboCriterioSec.Text = "CÓD. PRODUTO" Then
+   REL_Entrada_PorProduto.rfCons1.Caption = "CÓD. PRODUTO = " & txtCodBarra.Text
+Else
+   REL_Entrada_PorProduto.rfCons1.Caption = "PRODUTO = " & cboDescricao.Text
+End If
+
+REL_Entrada_PorProduto.Relatorio.Ativar
+Unload REL_Entrada_PorProduto
+
+Me.Show
 End Sub
 
 Public Sub cmdLocalizar_Click()
@@ -1213,7 +1275,7 @@ End If
 'usuário via funcionario (funcionario.CODIGO = usuario.Codigo, confirmado).
 sSQL = "SELECT Produtos_Quant.codigo, Produtos_Quant.Hora, Produtos_Quant.DATA, " & _
    "ABS(Produtos_Quant.QUANT) AS QUANT, Produtos_Quant.TIPO, Produtos_Quant.FORMA, Produtos_Quant.Estoque, " & _
-   "Produtos_Quant.COD_PRODUTO, funcionario.NOME AS varNomeUsuario, produtos.quant_estoque AS varEstoqueAtual " & _
+   "Produtos_Quant.COD_PRODUTO, funcionario.NOME AS varNomeUsuario, produtos.quant_estoque AS varEstoqueAtual, produtos.descricao AS DESCRICAO " & _
    "FROM Produtos_Quant " & _
    "INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
    "LEFT JOIN funcionario ON funcionario.CODIGO = Produtos_Quant.cod_usuario " & _
@@ -1222,9 +1284,11 @@ sSQL = "SELECT Produtos_Quant.codigo, Produtos_Quant.Hora, Produtos_Quant.DATA, 
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
 If Not r.EOF Then
-   lblEstoqueAtual.Caption = "ESTOQUE ATUAL: " & ValidateNull(r("varEstoqueAtual"))
+   lblInfoProduto.Caption = "PRODUTO: " & ValidateNull(r("DESCRICAO"))
+   lblEstoqueAtual.Caption = "Estoque Atual: " & ValidateNull(r("varEstoqueAtual"))
 Else
-   lblEstoqueAtual.Caption = "ESTOQUE ATUAL: ?"
+   lblInfoProduto.Caption = ""
+   lblEstoqueAtual.Caption = "Estoque Atual: ?"
 End If
 
 FormatarGrid_Quant r
@@ -1285,7 +1349,7 @@ With Grid
    .ColWidth(4) = 1260
    .ColWidth(5) = 1200
    .ColWidth(6) = 1000
-   .ColWidth(7) = 1500
+   .ColWidth(7) = 0
 
    .ColAlignment(1) = 3
    .ColAlignment(2) = 3

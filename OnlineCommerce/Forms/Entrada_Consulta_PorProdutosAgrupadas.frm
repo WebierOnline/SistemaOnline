@@ -360,7 +360,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             _ExtentY        =   873
             BTYPE           =   3
             TX              =   "&Imprimir"
-            ENAB            =   -1  'True
+            ENAB            =   0   'False
             BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -456,6 +456,26 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
       TabIndex        =   0
       Top             =   60
       Width           =   10935
+      Begin VB.Label lblInfoProduto 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   11.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00000080&
+         Height          =   270
+         Left            =   1380
+         TabIndex        =   35
+         Top             =   360
+         Width           =   240
+      End
       Begin VB.Label Label33 
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
@@ -475,7 +495,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
          Height          =   360
          Left            =   1380
          TabIndex        =   1
-         Top             =   120
+         Top             =   60
          Width           =   5970
       End
       Begin VB.Image Image1 
@@ -510,7 +530,7 @@ Begin VB.Form Entrada_Consulta_PorProdutosAgrupadas
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "14:49"
+            TextSave        =   "21:28"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
