@@ -1014,6 +1014,9 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_CONS_VendasServicos 
             Caption         =   "Venda e Ordem Serviço"
          End
+         Begin VB.Menu Menu_CONS_VendasServicosAgrupada 
+            Caption         =   "Venda e Ordem Serviço (Resumo Diário)"
+         End
       End
       Begin VB.Menu MenuFinanceiro 
          Caption         =   "Financeiro"
@@ -1678,6 +1681,10 @@ If vConfAluguel = "1" Then
 Else
     VendasServicos_Consulta.Show 1
 End If
+End Sub
+
+Private Sub Menu_CONS_VendasServicosAgrupada_Click()
+VendasServicos_ConsultaAgrupada.Show 1
 End Sub
 
 Private Sub Menu_Diversos_Calculadora_Click()

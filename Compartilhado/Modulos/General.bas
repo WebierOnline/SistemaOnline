@@ -51,6 +51,7 @@ Public HabilitaObjetosVenda As Boolean
 Public varTipoConsulta As String        'saber qual botão acionou o form do resumo do caixa
 
 Public sysConfig As Collection          'Coleção com as configurações globais do sistema
+Public gPularSetFocusConsulta As Boolean  'quando True, o PROXIMO Form_Load/cboCriterioPrinc_Change de VendasServicos_Consulta pula os .SetFocus - setado por quem abre esse form ja pre-filtrado programaticamente, ANTES do Load (janela ainda nao existe, SetFocus daria erro 5); o proprio form reseta pra False assim que consome
 Public maqConfig As Collection          'Coleção com as configurações locais de cada máquina
 
 Public appPathApp As String       'Armazena o diretório do programa

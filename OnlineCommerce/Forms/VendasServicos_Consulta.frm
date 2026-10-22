@@ -1335,7 +1335,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Left = 5220
     'cmdImprimir.Top = 840
 
-      cboVendedor.SetFocus
+      If Not gPularSetFocusConsulta Then cboVendedor.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "CLIENTE" And cboCriterioSec.Text = "TODOS" Then
       lblVendedor.Visible = False
@@ -1368,7 +1368,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Left = 5220
     'cmdImprimir.Top = 840
       
-      cboCliente.SetFocus
+      If Not gPularSetFocusConsulta Then cboCliente.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "PERIODO" Then
       lblVendedor.Visible = False
@@ -1409,7 +1409,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Left = 2880
     'cmdImprimir.Top = 840
       
-      mskInicio.SetFocus
+      If Not gPularSetFocusConsulta Then mskInicio.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "CÓDIGO" Then
       lblVendedor.Visible = False
@@ -1446,7 +1446,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Left = 1600
     'cmdImprimir.Top = 840
       
-      txtCodigo.SetFocus
+      If Not gPularSetFocusConsulta Then txtCodigo.SetFocus
       
    ElseIf cboCriterioPrinc.Text = "MENSAL" Then
       lblVendedor.Visible = False
@@ -1485,7 +1485,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Left = 2880
     'cmdImprimir.Top = 840
       
-      If cboMes.Visible = True Then cboMes.SetFocus
+      If Not gPularSetFocusConsulta Then If cboMes.Visible = True Then cboMes.SetFocus
    ElseIf cboCriterioPrinc.Text = "MECÂNICO" And cboCriterioSec.Text = "TODOS" Then
       lblVendedor.Caption = "MecÂnico:"
       lblVendedor.Visible = True
@@ -1520,7 +1520,7 @@ If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
     cmdLocalizar.Top = 420
     cmdLocalizar.Left = 5220
       
-      cboVendedor.SetFocus
+      If Not gPularSetFocusConsulta Then cboVendedor.SetFocus
    Else
       Exit Sub
    End If
