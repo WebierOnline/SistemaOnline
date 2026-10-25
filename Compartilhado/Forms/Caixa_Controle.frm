@@ -3169,6 +3169,7 @@ Dim var_Cartao As Currency
 Dim var_Saida As Currency
 Dim var_VendasPrazo As Currency
 Dim var_AluguelPrazo As Currency
+Dim var_ServicoPrazo As Currency
 Dim var_SaldoFisico As Currency
 Dim var_SaldoGeral As Currency
 Dim var_Faturamento As Currency
@@ -3188,6 +3189,7 @@ var_VendasPrazo = 0
 var_OS = 0
 var_ALUGUEL = 0
 var_AluguelPrazo = 0
+var_ServicoPrazo = 0
 
 If chkTroco.Value = Checked Then
     If txtTotalTroco.Text <> "" Then var_Troco = ValMoeda(txtTotalTroco.Text)
@@ -3205,6 +3207,7 @@ If txtTotalCheque.Text <> "" Then var_Cheque = ValMoeda(txtTotalCheque.Text)
 If txtSaida.Text <> "" Then var_Saida = ValMoeda(txtSaida.Text)
 If txtTotalVendaPrazo <> "" Then var_VendasPrazo = ValMoeda(txtTotalVendaPrazo.Text)
 If txtTotalAluguelPrazo <> "" Then var_AluguelPrazo = ValMoeda(txtTotalAluguelPrazo.Text)
+If txtTotalOSPrazo.Text <> "" Then var_ServicoPrazo = ValMoeda(txtTotalOSPrazo.Text)
 
 'var_AluguelPrazo
 'txtTotalAluguelPrazo
@@ -3224,7 +3227,7 @@ vSaldoGeralImpressão = var_SaldoGeral  'criei somente para impressão de caixa em
 SaldoSemSaida = var_SaldoGeral + var_Saida
 txtEntrada.Text = Format(SaldoSemSaida, ocMONEY)
 
-var_Faturamento = var_SaldoGeral + var_VendasPrazo + var_AluguelPrazo
+var_Faturamento = var_SaldoGeral + var_VendasPrazo + var_AluguelPrazo + var_ServicoPrazo
 txtFaturamento.Text = Format(var_Faturamento, ocMONEY)
 End Sub
 
@@ -4656,7 +4659,7 @@ ElseIf vAluguelAtiva = False And vOSAtiva = True Then
     REL_Caixa_Fech_Imp_OS.rfF4.Caption = Format(txtF4, "000") & " "
     REL_Caixa_Fech_Imp_OS.rfF5.Caption = Format(txtF5, "000") & " "
     REL_Caixa_Fech_Imp_OS.rfF6.Caption = Format(txtF6, "000") & " "
-    REL_Caixa_Fech_Imp_OS.rfF7.Caption = Format(txtF8, "000") & " "
+    REL_Caixa_Fech_Imp_OS.rfF7.Caption = Format(txtF7, "000") & " "
     
     '===========================RODAPÉ
     If Not r_usuario.EOF Then
