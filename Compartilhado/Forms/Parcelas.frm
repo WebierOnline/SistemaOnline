@@ -5978,11 +5978,11 @@ If txtDias.Visible = True Then
     
     Dim vOrigem As String
     If txtOrigem.Text = "ALUGUEL" Then
-        vOrigem = "ALUGUEL"
+        vOrigem = "PARCELA"   'ALUGUEL segue o mesmo padrao de VENDA/OS ao ser quitada manualmente (ver Aluguel_Cadastro.frm, entrada paga na hora)
     ElseIf txtOrigem.Text = "VENDA" Then
         vOrigem = "PARCELA"
     ElseIf txtOrigem.Text = "OFICINA" Then
-        vOrigem = "OS"   'faltava esse caso - parcela de OS ficava com tipo em branco (nao contava no fechamento de caixa)
+        vOrigem = "PARCELA"   'OS segue o mesmo padrao de VENDA ao ser quitada manualmente (ver OS_Recapadora.frm, entrada paga na hora)
     End If
 
     If txtItem.Text = "0" Then

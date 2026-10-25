@@ -4284,9 +4284,12 @@ Var_NumParc = UltimoParcela + 1
 
 lNovoCod = Autonumeracao_Parcelas
    '
+'entrada paga na hora segue o mesmo padrao do PDV/OS (tipo vira
+'PARCELA, nao fica ALUGUEL) - nao muda a categoria no fechamento de
+'caixa, que ja agrupa ALUGUEL e PARCELA juntos
 dbData.Execute "INSERT INTO parcelas (codigo, cod_pedido, COD_OS, OS_ITEM, numero, data, hora, status, valor, VALOR_FINAL, multa, desconto, tipo, pagamento, FORMA_PGTO, TIPO_CARTAO, caixa, codcaixa, COD_FUNCIONARIO, DIAS_ATRAZO, JUROS, HAVER) VALUES (" & _
       lNovoCod & ", " & lblCodPedido.Caption & ", " & lblCodigo.Caption & ", " & varCodItem & ", " & Var_NumParc & ", CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & Format(Now, ocHRMN) & "', 1, " & _
-      Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", 0, " & Replace(CCur(vDescVazio), ",", ".") & ", 'ALUGUEL', CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & var_PAGAMENTO & "', " & varTipoCartao & ", '" & StatusBar1.Panels(3).Text & "', " & varCodCaixa & ", " & txtCodFuncionario.Text & ", 0, 0, 0);"
+      Replace(CCur(txtEntradaReal.Text), ",", ".") & ", " & Replace(CCur(txtEntradaReal.Text), ",", ".") & ", 0, " & Replace(CCur(vDescVazio), ",", ".") & ", 'PARCELA', CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103), '" & var_PAGAMENTO & "', " & varTipoCartao & ", '" & StatusBar1.Panels(3).Text & "', " & varCodCaixa & ", " & txtCodFuncionario.Text & ", 0, 0, 0);"
 End Sub
 Private Function Autonumeracao_Parcelas() As Long
 Dim lRet As Long

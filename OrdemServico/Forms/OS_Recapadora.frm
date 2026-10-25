@@ -9019,12 +9019,15 @@ If cboTipoPgto.Text = "À PRAZO" Then
            '     End If
            'Else
                 If txtEntrada.Text <> "0,00" Then
+                   'entrada paga na hora segue o mesmo padrao do PDV (tipo
+                   'vira 'PARCELA', nao fica 'OS') - nao muda a categoria
+                   'no fechamento de caixa, que ja agrupa OS e PARCELA juntos
                    dbData.Execute "UPDATE parcelas SET " & _
                       "status = 1, valor_final = " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & _
                       "pagamento = '" & Format$(Date, "yyyy-dd-MM") & "', " & _
                       "hora = '" & Format(Now, ocHORA) & "', " & _
                       "forma_pgto = '" & var_PGTO_Entrada & "', " & _
-                      "tipo = 'OS', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
+                      "tipo = 'PARCELA', tipo_cartao = " & varTipoCartaoEntrada & ", " & _
                       "CODCAIXA = " & varCodCaixa & ", " & _
                       "caixa = '" & IIf(StatusBar1.Panels(2).Text = "", "CAIXA01", StatusBar1.Panels(2).Text) & "' " & _
                       "WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = 1);"
