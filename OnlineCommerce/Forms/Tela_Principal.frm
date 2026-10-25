@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11:47"
+            TextSave        =   "17:24"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1002,8 +1002,11 @@ Begin VB.MDIForm Tela_Principal
       Caption         =   "&Consultas"
       Begin VB.Menu MenuVendas 
          Caption         =   "Vendas"
-         Begin VB.Menu Menu_CONS_Vendas 
-            Caption         =   "&Vendas"
+         Begin VB.Menu Menu_CONS_VendasServicos 
+            Caption         =   "Venda e Ordem Serviço - Detalhado"
+         End
+         Begin VB.Menu Menu_CONS_VendasServicosAgrupada 
+            Caption         =   "Venda e Ordem Serviço - Resumo Diário"
          End
          Begin VB.Menu Menu_CONS_VendasPorProdutos 
             Caption         =   "Vendas por Produtos e Serviços"
@@ -1011,11 +1014,9 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
             Caption         =   "Vendas por Produtos Agrupados"
          End
-         Begin VB.Menu Menu_CONS_VendasServicos 
-            Caption         =   "Venda e Ordem Serviço"
-         End
-         Begin VB.Menu Menu_CONS_VendasServicosAgrupada 
-            Caption         =   "Venda e Ordem Serviço (Resumo Diário)"
+         Begin VB.Menu Menu_CONS_Vendas 
+            Caption         =   "&Vendas"
+            Visible         =   0   'False
          End
       End
       Begin VB.Menu MenuFinanceiro 
@@ -2054,12 +2055,63 @@ Private Sub Menu_SIS_ExportarXML_Click()
 Exportar_XML.Show 1
 End Sub
 
+'Antes de gerar um novo backup, preserva o arquivo final anterior (ex:
+'cnpj.rar) renomeando para um nome com a data de modificacao dele, criando
+'um historico local - sem mudar o nome final usado pelo upload pra nuvem
+'(que continua buscando sempre o mesmo nome fixo, ja sem sufixo de data)
+Private Sub RotacionarBackupAnterior(ByVal xCaminhoBK As String, ByVal nomeArquivoFinal As String)
+Dim sExtensao As String
+Dim sNomeBase As String
+Dim sCaminhoCompleto As String
+Dim sDataArquivo As String
+Dim sNovoNome As String
+
+sCaminhoCompleto = xCaminhoBK & "\" & nomeArquivoFinal
+If Dir$(sCaminhoCompleto) = "" Then Exit Sub
+
+sExtensao = Mid(nomeArquivoFinal, InStrRev(nomeArquivoFinal, ".") + 1)
+sNomeBase = Left(nomeArquivoFinal, InStrRev(nomeArquivoFinal, ".") - 1)
+sDataArquivo = Format(FileDateTime(sCaminhoCompleto), "yyyy-mm-dd")
+sNovoNome = xCaminhoBK & "\" & sNomeBase & "_" & sDataArquivo & "." & sExtensao
+
+'se ja existe um historico da mesma data (2o backup no mesmo dia), apaga
+'o anterior antes de renomear, pra nao dar erro de "arquivo ja existe"
+If Dir$(sNovoNome) <> "" Then Kill sNovoNome
+
+Name sCaminhoCompleto As sNovoNome
+End Sub
+
+'Apaga do historico local os arquivos com mais de vDiasRetencao dias (so
+'os que tem "_AAAA-MM-DD." no nome, gerados pela rotacao acima - nunca
+'mexe no arquivo final ativo, tipo cnpj.rar, que nao tem esse sufixo)
+Private Sub LimparBackupsAntigos(ByVal xCaminhoBK As String, ByVal vDiasRetencao As Integer)
+Dim sArquivo As String
+Dim colArquivos As New Collection
+Dim i As Integer
+Dim sCaminhoCompleto As String
+
+sArquivo = Dir$(xCaminhoBK & "\*_????-??-??.*")
+Do While sArquivo <> ""
+   colArquivos.Add sArquivo
+   sArquivo = Dir$()
+Loop
+
+For i = 1 To colArquivos.Count
+   sCaminhoCompleto = xCaminhoBK & "\" & colArquivos(i)
+   If DateDiff("d", FileDateTime(sCaminhoCompleto), Now) > vDiasRetencao Then
+      On Error Resume Next
+      Kill sCaminhoCompleto
+      On Error GoTo 0
+   End If
+Next i
+End Sub
+
 Private Sub Menu_Sistema_Backup_Click()
 Dim rEmpresa As ADODB.Recordset, xCaminhoBK As String
 Dim NomeEmp As String, i As Integer, ComandoSQL As String, e As String, nomeArquivoBK As String
 
 'parte de encontrar o caminho do sistema
-sSQL = "SELECT DiretorioXML, razao FROM Empresa"
+sSQL = "SELECT DiretorioXML, razao, CNPJ FROM Empresa"
 Set rEmpresa = dbData.OpenRecordset(sSQL)
 
 If Not rEmpresa.EOF Then
@@ -2073,8 +2125,16 @@ If Not existe(xCaminhoBK) Then MkDir xCaminhoBK
 
 If Not existe(xCaminhoBK) Then Exit Sub
 
-nomeArquivoBK = Format(Date, "yyyy-mm-dd") & "__" & rEmpresa!Razao & ".bak"
+'nome padronizado com a rotina automatica do fechamento de caixa (sempre
+'cnpj.bak/cnpj.rar - o historico com data vem da rotacao abaixo, nao mais
+'do proprio nome do arquivo ativo)
+nomeArquivoBK = Retira(rEmpresa!CNPJ, ".-/ ", UM_A_UM) & ".bak"
 DoEvents
+
+'preserva o backup .rar da execucao anterior com um nome datado (historico
+'de 14 dias), antes de sobrescrever o arquivo final ativo
+RotacionarBackupAnterior xCaminhoBK, Left(nomeArquivoBK, Len(nomeArquivoBK) - 4) & ".rar"
+LimparBackupsAntigos xCaminhoBK, 14
 
 If Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> "" Then
    Kill xCaminhoBK & "\" & nomeArquivoBK

@@ -656,6 +656,57 @@ If r.State <> 0 Then r.Close
 Set r = Nothing
 End Sub
 
+'Antes de gerar um novo backup, preserva o arquivo final anterior (ex:
+'cnpj.rar) renomeando para um nome com a data de modificacao dele, criando
+'um historico local - sem mudar o nome final usado pelo upload pra nuvem
+'(que continua buscando sempre o mesmo nome fixo, ja sem sufixo de data)
+Private Sub RotacionarBackupAnterior(ByVal xCaminhoBK As String, ByVal nomeArquivoFinal As String)
+Dim sExtensao As String
+Dim sNomeBase As String
+Dim sCaminhoCompleto As String
+Dim sDataArquivo As String
+Dim sNovoNome As String
+
+sCaminhoCompleto = xCaminhoBK & "\" & nomeArquivoFinal
+If Dir$(sCaminhoCompleto) = "" Then Exit Sub
+
+sExtensao = Mid(nomeArquivoFinal, InStrRev(nomeArquivoFinal, ".") + 1)
+sNomeBase = Left(nomeArquivoFinal, InStrRev(nomeArquivoFinal, ".") - 1)
+sDataArquivo = Format(FileDateTime(sCaminhoCompleto), "yyyy-mm-dd")
+sNovoNome = xCaminhoBK & "\" & sNomeBase & "_" & sDataArquivo & "." & sExtensao
+
+'se ja existe um historico da mesma data (2o backup no mesmo dia), apaga
+'o anterior antes de renomear, pra nao dar erro de "arquivo ja existe"
+If Dir$(sNovoNome) <> "" Then Kill sNovoNome
+
+Name sCaminhoCompleto As sNovoNome
+End Sub
+
+'Apaga do historico local os arquivos com mais de vDiasRetencao dias (so
+'os que tem "_AAAA-MM-DD." no nome, gerados pela rotacao acima - nunca
+'mexe no arquivo final ativo, tipo cnpj.rar, que nao tem esse sufixo)
+Private Sub LimparBackupsAntigos(ByVal xCaminhoBK As String, ByVal vDiasRetencao As Integer)
+Dim sArquivo As String
+Dim colArquivos As New Collection
+Dim i As Integer
+Dim sCaminhoCompleto As String
+
+sArquivo = Dir$(xCaminhoBK & "\*_????-??-??.*")
+Do While sArquivo <> ""
+   colArquivos.Add sArquivo
+   sArquivo = Dir$()
+Loop
+
+For i = 1 To colArquivos.Count
+   sCaminhoCompleto = xCaminhoBK & "\" & colArquivos(i)
+   If DateDiff("d", FileDateTime(sCaminhoCompleto), Now) > vDiasRetencao Then
+      On Error Resume Next
+      Kill sCaminhoCompleto
+      On Error GoTo 0
+   End If
+Next i
+End Sub
+
 Private Sub Backup()
 Dim rEmpresa As ADODB.Recordset, xCaminhoBK As String
 Dim NomeEmp As String, i As Integer, ComandoSQL As String, e As String, nomeArquivoBK As String
@@ -685,6 +736,11 @@ If Not Existe(xCaminhoBK) Then GoTo SairBackup
 'nomeArquivoBK = Format(Date, "yyyy-mm-dd") & "__" & rEmpresa!Razao & ".bak"
 nomeArquivoBK = Retira(rEmpresa!CNPJ, ".-/ ", UM_A_UM) & ".bak"
 DoEvents
+
+'preserva o backup .rar da execucao anterior com um nome datado (historico
+'de 14 dias), antes de sobrescrever o arquivo final ativo
+RotacionarBackupAnterior xCaminhoBK, Left(nomeArquivoBK, Len(nomeArquivoBK) - 4) & ".rar"
+LimparBackupsAntigos xCaminhoBK, 14
 
 If Dir$(xCaminhoBK & "\" & nomeArquivoBK) <> "" Then
    Kill xCaminhoBK & "\" & nomeArquivoBK
