@@ -13429,14 +13429,29 @@ Private Sub txtCodBarra_LostFocus()
         If optCodBarra.Value = True Then
             ' Busca por COD_BARRA ou EAN tolerando zeros a esquerda
             ' (cadastrado "074130173026", digitado "74130173026") - mesma folga do F2/PDV.
+            ' TRY_CONVERT so existe a partir do SQL Server 2012 - clientes com
+            ' versao mais antiga (ex: 2008/2008R2) dao "Comando invalido:
+            ' TRY_CONVERT nao e um nome da funcao interna reconhecido". Troca
+            ' por CASE+ISNUMERIC+CONVERT, compativel desde o SQL Server 2000 -
+            ' so converte quando a coluna/valor digitado e 100% numerico
+            ' (NOT LIKE '%[^0-9]%') e cabe num bigint (LEN <= 18), evitando
+            ' erro de overflow em dado sujo.
             Dim sCB As String
+            Dim bCBNumerico As Boolean
             sCB = Replace(Trim(txtCodBarra.Text), "'", "''")
+            bCBNumerico = (sCB <> "" And Not sCB Like "*[!0-9]*" And Len(sCB) <= 18)
+
             sSQL = "SELECT codigo AS var_codprod, descricao AS var_desc, tamanho, REF, fabricante FROM produtos " & _
                    "WHERE ativo = 1 AND (" & _
-                   "COD_BARRA = '" & sCB & "' OR EAN = '" & sCB & "' " & _
-                   "OR TRY_CONVERT(bigint, COD_BARRA) = TRY_CONVERT(bigint, '" & sCB & "') " & _
-                   "OR TRY_CONVERT(bigint, EAN) = TRY_CONVERT(bigint, '" & sCB & "') " & _
-                   "OR COD_BARRA = '" & Format(sCB, "00000") & "');"
+                   "COD_BARRA = '" & sCB & "' OR EAN = '" & sCB & "' "
+
+            If bCBNumerico Then
+               sSQL = sSQL & _
+                   "OR (COD_BARRA NOT LIKE '%[^0-9]%' AND LEN(COD_BARRA) BETWEEN 1 AND 18 AND CONVERT(bigint, COD_BARRA) = CONVERT(bigint, '" & sCB & "')) " & _
+                   "OR (EAN NOT LIKE '%[^0-9]%' AND LEN(EAN) BETWEEN 1 AND 18 AND CONVERT(bigint, EAN) = CONVERT(bigint, '" & sCB & "')) "
+            End If
+
+            sSQL = sSQL & "OR COD_BARRA = '" & Format(sCB, "00000") & "');"
         Else
             ' Busca por Código Interno (ID) - Usa VAL para garantir que é número
             sSQL = "SELECT codigo AS var_codprod, descricao AS var_desc, tamanho, REF, fabricante FROM produtos " & _
