@@ -68,7 +68,7 @@ Begin VB.Form Caixa_Controle_Resumo
          BeginProperty Panel6 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
-            TextSave        =   "14:19"
+            TextSave        =   "13:20"
             Object.ToolTipText     =   "Hora"
          EndProperty
       EndProperty
@@ -83,15 +83,15 @@ Begin VB.Form Caixa_Controle_Resumo
       EndProperty
    End
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
-      Height          =   675
-      Left            =   60
+      Height          =   315
+      Left            =   2220
       TabIndex        =   10
       Top             =   5040
-      Width           =   1755
-      _ExtentX        =   3096
-      _ExtentY        =   1191
+      Width           =   2115
+      _ExtentX        =   3731
+      _ExtentY        =   556
       BTYPE           =   3
-      TX              =   "&Imprimir"
+      TX              =   "IMPRIMIR"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -111,7 +111,44 @@ Begin VB.Form Caixa_Controle_Resumo
       MCOL            =   12632256
       MPTR            =   1
       MICON           =   "Caixa_Controle_Resumo.frx":0000
-      PICN            =   "Caixa_Controle_Resumo.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdExibirProdutos 
+      Height          =   315
+      Left            =   60
+      TabIndex        =   15
+      Top             =   5040
+      Width           =   2115
+      _ExtentX        =   3731
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "MOSTRAR PRODUTOS"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   13160660
+      BCOLO           =   13160660
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Caixa_Controle_Resumo.frx":001C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -522,70 +559,109 @@ ElseIf varTipoConsulta = "RETIRADAS" Then
 Else
     With Grid_Prazo
        .Clear
-       .Cols = 8
+       If varTipoConsulta = "PARCELAS" Then
+          .Cols = 9
+       Else
+          .Cols = 8
+       End If
        .rows = 2
-       
+
        .ColWidth(0) = 0
        .ColWidth(1) = 900
-       .ColWidth(2) = 1000
-       .ColWidth(3) = 4300
-       .ColWidth(4) = 1000
-       .ColWidth(5) = 900
-       .ColWidth(6) = 1600
-       .ColWidth(7) = 1000
-       
+       If varTipoConsulta = "PARCELAS" Then
+          .ColWidth(2) = 700
+          .ColWidth(3) = 1000
+          .ColWidth(4) = 4300
+          .ColWidth(5) = 1000
+          .ColWidth(6) = 900
+          .ColWidth(7) = 1600
+          .ColWidth(8) = 1000
+       Else
+          .ColWidth(2) = 1000
+          .ColWidth(3) = 4300
+          .ColWidth(4) = 1000
+          .ColWidth(5) = 900
+          .ColWidth(6) = 1600
+          .ColWidth(7) = 1000
+       End If
+
        .TextMatrix(0, 1) = "PEDIDO"
-       .TextMatrix(0, 2) = "TIPO"
-       .TextMatrix(0, 3) = "CLIENTE"
-       .TextMatrix(0, 4) = "VALOR"
-       .TextMatrix(0, 5) = "DATA."
-       .TextMatrix(0, 6) = "FORMA PGTO."
-       .TextMatrix(0, 7) = "ORIGEM"
-    
-       
+       If varTipoConsulta = "PARCELAS" Then
+          .TextMatrix(0, 2) = "OS"
+          .TextMatrix(0, 3) = "TIPO"
+          .TextMatrix(0, 4) = "CLIENTE"
+          .TextMatrix(0, 5) = "VALOR"
+          .TextMatrix(0, 6) = "DATA."
+          .TextMatrix(0, 7) = "FORMA PGTO."
+          .TextMatrix(0, 8) = "ORIGEM"
+       Else
+          .TextMatrix(0, 2) = "TIPO"
+          .TextMatrix(0, 3) = "CLIENTE"
+          .TextMatrix(0, 4) = "VALOR"
+          .TextMatrix(0, 5) = "DATA."
+          .TextMatrix(0, 6) = "FORMA PGTO."
+          .TextMatrix(0, 7) = "ORIGEM"
+       End If
+
+
        'colocar os cabeçalho em negrito
        For i = 0 To .Cols - 1
           .Col = i
           .Row = 0
           .CellFontBold = True
        Next
-       
+
        .ColAlignment(1) = 3
        .Redraw = False
        i = 1
-       
+
        If Not rTabela Is Nothing Then
           Do While Not rTabela.EOF
-             .TextMatrix(.rows - 1, 1) = Format(rTabela("varcodped"), "000000")
-             .TextMatrix(.rows - 1, 2) = UCase(rTabela("ORIGEM"))
-             .TextMatrix(.rows - 1, 3) = UCase(rTabela("varnomecliente"))
-             .TextMatrix(.rows - 1, 4) = Format(rTabela("VARVALOR"), ocMONEY)
-             .TextMatrix(.rows - 1, 5) = Format(rTabela("VARDATA"), "dd/mm/yy")
-             
-                If rTabela("FORMA_PGTO") <> "CARTAO" Then
-                   .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO")
-                Else
-                    If rTabela("varTipocartao") = "D" Then
-                        .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO") & " DÉBITO"
-                    Else
-                        .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO") & " CRÉDITO"
-                    End If
-    
-                '.TextMatrix(.Rows - 1, 5) = rTabela("varFormaPgto") & " (" & rTabela("vartipocartao") & ")"
-                   
-                   
-                End If
-             
-             
-             '.TextMatrix(.Rows - 1, 6) = rTabela("FORMA_PGTO")
-             .TextMatrix(.rows - 1, 7) = rTabela("varTIPO")
-             
+             If varTipoConsulta = "PARCELAS" Then
+                .TextMatrix(.rows - 1, 1) = Format(rTabela("varcodped"), "000000")
+                .TextMatrix(.rows - 1, 2) = IIf(ValidateNull(rTabela("varCodOS")) = 0, "", Format(rTabela("varCodOS"), "000000"))
+                .TextMatrix(.rows - 1, 3) = UCase(rTabela("ORIGEM"))
+                .TextMatrix(.rows - 1, 4) = UCase(rTabela("varnomecliente"))
+                .TextMatrix(.rows - 1, 5) = Format(rTabela("VARVALOR"), ocMONEY)
+                .TextMatrix(.rows - 1, 6) = Format(rTabela("VARDATA"), "dd/mm/yy")
+
+                   If rTabela("FORMA_PGTO") <> "CARTAO" Then
+                      .TextMatrix(.rows - 1, 7) = rTabela("FORMA_PGTO")
+                   Else
+                       If rTabela("varTipocartao") = "D" Then
+                           .TextMatrix(.rows - 1, 7) = rTabela("FORMA_PGTO") & " DÉBITO"
+                       Else
+                           .TextMatrix(.rows - 1, 7) = rTabela("FORMA_PGTO") & " CRÉDITO"
+                       End If
+                   End If
+
+                .TextMatrix(.rows - 1, 8) = rTabela("varTIPO")
+             Else
+                .TextMatrix(.rows - 1, 1) = Format(rTabela("varcodped"), "000000")
+                .TextMatrix(.rows - 1, 2) = UCase(rTabela("ORIGEM"))
+                .TextMatrix(.rows - 1, 3) = UCase(rTabela("varnomecliente"))
+                .TextMatrix(.rows - 1, 4) = Format(rTabela("VARVALOR"), ocMONEY)
+                .TextMatrix(.rows - 1, 5) = Format(rTabela("VARDATA"), "dd/mm/yy")
+
+                   If rTabela("FORMA_PGTO") <> "CARTAO" Then
+                      .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO")
+                   Else
+                       If rTabela("varTipocartao") = "D" Then
+                           .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO") & " DÉBITO"
+                       Else
+                           .TextMatrix(.rows - 1, 6) = rTabela("FORMA_PGTO") & " CRÉDITO"
+                       End If
+                   End If
+
+                .TextMatrix(.rows - 1, 7) = rTabela("varTIPO")
+             End If
+
              rTabela.MoveNext
              .rows = .rows + 1
              i = i + 1
           Loop
        End If
-       
+
        'MUDAR COR DE FONTE DA COLUNA
        For i = 1 To .rows - 1
           .Row = i
@@ -593,15 +669,19 @@ Else
           .CellForeColor = &HC0&
           .CellFontBold = True
        Next
-       
-       'MUDAR COR DE FONTE DA COLUNA
+
+       'MUDAR COR DE FONTE DA COLUNA (VALOR - col 5 em PARCELAS, col 4 nos demais)
        For i = 1 To .rows - 1
           .Row = i
-          .Col = 4
+          If varTipoConsulta = "PARCELAS" Then
+             .Col = 5
+          Else
+             .Col = 4
+          End If
           .CellForeColor = &H8000&
           .CellFontBold = True
        Next
-       
+
        .rows = .rows - 1
        .Redraw = True
     End With
@@ -743,8 +823,8 @@ ElseIf varTipoConsulta = "PARCELAS" Then
     QUANT = 0
     With Grid_Prazo
         For i = 1 To .rows - 1
-            If .TextMatrix(i, 7) = "PARCELA" And IsNumeric(.TextMatrix(i, 4)) Then
-               soma = soma + CCur(.TextMatrix(i, 4))
+            If .TextMatrix(i, 8) = "PARCELA" And IsNumeric(.TextMatrix(i, 5)) Then
+               soma = soma + CCur(.TextMatrix(i, 5))
                QUANT = QUANT + 1
             End If
         Next
@@ -755,8 +835,8 @@ ElseIf varTipoConsulta = "PARCELAS" Then
             vSomaAluguel = 0
             vQuantAluguel = 0
             For i = 1 To .rows - 1
-              If .TextMatrix(i, 7) = "ALUGUEL" And IsNumeric(.TextMatrix(i, 4)) Then
-                 vSomaAluguel = vSomaAluguel + CCur(.TextMatrix(i, 4))
+              If .TextMatrix(i, 8) = "ALUGUEL" And IsNumeric(.TextMatrix(i, 5)) Then
+                 vSomaAluguel = vSomaAluguel + CCur(.TextMatrix(i, 5))
                  vQuantAluguel = vQuantAluguel + 1
               End If
             Next
@@ -769,8 +849,8 @@ ElseIf varTipoConsulta = "PARCELAS" Then
             vQuantOS = 0
 
             For i = 1 To .rows - 1
-              If .TextMatrix(i, 7) = "OS" And IsNumeric(.TextMatrix(i, 4)) Then
-                 vSomaOS = vSomaOS + CCur(.TextMatrix(i, 4))
+              If .TextMatrix(i, 8) = "OS" And IsNumeric(.TextMatrix(i, 5)) Then
+                 vSomaOS = vSomaOS + CCur(.TextMatrix(i, 5))
                  vQuantOS = vQuantOS + 1
               End If
             Next
@@ -802,6 +882,35 @@ ElseIf varTipoConsulta = "PARCELAS" Then
         lbl4.Caption = Format(vSomaAluguel, "#,##0.00")
         lbl05Tit.Visible = False
         lbl5.Visible = False
+    ElseIf vOSAtiva = True And vAluguelAtiva = False Then
+        lbl01Tit.Caption = "Vendas:"
+        lbl02Tit.Caption = "Valor:"
+        lbl03Tit.Caption = "Ordem de Serviço:"
+        lbl04Tit.Caption = "Valor:"
+        lbl05Tit.Caption = ""
+        lbl1.Caption = Format(QUANT, "000")
+        lbl2.Caption = Format(soma, "#,##0.00")
+        lbl3.Caption = Format(vQuantOS, "000")
+        lbl4.Caption = Format(vSomaOS, "#,##0.00")
+        lbl05Tit.Visible = False
+        lbl5.Visible = False
+    ElseIf vAluguelAtiva = True And vOSAtiva = True Then
+        lbl01Tit.Caption = "Vendas:"
+        lbl02Tit.Caption = "Valor:"
+        lbl03Tit.Caption = "Aluguel:"
+        lbl04Tit.Caption = "Valor:"
+        lbl05Tit.Caption = "Ordem de Serviço:"
+        lbl06Tit.Caption = "Valor:"
+        lbl1.Caption = Format(QUANT, "000")
+        lbl2.Caption = Format(soma, "#,##0.00")
+        lbl3.Caption = Format(vQuantAluguel, "000")
+        lbl4.Caption = Format(vSomaAluguel, "#,##0.00")
+        lbl5.Caption = Format(vQuantOS, "000")
+        lbl6.Caption = Format(vSomaOS, "#,##0.00")
+        lbl05Tit.Visible = True
+        lbl5.Visible = True
+        lbl06Tit.Visible = True
+        lbl6.Visible = True
     End If
 ElseIf varTipoConsulta = "ALUGUEL" Then
     'DEBITO
@@ -1158,7 +1267,7 @@ Private Sub Mostrar_Parcelas()
 'Dim sSQL As String
 'Dim r As ADODB.Recordset
 
-sSQL = "SELECT parcelas.COD_PEDIDO as varcodped, 'PARCELA' AS ORIGEM, cliente.Nome as varnomecliente, parcelas.VALOR_FINAL as varValor, parcelas.PAGAMENTO as varData, parcelas.FORMA_PGTO, parcelas.TIPO_CARTAO as vartipocartao, parcelas.TIPO as vartipo " & _
+sSQL = "SELECT parcelas.COD_PEDIDO as varcodped, ISNULL(parcelas.COD_OS, 0) as varCodOS, 'PARCELA' AS ORIGEM, cliente.Nome as varnomecliente, parcelas.VALOR_FINAL as varValor, parcelas.PAGAMENTO as varData, parcelas.FORMA_PGTO, parcelas.TIPO_CARTAO as vartipocartao, parcelas.TIPO as vartipo " & _
     "FROM parcelas INNER JOIN pedidos ON parcelas.COD_PEDIDO = pedidos.COD_PEDIDO INNER JOIN cliente ON pedidos.COD_CLIENTE = cliente.CODIGO " & _
     "WHERE (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos.cancelado = 0) AND (parcelas.codcaixa = " & varFluxoCodCaixa & ") AND parcelas.caixa = '" & varFluxoNomeCaixa & "' AND (parcelas.TIPO IN ('PARCELA', 'ALUGUEL', 'OS')) AND (parcelas.STATUS = 1) "
 Set r = dbData.OpenRecordset(sSQL)
@@ -1227,8 +1336,8 @@ Dim vImpressoraNormal As String
 'Set oIni = Nothing
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 vImpressoraNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -1424,7 +1533,7 @@ End Sub
 
 
 Private Sub Form_Load()
-Dim oIni As Ini
+Dim oIni As ini
 
 'mostrar os objetos de OS e/ou Aluguel
 Dim oCfg As ConfigItem
@@ -1608,6 +1717,88 @@ ElseIf varTipoConsulta = "PARCELAS" Then
         lbl4.Width = 915
         lbl5.Width = 495
         lbl6.Width = 915
+    ElseIf vOSAtiva = True And vAluguelAtiva = False Then
+        lbl03Tit.Visible = False
+        lbl04Tit.Visible = False
+        lbl05Tit.Visible = False
+        lbl06Tit.Visible = False
+
+        lbl3.Visible = True
+        lbl4.Visible = True
+        lbl5.Visible = False
+        lbl6.Visible = False
+
+        lbl3.BackColor = &H80000005
+
+        lbl01Tit.Caption = "Vendas:"
+        lbl02Tit.Caption = "Ordem de Serviço:"
+
+        lbl01Tit.Top = 5040
+        lbl02Tit.Top = 5280
+
+        lbl01Tit.Left = 9360
+        lbl02Tit.Left = 8460
+
+        lbl1.Top = 5040
+        lbl2.Top = 5040
+        lbl3.Top = 5280
+        lbl4.Top = 5280
+
+        lbl1.Left = 10080
+        lbl2.Left = 10620
+        lbl3.Left = 10080
+        lbl4.Left = 10620
+
+        lbl1.Width = 495
+        lbl2.Width = 915
+        lbl3.Width = 495
+        lbl4.Width = 915
+        lbl5.Width = 495
+        lbl6.Width = 915
+    ElseIf vAluguelAtiva = True And vOSAtiva = True Then
+        lbl04Tit.Visible = False
+        lbl06Tit.Visible = False
+
+        lbl3.Visible = True
+        lbl4.Visible = True
+        lbl5.Visible = True
+        lbl6.Visible = True
+
+        lbl3.BackColor = &H80000005
+
+        lbl01Tit.Caption = "Vendas:"
+        lbl02Tit.Caption = "Aluguel:"
+        lbl03Tit.Caption = "Ordem de Serviço:"
+        lbl03Tit.Visible = True
+
+        lbl01Tit.Top = 5040
+        lbl02Tit.Top = 5280
+        lbl03Tit.Top = 5520
+
+        lbl01Tit.Left = 9360
+        lbl02Tit.Left = 9360
+        lbl03Tit.Left = 8460
+
+        lbl1.Top = 5040
+        lbl2.Top = 5040
+        lbl3.Top = 5280
+        lbl4.Top = 5280
+        lbl5.Top = 5520
+        lbl6.Top = 5520
+
+        lbl1.Left = 10080
+        lbl2.Left = 10620
+        lbl3.Left = 10080
+        lbl4.Left = 10620
+        lbl5.Left = 10080
+        lbl6.Left = 10620
+
+        lbl1.Width = 495
+        lbl2.Width = 915
+        lbl3.Width = 495
+        lbl4.Width = 915
+        lbl5.Width = 495
+        lbl6.Width = 915
     End If
 ElseIf varTipoConsulta = "HAVERES" Then
     Mostrar_Haveres
@@ -1691,6 +1882,12 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 'Caixa_Controle_semOS.Show
 End Sub
 
+'Botao cmdExibirProdutos faz a mesma coisa que o duplo-clique no grid -
+'reaproveita a mesma Sub em vez de duplicar a logica
+Private Sub cmdExibirProdutos_Click()
+Grid_Prazo_DblClick
+End Sub
+
 Private Sub Grid_Prazo_DblClick()
 If varTipoConsulta = "PRAZO" Then
     Parcelas_Consulta_Produtos.loadPedidos Grid_Prazo.TextMatrix(Grid_Prazo.Row, 1), Grid_Prazo.TextMatrix(Grid_Prazo.Row, 8)
@@ -1701,7 +1898,7 @@ ElseIf varTipoConsulta = "OUTROS" Then
 ElseIf varTipoConsulta = "VENDAS" Then
     Parcelas_Consulta_Produtos.loadPedidos Grid_Prazo.TextMatrix(Grid_Prazo.Row, 1), Grid_Prazo.TextMatrix(Grid_Prazo.Row, 7)
 ElseIf varTipoConsulta = "PARCELAS" Then
-    Parcelas_Consulta_Produtos.loadPedidos Grid_Prazo.TextMatrix(Grid_Prazo.Row, 1), Grid_Prazo.TextMatrix(Grid_Prazo.Row, 7)
+    Parcelas_Consulta_Produtos.loadPedidos Grid_Prazo.TextMatrix(Grid_Prazo.Row, 1), Grid_Prazo.TextMatrix(Grid_Prazo.Row, 8)
 ElseIf varTipoConsulta = "HAVERES" Then
     Parcelas_Consulta_Produtos.loadPedidos Grid_Prazo.TextMatrix(Grid_Prazo.Row, 1), Grid_Prazo.TextMatrix(Grid_Prazo.Row, 7)
 ElseIf varTipoConsulta = "SUPRIMENTOS" Then
