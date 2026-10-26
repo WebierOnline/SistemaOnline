@@ -5079,35 +5079,50 @@ Else
    sCFOPEntrada2 = sCFOPEnt
 End If
 
+'-- CST->CSOSN quando regime Simples Nacional (CRT=1)
+'   sCSTEnt vem como origem(1 digito, 0-8)+CST(2 digitos), ex: "060" (origem
+'   nacional) ou "560" (origem nacional c/ conteudo importado <=40%) - o que
+'   determina o CSOSN e so o CST real (ultimos 2 digitos), a origem nao entra
+'   no CSOSN. Comparar o valor cru inteiro (bug anterior) so batia pra
+'   origem=0 e deixava qualquer outra origem sem converter (Case Else)
+Dim sCSTEntrada2 As String
+Dim bCSTConhecido2 As Boolean
+bCSTConhecido2 = True
+If sCRT2 = "1" Then
+   Select Case Right(sCSTEnt, 2)
+      Case "00": sCSTEntrada2 = "102"
+      Case "10": sCSTEntrada2 = "201"
+      Case "20": sCSTEntrada2 = "101"
+      Case "30": sCSTEntrada2 = "202"
+      Case "40": sCSTEntrada2 = "300"
+      Case "41": sCSTEntrada2 = "400"
+      Case "60": sCSTEntrada2 = "500"
+      Case "70": sCSTEntrada2 = "203"
+      Case "90": sCSTEntrada2 = "900"
+      Case Else
+         'CST fora da tabela - padrao seguro 5102/102 (CFOP e CST juntos,
+         'nunca mantem o CFOP calculado separadamente com um CST generico)
+         sCSTEntrada2 = "102"
+         bCSTConhecido2 = False
+   End Select
+Else
+   sCSTEntrada2 = sCSTEnt
+End If
+
 '-- CFOP de VENDA (pra atualizar o CADASTRO do produto - produtos.CFOP). NAO usar
 '   sCFOPEntrada2 aqui: aquele e o CFOP de ENTRADA (so serve pra produtos_entrada_itens,
 '   a tabela da nota de entrada). Normaliza pela familia do CFOP recebido na XML
 '   (2o digito "4" = operacao com ST -> 5405; senao -> 5102), igual a conversao
-'   ja usada em frmVinculoProdutoXML.
+'   ja usada em frmVinculoProdutoXML. Excecao: se o CST da XML nao bateu com
+'   nenhum valor conhecido da tabela acima, forca 5102 (mesmo que o CFOP da
+'   XML parecesse indicar ST) pra nao deixar CFOP 5405 com CST generico.
 Dim sCFOPVenda2 As String
-If Len(sCFOPEnt) >= 2 And Mid(sCFOPEnt, 2, 1) = "4" Then
+If sCRT2 = "1" And Not bCSTConhecido2 Then
+   sCFOPVenda2 = "5102"
+ElseIf Len(sCFOPEnt) >= 2 And Mid(sCFOPEnt, 2, 1) = "4" Then
    sCFOPVenda2 = "5405"
 Else
    sCFOPVenda2 = "5102"
-End If
-
-'-- CST->CSOSN quando regime Simples Nacional (CRT=1)
-Dim sCSTEntrada2 As String
-If sCRT2 = "1" Then
-   Select Case sCSTEnt
-      Case "000": sCSTEntrada2 = "102"
-      Case "010": sCSTEntrada2 = "201"
-      Case "020": sCSTEntrada2 = "101"
-      Case "030": sCSTEntrada2 = "202"
-      Case "040": sCSTEntrada2 = "300"
-      Case "041": sCSTEntrada2 = "400"
-      Case "060": sCSTEntrada2 = "500"
-      Case "070": sCSTEntrada2 = "203"
-      Case "090": sCSTEntrada2 = "900"
-      Case Else:  sCSTEntrada2 = sCSTEnt
-   End Select
-Else
-   sCSTEntrada2 = sCSTEnt
 End If
 
 Dim sICMSCST2 As String
@@ -5549,36 +5564,49 @@ End Sub
 'um sem o outro deixava o cadastro incoerente (ex: CFOP 5405 com CST/CSOSN ainda em
 '102). Por isso os 2 botoes (Atualizar CFOP / Atualizar CST) disparam essa mesma rotina.
 Private Sub AtualizarCFOPeCST()
-'CFOP de venda: normaliza pela familia (2o digito "4" = operacao com ST -> 5405;
-'senao -> 5102), igual a conversao usada em cmdAdicionar2/frmVinculoProdutoXML
-Dim sCFOPNovo As String
-If Len(txtCFOPSel.Text) >= 2 And Mid(txtCFOPSel.Text, 2, 1) = "4" Then
-    sCFOPNovo = "5405"
-Else
-    sCFOPNovo = "5102"
-End If
-
 'CST/CSOSN: converte o CST cru da XML pro CSOSN quando a empresa e Simples Nacional
 '(regime normal usa o CST da XML direto, sem conversao - mesma logica do cmdAdicionar2)
 Dim nCRTAtu As Integer
 nCRTAtu = Val(SQLExecutaRetorno("SELECT TOP 1 ISNULL(CRT,1) r FROM empresa", "r", 1))
 
 Dim sCSTNovo As String
+Dim bCSTConhecidoAtu As Boolean
+bCSTConhecidoAtu = True
 If nCRTAtu = 1 Then
-    Select Case txtCSTSel.Text
-        Case "000": sCSTNovo = "102"
-        Case "010": sCSTNovo = "201"
-        Case "020": sCSTNovo = "101"
-        Case "030": sCSTNovo = "202"
-        Case "040": sCSTNovo = "300"
-        Case "041": sCSTNovo = "400"
-        Case "060": sCSTNovo = "500"
-        Case "070": sCSTNovo = "203"
-        Case "090": sCSTNovo = "900"
-        Case Else:  sCSTNovo = txtCSTSel.Text
+    'ver mesmo comentario/correcao em cmdAdicionar2_Click - compara so os
+    'ultimos 2 digitos (o CST real), ignorando a origem (1o digito)
+    Select Case Right(txtCSTSel.Text, 2)
+        Case "00": sCSTNovo = "102"
+        Case "10": sCSTNovo = "201"
+        Case "20": sCSTNovo = "101"
+        Case "30": sCSTNovo = "202"
+        Case "40": sCSTNovo = "300"
+        Case "41": sCSTNovo = "400"
+        Case "60": sCSTNovo = "500"
+        Case "70": sCSTNovo = "203"
+        Case "90": sCSTNovo = "900"
+        Case Else
+            'CST fora da tabela - padrao seguro 5102/102 (CFOP e CST
+            'juntos, nunca mantem o CFOP calculado separadamente com um
+            'CST generico)
+            sCSTNovo = "102"
+            bCSTConhecidoAtu = False
     End Select
 Else
     sCSTNovo = txtCSTSel.Text
+End If
+
+'CFOP de venda: normaliza pela familia (2o digito "4" = operacao com ST -> 5405;
+'senao -> 5102), igual a conversao usada em cmdAdicionar2/frmVinculoProdutoXML.
+'Excecao: se o CST da XML nao bateu com nenhum valor conhecido da tabela
+'acima, forca 5102 (nao deixa CFOP 5405 com CST generico)
+Dim sCFOPNovo As String
+If nCRTAtu = 1 And Not bCSTConhecidoAtu Then
+    sCFOPNovo = "5102"
+ElseIf Len(txtCFOPSel.Text) >= 2 And Mid(txtCFOPSel.Text, 2, 1) = "4" Then
+    sCFOPNovo = "5405"
+Else
+    sCFOPNovo = "5102"
 End If
 
 If ShowMsg("Tem certeza que deseja alterar o CFOP/CST do produto:" & vbCrLf & _
