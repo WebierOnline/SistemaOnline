@@ -28,7 +28,7 @@ Begin VB.Form Configuracao_Geral
       Left            =   60
       ScaleHeight     =   765
       ScaleWidth      =   8865
-      TabIndex        =   9
+      TabIndex        =   7
       Top             =   60
       Width           =   8895
       Begin VB.Label Label33 
@@ -49,7 +49,7 @@ Begin VB.Form Configuracao_Geral
          ForeColor       =   &H00800000&
          Height          =   360
          Left            =   1140
-         TabIndex        =   10
+         TabIndex        =   8
          Top             =   180
          Width           =   4005
       End
@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "09:18"
+            TextSave        =   "11:11"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -106,7 +106,7 @@ Begin VB.Form Configuracao_Geral
    Begin TabDlg.SSTab SSTab1 
       Height          =   8955
       Left            =   60
-      TabIndex        =   11
+      TabIndex        =   9
       Top             =   900
       Width           =   8895
       _ExtentX        =   15690
@@ -188,36 +188,89 @@ Begin VB.Form Configuracao_Geral
       Tab(3).Control(11).Enabled=   0   'False
       Tab(3).Control(12)=   "cboDeclararRecebedor"
       Tab(3).Control(12).Enabled=   0   'False
-      Tab(3).ControlCount=   13
+      Tab(3).Control(13)=   "Frame14"
+      Tab(3).Control(13).Enabled=   0   'False
+      Tab(3).ControlCount=   14
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label53"
-      Tab(4).Control(1)=   "Label54"
-      Tab(4).Control(2)=   "Label56"
-      Tab(4).Control(3)=   "Label57"
-      Tab(4).Control(4)=   "Label58"
-      Tab(4).Control(5)=   "Label59"
-      Tab(4).Control(6)=   "Label60"
-      Tab(4).Control(7)=   "cmdDesmarcarTodos"
-      Tab(4).Control(8)=   "cmdDesmarcar"
-      Tab(4).Control(9)=   "cmdMarcar"
-      Tab(4).Control(10)=   "cmdLocalizar"
-      Tab(4).Control(11)=   "cmdNovo"
+      Tab(4).Control(0)=   "chameleonButton1"
+      Tab(4).Control(1)=   "txtCodDesbloqueioTemp"
+      Tab(4).Control(2)=   "txtCodDesbloqueio"
+      Tab(4).Control(3)=   "txtFantasia"
+      Tab(4).Control(4)=   "cboAno"
+      Tab(4).Control(5)=   "cboMes"
+      Tab(4).Control(6)=   "txtRazao"
+      Tab(4).Control(7)=   "Grid"
+      Tab(4).Control(8)=   "mskCPF"
+      Tab(4).Control(9)=   "cmdAdicionar"
+      Tab(4).Control(10)=   "cmdMostrarSenha"
+      Tab(4).Control(11)=   "cmdPrepara"
       Tab(4).Control(12)=   "cmdPrepara2"
-      Tab(4).Control(13)=   "cmdPrepara"
-      Tab(4).Control(14)=   "cmdMostrarSenha"
-      Tab(4).Control(15)=   "cmdAdicionar"
-      Tab(4).Control(16)=   "mskCPF"
-      Tab(4).Control(17)=   "Grid"
-      Tab(4).Control(18)=   "txtRazao"
-      Tab(4).Control(19)=   "cboMes"
-      Tab(4).Control(20)=   "cboAno"
-      Tab(4).Control(21)=   "txtFantasia"
-      Tab(4).Control(22)=   "txtCodDesbloqueio"
-      Tab(4).Control(23)=   "txtCodDesbloqueioTemp"
-      Tab(4).Control(24)=   "chameleonButton1"
+      Tab(4).Control(13)=   "cmdNovo"
+      Tab(4).Control(14)=   "cmdLocalizar"
+      Tab(4).Control(15)=   "cmdMarcar"
+      Tab(4).Control(16)=   "cmdDesmarcar"
+      Tab(4).Control(17)=   "cmdDesmarcarTodos"
+      Tab(4).Control(18)=   "Label60"
+      Tab(4).Control(19)=   "Label59"
+      Tab(4).Control(20)=   "Label58"
+      Tab(4).Control(21)=   "Label57"
+      Tab(4).Control(22)=   "Label56"
+      Tab(4).Control(23)=   "Label54"
+      Tab(4).Control(24)=   "Label53"
       Tab(4).ControlCount=   25
+      Begin VB.Frame Frame14 
+         Caption         =   "Recibos"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   1275
+         Left            =   -69780
+         TabIndex        =   230
+         Top             =   2700
+         Width           =   3495
+         Begin VB.ComboBox cboTipoReciboPgto 
+            Height          =   315
+            Left            =   1200
+            TabIndex        =   232
+            Top             =   300
+            Width           =   2175
+         End
+         Begin VB.ComboBox cboTipoReciboHaver 
+            Height          =   315
+            Left            =   1200
+            TabIndex        =   231
+            Top             =   660
+            Width           =   2175
+         End
+         Begin VB.Label Label8 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Pagamento:"
+            Height          =   195
+            Left            =   240
+            TabIndex        =   234
+            Top             =   300
+            Width           =   855
+         End
+         Begin VB.Label Label3 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Haver:"
+            Height          =   195
+            Left            =   600
+            TabIndex        =   233
+            Top             =   660
+            Width           =   480
+         End
+      End
       Begin VB.Frame Frame13 
          Caption         =   "Cashback"
          BeginProperty Font 
@@ -231,7 +284,7 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   1695
          Left            =   -74880
-         TabIndex        =   219
+         TabIndex        =   215
          Top             =   3360
          Width           =   8655
          Begin VB.TextBox txtCashbackValidade 
@@ -239,7 +292,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   2340
-            TabIndex        =   229
+            TabIndex        =   225
             Top             =   1080
             Width           =   1095
          End
@@ -248,14 +301,14 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   4860
-            TabIndex        =   227
+            TabIndex        =   223
             Top             =   720
             Width           =   1095
          End
          Begin VB.ComboBox cboCashbackPrazo 
             Height          =   315
             Left            =   2325
-            TabIndex        =   224
+            TabIndex        =   220
             Top             =   720
             Width           =   1395
          End
@@ -264,14 +317,14 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   4860
-            TabIndex        =   223
+            TabIndex        =   219
             Top             =   360
             Width           =   1095
          End
          Begin VB.ComboBox cboCashbackVista 
             Height          =   315
             Left            =   2325
-            TabIndex        =   220
+            TabIndex        =   216
             Top             =   360
             Width           =   1395
          End
@@ -281,7 +334,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Validade (dias):"
             Height          =   195
             Left            =   1230
-            TabIndex        =   228
+            TabIndex        =   224
             Top             =   1080
             Width           =   1080
          End
@@ -291,7 +344,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Percentagem:"
             Height          =   195
             Left            =   3840
-            TabIndex        =   226
+            TabIndex        =   222
             Top             =   720
             Width           =   990
          End
@@ -301,7 +354,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Venda à prazo:"
             Height          =   195
             Left            =   1200
-            TabIndex        =   225
+            TabIndex        =   221
             Top             =   720
             Width           =   1080
          End
@@ -311,7 +364,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Percentagem:"
             Height          =   195
             Left            =   3840
-            TabIndex        =   222
+            TabIndex        =   218
             Top             =   360
             Width           =   990
          End
@@ -321,7 +374,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Venda à vista:"
             Height          =   195
             Left            =   1260
-            TabIndex        =   221
+            TabIndex        =   217
             Top             =   360
             Width           =   1020
          End
@@ -329,7 +382,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.ComboBox cboDeclararRecebedor 
          Height          =   315
          Left            =   -69660
-         TabIndex        =   208
+         TabIndex        =   204
          Top             =   2160
          Width           =   3435
       End
@@ -337,21 +390,21 @@ Begin VB.Form Configuracao_Geral
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   -66780
-         TabIndex        =   207
+         TabIndex        =   203
          Top             =   1140
          Width           =   495
       End
       Begin VB.ComboBox cboFormaParcelasImpressao 
          Height          =   315
          Left            =   -69660
-         TabIndex        =   205
+         TabIndex        =   201
          Top             =   1440
          Width           =   3405
       End
       Begin VB.ComboBox cboINIImpNormal 
          Height          =   315
          Left            =   -69660
-         TabIndex        =   202
+         TabIndex        =   198
          Top             =   780
          Width           =   3405
       End
@@ -359,37 +412,37 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Juros"
          Height          =   1335
          Left            =   120
-         TabIndex        =   182
-         Top             =   4080
-         Width           =   8655
+         TabIndex        =   178
+         Top             =   5280
+         Width           =   3615
          Begin VB.ComboBox cboTipoJuros 
             Height          =   315
-            Left            =   4020
-            TabIndex        =   188
+            Left            =   1620
+            TabIndex        =   184
             Top             =   960
             Width           =   1275
          End
          Begin VB.TextBox txtTipoJuros 
             Appearance      =   0  'Flat
             Height          =   285
-            Left            =   5310
-            TabIndex        =   187
+            Left            =   2910
+            TabIndex        =   183
             Top             =   960
             Visible         =   0   'False
             Width           =   495
          End
          Begin VB.TextBox txtJurosMes 
             Height          =   315
-            Left            =   4020
-            TabIndex        =   184
+            Left            =   1620
+            TabIndex        =   180
             Top             =   240
             Width           =   1455
          End
          Begin VB.TextBox txtJuroDia 
             Height          =   315
-            Left            =   4020
+            Left            =   1620
             Locked          =   -1  'True
-            TabIndex        =   183
+            TabIndex        =   179
             Top             =   600
             Width           =   1455
          End
@@ -398,8 +451,8 @@ Begin VB.Form Configuracao_Geral
             AutoSize        =   -1  'True
             Caption         =   "Cobrar juros sobre:"
             Height          =   195
-            Left            =   2580
-            TabIndex        =   189
+            Left            =   180
+            TabIndex        =   185
             Top             =   960
             Width           =   1320
          End
@@ -408,8 +461,8 @@ Begin VB.Form Configuracao_Geral
             AutoSize        =   -1  'True
             Caption         =   "Juros ao mês:"
             Height          =   195
-            Left            =   2940
-            TabIndex        =   186
+            Left            =   540
+            TabIndex        =   182
             Top             =   240
             Width           =   975
          End
@@ -418,8 +471,8 @@ Begin VB.Form Configuracao_Geral
             AutoSize        =   -1  'True
             Caption         =   "Juros ao Dia:"
             Height          =   195
-            Left            =   3000
-            TabIndex        =   185
+            Left            =   600
+            TabIndex        =   181
             Top             =   600
             Width           =   930
          End
@@ -437,41 +490,41 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   2055
          Left            =   -74820
-         TabIndex        =   171
+         TabIndex        =   167
          Top             =   6660
          Width           =   4995
          Begin VB.ComboBox cboCombinarImpNFCe 
             Height          =   315
             Left            =   1995
-            TabIndex        =   180
+            TabIndex        =   176
             Top             =   1680
             Width           =   2415
          End
          Begin VB.ComboBox cboConfirmaPrazoNFCe 
             Height          =   315
             Left            =   1995
-            TabIndex        =   178
+            TabIndex        =   174
             Top             =   1320
             Width           =   2415
          End
          Begin VB.ComboBox cboConfirmaCPFNFCe 
             Height          =   315
             Left            =   1995
-            TabIndex        =   176
+            TabIndex        =   172
             Top             =   960
             Width           =   2415
          End
          Begin VB.ComboBox cboImprimirNFCe 
             Height          =   315
             Left            =   1995
-            TabIndex        =   173
+            TabIndex        =   169
             Top             =   240
             Width           =   2415
          End
          Begin VB.ComboBox cboConfirmaImpressaoNFCe 
             Height          =   315
             Left            =   1995
-            TabIndex        =   172
+            TabIndex        =   168
             Top             =   600
             Width           =   2415
          End
@@ -481,7 +534,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Combinar Impressão?:"
             Height          =   195
             Left            =   360
-            TabIndex        =   181
+            TabIndex        =   177
             Top             =   1680
             Width           =   1560
          End
@@ -491,7 +544,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Vendas À Prazo?:"
             Height          =   195
             Left            =   660
-            TabIndex        =   179
+            TabIndex        =   175
             Top             =   1320
             Width           =   1275
          End
@@ -501,7 +554,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar CPF?:"
             Height          =   195
             Left            =   780
-            TabIndex        =   177
+            TabIndex        =   173
             Top             =   960
             Width           =   1140
          End
@@ -511,7 +564,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Imprimir?:"
             Height          =   195
             Left            =   1275
-            TabIndex        =   175
+            TabIndex        =   171
             Top             =   240
             Width           =   660
          End
@@ -521,7 +574,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar Impressão?:"
             Height          =   195
             Left            =   360
-            TabIndex        =   174
+            TabIndex        =   170
             Top             =   600
             Width           =   1560
          End
@@ -529,7 +582,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton chameleonButton1 
          Height          =   315
          Left            =   -66600
-         TabIndex        =   166
+         TabIndex        =   162
          Top             =   5460
          Width           =   375
          _ExtentX        =   661
@@ -569,7 +622,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   315
          Left            =   -69600
          Locked          =   -1  'True
-         TabIndex        =   162
+         TabIndex        =   158
          Top             =   6420
          Width           =   975
       End
@@ -578,35 +631,35 @@ Begin VB.Form Configuracao_Geral
          Height          =   315
          Left            =   -70980
          Locked          =   -1  'True
-         TabIndex        =   156
+         TabIndex        =   152
          Top             =   6420
          Width           =   975
       End
       Begin VB.TextBox txtFantasia 
          Height          =   315
          Left            =   -74880
-         TabIndex        =   153
+         TabIndex        =   149
          Top             =   5460
          Width           =   2835
       End
       Begin VB.ComboBox cboAno 
          Height          =   315
          Left            =   -73320
-         TabIndex        =   151
+         TabIndex        =   147
          Top             =   6420
          Width           =   1155
       End
       Begin VB.ComboBox cboMes 
          Height          =   315
          Left            =   -74880
-         TabIndex        =   149
+         TabIndex        =   145
          Top             =   6420
          Width           =   1515
       End
       Begin VB.TextBox txtRazao 
          Height          =   315
          Left            =   -72000
-         TabIndex        =   155
+         TabIndex        =   151
          Top             =   5460
          Width           =   3735
       End
@@ -623,20 +676,20 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   1335
          Left            =   -74880
-         TabIndex        =   139
+         TabIndex        =   135
          Top             =   1980
          Width           =   8655
          Begin VB.ComboBox cboHabilitarAluguel 
             Height          =   315
             Left            =   2205
-            TabIndex        =   141
+            TabIndex        =   137
             Top             =   360
             Width           =   1395
          End
          Begin VB.ComboBox Combo2 
             Height          =   315
             Left            =   2205
-            TabIndex        =   140
+            TabIndex        =   136
             Top             =   720
             Width           =   3675
          End
@@ -646,7 +699,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Habilitar Aluguel:"
             Height          =   195
             Left            =   975
-            TabIndex        =   143
+            TabIndex        =   139
             Top             =   360
             Width           =   1185
          End
@@ -656,7 +709,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipos de Aluguel:"
             Height          =   195
             Left            =   945
-            TabIndex        =   142
+            TabIndex        =   138
             Top             =   780
             Width           =   1230
          End
@@ -674,7 +727,7 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   2055
          Left            =   -74820
-         TabIndex        =   116
+         TabIndex        =   112
          Top             =   6840
          Width           =   8535
          Begin VB.Frame Frame12 
@@ -690,13 +743,13 @@ Begin VB.Form Configuracao_Geral
             EndProperty
             Height          =   1755
             Left            =   60
-            TabIndex        =   210
+            TabIndex        =   206
             Top             =   240
             Width           =   2295
             Begin VB.ComboBox cboTipoDesconto 
                Height          =   315
                Left            =   120
-               TabIndex        =   217
+               TabIndex        =   213
                Top             =   480
                Width           =   2055
             End
@@ -704,7 +757,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   285
                Left            =   1140
-               TabIndex        =   216
+               TabIndex        =   212
                Top             =   240
                Visible         =   0   'False
                Width           =   495
@@ -716,7 +769,7 @@ Begin VB.Form Configuracao_Geral
                ForeColor       =   &H80000008&
                Height          =   195
                Left            =   180
-               TabIndex        =   214
+               TabIndex        =   210
                Top             =   1500
                Width           =   1995
             End
@@ -727,7 +780,7 @@ Begin VB.Form Configuracao_Geral
                ForeColor       =   &H80000008&
                Height          =   195
                Left            =   180
-               TabIndex        =   213
+               TabIndex        =   209
                Top             =   1320
                Width           =   1995
             End
@@ -738,7 +791,7 @@ Begin VB.Form Configuracao_Geral
                ForeColor       =   &H80000008&
                Height          =   195
                Left            =   180
-               TabIndex        =   212
+               TabIndex        =   208
                Top             =   960
                Width           =   1515
             End
@@ -749,7 +802,7 @@ Begin VB.Form Configuracao_Geral
                ForeColor       =   &H80000008&
                Height          =   195
                Left            =   180
-               TabIndex        =   211
+               TabIndex        =   207
                Top             =   1140
                Width           =   1935
             End
@@ -759,7 +812,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Tipo de Desc.:"
                Height          =   195
                Left            =   120
-               TabIndex        =   218
+               TabIndex        =   214
                Top             =   240
                Width           =   1050
             End
@@ -768,14 +821,14 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Descontos"
             Height          =   855
             Left            =   2400
-            TabIndex        =   130
+            TabIndex        =   126
             Top             =   240
             Width           =   2115
             Begin VB.TextBox txtValorDescAV 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   120
-               TabIndex        =   132
+               TabIndex        =   128
                Top             =   480
                Width           =   915
             End
@@ -783,7 +836,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1080
-               TabIndex        =   131
+               TabIndex        =   127
                Top             =   480
                Width           =   915
             End
@@ -793,7 +846,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "À Vista(%):"
                Height          =   195
                Left            =   120
-               TabIndex        =   134
+               TabIndex        =   130
                Top             =   240
                Width           =   750
             End
@@ -803,7 +856,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "À Prazo(%):"
                Height          =   195
                Left            =   1080
-               TabIndex        =   133
+               TabIndex        =   129
                Top             =   240
                Width           =   810
             End
@@ -812,14 +865,14 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Limites"
             Height          =   1575
             Left            =   4560
-            TabIndex        =   117
+            TabIndex        =   113
             Top             =   240
             Width           =   2715
             Begin VB.TextBox txtDescAV3 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   960
-               TabIndex        =   126
+               TabIndex        =   122
                Top             =   1200
                Width           =   795
             End
@@ -827,7 +880,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1800
-               TabIndex        =   125
+               TabIndex        =   121
                Top             =   480
                Width           =   795
             End
@@ -835,7 +888,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1800
-               TabIndex        =   124
+               TabIndex        =   120
                Top             =   840
                Width           =   795
             End
@@ -843,7 +896,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1800
-               TabIndex        =   123
+               TabIndex        =   119
                Top             =   1200
                Width           =   795
             End
@@ -851,7 +904,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   120
-               TabIndex        =   122
+               TabIndex        =   118
                Top             =   1200
                Width           =   795
             End
@@ -859,7 +912,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   120
-               TabIndex        =   121
+               TabIndex        =   117
                Top             =   480
                Width           =   795
             End
@@ -867,7 +920,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   120
-               TabIndex        =   120
+               TabIndex        =   116
                Top             =   840
                Width           =   795
             End
@@ -875,7 +928,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   960
-               TabIndex        =   119
+               TabIndex        =   115
                Top             =   840
                Width           =   795
             End
@@ -883,7 +936,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   960
-               TabIndex        =   118
+               TabIndex        =   114
                Top             =   480
                Width           =   795
             End
@@ -893,7 +946,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Margem(R$):"
                Height          =   195
                Left            =   120
-               TabIndex        =   129
+               TabIndex        =   125
                Top             =   240
                Width           =   915
             End
@@ -903,7 +956,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "À Prazo:"
                Height          =   195
                Left            =   1800
-               TabIndex        =   128
+               TabIndex        =   124
                Top             =   240
                Width           =   600
             End
@@ -913,7 +966,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "À Vista:"
                Height          =   195
                Left            =   1080
-               TabIndex        =   127
+               TabIndex        =   123
                Top             =   240
                Width           =   540
             End
@@ -932,27 +985,27 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   1515
          Left            =   -74880
-         TabIndex        =   115
+         TabIndex        =   111
          Top             =   420
          Width           =   8655
          Begin VB.ComboBox cboHabilitarComp 
             Height          =   315
             Left            =   2205
-            TabIndex        =   230
+            TabIndex        =   226
             Top             =   1080
             Width           =   1395
          End
          Begin VB.ComboBox cboTipoOS 
             Height          =   315
             Left            =   2205
-            TabIndex        =   136
+            TabIndex        =   132
             Top             =   720
             Width           =   3675
          End
          Begin VB.ComboBox cboHabilitarOS 
             Height          =   315
             Left            =   2205
-            TabIndex        =   135
+            TabIndex        =   131
             Top             =   360
             Width           =   1395
          End
@@ -962,7 +1015,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Habilitar Compartibilidade:"
             Height          =   195
             Left            =   315
-            TabIndex        =   231
+            TabIndex        =   227
             Top             =   1080
             Width           =   1815
          End
@@ -972,7 +1025,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipos de Ordem de Serviços:"
             Height          =   195
             Left            =   120
-            TabIndex        =   138
+            TabIndex        =   134
             Top             =   780
             Width           =   2055
          End
@@ -982,7 +1035,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Habilitar Ordem de Serviços:"
             Height          =   195
             Left            =   150
-            TabIndex        =   137
+            TabIndex        =   133
             Top             =   360
             Width           =   2010
          End
@@ -991,21 +1044,21 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Balança e Peso"
          Height          =   1515
          Left            =   120
-         TabIndex        =   110
+         TabIndex        =   106
          Top             =   6660
          Width           =   8655
          Begin VB.Frame Frame11 
             Caption         =   "Balança/Pesagem"
             Height          =   675
             Left            =   3540
-            TabIndex        =   197
+            TabIndex        =   193
             Top             =   780
             Width           =   3375
             Begin VB.TextBox txtQtdeDigitosBalanca 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   2760
-               TabIndex        =   199
+               TabIndex        =   195
                Top             =   300
                Width           =   495
             End
@@ -1013,7 +1066,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1080
-               TabIndex        =   198
+               TabIndex        =   194
                Top             =   300
                Width           =   495
             End
@@ -1023,7 +1076,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Digito Inicial:"
                Height          =   195
                Left            =   120
-               TabIndex        =   201
+               TabIndex        =   197
                Top             =   300
                Width           =   900
             End
@@ -1033,7 +1086,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Qtde Digitos:"
                Height          =   195
                Left            =   1800
-               TabIndex        =   200
+               TabIndex        =   196
                Top             =   300
                Width           =   915
             End
@@ -1042,14 +1095,14 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Etiqueta/Pesagem"
             Height          =   675
             Left            =   120
-            TabIndex        =   192
+            TabIndex        =   188
             Top             =   780
             Width           =   3375
             Begin VB.TextBox txtIniciaisEtiqueta 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1080
-               TabIndex        =   196
+               TabIndex        =   192
                Top             =   300
                Width           =   495
             End
@@ -1057,7 +1110,7 @@ Begin VB.Form Configuracao_Geral
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   2760
-               TabIndex        =   195
+               TabIndex        =   191
                Top             =   300
                Width           =   495
             End
@@ -1067,7 +1120,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Qtde Digitos:"
                Height          =   195
                Left            =   1800
-               TabIndex        =   194
+               TabIndex        =   190
                Top             =   300
                Width           =   915
             End
@@ -1077,7 +1130,7 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Digito Inicial:"
                Height          =   195
                Left            =   120
-               TabIndex        =   193
+               TabIndex        =   189
                Top             =   300
                Width           =   900
             End
@@ -1088,7 +1141,7 @@ Begin VB.Form Configuracao_Geral
             Left            =   3840
             List            =   "Configuracao_Geral.frx":83AC
             Style           =   2  'Dropdown List
-            TabIndex        =   112
+            TabIndex        =   108
             Top             =   360
             Width           =   1395
          End
@@ -1098,7 +1151,7 @@ Begin VB.Form Configuracao_Geral
             Left            =   840
             List            =   "Configuracao_Geral.frx":841C
             Style           =   2  'Dropdown List
-            TabIndex        =   111
+            TabIndex        =   107
             Top             =   360
             Width           =   2295
          End
@@ -1108,7 +1161,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Porta:"
             Height          =   195
             Left            =   3300
-            TabIndex        =   114
+            TabIndex        =   110
             Top             =   360
             Width           =   420
          End
@@ -1118,46 +1171,61 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Modelo:"
             Height          =   195
             Left            =   120
-            TabIndex        =   113
+            TabIndex        =   109
             Top             =   360
             Width           =   570
          End
       End
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
-         Height          =   3615
+         Height          =   4875
          Left            =   120
-         TabIndex        =   80
-         Top             =   480
+         TabIndex        =   78
+         Top             =   360
          Width           =   8655
+         Begin VB.CheckBox chkBloqueioAPrazo 
+            Caption         =   "Bloqueio"
+            Height          =   195
+            Left            =   4020
+            TabIndex        =   236
+            Top             =   3120
+            Width           =   1035
+         End
+         Begin VB.ComboBox cboAlterarCodigo 
+            Height          =   315
+            Left            =   4020
+            TabIndex        =   228
+            Top             =   960
+            Width           =   3675
+         End
          Begin VB.ComboBox cboLimitarCompra 
             Height          =   315
             Left            =   4020
-            TabIndex        =   190
-            Top             =   3120
+            TabIndex        =   186
+            Top             =   2760
             Width           =   1155
          End
          Begin VB.ComboBox cboMultiplasRef 
             Height          =   315
             Left            =   4020
-            TabIndex        =   144
-            Top             =   2760
+            TabIndex        =   140
+            Top             =   2400
             Width           =   1155
          End
          Begin VB.TextBox txtTipoCaixa 
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   5280
-            TabIndex        =   109
-            Top             =   2400
+            TabIndex        =   105
+            Top             =   2040
             Visible         =   0   'False
             Width           =   495
          End
          Begin VB.ComboBox cboTipoCaixa 
             Height          =   315
             Left            =   4020
-            TabIndex        =   8
-            Top             =   2400
+            TabIndex        =   6
+            Top             =   2040
             Width           =   1275
          End
          Begin VB.TextBox txtQuantDiasDesativar 
@@ -1165,44 +1233,30 @@ Begin VB.Form Configuracao_Geral
             Enabled         =   0   'False
             Height          =   315
             Left            =   5220
-            TabIndex        =   7
-            Top             =   2040
+            TabIndex        =   5
+            Top             =   1680
             Width           =   675
          End
          Begin VB.ComboBox cboDesativarClientes 
             Height          =   315
             Left            =   4020
-            TabIndex        =   6
-            Top             =   2040
-            Width           =   1155
-         End
-         Begin VB.ComboBox cboTipoReciboHaver 
-            Height          =   315
-            Left            =   4020
-            TabIndex        =   5
-            Top             =   1680
-            Width           =   2295
-         End
-         Begin VB.ComboBox cboTipoReciboPgto 
-            Height          =   315
-            Left            =   4020
             TabIndex        =   4
-            Top             =   1320
-            Width           =   2295
+            Top             =   1680
+            Width           =   1155
          End
          Begin VB.ComboBox cboValorVenda 
             Height          =   315
             Left            =   4020
             TabIndex        =   3
-            Top             =   960
+            Top             =   1320
             Width           =   3675
          End
          Begin VB.TextBox txtValorVenda 
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   7725
-            TabIndex        =   82
-            Top             =   960
+            TabIndex        =   80
+            Top             =   1320
             Visible         =   0   'False
             Width           =   495
          End
@@ -1210,7 +1264,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   7785
-            TabIndex        =   81
+            TabIndex        =   79
             Top             =   240
             Visible         =   0   'False
             Width           =   495
@@ -1232,8 +1286,8 @@ Begin VB.Form Configuracao_Geral
          Begin ChamaleonBtn.chameleonButton cmdDesativarClientes 
             Height          =   315
             Left            =   5940
-            TabIndex        =   101
-            Top             =   2040
+            TabIndex        =   97
+            Top             =   1680
             Width           =   1935
             _ExtentX        =   3413
             _ExtentY        =   556
@@ -1267,14 +1321,34 @@ Begin VB.Form Configuracao_Geral
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
+         Begin VB.Label Label77 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Venda à Prazo:"
+            Height          =   195
+            Left            =   2820
+            TabIndex        =   235
+            Top             =   3120
+            Width           =   1095
+         End
+         Begin VB.Label Label76 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Aceitar alterar o código sequencial no cadastro:"
+            Height          =   195
+            Left            =   585
+            TabIndex        =   229
+            Top             =   960
+            Width           =   3375
+         End
          Begin VB.Label Label66 
             Alignment       =   1  'Right Justify
             AutoSize        =   -1  'True
             Caption         =   "Limitar Valor de Compra:"
             Height          =   195
             Left            =   2250
-            TabIndex        =   191
-            Top             =   3120
+            TabIndex        =   187
+            Top             =   2760
             Width           =   1710
          End
          Begin VB.Label Label52 
@@ -1283,8 +1357,8 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Multiplas Referências:"
             Height          =   195
             Left            =   2400
-            TabIndex        =   145
-            Top             =   2760
+            TabIndex        =   141
+            Top             =   2400
             Width           =   1560
          End
          Begin VB.Label Label47 
@@ -1293,8 +1367,8 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipo de caixa:"
             Height          =   195
             Left            =   2910
-            TabIndex        =   108
-            Top             =   2400
+            TabIndex        =   104
+            Top             =   2040
             Width           =   1005
          End
          Begin VB.Label Label4 
@@ -1303,29 +1377,9 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Desativar Clientes em débito:"
             Height          =   195
             Left            =   1920
-            TabIndex        =   102
-            Top             =   2040
-            Width           =   2055
-         End
-         Begin VB.Label Label3 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Tipo de Recibo de Haver:"
-            Height          =   195
-            Left            =   2100
-            TabIndex        =   87
+            TabIndex        =   98
             Top             =   1680
-            Width           =   1845
-         End
-         Begin VB.Label Label8 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Tipo de Recibo Pagamento:"
-            Height          =   195
-            Left            =   1950
-            TabIndex        =   86
-            Top             =   1320
-            Width           =   1995
+            Width           =   2055
          End
          Begin VB.Label Label7 
             Alignment       =   1  'Right Justify
@@ -1333,8 +1387,8 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipo de Valor de Venda:"
             Height          =   195
             Left            =   2235
-            TabIndex        =   85
-            Top             =   960
+            TabIndex        =   83
+            Top             =   1320
             Width           =   1725
          End
          Begin VB.Label Label1 
@@ -1343,7 +1397,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipo de empresa:"
             Height          =   195
             Left            =   2745
-            TabIndex        =   84
+            TabIndex        =   82
             Top             =   240
             Width           =   1230
          End
@@ -1353,7 +1407,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Aceitar entrada de preço e quantidade no cadastro:"
             Height          =   195
             Left            =   300
-            TabIndex        =   83
+            TabIndex        =   81
             Top             =   600
             Width           =   3660
          End
@@ -1371,7 +1425,7 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   6435
          Left            =   -74820
-         TabIndex        =   55
+         TabIndex        =   53
          Top             =   360
          Width           =   8535
          Begin VB.TextBox txtTempoLogoff 
@@ -1379,35 +1433,35 @@ Begin VB.Form Configuracao_Geral
             Enabled         =   0   'False
             Height          =   315
             Left            =   4080
-            TabIndex        =   106
+            TabIndex        =   102
             Top             =   5940
             Width           =   1155
          End
          Begin VB.ComboBox cboLogoffAutomatico 
             Height          =   315
             Left            =   2850
-            TabIndex        =   105
+            TabIndex        =   101
             Top             =   5940
             Width           =   1215
          End
          Begin VB.ComboBox cboTipoLogin 
             Height          =   315
             Left            =   2850
-            TabIndex        =   103
+            TabIndex        =   99
             Top             =   5580
             Width           =   2415
          End
          Begin VB.ComboBox cboAcrescCredito 
             Height          =   315
             Left            =   2850
-            TabIndex        =   98
+            TabIndex        =   94
             Top             =   4860
             Width           =   2415
          End
          Begin VB.TextBox txtValorAcrescCredito 
             Height          =   315
             Left            =   2850
-            TabIndex        =   97
+            TabIndex        =   93
             Top             =   5220
             Width           =   2415
          End
@@ -1415,7 +1469,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   5310
-            TabIndex        =   96
+            TabIndex        =   92
             Top             =   4860
             Visible         =   0   'False
             Width           =   495
@@ -1423,14 +1477,14 @@ Begin VB.Form Configuracao_Geral
          Begin VB.ComboBox cboAcrescDebito 
             Height          =   315
             Left            =   2850
-            TabIndex        =   93
+            TabIndex        =   89
             Top             =   4140
             Width           =   2415
          End
          Begin VB.TextBox txtValorAcrescDebito 
             Height          =   315
             Left            =   2850
-            TabIndex        =   92
+            TabIndex        =   88
             Top             =   4500
             Width           =   2415
          End
@@ -1438,7 +1492,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   5310
-            TabIndex        =   91
+            TabIndex        =   87
             Top             =   4140
             Visible         =   0   'False
             Width           =   495
@@ -1446,21 +1500,21 @@ Begin VB.Form Configuracao_Geral
          Begin VB.ComboBox cboSegAvancado 
             Height          =   315
             Left            =   2850
-            TabIndex        =   89
+            TabIndex        =   85
             Top             =   3780
             Width           =   2415
          End
          Begin VB.TextBox txtCaminho 
             Height          =   315
             Left            =   2880
-            TabIndex        =   66
+            TabIndex        =   64
             Top             =   180
             Width           =   4335
          End
          Begin VB.TextBox txtCaminhoCupom 
             Height          =   315
             Left            =   2880
-            TabIndex        =   65
+            TabIndex        =   63
             Top             =   540
             Width           =   4335
          End
@@ -1468,7 +1522,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   5325
-            TabIndex        =   64
+            TabIndex        =   62
             Top             =   2340
             Visible         =   0   'False
             Width           =   495
@@ -1476,28 +1530,28 @@ Begin VB.Form Configuracao_Geral
          Begin VB.ComboBox cboIdentVendedor 
             Height          =   315
             Left            =   2880
-            TabIndex        =   63
+            TabIndex        =   61
             Top             =   2340
             Width           =   2415
          End
          Begin VB.ComboBox cboEstoqueNegativo 
             Height          =   315
             Left            =   2880
-            TabIndex        =   62
+            TabIndex        =   60
             Top             =   900
             Width           =   2415
          End
          Begin VB.ComboBox cboClienteDebito 
             Height          =   315
             Left            =   2880
-            TabIndex        =   61
+            TabIndex        =   59
             Top             =   1260
             Width           =   2415
          End
          Begin VB.ComboBox cboIdentificarMaquina 
             Height          =   315
             Left            =   2880
-            TabIndex        =   60
+            TabIndex        =   58
             Top             =   1980
             Width           =   2415
          End
@@ -1505,28 +1559,28 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   315
             Left            =   2880
-            TabIndex        =   59
+            TabIndex        =   57
             Top             =   1620
             Width           =   2415
          End
          Begin VB.ComboBox cboConfFerchamentoAV 
             Height          =   315
             Left            =   2865
-            TabIndex        =   58
+            TabIndex        =   56
             Top             =   2700
             Width           =   2415
          End
          Begin VB.ComboBox cboConfFerchamentoAP 
             Height          =   315
             Left            =   2865
-            TabIndex        =   57
+            TabIndex        =   55
             Top             =   3060
             Width           =   2415
          End
          Begin VB.ComboBox cboConfFerchamentoORC 
             Height          =   315
             Left            =   2865
-            TabIndex        =   56
+            TabIndex        =   54
             Top             =   3420
             Width           =   2415
          End
@@ -1540,7 +1594,7 @@ Begin VB.Form Configuracao_Geral
          Begin ChamaleonBtn.chameleonButton cmdBuscarPlano 
             Height          =   315
             Left            =   7275
-            TabIndex        =   67
+            TabIndex        =   65
             Top             =   180
             Width           =   615
             _ExtentX        =   1085
@@ -1578,7 +1632,7 @@ Begin VB.Form Configuracao_Geral
          Begin ChamaleonBtn.chameleonButton cmdBuscarLogo 
             Height          =   315
             Left            =   7275
-            TabIndex        =   68
+            TabIndex        =   66
             Top             =   540
             Width           =   615
             _ExtentX        =   1085
@@ -1616,7 +1670,7 @@ Begin VB.Form Configuracao_Geral
          Begin ChamaleonBtn.chameleonButton cmdSalvarPDV 
             Height          =   675
             Left            =   6480
-            TabIndex        =   215
+            TabIndex        =   211
             Top             =   5520
             Width           =   1815
             _ExtentX        =   3201
@@ -1658,7 +1712,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Logoff Automático:"
             Height          =   195
             Left            =   1380
-            TabIndex        =   107
+            TabIndex        =   103
             Top             =   5940
             Width           =   1335
          End
@@ -1668,7 +1722,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipo de Login:"
             Height          =   195
             Left            =   1725
-            TabIndex        =   104
+            TabIndex        =   100
             Top             =   5580
             Width           =   1020
          End
@@ -1678,7 +1732,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Acrescimo Venda - Cartão Crédito:"
             Height          =   195
             Left            =   315
-            TabIndex        =   100
+            TabIndex        =   96
             Top             =   4860
             Width           =   2430
          End
@@ -1688,7 +1742,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Valor do Acréscimo:"
             Height          =   195
             Left            =   1305
-            TabIndex        =   99
+            TabIndex        =   95
             Top             =   5220
             Width           =   1410
          End
@@ -1698,7 +1752,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Acrescimo Venda - Cartão Débito:"
             Height          =   195
             Left            =   345
-            TabIndex        =   95
+            TabIndex        =   91
             Top             =   4140
             Width           =   2400
          End
@@ -1708,7 +1762,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Valor do Acréscimo:"
             Height          =   195
             Left            =   1305
-            TabIndex        =   94
+            TabIndex        =   90
             Top             =   4500
             Width           =   1410
          End
@@ -1718,7 +1772,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Segurança nas Opções Avançadas:"
             Height          =   195
             Left            =   180
-            TabIndex        =   90
+            TabIndex        =   86
             Top             =   3780
             Width           =   2580
          End
@@ -1728,7 +1782,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Plano de Fundo:"
             Height          =   195
             Left            =   1635
-            TabIndex        =   78
+            TabIndex        =   76
             Top             =   180
             Width           =   1170
          End
@@ -1738,7 +1792,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Logomarca (Cupom):"
             Height          =   195
             Left            =   1335
-            TabIndex        =   77
+            TabIndex        =   75
             Top             =   540
             Width           =   1470
          End
@@ -1748,7 +1802,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Identificação do vendedor:"
             Height          =   195
             Left            =   915
-            TabIndex        =   76
+            TabIndex        =   74
             Top             =   2340
             Width           =   1905
          End
@@ -1758,7 +1812,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Venda (estoque negativo):"
             Height          =   195
             Left            =   945
-            TabIndex        =   75
+            TabIndex        =   73
             Top             =   900
             Width           =   1875
          End
@@ -1768,7 +1822,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Bloquear Clientes em Débito:"
             Height          =   195
             Left            =   750
-            TabIndex        =   74
+            TabIndex        =   72
             Top             =   1260
             Width           =   2040
          End
@@ -1778,7 +1832,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Identificação da Maquina:"
             Height          =   195
             Left            =   945
-            TabIndex        =   73
+            TabIndex        =   71
             Top             =   1980
             Width           =   1845
          End
@@ -1788,7 +1842,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Quant. dias (Bloqueio):"
             Height          =   195
             Left            =   1215
-            TabIndex        =   72
+            TabIndex        =   70
             Top             =   1620
             Width           =   1605
          End
@@ -1798,7 +1852,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar fechamendo à Vista :"
             Height          =   195
             Left            =   570
-            TabIndex        =   71
+            TabIndex        =   69
             Top             =   2700
             Width           =   2205
          End
@@ -1808,7 +1862,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar fechamendo à Prazo:"
             Height          =   195
             Left            =   555
-            TabIndex        =   70
+            TabIndex        =   68
             Top             =   3060
             Width           =   2220
          End
@@ -1818,7 +1872,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar fechamendo Orçamento:"
             Height          =   195
             Left            =   315
-            TabIndex        =   69
+            TabIndex        =   67
             Top             =   3420
             Width           =   2460
          End
@@ -1836,34 +1890,34 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   1815
          Left            =   -74820
-         TabIndex        =   43
+         TabIndex        =   41
          Top             =   4860
          Width           =   4995
          Begin VB.ComboBox cboConfirmaImpressaoORC 
             Height          =   315
             Left            =   1995
-            TabIndex        =   53
+            TabIndex        =   51
             Top             =   660
             Width           =   2415
          End
          Begin VB.ComboBox cboImprimirORC 
             Height          =   315
             Left            =   1995
-            TabIndex        =   47
+            TabIndex        =   45
             Top             =   300
             Width           =   2415
          End
          Begin VB.ComboBox cboTipoImpressaoORC 
             Height          =   315
             Left            =   1995
-            TabIndex        =   46
+            TabIndex        =   44
             Top             =   1020
             Width           =   2415
          End
          Begin VB.TextBox txtNumCopiaORC 
             Height          =   315
             Left            =   1995
-            TabIndex        =   45
+            TabIndex        =   43
             Top             =   1380
             Width           =   2415
          End
@@ -1871,7 +1925,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   4440
-            TabIndex        =   44
+            TabIndex        =   42
             Top             =   1020
             Visible         =   0   'False
             Width           =   495
@@ -1882,7 +1936,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Imprimir?:"
             Height          =   195
             Left            =   1275
-            TabIndex        =   51
+            TabIndex        =   49
             Top             =   300
             Width           =   660
          End
@@ -1892,7 +1946,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar Impressão?:"
             Height          =   195
             Left            =   375
-            TabIndex        =   50
+            TabIndex        =   48
             Top             =   660
             Width           =   1560
          End
@@ -1902,7 +1956,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipos de Impressão:"
             Height          =   195
             Left            =   510
-            TabIndex        =   49
+            TabIndex        =   47
             Top             =   1020
             Width           =   1425
          End
@@ -1912,7 +1966,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Número de Copias:"
             Height          =   195
             Left            =   555
-            TabIndex        =   48
+            TabIndex        =   46
             Top             =   1380
             Width           =   1350
          End
@@ -1930,41 +1984,41 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   2175
          Left            =   -74820
-         TabIndex        =   31
+         TabIndex        =   29
          Top             =   2700
          Width           =   4995
          Begin VB.ComboBox cboImprimirAP 
             Height          =   315
             Left            =   1995
-            TabIndex        =   37
+            TabIndex        =   35
             Top             =   300
             Width           =   2415
          End
          Begin VB.ComboBox cboConfirmaImpressaoAP 
             Height          =   315
             Left            =   1995
-            TabIndex        =   36
+            TabIndex        =   34
             Top             =   660
             Width           =   2415
          End
          Begin VB.ComboBox cboNotaEntregaAP 
             Height          =   315
             Left            =   1995
-            TabIndex        =   35
+            TabIndex        =   33
             Top             =   1020
             Width           =   2415
          End
          Begin VB.ComboBox cboTipoImpressaoAP 
             Height          =   315
             Left            =   1995
-            TabIndex        =   34
+            TabIndex        =   32
             Top             =   1380
             Width           =   2415
          End
          Begin VB.TextBox txtNumCopiaAP 
             Height          =   315
             Left            =   1995
-            TabIndex        =   33
+            TabIndex        =   31
             Top             =   1740
             Width           =   2415
          End
@@ -1972,7 +2026,7 @@ Begin VB.Form Configuracao_Geral
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   4440
-            TabIndex        =   32
+            TabIndex        =   30
             Top             =   1380
             Visible         =   0   'False
             Width           =   495
@@ -1983,7 +2037,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Imprimir?:"
             Height          =   195
             Left            =   1275
-            TabIndex        =   42
+            TabIndex        =   40
             Top             =   300
             Width           =   660
          End
@@ -1993,7 +2047,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar Impressão?:"
             Height          =   195
             Left            =   375
-            TabIndex        =   41
+            TabIndex        =   39
             Top             =   660
             Width           =   1560
          End
@@ -2003,7 +2057,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Nota de Entrega:"
             Height          =   195
             Left            =   720
-            TabIndex        =   40
+            TabIndex        =   38
             Top             =   1020
             Width           =   1215
          End
@@ -2013,7 +2067,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipos de Impressão:"
             Height          =   195
             Left            =   510
-            TabIndex        =   39
+            TabIndex        =   37
             Top             =   1380
             Width           =   1425
          End
@@ -2023,7 +2077,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Número de Copias:"
             Height          =   195
             Left            =   555
-            TabIndex        =   38
+            TabIndex        =   36
             Top             =   1740
             Width           =   1350
          End
@@ -2041,14 +2095,14 @@ Begin VB.Form Configuracao_Geral
          EndProperty
          Height          =   2175
          Left            =   -74820
-         TabIndex        =   19
+         TabIndex        =   17
          Top             =   480
          Width           =   4995
          Begin VB.TextBox txtTipoImpressaoAV 
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   4440
-            TabIndex        =   25
+            TabIndex        =   23
             Top             =   1380
             Visible         =   0   'False
             Width           =   495
@@ -2056,35 +2110,35 @@ Begin VB.Form Configuracao_Geral
          Begin VB.TextBox txtNumCopia 
             Height          =   315
             Left            =   1995
-            TabIndex        =   24
+            TabIndex        =   22
             Top             =   1740
             Width           =   2415
          End
          Begin VB.ComboBox cboTipoImpressaoAV 
             Height          =   315
             Left            =   1995
-            TabIndex        =   23
+            TabIndex        =   21
             Top             =   1380
             Width           =   2415
          End
          Begin VB.ComboBox cboNotaEntregaAV 
             Height          =   315
             Left            =   1995
-            TabIndex        =   22
+            TabIndex        =   20
             Top             =   1020
             Width           =   2415
          End
          Begin VB.ComboBox cboConfirmaImpressaoAV 
             Height          =   315
             Left            =   1995
-            TabIndex        =   21
+            TabIndex        =   19
             Top             =   660
             Width           =   2415
          End
          Begin VB.ComboBox cboImprimirAV 
             Height          =   315
             Left            =   1995
-            TabIndex        =   20
+            TabIndex        =   18
             Top             =   300
             Width           =   2415
          End
@@ -2094,7 +2148,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Número de Copias:"
             Height          =   195
             Left            =   555
-            TabIndex        =   30
+            TabIndex        =   28
             Top             =   1740
             Width           =   1350
          End
@@ -2104,7 +2158,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Tipos de Impressão:"
             Height          =   195
             Left            =   510
-            TabIndex        =   29
+            TabIndex        =   27
             Top             =   1380
             Width           =   1425
          End
@@ -2114,7 +2168,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Nota de Entrega:"
             Height          =   195
             Left            =   720
-            TabIndex        =   28
+            TabIndex        =   26
             Top             =   1020
             Width           =   1215
          End
@@ -2124,7 +2178,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Confirmar Impressão?:"
             Height          =   195
             Left            =   375
-            TabIndex        =   27
+            TabIndex        =   25
             Top             =   660
             Width           =   1560
          End
@@ -2134,38 +2188,38 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Imprimir?:"
             Height          =   195
             Left            =   1275
-            TabIndex        =   26
+            TabIndex        =   24
             Top             =   300
             Width           =   660
          End
       End
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
-         Height          =   1155
-         Left            =   120
-         TabIndex        =   12
-         Top             =   5460
-         Width           =   8655
+         Height          =   1335
+         Left            =   3780
+         TabIndex        =   10
+         Top             =   5280
+         Width           =   4995
          Begin VB.TextBox txtPastaBackup 
             Height          =   315
-            Left            =   1200
-            TabIndex        =   15
+            Left            =   1260
+            TabIndex        =   13
             Top             =   360
-            Width           =   7155
+            Width           =   3615
          End
          Begin VB.CheckBox chkBackupAutomatico 
             Caption         =   "Backup Automático"
             Height          =   195
-            Left            =   2760
-            TabIndex        =   13
-            Top             =   825
-            Width           =   1935
+            Left            =   2280
+            TabIndex        =   11
+            Top             =   960
+            Width           =   1815
          End
          Begin MSMask.MaskEdBox txtBackupHorario 
             Height          =   315
             Left            =   1200
-            TabIndex        =   14
-            Top             =   780
+            TabIndex        =   12
+            Top             =   840
             Width           =   975
             _ExtentX        =   1720
             _ExtentY        =   556
@@ -2180,7 +2234,7 @@ Begin VB.Form Configuracao_Geral
             Caption         =   "Pasta Backup:"
             Height          =   195
             Left            =   120
-            TabIndex        =   18
+            TabIndex        =   16
             Top             =   360
             Width           =   1050
          End
@@ -2199,9 +2253,9 @@ Begin VB.Form Configuracao_Geral
             EndProperty
             ForeColor       =   &H00404040&
             Height          =   210
-            Left            =   7260
-            TabIndex        =   17
-            Top             =   720
+            Left            =   3780
+            TabIndex        =   15
+            Top             =   660
             Width           =   1095
          End
          Begin VB.Label lblHorario 
@@ -2209,16 +2263,16 @@ Begin VB.Form Configuracao_Geral
             BackStyle       =   0  'Transparent
             Caption         =   "Horário"
             Height          =   195
-            Left            =   120
-            TabIndex        =   16
-            Top             =   780
+            Left            =   60
+            TabIndex        =   14
+            Top             =   840
             Width           =   510
          End
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarImpressao 
          Height          =   615
          Left            =   -68460
-         TabIndex        =   52
+         TabIndex        =   50
          Top             =   7980
          Width           =   2175
          _ExtentX        =   3836
@@ -2257,7 +2311,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
          Left            =   6600
-         TabIndex        =   79
+         TabIndex        =   77
          Top             =   8220
          Width           =   2175
          _ExtentX        =   3836
@@ -2296,7 +2350,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdSalvarBalanca 
          Height          =   615
          Left            =   -68400
-         TabIndex        =   88
+         TabIndex        =   84
          Top             =   7980
          Width           =   2175
          _ExtentX        =   3836
@@ -2335,7 +2389,7 @@ Begin VB.Form Configuracao_Geral
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   4635
          Left            =   -74880
-         TabIndex        =   146
+         TabIndex        =   142
          Top             =   420
          Width           =   8655
          _ExtentX        =   15266
@@ -2348,7 +2402,7 @@ Begin VB.Form Configuracao_Geral
       Begin MSMask.MaskEdBox mskCPF 
          Height          =   315
          Left            =   -68220
-         TabIndex        =   157
+         TabIndex        =   153
          Top             =   5460
          Width           =   1695
          _ExtentX        =   2990
@@ -2360,7 +2414,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdAdicionar 
          Height          =   315
          Left            =   -74880
-         TabIndex        =   159
+         TabIndex        =   155
          Top             =   5820
          Width           =   975
          _ExtentX        =   1720
@@ -2398,7 +2452,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdMostrarSenha 
          Height          =   315
          Left            =   -72120
-         TabIndex        =   158
+         TabIndex        =   154
          Top             =   6420
          Width           =   1035
          _ExtentX        =   1826
@@ -2436,7 +2490,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdPrepara 
          Height          =   315
          Left            =   -69960
-         TabIndex        =   160
+         TabIndex        =   156
          Top             =   6420
          Width           =   315
          _ExtentX        =   556
@@ -2474,7 +2528,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdPrepara2 
          Height          =   315
          Left            =   -68580
-         TabIndex        =   164
+         TabIndex        =   160
          Top             =   6420
          Width           =   315
          _ExtentX        =   556
@@ -2512,7 +2566,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   315
          Left            =   -73860
-         TabIndex        =   165
+         TabIndex        =   161
          Top             =   5820
          Width           =   1035
          _ExtentX        =   1826
@@ -2550,7 +2604,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdLocalizar 
          Height          =   315
          Left            =   -72780
-         TabIndex        =   167
+         TabIndex        =   163
          Top             =   5820
          Width           =   1095
          _ExtentX        =   1931
@@ -2588,7 +2642,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdMarcar 
          Height          =   315
          Left            =   -69780
-         TabIndex        =   168
+         TabIndex        =   164
          Top             =   5820
          Width           =   975
          _ExtentX        =   1720
@@ -2626,7 +2680,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
          Height          =   315
          Left            =   -68760
-         TabIndex        =   169
+         TabIndex        =   165
          Top             =   5820
          Width           =   1035
          _ExtentX        =   1826
@@ -2664,7 +2718,7 @@ Begin VB.Form Configuracao_Geral
       Begin ChamaleonBtn.chameleonButton cmdDesmarcarTodos 
          Height          =   315
          Left            =   -67680
-         TabIndex        =   170
+         TabIndex        =   166
          Top             =   5820
          Width           =   1455
          _ExtentX        =   2566
@@ -2705,7 +2759,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Declarar Recebedor:"
          Height          =   195
          Left            =   -69660
-         TabIndex        =   209
+         TabIndex        =   205
          Top             =   1920
          Width           =   1485
       End
@@ -2715,7 +2769,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Parcelas/Impressão/Vendas:"
          Height          =   195
          Left            =   -69660
-         TabIndex        =   206
+         TabIndex        =   202
          Top             =   1200
          Width           =   2070
       End
@@ -2725,7 +2779,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Impressoras Instaladas:"
          Height          =   195
          Left            =   -69660
-         TabIndex        =   204
+         TabIndex        =   200
          Top             =   540
          Width           =   1650
       End
@@ -2735,7 +2789,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Impressora Normal:"
          Height          =   195
          Left            =   -72480
-         TabIndex        =   203
+         TabIndex        =   199
          Top             =   2040
          Width           =   1350
       End
@@ -2745,7 +2799,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Temporário"
          Height          =   195
          Left            =   -69540
-         TabIndex        =   163
+         TabIndex        =   159
          Top             =   6180
          Width           =   795
       End
@@ -2755,7 +2809,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Certo"
          Height          =   195
          Left            =   -70980
-         TabIndex        =   161
+         TabIndex        =   157
          Top             =   6180
          Width           =   375
       End
@@ -2765,7 +2819,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Fantasia"
          Height          =   195
          Left            =   -74880
-         TabIndex        =   154
+         TabIndex        =   150
          Top             =   5220
          Width           =   600
       End
@@ -2775,7 +2829,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Mês"
          Height          =   195
          Left            =   -74880
-         TabIndex        =   152
+         TabIndex        =   148
          Top             =   6180
          Width           =   300
       End
@@ -2785,7 +2839,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Ano"
          Height          =   195
          Left            =   -73320
-         TabIndex        =   150
+         TabIndex        =   146
          Top             =   6180
          Width           =   285
       End
@@ -2794,7 +2848,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "CNPJ"
          Height          =   195
          Left            =   -68220
-         TabIndex        =   148
+         TabIndex        =   144
          Top             =   5220
          Width           =   405
       End
@@ -2804,7 +2858,7 @@ Begin VB.Form Configuracao_Geral
          Caption         =   "Razão"
          Height          =   195
          Left            =   -71940
-         TabIndex        =   147
+         TabIndex        =   143
          Top             =   5220
          Width           =   465
       End
@@ -2815,7 +2869,7 @@ Begin VB.Form Configuracao_Geral
       Caption         =   "Confirmar fechamendo da venda:"
       Height          =   195
       Left            =   540
-      TabIndex        =   54
+      TabIndex        =   52
       Top             =   5040
       Width           =   2355
    End
@@ -3538,6 +3592,30 @@ dbData.Execute sSQL
 sysConfig("INCLUIR_PRECO").Value = Abs(bOpt)
 End Sub
 
+Private Sub AtualizarAlterarCodigo()
+Dim sSQL As String, bOpt As Boolean
+
+If cboAlterarCodigo.Text = "SIM" Then
+    bOpt = True
+ElseIf cboAlterarCodigo.Text = "NÃO" Then
+    bOpt = False
+End If
+
+'Atualiza a base de dados
+sSQL = "UPDATE configuracao SET config_valor = '" & Abs(bOpt) & "' WHERE (config_nome = 'ALTERAR_CODBARRA');"
+dbData.Execute sSQL
+
+'Atualiza a configuração carregada na memória
+sysConfig("ALTERAR_CODBARRA").Value = Abs(bOpt)
+End Sub
+
+Private Sub AtualizarBloqueioAPrazo()
+Dim sSQL As String
+sSQL = "UPDATE configuracao SET config_valor = '" & Abs(chkBloqueioAPrazo.Value) & "' WHERE (config_nome = 'BLOQUEIO_APRAZO');"
+dbData.Execute sSQL
+sysConfig("BLOQUEIO_APRAZO").Value = Abs(chkBloqueioAPrazo.Value)
+End Sub
+
 Private Sub AtualizarJuros()
 Dim sSQL As String
     
@@ -4107,6 +4185,14 @@ Private Sub Mostrar_Tipo_Empresa()
       cboTipoEmpresa.Text = "Climatização"
    ElseIf txtTipoCadastroProduto.Text = 10 Then
       cboTipoEmpresa.Text = "Loja de Presentes"
+   ElseIf txtTipoCadastroProduto.Text = 11 Then
+      cboTipoEmpresa.Text = "Celulares"
+   ElseIf txtTipoCadastroProduto.Text = 12 Then
+      cboTipoEmpresa.Text = "Informática"
+   ElseIf txtTipoCadastroProduto.Text = 13 Then
+      cboTipoEmpresa.Text = "Eletrônicos"
+   ElseIf txtTipoCadastroProduto.Text = 14 Then
+      cboTipoEmpresa.Text = "Pneus"
    Else
       Exit Sub
    End If
@@ -4134,6 +4220,24 @@ Else
      cboIncluirPrecos.Text = "NÃO"
 End If
 
+Set oCfg = Nothing
+End Sub
+
+Private Sub MostrarAlterarCodigo()
+Set oCfg = sysConfig("ALTERAR_CODBARRA")
+
+If CBool(oCfg.Value) = True Then
+     cboAlterarCodigo.Text = "SIM"
+Else
+     cboAlterarCodigo.Text = "NÃO"
+End If
+
+Set oCfg = Nothing
+End Sub
+
+Private Sub MostrarBloqueioAPrazo()
+Set oCfg = sysConfig("BLOQUEIO_APRAZO")
+chkBloqueioAPrazo.Value = Abs(oCfg.Value)
 Set oCfg = Nothing
 End Sub
 
@@ -5002,6 +5106,15 @@ var_Texto = cboIncluirPrecos.Text
 cboIncluirPrecos.Text = var_Texto
 End Sub
 
+Private Sub cboAlterarCodigo_GotFocus()
+Dim var_Texto As String
+var_Texto = cboAlterarCodigo.Text
+   cboAlterarCodigo.Clear
+   cboAlterarCodigo.AddItem "SIM"
+   cboAlterarCodigo.AddItem "NÃO"
+cboAlterarCodigo.Text = var_Texto
+End Sub
+
 
 
 Private Sub cboLimitarCompra_GotFocus()
@@ -5217,6 +5330,10 @@ var_Texto = cboTipoEmpresa.Text
    cboTipoEmpresa.AddItem "Diversos"
    cboTipoEmpresa.AddItem "Climatização"
    cboTipoEmpresa.AddItem "Loja de Presentes"
+   cboTipoEmpresa.AddItem "Celulares"
+   cboTipoEmpresa.AddItem "Informática"
+   cboTipoEmpresa.AddItem "Eletrônicos"
+   cboTipoEmpresa.AddItem "Pneus"
 cboTipoEmpresa.Text = var_Texto
 End Sub
 
@@ -5242,6 +5359,14 @@ ElseIf cboTipoEmpresa.Text = "Climatização" Then
    txtTipoCadastroProduto.Text = "9"
 ElseIf cboTipoEmpresa.Text = "Loja de Presentes" Then
    txtTipoCadastroProduto.Text = "10"
+ElseIf cboTipoEmpresa.Text = "Celulares" Then
+   txtTipoCadastroProduto.Text = "11"
+ElseIf cboTipoEmpresa.Text = "Informática" Then
+   txtTipoCadastroProduto.Text = "12"
+ElseIf cboTipoEmpresa.Text = "Eletrônicos" Then
+   txtTipoCadastroProduto.Text = "13"
+ElseIf cboTipoEmpresa.Text = "Pneus" Then
+   txtTipoCadastroProduto.Text = "14"
 Else
    txtTipoCadastroProduto.Text = "1"
 End If
@@ -5751,12 +5876,12 @@ txtCodDesbloqueio.Text = vCodDesbloqueio
 txtCodDesbloqueioTemp.Text = vCodDesbTemp
 End Sub
 
-Public Function SomarDigitos(CNPJ As String) As Integer
+Public Function SomarDigitos(cnpj As String) As Integer
     Dim s As Integer
     Dim i As Integer
-    For i = 1 To Len(CNPJ)
-      If IsNumeric(Mid(CNPJ, i, 1)) Then
-        s = s + Mid(CNPJ, i, 1)
+    For i = 1 To Len(cnpj)
+      If IsNumeric(Mid(cnpj, i, 1)) Then
+        s = s + Mid(cnpj, i, 1)
       End If
     Next
     SomarDigitos = s
@@ -5791,8 +5916,8 @@ Private Sub cmdSalvarGeral_Click()
 AtualizarJuros
 AtualizarTipoEmpresa
 AtualizarIncluirPreco
-AtualizarTipoRecPgto
-AtualizarTipoRecHaver
+AtualizarAlterarCodigo
+AtualizarBloqueioAPrazo
 AtualizarValorVenda
 AtualizarBackup
 AtualizarDesativarClientes
@@ -5834,6 +5959,8 @@ AtualizarNFCeCombinarImp
 
 AtualizarTipoImpressaoParcelas
 AtualizarDeclararRecebedor
+AtualizarTipoRecPgto
+AtualizarTipoRecHaver
 
 MsgBox "Informações Salvas", vbInformation, "Aviso do Sistema"
 End Sub
@@ -5878,6 +6005,8 @@ Mostrar_Tipo_Empresa
 Mostrar_Dados_Juros
 Mostrar_Backup
 MostrarIncluirPreco
+MostrarAlterarCodigo
+MostrarBloqueioAPrazo
 Mostrar_TipoValorVenda
 Mostrar_TipoRecPgto
 Mostrar_TipoRecHaver
@@ -6051,7 +6180,7 @@ Dim rtn&
 Dim pidl&
 Dim path As String
 Dim pos As Integer
-Dim t As Long, SpecIn As String, saida As String
+Dim t As Long, SpecIn As String, Saida As String
 
     bi.hOwner = Me.hwnd 'centraliza o dialogo na tela
     bi.lpszTitle = "Procura destino do Backup..." 'define o titulo do texto
@@ -6065,12 +6194,12 @@ Dim t As Long, SpecIn As String, saida As String
     SpecIn = Left(path$, pos - 1) 'define o caminho extraido
     
     If Right$(SpecIn, 1) = "\" Then 'esteja certo de que a barra "\" esta no fim do caminho
-       saida = SpecIn 'se nao estiver , nao faça nada
+       Saida = SpecIn 'se nao estiver , nao faça nada
     Else 'senao
-       saida = SpecIn + "\" 'inclui a barra "\" no fim do caminho
+       Saida = SpecIn + "\" 'inclui a barra "\" no fim do caminho
     End If
     
-    txtPastaBackup.Text = saida
+    txtPastaBackup.Text = Saida
 End Sub
 
 

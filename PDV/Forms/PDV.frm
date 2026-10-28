@@ -9621,6 +9621,31 @@ If MSComm1.CommEvent = comEvReceive Then
 End If
 End Sub
 Private Sub cmdFinalizarPrazo_Click()
+'BLOQUEIO_APRAZO = 1 exige liberacao de um usuario nivel = 1 antes
+'de seguir com a venda a prazo - mesmo mecanismo ja usado em
+'txtDesc_LostFocus pra liberacao de gerente (LiberarVenda.frm ja
+'filtra so nivel=1 na lista e valida login+senha)
+Dim oCfgBloqueioAPrazo As ConfigItem
+Set oCfgBloqueioAPrazo = sysConfig("BLOQUEIO_APRAZO")
+If CBool(oCfgBloqueioAPrazo.Value) = True Then
+   Dim fLibAPrazo As LiberarVenda
+   Dim bCancelAPrazo As Boolean
+
+   Set fLibAPrazo = New LiberarVenda
+   Load fLibAPrazo
+   fLibAPrazo.Show vbModal
+   bCancelAPrazo = fLibAPrazo.Cancelled
+   Unload fLibAPrazo
+   Set fLibAPrazo = Nothing
+
+   If bCancelAPrazo Then
+      ShowMsg "Venda a prazo bloqueada - liberação não concedida.", vbExclamation
+      Set oCfgBloqueioAPrazo = Nothing
+      Exit Sub
+   End If
+End If
+Set oCfgBloqueioAPrazo = Nothing
+
 vDataFlexivel = False
 cmdCal1.Enabled = True
 

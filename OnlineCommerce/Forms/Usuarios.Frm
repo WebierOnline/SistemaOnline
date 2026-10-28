@@ -120,11 +120,11 @@ Begin VB.Form Usuario
          Appearance      =   0
          NumItems        =   2
          BeginProperty ColumnHeader(1) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
-            Object.Width           =   2540
+            Object.Width           =   3050
          EndProperty
          BeginProperty ColumnHeader(2) {BDD1F052-858B-11D1-B16A-00C0F0283628} 
             SubItemIndex    =   1
-            Object.Width           =   2540
+            Object.Width           =   14235
          EndProperty
       End
       Begin VB.ComboBox cboVisivel 
@@ -190,7 +190,7 @@ Begin VB.Form Usuario
             Height          =   285
             IMEMode         =   3  'DISABLE
             Left            =   3120
-            MaxLength       =   8
+            MaxLength       =   6
             PasswordChar    =   "*"
             TabIndex        =   8
             Top             =   540
@@ -733,7 +733,8 @@ If cboNivel.Text = "" Then txtCodNivel.Text = "": Exit Sub
 
 itemSaida = cboNivel.Text
 
-idUsuario = Grid.TextMatrix(Grid.Row, 1)
+idUsuario = Val(txtCodUsuario.Text)
+If idUsuario = 0 Then Exit Sub
 
 If itemSaida <> itemAtual Then
     sSQL = "DELETE FROM Usuario_Acessos WHERE Cod_Usuario = " & idUsuario
@@ -747,6 +748,15 @@ If cboNivel.Text = "1 - Total" Then
     sSQL = "INSERT INTO Usuario_Acessos (Cod_Usuario, Cod_Permissao) " & _
            "SELECT " & idUsuario & ", Codigo FROM Usuario_permissoes"
     vgDb.Execute sSQL
+
+    'nivel Total tambem marca todos os avisos (Usuario_Avisos)
+    sSQL = "DELETE FROM Usuario_Avisos WHERE Cod_Usuario = " & idUsuario
+    vgDb.Execute sSQL
+    sSQL = "INSERT INTO Usuario_Avisos (Cod_Usuario, Aviso, Ativo) VALUES " & _
+           "(" & idUsuario & ", '" & AVISO_CONTAS_PAGAR & "', 1), " & _
+           "(" & idUsuario & ", '" & AVISO_CONTAS_RECEBER & "', 1), " & _
+           "(" & idUsuario & ", '" & AVISO_ESTOQUE_BAIXO & "', 1)"
+    vgDb.Execute sSQL
 ElseIf cboNivel.Text = "2 - Limitado" Then
     txtCodNivel.Text = "2"
 ElseIf cboNivel.Text = "3 - Somente PDV" Then
@@ -756,6 +766,7 @@ ElseIf cboNivel.Text = "4 - Personalizado" Then
 End If
 
 Call Mostrar_Permissoes
+Call Mostrar_Avisos
 End Sub
 
 
@@ -778,28 +789,12 @@ End Sub
 
 
 Private Sub chameleonButton1_Click()
-'exibir dados no ListView
-sSQL = "SELECT Usuario_Acessos.Cod_Usuario, Usuario_Acessos.Cod_Permissao, Usuario_permissoes.permissao " & _
-"FROM usuario INNER JOIN usuario_acessos ON usuario.codigo = Usuario_Acessos.cod_usuario INNER JOIN usuario_permissoes ON usuario_permissoes.codigo = Usuario_Acessos.cod_permissao " & _
-"WHERE (usuario_acessos.cod_usuario = " & txtCodLogin.Text & ")"
-
-Set r = dbData.OpenRecordset(sSQL)
-
- If r.BOF Then
-    If r.State <> 0 Then r.Close
-    Set r = Nothing
-    Exit Sub
- End If
-
-Check1.Value = 0
-
-Dim i As Integer
-
-If ListView1.ListItems(i).ListSubItems(1).Text = "ESTORNAR" Then
-    ListView1.ListItems.Item(i).Checked = True
-ElseIf ListView1.ListItems(i).ListSubItems(1).Text = "AJUSTE" Then
-    ListView1.ListItems.Item(i).Checked = True
-End If
+'botao quebrava sempre que clicado - usava ListView1.ListItems(i)
+'com i nunca inicializado (ficava 0, indice invalido nesse
+'ListView, que e 1-based), e abria um recordset que nunca chegava
+'a ser lido. Substituido por reexibir o checklist de permissoes do
+'usuario atual - mesma acao que o Grid_Click ja faz corretamente.
+Call Mostrar_Permissoes
 End Sub
 
 Private Sub cmdAlterarSenha_Click()
@@ -867,7 +862,6 @@ If Not r Is Nothing Then
     Else
     
         If r("password") <> txtSenha1.Text Then
-        MsgBox r("password")
             ShowMsg "Senha Atual errada!", vbInformation
             txtSenha1.Text = ""
             Exit Sub
@@ -884,17 +878,21 @@ If Not r Is Nothing Then
         dbData.Execute "UPDATE usuario SET password = '" & EA(txtSenha3.Text) & "' WHERE (codigo = " & Val(txtCodUsuario.Text) & ");"
     End If
 
+'apos salvar (seja a 1a senha ou a troca de uma ja existente), o
+'usuario PASSA a ter senha - a tela tem que refletir o estado "ja
+'tem senha" (igual Mostrar_Dados mostra ao carregar um usuario com
+'senha), nao o estado "sem senha ainda" que ficava aqui antes
 txtSenha1.Visible = True
 txtSenha2.Visible = True
-txtSenha3.Visible = False
+txtSenha3.Visible = True
 lblSenha1.Visible = True
-lblSenha1.Caption = "Senha(até 8)"
+lblSenha1.Caption = "Senha Atual"
 lblSenha2.Visible = True
-lblSenha2.Caption = "Confirmar"
-lblSenha3.Visible = False
-lblSenha3.Caption = "?"
-cmdSalvarSenha.Visible = True
-cmdAlterarSenha.Visible = False
+lblSenha2.Caption = "Nova Senha(até 6)"
+lblSenha3.Visible = True
+lblSenha3.Caption = "Confirmar"
+cmdSalvarSenha.Visible = False
+cmdAlterarSenha.Visible = True
 frmSenha.Enabled = False
 txtSenha1.Text = ""
 txtSenha2.Text = ""
@@ -905,8 +903,8 @@ End Sub
 Private Sub Form_Load()
 Set moCombo = New cComboHelper
 MostrarGrid
-'MostrarPermissoes
 ListarAcesso
+PopularListaAvisos
 'StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 cmdSalvar.Enabled = False
 cmdCancelar.Enabled = False
@@ -929,55 +927,6 @@ Do While Not rs.EOF
     rs.MoveNext
 Loop
 End Sub
-Private Sub MostrarPermissoes()
-Dim NewItem As ListItem
-Dim sSQL As String
-Dim rs As ADODB.Recordset
-
-sSQL = "SELECT * from usuario_permissoes;"
-Set rs = dbData.OpenRecordset(sSQL)
-
-If Not rs.EOF Then
-    Call LerAcesso
-End If
-
-
-'If r.State <> 0 Then r.Close
-'Set r = Nothing
-End Sub
-Sub LerAcesso()
-Dim i As Integer
-
-For i = 1 To ListView1.ListItems.Count
-    If ListView1.ListItems.Item(i).Text = "ESTORNAR" Then
-        ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 1, True, False)
-    ElseIf ListView1.ListItems.Item(i).Text = "AJUSTE" Then
-        ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 2, True, False)
-    ElseIf ListView1.ListItems.Item(i).Text = "EXCLUIR" Then
-        ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 3, True, False)
-    ElseIf ListView1.ListItems.Item(i).Text = "REATIVAR" Then
-        ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 4, True, False)
-    End If
-Next
-
-'For i = 1 To ListView1.ListItems.Count
-'    If ListView1.ListItems.Item(i).Text = "ESTORNAR" Then ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 1, True, False)
-
-'    If ListView1.ListItems.Item(i).Text = "AJUSTE" Then ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 2, True, False)
-
-'    If ListView1.ListItems.Item(i).Text = "EXCLUIR" Then ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 3, True, False)
-
-'    If ListView1.ListItems.Item(i).Text = "REATIVAR" Then ListView1.ListItems.Item(i).Checked = IIf(r.Fields("Cod_Permissao") = 4, True, False)
-'Next
-
-'If ListView1.ListItems(i).ListSubItems(3).Text = "ESTORNAR" Then
-'    ListView1.ListItems.Item(i).Checked = True
-'ElseIf ListView1.ListItems(i).ListSubItems(0).Text = "AJUSTE" Then
-'    ListView1.ListItems.Item(i).Checked = True
-'End If
-
-End Sub
-
 Private Sub MostrarGrid()
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -1067,13 +1016,14 @@ txtCodLogin.Text = ""
 txtCodUsuario.Text = (Grid.TextMatrix(Grid.Row, 1))
 
 Call Mostrar_Permissoes
+Call Mostrar_Avisos
 
 End Sub
 
 Private Sub ListView1_ItemCheck(ByVal Item As MSComctlLib.ListItem)
 Dim idUsuario As Long
    
-   idUsuario = Grid.TextMatrix(Grid.Row, 1)
+   idUsuario = Val(txtCodUsuario.Text)
    
    If idUsuario = 0 Then Exit Sub
    
@@ -1085,6 +1035,78 @@ Dim idUsuario As Long
       sSQL = "DELETE FROM Usuario_Acessos WHERE Cod_Usuario = " & idUsuario & " AND Cod_Permissao = " & Mid(Item.key, 2)
       vgDb.Execute sSQL
    End If
+
+   Call AtualizarEstadoListaAvisos
+End Sub
+
+Private Sub ListView2_ItemCheck(ByVal Item As MSComctlLib.ListItem)
+'Marca/Desmarca "Me avise" (Usuario_Avisos) - so fica habilitado se EXIBIR POPUP
+'estiver marcado no ListView1 (ver AtualizarEstadoListaAvisos).
+Dim idUsuario As Long
+
+   idUsuario = Val(txtCodUsuario.Text)
+
+   If idUsuario = 0 Then Exit Sub
+
+   If Item.Checked Then
+      sSQL = "INSERT INTO Usuario_Avisos (Cod_Usuario, Aviso, Ativo) VALUES (" & idUsuario & ", '" & Mid(Item.key, 2) & "', 1)"
+      vgDb.Execute sSQL
+   Else
+      sSQL = "DELETE FROM Usuario_Avisos WHERE Cod_Usuario = " & idUsuario & " AND Aviso = '" & Mid(Item.key, 2) & "'"
+      vgDb.Execute sSQL
+   End If
+End Sub
+
+Private Sub PopularListaAvisos()
+'Lista fixa (bate com as chaves AVISO_* do modAvisos.bas) - carregada uma vez
+'no Form_Load, igual ListarAcesso faz com ListView1.
+ListView2.ColumnHeaders(1).Text = "Aviso"
+ListView2.ColumnHeaders(2).Text = "Descrição"
+
+ListView2.ListItems.Clear
+ListView2.ListItems.Add , "z" & AVISO_CONTAS_PAGAR, "Contas a Pagar"
+ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Vencidas / vencendo"
+ListView2.ListItems.Add , "z" & AVISO_CONTAS_RECEBER, "Contas a Receber"
+ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Vencidas / vencendo"
+ListView2.ListItems.Add , "z" & AVISO_ESTOQUE_BAIXO, "Estoque Baixo"
+ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Abaixo do mínimo"
+
+Call AtualizarEstadoListaAvisos
+End Sub
+
+Private Sub Mostrar_Avisos()
+'Marca/Desmarca avisos ("Me avise") ja definidos do usuario - mesmo padrao
+'de Mostrar_Permissoes, so que lendo de Usuario_Avisos em vez de Usuario_Acessos.
+If txtCodUsuario.Text = "" Then Exit Sub
+
+idUsuario = txtCodUsuario.Text
+
+For i = 1 To ListView2.ListItems.Count
+    If SQLExecutaRetorno("SELECT COUNT(*) r FROM Usuario_Avisos WHERE Cod_Usuario = " & idUsuario & " AND Aviso = '" & Mid(ListView2.ListItems.Item(i).key, 2) & "' AND Ativo = 1", "r", 0) > 0 Then
+       ListView2.ListItems.Item(i).Checked = True
+    Else
+       ListView2.ListItems.Item(i).Checked = False
+    End If
+Next
+
+Call AtualizarEstadoListaAvisos
+End Sub
+
+Private Sub AtualizarEstadoListaAvisos()
+'ListView2 (avisos) so fica ativo se a permissao EXIBIR POPUP estiver marcada
+'no ListView1 pra esse usuario.
+Dim j As Integer
+Dim bTemPermissao As Boolean
+
+bTemPermissao = False
+For j = 1 To ListView1.ListItems.Count
+    If ListView1.ListItems.Item(j).Text = "EXIBIR POPUP" And ListView1.ListItems.Item(j).Checked Then
+        bTemPermissao = True
+        Exit For
+    End If
+Next
+
+ListView2.Enabled = bTemPermissao
 End Sub
 
 Private Sub txtCodLogin_Change()
@@ -1107,6 +1129,12 @@ Else
     frmSenha.Enabled = False
 End If
     
+'mantem txtCodUsuario em sincronia com o usuario localizado por
+'aqui - sem isso, cboNivel_LostFocus/ListView1_ItemCheck/
+'cmdSalvar_Click/cmdSalvarSenha_Click ficavam olhando pra um
+'usuario diferente (ou nenhum) de quem foi buscado por esse campo
+txtCodUsuario.Text = r("codigo")
+
 Mostrar_Dados r
 
 'exibir dados no ListView
@@ -1123,56 +1151,12 @@ Set r = dbData.OpenRecordset(sSQL)
  End If
 
 Check1.Value = 0
-
-'Call LerAcesso
 End Sub
 
 
 Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
 
 If Not rTabela Is Nothing Then
-'txtAgencia.Text = ValidateNull(rTabela("agencia"))
-'txtConta.Text = ValidateNull(rTabela("conta"))
-'cboTipoConta.Text = ValidateNull(rTabela("tipo_conta"))
-
-'If Abs(CInt(rTabela("acesso"))) = 1 Then
-'   chkSistema.Value = Checked
-'ElseIf Abs(CInt(rTabela("acesso"))) = 0 Then
-'   chkSistema.Value = Unchecked
-'End If
-
-'If chkSistema.Value = Checked Then Frame7.Enabled = True
-
-'If IsNull(rTabela("estornar")) = False Then
-'    If Abs(CInt(rTabela("estornar"))) = 1 Then
-'       chkEstornar.Value = Checked
-'    ElseIf Abs(CInt(rTabela("estornar"))) = 0 Then
-'       chkEstornar.Value = Unchecked
-'    End If
-'Else
-'    chkEstornar.Value = Unchecked
-'End If
-
-'If Abs(CInt(rTabela("ativo"))) = 1 Then
-'   chkInativo.Value = Checked
-'ElseIf Abs(CInt(rTabela("ativo"))) = 0 Then
-'   chkInativo.Value = Unchecked
-'End If
-
-'      chkSistema.Value = IIf(CInt(rTabela("acesso")) = 1, 1, 0)
-'      chkInativo.Value = Abs(CInt(rTabela("ativo")))
-
-'If Not IsNull(rTabela("nivel")) Then
-'   If rTabela("nivel") = 1 Then
-      'optNivel1.Value = True
-'   ElseIf rTabela("nivel") = 2 Then
-      'optNivel2.Value = True
-'   ElseIf rTabela("nivel") = 3 Then
-      'optNivel3.Value = True
-'   ElseIf rTabela("nivel") = 4 Then
-      'optNivel4.Value = True
-'   End If
-'End If
 
 If IsNull(rTabela("password")) Then
    txtSenha1.Visible = True

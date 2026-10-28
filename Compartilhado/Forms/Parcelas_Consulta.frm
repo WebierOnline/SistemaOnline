@@ -2377,7 +2377,7 @@ With Grid
    lblTotalBruto.Caption = Format(dTotalSubtotal, ocMONEY)
    lblTotalHaver.Caption = Format(dTotalHaver, ocMONEY)
    lblTotalJuros.Caption = Format(dTotalJuros, ocMONEY)
-   lblTotalLiquido.Caption = CCur(lblTotalBruto.Caption) - CCur(lblTotalHaver.Caption)
+   lblTotalLiquido.Caption = Format(CCur(lblTotalBruto.Caption) - CCur(lblTotalHaver.Caption), ocMONEY)
 End With
 
 picAguarde.Visible = False
@@ -2822,6 +2822,16 @@ Set oIni = Nothing
 Limpar_Grid
 Set moCombo = New cComboHelper
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
+End Sub
+
+Public Sub AbrirConsultaVencidas()
+'Chamado externamente (popup de avisos, frmAvisoPopup) - abre ja filtrado
+'em Situacao=VENCIDAS. Setor fica TODOS (nao importa a origem da parcela,
+'so se esta em aberto - confirmado pelo usuario).
+cboSetor.Text = "TODOS"
+cboSituacao.Text = "VENCIDAS"
+cboCriterios.Text = "TODOS"
+cmdExibir_Click
 End Sub
 
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Currency

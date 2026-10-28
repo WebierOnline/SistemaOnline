@@ -119,3 +119,9 @@
 120|AlterTable_ProdutosSaida_AddHora.sql|GERAL
 121|Popular_Setor_Geral.sql|GERAL
 122|Popular_Produtos_ClassTrib_Fixo.sql|GERAL
+123|AlterTable_Configuracao_AlterarCodBarra.sql|GERAL
+124|AlterTable_Configuracao_UltimoCodBarraAuto.sql|GERAL
+125|AlterTable_Configuracao_BloqueioAPrazo.sql|GERAL
+126|Popular_TbContabilista_Ficticio.sql|GERAL
+127|Popular_UsuarioPermissoes_ExibirPopup.sql|GERAL
+128|CreateTable_Usuario_Avisos.sql|GERAL

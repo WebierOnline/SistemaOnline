@@ -8103,14 +8103,14 @@ End If
                     "(SELECT ISNULL(MAX(CODIGO),0)+1 FROM a_pagar), " & _
                     "'" & Format(Date, "yyyymmdd") & "', " & _
                     "'" & Replace(Trim(sDupVenc), "-", "") & "', " & _
-                    "'A PAGAR', " & _
+                    "'À PAGAR', " & _
                     "'NF-e " & LPad(Compra, 6, "0") & " - DUP: " & sDupNum & "', " & _
                     "'" & sFavorecido & "', " & _
                     "'GERAL', " & _
                     "'TEMPORARIA', " & _
                     "NULL, " & _
                     "'" & sFormaPag & "', " & _
-                    "'ENTRADA XML', " & _
+                    "NULL, " & _
                     FSQL(vDupValor) & ", " & _
                     "0, NULL, " & _
                     FSQL(vDupValor) & ", " & _

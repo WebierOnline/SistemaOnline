@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:53"
+            TextSave        =   "08:19"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -817,6 +817,12 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_PROD_Cadastro 
          Caption         =   "&Cadastro"
       End
+      Begin VB.Menu Menu_PROD_Simples 
+         Caption         =   "&Ajuste de Estoque"
+      End
+      Begin VB.Menu Menu_Prod_AjusteTributos 
+         Caption         =   "Ajuste de Tributos"
+      End
       Begin VB.Menu Menu_PROD_Categoria 
          Caption         =   "Categorias"
       End
@@ -825,9 +831,6 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_PROD_Saida 
          Caption         =   "&Retirada do Estoque Justificada"
-      End
-      Begin VB.Menu Menu_PROD_Simples 
-         Caption         =   "&Ajuste de Estoque"
       End
       Begin VB.Menu Menu_CONS_EstoqueMinimo 
          Caption         =   "E&stoque Minimo"
@@ -838,17 +841,8 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_PROD_BuscaRapida 
          Caption         =   "&Busca Rápida"
       End
-      Begin VB.Menu Menu_Prod_AjusteTributos 
-         Caption         =   "Ajuste de Tributos"
-      End
       Begin VB.Menu Menu_Prod_Divisao1 
          Caption         =   "-"
-      End
-      Begin VB.Menu Menu_Prod_NotasManifestadas 
-         Caption         =   "Notas Manifestadas"
-      End
-      Begin VB.Menu Menu_PROD_Entrada 
-         Caption         =   "&Entrada do Estoque Manual"
       End
       Begin VB.Menu Menu_Entrada_Estoque 
          Caption         =   "&Entrada de Estoque XML"
@@ -861,6 +855,9 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_Prod_Divisao2 
          Caption         =   "-"
+      End
+      Begin VB.Menu Menu_Prod_NotasManifestadas 
+         Caption         =   "Notas Manifestadas"
       End
       Begin VB.Menu Menu_Prod_Cashback 
          Caption         =   "Cashback"
@@ -1033,6 +1030,9 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_CONS_EntradaPorProdAgrupadas 
             Caption         =   "Entradas por Produtos Agrupados"
          End
+         Begin VB.Menu Menu_PROD_Entrada 
+            Caption         =   "&Entrada do Estoque"
+         End
          Begin VB.Menu menuseparar10 
             Caption         =   "-"
          End
@@ -1124,7 +1124,7 @@ Dim varTipoEmpresa As String
    
    'Tipos 1..8 (todos varejo em Configuracao_Geral) mostram produtos. Os ElseIf de "6"/"7"/"8"
    'abaixo viraram codigo morto (nao ha opcao Escola/Curso no sistema) - mantidos so por historico.
-   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 10 Then
+   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 14 Then
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
       
       Menu_CAD_Clientes.Caption = "Clientes"

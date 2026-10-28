@@ -6753,6 +6753,7 @@ End Sub
 Private Sub cmdEditar_Click()
 If Grid.Row = 0 Then MsgBox "Selecione um produto na lista!", vbInformation, "Aviso do Sistema": Exit Sub
 vTipoEdicao = "Edicao"
+txtCodBarra.Enabled = True   'produto ja cadastrado sempre pode editar o cod. barra
 SSTab1.Tab = 0
 SSTab2.Tab = 0
 cmdNovo.Enabled = False
@@ -6959,7 +6960,21 @@ SelecionarNoCombo cboISCST, "99", True
 PreencherCategoriaPadrao
 txtEANCaixa.Text = "SEM GTIN"
 txtFracao.Text = "1"
-txtCodBarra.SetFocus
+
+'ALTERAR_CODBARRA = 0 (NÃO) trava o campo e ja gera o codigo
+'sequencial na hora - antes so gerava ao perder o foco do campo
+Dim oCfgCodBarra As ConfigItem
+Set oCfgCodBarra = sysConfig("ALTERAR_CODBARRA")
+If CBool(oCfgCodBarra.Value) = False Then
+   txtCodBarra.Enabled = False
+
+   txtCodBarra.Text = GerarProximoCodBarraAuto()
+   txtEAN.Text = "SEM GTIN"
+Else
+   txtCodBarra.Enabled = True
+   txtCodBarra.SetFocus
+End If
+Set oCfgCodBarra = Nothing
 End Sub
 
 Private Sub cmdRemoverComp_Click()
@@ -8051,6 +8066,62 @@ End Sub
 
 
 
+
+
+Private Function GerarProximoCodBarraAuto() As String
+'gera o proximo codigo da sequencia automatica (00001-99999) sem
+'depender do MAX(COD_BARRA) da tabela produtos - evita que uma
+'digitacao manual de 5 digitos (ex: codigo de balanca) 'sequestre' o
+'proximo numero gerado. O contador fica guardado isolado em
+'configuracao (ULTIMO_CODBARRA_AUTO), so avanca quando o PROPRIO
+'sistema gera um codigo.
+Dim lUltimo As Long
+Dim lProximo As Long
+Dim sSQL As String
+Dim r As ADODB.Recordset
+
+sSQL = "SELECT config_valor FROM configuracao WHERE config_nome = 'ULTIMO_CODBARRA_AUTO';"
+Set r = dbData.OpenRecordset(sSQL)
+If Not r.BOF Then
+   lUltimo = Val(r("config_valor"))
+Else
+   lUltimo = 0
+End If
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
+lProximo = lUltimo + 1
+
+'pula qualquer numero ja usado manualmente por coincidencia - o
+'contador e independente dos dados, entao pode colidir com um
+'codigo que algum usuario tenha digitado manualmente por conta propria
+Do While lProximo <= 99999
+   sSQL = "SELECT COUNT(*) AS qtd FROM produtos WHERE COD_BARRA = '" & Format(lProximo, "00000") & "';"
+   Set r = dbData.OpenRecordset(sSQL)
+   If r("qtd") = 0 Then
+      If r.State <> 0 Then r.Close
+      Set r = Nothing
+      Exit Do
+   End If
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+   lProximo = lProximo + 1
+Loop
+
+If lProximo > 99999 Then
+   MsgBox "A sequência automática de códigos de barra (00001 a 99999) se esgotou!" & vbCrLf & "Digite o código manualmente.", vbExclamation, "Sequência Esgotada"
+   GerarProximoCodBarraAuto = ""
+   Exit Function
+End If
+
+'persiste o novo "ultimo gerado" - so avanca por aqui, nunca pelo
+'MAX(COD_BARRA) da tabela
+dbData.Execute "UPDATE configuracao SET config_valor = '" & lProximo & "' WHERE (config_nome = 'ULTIMO_CODBARRA_AUTO');"
+sysConfig("ULTIMO_CODBARRA_AUTO").Value = lProximo
+
+GerarProximoCodBarraAuto = Format(lProximo, "00000")
+End Function
+
 Private Sub txtCodBarra_GotFocus()
 SelectControl txtCodBarra
 End Sub
@@ -8066,14 +8137,9 @@ Private Sub txtCodBarra_LostFocus()
    sCod = Trim(txtCodBarra.Text)
 
    If sCod = "" Then
-      'Auto-gera codigo criado (sequencial 5 digitos)
-      Dim sSQL As String
-      Dim r As ADODB.Recordset
-      sSQL = "SELECT isnull(MAX(COD_BARRA), 0) as UltimoCodigo FROM produtos where len(COD_BARRA) = 5;"
-      Set r = dbData.OpenRecordset(sSQL)
-      Dim vCodBarraInt As String
-      vCodBarraInt = Val(r("UltimoCodigo"))
-      If Not r.BOF Then txtCodBarra.Text = Format(vCodBarraInt + 1, "00000")
+      'Auto-gera codigo criado (sequencial 5 digitos) - contador
+      'proprio, independente do MAX(COD_BARRA) da tabela
+      txtCodBarra.Text = GerarProximoCodBarraAuto()
       txtEAN.Text = "SEM GTIN"
       Exit Sub
    End If

@@ -3187,6 +3187,7 @@ Private Sub MostrarGrid_Contas()
    Dim Tipo_Data As String
    Dim var_Setor As String
    Dim var_Forma As String
+   Dim var_StatusFiltro As String
    
    If optOrdVencimento.Value = True Then
       INDICE = "vencimento"
@@ -3214,10 +3215,21 @@ Private Sub MostrarGrid_Contas()
    Else
       var_Forma = ""
    End If
+
+   'VENCIDAS nao e um status literal (nenhuma linha tem status='VENCIDAS') -
+   'e status tipo PAGAR com vencimento no passado. 'LIKE %PAGAR%' blinda contra
+   'linhas antigas gravadas sem acento ('A PAGAR' em vez de 'À PAGAR').
+   If cboCONStatus.Text = "VENCIDAS" Then
+      var_StatusFiltro = "(status LIKE '%PAGAR%') AND (vencimento < GETDATE()) "
+   ElseIf cboCONStatus.Text = "À PAGAR" Then
+      var_StatusFiltro = "(status LIKE '%PAGAR%') "
+   Else
+      var_StatusFiltro = "(status = '" & cboCONStatus.Text & "') "
+   End If
     
    If optTodos.Value = True Then
       sSQL = "SELECT *, valor_und, ISNULL(haveres, 0) AS hav, (valor_und - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE (status = '" & cboCONStatus.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
+         "WHERE " & var_StatusFiltro & var_Forma & var_Setor & " ORDER BY " & INDICE
       
    ElseIf optMensal.Value = True And optNome.Value = False Then
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
@@ -3253,7 +3265,7 @@ Private Sub MostrarGrid_Contas()
     
     'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE " & Tipo_Data & " AND (STATUS = '" & cboCONStatus.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
+         "WHERE " & Tipo_Data & " AND " & var_StatusFiltro & var_Forma & var_Setor & " ORDER BY " & INDICE
       
    ElseIf optIntervalo.Value = True And optNome.Value = False Then
       If Mask1.Text = "" Or Mask2.Text = "" Then Exit Sub
@@ -3267,7 +3279,7 @@ Private Sub MostrarGrid_Contas()
       
       'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE (STATUS = '" & cboCONStatus.Text & "') AND (vencimento >= CONVERT(DATETIME, '" & Format(Mask1, ocDATA) & "', 103)) AND (vencimento <= CONVERT(DATETIME, '" & Format(Mask2, ocDATA) & "', 103)) " & _
+         "WHERE " & var_StatusFiltro & " AND (vencimento >= CONVERT(DATETIME, '" & Format(Mask1, ocDATA) & "', 103)) AND (vencimento <= CONVERT(DATETIME, '" & Format(Mask2, ocDATA) & "', 103)) " & _
          var_Forma & var_Setor & " ORDER BY " & INDICE
       
    ElseIf optNome.Value = True And optIntervalo.Value = False And optMensal.Value = False Then
@@ -3275,7 +3287,7 @@ Private Sub MostrarGrid_Contas()
       
       'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE (status = '" & cboCONStatus.Text & "') AND (favorecido = '" & cboNome.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
+         "WHERE " & var_StatusFiltro & " AND (favorecido = '" & cboNome.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
       
    ElseIf optNome.Value = True And optIntervalo.Value = True And optMensal.Value = False Then
       If cboNome.Text = "" Then Exit Sub
@@ -3283,7 +3295,7 @@ Private Sub MostrarGrid_Contas()
       
       'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE (status = '" & cboCONStatus.Text & "') AND (favorecido = '" & cboNome.Text & "') " & _
+         "WHERE " & var_StatusFiltro & " AND (favorecido = '" & cboNome.Text & "') " & _
          "AND (vencimento >= CONVERT(DATETIME, '" & Format(Mask1, ocDATA) & "', 103)) " & _
          "AND (vencimento <= CONVERT(DATETIME, '" & Format(Mask2, ocDATA) & "', 103)) " & _
          var_Forma & var_Setor & " ORDER BY " & INDICE
@@ -3314,7 +3326,7 @@ Private Sub MostrarGrid_Contas()
       
       'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
-         "WHERE " & Tipo_Data & " AND (status = '" & cboCONStatus.Text & "') AND (favorecido = '" & cboNome.Text & "') " & _
+         "WHERE " & Tipo_Data & " AND " & var_StatusFiltro & " AND (favorecido = '" & cboNome.Text & "') " & _
          var_Forma & var_Setor & " ORDER BY " & INDICE
       
    Else
@@ -3329,6 +3341,16 @@ Private Sub MostrarGrid_Contas()
    
    printSQL = sSQL
    txtCONquant.Text = Format(totalRegistros, "00")
+End Sub
+
+Public Sub AbrirConsultaVencidas()
+'Chamado externamente (popup de avisos, frmAvisoPopup) - abre direto na
+'aba CONSULTA filtrado nas contas vencidas.
+SSTab1.Tab = 1
+optTodos.Value = True
+cboCONStatus.Text = "VENCIDAS"
+cboCONStatus_LostFocus
+MostrarGrid_Contas
 End Sub
 
 Private Sub MostrarGrid_Historico()
