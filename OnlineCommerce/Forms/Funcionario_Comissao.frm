@@ -1564,14 +1564,12 @@ Dim vPerc1Avista As Currency
 If Not r.EOF Then
     vMeta1Avista = ValidateNull(r("Valor_ComissaoAV1"))
     vPerc1Avista = ValidateNull(r("Comissao_Avista1"))
-    If vValorTotalAvista > r("Valor_ComissaoAV1") Then
-        If vValorTotalAvista < r("Valor_ComissaoAV3") Then
-            vComissaoAvista = FormatNumber(r("Comissao_Avista2"), 2)
-        Else
-            vComissaoAvista = FormatNumber(r("Comissao_Avista3"), 2)
-        End If
+    If vValorTotalAvista <= ValidateNull(r("Valor_ComissaoAV1")) Then
+        vComissaoAvista = FormatNumber(ValidateNull(r("Comissao_Avista1")), 2)
+    ElseIf vValorTotalAvista <= ValidateNull(r("Valor_ComissaoAV2")) Then
+        vComissaoAvista = FormatNumber(ValidateNull(r("Comissao_Avista2")), 2)
     Else
-        vComissaoAvista = FormatNumber(r("Comissao_Avista1"), 2)
+        vComissaoAvista = FormatNumber(ValidateNull(r("Comissao_Avista3")), 2)
     End If
 Else
     vComissaoAvista = FormatNumber(0, 2)
@@ -1634,14 +1632,12 @@ Dim vPerc1Recebido As Currency
 If Not r.EOF Then
     vMeta1Recebido = ValidateNull(r("Valor_ComissaoRec1"))
     vPerc1Recebido = ValidateNull(r("Comissao_Recebido1"))
-    If vValorTotalRecebido > r("Valor_ComissaoRec1") Then
-        If vValorTotalRecebido < r("Valor_ComissaoRec3") Then
-            vComissaoRecebido = FormatNumber(r("Comissao_Recebido2"), 2)
-        Else
-            vComissaoRecebido = FormatNumber(r("Comissao_Recebido3"), 2)
-        End If
+    If vValorTotalRecebido <= ValidateNull(r("Valor_ComissaoRec1")) Then
+        vComissaoRecebido = FormatNumber(ValidateNull(r("Comissao_Recebido1")), 2)
+    ElseIf vValorTotalRecebido <= ValidateNull(r("Valor_ComissaoRec2")) Then
+        vComissaoRecebido = FormatNumber(ValidateNull(r("Comissao_Recebido2")), 2)
     Else
-        vComissaoRecebido = FormatNumber(r("Comissao_Recebido1"), 2)
+        vComissaoRecebido = FormatNumber(ValidateNull(r("Comissao_Recebido3")), 2)
     End If
 Else
     vComissaoRecebido = FormatNumber(0, 2)
@@ -1707,14 +1703,12 @@ Dim vPerc1APrazo As Currency
 If Not r.EOF Then
     vMeta1APrazo = ValidateNull(r("Valor_ComissaoAP1"))
     vPerc1APrazo = ValidateNull(r("Comissao_Prazo1"))
-    If vValorTotalAPrazo > r("Valor_ComissaoAP1") Then
-        If vValorTotalAPrazo < r("Valor_ComissaoAP3") Then
-            vComissaoAPrazo = FormatNumber(r("Comissao_Prazo2"), 2)
-        Else
-            vComissaoAPrazo = FormatNumber(r("Comissao_Prazo3"), 2)
-        End If
+    If vValorTotalAPrazo <= ValidateNull(r("Valor_ComissaoAP1")) Then
+        vComissaoAPrazo = FormatNumber(ValidateNull(r("Comissao_Prazo1")), 2)
+    ElseIf vValorTotalAPrazo <= ValidateNull(r("Valor_ComissaoAP2")) Then
+        vComissaoAPrazo = FormatNumber(ValidateNull(r("Comissao_Prazo2")), 2)
     Else
-        vComissaoAPrazo = FormatNumber(r("Comissao_Prazo1"), 2)
+        vComissaoAPrazo = FormatNumber(ValidateNull(r("Comissao_Prazo3")), 2)
     End If
 Else
     vComissaoAPrazo = FormatNumber(0, 2)
@@ -1770,14 +1764,12 @@ Dim vPerc1Servicos As Currency
 If Not r.EOF Then
     vMeta1Servicos = ValidateNull(r("Valor_ComissaoServ1"))
     vPerc1Servicos = ValidateNull(r("Comissao_Servico1"))
-    If vValorTotalServicos > r("Valor_ComissaoServ1") Then
-        If vValorTotalServicos < r("Valor_ComissaoServ3") Then
-            vComissaoServicos = FormatNumber(r("Comissao_Servico2"), 2)
-        Else
-            vComissaoServicos = FormatNumber(r("Comissao_Servico3"), 2)
-        End If
+    If vValorTotalServicos <= ValidateNull(r("Valor_ComissaoServ1")) Then
+        vComissaoServicos = FormatNumber(ValidateNull(r("Comissao_Servico1")), 2)
+    ElseIf vValorTotalServicos <= ValidateNull(r("Valor_ComissaoServ2")) Then
+        vComissaoServicos = FormatNumber(ValidateNull(r("Comissao_Servico2")), 2)
     Else
-        vComissaoServicos = FormatNumber(r("Comissao_Servico1"), 2)
+        vComissaoServicos = FormatNumber(ValidateNull(r("Comissao_Servico3")), 2)
     End If
 Else
     vComissaoServicos = FormatNumber(0, 2)
@@ -1964,7 +1956,11 @@ If Grid.Col = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
    If Grid.Col = 1 Then
       If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), "OS"
+      'coluna 3 = ORIGEM ("OS" ou "PDV", ver FormatarGrid) - antes passava
+      '"OS" fixo mesmo pra linhas de venda balcao (PDV); inofensivo hoje (o
+      'UNION com OS_Servicos_Auto no loadPedidos nao acha nada pra um
+      'pedido sem OS), mas impreciso e arriscado se loadPedidos mudar
+      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 3)
       Parcelas_Consulta_Produtos.Show 1
    End If
 End If

@@ -8106,7 +8106,7 @@ End If
                     "'A PAGAR', " & _
                     "'NF-e " & LPad(Compra, 6, "0") & " - DUP: " & sDupNum & "', " & _
                     "'" & sFavorecido & "', " & _
-                    "'EMPRESA', " & _
+                    "'GERAL', " & _
                     "'TEMPORARIA', " & _
                     "NULL, " & _
                     "'" & sFormaPag & "', " & _

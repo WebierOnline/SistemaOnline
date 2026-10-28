@@ -44,18 +44,26 @@ Begin VB.Form Produtos_AjusteTributos
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   975
+         Height          =   915
          Left            =   1560
          TabIndex        =   58
          Top             =   240
          Width           =   4635
+         Begin VB.ComboBox cboEdicaoColetiva2 
+            Height          =   315
+            Left            =   1260
+            TabIndex        =   66
+            Top             =   480
+            Visible         =   0   'False
+            Width           =   1875
+         End
          Begin VB.TextBox txtEdicaoColetiva 
             Height          =   315
             Left            =   60
             TabIndex        =   61
             Top             =   480
             Visible         =   0   'False
-            Width           =   2775
+            Width           =   3015
          End
          Begin VB.ComboBox cboEdicaoColetiva 
             Height          =   315
@@ -63,7 +71,7 @@ Begin VB.Form Produtos_AjusteTributos
             TabIndex        =   60
             Top             =   480
             Visible         =   0   'False
-            Width           =   3015
+            Width           =   3075
          End
          Begin ChamaleonBtn.chameleonButton cmdEdicaoColetiva 
             Height          =   315
@@ -104,6 +112,16 @@ Begin VB.Form Produtos_AjusteTributos
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
+         Begin VB.Label lblEdicaoColetiva2 
+            AutoSize        =   -1  'True
+            Caption         =   "Titulo"
+            Height          =   195
+            Left            =   1260
+            TabIndex        =   67
+            Top             =   240
+            Visible         =   0   'False
+            Width           =   390
+         End
          Begin VB.Label lblEdicaoColetiva 
             AutoSize        =   -1  'True
             Caption         =   "Titulo"
@@ -133,7 +151,7 @@ Begin VB.Form Produtos_AjusteTributos
          Top             =   240
          Width           =   1395
          Begin VB.OptionButton optEIS 
-            Caption         =   "Classif. IS"
+            Caption         =   "IS"
             Height          =   195
             Left            =   120
             TabIndex        =   57
@@ -141,7 +159,7 @@ Begin VB.Form Produtos_AjusteTributos
             Width           =   1035
          End
          Begin VB.OptionButton optECBS 
-            Caption         =   "Classif. CBS"
+            Caption         =   "IBS/CBS"
             Height          =   195
             Left            =   120
             TabIndex        =   56
@@ -196,6 +214,26 @@ Begin VB.Form Produtos_AjusteTributos
             Top             =   600
             Width           =   1155
          End
+      End
+      Begin VB.Label lblCriarRegistros 
+         AutoSize        =   -1  'True
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00FF0000&
+         Height          =   210
+         Left            =   1560
+         TabIndex        =   69
+         Top             =   1200
+         Visible         =   0   'False
+         Width           =   180
       End
    End
    Begin VB.Frame Frame3 
@@ -614,40 +652,49 @@ Begin VB.Form Produtos_AjusteTributos
       TabIndex        =   0
       Top             =   60
       Width           =   16635
+      Begin VB.CheckBox chkIS 
+         BackColor       =   &H00FFFFFF&
+         Caption         =   "IS"
+         Height          =   255
+         Left            =   16140
+         TabIndex        =   65
+         Top             =   300
+         Width           =   495
+      End
       Begin VB.CheckBox chkPISCOFINS 
          BackColor       =   &H00FFFFFF&
          Caption         =   "PIS e COFINS"
          Height          =   195
-         Left            =   12960
+         Left            =   12360
          TabIndex        =   14
-         Top             =   360
+         Top             =   300
          Width           =   1335
       End
       Begin VB.CheckBox chkCest 
          BackColor       =   &H00FFFFFF&
-         Caption         =   "Cest"
+         Caption         =   "CEST"
          Height          =   255
-         Left            =   14340
+         Left            =   13680
          TabIndex        =   13
-         Top             =   360
-         Width           =   675
+         Top             =   300
+         Width           =   735
       End
       Begin VB.CheckBox chkIPI 
          BackColor       =   &H00FFFFFF&
          Caption         =   "IPI"
          Height          =   255
-         Left            =   15060
+         Left            =   14520
          TabIndex        =   12
-         Top             =   360
+         Top             =   300
          Width           =   555
       End
       Begin VB.CheckBox chkCBSIS 
          BackColor       =   &H00FFFFFF&
-         Caption         =   "CBS e IS"
+         Caption         =   "CBS/IBS"
          Height          =   255
-         Left            =   15660
+         Left            =   15120
          TabIndex        =   11
-         Top             =   360
+         Top             =   300
          Width           =   975
       End
       Begin VB.Image Image1 
@@ -703,7 +750,7 @@ Begin VB.Form Produtos_AjusteTributos
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "19:19"
+            TextSave        =   "07:35"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -735,6 +782,15 @@ Begin VB.Form Produtos_AjusteTributos
       HighLight       =   0
       AllowUserResizing=   1
       Appearance      =   0
+      BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
    End
    Begin ChamaleonBtn.chameleonButton cmdAtualizar 
       Height          =   315
@@ -861,6 +917,17 @@ Begin VB.Form Produtos_AjusteTributos
       Top             =   7020
       Width           =   990
    End
+   Begin VB.Label lblLimparSelecao 
+      AutoSize        =   -1  'True
+      Caption         =   "Limpar seleção"
+      ForeColor       =   &H00FF0000&
+      Height          =   195
+      Left            =   1680
+      TabIndex        =   68
+      Top             =   7020
+      Visible         =   0   'False
+      Width           =   1125
+   End
    Begin VB.Image ImgMarcadaTODAS 
       Height          =   195
       Left            =   60
@@ -924,6 +991,7 @@ Private moCombo As cComboHelper
 Private iRow As Long, iCol As Long
 Private tipoEmpresa As Long
 Private bSetSemX As Boolean
+Private bSuprimirActivate As Boolean
 'abrir site para consultar ncm
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
 ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, _
@@ -1094,7 +1162,7 @@ Private Sub MostrarCriterios()
    End If
    
    sSQL = "SELECT  produtos.NCM AS var_NCM, produtos.CFOP AS var_CFOP, produtos.ICMSCST AS var_ICMS, produtos.categoria AS var_cat, produtos.fabricante AS var_fab, " & _
-      "produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc,  produtos.ICMSaliq AS var_ICMSAliq, produtos.PISCST AS var_PIS, produtos.pisaliq AS var_PisAliq, produtos.COFINSCST AS var_COFINS, produtos.COFINSALIQ AS var_COFINSALIQ, produtos.IPICST AS var_IPI, produtos.IPIALIQ AS var_IPIALIQ, produtos.CEST AS var_CEST, produtos.cClassTrib AS var_CBS, produtos.cClassTrib_IS AS var_IS, produtos.categoria AS var_cat, produtos.TAGS AS var_tags " & _
+      "produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc,  produtos.ICMSaliq AS var_ICMSAliq, produtos.PISCST AS var_PIS, produtos.pisaliq AS var_PisAliq, produtos.COFINSCST AS var_COFINS, produtos.COFINSALIQ AS var_COFINSALIQ, produtos.IPICST AS var_IPI, produtos.IPIALIQ AS var_IPIALIQ, produtos.CEST AS var_CEST, produtos.IBSCBSCST AS var_IBSCBSCST, produtos.cClassTrib AS var_CBS, produtos.ISCST AS var_ISCST, produtos.cClassTrib_IS AS var_IS, produtos.categoria AS var_cat, produtos.TAGS AS var_tags " & _
       "FROM produtos " & var_Criterio & " " & var_Indice
    
    Set r = dbData.OpenRecordset(sSQL)
@@ -1166,8 +1234,10 @@ For i = 1 To Grid.rows - 1
       "ipiCST = '" & Grid.TextMatrix(i, 16) & "', " & _
       "ipialiq = " & Replace(CDbl(Grid.TextMatrix(i, 17)), ",", ".") & ", " & _
       "cest = '" & Grid.TextMatrix(i, 18) & "', " & _
-      "cClassTrib = '" & Grid.TextMatrix(i, 19) & "', " & _
-      "cClassTrib_IS = '" & Grid.TextMatrix(i, 20) & "' " & _
+      "IBSCBSCST = '" & Grid.TextMatrix(i, 19) & "', " & _
+      "cClassTrib = '" & Grid.TextMatrix(i, 20) & "', " & _
+      "ISCST = '" & Grid.TextMatrix(i, 21) & "', " & _
+      "cClassTrib_IS = '" & Grid.TextMatrix(i, 22) & "' " & _
       "WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
       'Debug.Print sSQL
    dbData.Execute sSQL
@@ -1241,7 +1311,7 @@ End If
 
 If optTodos.Value = True Then
    sSQL = "SELECT  produtos.NCM AS var_NCM, produtos.CFOP AS var_CFOP, produtos.ICMSCST AS var_ICMS, produtos.categoria AS var_cat, produtos.fabricante AS var_fab, " & _
-      "produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc,  produtos.ICMSaliq AS var_ICMSAliq, produtos.PISCST AS var_PIS, produtos.pisaliq AS var_PisAliq, produtos.COFINSCST AS var_COFINS, produtos.COFINSALIQ AS var_COFINSALIQ, produtos.IPICST AS var_IPI, produtos.IPIALIQ AS var_IPIALIQ, produtos.CEST AS var_CEST, produtos.cClassTrib AS var_CBS, produtos.cClassTrib_IS AS var_IS, produtos.categoria AS var_cat, produtos.TAGS AS var_tags " & _
+      "produtos.codigo AS var_cod, produtos.cod_barra AS var_codbarra, produtos.descricao AS var_desc,  produtos.ICMSaliq AS var_ICMSAliq, produtos.PISCST AS var_PIS, produtos.pisaliq AS var_PisAliq, produtos.COFINSCST AS var_COFINS, produtos.COFINSALIQ AS var_COFINSALIQ, produtos.IPICST AS var_IPI, produtos.IPIALIQ AS var_IPIALIQ, produtos.CEST AS var_CEST, produtos.IBSCBSCST AS var_IBSCBSCST, produtos.cClassTrib AS var_CBS, produtos.ISCST AS var_ISCST, produtos.cClassTrib_IS AS var_IS, produtos.categoria AS var_cat, produtos.TAGS AS var_tags " & _
       "FROM produtos " & _
       "WHERE (produtos.ativo = 1) " & varTipoMostrar & " " & vUltimoValorVenda & " ORDER BY produtos.descricao;"
 
@@ -1274,6 +1344,7 @@ End If
 End Sub
 
 Private Sub Form_Activate()
+If bSuprimirActivate Then Exit Sub
 cmdLocalizar_Click
 End Sub
 
@@ -1363,6 +1434,7 @@ Private Sub cboConsLinha_GotFocus()
       ElseIf optClassTribIS.Value Then
          cboConsLinha.Text = "[SEM IS CLASS.]"
       End If
+      SelectControl cboConsLinha
    End If
 End Sub
 
@@ -1380,7 +1452,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    
    With Grid
       .Clear
-      .Cols = 21
+      .Cols = 23
       .rows = 2
       .FixedRows = 1
       .FixedCols = 0
@@ -1404,8 +1476,10 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .ColWidth(16) = 650
       .ColWidth(17) = 700
       .ColWidth(18) = 900
-      .ColWidth(19) = 900
-      .ColWidth(20) = 900
+      .ColWidth(19) = 805
+      .ColWidth(20) = 1210
+      .ColWidth(21) = 700
+      .ColWidth(22) = 1210
       
       '.RowHeight(-1) = (315 * 1)    'definir a altura da linha
       
@@ -1427,8 +1501,10 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .TextMatrix(0, 16) = "IPI"
       .TextMatrix(0, 17) = "ALIQ."
       .TextMatrix(0, 18) = "CEST"
-      .TextMatrix(0, 19) = "CL.CBS"
-      .TextMatrix(0, 20) = "CL.IS"
+      .TextMatrix(0, 19) = "IBS CST"
+      .TextMatrix(0, 20) = "CCLASSTRIB"
+      .TextMatrix(0, 21) = "IS CST"
+      .TextMatrix(0, 22) = "CCLASSTRIB"
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -1469,8 +1545,10 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
             .TextMatrix(.rows - 1, 16) = ValidateNull(rTabela("var_IPI"))
             .TextMatrix(.rows - 1, 17) = Format$(ValidateNull(rTabela("var_IPIALIQ")), ocMONEY)
             .TextMatrix(.rows - 1, 18) = ValidateNull(rTabela("var_CEST"))
-            .TextMatrix(.rows - 1, 19) = ValidateNull(rTabela("var_CBS"))
-            .TextMatrix(.rows - 1, 20) = ValidateNull(rTabela("var_IS"))
+            .TextMatrix(.rows - 1, 19) = ValidateNull(rTabela("var_IBSCBSCST"))
+            .TextMatrix(.rows - 1, 20) = ValidateNull(rTabela("var_CBS"))
+            .TextMatrix(.rows - 1, 21) = ValidateNull(rTabela("var_ISCST"))
+            .TextMatrix(.rows - 1, 22) = ValidateNull(rTabela("var_IS"))
             
             '.TextMatrix(.Rows - 1, 9) = ValidateNull(rTabela("var_quant"))
             '.TextMatrix(.Rows - 1, 11) = Format$(ValidateNull(rTabela("venda")), ocMONEY)
@@ -1507,6 +1585,7 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
    chkIPI_Click
    chkCest_Click
    chkCBSIS_Click
+   chkIS_Click
    imgDesmarcadaTODAS.Visible = True
    ImgMarcadaTODAS.Visible = False
    lblMarcarTodas.Caption = "Marcar todos"
@@ -1556,46 +1635,135 @@ End Sub
 
 Private Sub chkCBSIS_Click()
 If chkCBSIS.Value = Checked Then
-   Grid.ColWidth(19) = 900
-   Grid.ColWidth(20) = 900
+   Grid.ColWidth(19) = 805
+   Grid.ColWidth(20) = 1210
 Else
    Grid.ColWidth(19) = 0
    Grid.ColWidth(20) = 0
 End If
 End Sub
 
+Private Sub chkIS_Click()
+If chkIS.Value = Checked Then
+   Grid.ColWidth(21) = 700
+   Grid.ColWidth(22) = 1210
+Else
+   Grid.ColWidth(21) = 0
+   Grid.ColWidth(22) = 0
+End If
+End Sub
+
+Private Sub lblCriarRegistros_Click()
+Dim r As ADODB.Recordset
+Dim colMarcados As New Collection
+Dim i As Integer
+
+'guarda quais produtos estavam marcados - Form_Activate desse form
+'chama cmdLocalizar_Click sempre que ele reganha o foco (inclusive
+'quando a tela de cadastro aberta por cima fecha), recarregando o
+'grid do zero e perdendo a marcacao - guarda pelo CODIGO do produto
+'(col 2), nao pela linha, porque a ordem/qtd de linhas pode mudar
+For i = 1 To Grid.rows - 1
+   If Grid.TextMatrix(i, 0) = "1" Then colMarcados.Add Grid.TextMatrix(i, 2)
+Next i
+
+'suprime o Form_Activate enquanto a tela de cadastro estiver aberta -
+'so restaurar a marcacao DEPOIS nao bastou, o recarregamento disparava
+'de novo em algum momento (provavelmente o proprio Form_Activate
+'refirando ao reganhar o foco) antes da restauracao surtir efeito
+bSuprimirActivate = True
+
+If optECategoria.Value Then
+   Categorias_Cadastro.Show 1
+   'tela e modal (Show 1) - so chega aqui depois de fechada
+   cboEdicaoColetiva.Clear
+   Set r = dbData.OpenRecordset("SELECT DISTINCT Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria;")
+   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("Categoria")): r.MoveNext: Loop
+   r.Close: Set r = Nothing
+ElseIf optETags.Value Then
+   Tags_Cadastro.Show 1
+   cboEdicaoColetiva.Clear
+   Set r = dbData.OpenRecordset("SELECT ct.Tags FROM Categorias_Tags ct INNER JOIN Categorias c ON ct.ID_Categoria = c.ID_Categoria WHERE c.Tipo_Empresa = " & tipoEmpresa & " ORDER BY c.Categoria, ct.Tags;")
+   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("Tags")): r.MoveNext: Loop
+   r.Close: Set r = Nothing
+End If
+
+bSuprimirActivate = False
+
+'restaura a marcacao perdida pelo recarregamento do grid (seguranca
+'extra, caso o grid tenha sido recarregado por algum outro caminho)
+If colMarcados.Count > 0 Then
+   Dim vCod As Variant
+   Grid.Redraw = False
+   For Each vCod In colMarcados
+      For i = 1 To Grid.rows - 1
+         If Grid.TextMatrix(i, 2) = vCod Then
+            Grid.TextMatrix(i, 0) = "1"
+            Grid.Row = i: Grid.Col = 0
+            Set Grid.CellPicture = ImgMarcada.Picture
+            Grid.CellPictureAlignment = 4
+            FormatarNegritoLinha i, True
+            Exit For
+         End If
+      Next i
+   Next vCod
+   Grid.Redraw = True
+   AvaliarFrmAlterarGrupos
+End If
+End Sub
+
 Private Sub optEICMS_Click()
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
+   lblCriarRegistros.Visible = False
    lblEdicaoColetiva.Caption = "ICMS CST"
    txtEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
    cboEdicaoColetiva.Visible = False
 End Sub
 
 Private Sub optENCM_Click()
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
+   lblCriarRegistros.Visible = False
    lblEdicaoColetiva.Caption = "NCM"
    txtEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
    cboEdicaoColetiva.Visible = False
 End Sub
 
 Private Sub optECFOP_Click()
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
+   lblCriarRegistros.Visible = False
    lblEdicaoColetiva.Caption = "CFOP"
    txtEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
    cboEdicaoColetiva.Visible = False
 End Sub
 
 Private Sub optECest_Click()
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
+   lblCriarRegistros.Visible = False
    lblEdicaoColetiva.Caption = "CEST"
    txtEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
    chkCest.Value = 1
    cboEdicaoColetiva.Visible = False
@@ -1603,68 +1771,102 @@ End Sub
 
 Private Sub optECategoria_Click()
 Dim r As ADODB.Recordset
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
    lblEdicaoColetiva.Caption = "Categoria"
    txtEdicaoColetiva.Visible = False
    cboEdicaoColetiva.Clear
    Set r = dbData.OpenRecordset("SELECT DISTINCT Categoria FROM Categorias WHERE Tipo_Empresa = " & tipoEmpresa & " ORDER BY Categoria;")
    Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("Categoria")): r.MoveNext: Loop
    r.Close: Set r = Nothing
+   cboEdicaoColetiva.Width = 3075
    cboEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
+   lblCriarRegistros.Caption = "Criar Categoria nova"
+   lblCriarRegistros.Visible = True
 End Sub
 
 Private Sub optETags_Click()
 Dim r As ADODB.Recordset
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   cboEdicaoColetiva2.Visible = False
+   lblEdicaoColetiva2.Visible = False
    lblEdicaoColetiva.Caption = "Tags"
    txtEdicaoColetiva.Visible = False
    cboEdicaoColetiva.Clear
    Set r = dbData.OpenRecordset("SELECT ct.Tags FROM Categorias_Tags ct INNER JOIN Categorias c ON ct.ID_Categoria = c.ID_Categoria WHERE c.Tipo_Empresa = " & tipoEmpresa & " ORDER BY c.Categoria, ct.Tags;")
    Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("Tags")): r.MoveNext: Loop
    r.Close: Set r = Nothing
+   cboEdicaoColetiva.Width = 3075
    cboEdicaoColetiva.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
+   lblCriarRegistros.Caption = "Criar TAG nova"
+   lblCriarRegistros.Visible = True
 End Sub
 
 Private Sub optECBS_Click()
 Dim r As ADODB.Recordset
-   lblEdicaoColetiva.Caption = "CBS Class."
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   lblCriarRegistros.Visible = False
+   lblEdicaoColetiva.Caption = "IBS CST"
    txtEdicaoColetiva.Visible = False
    cboEdicaoColetiva.Clear
-   Set r = dbData.OpenRecordset("SELECT cClassTrib + ' - ' + NomecClassTrib AS val FROM TbIBSCBSClassTrib GROUP BY cClassTrib, NomecClassTrib ORDER BY cClassTrib;")
-   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("val")): r.MoveNext: Loop
+   Set r = dbData.OpenRecordset("SELECT DISTINCT CST FROM TbIBSCBSClassTrib ORDER BY CST;")
+   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("CST")): r.MoveNext: Loop
    r.Close: Set r = Nothing
+   cboEdicaoColetiva.Width = 1155
    cboEdicaoColetiva.Visible = True
+   lblEdicaoColetiva2.Caption = "CCLASSTRIB"
+   cboEdicaoColetiva2.Clear
+   lblEdicaoColetiva2.Visible = True
+   cboEdicaoColetiva2.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    chkCBSIS.Value = 1
    lblEdicaoColetiva.Visible = True
 End Sub
 
 Private Sub optEIS_Click()
 Dim r As ADODB.Recordset
-   lblEdicaoColetiva.Caption = "IS Class."
+   chkCest.Value = Unchecked
+   chkCBSIS.Value = Unchecked
+   chkIS.Value = Unchecked
+   lblCriarRegistros.Visible = False
+   lblEdicaoColetiva.Caption = "IS CST"
    txtEdicaoColetiva.Visible = False
    cboEdicaoColetiva.Clear
-   Set r = dbData.OpenRecordset("SELECT cClassTrib_IS + ' - ' + Descricao AS val FROM tbISClassTrib GROUP BY cClassTrib_IS, Descricao ORDER BY cClassTrib_IS;")
-   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("val")): r.MoveNext: Loop
+   Set r = dbData.OpenRecordset("SELECT DISTINCT ISCST FROM tbISClassTrib WHERE ISCST IS NOT NULL ORDER BY ISCST;")
+   Do While Not r.EOF: cboEdicaoColetiva.AddItem ValidateNull(r("ISCST")): r.MoveNext: Loop
    r.Close: Set r = Nothing
-   chkCBSIS.Value = 1
+   chkIS.Value = 1
+   cboEdicaoColetiva.Width = 1155
    cboEdicaoColetiva.Visible = True
+   lblEdicaoColetiva2.Caption = "CCLASSTRIB"
+   cboEdicaoColetiva2.Clear
+   lblEdicaoColetiva2.Visible = True
+   cboEdicaoColetiva2.Visible = True
    cmdEdicaoColetiva.Visible = True
-   cmdAtualizar.Visible = False
    lblEdicaoColetiva.Visible = True
 End Sub
 
 Private Sub cmdEdicaoColetiva_Click()
 Dim i As Integer
 Dim sVal As String
+Dim sVal2 As String
 Dim iCol As Integer
+Dim iCol2 As Integer
 Dim sSet As String
-Dim p As Integer
+Dim bDoisCampos As Boolean
+
+bDoisCampos = False
 
 If txtEdicaoColetiva.Visible Then
    sVal = txtEdicaoColetiva.Text
@@ -1686,11 +1888,17 @@ ElseIf optECategoria.Value Then
 ElseIf optETags.Value Then
    iCol = 7: sSet = "TAGS = '" & sVal & "'"
 ElseIf optECBS.Value Then
-   p = InStr(sVal, " - "): If p > 0 Then sVal = Left(sVal, p - 1)
-   iCol = 19: sSet = "cClassTrib = '" & sVal & "'"
+   'IBS CST (col 19) + CCLASSTRIB (col 20) - os 2 combos juntos
+   bDoisCampos = True
+   sVal2 = cboEdicaoColetiva2.Text
+   iCol = 19: iCol2 = 20
+   sSet = "IBSCBSCST = '" & sVal & "', cClassTrib = '" & sVal2 & "'"
 ElseIf optEIS.Value Then
-   p = InStr(sVal, " - "): If p > 0 Then sVal = Left(sVal, p - 1)
-   iCol = 20: sSet = "cClassTrib_IS = '" & sVal & "'"
+   'IS CST (col 21) + CCLASSTRIB (col 22) - os 2 combos juntos
+   bDoisCampos = True
+   sVal2 = cboEdicaoColetiva2.Text
+   iCol = 21: iCol2 = 22
+   sSet = "ISCST = '" & sVal & "', cClassTrib_IS = '" & sVal2 & "'"
 Else
    Exit Sub
 End If
@@ -1698,29 +1906,25 @@ End If
 If Len(Trim(sSet)) = 0 Then Exit Sub
 
 Dim iExact As Integer
-iExact = 0
+Dim iExact2 As Integer
+iExact = 0: iExact2 = 0
 If optENCM.Value Then iExact = 8
 If optECFOP.Value Then iExact = 4
 If optEICMS.Value Then iExact = 3
 If optECest.Value Then iExact = 8
-If optECBS.Value Then iExact = 6
-If optEIS.Value Then iExact = 6
+If optECBS.Value Then iExact = 3: iExact2 = 6
+If optEIS.Value Then iExact = 2: iExact2 = 6
 If iExact > 0 Then
-   Dim k As Integer
-   Dim bNumOk As Boolean
-   bNumOk = (Len(sVal) = iExact)
-   If bNumOk Then
-      For k = 1 To Len(sVal)
-         If Mid(sVal, k, 1) < "0" Or Mid(sVal, k, 1) > "9" Then bNumOk = False: Exit For
-      Next k
-   End If
-   If Not bNumOk Then
+   If Not SoDigitos(sVal, iExact) Then
       MsgBox "Digite exatamente " & iExact & " dígitos numéricos.", vbExclamation, "Edição Coletiva"
-      If optECBS.Value Or optEIS.Value Then
-         cboEdicaoColetiva.SetFocus
-      Else
-         txtEdicaoColetiva.SetFocus
-      End If
+      cboEdicaoColetiva.SetFocus
+      Exit Sub
+   End If
+End If
+If iExact2 > 0 Then
+   If Not SoDigitos(sVal2, iExact2) Then
+      MsgBox "Digite exatamente " & iExact2 & " dígitos numéricos no CCLASSTRIB.", vbExclamation, "Edição Coletiva"
+      cboEdicaoColetiva2.SetFocus
       Exit Sub
    End If
 End If
@@ -1749,12 +1953,14 @@ DoEvents
 For i = 1 To Grid.rows - 1
    If bTemMarcadas And Grid.TextMatrix(i, 0) <> "1" Then GoTo ProximaLinha
    Grid.TextMatrix(i, iCol) = sVal
+   If bDoisCampos Then Grid.TextMatrix(i, iCol2) = sVal2
    dbData.Execute "UPDATE produtos SET " & sSet & " WHERE codigo = " & Grid.TextMatrix(i, 2) & ";"
 ProximaLinha:
 Next i
 
 txtEdicaoColetiva.Text = ""
 cboEdicaoColetiva.Text = ""
+cboEdicaoColetiva2.Text = ""
 If optETags.Value And Len(Trim(sVal)) > 0 Then
    Dim rCat As ADODB.Recordset
    Dim sCatNome As String
@@ -1783,6 +1989,8 @@ End If
 
 picAguarde.Visible = False
 ResetarMarcas
+'ResetarMarcas ja chama AvaliarFrmAlterarGrupos, que recalcula
+'cmdAtualizar.Enabled sozinho (volta a True, pois nada mais esta marcado)
 optENCM.Value = False
 optECFOP.Value = False
 optEICMS.Value = False
@@ -1793,14 +2001,23 @@ optECBS.Value = False
 optEIS.Value = False
 txtEdicaoColetiva.Visible = False
 cboEdicaoColetiva.Visible = False
+cboEdicaoColetiva2.Visible = False
+lblEdicaoColetiva2.Visible = False
 cmdEdicaoColetiva.Visible = False
 lblEdicaoColetiva.Visible = False
-cmdAtualizar.Visible = True
+lblCriarRegistros.Visible = False
 End Sub
 
-Private Sub StatusBar1_PanelClick(ByVal Panel As MSComctlLib.Panel)
-
-End Sub
+Private Function SoDigitos(ByVal s As String, ByVal iQtdExata As Integer) As Boolean
+'confere se s tem exatamente iQtdExata caracteres, todos digitos 0-9
+Dim k As Integer
+SoDigitos = False
+If Len(s) <> iQtdExata Then Exit Function
+For k = 1 To Len(s)
+   If Mid(s, k, 1) < "0" Or Mid(s, k, 1) > "9" Then Exit Function
+Next k
+SoDigitos = True
+End Function
 
 Private Sub txtEdicaoColetiva_LostFocus()
 Dim s As String
@@ -1833,28 +2050,66 @@ End Sub
 
 Private Sub cboEdicaoColetiva_LostFocus()
    cboEdicaoColetiva.Text = Trim(cboEdicaoColetiva.Text)
+   If optECBS.Value Or optEIS.Value Then AtualizarCCLASSTRIBColetiva
+End Sub
+
+Private Sub cboEdicaoColetiva_Click()
+   If optECBS.Value Or optEIS.Value Then AtualizarCCLASSTRIBColetiva
+End Sub
+
+Private Sub AtualizarCCLASSTRIBColetiva()
+'mesma regra usada na celula do grid: o CCLASSTRIB so pode ser um
+'dos que pertencem ao CST escolhido - repopula cboEdicaoColetiva2
+'filtrado pelo CST de cboEdicaoColetiva e auto-seleciona o primeiro
+Dim r As ADODB.Recordset
+cboEdicaoColetiva2.Clear
+If Trim(cboEdicaoColetiva.Text) = "" Then Exit Sub
+
+If optECBS.Value Then
+   Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib FROM TbIBSCBSClassTrib WHERE CST = '" & cboEdicaoColetiva.Text & "' ORDER BY cClassTrib;")
+   Do While Not r.EOF: cboEdicaoColetiva2.AddItem ValidateNull(r("cClassTrib")): r.MoveNext: Loop
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+ElseIf optEIS.Value Then
+   Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib_IS FROM tbISClassTrib WHERE ISCST = '" & cboEdicaoColetiva.Text & "' ORDER BY cClassTrib_IS;")
+   Do While Not r.EOF: cboEdicaoColetiva2.AddItem ValidateNull(r("cClassTrib_IS")): r.MoveNext: Loop
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+End If
+
+If cboEdicaoColetiva2.ListCount > 0 Then cboEdicaoColetiva2.ListIndex = 0
 End Sub
 
 Private Sub ResetarMarcas()
 Dim i As Integer
+Grid.Redraw = False
 For i = 1 To Grid.rows - 1
    Grid.TextMatrix(i, 0) = ""
    Grid.Row = i: Grid.Col = 0
    Set Grid.CellPicture = imgDesmarcada.Picture
    Grid.CellPictureAlignment = 4
+   FormatarNegritoLinha i, False
 Next i
+Grid.Redraw = True
 imgDesmarcadaTODAS.Visible = True
 ImgMarcadaTODAS.Visible = False
 lblMarcarTodas.Caption = "Marcar todos"
 AvaliarFrmAlterarGrupos
 End Sub
 
-Private Sub AvaliarFrmAlterarGrupos()
+Private Function ExisteProdutoMarcado() As Boolean
 Dim j As Integer
-Dim bEnabled As Boolean
 For j = 1 To Grid.rows - 1
-   If Grid.TextMatrix(j, 0) = "1" Then bEnabled = True: Exit For
+   If Grid.TextMatrix(j, 0) = "1" Then ExisteProdutoMarcado = True: Exit Function
 Next j
+ExisteProdutoMarcado = False
+End Function
+
+Private Sub AvaliarFrmAlterarGrupos()
+Dim bAlgumMarcado As Boolean
+Dim bEnabled As Boolean
+bAlgumMarcado = ExisteProdutoMarcado()
+bEnabled = bAlgumMarcado
 If Not bEnabled Then
    If Not (optTodos.Value Or optCodBarra.Value Or optDesc.Value) Then
       If Grid.rows > 1 Then bEnabled = True
@@ -1863,6 +2118,16 @@ End If
 frmAlterarGrupos.Enabled = bEnabled
 frmEdicao.Enabled = bEnabled
 frmEdicaoFiltros.Enabled = bEnabled
+
+'cmdAtualizar (edicao manual/direta) e a edicao em grupo sao
+'mutuamente exclusivas - fica desabilitado (nao oculto) sempre que
+'houver pelo menos 1 produto marcado, independente de qual criterio
+'de grupo foi escolhido; volta sozinho quando tudo for desmarcado
+cmdAtualizar.Enabled = Not bAlgumMarcado
+
+'botao de atalho pra zerar a marcacao atual de uma vez, sem precisar
+'passar por Marcar Todos + Desmarcar Todos - so aparece quando faz sentido
+lblLimparSelecao.Visible = bAlgumMarcado
 End Sub
 
 Private Sub imgDesmarcadaTODAS_Click()
@@ -1870,13 +2135,20 @@ Dim i As Integer
 imgDesmarcadaTODAS.Visible = False
 ImgMarcadaTODAS.Visible = True
 lblMarcarTodas.Caption = "Desmarcar todos"
+Grid.Redraw = False
 For i = 1 To Grid.rows - 1
    Grid.TextMatrix(i, 0) = "1"
    Grid.Row = i: Grid.Col = 0
    Set Grid.CellPicture = ImgMarcada.Picture
    Grid.CellPictureAlignment = 4
+   FormatarNegritoLinha i, True
 Next i
+Grid.Redraw = True
 AvaliarFrmAlterarGrupos
+End Sub
+
+Private Sub lblLimparSelecao_Click()
+ResetarMarcas
 End Sub
 
 Private Sub ImgMarcadaTODAS_Click()
@@ -1884,17 +2156,33 @@ Dim i As Integer
 ImgMarcadaTODAS.Visible = False
 imgDesmarcadaTODAS.Visible = True
 lblMarcarTodas.Caption = "Marcar todos"
+Grid.Redraw = False
 For i = 1 To Grid.rows - 1
    Grid.TextMatrix(i, 0) = ""
    Grid.Row = i: Grid.Col = 0
    Set Grid.CellPicture = imgDesmarcada.Picture
    Grid.CellPictureAlignment = 4
+   FormatarNegritoLinha i, False
 Next i
+Grid.Redraw = True
 AvaliarFrmAlterarGrupos
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
    Set moCombo = Nothing
+End Sub
+
+Private Sub FormatarNegritoLinha(ByVal iLinha As Long, ByVal bNegrito As Boolean)
+'deixa a linha inteira em negrito quando o produto esta marcado
+'(ImgMarcada) - mesmo padrao usado pra negritar o cabecalho
+'(Formatar_Grid), coluna por coluna, pra nao depender de FillStyle
+'(so confirmado funcionando com CellBackColor, nao com CellFontBold)
+Dim c As Integer
+For c = 0 To Grid.Cols - 1
+   Grid.Row = iLinha
+   Grid.Col = c
+   Grid.CellFontBold = bNegrito
+Next c
 End Sub
 
 Private Sub Grid_Click()
@@ -1905,6 +2193,11 @@ cboEdit.Visible = False
 iRow = Grid.Row
 iCol = Grid.Col
 
+'edicao individual de celula fica bloqueada enquanto houver produto
+'marcado pra edicao em grupo (a coluna 0, marcar/desmarcar, continua
+'liberada sempre - e o unico jeito de desmarcar de novo)
+If iCol <> 0 And ExisteProdutoMarcado() Then Exit Sub
+
 Select Case iCol
 Case 0
    If iRow < 1 Then Exit Sub
@@ -1913,11 +2206,13 @@ Case 0
       Grid.Row = iRow: Grid.Col = 0
       Set Grid.CellPicture = imgDesmarcada.Picture
       Grid.CellPictureAlignment = 4
+      FormatarNegritoLinha iRow, False
    Else
       Grid.TextMatrix(iRow, 0) = "1"
       Grid.Row = iRow: Grid.Col = 0
       Set Grid.CellPicture = ImgMarcada.Picture
       Grid.CellPictureAlignment = 4
+      FormatarNegritoLinha iRow, True
    End If
    AvaliarFrmAlterarGrupos
 Case 6
@@ -1943,18 +2238,51 @@ Case 7
    cboEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth
    cboEdit.Visible = True
 Case 19
+   'IBS CST - so o codigo (3 digitos), sem descricao
    cboEdit.Clear
-   Set r = dbData.OpenRecordset("SELECT cClassTrib + ' - ' + NomecClassTrib AS val FROM TbIBSCBSClassTrib GROUP BY cClassTrib, NomecClassTrib ORDER BY cClassTrib;")
-   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("val")): r.MoveNext: Loop
+   Set r = dbData.OpenRecordset("SELECT DISTINCT CST FROM TbIBSCBSClassTrib ORDER BY CST;")
+   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("CST")): r.MoveNext: Loop
    r.Close: Set r = Nothing
    cboEdit.Text = Grid.TextMatrix(iRow, iCol)
    cboEdit.ZOrder 0
    cboEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth
    cboEdit.Visible = True
 Case 20
+   'CCLASSTRIB (IBS/CBS) - so o codigo, sem descricao, filtrado pelo
+   'IBS CST ja escolhido nessa linha (col 19) - varios cClassTrib
+   'podem existir pro mesmo CST
    cboEdit.Clear
-   Set r = dbData.OpenRecordset("SELECT cClassTrib_IS + ' - ' + Descricao AS val FROM tbISClassTrib GROUP BY cClassTrib_IS, Descricao ORDER BY cClassTrib_IS;")
-   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("val")): r.MoveNext: Loop
+   If Trim(Grid.TextMatrix(iRow, 19)) <> "" Then
+      Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib FROM TbIBSCBSClassTrib WHERE CST = '" & Grid.TextMatrix(iRow, 19) & "' ORDER BY cClassTrib;")
+   Else
+      Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib FROM TbIBSCBSClassTrib ORDER BY cClassTrib;")
+   End If
+   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("cClassTrib")): r.MoveNext: Loop
+   r.Close: Set r = Nothing
+   cboEdit.Text = Grid.TextMatrix(iRow, iCol)
+   cboEdit.ZOrder 0
+   cboEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth
+   cboEdit.Visible = True
+Case 21
+   'IS CST - so o codigo (2 digitos), sem descricao
+   cboEdit.Clear
+   Set r = dbData.OpenRecordset("SELECT DISTINCT ISCST FROM tbISClassTrib WHERE ISCST IS NOT NULL ORDER BY ISCST;")
+   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("ISCST")): r.MoveNext: Loop
+   r.Close: Set r = Nothing
+   cboEdit.Text = Grid.TextMatrix(iRow, iCol)
+   cboEdit.ZOrder 0
+   cboEdit.Move Grid.Left + Grid.CellLeft, Grid.Top + Grid.CellTop, Grid.CellWidth
+   cboEdit.Visible = True
+Case 22
+   'CCLASSTRIB (IS) - so o codigo, sem descricao, filtrado pelo
+   'IS CST ja escolhido nessa linha (col 21), mesmo raciocinio do CBS/IBS
+   cboEdit.Clear
+   If Trim(Grid.TextMatrix(iRow, 21)) <> "" Then
+      Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib_IS FROM tbISClassTrib WHERE ISCST = '" & Grid.TextMatrix(iRow, 21) & "' ORDER BY cClassTrib_IS;")
+   Else
+      Set r = dbData.OpenRecordset("SELECT DISTINCT cClassTrib_IS FROM tbISClassTrib ORDER BY cClassTrib_IS;")
+   End If
+   Do While Not r.EOF: cboEdit.AddItem ValidateNull(r("cClassTrib_IS")): r.MoveNext: Loop
    r.Close: Set r = Nothing
    cboEdit.Text = Grid.TextMatrix(iRow, iCol)
    cboEdit.ZOrder 0
@@ -1994,13 +2322,33 @@ End Sub
 
 Private Sub SaveCboEdit()
 Dim sVal As String
-Dim p As Integer
+Dim rAuto As ADODB.Recordset
 sVal = cboEdit.Text
-If iCol = 19 Or iCol = 20 Then
-   p = InStr(sVal, " - ")
-   If p > 0 Then sVal = Left(sVal, p - 1)
-End If
 Grid.TextMatrix(iRow, iCol) = sVal
+
+'o CCLASSTRIB depende do CST escolhido (varios cClassTrib podem
+'existir pro mesmo CST) - ao trocar o CST, auto-seleciona o primeiro
+'cClassTrib disponivel pra ele; a lista de opcoes da propria celula
+'CCLASSTRIB tambem fica filtrada por esse CST (ver Grid_Click)
+If iCol = 19 Then
+   Set rAuto = dbData.OpenRecordset("SELECT TOP 1 cClassTrib FROM TbIBSCBSClassTrib WHERE CST = '" & sVal & "' ORDER BY cClassTrib;")
+   If Not rAuto.EOF Then
+      Grid.TextMatrix(iRow, 20) = ValidateNull(rAuto("cClassTrib"))
+   Else
+      Grid.TextMatrix(iRow, 20) = ""
+   End If
+   If rAuto.State <> 0 Then rAuto.Close
+   Set rAuto = Nothing
+ElseIf iCol = 21 Then
+   Set rAuto = dbData.OpenRecordset("SELECT TOP 1 cClassTrib_IS FROM tbISClassTrib WHERE ISCST = '" & sVal & "' ORDER BY cClassTrib_IS;")
+   If Not rAuto.EOF Then
+      Grid.TextMatrix(iRow, 22) = ValidateNull(rAuto("cClassTrib_IS"))
+   Else
+      Grid.TextMatrix(iRow, 22) = ""
+   End If
+   If rAuto.State <> 0 Then rAuto.Close
+   Set rAuto = Nothing
+End If
 End Sub
 
 Private Sub optCategoria_Click()
@@ -2040,6 +2388,7 @@ Frame6.Enabled = False
 optTodosPreco.Value = True
 txtCodBarra.SetFocus
 txtCodBarra.Text = "[SEM CÓD. BARRA]"
+SelectControl txtCodBarra
 frmEdicao.Enabled = False
 frmEdicaoFiltros.Enabled = False
 End Sub
@@ -2064,6 +2413,7 @@ Frame6.Enabled = False
 optTodosPreco.Value = True
 cboDesc.SetFocus
 cboDesc.Text = "[SEM DESCRIÇÃO]"
+SelectControl cboDesc
 frmEdicao.Enabled = False
 frmEdicaoFiltros.Enabled = False
 End Sub
@@ -2103,7 +2453,6 @@ txtCodBarra.Visible = False
 cmdLocalizar.Visible = False
 Frame6.Enabled = True
 optComPreco.Value = True
-cmdAtualizar.Visible = True
 optECategoria.Value = False
 optETags.Value = False
 optENCM.Value = False
@@ -2116,6 +2465,7 @@ cmdEdicaoColetiva.Visible = False
 txtEdicaoColetiva.Visible = False
 cboEdicaoColetiva.Visible = False
 lblEdicaoColetiva.Visible = False
+lblCriarRegistros.Visible = False
 cmdLocalizar_Click
 frmEdicao.Enabled = False
 frmEdicaoFiltros.Enabled = False

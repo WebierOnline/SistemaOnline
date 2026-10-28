@@ -706,7 +706,6 @@ Begin VB.Form Caixa_Saida
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Caixa_Saida.frx":101B1
-         PICN            =   "Caixa_Saida.frx":101CD
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -744,8 +743,7 @@ Begin VB.Form Caixa_Saida
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Saida.frx":104E7
-         PICN            =   "Caixa_Saida.frx":10503
+         MICON           =   "Caixa_Saida.frx":101CD
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -783,8 +781,7 @@ Begin VB.Form Caixa_Saida
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Saida.frx":12295
-         PICN            =   "Caixa_Saida.frx":122B1
+         MICON           =   "Caixa_Saida.frx":101E9
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -822,8 +819,7 @@ Begin VB.Form Caixa_Saida
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Saida.frx":12B8B
-         PICN            =   "Caixa_Saida.frx":12BA7
+         MICON           =   "Caixa_Saida.frx":10205
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -861,8 +857,7 @@ Begin VB.Form Caixa_Saida
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Saida.frx":19481
-         PICN            =   "Caixa_Saida.frx":1949D
+         MICON           =   "Caixa_Saida.frx":10221
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -900,8 +895,7 @@ Begin VB.Form Caixa_Saida
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Saida.frx":197B7
-         PICN            =   "Caixa_Saida.frx":197D3
+         MICON           =   "Caixa_Saida.frx":1023D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1256,27 +1250,27 @@ Private Sub cboCriterio_LostFocus()
 If cboCriterio.Text = "TODOS" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = False
 ElseIf cboCriterio.Text = "CAIXA ATUAL" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = False
 ElseIf cboCriterio.Text = "MENSAL" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = True
+    cboMes.Visible = True
     cboAno.Visible = True
     lblCONmes.Visible = True
     lblCONmes.Caption = "Escolha o mês/ano:"
-    cboMES.SetFocus
+    cboMes.SetFocus
 ElseIf cboCriterio.Text = "DATA" Then
     mskConsData.Visible = True
     cmdConsData.Visible = True
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = True
     lblCONmes.Caption = "Data:"
@@ -1336,17 +1330,17 @@ End Sub
 Private Sub cboMes_GotFocus()
 Dim vMes As Integer
 
-cboMES.Clear
+cboMes.Clear
 
 For vMes = 1 To 12
-   cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+   cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
 Next
 
-moCombo.AttachTo cboMES
+moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cboMes_LostFocus()
-   If cboMES.Text = "" Then Exit Sub Else cboAno.SetFocus
+   If cboMes.Text = "" Then Exit Sub Else cboAno.SetFocus
 End Sub
 
 Private Sub cboOrigem_Click()
@@ -1505,31 +1499,14 @@ ElseIf cboFonte.Text = "SALDOS" Then
         varCodSaldo = 0
     End If
 
-    'descobrir o valor do saldo para voltar a quantia retirada
-    sSQL = "SELECT ISNULL(RETIRADA, 0) as Ret, ISNULL(SALDO_ATUAL, 0) AS Sald FROM caixa_saldo where CODIGO = " & varCodSaldo & ";"
-    Set r = dbData.OpenRecordset(sSQL)
-
-    Dim varValorRetAtual As Currency
-    Dim varValorRetNovas As Currency
-    Dim varValorSaldoAtual As Currency
-    Dim varValorSaldoNovo As Currency
-
-    If Not r.BOF Then
-        varValorRetAtual = r("Ret")
-        varValorSaldoAtual = r("Sald")
-    Else
-        varValorRetAtual = 0
-        varValorSaldoAtual = 0
-    End If
-
-
-    varValorRetNovas = varValorRetAtual - txtValor.Text
-    varValorSaldoNovo = varValorSaldoAtual + txtValor.Text
-
-    'atualizar o valor da retirada e saldo (acrescentar), apagar retirada e apagar a sangria
+    'atualizar o valor da retirada e saldo (devolver), apagar retirada e apagar a sangria -
+    'expressao relativa (RETIRADA - valor / SALDO_ATUAL + valor) pra o SQL
+    'Server resolver em cima do valor atual da linha, sem risco de
+    'sobrescrever uma mudanca concorrente com um numero ja desatualizado
+    '(bug achado em analise, 2026-10-27)
     dbData.Execute "BEGIN TRANSACTION"
     bTrans = True
-    dbData.Execute "UPDATE caixa_saldo SET RETIRADA = " & Replace(CCur(varValorRetNovas), ",", ".") & ", SALDO_ATUAL = " & Replace(CCur(varValorSaldoNovo), ",", ".") & " WHERE CODIGO = " & varCodSaldo & ";"
+    dbData.Execute "UPDATE caixa_saldo SET RETIRADA = RETIRADA - " & Replace(CCur(txtValor.Text), ",", ".") & ", SALDO_ATUAL = SALDO_ATUAL + " & Replace(CCur(txtValor.Text), ",", ".") & " WHERE CODIGO = " & varCodSaldo & ";"
 
     'apagar a retirada de saldo
     dbData.Execute "DELETE caixa_saldo_retirada WHERE COD_SALDO = " & varCodSaldo & " and COD_DESCRICAO = " & txtCodigo.Text & ";"
@@ -1572,9 +1549,9 @@ If cboCriterio.Text = "TODOS" Then
 ElseIf cboCriterio.Text = "CAIXA ATUAL" Then
     varCriterio = "WHERE (codcaixa = " & varCodCaixa & ") and (CAIXA = '" & StatusBar1.Panels(2).Text & "') "
 ElseIf cboCriterio.Text = "MENSAL" Then
-   If cboMES.Text = "" Or cboMES.ListIndex = -1 Then Exit Sub
+   If cboMes.Text = "" Or cboMes.ListIndex = -1 Then Exit Sub
    If cboAno.Text = "" Or cboAno.ListIndex = -1 Then Exit Sub
-    varCriterio = "WHERE (MONTH(data) = " & cboMES.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") "
+    varCriterio = "WHERE (MONTH(data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") "
 ElseIf cboCriterio.Text = "DATA" Then
    If Not IsDate(mskConsData) Then Exit Sub
     varCriterio = "WHERE (data = CONVERT(DATETIME, '" & Format(mskConsData.Text, ocDATA) & "', 103)) and (CAIXA = '" & StatusBar1.Panels(2).Text & "') "
@@ -1666,10 +1643,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
 Set oIni = Nothing
 
@@ -1689,7 +1666,7 @@ If cboCriterio.Text = "TODOS" Then
 ElseIf cboCriterio.Text = "CAIXA ATUAL" Then
     REL_Caixa_Sangria.rfCriterioDesc.Caption = var_Caixa & " - " & Format(varCodCaixa, "0000")
 ElseIf cboCriterio.Text = "MENSAL" Then
-    REL_Caixa_Sangria.rfCriterioDesc.Caption = cboMES.Text & " / " & cboAno.Text
+    REL_Caixa_Sangria.rfCriterioDesc.Caption = cboMes.Text & " / " & cboAno.Text
 ElseIf cboCriterio.Text = "DATA" Then
     REL_Caixa_Sangria.rfCriterioDesc.Caption = mskConsData.Text
 End If
@@ -1882,8 +1859,14 @@ If cboFonte.Text = "CAIXA ATUAL" Then
     bTrans = False
 
 ElseIf cboFonte.Text = "SALDOS" Then
+    'transacao aberta antes da leitura do saldo, com lock, pra evitar 2
+    'sangrias simultaneas passarem na validacao contra o mesmo saldo
+    'desatualizado (bug achado em analise, 2026-10-27)
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
+
     'pegar o valor do ultimo do saldos
-    sSQL = "SELECT top 1 SALDO_ATUAL FROM caixa_saldo order by codigo desc;"
+    sSQL = "SELECT TOP 1 SALDO_ATUAL FROM caixa_saldo WITH (UPDLOCK, HOLDLOCK) ORDER BY codigo DESC;"
     Set r = dbData.OpenRecordset(sSQL)
 
     Dim varValorUltimoSaldo As Currency
@@ -1892,11 +1875,14 @@ ElseIf cboFonte.Text = "SALDOS" Then
     Dim varValorSaida As Currency
     varValorSaida = txtValor.Text
 
-    If varValorSaida > varValorUltimoSaldo Then MsgBox "O valor da sangria é maior que seu saldo atual", vbInformation, "Aviso do Sistema": Exit Sub
+    If varValorSaida > varValorUltimoSaldo Then
+        dbData.Execute "ROLLBACK TRANSACTION"
+        bTrans = False
+        MsgBox "O valor da sangria é maior que seu saldo atual", vbInformation, "Aviso do Sistema"
+        Exit Sub
+    End If
 
     'criar uma sangria
-    dbData.Execute "BEGIN TRANSACTION"
-    bTrans = True
     lNovoCod = AutoNumeracao
 
     'inserir dados na tabela caixa_saida
@@ -2005,10 +1991,10 @@ Set rEmpresa = dbData.OpenRecordset(sSQL)
 f = FreeFile()
    
   'pegar o nome da impressora no ini
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
    Set oIni = Nothing
    
@@ -2182,10 +2168,10 @@ If cboFonte.Text = "" Then cboFonte.ListIndex = 0
  mskConsData.Text = Format(Date, "dd/mm/yy")
 
 'colocar o nome da maquina na barra de status
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
 varMaquina = oIni.LerTexto("DADOS_MAQUINA", "maquina")
 'Set oIni = Nothing
@@ -2355,7 +2341,7 @@ Dim r As ADODB.Recordset
 
 sSQL = "SELECT * " & _
        "FROM caixa_dia " & _
-       "WHERE (codcaixa = " & varCodCaixa & ") and (caixa = '" & GridSaidas.TextMatrix(GridSaidas.Row, 2) & "') and caixa_dia.status = 1;"
+       "WHERE (codcaixa = " & GridSaidas.TextMatrix(GridSaidas.Row, 8) & ") and (caixa = '" & GridSaidas.TextMatrix(GridSaidas.Row, 7) & "') and caixa_dia.status = 1;"
 Set r = dbData.OpenRecordset(sSQL)
 
 If r.RecordCount > 0 Then

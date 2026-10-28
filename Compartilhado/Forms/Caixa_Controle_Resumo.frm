@@ -823,7 +823,11 @@ ElseIf varTipoConsulta = "PARCELAS" Then
     QUANT = 0
     With Grid_Prazo
         For i = 1 To .rows - 1
-            If .TextMatrix(i, 8) = "PARCELA" And IsNumeric(.TextMatrix(i, 5)) Then
+            'coluna 2 = COD_OS: so entra em "Vendas" quem NAO tem OS vinculada.
+            'Nao usar a coluna 8 (TIPO) sozinha pra decidir isso - uma parcela de
+            'OS liquidada manualmente vira TIPO='PARCELA' (ver uniformizacao do
+            'campo TIPO), mas continua tendo COD_OS preenchido
+            If .TextMatrix(i, 8) = "PARCELA" And .TextMatrix(i, 2) = "" And IsNumeric(.TextMatrix(i, 5)) Then
                soma = soma + CCur(.TextMatrix(i, 5))
                QUANT = QUANT + 1
             End If
@@ -849,7 +853,10 @@ ElseIf varTipoConsulta = "PARCELAS" Then
             vQuantOS = 0
 
             For i = 1 To .rows - 1
-              If .TextMatrix(i, 8) = "OS" And IsNumeric(.TextMatrix(i, 5)) Then
+              'classifica pela coluna 2 (COD_OS preenchido), nao pela coluna 8
+              '(TIPO) - toda parcela de OS tem COD_OS preenchido, mesmo quando
+              'TIPO foi uniformizado pra 'PARCELA' numa baixa manual
+              If .TextMatrix(i, 2) <> "" And IsNumeric(.TextMatrix(i, 5)) Then
                  vSomaOS = vSomaOS + CCur(.TextMatrix(i, 5))
                  vQuantOS = vQuantOS + 1
               End If

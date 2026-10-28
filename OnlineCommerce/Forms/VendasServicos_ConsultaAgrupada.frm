@@ -1,7 +1,6 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Begin VB.Form VendasServicos_ConsultaAgrupada 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "CONSULTA DE VENDAS - RESUMO DIÁRIO"
@@ -28,35 +27,17 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H000000C0&
-      Height          =   2355
+      Height          =   1815
       Left            =   60
       TabIndex        =   26
       Top             =   720
       Width           =   13095
       Begin VB.Frame frmFiltro1 
-         Height          =   2055
-         Left            =   5700
+         Height          =   1515
+         Left            =   5640
          TabIndex        =   32
          Top             =   180
-         Width           =   7275
-         Begin VB.TextBox txtCodFunc 
-            Appearance      =   0  'Flat
-            Height          =   195
-            Left            =   4440
-            TabIndex        =   38
-            Top             =   840
-            Visible         =   0   'False
-            Width           =   615
-         End
-         Begin VB.TextBox txtCodCliente 
-            Appearance      =   0  'Flat
-            Height          =   195
-            Left            =   3780
-            TabIndex        =   37
-            Top             =   780
-            Visible         =   0   'False
-            Width           =   615
-         End
+         Width           =   7335
          Begin VB.ComboBox cboMes 
             Height          =   315
             Left            =   120
@@ -73,199 +54,6 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             Top             =   420
             Visible         =   0   'False
             Width           =   1155
-         End
-         Begin VB.TextBox txtCodigo 
-            Appearance      =   0  'Flat
-            Height          =   315
-            Left            =   120
-            TabIndex        =   36
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   1155
-         End
-         Begin VB.ComboBox cboVendedor 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   5
-            Top             =   1020
-            Visible         =   0   'False
-            Width           =   4965
-         End
-         Begin VB.ComboBox cboCliente 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   35
-            Top             =   1020
-            Visible         =   0   'False
-            Width           =   4965
-         End
-         Begin ChamaleonBtn.chameleonButton cmdCalendario2 
-            Height          =   315
-            Left            =   2500
-            TabIndex        =   33
-            Tag             =   "Calendario"
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   315
-            _ExtentX        =   556
-            _ExtentY        =   556
-            BTYPE           =   8
-            TX              =   ""
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   15790320
-            BCOLO           =   15790320
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "VendasServicos_ConsultaAgrupada.frx":23D2
-            PICN            =   "VendasServicos_ConsultaAgrupada.frx":23EE
-            PICH            =   "VendasServicos_ConsultaAgrupada.frx":4741
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin ChamaleonBtn.chameleonButton cmdCalendario1 
-            Height          =   315
-            Left            =   1020
-            TabIndex        =   34
-            Tag             =   "Calendario"
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   315
-            _ExtentX        =   556
-            _ExtentY        =   556
-            BTYPE           =   8
-            TX              =   ""
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   15790320
-            BCOLO           =   15790320
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "VendasServicos_ConsultaAgrupada.frx":6A94
-            PICN            =   "VendasServicos_ConsultaAgrupada.frx":6AB0
-            PICH            =   "VendasServicos_ConsultaAgrupada.frx":8E03
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin MSMask.MaskEdBox mskInicio 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   39
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   990
-            _ExtentX        =   1746
-            _ExtentY        =   556
-            _Version        =   393216
-            Appearance      =   0
-            Format          =   "dd/mm/yy"
-            PromptChar      =   "_"
-         End
-         Begin MSMask.MaskEdBox mskFim 
-            Height          =   315
-            Left            =   1680
-            TabIndex        =   40
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   990
-            _ExtentX        =   1746
-            _ExtentY        =   556
-            _Version        =   393216
-            Appearance      =   0
-            Format          =   "dd/mm/yy"
-            PromptChar      =   "_"
-         End
-         Begin ChamaleonBtn.chameleonButton cmdCal1 
-            Height          =   315
-            Left            =   1320
-            TabIndex        =   41
-            Tag             =   "Calendario"
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   315
-            _ExtentX        =   556
-            _ExtentY        =   556
-            BTYPE           =   8
-            TX              =   ""
-            ENAB            =   -1  'True
-            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   400
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            COLTYPE         =   1
-            FOCUSR          =   -1  'True
-            BCOL            =   15790320
-            BCOLO           =   15790320
-            FCOL            =   0
-            FCOLO           =   0
-            MCOL            =   12632256
-            MPTR            =   1
-            MICON           =   "VendasServicos_ConsultaAgrupada.frx":B156
-            PICN            =   "VendasServicos_ConsultaAgrupada.frx":B172
-            PICH            =   "VendasServicos_ConsultaAgrupada.frx":D4C5
-            UMCOL           =   -1  'True
-            SOFT            =   0   'False
-            PICPOS          =   0
-            NGREY           =   0   'False
-            FX              =   0
-            HAND            =   0   'False
-            CHECK           =   0   'False
-            VALUE           =   0   'False
-         End
-         Begin MSMask.MaskEdBox mskData 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   42
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   1455
-            _ExtentX        =   2566
-            _ExtentY        =   556
-            _Version        =   393216
-            Appearance      =   0
-            BackColor       =   16777215
-            PromptChar      =   "_"
          End
          Begin ChamaleonBtn.chameleonButton cmdLocalizar 
             Height          =   315
@@ -295,7 +83,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "VendasServicos_ConsultaAgrupada.frx":F818
+            MICON           =   "VendasServicos_ConsultaAgrupada.frx":23D2
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -305,24 +93,13 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
-         Begin VB.Label lblData 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Data::"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   51
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   435
-         End
          Begin VB.Label lblMes 
             AutoSize        =   -1  'True
             BackStyle       =   0  'Transparent
             Caption         =   "Mês:"
             Height          =   195
             Left            =   120
-            TabIndex        =   50
+            TabIndex        =   1
             Top             =   165
             Visible         =   0   'False
             Width           =   345
@@ -333,80 +110,14 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             Caption         =   "Ano:"
             Height          =   195
             Left            =   1515
-            TabIndex        =   49
+            TabIndex        =   2
             Top             =   180
             Visible         =   0   'False
             Width           =   330
          End
-         Begin VB.Label lblCodigo 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Pedido:"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   48
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   540
-         End
-         Begin VB.Label lblInicio 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Data inicial:"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   47
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   825
-         End
-         Begin VB.Label lblFim 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Data final:"
-            Height          =   195
-            Left            =   1680
-            TabIndex        =   46
-            Top             =   180
-            Visible         =   0   'False
-            Width           =   720
-         End
-         Begin VB.Label lblAte 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "até"
-            Height          =   195
-            Left            =   1380
-            TabIndex        =   45
-            Top             =   420
-            Visible         =   0   'False
-            Width           =   225
-         End
-         Begin VB.Label lblVendedor 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Vendedor(a):"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   44
-            Top             =   780
-            Visible         =   0   'False
-            Width           =   915
-         End
-         Begin VB.Label lblClientes 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Clientes:"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   43
-            Top             =   780
-            Visible         =   0   'False
-            Width           =   600
-         End
       End
       Begin VB.Frame Frame1 
-         Height          =   2055
+         Height          =   1515
          Left            =   120
          TabIndex        =   27
          Top             =   180
@@ -420,31 +131,9 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
          End
          Begin VB.ComboBox cboFormaPgto 
             Height          =   315
-            Left            =   2760
+            Left            =   120
             TabIndex        =   4
-            Top             =   1620
-            Width           =   2595
-         End
-         Begin VB.ComboBox cboIndice 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   3
-            Top             =   1620
-            Width           =   2595
-         End
-         Begin VB.ComboBox cboCriterioSec 
-            Enabled         =   0   'False
-            Height          =   315
-            Left            =   2760
-            TabIndex        =   2
-            Top             =   1020
-            Width           =   2595
-         End
-         Begin VB.ComboBox cboCriterioPrinc 
-            Height          =   315
-            Left            =   120
-            TabIndex        =   1
-            Top             =   1020
+            Top             =   1080
             Width           =   2595
          End
          Begin VB.Label Label1 
@@ -452,7 +141,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             Caption         =   "Tipo:"
             Height          =   195
             Left            =   120
-            TabIndex        =   57
+            TabIndex        =   3
             Top             =   180
             Width           =   360
          End
@@ -460,38 +149,10 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
             AutoSize        =   -1  'True
             Caption         =   "Forma de Pgto"
             Height          =   195
-            Left            =   2760
+            Left            =   120
             TabIndex        =   31
-            Top             =   1380
+            Top             =   840
             Width           =   1035
-         End
-         Begin VB.Label Label7 
-            AutoSize        =   -1  'True
-            Caption         =   "Organizar por:"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   30
-            Top             =   1380
-            Width           =   990
-         End
-         Begin VB.Label Label5 
-            AutoSize        =   -1  'True
-            Caption         =   "Consulta:"
-            Height          =   195
-            Left            =   120
-            TabIndex        =   29
-            Top             =   780
-            Width           =   660
-         End
-         Begin VB.Label lblSubConsulta 
-            AutoSize        =   -1  'True
-            Caption         =   "Subconsulta:"
-            Enabled         =   0   'False
-            Height          =   195
-            Left            =   2760
-            TabIndex        =   28
-            Top             =   780
-            Width           =   930
          End
       End
    End
@@ -502,7 +163,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       ForeColor       =   &H80000008&
       Height          =   1095
       Left            =   4740
-      Picture         =   "VendasServicos_ConsultaAgrupada.frx":F834
+      Picture         =   "VendasServicos_ConsultaAgrupada.frx":23EE
       ScaleHeight     =   1095
       ScaleWidth      =   2895
       TabIndex        =   12
@@ -546,20 +207,20 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       Begin VB.Image Image1 
          Height          =   585
          Left            =   240
-         Picture         =   "VendasServicos_ConsultaAgrupada.frx":1086C
+         Picture         =   "VendasServicos_ConsultaAgrupada.frx":3426
          Stretch         =   -1  'True
          Top             =   0
          Width           =   900
       End
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   4635
+      Height          =   5175
       Left            =   60
       TabIndex        =   15
-      Top             =   3120
+      Top             =   2580
       Width           =   13095
       _ExtentX        =   23098
-      _ExtentY        =   8176
+      _ExtentY        =   9128
       _Version        =   393216
       ScrollBars      =   2
       SelectionMode   =   1
@@ -593,7 +254,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "VendasServicos_ConsultaAgrupada.frx":170B2
+      MICON           =   "VendasServicos_ConsultaAgrupada.frx":9C6C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -631,7 +292,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "VendasServicos_ConsultaAgrupada.frx":170CE
+      MICON           =   "VendasServicos_ConsultaAgrupada.frx":9C88
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -644,7 +305,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   315
       Left            =   4260
-      TabIndex        =   56
+      TabIndex        =   5
       Top             =   7800
       Width           =   1635
       _ExtentX        =   2884
@@ -669,7 +330,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "VendasServicos_ConsultaAgrupada.frx":170EA
+      MICON           =   "VendasServicos_ConsultaAgrupada.frx":9CA4
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -700,7 +361,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       EndProperty
       Height          =   225
       Left            =   8460
-      TabIndex        =   52
+      TabIndex        =   28
       Top             =   7860
       Width           =   630
    End
@@ -721,7 +382,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       ForeColor       =   &H00000000&
       Height          =   285
       Left            =   9180
-      TabIndex        =   55
+      TabIndex        =   29
       Top             =   7860
       Width           =   1275
    End
@@ -742,7 +403,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       ForeColor       =   &H00000000&
       Height          =   285
       Left            =   9180
-      TabIndex        =   54
+      TabIndex        =   30
       Top             =   8160
       Width           =   1275
    End
@@ -761,7 +422,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       EndProperty
       Height          =   225
       Left            =   8460
-      TabIndex        =   53
+      TabIndex        =   33
       Top             =   8160
       Width           =   675
    End
@@ -1001,7 +662,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       EndProperty
       Height          =   225
       Left            =   8460
-      TabIndex        =   58
+      TabIndex        =   34
       Top             =   8640
       Width           =   510
    End
@@ -1022,7 +683,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       ForeColor       =   &H00000000&
       Height          =   285
       Left            =   9180
-      TabIndex        =   59
+      TabIndex        =   35
       Top             =   8640
       Width           =   1275
    End
@@ -1041,7 +702,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       EndProperty
       Height          =   225
       Left            =   8460
-      TabIndex        =   60
+      TabIndex        =   36
       Top             =   8940
       Width           =   525
    End
@@ -1062,7 +723,7 @@ Begin VB.Form VendasServicos_ConsultaAgrupada
       ForeColor       =   &H00000000&
       Height          =   285
       Left            =   9180
-      TabIndex        =   61
+      TabIndex        =   37
       Top             =   8940
       Width           =   1275
    End
@@ -1086,62 +747,6 @@ Dim tipoEmpresa As Integer
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim totalRegistros As Long
-Private Sub Limpar_Grid_Venda()
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 13
-      .rows = 2
-      .TextMatrix(0, 1) = "DATA"
-   End With
-
-   lblQtda.Caption = Format(0, "0")
-   lblTotalProdutos.Caption = Format(0, ocMONEY)
-   lblTotalServicos.Caption = Format(0, ocMONEY)
-   lblSubtotal.Caption = Format(0, ocMONEY)
-   lblTotalDesc.Caption = Format(0, ocMONEY)
-   lblTotalAcresc.Caption = Format(0, ocMONEY)
-   lblSubtotalBruto.Caption = Format(0, ocMONEY)
-   lblTotalBalcao.Caption = Format(0, ocMONEY)
-   lblTotalOficina.Caption = Format(0, ocMONEY)
-picAguarde.Visible = False
-End Sub
-
-Private Sub LimparObjetos_Consulta()
-cboMes.Text = ""
-cboAno.Text = ""
-cboVendedor.Text = ""
-txtCodigo.Text = ""
-cboCliente.Text = ""
-mskFim.Mask = ""
-mskFim.Text = ""
-mskInicio.Mask = ""
-mskInicio.Text = ""
-txtCodFunc.Text = ""
-txtCodCliente.Text = ""
-End Sub
-
-Private Sub PreencherPrincipal()
-cboCriterioPrinc.Clear
-
-'cboCriterioPrinc.AddItem "TODOS"
-cboCriterioPrinc.AddItem "VENDEDOR"
-cboCriterioPrinc.AddItem "CLIENTE"
-cboCriterioPrinc.AddItem "PERIODO"
-cboCriterioPrinc.AddItem "CÓDIGO"
-cboCriterioPrinc.AddItem "MENSAL"
-End Sub
-
-Private Sub PreencherIndice()
-cboIndice.Clear
-cboIndice.AddItem "PEDIDO"
-cboIndice.AddItem "DATA"
-cboIndice.AddItem "POR NOME"
-cboIndice.AddItem "FORMA PGTO"
-cboIndice.AddItem "VALOR"
-End Sub
-
 Private Sub PreencherFormaPgto()
 cboFormaPgto.Clear
 cboFormaPgto.AddItem "TODOS"
@@ -1178,442 +783,11 @@ Private Sub cboAno_KeyPress(KeyAscii As Integer)
    If KeyAscii = 13 Then cmdLocalizar_Click
 End Sub
 
-Private Sub cboCliente_Click()
-   On Error GoTo TrataErro
-   
-   If cboCliente.Text = "" Then txtCodCliente.Text = "": Exit Sub
-   If cboCliente.ListIndex = -1 Then txtCodCliente.Text = "": Exit Sub
-   txtCodCliente = cboCliente.ItemData(cboCliente.ListIndex)
-   
-TrataErro:
-   If Err.Number = 381 Then Exit Sub
-End Sub
-
-Private Sub CboCliente_GotFocus()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   cboCliente.Clear
-   
-   sSQL = "SELECT * FROM cliente ORDER BY nome;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   Do While Not r.EOF
-      cboCliente.AddItem r("nome")
-      cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
-      r.MoveNext
-   Loop
-   
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-   
-   moCombo.AttachTo cboCliente
-End Sub
-
-Private Sub CboCliente_KeyPress(KeyAscii As Integer)
-   If KeyAscii = 13 Then cmdLocalizar_Click
-End Sub
-
-Private Sub CboCliente_LostFocus()
-   cboCliente_Click
-End Sub
-
-Private Sub cboCriterioPrinc_Change()
-   LimparObjetos_Consulta
-   
-If cboCriterioPrinc.Text = "CLIENTE" Then cboCriterioSec.Text = "TODOS"
-If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
-If cboCriterioPrinc.Text = "MECÂNICO" Then cboCriterioSec.Text = "TODOS"
-   
-   'If cboCriterioPrinc.Text = "TODOS" Then
-      'lblVendedor.Visible = False
-      'cboVendedor.Visible = False
-      
-      'lblInicio.Visible = False
-      'mskInicio.Visible = False
-      'lblFim.Visible = False
-      'mskFim.Visible = False
-      'lblAte.Visible = False
-      'cmdCalendario1.Visible = False
-      'cmdCalendario2.Visible = False
-      
-      'lblClientes.Visible = False
-      'cboCliente.Visible = False
-      
-      'lblCodigo.Visible = False
-      'txtCodigo.Visible = False
-      
-      'lblMes.Visible = False
-      'cboMes.Visible = False
-      'lblAno.Visible = False
-      'cboAno.Visible = False
-      
-      'cboCriterioSec.Visible = False
-      'lblSubConsulta.Visible = False
-      'cmdLocalizar.Top = 180
-      'cmdImprimir.Top = 180
-
-      
-   If cboCriterioPrinc.Text = "VENDEDOR" And cboCriterioSec.Text = "TODOS" Then
-      lblVendedor.Caption = "Vendedor(a):"
-      lblVendedor.Visible = True
-      cboVendedor.Visible = True
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCriterioSec.Enabled = True
-      lblSubConsulta.Enabled = True
-      
-    lblVendedor.Top = 180
-    cboVendedor.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-    'cmdImprimir.Top = 840
-
-      cboVendedor.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "CLIENTE" And cboCriterioSec.Text = "TODOS" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario2.Visible = False
-      cmdCalendario1.Visible = False
-      
-      lblClientes.Visible = True
-      cboCliente.Visible = True
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCriterioSec.Enabled = True
-      lblSubConsulta.Enabled = True
-    lblClientes.Top = 180
-    cboCliente.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-    'cmdImprimir.Top = 840
-      
-      cboCliente.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "PERIODO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = True
-      mskInicio.Visible = True
-      lblFim.Visible = True
-      mskFim.Visible = True
-      lblAte.Visible = True
-      cmdCalendario1.Visible = True
-      cmdCalendario2.Visible = True
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-    cmdCal1.Visible = False
-    mskData.Visible = False
-    lblData.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCriterioSec.Enabled = False
-      lblSubConsulta.Enabled = False
-    lblInicio.Top = 180
-    lblFim.Top = 180
-    mskInicio.Top = 420
-    mskFim.Top = 420
-    lblAte.Top = 420
-    cmdCalendario1.Top = 420
-    cmdCalendario2.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 2880
-    'cmdImprimir.Top = 840
-      
-      mskInicio.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "CÓDIGO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = True
-      txtCodigo.Visible = True
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-
-    cmdCal1.Visible = False
-    mskData.Visible = False
-    lblData.Visible = False
-      
-      cboCriterioSec.Enabled = False
-      lblSubConsulta.Enabled = False
-    lblCodigo.Top = 180
-    txtCodigo.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 1600
-    'cmdImprimir.Top = 840
-      
-      txtCodigo.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "MENSAL" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-    cmdCal1.Visible = False
-    mskData.Visible = False
-    lblData.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = True
-      cboMes.Visible = True
-      lblAno.Visible = True
-      cboAno.Visible = True
-      
-      cboCriterioSec.Enabled = False
-      lblSubConsulta.Enabled = False
-    lblMes.Top = 180
-    lblAno.Top = 180
-    cboMes.Top = 420
-    cboAno.Top = 420
-    cmdCalendario1.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 2880
-    'cmdImprimir.Top = 840
-      
-      If cboMes.Visible = True Then cboMes.SetFocus
-   ElseIf cboCriterioPrinc.Text = "MECÂNICO" And cboCriterioSec.Text = "TODOS" Then
-      lblVendedor.Caption = "Mecânico:"
-      lblVendedor.Visible = True
-      cboVendedor.Visible = True
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-    cmdCal1.Visible = False
-    mskData.Visible = False
-    lblData.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCriterioSec.Enabled = True
-      lblSubConsulta.Enabled = True
-    lblVendedor.Top = 180
-    cboVendedor.Top = 420
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-      
-      cboVendedor.SetFocus
-   Else
-      Exit Sub
-   End If
-   
-   'cboCriterioSec.Clear
-   'cboIndice.Clear
-   'cboFormaPgto.Clear
-   'cboTipoPgto.Clear
-   'CboFormaPgtoSec.Clear
-   'cboTipoPgtoSec.Clear
-  
-   If cboCriterioPrinc.Text = "VENDEDOR" Or cboCriterioPrinc.Text = "CLIENTE" Or cboCriterioPrinc.Text = "MECÂNICO" Then
-      cboCriterioSec.Text = "TODOS"
-   Else
-      cboCriterioSec.Text = ""
-   End If
-End Sub
-
-Private Sub cboCriterioPrinc_Click()
-   cboCriterioPrinc_Change
-End Sub
-
-Private Sub cboCriterioPrinc_GotFocus()
-moCombo.AttachTo cboCriterioPrinc
-End Sub
-
-Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
-If cboCriterioSec.Text = "TODOS" Then
-   lblMes.Visible = False
-   cboMes.Visible = False
-   lblAno.Visible = False
-   cboAno.Visible = False
-   cmdCal1.Visible = False
-   mskData.Visible = False
-   lblData.Visible = False
-End If
-
-If cboCriterioSec.Text = "MENSAL" Then
-   lblMes.Visible = True
-   cboMes.Visible = True
-   lblAno.Visible = True
-   cboAno.Visible = True
-   cmdCal1.Visible = False
-   mskData.Visible = False
-   lblData.Visible = False
-End If
-
-If cboCriterioSec.Text = "DATA" Then
-   lblMes.Visible = False
-   cboMes.Visible = False
-   lblAno.Visible = False
-   cboAno.Visible = False
-   cmdCal1.Visible = True
-   mskData.Visible = True
-   lblData.Visible = True
-End If
-End Sub
-
-Private Sub cboCriterioSec_Change()
-
-'If cboCriterioPrinc.Text = "CLIENTE" Then cboCriterioSec.Text = "TODOS"
-'If cboCriterioPrinc.Text = "VENDEDOR" Then cboCriterioSec.Text = "TODOS"
-
-If cboCriterioSec.Text = "TODOS" Then
-   lblMes.Visible = False
-   cboMes.Visible = False
-   lblAno.Visible = False
-   cboAno.Visible = False
-   cmdCal1.Visible = False
-   mskData.Visible = False
-   lblData.Visible = False
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-End If
-
-If cboCriterioSec.Text = "MENSAL" Then
-   lblMes.Visible = True
-   cboMes.Visible = True
-   lblAno.Visible = True
-   cboAno.Visible = True
-   cmdCal1.Visible = False
-   mskData.Visible = False
-   lblData.Visible = False
-   
-    lblMes.Top = 780
-    lblAno.Top = 780
-    cboMes.Top = 1020
-    cboAno.Top = 1020
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-End If
-
-If cboCriterioSec.Text = "DATA" Then
-   lblMes.Visible = False
-   cboMes.Visible = False
-   lblAno.Visible = False
-   cboAno.Visible = False
-   cmdCal1.Visible = True
-   mskData.Visible = True
-   lblData.Visible = True
-    lblData.Top = 780
-    mskData.Top = 1020
-    cmdCal1.Top = 1020
-    cmdLocalizar.Top = 420
-    cmdLocalizar.Left = 5220
-End If
-
-End Sub
-
-Private Sub cboCriterioSec_Click()
-   cboCriterioSec_Change
-End Sub
-
-Private Sub cboCriterioSec_GotFocus()
-cboCriterioSec.Clear
-
-If cboCriterioPrinc.Text = "CLIENTE" Then
-   cboCriterioSec.AddItem "TODOS"
-   cboCriterioSec.AddItem "MENSAL"
-ElseIf cboCriterioSec.Enabled Then
-   cboCriterioSec.AddItem "TODOS"
-   cboCriterioSec.AddItem "MENSAL"
-   cboCriterioSec.AddItem "DATA"
-End If
-
-moCombo.AttachTo cboCriterioSec
-End Sub
-
-Private Sub cboCriterioSec_LostFocus()
-   If cboCriterioSec.Text = "" Then cboCriterioSec.Text = "TODOS"
-End Sub
-
 
 Private Sub cboFormaPgto_LostFocus()
 'PreencherTipoPgto
 End Sub
 
-
-Private Sub cboIndice_GotFocus()
-moCombo.AttachTo cboIndice
-End Sub
 
 Private Sub cboMes_GotFocus()
 cboMes.Clear
@@ -1642,106 +816,6 @@ End Sub
 
 
 
-
-
-Private Sub cboVendedor_Click()
-   cboVendedor_LostFocus
-End Sub
-
-Private Sub cboVendedor_GotFocus()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   cboVendedor.Clear
-   
-   sSQL = "SELECT codigo, nome, cargo FROM funcionario ORDER BY nome;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   Do While Not r.EOF
-      cboVendedor.AddItem r("nome")
-      cboVendedor.ItemData(cboVendedor.NewIndex) = r("codigo")
-      r.MoveNext
-   Loop
-   
-   If r.State <> 0 Then r.Close
-   Set r = Nothing
-   
-   moCombo.AttachTo cboVendedor
-End Sub
-
-Private Sub cboVendedor_KeyPress(KeyAscii As Integer)
-   If KeyAscii = 13 Then cmdLocalizar_Click
-End Sub
-
-Private Sub cboVendedor_LostFocus()
-   On Error GoTo TrataErro
-   
-   If cboVendedor.Text = "" Then txtCodFunc.Text = "": Exit Sub
-   If cboVendedor.ListIndex = -1 Then txtCodFunc.Text = "": Exit Sub
-   txtCodFunc = cboVendedor.ItemData(cboVendedor.ListIndex)
-   
-TrataErro:
-   If Err.Number = 381 Then Exit Sub
-End Sub
-
-Private Sub cmdCal1_Click()
-Dim varData As Variant
-Dim fCal As Calendario
-
-varData = Empty                    'Inicializa a variável
-
-Set fCal = New Calendario      'Cria o form de calendário
-fCal.Show vbModal
-
-varData = fCal.DateSelected    'Recupera a data selecionada
-
-Unload fCal                           'Fecha o form
-Set fCal = Nothing                   'Destrói a variável
-
-If Not IsDate(varData) Then Exit Sub   'Valida a data
-If varData = 0 Then Exit Sub
-
-mskData = Format(varData, "dd/mm/yyyy")   'Exibe a data no campo
-End Sub
-Private Sub cmdCalendario1_Click()
-   Dim varData As Variant
-   Dim fCal As Calendario
-  
-   varData = Empty                    'Inicializa a variável
-
-   Set fCal = New Calendario      'Cria o form de calendário
-   fCal.Show vbModal
-  
-   varData = fCal.DateSelected    'Recupera a data selecionada
-
-   Unload fCal                           'Fecha o form
-   Set fCal = Nothing                   'Destrói a variável
-  
-   If Not IsDate(varData) Then Exit Sub   'Valida a data
-   If varData = 0 Then Exit Sub
-  
-   mskInicio = Format(varData, "dd/mm/yy")   'Exibe a data no campo
-End Sub
-
-Private Sub cmdCalendario2_Click()
-   Dim varData As Variant
-   Dim fCal As Calendario
-  
-   varData = Empty                    'Inicializa a variável
-
-   Set fCal = New Calendario      'Cria o form de calendário
-   fCal.Show vbModal
-  
-   varData = fCal.DateSelected    'Recupera a data selecionada
-
-   Unload fCal                           'Fecha o form
-   Set fCal = Nothing                   'Destrói a variável
-  
-   If Not IsDate(varData) Then Exit Sub   'Valida a data
-   If varData = 0 Then Exit Sub
-  
-   mskFim = Format(varData, "dd/mm/yy")   'Exibe a data no campo
-End Sub
 
 
 Private Sub cmdExibirParcelas_Click()
@@ -1882,36 +956,6 @@ Private Sub cmdLocalizar_Click()
 MostrarGridAgrupado
 End Sub
 
-Public Function SomaGridSeTipo(var_Grid As MSFlexGrid, Col As Integer, ColTipo As Integer, Tipo As String) As Double
-   Dim i As Integer, Valor As Currency
-   
-   Valor = 0
-   
-   For i = 1 To var_Grid.rows - 1
-      If var_Grid.TextMatrix(i, ColTipo) = Tipo Then
-         If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
-            Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
-         End If
-      End If
-   Next
-   
-   SomaGridSeTipo = Valor
-End Function
-
-Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
-   Dim i As Integer, Valor As Currency
-   
-   Valor = 0
-   
-   For i = 0 To var_Grid.rows - 1
-      If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
-         Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
-      End If
-   Next
-   
-   SomaGrid = Valor
-End Function
-
 
 
 Private Sub Form_Load()
@@ -1932,42 +976,16 @@ cboFormaPgto.ListIndex = 0  'TODOS
 '(ver cmdExibirProdutos_Click); cmdExibirParcelas ainda nao se aplica
 cmdExibirParcelas.Enabled = False
 
-'Tela simplificada: so Mes/Ano/Tipo importam aqui (a consulta e sempre
-'mensal, agrupada por dia). Esconde os criterios de busca do form original
-'(Vendedor/Cliente/Periodo/Codigo/Mecanico/Forma Pgto/Organizar por), que
-'nao fazem mais sentido numa linha agregada - mantem so Mes/Ano/Tipo.
-txtCodFunc.Visible = False
-txtCodCliente.Visible = False
-txtCodigo.Visible = False
-lblCodigo.Visible = False
-cboVendedor.Visible = False
-lblVendedor.Visible = False
-cboCliente.Visible = False
-lblClientes.Visible = False
-cmdCalendario1.Visible = False
-cmdCalendario2.Visible = False
-mskInicio.Visible = False
-lblInicio.Visible = False
-mskFim.Visible = False
-lblFim.Visible = False
-lblAte.Visible = False
-cmdCal1.Visible = False
-mskData.Visible = False
-lblData.Visible = False
-cboIndice.Visible = False
-Label7.Visible = False      'Organizar por:
-cboCriterioSec.Visible = False
-lblSubConsulta.Visible = False
-cboCriterioPrinc.Visible = False
-Label5.Visible = False      'Consulta:
-
+'Tela simplificada: so Mes/Ano/Tipo/Forma Pgto importam aqui (a consulta e
+'sempre mensal, agrupada por dia) - os demais criterios do form original
+'(Vendedor/Cliente/Periodo/Codigo/Mecanico/Organizar por) e seus controles
+'foram removidos do layout, nao existem mais neste form. Mes/Ano continuam
+'Visible=False no design (so ficavam visiveis com MENSAL selecionado no
+'form original) - precisam ser reativados aqui
 lblMes.Visible = True
 cboMes.Visible = True
 lblAno.Visible = True
 cboAno.Visible = True
-
-'posicao usada no modo MENSAL do form original (cboCriterioPrinc_Change,
-'ramo MENSAL) - aqui fixo direto, ja que esse evento nao dispara mais
 lblMes.Top = 180
 lblAno.Top = 180
 cboMes.Top = 420
@@ -1998,46 +1016,6 @@ Private Sub Grid_MouseMove(Button As Integer, Shift As Integer, x As Single, y A
    End If
 End Sub
 
-Private Sub mskData_KeyPress(KeyAscii As Integer)
-mskData.Mask = "##/##/##"
-End Sub
-
-
-Private Sub txtcodigo_GotFocus()
-   SelectControl txtCodigo
-End Sub
-
-Private Sub mskFim_GotFocus()
-SelectControl mskFim
-End Sub
-
-Private Sub mskFim_KeyPress(KeyAscii As Integer)
-mskFim.Mask = "##/##/##"
-End Sub
-
-Private Sub mskFim_LostFocus()
-If mskFim.Text = "" Or mskFim.Text = "__/__/__" Then
-   mskFim.Mask = ""
-   mskFim.Text = ""
-   Exit Sub
-Else
-   If IsDate(mskFim.Text) Then
-      cmdLocalizar.SetFocus
-   Else
-      ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-      mskFim.SetFocus
-      SelectControl mskFim
-   End If
-End If
-End Sub
-
-Private Sub mskInicio_GotFocus()
-   SelectControl mskInicio
-End Sub
-
-Private Sub mskInicio_KeyPress(KeyAscii As Integer)
-   mskInicio.Mask = "##/##/##"
-End Sub
 
 'Calcula os 2 trechos de WHERE (filtro de tipo e de forma de pagamento) a
 'partir dos combos - usado tanto por MostrarGridAgrupado quanto por
@@ -2143,6 +1121,14 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
+
+      'Desliga o highlight visual de selecao do MSFlexGrid - sem isso, com
+      'SelectionMode=flexSelectionByRow, o clique no "+"/"-" (Grid_MouseDown)
+      'deixa uma selecao de linha ativa que sobrepoe com branco o
+      'CellBackColor aplicado nas linhas-filha (mesmo bug e mesma correcao
+      'definitiva ja usada em Parcelas_Consulta.frm)
+      .Highlight = 0
+
       .Cols = 13
       .rows = 2
 
@@ -2204,22 +1190,22 @@ DoEvents
 
       .rows = .rows - 1
 
-      'COR DE FUNDO AMARELO CLARO PARA PRODUTOS E SERVICOS (so nas linhas
-      'pai - as linhas filha, se existirem, ganham cor cinza em ExpandirLinha)
-      For i = 1 To .rows - 1
-         If .TextMatrix(i, 10) = "P" Then
-            .Row = i
-            .Col = 3
-            .CellBackColor = &H80FFFF
-            .Col = 4
-            .CellBackColor = &H80FFFF
-         End If
-      Next
+      'Zebra "data a data": linhas com a mesma DATA_COMPRA (coluna 11, cru
+      'yyyy-mm-dd) ficam com a mesma cor de fundo - mesmo padrao do
+      'Parcelas_Consulta.frm (FlexCores), so que agrupado por data em vez
+      'de linha a linha, ja que aqui 1 data pode ter 2 linhas PAI (A Vista
+      'e A Prazo). PRODUTOS/SERVICOS perderam o fundo amarelo fixo e agora
+      'seguem a mesma cor mesclada das outras colunas
+      FlexCoresPorData &HFFFFFF, &HE0E0E0
 
-      'DATA e TOTAL em negrito
+      'DATA, TOTAL, PRODUTOS e SERVICOS em negrito
       For i = 1 To .rows - 1
          .Row = i
          .Col = 1
+         .CellFontBold = True
+         .Col = 3
+         .CellFontBold = True
+         .Col = 4
          .CellFontBold = True
          .Col = 8
          .CellFontBold = True
@@ -2230,6 +1216,48 @@ DoEvents
 
    AtualizarTotaisAgrupado
 picAguarde.Visible = False
+End Sub
+
+Private Function EImpar(ByVal iNum As Long) As Boolean
+   EImpar = (iNum Mod 2)
+End Function
+
+'Zebra por grupo de DATA_COMPRA (coluna 11, valor cru yyyy-mm-dd): a cor so
+'alterna quando a data muda de uma linha PAI pra outra - linhas PAI com a
+'mesma data (ex: 1 em A Vista + 1 em A Prazo) ficam com a mesma cor. Linhas
+'filha (ainda nao inseridas nesse ponto - FormatarGridAgrupado roda antes
+'de qualquer expansao) nao entram nessa conta
+Private Sub FlexCoresPorData(lCorPar As Long, lCorImpar As Long)
+   Dim iLinha As Long
+   Dim sDataAnterior As String
+   Dim iGrupo As Integer
+   Dim lCor As OLE_COLOR
+
+   Grid.FillStyle = flexFillRepeat
+   sDataAnterior = ""
+   iGrupo = 0
+
+   For iLinha = 1 To Grid.rows - 1
+      If Grid.TextMatrix(iLinha, 11) <> sDataAnterior Then
+         iGrupo = iGrupo + 1
+         sDataAnterior = Grid.TextMatrix(iLinha, 11)
+      End If
+
+      If EImpar(iGrupo) Then
+         lCor = lCorImpar
+      Else
+         lCor = lCorPar
+      End If
+
+      With Grid
+         .Row = iLinha
+         .Col = 1
+         .ColSel = .Cols - 1
+         .CellBackColor = lCor
+      End With
+   Next
+
+   Grid.FillStyle = flexFillSingle
 End Sub
 
 'Expande/recolhe a divisao Balcao/Oficina de uma linha PAI - clique simples
@@ -2307,7 +1335,8 @@ Do While Not rDet.EOF
     For c = 0 To 9
         Grid.Row = i
         Grid.Col = c
-        Grid.CellBackColor = &HE0E0E0
+        Grid.CellBackColor = &HFFFFFF
+        Grid.CellForeColor = RGB(0, 0, 139)
     Next c
     rDet.MoveNext
 Loop
@@ -2367,19 +1396,3 @@ lblTotalAcresc = Format(SomaGridSeMarcador(Grid, 7), ocMONEY)
 lblSubtotalBruto = Format(SomaGridSeMarcador(Grid, 8), ocMONEY)
 End Sub
 
-
-Private Sub mskInicio_LostFocus()
-   If mskInicio.Text = "" Or mskInicio.Text = "__/__/__" Then
-      mskInicio.Mask = ""
-      mskInicio.Text = ""
-      Exit Sub
-   Else
-      If IsDate(mskInicio.Text) Then
-         If mskFim.Visible = True Then mskFim.SetFocus
-      Else
-         ShowMsg "DATA INVÁLIDA!" & vbCrLf & "A data digitada está incompleta ou errada." & vbCrLf & "Verifique e digite novamente.", vbInformation
-         mskInicio.SetFocus
-         SelectControl mskInicio
-      End If
-   End If
-End Sub

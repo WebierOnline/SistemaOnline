@@ -1,11 +1,11 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Fluxo_Caixa 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "FLUXO DE CAIXA"
+   Caption         =   "Gerenciamento de Caixas"
    ClientHeight    =   9480
    ClientLeft      =   45
    ClientTop       =   330
@@ -678,7 +678,7 @@ Begin VB.Form Fluxo_Caixa
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "FLUXO DE CAIXA"
+         Caption         =   "Gerenciamento de Caixas"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   15.75
@@ -693,7 +693,7 @@ Begin VB.Form Fluxo_Caixa
          Left            =   1320
          TabIndex        =   9
          Top             =   300
-         Width           =   2640
+         Width           =   3900
       End
    End
    Begin MSComctlLib.StatusBar StatusBar1 
@@ -711,15 +711,15 @@ Begin VB.Form Fluxo_Caixa
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   16563
-            Text            =   "Online.Info - Informática"
-            TextSave        =   "Online.Info - Informática"
+            Text            =   "ONLINE.INFO - (89) 9 9427-5280"
+            TextSave        =   "ONLINE.INFO - (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20:36"
+            TextSave        =   "11:34"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1218,11 +1218,24 @@ If r.RecordCount > 0 Then varQuantCaixaEntrada = True Else varQuantCaixaEntrada 
 If r.State <> 0 Then r.Close
 Set r = Nothing
 
+'caixa_saldo (saldo acumulado gerado no fechamento - Caixa_Fechamento.frm)
+'- sem essa checagem, excluir um caixa_dia que ja virou saldo
+'acumulado deixava caixa_saldo/caixa_saldo_retirada orfas, apontando
+'pra um caixa que deixou de existir
+sSQL = "SELECT * from caixa_saldo WHERE (CODCAIXA = " & Grid.TextMatrix(Grid.Row, 3) & ") AND (CAIXA = '" & EA(Grid.TextMatrix(Grid.Row, 2)) & "') "
+Set r = dbData.OpenRecordset(sSQL)
+
+Dim varQuantCaixaSaldo As Boolean
+If r.RecordCount > 0 Then varQuantCaixaSaldo = True Else varQuantCaixaSaldo = False
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+
 'apagar o caixa
 
 If ShowMsg("Deseja excluir o Caixa '" & Grid.TextMatrix(Grid.Row, 2) & "' com o Cód. Caixa: " & Grid.TextMatrix(Grid.Row, 3) & " ?", vbInformation + vbYesNo) = vbNo Then Exit Sub
 
-If varQuantParc = False And varQuantParcHaver = False And varQuantCaixaSaida = False And varQuantCaixaEntrada = False And Grid.TextMatrix(Grid.Row, 13) = "FECHADO" Then
+If varQuantParc = False And varQuantParcHaver = False And varQuantCaixaSaida = False And varQuantCaixaEntrada = False And varQuantCaixaSaldo = False And Grid.TextMatrix(Grid.Row, 13) = "FECHADO" Then
     sSQL = "delete from caixa_dia WHERE CODCAIXA = " & Grid.TextMatrix(Grid.Row, 3) & " "
     dbData.Execute (sSQL)
 Else
@@ -1249,17 +1262,14 @@ Else
     INDICE = " DATA_ABERTURA;"
 End If
 
-'Verifica qual o índice a ser utlizado
-If cboCaixa.Text = "CAIXA01" Then
-   varQualCaixa = " where caixa = 'CAIXA01' and "
-ElseIf cboCaixa.Text = "CAIXA02" Then
-   varQualCaixa = " where caixa = 'CAIXA02' and "
-ElseIf cboCaixa.Text = "CAIXA03" Then
-   varQualCaixa = " where caixa = 'CAIXA03' and "
-ElseIf cboCaixa.Text = "TODOS" Then
+'Verifica qual o índice a ser utlizado - filtro dinamico (antes era
+'uma cadeia fixa de If/ElseIf so pra CAIXA01/02/03, caindo pra
+'CAIXA01 sem aviso em qualquer outro nome - ex: CAIXA04, que o
+'proprio combo oferece)
+If cboCaixa.Text = "TODOS" Or cboCaixa.Text = "" Then
    varQualCaixa = " where "
 Else
-    varQualCaixa = " where caixa = 'CAIXA01' and "
+   varQualCaixa = " where caixa = '" & EA(cboCaixa.Text) & "' and "
 End If
 
 If cboConsulta.Text = "TODOS" Then
@@ -1393,14 +1403,14 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
 If cboConsulta.Text = "MENSAL" Then
    If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
 End If
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1424,11 +1434,6 @@ Else
    REL_Fluxo_Caixa.dfMES.Caption = "TODOS"
 End If
 
-cboConsulta.AddItem "TODOS"
-cboConsulta.AddItem "DATA"
-cboConsulta.AddItem "MENSAL"
-cboConsulta.AddItem "PERÍODO"
-
 REL_Fluxo_Caixa.Relatorio.NomeImpressora = var_Impressora
 REL_Fluxo_Caixa.Relatorio.Ativar
 Unload REL_Fluxo_Caixa
@@ -1443,10 +1448,10 @@ End Sub
 Private Sub ImprimirCaixa()
 '=========== DEFINIR A IMPRESSORA
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -1456,7 +1461,6 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 
 Dim SETOR_CAIXA As String
-Dim var_Setor As String
 Dim varTipoCartao2 As String
 '       "WHERE (caixa = '" & Grid.TextMatrix(Grid.Row, 2) & "') and (CODCAIXA = " & Grid.TextMatrix(Grid.Row, 3) & ") "
 
@@ -1474,8 +1478,6 @@ Dim varTipoCartao2 As String
         Maquina_Sangria = "AND (caixa_saida.caixa = '" & Grid.TextMatrix(Grid.Row, 2) & "') "
         
         SETOR_CAIXA = "AND (pedidos.tipo_pedido = 'VENDA') "
-        
-        var_Setor = "AND (setor <> 'BOSTA') "
         
         sSQL = "SELECT " & _
            "parcelas.tipo as varTipoLanc, " & _
@@ -1536,7 +1538,7 @@ Dim varTipoCartao2 As String
            "0 AS cliente, " & _
            "setor, " & _
            " '' AS maquina " & _
-           "FROM caixa_entrada WHERE (caixa_entrada.codcaixa = " & Grid.TextMatrix(Grid.Row, 3) & ")  " & Maquina_Suprimento & var_Setor & _
+           "FROM caixa_entrada WHERE (caixa_entrada.codcaixa = " & Grid.TextMatrix(Grid.Row, 3) & ")  " & Maquina_Suprimento & _
            "UNION ALL "
            
         'sangria
@@ -1556,7 +1558,7 @@ Dim varTipoCartao2 As String
            "0, " & _
            "setor, " & _
            "'' AS maquina " & _
-           "FROM caixa_saida WHERE (caixa_saida.codcaixa = " & Grid.TextMatrix(Grid.Row, 3) & ")  " & Maquina_Sangria & var_Setor & _
+           "FROM caixa_saida WHERE (caixa_saida.codcaixa = " & Grid.TextMatrix(Grid.Row, 3) & ")  " & Maquina_Sangria & _
            " ORDER BY 2"
         
         Set r = dbData.OpenRecordset(sSQL)

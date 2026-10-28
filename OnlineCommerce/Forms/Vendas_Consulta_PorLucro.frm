@@ -203,11 +203,11 @@ Dim r As ADODB.Recordset
 Dim r2 As ADODB.Recordset
 Public Sub loadPedidos2(ByVal Pedido As Long, ByVal DATA As Date)
 
-sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, pedidos_itens.Custo, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (pedidos_itens.Total - pedidos_itens.Custo * pedidos_itens.QUANTIDADE) / (pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE pedidos_itens.Total - (pedidos_itens.custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
-       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO " & _
-       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (pedidos_itens.data = CONVERT(DATETIME, '" & Format(DATA, ocDATA) & "', 103)) " & _
+sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, ISNULL(pedidos_itens.Custo, 0) AS Custo, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 OR pedidos_itens.Total = 0 THEN 0 ELSE (pedidos_itens.Total - ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) / pedidos_itens.Total * 100 END AS vSomaMARGEM, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 THEN 0 ELSE pedidos_itens.Total - (ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
+       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (pedidos_itens.data = CONVERT(DATETIME, '" & Format(DATA, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & _
        "ORDER BY pedidos_itens.COD_PEDIDO DESC"
 
 Set r = dbData.OpenRecordset(sSQL)
@@ -223,11 +223,11 @@ Set r = Nothing
 End Sub
 Public Sub loadPedidos3(ByVal Pedido As Long, ByVal Data1 As Date, ByVal Data2 As Date)
 
-sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, pedidos_itens.Custo, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (pedidos_itens.Total - pedidos_itens.Custo * pedidos_itens.QUANTIDADE) / (pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE pedidos_itens.Total - (pedidos_itens.custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
-       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO " & _
-       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(Data1, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(Data2, ocDATA) & "', 103)) " & _
+sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, ISNULL(pedidos_itens.Custo, 0) AS Custo, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 OR pedidos_itens.Total = 0 THEN 0 ELSE (pedidos_itens.Total - ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) / pedidos_itens.Total * 100 END AS vSomaMARGEM, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 THEN 0 ELSE pedidos_itens.Total - (ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
+       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(Data1, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(Data2, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & _
        "ORDER BY pedidos_itens.COD_PEDIDO DESC"
 
 Set r = dbData.OpenRecordset(sSQL)
@@ -243,11 +243,11 @@ Set r = Nothing
 End Sub
 Public Sub loadPedidos(ByVal Pedido As Long, ByVal MES As Integer, ByVal ANO As Integer)
 
-sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, pedidos_itens.Custo, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (pedidos_itens.Total - pedidos_itens.Custo * pedidos_itens.QUANTIDADE) / (pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM, " & _
-       "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE pedidos_itens.Total - (pedidos_itens.custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
-       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO " & _
-       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (MONTH(pedidos_itens.data) = " & MES & ") AND (YEAR(pedidos_itens.data) = " & ANO & ") " & _
+sSQL = "SELECT pedidos_itens.COD_PEDIDO, pedidos_itens.DATA, pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, pedidos_itens.PRECO, pedidos_itens.QUANTIDADE, pedidos_itens.Subtotal, pedidos_itens.Desconto, pedidos_itens.Total, ISNULL(pedidos_itens.Custo, 0) AS Custo, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 OR pedidos_itens.Total = 0 THEN 0 ELSE (pedidos_itens.Total - ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) / pedidos_itens.Total * 100 END AS vSomaMARGEM, " & _
+       "CASE WHEN ISNULL(pedidos_itens.Custo, 0) = 0 THEN 0 ELSE pedidos_itens.Total - (ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO " & _
+       "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
+       "WHERE (pedidos_itens.cod_produto = " & Pedido & ") AND (MONTH(pedidos_itens.data) = " & MES & ") AND (YEAR(pedidos_itens.data) = " & ANO & ") AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & _
        "ORDER BY pedidos_itens.COD_PEDIDO DESC"
 
 Set r = dbData.OpenRecordset(sSQL)

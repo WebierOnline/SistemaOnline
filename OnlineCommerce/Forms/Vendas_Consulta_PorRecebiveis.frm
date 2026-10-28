@@ -57,7 +57,6 @@ Begin VB.Form Vendas_Consulta_PorRecebiveis
    End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
-      BackColor       =   &H00E0E0E0&
       ForeColor       =   &H80000008&
       Height          =   1935
       Left            =   60
@@ -68,6 +67,7 @@ Begin VB.Form Vendas_Consulta_PorRecebiveis
       Top             =   780
       Width           =   13095
       Begin VB.ComboBox cboTipoPgto 
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   120
          TabIndex        =   2
@@ -675,7 +675,7 @@ Begin VB.Form Vendas_Consulta_PorRecebiveis
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "22:21"
+            TextSave        =   "18:55"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1046,73 +1046,12 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim totalRegistros As Long
 Private Sub Limpar_Grid_Venda()
-   Dim i As Integer
-
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 8
-      .rows = 2
-      
-      .ColWidth(0) = 150
-      .ColWidth(1) = 800
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 4300
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 1100
-      .ColWidth(6) = 1220
-      .ColWidth(7) = 0
-      
-      .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "NOME DO CLIENTE"
-      .TextMatrix(0, 4) = "VALOR"
-      .TextMatrix(0, 5) = "FORMA"
-      .TextMatrix(0, 6) = "TIPO"
-      .TextMatrix(0, 7) = "TIPO"
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next i
-      
-      .ColAlignment(1) = 3
-      .ColAlignment(2) = 3
-      i = 1
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 1
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 4
-         .CellForeColor = &H8000&
-         .CellFontBold = True
-      Next
-      
-      .rows = .rows - 1
-      Grid.Redraw = True
-   End With
-   
-   lblQtda.Caption = Format(0, "000")
-   lblQtdaVenda.Caption = Format(0, "000")
-   lblQtdaParcela.Caption = Format(0, "000")
-   lblQtdaHaver.Caption = Format(0, "000")
-   lblSubtotalBruto.Caption = FormatNumber(0, 2)
-   lblTotalVenda.Caption = FormatNumber(0, 2)
-   lblTotalParcela.Caption = FormatNumber(0, 2)
-   lblTotalHaver.Caption = FormatNumber(0, 2)
-picAguarde.Visible = False
+'Reaproveita FormatarGrid_Vendas (mesma estrutura de colunas da consulta
+'real) em vez de montar o grid na mao com uma estrutura de colunas
+'divergente (tinha 8 colunas, incluindo "TIPO" duplicado, enquanto
+'FormatarGrid_Vendas usa 7 em ordem diferente)
+FormatarGrid_Vendas Nothing
+lblQtda.Caption = Format(0, "000")
 End Sub
 
 Private Sub LimparObjetos_Consulta()
@@ -1171,7 +1110,7 @@ cboTipo.AddItem "PARCELAS"
 cboTipo.AddItem "HAVERES"
 End Sub
 
-Private Sub cboAno_GotFocus()
+Private Sub PreencherAno()
 Dim iAno As Integer, FirstYear As Integer, LastYear As Integer
 Dim i As Integer
 
@@ -1184,7 +1123,10 @@ LastYear = iAno + 2
 For i = FirstYear To LastYear
    cboAno.AddItem i
 Next
+End Sub
 
+Private Sub cboAno_GotFocus()
+PreencherAno
 moCombo.AttachTo cboAno
 End Sub
 
@@ -1234,85 +1176,8 @@ End Sub
 
 Private Sub cboCriterioPrinc_Change()
    LimparObjetos_Consulta
-   
-   If cboCriterioPrinc.Text = "TODOS" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      
-   ElseIf cboCriterioPrinc.Text = "VENDEDOR" Then
-      lblVendedor.Visible = True
-      cboVendedor.Visible = True
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboVendedor.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "CLIENTE" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario2.Visible = False
-      cmdCalendario1.Visible = False
-      
-      lblClientes.Visible = True
-      cboCliente.Visible = True
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      cboCliente.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "PERIODO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
+
+   If cboCriterioPrinc.Text = "PERIODO" Then
       lblInicio.Visible = True
       mskInicio.Visible = True
       lblFim.Visible = True
@@ -1320,120 +1185,15 @@ Private Sub cboCriterioPrinc_Change()
       lblAte.Visible = True
       cmdCalendario1.Visible = True
       cmdCalendario2.Visible = True
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      mskInicio.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "CÓDIGO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = True
-      txtCodigo.Visible = True
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-      txtCodigo.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "MENSAL" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = True
-      cboMes.Visible = True
-      lblAno.Visible = True
-      cboAno.Visible = True
-      
-      If cboMes.Visible = True Then cboMes.SetFocus
-      
-   ElseIf cboCriterioPrinc.Text = "CATEGORIA" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
-      lblMes.Visible = False
-      cboMes.Visible = False
-      lblAno.Visible = False
-      cboAno.Visible = False
-      
-   ElseIf cboCriterioPrinc.Text = "ESPECIFICO" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
-      lblInicio.Visible = False
-      mskInicio.Visible = False
-      lblFim.Visible = False
-      mskFim.Visible = False
-      lblAte.Visible = False
-      cmdCalendario1.Visible = False
-      cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
+
       lblMes.Visible = False
       cboMes.Visible = False
       lblAno.Visible = False
       cboAno.Visible = False
 
-   ElseIf cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
-      lblVendedor.Visible = False
-      cboVendedor.Visible = False
-      
+      mskInicio.SetFocus
+
+   ElseIf cboCriterioPrinc.Text = "MENSAL" Then
       lblInicio.Visible = False
       mskInicio.Visible = False
       lblFim.Visible = False
@@ -1441,17 +1201,13 @@ Private Sub cboCriterioPrinc_Change()
       lblAte.Visible = False
       cmdCalendario1.Visible = False
       cmdCalendario2.Visible = False
-      
-      lblClientes.Visible = False
-      cboCliente.Visible = False
-      
-      lblCodigo.Visible = False
-      txtCodigo.Visible = False
-      
+
       lblMes.Visible = True
       cboMes.Visible = True
       lblAno.Visible = True
       cboAno.Visible = True
+
+      If cboMes.Visible = True Then cboMes.SetFocus
    Else
       Exit Sub
    End If
@@ -1466,24 +1222,13 @@ Private Sub cboCriterioPrinc_GotFocus()
 moCombo.AttachTo cboCriterioPrinc
 End Sub
 
-Private Sub cboCriterioPrinc_Validate(Cancel As Boolean)
-If cboCriterioPrinc.Text = "ESPECIFICO/MENSAL" Then
-   lblMes.Visible = True
-   cboMes.Visible = True
-   lblAno.Visible = True
-   cboAno.Visible = True
-End If
-End Sub
-
-
-
 
 
 Private Sub cboIndice_GotFocus()
 moCombo.AttachTo cboIndice
 End Sub
 
-Private Sub cboMes_GotFocus()
+Private Sub PreencherMes()
 cboMes.Clear
 
 cboMes.AddItem "Janeiro"
@@ -1499,6 +1244,10 @@ cboMes.AddItem "Outubro"
 cboMes.AddItem "Novembro"
 cboMes.AddItem "Dezembro"
 
+End Sub
+
+Private Sub cboMes_GotFocus()
+PreencherMes
 moCombo.AttachTo cboMes
 End Sub
 
@@ -1626,11 +1375,12 @@ End Sub
 Private Sub cmdExibirPedidos_Click()
 If Grid.Col = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-   If Grid.Col = 1 Then
-      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), " VENDAS "
-      Parcelas_Consulta_Produtos.Show 1
-   End If
+   If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
+   'coluna 3 (METODO) ja traz o tipo real do pedido ("VENDA" ou "OS") -
+   'passar um valor fixo aqui fazia o popup nunca trazer os servicos de
+   'uma Ordem de Servico, so os produtos
+   Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 3)
+   Parcelas_Consulta_Produtos.Show 1
 End If
 End Sub
 
@@ -1645,6 +1395,11 @@ Dim r As ADODB.Recordset
 'oIni.Arquivo = appPathApp & "config.ini"
 'var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 'Set oIni = Nothing
+
+If printSQL = "" Then
+   ShowMsg "Nenhuma consulta foi exibida ainda." & vbCrLf & "Clique em Exibir antes de gerar o PDF.", vbExclamation
+   Exit Sub
+End If
 
 Me.Hide
 
@@ -1692,6 +1447,11 @@ oIni.Arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
+If printSQL = "" Then
+   ShowMsg "Nenhuma consulta foi exibida ainda." & vbCrLf & "Clique em Exibir antes de imprimir.", vbExclamation
+   Exit Sub
+End If
+
 Me.Hide
 
 Set r = dbData.OpenRecordset(printSQL)
@@ -1719,6 +1479,7 @@ REL_Cons_Recebiveis.dfTotalVendas.Caption = lblTotalVenda.Caption
 REL_Cons_Recebiveis.dfTotalParcelas.Caption = lblTotalParcela.Caption
 REL_Cons_Recebiveis.dfTotalHaveres.Caption = lblTotalHaver.Caption
 
+REL_Cons_Recebiveis.Relatorio.NomeImpressora = var_Impressora
 REL_Cons_Recebiveis.Relatorio.Ativar
 Unload REL_Cons_Recebiveis
 
@@ -1753,7 +1514,7 @@ End If
 Dim vTipoPgtoParcelas As String
 'If cboFormaPgto.Text = "À VISTA" Then
     If cboTipoPgto.Text = "TODOS" Then
-        vTipoPgtoParcelas = " <> 'BOSTA'"
+        vTipoPgtoParcelas = " <> ''"
     ElseIf cboTipoPgto.Text = "DINHEIRO" Then
         vTipoPgtoParcelas = " = 'DINHEIRO'"
     ElseIf cboTipoPgto.Text = "CARTÃO DÉBITO" Then
@@ -1819,13 +1580,15 @@ Dim vTipoCartaoHaver As String
 'TIPO DE CONSULTA
 Dim varTipoConsulta As String
 If cboTipo.Text = "TODOS" Then
-   varTipoConsulta = "VENDA"
+   varTipoConsulta = "parcelas.TIPO IN ('VENDA','OS')"
 ElseIf cboTipo.Text = "VENDAS" Then
-   varTipoConsulta = "VENDA"
+   'inclui 'OS' - uma parcela gerada por Ordem de Servico tambem e uma
+   'venda, so que grava TIPO='OS' em vez de 'VENDA' (ver OS_Recapadora.frm)
+   varTipoConsulta = "parcelas.TIPO IN ('VENDA','OS')"
 ElseIf cboTipo.Text = "PARCELAS" Then
-   varTipoConsulta = "PARCELA"
+   varTipoConsulta = "parcelas.TIPO = 'PARCELA'"
 ElseIf cboTipo.Text = "HAVERES" Then
-   varTipoConsulta = "HAVER"
+   varTipoConsulta = "parcelas.TIPO = 'HAVER'"
 End If
 
 If cboCriterioPrinc.Text = "" Then Exit Sub
@@ -1837,14 +1600,14 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
                     "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " " & _
                     "UNION ALL "
                 sSQL = sSQL & "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (parcelas_haver.HAVER >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas_haver.HAVER <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartaoHaver & " " & _
                     "ORDER BY " & INDICE
@@ -1852,23 +1615,23 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
             ElseIf cboTipo.Text = "PARCELAS" Then
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
             ElseIf cboTipo.Text = "HAVERES" Then
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (parcelas_haver.HAVER >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas_haver.HAVER <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " " & _
                     "ORDER BY " & INDICE
@@ -1889,14 +1652,14 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
            '     sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
                     "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas.TIPO_CARTAO " & vTipoCartao & ") " & _
                     "UNION ALL "
            '     sSQL = sSQL & "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (parcelas_haver.HAVER >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas_haver.HAVER <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas_haver.TIPO_CARTAO " & vTipoCartao & ") " & _
                     "ORDER BY " & INDICE
@@ -1904,23 +1667,23 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
            '     sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas.TIPO_CARTAO " & vTipoCartao & ") AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas.TIPO_CARTAO " & vTipoCartao & ") AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
            ' ElseIf cboTipo.Text = "PARCELAS" Then
            '     sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas.TIPO_CARTAO " & vTipoCartao & ") AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (parcelas.PAGAMENTO >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas.PAGAMENTO <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas.TIPO_CARTAO " & vTipoCartao & ") AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
            ' ElseIf cboTipo.Text = "HAVERES" Then
            '     sSQL = sSQL & "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (parcelas_haver.HAVER >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (parcelas_haver.HAVER <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") AND (parcelas_haver.TIPO_CARTAO " & vTipoCartao & ") " & _
                     "ORDER BY " & INDICE
@@ -1936,14 +1699,14 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
                     "WHERE (MONTH(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas.PAGAMENTO) = " & cboAno & ") AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " " & _
                     "UNION ALL "
                 sSQL = sSQL & "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (MONTH(parcelas_haver.HAVER) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas_haver.HAVER) = " & cboAno & ") AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartaoHaver & " " & _
                     "ORDER BY " & INDICE
@@ -1951,23 +1714,23 @@ If cboCriterioPrinc.Text = "" Then Exit Sub
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (MONTH(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas.PAGAMENTO) = " & cboAno & ") AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (MONTH(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas.PAGAMENTO) = " & cboAno & ") AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
             ElseIf cboTipo.Text = "PARCELAS" Then
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas.PAGAMENTO AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas.VALOR_FINAL AS pValorPgto, parcelas.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas.FORMA_PGTO = 'CARTAO' AND parcelas.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas.FORMA_PGTO END AS pFormaPgto, " & _
                     "(parcelas.TIPO) AS vTipoPgto,  " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome  " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome  " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO  " & _
-                    "WHERE (MONTH(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas.PAGAMENTO) = " & cboAno & ") AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND parcelas.TIPO = '" & varTipoConsulta & "' " & _
+                    "WHERE (MONTH(parcelas.PAGAMENTO) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas.PAGAMENTO) = " & cboAno & ") AND (parcelas.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " AND (" & varTipoConsulta & ") " & _
                     "ORDER BY " & INDICE
             ElseIf cboTipo.Text = "HAVERES" Then
                 sSQL = "SELECT DISTINCT pedidos_1.COD_PEDIDO AS var_codped, parcelas_haver.HAVER AS vDataPgto, parcelas.DATA, pedidos_1.COD_CLIENTE, parcelas_haver.VALOR_HAVER AS pValorPgto, parcelas_haver.TIPO_CARTAO, " & _
                     "CASE WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'C') THEN 'CARTÃO CRÉDITO' WHEN (parcelas_haver.FORMA_PGTO = 'CARTAO' AND parcelas_haver.TIPO_CARTAO = 'D') THEN 'CARTÃO DÉBITO' ELSE parcelas_haver.FORMA_PGTO END AS pFormaPgto, " & _
                     "'HAVER' AS vTipoPgto, " & _
-                    "(SELECT DISTINCT cliente.Nome FROM pedidos INNER JOIN cliente ON pedidos_1.COD_CLIENTE = cliente.CODIGO) AS Nome " & _
+                    "(SELECT Nome FROM cliente WHERE cliente.CODIGO = pedidos_1.COD_CLIENTE) AS Nome " & _
                     "FROM pedidos AS pedidos_1 INNER JOIN parcelas ON pedidos_1.COD_PEDIDO = parcelas.COD_PEDIDO INNER JOIN parcelas_haver ON parcelas.CODIGO = parcelas_haver.COD_PARCELA " & _
                     "WHERE (MONTH(parcelas_haver.HAVER) = " & cboMes.ListIndex + 1 & ") AND (YEAR(parcelas_haver.HAVER) = " & cboAno & ") AND (parcelas_haver.FORMA_PGTO " & vTipoPgtoParcelas & ") " & vTipoCartao & " " & _
                     "ORDER BY " & INDICE
@@ -1992,7 +1755,7 @@ Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
    
    Valor = 0
    
-   For i = 0 To var_Grid.rows - 1
+   For i = 1 To var_Grid.rows - 1
       If IsNumeric(var_Grid.TextMatrix(i, Col)) Then
          Valor = Valor + CDbl(var_Grid.TextMatrix(i, Col))
       End If
@@ -2017,6 +1780,22 @@ cboIndice.ListIndex = 0
 PreencherPrincipal
 cboCriterioPrinc.ListIndex = 1
 
+'cboMes/cboAno abrem com o mes/ano atual pre-selecionados, em vez de
+'vazios (so eram preenchidos ao ganhar foco, sem nenhuma selecao)
+Dim iIdxAno As Integer
+
+PreencherMes
+PreencherAno
+
+cboMes.ListIndex = Month(Date) - 1
+
+For iIdxAno = 0 To cboAno.ListCount - 1
+   If cboAno.List(iIdxAno) = CStr(Year(Date)) Then
+      cboAno.ListIndex = iIdxAno
+      Exit For
+   End If
+Next
+
 PreencherTipoPgto
 cboTipoPgto.ListIndex = 0
 
@@ -2034,7 +1813,11 @@ soma = 0
 QUANT = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 3) = "VENDA" And IsNumeric(.TextMatrix(i, 5)) Then
+      'OS tambem e uma venda (de servico) - parcelas geradas por Ordem de
+      'Servico gravam METODO="OS", nao "VENDA" (ver OS_Recapadora.frm).
+      'Sem incluir aqui, essas linhas entravam no total GERAL (que soma
+      'tudo, via SomaGrid) mas ficavam fora dos 3 subtotais de baixo
+      If (.TextMatrix(i, 3) = "VENDA" Or .TextMatrix(i, 3) = "OS") And IsNumeric(.TextMatrix(i, 5)) Then
          soma = soma + CCur(.TextMatrix(i, 5))
          QUANT = QUANT + 1
       End If

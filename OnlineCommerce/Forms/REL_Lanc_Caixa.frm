@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.ocx"
+Object = "{D2618305-B2BB-11D2-925E-444553540000}#1.4#0"; "ReportX.Ocx"
 Begin VB.Form REL_Lanc_Caixa 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Impressão de Contas à Pagar"
@@ -214,8 +214,8 @@ Begin VB.Form REL_Lanc_Caixa
          Left            =   4620
          TabIndex        =   7
          Top             =   0
-         Width           =   1455
-         _ExtentX        =   2566
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   344
          Formato         =   "##,##0.00"
          Caption         =   ""
@@ -232,7 +232,7 @@ Begin VB.Form REL_Lanc_Caixa
       End
       Begin ReportX.ReportField ReportField4 
          Height          =   195
-         Left            =   6360
+         Left            =   6720
          TabIndex        =   8
          Top             =   0
          Width           =   1455
@@ -261,6 +261,47 @@ Begin VB.Form REL_Lanc_Caixa
          _ExtentX        =   2566
          _ExtentY        =   344
          Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField6 
+         Height          =   195
+         Left            =   8310
+         TabIndex        =   26
+         Top             =   0
+         Width           =   1080
+         _ExtentX        =   1905
+         _ExtentY        =   344
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField7 
+         Height          =   195
+         Left            =   9480
+         TabIndex        =   27
+         Top             =   0
+         Width           =   1290
+         _ExtentX        =   2275
+         _ExtentY        =   344
+         Formato         =   "00000"
          Caption         =   ""
          Alignment       =   1
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -370,7 +411,7 @@ Begin VB.Form REL_Lanc_Caixa
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "SALDO ANTERIOR"
+         Caption         =   "SALDO ANT."
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -381,10 +422,10 @@ Begin VB.Form REL_Lanc_Caixa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   1320
+         Left            =   1800
          TabIndex        =   19
          Top             =   1980
-         Width           =   1650
+         Width           =   1125
       End
       Begin VB.Shape Shape1 
          Height          =   1335
@@ -410,7 +451,7 @@ Begin VB.Form REL_Lanc_Caixa
       Begin VB.Label Label8 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "SALDO ATUAL"
+         Caption         =   "SALDO ACUMULADO"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -421,15 +462,53 @@ Begin VB.Form REL_Lanc_Caixa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   6540
+         Left            =   6360
          TabIndex        =   4
          Top             =   1980
-         Width           =   1290
+         Width           =   1845
+      End
+      Begin VB.Label Label9 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "CAIXA"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   8820
+         TabIndex        =   28
+         Top             =   1980
+         Width           =   555
+      End
+      Begin VB.Label Label10 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "CÓD. CAIXA"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   9720
+         TabIndex        =   29
+         Top             =   1980
+         Width           =   1050
       End
       Begin VB.Label Label7 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "RETIRADAS"
+         Caption         =   "SANGRIA GERAL"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -440,15 +519,15 @@ Begin VB.Form REL_Lanc_Caixa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   4980
+         Left            =   4680
          TabIndex        =   3
          Top             =   1980
-         Width           =   1080
+         Width           =   1515
       End
       Begin VB.Label Label6 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "ENTRADAS"
+         Caption         =   "ENTRADA"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
             Size            =   8.25
@@ -459,10 +538,10 @@ Begin VB.Form REL_Lanc_Caixa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   3480
+         Left            =   3600
          TabIndex        =   2
          Top             =   1980
-         Width           =   1020
+         Width           =   900
       End
       Begin VB.Label Label5 
          AutoSize        =   -1  'True

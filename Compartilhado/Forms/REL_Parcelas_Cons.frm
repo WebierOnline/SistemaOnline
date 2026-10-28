@@ -267,6 +267,28 @@ Begin VB.Form REL_Parcelas_Cons
             Strikethrough   =   0   'False
          EndProperty
       End
+      Begin ReportX.ReportField fldNivel 
+         Height          =   225
+         Left            =   60
+         Mostrar         =   0   'False
+         TabIndex        =   49
+         Top             =   0
+         Visible         =   0   'False
+         Width           =   0
+         _ExtentX        =   1296
+         _ExtentY        =   397
+         Campo           =   "nivel"
+         TipoCampo       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial Narrow"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
    End
    Begin ReportX.ReportSection ReportSection4 
       Align           =   1  'Align Top
@@ -1078,6 +1100,57 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+
+'Guarda o campo "nivel" (0=linha pai resumo do cliente, 1=parcela
+'individual) do registro que esta prestes a ser impresso - lido em
+'Relatorio_ValidarRegistro (dispara por registro, antes do desenho da
+'secao Detalhe) e consumido em Relatorio_IniciarSecao logo em seguida.
+'Mesmo padrao ja usado e testado em REL_VendasResumoDiario.frm
+Private mNivelAtual As Integer
+
+'Setada pelo form chamador (Parcelas_Consulta.frm) antes de Relatorio.Ativar -
+'controla se a coluna DATA DO PAGAMENTO deve aparecer (so faz sentido quando
+'a consulta e de parcelas PAGAS)
+Public mMostrarDataPgto As Boolean
+
+Private Sub Relatorio_ValidarRegistro(Invalido As Boolean, Cancelar As Boolean)
+mNivelAtual = Val(ValidateNull(Relatorio.Recordset("nivel")))
+End Sub
+
+'Linha PAI (resumo do cliente) em negrito, pra se destacar das parcelas
+'individuais abaixo dela
+Private Sub Relatorio_IniciarSecao(ByVal Secao As ReportX.TSecao, ByVal Ordem As Byte)
+Dim bNegrito As Boolean
+If Secao = secDetalhe Then
+    bNegrito = (mNivelAtual = 0)
+
+    ReportField1.Font.Bold = bNegrito
+    ReportField15.Font.Bold = bNegrito
+    ReportField2.Font.Bold = bNegrito
+    ReportField5.Font.Bold = bNegrito
+    ReportField9.Font.Bold = bNegrito
+    ReportField10.Font.Bold = bNegrito
+    ReportField14.Font.Bold = bNegrito
+    ReportField7.Font.Bold = bNegrito
+    ReportField8.Font.Bold = bNegrito
+
+    'DATA/PGTO so fazem sentido numa parcela individual - vazios (Null) na
+    'linha pai, que resume varias parcelas com datas diferentes
+    ReportField3.Font.Bold = bNegrito
+    ReportField4.Font.Bold = bNegrito
+
+    'Vencimento (DATA) so aparece na linha filha (parcela individual) -
+    'na linha pai o campo fica sem valor (nao basta deixar Null no
+    'recordset, o controle mantem/exibe o ultimo valor desenhado, por isso
+    'o controle precisa de .Mostrar explicito, igual ja usado em
+    'REL_VendasResumoDiario.frm)
+    ReportField3.Mostrar = Not bNegrito
+
+    'DATA DO PAGAMENTO so aparece na linha filha E quando a consulta for
+    'de situacao PAGAS (mMostrarDataPgto setado pelo form chamador)
+    ReportField4.Mostrar = Not bNegrito And mMostrarDataPgto
+End If
+End Sub
 
 Private Sub Form_Load()
 On Error GoTo TrataErro

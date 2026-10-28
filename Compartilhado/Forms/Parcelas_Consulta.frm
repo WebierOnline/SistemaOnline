@@ -1,7 +1,7 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Parcelas_Consulta 
    BackColor       =   &H00E0E0E0&
@@ -21,13 +21,13 @@ Begin VB.Form Parcelas_Consulta
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame2 
       Appearance      =   0  'Flat
-      BackColor       =   &H80000005&
+      BackColor       =   &H00E0E0E0&
       Caption         =   "Critérios Secundários"
       ForeColor       =   &H80000008&
       Height          =   795
-      Left            =   120
+      Left            =   240
       TabIndex        =   42
-      Top             =   8340
+      Top             =   9060
       Width           =   4755
       Begin VB.ComboBox cboTipoCartao 
          Height          =   315
@@ -47,6 +47,7 @@ Begin VB.Form Parcelas_Consulta
       End
       Begin VB.Label lblTipoCartao 
          AutoSize        =   -1  'True
+         BackColor       =   &H00E0E0E0&
          Caption         =   "Tipo de Cartão"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -66,6 +67,7 @@ Begin VB.Form Parcelas_Consulta
       End
       Begin VB.Label lblParcelas 
          AutoSize        =   -1  'True
+         BackColor       =   &H00E0E0E0&
          Caption         =   "Parcelas"
          BeginProperty Font 
             Name            =   "MS Sans Serif"
@@ -403,7 +405,7 @@ Begin VB.Form Parcelas_Consulta
    End
    Begin VB.PictureBox Picture1 
       Appearance      =   0  'Flat
-      BackColor       =   &H80000005&
+      BackColor       =   &H00E0E0E0&
       ForeColor       =   &H80000008&
       Height          =   2295
       Left            =   60
@@ -414,7 +416,7 @@ Begin VB.Form Parcelas_Consulta
       Width           =   12375
       Begin VB.Frame Frame4 
          Appearance      =   0  'Flat
-         BackColor       =   &H80000005&
+         BackColor       =   &H00E0E0E0&
          Caption         =   "Impressão"
          ForeColor       =   &H80000008&
          Height          =   795
@@ -469,6 +471,7 @@ Begin VB.Form Parcelas_Consulta
          End
          Begin VB.Label Label11 
             AutoSize        =   -1  'True
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Tipo de Relatório"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -488,7 +491,7 @@ Begin VB.Form Parcelas_Consulta
       End
       Begin VB.Frame Frame3 
          Appearance      =   0  'Flat
-         BackColor       =   &H80000005&
+         BackColor       =   &H00E0E0E0&
          Caption         =   "Preencha"
          ForeColor       =   &H80000008&
          Height          =   1395
@@ -499,7 +502,7 @@ Begin VB.Form Parcelas_Consulta
          Begin ChamaleonBtn.chameleonButton cmdCal2 
             Height          =   315
             Left            =   3360
-            TabIndex        =   64
+            TabIndex        =   63
             Tag             =   "Calendario"
             Top             =   420
             Visible         =   0   'False
@@ -541,7 +544,7 @@ Begin VB.Form Parcelas_Consulta
          Begin ChamaleonBtn.chameleonButton cmdCal1 
             Height          =   315
             Left            =   2100
-            TabIndex        =   63
+            TabIndex        =   62
             Tag             =   "Calendario"
             Top             =   420
             Visible         =   0   'False
@@ -589,7 +592,7 @@ Begin VB.Form Parcelas_Consulta
             Width           =   1815
          End
          Begin VB.OptionButton OptDataIntervalo 
-            BackColor       =   &H00FFFFFF&
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Inter&valo"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -608,7 +611,7 @@ Begin VB.Form Parcelas_Consulta
             Width           =   1095
          End
          Begin VB.OptionButton optDataUnico 
-            BackColor       =   &H00FFFFFF&
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Ú&nico"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -810,21 +813,21 @@ Begin VB.Form Parcelas_Consulta
       End
       Begin VB.Frame Frame1 
          Appearance      =   0  'Flat
-         BackColor       =   &H80000005&
+         BackColor       =   &H00E0E0E0&
          Caption         =   "Critérios Principais"
          ForeColor       =   &H80000008&
-         Height          =   1395
+         Height          =   2055
          Left            =   60
          TabIndex        =   35
          Top             =   0
          Width           =   4755
          Begin VB.ComboBox cboSubCriterios 
             Height          =   315
-            Left            =   3600
-            TabIndex        =   4
-            Top             =   450
+            Left            =   1800
+            TabIndex        =   7
+            Top             =   1680
             Visible         =   0   'False
-            Width           =   1120
+            Width           =   2025
          End
          Begin VB.ComboBox cboSetor 
             BackColor       =   &H00C0FFFF&
@@ -832,70 +835,53 @@ Begin VB.Form Parcelas_Consulta
             Left            =   60
             TabIndex        =   1
             Top             =   460
-            Width           =   1095
+            Width           =   1575
          End
          Begin VB.ComboBox cboCriterios 
-            BackColor       =   &H00C0FFFF&
+            BackColor       =   &H00FFFFFF&
             Height          =   315
-            Left            =   2310
-            TabIndex        =   3
-            Top             =   460
-            Width           =   1275
+            Left            =   90
+            TabIndex        =   6
+            Top             =   1665
+            Width           =   1695
          End
          Begin VB.ComboBox cboSituacao 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   1150
+            Left            =   1680
             TabIndex        =   2
             Top             =   460
-            Width           =   1155
+            Width           =   1695
          End
          Begin VB.ComboBox cboForma 
-            BackColor       =   &H00C0FFFF&
+            BackColor       =   &H00FFFFFF&
             Height          =   315
-            Left            =   1200
-            TabIndex        =   6
-            Top             =   1020
+            Left            =   60
+            TabIndex        =   4
+            Top             =   1080
             Width           =   1395
          End
          Begin VB.ComboBox cboOrdem 
             BackColor       =   &H00C0FFFF&
             Height          =   315
-            Left            =   60
-            TabIndex        =   5
-            Top             =   1020
-            Width           =   1095
+            Left            =   3420
+            TabIndex        =   3
+            Top             =   480
+            Width           =   1275
          End
          Begin VB.ComboBox cboTipo 
-            BackColor       =   &H00C0FFFF&
+            BackColor       =   &H00FFFFFF&
             Height          =   315
-            Left            =   2640
-            TabIndex        =   7
-            Top             =   1020
-            Width           =   1575
-         End
-         Begin VB.Label lblSubCriterios 
-            AutoSize        =   -1  'True
-            Caption         =   "Sub-Critérios"
-            BeginProperty Font 
-               Name            =   "MS Sans Serif"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            Height          =   195
-            Left            =   3600
-            TabIndex        =   62
-            Top             =   240
+            Left            =   1500
+            TabIndex        =   5
+            Top             =   1080
             Visible         =   0   'False
-            Width           =   1095
+            Width           =   1575
          End
          Begin VB.Label Label2 
             AutoSize        =   -1  'True
-            Caption         =   "Setor:"
+            BackColor       =   &H00E0E0E0&
+            Caption         =   "Origem:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -909,11 +895,12 @@ Begin VB.Form Parcelas_Consulta
             Left            =   60
             TabIndex        =   41
             Top             =   240
-            Width           =   525
+            Width           =   660
          End
          Begin VB.Label lblCriterios 
             AutoSize        =   -1  'True
-            Caption         =   "Critérios"
+            BackColor       =   &H00E0E0E0&
+            Caption         =   "Filtrar por:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
                Size            =   8.25
@@ -924,13 +911,14 @@ Begin VB.Form Parcelas_Consulta
                Strikethrough   =   0   'False
             EndProperty
             Height          =   195
-            Left            =   2310
+            Left            =   90
             TabIndex        =   40
-            Top             =   240
-            Width           =   705
+            Top             =   1440
+            Width           =   885
          End
          Begin VB.Label Label3 
             AutoSize        =   -1  'True
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Situação"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -942,13 +930,14 @@ Begin VB.Form Parcelas_Consulta
                Strikethrough   =   0   'False
             EndProperty
             Height          =   195
-            Left            =   1150
+            Left            =   1680
             TabIndex        =   39
             Top             =   240
             Width           =   765
          End
          Begin VB.Label Label8 
             AutoSize        =   -1  'True
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Tipo de Venda:"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -960,13 +949,14 @@ Begin VB.Form Parcelas_Consulta
                Strikethrough   =   0   'False
             EndProperty
             Height          =   195
-            Left            =   1200
+            Left            =   60
             TabIndex        =   38
-            Top             =   795
+            Top             =   855
             Width           =   1320
          End
          Begin VB.Label Label9 
             AutoSize        =   -1  'True
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Ordem"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -978,13 +968,14 @@ Begin VB.Form Parcelas_Consulta
                Strikethrough   =   0   'False
             EndProperty
             Height          =   195
-            Left            =   60
+            Left            =   3420
             TabIndex        =   37
-            Top             =   795
+            Top             =   255
             Width           =   555
          End
          Begin VB.Label Label10 
             AutoSize        =   -1  'True
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Forma de Pgto"
             BeginProperty Font 
                Name            =   "MS Sans Serif"
@@ -996,9 +987,10 @@ Begin VB.Form Parcelas_Consulta
                Strikethrough   =   0   'False
             EndProperty
             Height          =   195
-            Left            =   2640
+            Left            =   1500
             TabIndex        =   36
-            Top             =   795
+            Top             =   855
+            Visible         =   0   'False
             Width           =   1245
          End
       End
@@ -1121,12 +1113,6 @@ Begin VB.Form Parcelas_Consulta
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin VB.Line Line1 
-         X1              =   4620
-         X2              =   4620
-         Y1              =   60
-         Y2              =   1920
-      End
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
       Height          =   5775
@@ -1173,7 +1159,7 @@ Begin VB.Form Parcelas_Consulta
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "23:22"
+            TextSave        =   "10:39"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1201,85 +1187,67 @@ Option Explicit
 Private moCombo As cComboHelper
 Private printSQL As String
 Dim vImpressoraNormal As String
-Dim oIni As Ini
+Dim oIni As ini
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim vNome, vCelular, vEndereco, vNum, vBairro, vCidade, vUF, vReferencia As String
 
+'Grid agrupado por cliente (ver FormatarGrid/ExpandirLinha/RecolherLinha) -
+'cada cliente vira 1 linha PAI (resumo), as parcelas individuais ficam
+'guardadas aqui e so viram linha FILHA quando o usuario clica no +.
+'Arrays simples (nao Collection) porque precisam ser atualizados por
+'indice (acumular soma) durante a leitura do recordset - Collection do VB6
+'nao permite reatribuir um item existente, so Add/Remove.
+Private Type TClienteParcelas
+    CodCliente As Long
+    Nome As String
+    Celular As String
+    Qtde As Integer
+    SomaValor As Currency
+    SomaJuros As Currency
+    SomaSubtotal As Currency
+    SomaHaver As Currency
+    SomaDeve As Currency
+End Type
+
+Private Type TParcelaDetalhe
+    IdxCliente As Integer   'indice (0-based) em mClientes()
+    codPedido As String
+    Origem As String
+    Tipo As String
+    Forma As String
+    VencData As Date         'data crua (ver impressao hierarquica - Mont
+    Venc As String
+    ValorNum As Currency     'valor cru (ver mesmo motivo)
+    Valor As String
+    dias As String
+    JurosNum As Currency
+    JUROS As String
+    SubtotalNum As Currency
+    SUBTOTAL As String
+    HaverNum As Currency
+    HAVER As String
+    DeveNum As Currency
+    Deve As String
+    Status As String
+    PgtoData As Date         '0 quando ainda nao paga (campo Date nao aceita Null)
+    Pgto As String
+End Type
+
+Private mClientes() As TClienteParcelas
+Private mParcelas() As TParcelaDetalhe
+Private mQtdClientes As Integer
+Private mQtdParcelas As Integer
+
+'Reaproveita a MESMA estrutura de colunas de FormatarGrid (passando
+'rTabela=Nothing, que resulta num grid so com o cabecalho, sem linhas) -
+'antes esta Sub tinha sua PROPRIA estrutura de 15 colunas, divergente da
+'que FormatarGrid realmente usa (14/17 colunas, ordem diferente), entao
+'o cabecalho ficava temporariamente errado sempre que o grid era limpo
+'sem rodar uma consulta de verdade (ex: aviso de "consulta muito grande"
+'em cmdExibir_Click)
 Private Sub Limpar_Grid()
-   Dim i As Integer
-   
-   With Grid
-      .Visible = False
-      
-      .Clear
-      .Cols = 15
-      .rows = 2
-      
-      .ColWidth(0) = 0
-      .ColWidth(1) = 900
-      .ColWidth(2) = 0
-      .ColWidth(3) = 4200
-      .ColWidth(4) = 0
-      .ColWidth(5) = 850
-      .ColWidth(6) = 1250
-      .ColWidth(7) = 900
-      .ColWidth(8) = 1140
-      .ColWidth(9) = 950
-      .ColWidth(10) = 950
-      .ColWidth(11) = 950
-      .ColWidth(12) = 950
-      .ColWidth(13) = 950
-      .ColWidth(14) = 900
-      
-      .TextMatrix(0, 1) = "ORIGEM"
-      .TextMatrix(0, 2) = "CÓD."
-      .TextMatrix(0, 3) = "CLIENTE"
-      .TextMatrix(0, 4) = "CELULAR"
-      .TextMatrix(0, 5) = "FORMA"
-      .TextMatrix(0, 6) = "TIPO"
-      .TextMatrix(0, 7) = "VENC"
-      .TextMatrix(0, 8) = "SUBTOTAL"
-      .TextMatrix(0, 9) = "HAVER"
-      .TextMatrix(0, 10) = "ATRAZO"
-      .TextMatrix(0, 11) = "JUROS"
-      .TextMatrix(0, 12) = "TOTAL"
-      .TextMatrix(0, 13) = "STATUS"
-      .TextMatrix(0, 14) = "PGTO"
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next
-      
-      'centralizar o titulo
-      For i = 0 To .Cols - 1
-         .Row = 0
-         .Col = i
-         .CellAlignment = flexAlignCenterCenter
-      Next
-      
-      i = 1
-      .Redraw = False
-      .rows = .rows + 1
-      
-      i = i + 1
-      .rows = .rows - 1
-      
-      .Redraw = True
-      .Visible = True
-      
-      'somar a colunas totais
-   'somar a colunas totais
-   lblQuant.Caption = Grid.rows - 1
-   lblTotalParcelas.Caption = Format(0, ocMONEY)
-   lblTotalBruto.Caption = Format(0, ocMONEY)
-   lblTotalHaver.Caption = Format(0, ocMONEY)
-   lblTotalJuros.Caption = Format(0, ocMONEY)
-   lblTotalLiquido.Caption = Format(0, ocMONEY)
-   End With
+   FormatarGrid Nothing, 0
 End Sub
 
 Private Sub Preencher_TipoDatas()
@@ -1315,7 +1283,6 @@ End Sub
 
 Private Sub Preencher_Situacao()
    cboSituacao.Clear
-   cboSituacao.AddItem "TODAS"
    cboSituacao.AddItem "PAGAS"
    cboSituacao.AddItem "À PAGAR"
    cboSituacao.AddItem "VENCIDAS"
@@ -1378,7 +1345,7 @@ End Sub
 
 Private Sub cboCriterios_Change()
    If cboCriterios.Text = "TODOS" Then
-      lblSubCriterios.Visible = False
+      
       cboSubCriterios.Visible = False
       
       'lblDatas.Visible = False
@@ -1405,7 +1372,7 @@ Private Sub cboCriterios_Change()
       cmdCal2.Visible = False
    
    ElseIf cboCriterios.Text = "DATA" Then
-      lblSubCriterios.Visible = False
+      
       cboSubCriterios.Visible = False
       
       'lblDatas.Visible = True
@@ -1438,7 +1405,7 @@ Private Sub cboCriterios_Change()
       cmdCal2.Visible = True
    
    ElseIf cboCriterios.Text = "MENSAL" Then
-      lblSubCriterios.Visible = False
+      
       cboSubCriterios.Visible = False
       'lblDatas.Visible = True
       'cboDatas.Visible = True
@@ -1471,7 +1438,7 @@ Private Sub cboCriterios_Change()
    
    ElseIf cboCriterios.Text = "CLIENTE" Then
       lblNome.Caption = "Nome do Cliente"
-      lblSubCriterios.Visible = True
+      
       cboSubCriterios.Visible = True
       
       'lblDatas.Visible = False
@@ -1502,7 +1469,7 @@ Private Sub cboCriterios_Change()
    
    ElseIf cboCriterios.Text = "VENDEDOR" Then
       lblNome.Caption = "Nome do Vendedor"
-      lblSubCriterios.Visible = True
+      
       cboSubCriterios.Visible = True
       
       'lblDatas.Visible = False
@@ -1689,7 +1656,7 @@ End Sub
 
 Private Sub cboParcelas_Change()
    If cboParcelas.Text = "SÓ ENTRADA" Then
-      cboSituacao.ListIndex = 1
+      cboSituacao.ListIndex = 0  'PAGAS (era 1 antes de remover "TODAS" do combo)
    End If
    
    If cboParcelas.Text <> "" Then cmdExibir_Click
@@ -1728,6 +1695,17 @@ End Sub
 Private Sub cboSituacao_Change()
    If cboSituacao.Text <> "PAGAS" Then
       cboParcelas.ListIndex = 1
+   End If
+   
+   'Forma de Pgto (cboTipo/Label10) so faz sentido depois que a parcela
+   'foi paga - antes disso nao ha como saber qual sera a forma usada
+   If cboSituacao.Text = "PAGAS" Then
+      cboTipo.Visible = True
+      Label10.Visible = True
+   Else
+      cboTipo.Visible = False
+      Label10.Visible = False
+      cboTipo.ListIndex = 0
    End If
    
    If cboSituacao.Text <> "" Then cmdExibir_Click
@@ -1983,7 +1961,7 @@ Private Sub cmdExibir_Click()
    End If
       
    If chkJuros.Value = Checked Then
-        sSQL = "SELECT pedidos.tipo_pedido AS var_tipo, parcelas.cod_pedido as var_codigo, cliente.nome, CASE WHEN cliente.telefone1 IS NULL THEN cliente.celular WHEN cliente.telefone1 = '' THEN cliente.celular ELSE cliente.telefone1 END AS celular, pedidos.tipo_pagamento, ISNULL(parcelas.FORMA_PGTO, '') AS var_FormaPgto, parcelas.status,  parcelas.data, parcelas.pagamento AS var_DataPgto, parcelas.valor_final, " & _
+        sSQL = "SELECT pedidos.tipo_pedido AS var_tipo, parcelas.cod_pedido as var_codigo, cliente.codigo AS var_codcliente, cliente.nome, CASE WHEN cliente.telefone1 IS NULL THEN cliente.celular WHEN cliente.telefone1 = '' THEN cliente.celular ELSE cliente.telefone1 END AS celular, pedidos.tipo_pagamento, ISNULL(parcelas.FORMA_PGTO, '') AS var_FormaPgto, parcelas.status,  parcelas.data, parcelas.pagamento AS var_DataPgto, parcelas.valor_final, " & _
            "parcelas.valor as varValorParc, " & _
            "(SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo)) AS var_haver, " & _
            "CASE parcelas.status WHEN 0 THEN (CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END) ELSE (parcelas.dias_atrazo) END AS varDiasJuros, " & _
@@ -1996,7 +1974,7 @@ Private Sub cmdExibir_Click()
            "INNER JOIN cliente ON cliente.codigo = pedidos.cod_cliente " & _
            "WHERE " & var_TipoPedido & " AND "
     Else
-        sSQL = "SELECT pedidos.tipo_pedido AS var_tipo, parcelas.cod_pedido as var_codigo, cliente.nome, CASE WHEN cliente.telefone1 IS NULL THEN cliente.celular WHEN cliente.telefone1 = '' THEN cliente.celular ELSE cliente.telefone1 END AS celular, pedidos.tipo_pagamento, ISNULL(parcelas.FORMA_PGTO, '') AS var_FormaPgto, parcelas.status,  parcelas.data, parcelas.pagamento AS var_DataPgto, parcelas.valor_final, " & _
+        sSQL = "SELECT pedidos.tipo_pedido AS var_tipo, parcelas.cod_pedido as var_codigo, cliente.codigo AS var_codcliente, cliente.nome, CASE WHEN cliente.telefone1 IS NULL THEN cliente.celular WHEN cliente.telefone1 = '' THEN cliente.celular ELSE cliente.telefone1 END AS celular, pedidos.tipo_pagamento, ISNULL(parcelas.FORMA_PGTO, '') AS var_FormaPgto, parcelas.status,  parcelas.data, parcelas.pagamento AS var_DataPgto, parcelas.valor_final, " & _
            "parcelas.valor as varValorParc, " & _
            "(SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo)) AS var_haver, " & _
            "'0' AS varDiasJuros, " & _
@@ -2173,312 +2151,352 @@ Private Sub cmdExibir_Click()
    picAguarde.Visible = False
 End Sub
 
-Private Sub FormatarGrid2(rTabela As ADODB.Recordset, ByVal percJuros As Currency)
-   Dim i As Integer, j As Integer
-   
-   'Dim vJuros As Currency
-   'Dim vHaver As Currency
-   'Dim vTotal As Currency
-   
-   picAguarde.Visible = True
-   DoEvents
-   
-   With Grid
-      .Visible = False
-      
-      .Clear
-      .Cols = 16
-      .rows = 2
-      
-      .ColWidth(0) = 0
-      .ColWidth(1) = 800
-      .ColWidth(2) = 0
-      .ColWidth(3) = 4200
-      .ColWidth(4) = 0
-      .ColWidth(5) = 800
-      .ColWidth(6) = 1250
-      .ColWidth(7) = 900
-      .ColWidth(8) = 900
-      .ColWidth(9) = 900
-      .ColWidth(10) = 900
-      .ColWidth(11) = 650
-      .ColWidth(12) = 900
-      .ColWidth(13) = 900
-      .ColWidth(14) = 950
-      .ColWidth(15) = 850
-      
-      .TextMatrix(0, 1) = "Origem"    'pedidos.tipo_pedido
-      .TextMatrix(0, 2) = "Cód."      'PARCELAS.COD_PEDIDO
-      .TextMatrix(0, 3) = "Cliente"   'cliente.nome
-      .TextMatrix(0, 4) = "Celular"   'cliente.celular
-      .TextMatrix(0, 5) = "Forma"     'pedidos.tipo_pagamento
-      .TextMatrix(0, 6) = "Tipo"      'pedidos.pagamento
-      .TextMatrix(0, 7) = "Venc"      'parcelas.data
-      .TextMatrix(0, 8) = "Subtotal"  'varValorParc
-      .TextMatrix(0, 9) = "Haver"     'se parcelas.haver = 1 entao soma(parcelas_haver.valor_haver where parcelas.codigo = parcelas_haver.cod_parcelas
-      .TextMatrix(0, 10) = "Total"   'parcelas.dias_atrazo
-      .TextMatrix(0, 11) = "Dias"   'parcelas.dias_atrazo
-      .TextMatrix(0, 12) = "Juros"    'parcelas.juros
-      .TextMatrix(0, 13) = "Deve"    'parcelas.valor_final
-      .TextMatrix(0, 14) = "Status"   'se parcelas.status = 1 entao texto 'pago'
-      .TextMatrix(0, 15) = "Pgto"     'var_DataPgto
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next
-      
-      'centralizar o titulo
-      For i = 0 To .Cols - 1
-         .Row = 0
-         .Col = i
-         .CellAlignment = flexAlignCenterCenter
-      Next
-      
-      .Redraw = False
-      i = 1
-      
-      If Not rTabela Is Nothing Then
-         Do While Not rTabela.EOF
-            'Cálcula os juros e o total da parcela
-            'vJuros = 0
-            'vHaver = 0
-            
-            'If CInt(rTabela("status")) = 0 Then
-             '  If cboJuros.Text = "SIM" Then vJuros = CCur(rTabela("valor")) * (percJuros / 100)
-             '  vHaver = rTabela("var_haver")
-            'Else
-            '   vJuros = rTabela("varvalorjuros")
-            '   vHaver = 0
-            'End If
-            
-            'vTotal = CCur(rTabela("valor")) - vHaver + vJuros
-            
-            .TextMatrix(.rows - 1, 1) = rTabela("var_tipo")
-            .TextMatrix(.rows - 1, 2) = rTabela("var_codigo")
-            .TextMatrix(.rows - 1, 3) = rTabela("nome") & IIf(Trim(ValidateNull(rTabela("celular"))) = "", "", "     (" & Right$(ValidateNull(rTabela("celular")), 9) & ")")
-            
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("celular"))
-            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("tipo_pagamento"))
-            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("var_FormaPgto"))
-            .TextMatrix(.rows - 1, 7) = Format(rTabela("data"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 8) = Format(rTabela("varValorParc"), ocMONEY)
-            .TextMatrix(.rows - 1, 9) = Format(rTabela("var_haver"), ocMONEY)
-            .TextMatrix(.rows - 1, 10) = Format(rTabela("varValorComHaver"), ocMONEY)
-            .TextMatrix(.rows - 1, 14) = rTabela("varSituacaoPGTO")
-            
-            .TextMatrix(.rows - 1, 11) = ValidateNull(rTabela("varDiasJuros"))
-            .TextMatrix(.rows - 1, 12) = Format(rTabela("varValorJuros"), ocMONEY)
-            
-            If .TextMatrix(i, 14) <> "PAGO" Then
-               .TextMatrix(.rows - 1, 13) = Format(CDbl(.TextMatrix(.rows - 1, 10)) + CDbl(.TextMatrix(.rows - 1, 12)), ocMONEY)
-            Else
-               .TextMatrix(.rows - 1, 13) = Format(rTabela("valor_final"), ocMONEY)
-            End If
-            
-            .TextMatrix(.rows - 1, 15) = Format(rTabela("var_DataPgto"), "dd/mm/yy")
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-            i = i + 1
-         Loop
-      End If
-      
-      .rows = .rows - 1
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 2
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 13
-         .CellFontBold = True
-      Next
-      
-      'Mudar as cores dependendo da situação
-      For i = 1 To .rows - 1
-         For j = 0 To .Cols - 1
-            .Col = j
-            .Row = i
-            
-            If .TextMatrix(i, 14) <> "PAGO" Then
-               If CDate(.TextMatrix(i, 7)) < Date Then
-                  .CellForeColor = vbRed
-               ElseIf CDate(.TextMatrix(i, 7)) = Date Then
-                  .CellForeColor = &H8000&
-               ElseIf CDate(.TextMatrix(i, 7)) > Date Then
-                  .CellForeColor = vbBlack
-               End If
-            ElseIf .TextMatrix(i, 14) = "PAGO" Then
-               .CellForeColor = vbBlue
-            End If
-         Next
-      Next
-      
-      FlexCores &HFFFFFF, &HE0E0E0
-      
-      .Redraw = True
-      .Visible = True
-      
-      'somar a colunas totais
-      lblQuant.Caption = Grid.rows - 1
-      lblTotalBruto.Caption = Format(SomaGrid(Grid, 8), ocMONEY)
-      lblTotalHaver.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
-      lblTotalJuros.Caption = Format(SomaGrid(Grid, 12), ocMONEY)
-      lblTotalLiquido.Caption = CCur(lblTotalBruto.Caption) - CCur(lblTotalHaver.Caption)
-   End With
-   
-   picAguarde.Visible = False
-End Sub
 Private Sub FormatarGrid(rTabela As ADODB.Recordset, ByVal percJuros As Currency)
-Dim i As Integer, j As Integer
+Dim i As Long, j As Integer, k As Long
+Dim idxCli As Integer
+Dim lCod As Long
+Dim bAchou As Boolean
+Dim tmp As TClienteParcelas
+Dim dTotalValor As Currency, dTotalJuros As Currency, dTotalSubtotal As Currency
+Dim dTotalHaver As Currency, dTotalDeve As Currency
 
 picAguarde.Visible = True
 DoEvents
 
-With Grid
-   .Visible = False
-   
-   .Clear
-   .Cols = 14
-   .rows = 2
-   
-   .ColWidth(0) = 650
-   .ColWidth(1) = 750
-   .ColWidth(2) = 4700
-   .ColWidth(3) = 750
-   .ColWidth(4) = 1250
-   .ColWidth(5) = 750
-   .ColWidth(6) = 670
-   .ColWidth(7) = 450
-   .ColWidth(8) = 700
-   .ColWidth(9) = 700
-   .ColWidth(10) = 670
-   .ColWidth(11) = 700
-   .ColWidth(12) = 720
-   .ColWidth(13) = 750
-   
-   .TextMatrix(0, 0) = "Cód."
-   .TextMatrix(0, 1) = "Origem"
-   .TextMatrix(0, 2) = "Cliente"
-   .TextMatrix(0, 3) = "Tipo"
-   .TextMatrix(0, 4) = "Forma"
-   .TextMatrix(0, 5) = "Venc"
-   .TextMatrix(0, 6) = "Valor"
-   .TextMatrix(0, 7) = "Dias"
-   .TextMatrix(0, 8) = "Juros"
-   .TextMatrix(0, 9) = "SubTotal"
-   .TextMatrix(0, 10) = "Haver"
-   .TextMatrix(0, 11) = "Deve"
-   .TextMatrix(0, 12) = "Status"
-   .TextMatrix(0, 13) = "Pgto"
-   
-   'colocar os cabeçalho em negrito
-   For i = 0 To .Cols - 1
-      .Col = i
-      .Row = 0
-      .CellFontBold = True
-   Next
-   
-   'centralizar o titulo
-   For i = 0 To .Cols - 1
-      .Row = 0
-      .Col = i
-      .CellAlignment = flexAlignCenterCenter
-   Next
-   
-   .Redraw = False
-   i = 1
-   
-   If Not rTabela Is Nothing Then
-      Do While Not rTabela.EOF
-      
-        .TextMatrix(.rows - 1, 0) = ValidateNull(rTabela("var_codigo"))
-        .TextMatrix(.rows - 1, 1) = rTabela("var_tipo")
-        .TextMatrix(.rows - 1, 2) = rTabela("nome") & IIf(Trim(ValidateNull(rTabela("celular"))) = "", "", "     (" & Right$(ValidateNull(rTabela("celular")), 9) & ")")
-        .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("tipo_pagamento"))
-        .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("var_FormaPgto"))
-        .TextMatrix(.rows - 1, 5) = Format(rTabela("data"), "dd/mm/yy")
-        
-        .TextMatrix(.rows - 1, 6) = Format(rTabela("varValorParc"), ocMONEY)
-        .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("varDiasJuros"))
-        .TextMatrix(.rows - 1, 8) = Format(rTabela("varValorJuros"), ocMONEY)
-        .TextMatrix(.rows - 1, 9) = Format(rTabela("varParcComJuros"), ocMONEY)
-        
-        .TextMatrix(.rows - 1, 10) = Format(rTabela("var_haver"), ocMONEY)
-        .TextMatrix(.rows - 1, 12) = rTabela("varSituacaoPGTO")
-        .TextMatrix(.rows - 1, 13) = Format(rTabela("var_DataPgto"), "dd/mm/yy")
-        
-        'If .TextMatrix(i, 11) <> "PAGO" Then
-        '   .TextMatrix(.rows - 1, 11) = Format(CDbl(.TextMatrix(.rows - 1, 9) - CDbl(.TextMatrix(.rows - 1, 8))), ocMONEY)
-        'Else
-           .TextMatrix(.rows - 1, 11) = Format(rTabela("varTotalLiquido"), ocMONEY)
-        'End If
-        
-        rTabela.MoveNext
-        .rows = .rows + 1
-        i = i + 1
-      Loop
-   End If
-   
-   .rows = .rows - 1
+'1) le o recordset inteiro, agrupando por cliente em memoria (mClientes/
+'   mParcelas, ver Types no topo do form) - nao depende da ordem (INDICE)
+'   escolhida pelo usuario, funciona igual nao importa a ordenacao do SQL
+mQtdClientes = 0
+mQtdParcelas = 0
+ReDim mClientes(0)
+ReDim mParcelas(0)
 
-   'MUDAR COR DE FONTE DA COLUNA
-   For i = 1 To .rows - 1
-      .Row = i
-      .Col = 3
-      .CellFontBold = True
-   Next
-   
-   'MUDAR COR DE FONTE DA COLUNA
-   For i = 1 To .rows - 1
-      .Row = i
-      .Col = 13
-      .CellFontBold = True
-   Next
-   
-   'Mudar as cores dependendo da situação
-   For i = 1 To .rows - 1
-      For j = 0 To .Cols - 1
-         .Col = j
-         .Row = i
-         
-         If .TextMatrix(i, 11) <> "PAGO" Then
-            If CDate(.TextMatrix(i, 5)) < Date Then
-               .CellForeColor = vbRed
-            ElseIf CDate(.TextMatrix(i, 5)) = Date Then
-               .CellForeColor = &H8000&
-            ElseIf CDate(.TextMatrix(i, 5)) > Date Then
-               .CellForeColor = vbBlack
-            End If
-         ElseIf .TextMatrix(i, 12) = "PAGO" Then
-            .CellForeColor = vbBlue
+If Not rTabela Is Nothing Then
+   Do While Not rTabela.EOF
+      lCod = ValidateNull(rTabela("var_codcliente"))
+
+      bAchou = False
+      For idxCli = 0 To mQtdClientes - 1
+         If mClientes(idxCli).CodCliente = lCod Then
+            bAchou = True
+            Exit For
+         End If
+      Next
+
+      If Not bAchou Then
+         idxCli = mQtdClientes
+         ReDim Preserve mClientes(idxCli)
+         mClientes(idxCli).CodCliente = lCod
+         'cliente.celular ja vem formatado do cadastro (mskCelular.Mask =
+         '"(##) #####-####", gravado direto via .Text) - nao precisa
+         'reformatar, so 1 espaco separando do nome. O codigo antigo usava
+         'Right$(celular, 9) + parenteses proprios, que cortava o DDD/abre-
+         'parenteses originais e exibia so os ultimos 9 digitos
+         mClientes(idxCli).Nome = rTabela("nome") & IIf(Trim(ValidateNull(rTabela("celular"))) = "", "", " " & ValidateNull(rTabela("celular")))
+         mClientes(idxCli).Celular = ValidateNull(rTabela("celular"))
+         mQtdClientes = mQtdClientes + 1
+      End If
+
+      mClientes(idxCli).Qtde = mClientes(idxCli).Qtde + 1
+      mClientes(idxCli).SomaValor = mClientes(idxCli).SomaValor + CCur(rTabela("varValorParc"))
+      mClientes(idxCli).SomaJuros = mClientes(idxCli).SomaJuros + CCur(rTabela("varValorJuros"))
+      mClientes(idxCli).SomaSubtotal = mClientes(idxCli).SomaSubtotal + CCur(rTabela("varParcComJuros"))
+      mClientes(idxCli).SomaHaver = mClientes(idxCli).SomaHaver + CCur(rTabela("var_haver"))
+      mClientes(idxCli).SomaDeve = mClientes(idxCli).SomaDeve + CCur(rTabela("varTotalLiquido"))
+
+      ReDim Preserve mParcelas(mQtdParcelas)
+      mParcelas(mQtdParcelas).IdxCliente = idxCli
+      mParcelas(mQtdParcelas).codPedido = ValidateNull(rTabela("var_codigo"))
+      mParcelas(mQtdParcelas).Origem = rTabela("var_tipo")
+      mParcelas(mQtdParcelas).Tipo = ValidateNull(rTabela("tipo_pagamento"))
+      mParcelas(mQtdParcelas).Forma = ValidateNull(rTabela("var_FormaPgto"))
+      mParcelas(mQtdParcelas).VencData = rTabela("data")
+      mParcelas(mQtdParcelas).Venc = Format(rTabela("data"), "dd/mm/yy")
+      mParcelas(mQtdParcelas).ValorNum = rTabela("varValorParc")
+      mParcelas(mQtdParcelas).Valor = Format(rTabela("varValorParc"), ocMONEY)
+      mParcelas(mQtdParcelas).dias = ValidateNull(rTabela("varDiasJuros"))
+      mParcelas(mQtdParcelas).JurosNum = rTabela("varValorJuros")
+      mParcelas(mQtdParcelas).JUROS = Format(rTabela("varValorJuros"), ocMONEY)
+      mParcelas(mQtdParcelas).SubtotalNum = rTabela("varParcComJuros")
+      mParcelas(mQtdParcelas).SUBTOTAL = Format(rTabela("varParcComJuros"), ocMONEY)
+      mParcelas(mQtdParcelas).HaverNum = rTabela("var_haver")
+      mParcelas(mQtdParcelas).HAVER = Format(rTabela("var_haver"), ocMONEY)
+      mParcelas(mQtdParcelas).DeveNum = rTabela("varTotalLiquido")
+      mParcelas(mQtdParcelas).Deve = Format(rTabela("varTotalLiquido"), ocMONEY)
+      mParcelas(mQtdParcelas).Status = rTabela("varSituacaoPGTO")
+      If IsNull(rTabela("var_DataPgto")) Then
+         mParcelas(mQtdParcelas).PgtoData = 0
+      Else
+         mParcelas(mQtdParcelas).PgtoData = rTabela("var_DataPgto")
+      End If
+      mParcelas(mQtdParcelas).Pgto = Format(rTabela("var_DataPgto"), "dd/mm/yy")
+      mQtdParcelas = mQtdParcelas + 1
+
+      rTabela.MoveNext
+   Loop
+End If
+
+'2) ordena os clientes por nome (bubble sort simples - qtd de clientes
+'   distintos numa consulta de parcelas costuma ser pequena/moderada;
+'   reaponta os indices em mParcelas a cada troca)
+If mQtdClientes > 1 Then
+   For i = 0 To mQtdClientes - 2
+      For k = 0 To mQtdClientes - 2 - i
+         If mClientes(k).Nome > mClientes(k + 1).Nome Then
+            tmp = mClientes(k)
+            mClientes(k) = mClientes(k + 1)
+            mClientes(k + 1) = tmp
+            For j = 0 To mQtdParcelas - 1
+               If mParcelas(j).IdxCliente = k Then
+                  mParcelas(j).IdxCliente = k + 1
+               ElseIf mParcelas(j).IdxCliente = k + 1 Then
+                  mParcelas(j).IdxCliente = k
+               End If
+            Next
          End If
       Next
    Next
-   
+End If
+
+'3) monta o grid - 1 linha PAI por cliente (resumo); as parcelas
+'   individuais so viram linha (marcador F) quando o usuario clica no +
+'   (ver Grid_MouseDown/ExpandirLinha/RecolherLinha)
+With Grid
+   .Visible = False
+   .Clear
+   .Cols = 17
+   .rows = 2
+   .ToolTipText = "Clique no + para ver as parcelas do cliente"
+   '0 = flexHighlightNever - desliga o highlight visual de selecao do
+   'MSFlexGrid por completo. Sem isso, o clique (MouseDown) ou a insercao
+   'de linhas via AddItem durante uma selecao ativa faz o "range" azul de
+   'selecao do controle se esticar de forma imprevisivel (cobrindo so
+   'STATUS/PGTO, ou linhas inteiras acima da expandida, dependendo do
+   'caso) - resetar .Row/.RowSel/.Col/.ColSel depois nao bastava porque o
+   'estrago ja tinha acontecido durante as insercoes
+   .Highlight = 0
+
+   .ColWidth(0) = 350
+   .ColWidth(1) = 650
+   .ColWidth(2) = 750
+   .ColWidth(3) = 4200
+   .ColWidth(4) = 750
+   .ColWidth(5) = 1250
+   .ColWidth(6) = 750
+   .ColWidth(7) = 670
+   .ColWidth(8) = 450
+   .ColWidth(9) = 700
+   .ColWidth(10) = 810
+   .ColWidth(11) = 670
+   .ColWidth(12) = 700
+   .ColWidth(13) = 756
+   'PGTO so faz sentido numa consulta de parcelas PAGAS - some em VENCIDAS/
+   'A PAGAR/TODAS, senao a coluna fica sempre vazia (nao ha data de
+   'pagamento pra parcela que ainda nao foi paga)
+   If cboSituacao.Text = "PAGAS" Then
+      .ColWidth(14) = 750
+   Else
+      .ColWidth(14) = 0
+   End If
+   .ColWidth(15) = 0
+   .ColWidth(16) = 0
+
+   .TextMatrix(0, 0) = ""
+   .TextMatrix(0, 1) = "QTDE"
+   .TextMatrix(0, 2) = "ORIGEM"
+   .TextMatrix(0, 3) = "CLIENTE"
+   .TextMatrix(0, 4) = "TIPO"
+   .TextMatrix(0, 5) = "FORMA"
+   .TextMatrix(0, 6) = "VENC"
+   .TextMatrix(0, 7) = "VALOR"
+   .TextMatrix(0, 8) = "DIAS"
+   .TextMatrix(0, 9) = "JUROS"
+   .TextMatrix(0, 10) = "SUBTOTAL"
+   .TextMatrix(0, 11) = "HAVER"
+   .TextMatrix(0, 12) = "DEVE"
+   .TextMatrix(0, 13) = "STATUS"
+   .TextMatrix(0, 14) = "PGTO"
+
+   For i = 0 To .Cols - 1
+      .Col = i
+      .Row = 0
+      .CellFontBold = True
+      .CellAlignment = flexAlignCenterCenter
+   Next
+
+   .Redraw = False
+
+   dTotalValor = 0: dTotalJuros = 0: dTotalSubtotal = 0: dTotalHaver = 0: dTotalDeve = 0
+
+   For idxCli = 0 To mQtdClientes - 1
+      .TextMatrix(.rows - 1, 0) = "+"
+      .TextMatrix(.rows - 1, 1) = mClientes(idxCli).Qtde
+      .TextMatrix(.rows - 1, 3) = mClientes(idxCli).Nome
+      .TextMatrix(.rows - 1, 9) = Format(mClientes(idxCli).SomaJuros, ocMONEY)
+      .TextMatrix(.rows - 1, 10) = Format(mClientes(idxCli).SomaSubtotal, ocMONEY)
+      .TextMatrix(.rows - 1, 11) = Format(mClientes(idxCli).SomaHaver, ocMONEY)
+      .TextMatrix(.rows - 1, 12) = Format(mClientes(idxCli).SomaDeve, ocMONEY)
+      .TextMatrix(.rows - 1, 15) = "P"
+      .TextMatrix(.rows - 1, 16) = CStr(idxCli)
+
+      .Row = .rows - 1
+      .Col = 3
+      .CellFontBold = True
+
+      dTotalValor = dTotalValor + mClientes(idxCli).SomaValor
+      dTotalJuros = dTotalJuros + mClientes(idxCli).SomaJuros
+      dTotalSubtotal = dTotalSubtotal + mClientes(idxCli).SomaSubtotal
+      dTotalHaver = dTotalHaver + mClientes(idxCli).SomaHaver
+      dTotalDeve = dTotalDeve + mClientes(idxCli).SomaDeve
+
+      .rows = .rows + 1
+   Next
+
+   If .rows > 2 Then .rows = .rows - 1 Else .rows = 2
+
    FlexCores &HFFFFFF, &HE0E0E0
-   
+
+   'FlexCores deixa um range de selecao "preso" (.Col/.ColSel usados pra
+   'pintar o fundo de cada linha) ate a ultima coluna (16, oculta) - sem
+   'resetar, esse range fica visivel como se as colunas STATUS/PGTO (as
+   'ultimas com largura > 0 antes da 16) estivessem sempre selecionadas
+   .Row = 1
+   .RowSel = 1
+   .Col = 0
+   .ColSel = 0
+
    .Redraw = True
    .Visible = True
-   
-   'somar a colunas totais
-   lblQuant.Caption = Grid.rows - 1
-   lblTotalParcelas.Caption = Format(SomaGrid(Grid, 6), ocMONEY)
-   lblTotalBruto.Caption = Format(SomaGrid(Grid, 9), ocMONEY)
-   lblTotalHaver.Caption = Format(SomaGrid(Grid, 10), ocMONEY)
-   lblTotalJuros.Caption = Format(SomaGrid(Grid, 8), ocMONEY)
+
+   'totais calculados direto dos arrays em memoria (nao do grid visual -
+   'o grid so tem as somas visiveis nas linhas PAI, que podem nem existir
+   'ainda se mQtdClientes=0, e as colunas de detalhe (Valor) so aparecem
+   'nas linhas FILHA, que nem sempre estao expandidas)
+   lblQuant.Caption = mQtdParcelas
+   lblTotalParcelas.Caption = Format(dTotalValor, ocMONEY)
+   lblTotalBruto.Caption = Format(dTotalSubtotal, ocMONEY)
+   lblTotalHaver.Caption = Format(dTotalHaver, ocMONEY)
+   lblTotalJuros.Caption = Format(dTotalJuros, ocMONEY)
    lblTotalLiquido.Caption = CCur(lblTotalBruto.Caption) - CCur(lblTotalHaver.Caption)
 End With
 
 picAguarde.Visible = False
+End Sub
+
+'Expande/recolhe as parcelas de um cliente - clique simples na coluna 0
+'(indicador +/-), so em linha PAI (marcador=P). Usa MouseDown+MouseRow/
+'MouseCol (nao Click+Row/Col) porque o grid esta com SelectionMode=
+'flexSelectionByRow (selecao por linha inteira) - nesse modo Grid.Col nao
+'reflete a coluna clicada de forma confiavel.
+Private Sub Grid_MouseDown(Button As Integer, Shift As Integer, x As Single, y As Single)
+Dim lRow As Long
+lRow = Grid.MouseRow
+If lRow < 1 Then Exit Sub
+If Grid.MouseCol <> 0 Then Exit Sub
+If Grid.TextMatrix(lRow, 15) <> "P" Then Exit Sub
+
+If Grid.TextMatrix(lRow, 0) = "-" Then
+    RecolherLinha lRow
+Else
+    ExpandirLinha lRow
+End If
+End Sub
+
+'Insere as linhas-filha (uma por parcela) do cliente da linha PAI lRow,
+'lendo direto de mParcelas() (ja carregado em FormatarGrid, nao refaz
+'consulta nenhuma) - mesma cor por status/vencimento que o grid usava
+'antes de agrupar (vermelho=vencida, verde=vence hoje, preto=a vencer,
+'azul=paga)
+Private Sub ExpandirLinha(ByVal lRow As Long)
+Dim idxCli As Integer
+Dim i As Long, k As Long, j As Integer
+Dim lCor As OLE_COLOR
+
+idxCli = CInt(Grid.TextMatrix(lRow, 16))
+
+Grid.Redraw = False
+k = lRow
+For i = 0 To mQtdParcelas - 1
+   If mParcelas(i).IdxCliente = idxCli Then
+      k = k + 1
+      Grid.AddItem "", k
+      Grid.TextMatrix(k, 1) = mParcelas(i).codPedido
+      Grid.TextMatrix(k, 2) = mParcelas(i).Origem
+      Grid.TextMatrix(k, 4) = mParcelas(i).Tipo
+      Grid.TextMatrix(k, 5) = mParcelas(i).Forma
+      Grid.TextMatrix(k, 6) = mParcelas(i).Venc
+      Grid.TextMatrix(k, 7) = mParcelas(i).Valor
+      Grid.TextMatrix(k, 8) = mParcelas(i).dias
+      Grid.TextMatrix(k, 9) = mParcelas(i).JUROS
+      Grid.TextMatrix(k, 10) = mParcelas(i).SUBTOTAL
+      Grid.TextMatrix(k, 11) = mParcelas(i).HAVER
+      Grid.TextMatrix(k, 12) = mParcelas(i).Deve
+      Grid.TextMatrix(k, 13) = mParcelas(i).Status
+      Grid.TextMatrix(k, 14) = mParcelas(i).Pgto
+      Grid.TextMatrix(k, 15) = "F"
+      Grid.TextMatrix(k, 16) = CStr(idxCli)
+
+      'cor conforme status/vencimento (mesma logica original, so com o
+      'bug corrigido - antes comparava a coluna errada (Deve, um valor
+      'monetario) com "PAGO" em vez da coluna Status, entao a cor azul
+      'de parcela paga nunca aparecia)
+      If mParcelas(i).Status <> "PAGO" Then
+         If CDate(mParcelas(i).Venc) < Date Then
+            lCor = vbRed
+         ElseIf CDate(mParcelas(i).Venc) = Date Then
+            lCor = &H8000&
+         Else
+            lCor = vbBlack
+         End If
+      Else
+         lCor = vbBlue
+      End If
+
+      For j = 1 To 14
+         Grid.Row = k
+         Grid.Col = j
+         Grid.CellForeColor = lCor
+         Grid.CellBackColor = &HF5F5F5
+      Next
+
+      Grid.Row = k
+      Grid.Col = 1
+      Grid.CellFontBold = True
+      Grid.Col = 13
+      Grid.CellFontBold = True
+   End If
+Next
+
+Grid.TextMatrix(lRow, 0) = "-"
+
+'neutraliza qualquer range de selecao residual (ver mesmo comentario em
+'FormatarGrid, apos FlexCores) antes de devolver o grid pro usuario
+Grid.Row = 1
+Grid.RowSel = 1
+Grid.Col = 0
+Grid.ColSel = 0
+
+Grid.Redraw = True
+End Sub
+
+'Remove as linhas-filha (marcador F) logo abaixo da linha PAI lRow
+Private Sub RecolherLinha(ByVal lRow As Long)
+Grid.Redraw = False
+Do While lRow + 1 <= Grid.rows - 1
+    If Grid.TextMatrix(lRow + 1, 15) = "F" Then
+        Grid.RemoveItem lRow + 1
+    Else
+        Exit Do
+    End If
+Loop
+Grid.TextMatrix(lRow, 0) = "+"
+
+Grid.Row = 1
+Grid.RowSel = 1
+Grid.Col = 0
+Grid.ColSel = 0
+
+Grid.Redraw = True
 End Sub
 
 
@@ -2512,12 +2530,86 @@ Sub FlexCores(lCorPar As Long, lCorImpar As Long)
    Grid.FillStyle = flexFillSingle
 End Sub
 
+'Monta um Recordset DESCONECTADO (sem ligacao com o banco) a partir de
+'mClientes()/mParcelas() - ja populados por cmdExibir_Click/FormatarGrid,
+'com os mesmos filtros aplicados na tela. Evita reescrever a query SQL
+'complexa e dinamica de cmdExibir_Click so pra agregar por cliente -
+'reaproveita 100% o agrupamento que ja esta pronto e testado na tela.
+'1 linha PAI (nivel=0, resumo do cliente) seguida das parcelas dele
+'(nivel=1) - mesmo padrao de "nivel" usado em REL_VendasResumoDiario.frm.
+Private Function MontarRecordsetHierarquico() As ADODB.Recordset
+Dim rImp As ADODB.Recordset
+Dim idxCli As Integer
+Dim i As Long
+
+Set rImp = New ADODB.Recordset
+'Recordset desconectado criado do zero (sem fonte de dados nenhuma) -
+'precisa de CursorLocation/CursorType/LockType explicitos, senao AddNew/
+'Update falham com os valores padrao (forward-only/read-only)
+rImp.CursorLocation = adUseClient
+rImp.CursorType = adOpenStatic
+rImp.LockType = adLockOptimistic
+rImp.Fields.Append "nivel", adInteger
+rImp.Fields.Append "nome", adVarChar, 200
+rImp.Fields.Append "CELULAR", adVarChar, 100
+rImp.Fields.Append "DATA", adDate
+rImp.Fields.Append "var_DataPgto", adDate
+rImp.Fields.Append "varValorParc", adCurrency
+rImp.Fields.Append "varDiasJuros", adVarChar, 20
+rImp.Fields.Append "varValorJuros", adCurrency
+rImp.Fields.Append "varParcComJuros", adCurrency
+rImp.Fields.Append "var_haver", adCurrency
+rImp.Fields.Append "varTotalLiquido", adCurrency
+rImp.Fields.Append "varSituacaoPGTO", adVarChar, 20
+rImp.Open
+
+For idxCli = 0 To mQtdClientes - 1
+   rImp.AddNew
+   rImp("nivel") = 0
+   'mClientes(idxCli).Nome ja vem com o celular concatenado (mesmo campo
+   'usado no grid da tela) - NAO repetir no campo CELULAR separado, senao
+   'o celular aparece duplicado na impressao
+   rImp("nome") = mClientes(idxCli).Nome
+   rImp("CELULAR") = ""
+   rImp("varDiasJuros") = ""
+   rImp("varSituacaoPGTO") = ""
+   rImp("varValorParc") = mClientes(idxCli).SomaValor
+   rImp("varValorJuros") = mClientes(idxCli).SomaJuros
+   rImp("varParcComJuros") = mClientes(idxCli).SomaSubtotal
+   rImp("var_haver") = mClientes(idxCli).SomaHaver
+   rImp("varTotalLiquido") = mClientes(idxCli).SomaDeve
+   rImp.Update
+
+   For i = 0 To mQtdParcelas - 1
+      If mParcelas(i).IdxCliente = idxCli Then
+         rImp.AddNew
+         rImp("nivel") = 1
+         rImp("nome") = ""
+         rImp("CELULAR") = ""
+         rImp("DATA") = mParcelas(i).VencData
+         If mParcelas(i).PgtoData <> 0 Then rImp("var_DataPgto") = mParcelas(i).PgtoData
+         rImp("varValorParc") = mParcelas(i).ValorNum
+         rImp("varDiasJuros") = mParcelas(i).dias
+         rImp("varValorJuros") = mParcelas(i).JurosNum
+         rImp("varParcComJuros") = mParcelas(i).SubtotalNum
+         rImp("var_haver") = mParcelas(i).HaverNum
+         rImp("varTotalLiquido") = mParcelas(i).DeveNum
+         rImp("varSituacaoPGTO") = mParcelas(i).Status
+         rImp.Update
+      End If
+   Next
+Next
+
+If Not (rImp.BOF And rImp.EOF) Then rImp.MoveFirst
+Set MontarRecordsetHierarquico = rImp
+End Function
+
 Private Sub cmdImprime_Click()
 If cboTipoImpressao.Text = "" Then Exit Sub
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 vImpressoraNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -2540,7 +2632,10 @@ Me.Hide
 
 If cboTipoImpressao.Text = "RELATÓRIO NORMAL" Then
         cmdExibir_Click
-        Set r = dbData.OpenRecordset(printSQL)
+        'agrupado por cliente (ver MontarRecordsetHierarquico) - mesmo
+        'padrao de hierarquia ja usado em REL_VendasResumoDiario.frm, em
+        'vez da query "uma linha por parcela" que era usada antes
+        Set r = MontarRecordsetHierarquico()
         Set REL_Parcelas_Cons.Relatorio.Recordset = r
         REL_Parcelas_Cons.rfQuant.Caption = lblQuant.Caption
         REL_Parcelas_Cons.rfParcelas.Caption = Format(lblTotalParcelas.Caption, "##,##0.00")
@@ -2569,6 +2664,10 @@ If cboTipoImpressao.Text = "RELATÓRIO NORMAL" Then
         Else
             REL_Parcelas_Cons.lblPGTO.Visible = True
         End If
+        
+        'Coluna DATA DO PAGAMENTO no relatorio so faz sentido quando a
+        'consulta e de parcelas PAGAS (ver Relatorio_IniciarSecao)
+        REL_Parcelas_Cons.mMostrarDataPgto = (cboSituacao.Text = "PAGAS")
         
         REL_Parcelas_Cons.Relatorio.NomeImpressora = vImpressoraNormal
         REL_Parcelas_Cons.Relatorio.Ativar
@@ -2703,8 +2802,8 @@ Preencher_Situacao
 Preencher_Tipo
 'Preencher_Datas
 
-cboSetor.ListIndex = 1
-cboSituacao.ListIndex = 3
+cboSetor.ListIndex = 0
+cboSituacao.ListIndex = 1  'A PAGAR (era 3 antes de remover TODAS do combo)
 cboCriterios.ListIndex = 0
 cboOrdem.ListIndex = 3
 cboForma.ListIndex = 2
@@ -2715,8 +2814,8 @@ cboTipo.ListIndex = 0
 'cboTipoCartao.ListIndex = 0
 'cboParcelas.ListIndex = 1
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 vImpressoraNormal = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 

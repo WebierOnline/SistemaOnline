@@ -713,7 +713,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "17:24"
+            TextSave        =   "19:53"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -804,9 +804,6 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_CAD_Setores 
          Caption         =   "S&etores"
-      End
-      Begin VB.Menu Menu_CAD_Parcelas 
-         Caption         =   "Par&cela"
       End
       Begin VB.Menu Menu_CAD_Usuario 
          Caption         =   "&Usuário"
@@ -918,6 +915,7 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_FAT_SPED_Fiscal 
          Caption         =   "SPED Fiscal"
+         Enabled         =   0   'False
       End
       Begin VB.Menu Menu_FAT_Linha2 
          Caption         =   "-"
@@ -989,10 +987,10 @@ Begin VB.MDIForm Tela_Principal
    Begin VB.Menu Menu_FAT 
       Caption         =   "Fatura&mento"
       Begin VB.Menu Menu_CONS_Fluxo 
-         Caption         =   "&Fluxo de Caixa"
+         Caption         =   "&Gerenciamento de Caixas"
       End
       Begin VB.Menu Menu_CONS_Lancamentos 
-         Caption         =   "&Controle de Saldos"
+         Caption         =   "&Fluxo de Caixa Consolidado"
       End
       Begin VB.Menu Menu_Fin_traco 
          Caption         =   "-"
@@ -1013,10 +1011,6 @@ Begin VB.MDIForm Tela_Principal
          End
          Begin VB.Menu Menu_CONS_VendasPorProdutosAgrupados 
             Caption         =   "Vendas por Produtos Agrupados"
-         End
-         Begin VB.Menu Menu_CONS_Vendas 
-            Caption         =   "&Vendas"
-            Visible         =   0   'False
          End
       End
       Begin VB.Menu MenuFinanceiro 
@@ -1096,6 +1090,7 @@ Begin VB.MDIForm Tela_Principal
       Caption         =   "&Diversos"
       Begin VB.Menu Menu_Diversos_Calculadora 
          Caption         =   "&Calculadora"
+         Enabled         =   0   'False
       End
       Begin VB.Menu Menu_Diversos_Almoxerifado 
          Caption         =   "&Almoxarifado"
@@ -1134,7 +1129,7 @@ Dim varTipoEmpresa As String
       
       Menu_CAD_Clientes.Caption = "Clientes"
       Menu_PROD.Visible = True
-      Menu_CONS_Vendas.Visible = True
+      'Menu_CONS_Vendas.Visible = True
       Menu_PROD_BuscaRapida.Visible = True
       Menu_IMP_Produtos.Visible = True
 
@@ -1175,7 +1170,7 @@ Dim varTipoEmpresa As String
    
       Menu_CAD_Clientes.Caption = "Alunos"
       Menu_PROD.Visible = False
-      Menu_CONS_Vendas.Visible = False
+      'Menu_CONS_Vendas.Visible = False
       Menu_PROD_BuscaRapida.Visible = False
       Menu_IMP_Produtos.Visible = False
       
@@ -1209,7 +1204,7 @@ Dim varTipoEmpresa As String
 
       Menu_CAD_Clientes.Caption = "Alunos"
       Menu_PROD.Visible = False
-      Menu_CONS_Vendas.Visible = False
+      'Menu_CONS_Vendas.Visible = False
       Menu_PROD_BuscaRapida.Visible = False
       Menu_IMP_Produtos.Visible = False
 
@@ -1583,6 +1578,10 @@ End Sub
 
 
 
+
+Private Sub Menu_CAD_Parcelas_Click()
+
+End Sub
 
 Private Sub Menu_CAD_Setores_Click()
    Setor_Cadastro.Show 1
@@ -2128,7 +2127,7 @@ If Not existe(xCaminhoBK) Then Exit Sub
 'nome padronizado com a rotina automatica do fechamento de caixa (sempre
 'cnpj.bak/cnpj.rar - o historico com data vem da rotacao abaixo, nao mais
 'do proprio nome do arquivo ativo)
-nomeArquivoBK = Retira(rEmpresa!CNPJ, ".-/ ", UM_A_UM) & ".bak"
+nomeArquivoBK = Retira(rEmpresa!cnpj, ".-/ ", UM_A_UM) & ".bak"
 DoEvents
 
 'preserva o backup .rar da execucao anterior com um nome datado (historico
@@ -2632,9 +2631,9 @@ Else
          Menu_Fin_Caixa.Enabled = False
     End If
     If LerPermissoesUsuario(vCodUsuario, 19) = True Then
-         Menu_CONS_Vendas.Enabled = True
+         'Menu_CONS_Vendas.Enabled = True
      Else
-         Menu_CONS_Vendas.Enabled = False
+         'Menu_CONS_Vendas.Enabled = False
     End If
     If LerPermissoesUsuario(vCodUsuario, 20) = True Then
          Menu_CONS_VendasPorProdutos.Enabled = True

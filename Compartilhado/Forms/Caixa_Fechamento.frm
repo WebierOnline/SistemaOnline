@@ -2643,6 +2643,11 @@ Set r = dbData.OpenRecordset(sSQL)
     'Fechamento do caixa
     lblDinheiroContado.Visible = True
     txtDinheiroContado.Visible = True
+    'pre-preenche com o valor que o sistema vai exigir pra aceitar o fechamento
+    '(ver checagem em cmdFecharCaixa_Click: txtDinheiroContado precisa bater com
+    'Caixa_Controle_semOS.txtSaldoFisico, so dinheiro/cheque/etc) - usuario so
+    'precisa digitar de novo se o dinheiro contado na gaveta for diferente
+    txtDinheiroContado.Text = Caixa_Controle_semOS.txtSaldoFisico.Text
     Frame7.Height = 1515
     Me.Height = 3285
     cmdReativar.Top = 2100

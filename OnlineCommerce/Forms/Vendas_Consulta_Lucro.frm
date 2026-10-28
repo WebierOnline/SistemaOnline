@@ -772,74 +772,6 @@ Dim tipoEmpresa As Integer
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim totalRegistros As Long
-Private Sub FormatarGrid_ProdutosLucros(rTabela As ADODB.Recordset)
-   Dim i As Integer
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 5
-      .rows = 2
-      
-      .ColWidth(0) = 0
-      .ColWidth(1) = 6760
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 800
-      .ColWidth(4) = 1000
-      
-      .TextMatrix(0, 1) = "DESCRIÇÃO"
-      .TextMatrix(0, 2) = "PREÇO"
-      .TextMatrix(0, 3) = "QTDE"
-      .TextMatrix(0, 4) = "TOTAL"
-      
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next
-      
-      'ALINHAMENTO
-      .ColAlignment(1) = 1
-      
-      'centralizar o titulo
-      For i = 0 To .Cols - 1
-         .Row = 0
-         .Col = i
-         .CellAlignment = flexAlignCenterCenter
-      Next
-      
-      If Not rTabela Is Nothing Then
-         Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = rTabela("descricao")
-            .TextMatrix(.rows - 1, 2) = Format$(rTabela("preco"), ocMONEY)
-            .TextMatrix(.rows - 1, 3) = rTabela("var_qtde")
-            .TextMatrix(.rows - 1, 4) = Format$(rTabela("var_total"), ocMONEY)
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-         Loop
-      End If
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 3
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      .Redraw = True
-      .rows = .rows - 1
-   End With
-   
-   lblQtda.Caption = Format(SomaGrid(Grid, 3), ocPESO)
-   lblCusto.Caption = Format(SomaGrid(Grid, 4), ocMONEY)
-picAguarde.Visible = False
-End Sub
-
 Private Sub FormatarGrid_ProdDetalhado(rTabela As ADODB.Recordset)
    Dim i As Integer
 
@@ -847,27 +779,29 @@ picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 9
+      .Cols = 10
       .rows = 2
       
       .ColWidth(0) = 0
-      .ColWidth(1) = 900
-      .ColWidth(2) = 6600
-      .ColWidth(3) = 1500
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 1200
-      .ColWidth(6) = 1200
-      .ColWidth(7) = 1200
-      .ColWidth(8) = 1200
+      .ColWidth(1) = 765
+      .ColWidth(2) = 1330
+      .ColWidth(3) = 6270
+      .ColWidth(4) = 1350
+      .ColWidth(5) = 765
+      .ColWidth(6) = 1020
+      .ColWidth(7) = 969
+      .ColWidth(8) = 969
+      .ColWidth(9) = 1200
       
-      .TextMatrix(0, 1) = "CÓDIGO"
-      .TextMatrix(0, 2) = "DESCRIÇÃO"
-      .TextMatrix(0, 3) = "FABRICANTE"
-      .TextMatrix(0, 4) = "QUANT."
-      .TextMatrix(0, 5) = "VENDAS"
-      .TextMatrix(0, 6) = "CUSTO"
-      .TextMatrix(0, 7) = "LUCRO"
-      .TextMatrix(0, 8) = "MARGEM %"
+      .TextMatrix(0, 1) = "CÓD."
+      .TextMatrix(0, 2) = "CÓD. BARRA"
+      .TextMatrix(0, 3) = "DESCRIÇÃO"
+      .TextMatrix(0, 4) = "FABRICANTE"
+      .TextMatrix(0, 5) = "QTDE"
+      .TextMatrix(0, 6) = "VENDAS"
+      .TextMatrix(0, 7) = "CUSTO"
+      .TextMatrix(0, 8) = "LUCRO"
+      .TextMatrix(0, 9) = "MARGEM %"
       
       .Redraw = False
       
@@ -892,13 +826,14 @@ DoEvents
 
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = Format(rTabela("cod_produto"), "000000")
-            .TextMatrix(.rows - 1, 2) = rTabela("descricao")
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("fabricante"))
-            .TextMatrix(.rows - 1, 4) = rTabela("vsomaquant")
-            .TextMatrix(.rows - 1, 5) = FormatNumber(rTabela("vSomaTOTAL"), 2)
-            .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("vSomaCUSTO"), 2)
-            .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("vSomaLUCRO"), 2)
-            .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("vSomaMARGEM"), 2)
+            .TextMatrix(.rows - 1, 2) = ValidateNull(rTabela("COD_BARRA"))
+            .TextMatrix(.rows - 1, 3) = rTabela("descricao")
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("fabricante"))
+            .TextMatrix(.rows - 1, 5) = rTabela("vsomaquant")
+            .TextMatrix(.rows - 1, 6) = FormatNumber(rTabela("vSomaTOTAL"), 2)
+            .TextMatrix(.rows - 1, 7) = FormatNumber(rTabela("vSomaCUSTO"), 2)
+            .TextMatrix(.rows - 1, 8) = FormatNumber(rTabela("vSomaLUCRO"), 2)
+            .TextMatrix(.rows - 1, 9) = FormatNumber(rTabela("vSomaMARGEM"), 2)
             
             rTabela.MoveNext
             .rows = .rows + 1
@@ -908,7 +843,7 @@ DoEvents
       'MUDAR COR DE FONTE DA COLUNA
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 7
+         .Col = 8
          .CellForeColor = &H8000&
          .CellFontBold = True
       Next
@@ -917,151 +852,10 @@ DoEvents
       .Redraw = True
    End With
    
-   lblVenda.Caption = FormatNumber(SomaGrid(Grid, 5), 2)
-   lblCusto.Caption = FormatNumber(SomaGrid(Grid, 6), 2)
-   lblQtda.Caption = SomaGrid(Grid, 4)
-   lblLucro.Caption = FormatNumber(SomaGrid(Grid, 7), 2)
-picAguarde.Visible = False
-End Sub
-
-Private Sub FormatarGrid_Produtos(rTabela As ADODB.Recordset)
-   Dim i As Integer
-
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 5
-      .rows = 2
-      
-      .ColWidth(0) = 0
-      .ColWidth(1) = 6660
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 900
-      .ColWidth(4) = 1000
-      
-      .TextMatrix(0, 1) = "DESCRIÇÃO"
-      .TextMatrix(0, 2) = "PREÇO"
-      .TextMatrix(0, 3) = "QTDE"
-      .TextMatrix(0, 4) = "TOTAL"
-      
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next
-      
-      'ALINHAMENTO
-      .ColAlignment(1) = 1
-      
-      'centralizar o titulo
-      For i = 0 To .Cols - 1
-         .Row = 0
-         .Col = i
-         .CellAlignment = flexAlignCenterCenter
-      Next
-      
-      If Not rTabela Is Nothing Then
-      
-         Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 0) = rTabela("cod_produto")
-            
-            If tipoEmpresa = 4 Then
-            .TextMatrix(.rows - 1, 1) = rTabela("var_desc") & " /  " & rTabela("var_tam") & " / " & rTabela("var_fab") & " /  " & rTabela("ref")
-            Else
-            .TextMatrix(.rows - 1, 1) = rTabela("var_desc") & " /  " & ValidateNull(rTabela("var_fab"))
-            End If
-            
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("preco"), ocMONEY)
-            .TextMatrix(.rows - 1, 3) = rTabela("var_qtde")
-            .TextMatrix(.rows - 1, 4) = Format(rTabela("var_total"), ocMONEY)
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-         Loop
-      End If
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 3
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      .rows = .rows - 1
-      .Redraw = True
-   End With
-   
-   lblQtda.Caption = Format(SomaGrid(Grid, 3), ocPESO)
-   lblCusto.Caption = Format(SomaGrid(Grid, 4), ocMONEY)
-picAguarde.Visible = False
-End Sub
-
-Private Sub Limpar_Grid_Venda()
-   Dim i As Integer
-
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 8
-      .rows = 2
-      
-      .ColWidth(0) = 150
-      .ColWidth(1) = 800
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 4300
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 1100
-      .ColWidth(6) = 1220
-      .ColWidth(7) = 0
-      
-      .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "NOME DO CLIENTE"
-      .TextMatrix(0, 4) = "VALOR"
-      .TextMatrix(0, 5) = "FORMA"
-      .TextMatrix(0, 6) = "TIPO"
-      .TextMatrix(0, 7) = "TIPO"
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next i
-      
-      .ColAlignment(1) = 3
-      .ColAlignment(2) = 3
-      i = 1
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 1
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 4
-         .CellForeColor = &H8000&
-         .CellFontBold = True
-      Next
-      
-      .rows = .rows - 1
-      Grid.Redraw = True
-   End With
-   
-   lblQtda.Caption = Format(0, ocMONEY)
-   lblCusto.Caption = Format(0, ocMONEY)
+   lblVenda.Caption = FormatNumber(SomaGrid(Grid, 6), 2)
+   lblCusto.Caption = FormatNumber(SomaGrid(Grid, 7), 2)
+   lblQtda.Caption = SomaGrid(Grid, 5)
+   lblLucro.Caption = FormatNumber(SomaGrid(Grid, 8), 2)
 picAguarde.Visible = False
 End Sub
 
@@ -1075,7 +869,9 @@ mskFim.Text = ""
 End Sub
 
 Private Sub PreencherCriterio()
-cboCriterioPrinc.AddItem "TODOS"
+'"TODOS" removido - cboCriterioPrinc_GotFocus recarrega a lista so com
+'MENSAL/DATA/PERIODO a cada foco (a opcao sumia depois do 1o clique) e
+'cmdLocalizar_Click nunca tratou "TODOS" mesmo quando selecionada
 cboCriterioPrinc.AddItem "MENSAL"
 End Sub
 
@@ -1315,7 +1111,7 @@ Private Sub cboIndice2_GotFocus()
 cboIndice2.Clear
 cboIndice2.AddItem "ASC"
 cboIndice2.AddItem "DESC"
-moCombo.AttachTo cboIndice
+moCombo.AttachTo cboIndice2
 End Sub
 
 
@@ -1431,33 +1227,6 @@ End If
 
 End Sub
 
-Private Sub cmdExibirParcelas_Click()
-If Grid.Col = 0 Then Exit Sub
-   If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-         Vendas_Consulta_Geral_Parcelas.loadInformacoes (Grid.TextMatrix(Grid.Row, 1))
-         Vendas_Consulta_Geral_Parcelas.Show 1
-   End If
-End Sub
-
-Private Sub cmdExibirPedidos_Click()
-'If cboTipo.Text = "POR PRODUTOS" Then
-'   If Grid.Col = 0 Then Exit Sub
-'   If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-'      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-'      Vendas_Consulta_Pedidos.loadPedidos Grid.TextMatrix(Grid.Row, 1)
-'      Vendas_Consulta_Pedidos.Show 1
-'   End If
-'End If
-If Grid.Col = 0 Then Exit Sub
-If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-   If Grid.Col = 1 Then
-      If Grid.TextMatrix(Grid.Row, 1) = "" Then Exit Sub
-      Parcelas_Consulta_Produtos.loadPedidos Grid.TextMatrix(Grid.Row, 1), Grid.TextMatrix(Grid.Row, 7)
-      Parcelas_Consulta_Produtos.Show 1
-   End If
-End If
-End Sub
-
 Public Sub cmdImprimir_Click()
 Dim r As ADODB.Recordset
 
@@ -1561,40 +1330,49 @@ ElseIf cboCriterioSec.Text = "FABRICANTE" Then
 End If
 
 If cboCriterioPrinc.Text = "MENSAL" Then
-    If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+    If cboMes.Text = "" Or cboAno.Text = "" Then
+        ShowMsg "Selecione o mês e o ano antes de exibir.", vbInformation
+        Exit Sub
+    End If
     sSQL = "SELECT pedidos_itens.COD_PRODUTO, SUM(pedidos_itens.QUANTIDADE) AS vSomaQuant, SUM(pedidos_itens.Total) AS vSomaTOTAL, " & _
-        "SUM(pedidos_itens.custo * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
-        "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
+        "SUM(ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
+        "CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
         "produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA,  " & _
-        " CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM " & _
+        " CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 OR SUM(pedidos_itens.Total) = 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Total) * 100 END AS vSomaMARGEM " & _
         "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-        "WHERE (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") AND (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') " & vCriterioSec & " " & _
-        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA, pedidos_itens.Custo " & _
+        "WHERE (MONTH(pedidos_itens.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(pedidos_itens.data) = " & cboAno & ") AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & vCriterioSec & " " & _
+        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA " & _
         "ORDER BY " & INDICE & " " & INDICE2 & " "
 'Debug.Print sSQL
 
 ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
-    If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
+    If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then
+        ShowMsg "Informe as datas inicial e final antes de exibir.", vbInformation
+        Exit Sub
+    End If
    sSQL = "SELECT pedidos_itens.COD_PRODUTO, SUM(pedidos_itens.QUANTIDADE) AS vSomaQuant, SUM(pedidos_itens.Total) AS vSomaTOTAL, " & _
-        "SUM(pedidos_itens.custo * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
-        "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
+        "SUM(ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
+        "CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
         "produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA, " & _
-        "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM " & _
+        "CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 OR SUM(pedidos_itens.Total) = 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Total) * 100 END AS vSomaMARGEM " & _
         "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-        "WHERE (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') " & vCriterioSec & "  " & _
-        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA, pedidos_itens.Custo " & _
+        "WHERE (pedidos_itens.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & vCriterioSec & "  " & _
+        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA " & _
         "ORDER BY " & INDICE & " " & INDICE2 & " "
         
 ElseIf cboCriterioPrinc.Text = "DATA" Then
-    If Not IsDate(mskInicio.Text) Then Exit Sub
+    If Not IsDate(mskInicio.Text) Then
+        ShowMsg "Informe a data antes de exibir.", vbInformation
+        Exit Sub
+    End If
    sSQL = "SELECT pedidos_itens.COD_PRODUTO, SUM(pedidos_itens.QUANTIDADE) AS vSomaQuant, SUM(pedidos_itens.Total) AS vSomaTOTAL, " & _
-        "SUM(pedidos_itens.custo * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
-        "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
+        "SUM(ISNULL(pedidos_itens.custo, 0) * pedidos_itens.QUANTIDADE) AS vSomaCUSTO, " & _
+        "CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 THEN 0 ELSE SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) END AS vSomaLUCRO, " & _
         "produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA, " & _
-        "CASE pedidos_itens.Custo WHEN 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Custo * pedidos_itens.QUANTIDADE) * 100 END AS vSomaMARGEM " & _
+        "CASE WHEN SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE) = 0 OR SUM(pedidos_itens.Total) = 0 THEN 0 ELSE (SUM(pedidos_itens.Total) - SUM(ISNULL(pedidos_itens.Custo, 0) * pedidos_itens.QUANTIDADE)) / SUM(pedidos_itens.Total) * 100 END AS vSomaMARGEM " & _
         "FROM pedidos_itens INNER JOIN produtos ON pedidos_itens.COD_PRODUTO = produtos.CODIGO INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO " & _
-        "WHERE (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') " & vCriterioSec & " " & _
-        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA, pedidos_itens.Custo " & _
+        "WHERE (pedidos_itens.data = CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (pedidos_itens.cancelado = 0) AND (pedidos.cancelado = 0) AND (pedidos.TIPO_PEDIDO NOT IN ('ORÇAMENTO', 'CONSIGNADO')) AND (pedidos.STATUS_PEDIDO = 1) " & vCriterioSec & " " & _
+        "GROUP BY pedidos_itens.COD_PRODUTO, produtos.DESCRICAO, produtos.FABRICANTE, produtos.QUANT_ESTOQUE, produtos.COD_BARRA " & _
         "ORDER BY " & INDICE & " " & INDICE2 & " "
 End If
       
@@ -1652,7 +1430,7 @@ PreencherTipoConsulta
 cboTipo.ListIndex = 0
 
 PreencherCriterio
-cboCriterioPrinc.ListIndex = 1
+cboCriterioPrinc.ListIndex = 0
 
 PreencherCriterioSec
 cboCriterioSec.ListIndex = 0
@@ -1665,6 +1443,13 @@ cboIndice2.Text = "ASC"
 cboCriterioPrinc_LostFocus
 
 Set moCombo = New cComboHelper
+
+'pre-preenche mes/ano com o atual - criterio padrao e MENSAL, assim o
+'usuario so precisa clicar Exibir sem escolher nada na maioria das vezes
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.ListIndex = 2   'lista e sempre (ano atual -2) a (ano atual +2), 5 itens - o atual fica no meio
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -1672,13 +1457,11 @@ Private Sub Form_Unload(Cancel As Integer)
 End Sub
 
 Private Sub Grid_MouseMove(Button As Integer, Shift As Integer, x As Single, y As Single)
-   posX = x
-   Label3 = posX
-   If Label3.Caption > 0 And Label3.Caption < 149 Then Grid.ToolTipText = ""
-   If Label3.Caption > 150 And Label3.Caption < 930 Then Grid.ToolTipText = "Dê um duplo-clique para exibir os itens do Pedido."
-   If Label3.Caption > 931 And Label3.Caption < 7230 Then Grid.ToolTipText = ""
-   If Label3.Caption > 7231 And Label3.Caption < 8355 Then Grid.ToolTipText = "Dê um duplo-clique para exibir a forma de pgto."
-   If Label3.Caption > 8356 And Label3.Caption < 9555 Then Grid.ToolTipText = ""
+   'tooltip antigo era posicionado pro layout Pedido/Forma de outra tela
+   '(copy-paste) e prometia um duplo-clique que nunca existiu aqui (nao ha
+   'Grid_DblClick nesse form) - o drill-down real e selecionar a linha e
+   'clicar em DETALHAMENTO
+   Grid.ToolTipText = "Selecione o produto e clique em DETALHAMENTO para ver os pedidos."
 End Sub
 
 Private Sub mskFim_GotFocus()
@@ -1711,184 +1494,6 @@ End Sub
 
 Private Sub mskInicio_KeyPress(KeyAscii As Integer)
 mskInicio.Mask = "##/##/##"
-End Sub
-
-Sub FormatarGrid_Vendas(rTabela As ADODB.Recordset)
-   Dim i As Integer
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 8
-      .rows = 2
-      
-      .ColWidth(0) = 150
-      .ColWidth(1) = 800
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 4300
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 1100
-      .ColWidth(6) = 1220
-      .ColWidth(7) = 0
-      
-      .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "NOME DO CLIENTE"
-      .TextMatrix(0, 4) = "VALOR"
-      .TextMatrix(0, 5) = "FORMA"
-      .TextMatrix(0, 6) = "TIPO"
-      .TextMatrix(0, 7) = "TIPO"
-      .Redraw = False
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next i
-      
-      .ColAlignment(1) = 3
-      .ColAlignment(2) = 3
-      i = 1
-      
-      If Not rTabela Is Nothing Then
-         Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = Format(rTabela("var_codped"), "000000")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("data_compra"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = UCase(rTabela("nome"))
-            .TextMatrix(.rows - 1, 4) = Format(rTabela("var_total"), ocMONEY)
-            .TextMatrix(.rows - 1, 5) = rTabela("tipo_pagamento")
-            .TextMatrix(.rows - 1, 6) = rTabela("pagamento")
-            .TextMatrix(.rows - 1, 7) = rTabela("tipo_pedido")
-            
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-            i = i + 1
-         Loop
-      End If
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 1
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 4
-         .CellForeColor = &H8000&
-         .CellFontBold = True
-      Next
-      
-      .rows = .rows - 1
-      Grid.Redraw = True
-   End With
-   
-   lblCusto.Caption = Format(SomaGrid(Grid, 4), ocMONEY)
-
-picAguarde.Visible = False
-End Sub
-
-Sub FormatarGrid_VendasComEntrada(rTabela As ADODB.Recordset)
-   Dim i As Integer
-picAguarde.Visible = True
-DoEvents
-   With Grid
-      .Clear
-      .Cols = 8
-      .rows = 2
-      
-      .ColWidth(0) = 150
-      .ColWidth(1) = 800
-      .ColWidth(2) = 1000
-      .ColWidth(3) = 3600
-      .ColWidth(4) = 1000
-      .ColWidth(5) = 1100
-      .ColWidth(6) = 800
-      .ColWidth(7) = 1100
-      
-      .TextMatrix(0, 1) = "PEDIDO"
-      .TextMatrix(0, 2) = "DATA"
-      .TextMatrix(0, 3) = "NOME DO CLIENTE"
-      .TextMatrix(0, 4) = "ENTRADA"
-      .TextMatrix(0, 5) = "VALOR"
-      .TextMatrix(0, 6) = "FORMA"
-      .TextMatrix(0, 7) = "TIPO"
-      
-      'colocar os cabeçalho em negrito
-      For i = 0 To .Cols - 1
-         .Col = i
-         .Row = 0
-         .CellFontBold = True
-      Next
-      
-      .ColAlignment(1) = 3
-      .ColAlignment(2) = 3
-      .Redraw = False
-      
-      i = 1
-      
-            '.TextMatrix(.Rows - 1, 1) = Format(rTabela("var_codped"), "000000")
-            '.TextMatrix(.Rows - 1, 2) = Format(rTabela("data_compra"), "dd/mm/yy")
-            '.TextMatrix(.Rows - 1, 3) = UCase(rTabela("nome"))
-            '.TextMatrix(.Rows - 1, 4) = Format(rTabela("var_total"), ocMONEY)
-            '.TextMatrix(.Rows - 1, 5) = rTabela("tipo_pagamento")
-            '.TextMatrix(.Rows - 1, 6) = rTabela("pagamento")
-            '.TextMatrix(.Rows - 1, 7) = rTabela("tipo_pedido")
-
-      
-      
-      
-      If Not rTabela Is Nothing Then
-         Do While Not rTabela.EOF
-            .TextMatrix(.rows - 1, 1) = Format(rTabela("var_codped"), "000000")
-            .TextMatrix(.rows - 1, 2) = Format(rTabela("data_compra"), "dd/mm/yy")
-            .TextMatrix(.rows - 1, 3) = UCase(rTabela("nome"))
-            .TextMatrix(.rows - 1, 4) = Format(rTabela("valor_final"), ocMONEY)
-            .TextMatrix(.rows - 1, 5) = Format(rTabela("var_total"), ocMONEY)
-            .TextMatrix(.rows - 1, 6) = rTabela("tipo_pagamento")
-            .TextMatrix(.rows - 1, 7) = rTabela("pagamento")
-            
-            rTabela.MoveNext
-            .rows = .rows + 1
-            i = i + 1
-         Loop
-      End If
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 1
-         .CellForeColor = &HC0&
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 4
-         .CellForeColor = &H8000&
-         .CellFontBold = True
-      Next
-      
-      'MUDAR COR DE FONTE DA COLUNA
-      For i = 1 To .rows - 1
-         .Row = i
-         .Col = 5
-         .CellForeColor = &H8000&
-         .CellFontBold = True
-      Next
-      
-      .rows = .rows - 1
-      Grid.Redraw = True
-   End With
-   
-   lblCusto.Caption = Format(SomaGrid(Grid, 5), "##,##0.00")
-picAguarde.Visible = False
 End Sub
 
 Private Sub mskInicio_LostFocus()

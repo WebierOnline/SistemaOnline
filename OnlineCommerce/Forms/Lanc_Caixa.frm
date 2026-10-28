@@ -1,22 +1,22 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Lanc_Caixa 
    BorderStyle     =   3  'Fixed Dialog
-   Caption         =   "LANÇAMENTOS DE CAIXAS"
+   Caption         =   "Fluxo de Caixa Consolidado"
    ClientHeight    =   9930
    ClientLeft      =   45
    ClientTop       =   330
-   ClientWidth     =   9540
+   ClientWidth     =   9915
    ForeColor       =   &H00000000&
    Icon            =   "Lanc_Caixa.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   9930
-   ScaleWidth      =   9540
+   ScaleWidth      =   9915
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox Picture3 
@@ -26,17 +26,17 @@ Begin VB.Form Lanc_Caixa
       Height          =   675
       Left            =   60
       ScaleHeight     =   645
-      ScaleWidth      =   9345
+      ScaleWidth      =   9765
       TabIndex        =   7
       Top             =   60
-      Width           =   9375
+      Width           =   9795
       Begin VB.Label Label33 
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "LANÇAMENTOS"
+         Caption         =   "Fluxo de Caixa Consolidado"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   15.75
@@ -48,10 +48,10 @@ Begin VB.Form Lanc_Caixa
          EndProperty
          ForeColor       =   &H00800000&
          Height          =   360
-         Left            =   2160
+         Left            =   2100
          TabIndex        =   8
          Top             =   180
-         Width           =   2400
+         Width           =   4230
       End
       Begin VB.Image Image1 
          Height          =   465
@@ -69,10 +69,10 @@ Begin VB.Form Lanc_Caixa
       Height          =   1455
       Left            =   60
       ScaleHeight     =   1425
-      ScaleWidth      =   9345
+      ScaleWidth      =   9765
       TabIndex        =   6
       Top             =   8160
-      Width           =   9375
+      Width           =   9795
       Begin VB.Frame Frame4 
          Caption         =   "Último Caixa Fechado"
          BeginProperty Font 
@@ -85,7 +85,7 @@ Begin VB.Form Lanc_Caixa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1335
-         Left            =   6540
+         Left            =   7020
          TabIndex        =   15
          Top             =   60
          Width           =   2715
@@ -330,6 +330,45 @@ Begin VB.Form Lanc_Caixa
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdZeraSaldo 
+         Height          =   315
+         Left            =   3900
+         TabIndex        =   37
+         Top             =   60
+         Visible         =   0   'False
+         Width           =   1875
+         _ExtentX        =   3307
+         _ExtentY        =   556
+         BTYPE           =   3
+         TX              =   "Zerar Saldo"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "Lanc_Caixa.frx":8B4B
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
    End
    Begin VB.PictureBox Picture2 
       Appearance      =   0  'Flat
@@ -338,10 +377,10 @@ Begin VB.Form Lanc_Caixa
       Height          =   6195
       Left            =   60
       ScaleHeight     =   6165
-      ScaleWidth      =   9345
+      ScaleWidth      =   9765
       TabIndex        =   5
       Top             =   1920
-      Width           =   9375
+      Width           =   9795
       Begin VB.Frame frmDetalhamento 
          Caption         =   "DETALHAMENTO"
          BeginProperty Font 
@@ -355,7 +394,7 @@ Begin VB.Form Lanc_Caixa
          EndProperty
          ForeColor       =   &H00000080&
          Height          =   3435
-         Left            =   540
+         Left            =   840
          TabIndex        =   30
          Top             =   1260
          Visible         =   0   'False
@@ -402,7 +441,7 @@ Begin VB.Form Lanc_Caixa
             FCOLO           =   192
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Lanc_Caixa.frx":8B4B
+            MICON           =   "Lanc_Caixa.frx":8B67
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -418,8 +457,8 @@ Begin VB.Form Lanc_Caixa
          Left            =   60
          TabIndex        =   21
          Top             =   120
-         Width           =   9195
-         _ExtentX        =   16219
+         Width           =   9675
+         _ExtentX        =   17066
          _ExtentY        =   10504
          _Version        =   393216
          BackColor       =   16777215
@@ -435,10 +474,10 @@ Begin VB.Form Lanc_Caixa
       Height          =   1095
       Left            =   60
       ScaleHeight     =   1065
-      ScaleWidth      =   9345
+      ScaleWidth      =   9765
       TabIndex        =   4
       Top             =   780
-      Width           =   9375
+      Width           =   9795
       Begin VB.Frame Frame3 
          Appearance      =   0  'Flat
          BackColor       =   &H00E0E0E0&
@@ -523,9 +562,9 @@ Begin VB.Form Lanc_Caixa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Lanc_Caixa.frx":8B67
-            PICN            =   "Lanc_Caixa.frx":8B83
-            PICH            =   "Lanc_Caixa.frx":AED6
+            MICON           =   "Lanc_Caixa.frx":8B83
+            PICN            =   "Lanc_Caixa.frx":8B9F
+            PICH            =   "Lanc_Caixa.frx":AEF2
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -565,9 +604,9 @@ Begin VB.Form Lanc_Caixa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Lanc_Caixa.frx":D229
-            PICN            =   "Lanc_Caixa.frx":D245
-            PICH            =   "Lanc_Caixa.frx":F598
+            MICON           =   "Lanc_Caixa.frx":D245
+            PICN            =   "Lanc_Caixa.frx":D261
+            PICH            =   "Lanc_Caixa.frx":F5B4
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -646,8 +685,8 @@ Begin VB.Form Lanc_Caixa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Lanc_Caixa.frx":118EB
-            PICN            =   "Lanc_Caixa.frx":11907
+            MICON           =   "Lanc_Caixa.frx":11907
+            PICN            =   "Lanc_Caixa.frx":11923
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -685,8 +724,8 @@ Begin VB.Form Lanc_Caixa
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Lanc_Caixa.frx":121E1
-            PICN            =   "Lanc_Caixa.frx":121FD
+            MICON           =   "Lanc_Caixa.frx":121FD
+            PICN            =   "Lanc_Caixa.frx":12219
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -784,24 +823,24 @@ Begin VB.Form Lanc_Caixa
       Left            =   0
       TabIndex        =   22
       Top             =   9660
-      Width           =   9540
-      _ExtentX        =   16828
+      Width           =   9915
+      _ExtentX        =   17489
       _ExtentY        =   476
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
          NumPanels       =   3
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   12488
-            Text            =   "Online.Info - Informática  - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Online.Info - Informática  - Tel.: (89) 9 8817-7036"
+            Object.Width           =   13150
+            Text            =   "Online.Info - Informática  - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Online.Info - Informática  - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "20:00"
+            TextSave        =   "11:56"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -934,18 +973,18 @@ With Grid
    .ColWidth(1) = 0
    .ColWidth(2) = 950
    .ColWidth(3) = 1400
-   .ColWidth(4) = 1400
-   .ColWidth(5) = 1400
-   .ColWidth(6) = 1500
-   .ColWidth(7) = 1100
+   .ColWidth(4) = 1137
+   .ColWidth(5) = 1610
+   .ColWidth(6) = 2088
+   .ColWidth(7) = 935
    .ColWidth(8) = 1200
    
    .TextMatrix(0, 1) = "CÓD"
    .TextMatrix(0, 2) = "DATA"
    .TextMatrix(0, 3) = "SALDO ANT."
    .TextMatrix(0, 4) = "ENTRADA"
-   .TextMatrix(0, 5) = "RETIRADA"
-   .TextMatrix(0, 6) = "SALDO ATUAL"
+   .TextMatrix(0, 5) = "SANGRIA GERAL"
+   .TextMatrix(0, 6) = "SALDO ACUMULADO"
    .TextMatrix(0, 7) = "CAIXA"
    .TextMatrix(0, 8) = "CÓD. CAIXA"
    
@@ -1153,7 +1192,9 @@ End Sub
 Private Sub cboAno_GotFocus()
    Dim iAno As Integer, FirstYear As Integer, LastYear As Integer
    Dim i As Integer
+   Dim varINDICE As Integer
    
+   varINDICE = cboAno.ListIndex
    cboAno.Clear
    
    iAno = Year(Date)
@@ -1163,6 +1204,7 @@ Private Sub cboAno_GotFocus()
    For i = FirstYear To LastYear
       cboAno.AddItem i
    Next
+   cboAno.ListIndex = varINDICE
    
    'For i = ANO To FirstYear Step -1
    '   cboAno.AddItem i
@@ -1229,11 +1271,14 @@ End Sub
 
 Private Sub cboMes_GotFocus()
    Dim vMes As Integer
+   Dim varINDICE As Integer
    
+   varINDICE = cboMes.ListIndex
    cboMes.Clear
    For vMes = 1 To 12
       cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
+   cboMes.ListIndex = varINDICE
    
    moCombo.AttachTo cboMes
 End Sub
@@ -1326,51 +1371,83 @@ Private Sub cmdImprimir_Click()
    Dim var_Impressora As String
    Dim sSQL As String
    Dim r As ADODB.Recordset
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
    Set oIni = Nothing
    
+   'usa a MESMA query do cmdExibir_Click (caixa_saldo, nao caixa_dia) pra
+   'imprimir sempre o que esta sendo mostrado na tela - antes essa query
+   'lia caixa_dia (tabela diferente da exibida), comparava MONTH(data)
+   'contra cboMes.Text (nome do mes, nao numero) e nunca preenchia
+   'printSQL (sempre abria string vazia) - bugs achados em analise,
+   '2026-10-27
    If cboConsulta.Text = "TODOS" Then
-      sSQL = "SELECT data, saldo, (SELECT ISNULL(SUM(valor), 0) FROM caixa_saldo_retirada WHERE (data = t0.data)) AS soma_retirada " & _
-         "FROM caixa_dia AS t0 ORDER BY data;"
+      sSQL = "SELECT * FROM caixa_saldo ORDER BY codigo desc;"
       
    ElseIf cboConsulta.Text = "MENSAL" Then
-      If cboMes.Text = "" Then Exit Sub
-      sSQL = "SELECT data, saldo, (SELECT ISNULL(SUM(valor), 0) FROM caixa_saldo_retirada WHERE (data = t0.data)) AS soma_retirada " & _
-         "FROM caixa_dia AS t0 WHERE (MONTH(data) = " & cboMes.Text & ") AND (YEAR(data) = " & cboAno & ") ORDER BY data;"
+      If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
+      sSQL = "SELECT * " & _
+         "FROM caixa_saldo WHERE (MONTH(DATA) = " & cboMes.ListIndex + 1 & ") AND (YEAR(DATA) = " & cboAno & ") ORDER BY codigo desc;"
       
    ElseIf cboConsulta.Text = "PERÍODO" Then
       If mskInicio.Text = "" Or mskTermino.Text = "" Then Exit Sub
-      
-      sSQL = "SELECT data, saldo, (SELECT ISNULL(SUM(valor), 0) FROM caixa_saldo_retirada WHERE (data = t0.data)) AS soma_retirada " & _
-         "FROM caixa_dia AS t0 WHERE (data >= CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103)) AND (data <= CONVERT(DATETIME, '" & Format(mskTermino, ocDATA) & "', 103)) ORDER BY data;"
+      sSQL = "SELECT * " & _
+         "FROM caixa_saldo WHERE (DATA >= CONVERT(DATETIME, '" & Format(mskInicio, ocDATA) & "', 103)) AND (DATA <= CONVERT(DATETIME, '" & Format(mskTermino, ocDATA) & "', 103)) ORDER BY codigo desc;"
       
    End If
+   
+   printSQL = sSQL
    
    Me.Hide
    
    Set r = dbData.OpenRecordset(printSQL)
    
+   'rodape "Resultado (relatorio)" - data/saldo do registro mais
+   'recente DENTRO do periodo filtrado (a query e ORDER BY codigo
+   'desc, entao e sempre a primeira linha) - capturado ANTES de
+   'associar o recordset ao relatorio, pra nao depender de como o
+   'ReportX mexe no cursor internamente
+   Dim varRelData As String
+   Dim varRelSaldo As String
+   If Not r.BOF Then
+      varRelData = Format(r("DATA"), "dd/mm/yy")
+      varRelSaldo = Format(r("SALDO_ATUAL"), ocMONEY)
+   Else
+      varRelData = ""
+      varRelSaldo = ""
+   End If
+   
    Set REL_Lanc_Caixa.Relatorio.Recordset = r
-   'REL_Lanc_Caixa.dfData.Caption = Format(txtData.Text, "dd/mm/yy")
-   'REL_Lanc_Caixa.dfSaldo.Caption = txtSaldoAtual.Text
-   'REL_Lanc_Caixa.dfRelData.Caption = Format(txtConsData.Text, "dd/mm/yy")
-   'REL_Lanc_Caixa.dfRelSaldo.Caption = txtConsSaldo.Text
    
-   '.TextMatrix(.Rows - 1, 2) = IIf(IsNull(RS!Data) = True, "", Format(RS!Data, "dd/mm/yy"))
-   '.TextMatrix(.Rows - 1, 3) = Format(Saldo_Anterior, "##,##0.00")
-   '.TextMatrix(.Rows - 1, 4) = Format(IIf(IsNull(RS!SALDO) = True, 0, RS!SALDO), "##,##0.00")
-   '.TextMatrix(.Rows - 1, 5) = Format(IIf(IsNull(RS!Soma_retirada) = True, 0, RS!Soma_retirada), "##,##0.00")
-   '.TextMatrix(.Rows - 1, 6) = Format(CDbl(.TextMatrix(.Rows - 1, 3)) + CDbl(.TextMatrix(.Rows - 1, 4)) - CDbl(.TextMatrix(.Rows - 1, 5)), "##,##0.00")
+   'rodape "Ultimo Caixa Fechado" - mesmo painel global ja mostrado
+   'na tela (txtConsData/txtConsSaldo, preenchido em cmdExibir_Click)
+   If txtConsData.Text = "" Then
+      REL_Lanc_Caixa.dfData.Caption = ""
+   Else
+      REL_Lanc_Caixa.dfData.Caption = Format(txtConsData.Text, "dd/mm/yy")
+   End If
+   REL_Lanc_Caixa.dfSaldo.Caption = txtConsSaldo.Text
    
-   REL_Lanc_Caixa.ReportField1.Campo = "r.data"
-   REL_Lanc_Caixa.ReportField5.Campo = "rs.Saldo_Anterior"
-   REL_Lanc_Caixa.ReportField2.Campo = "SALDO"
-   REL_Lanc_Caixa.ReportField3.Campo = "Soma_retirada"
-   REL_Lanc_Caixa.ReportField4.Campo = "SALDO_ANTERIOR"
+   'rodape "Resultado (relatorio)" - resultado do periodo filtrado
+   REL_Lanc_Caixa.dfRelData.Caption = varRelData
+   REL_Lanc_Caixa.dfRelSaldo.Caption = varRelSaldo
+   
+   'nomes de campo ajustados pras colunas reais de caixa_saldo (antes
+   'apontavam pra colunas de uma query que lia caixa_dia, nunca batiam);
+   'ReportField2 (col. ENTRADAS) e ReportField4 (col. SALDO ACUMULADO)
+   'corrigidos - estavam com os campos trocados/duplicados (confirmado
+   'visualmente pelo usuario: ENTRADAS mostrava o SALDO_ATUAL, SALDO
+   'ACUMULADO mostrava o SALDO_ANTERIOR, 2026-10-27)
+   REL_Lanc_Caixa.ReportField1.Campo = "DATA"
+   REL_Lanc_Caixa.ReportField5.Campo = "SALDO_ANTERIOR"
+   REL_Lanc_Caixa.ReportField2.Campo = "ENTRADA"
+   REL_Lanc_Caixa.ReportField3.Campo = "RETIRADA"
+   REL_Lanc_Caixa.ReportField4.Campo = "SALDO_ATUAL"
+   REL_Lanc_Caixa.ReportField6.Campo = "CAIXA"
+   REL_Lanc_Caixa.ReportField7.Campo = "CODCAIXA"
 
    REL_Lanc_Caixa.ReportField1.Formato = "dd/mm/yy"
    'REL_Lanc_Caixa.Relatorio.NomeImpressora = var_Impressora
@@ -1452,6 +1529,46 @@ Set r = Nothing
 
 End Sub
 
+Private Sub cmdZeraSaldo_Click()
+'botao de manutencao, so visivel pro usuario de codigo 1 - zera
+'(limpa) completamente a tabela caixa_saldo. Acao irreversivel,
+'perde todo o historico de saldo acumulado - exige dupla confirmacao.
+Dim bTrans As Boolean
+
+If MsgBox("Isso vai APAGAR TODO o historico de saldos acumulados (tabela caixa_saldo)." & vbCr & "Essa acao NAO pode ser desfeita. Deseja continuar?", vbYesNo + vbExclamation, "Zerar Saldo") = vbNo Then Exit Sub
+If MsgBox("Confirma mesmo? Todos os registros de caixa_saldo E caixa_saldo_retirada serao perdidos permanentemente.", vbYesNo + vbCritical, "Confirmacao Final") = vbNo Then Exit Sub
+
+On Error GoTo TrataErroZeraSaldo
+
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+
+'caixa_saldo_retirada referencia caixa_saldo via cod_saldo - zera
+'primeiro (filha) pra nao sobrar retirada orfa apontando pra um
+'codigo que, depois do DELETE, pode ser reusado por um saldo novo
+dbData.Execute "DELETE FROM caixa_saldo_retirada;"
+dbData.Execute "DELETE FROM caixa_saldo;"
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+
+FormatarGrid Nothing
+txtConsData.Text = ""
+txtUltimaCaixa.Text = ""
+txtUltimoCodCaixa.Text = ""
+txtConsSaldo.Text = ""
+
+MsgBox "Tabela caixa_saldo zerada com sucesso.", vbInformation, "Zerar Saldo"
+Exit Sub
+
+TrataErroZeraSaldo:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao zerar o saldo: " & Err.Description, vbCritical, "Erro"
+End Sub
+
 Private Sub cmdMostrarCaixa_Click()
 varFluxoCaixa = True
 varFluxoNomeCaixa = Grid.TextMatrix(Grid.Row, 7)
@@ -1474,6 +1591,15 @@ StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 
 PreencherConsulta
 cboConsulta.ListIndex = 1
+
+'pre-preenche mes/ano com o atual - criterio padrao e MENSAL
+cboMes_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno_GotFocus
+cboAno.ListIndex = 2   'lista e sempre (ano atual -2) a (ano atual +2), 5 itens - o atual fica no meio
+
+'botao de manutencao - so o usuario de codigo 1 pode ver e usar
+cmdZeraSaldo.Visible = (vCodFunc = 1)
 
 'cmdExibir_Click
 

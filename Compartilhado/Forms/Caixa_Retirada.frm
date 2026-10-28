@@ -622,7 +622,6 @@ Begin VB.Form Caixa_Retirada
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Caixa_Retirada.frx":F21E
-         PICN            =   "Caixa_Retirada.frx":F23A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -660,8 +659,7 @@ Begin VB.Form Caixa_Retirada
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Retirada.frx":F554
-         PICN            =   "Caixa_Retirada.frx":F570
+         MICON           =   "Caixa_Retirada.frx":F23A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -699,8 +697,7 @@ Begin VB.Form Caixa_Retirada
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Retirada.frx":11302
-         PICN            =   "Caixa_Retirada.frx":1131E
+         MICON           =   "Caixa_Retirada.frx":F256
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -738,8 +735,7 @@ Begin VB.Form Caixa_Retirada
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Retirada.frx":11BF8
-         PICN            =   "Caixa_Retirada.frx":11C14
+         MICON           =   "Caixa_Retirada.frx":F272
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -777,8 +773,7 @@ Begin VB.Form Caixa_Retirada
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Retirada.frx":184EE
-         PICN            =   "Caixa_Retirada.frx":1850A
+         MICON           =   "Caixa_Retirada.frx":F28E
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -816,8 +811,7 @@ Begin VB.Form Caixa_Retirada
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Retirada.frx":18824
-         PICN            =   "Caixa_Retirada.frx":18840
+         MICON           =   "Caixa_Retirada.frx":F2AA
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1073,26 +1067,26 @@ Private Sub cboCriterio_LostFocus()
 If cboCriterio.Text = "TODOS" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = False
 ElseIf cboCriterio.Text = "CAIXA ATUAL" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = False
 ElseIf cboCriterio.Text = "MENSAL" Then
     mskConsData.Visible = False
     cmdConsData.Visible = False
-    cboMES.Visible = True
+    cboMes.Visible = True
     cboAno.Visible = True
     lblCONmes.Visible = True
-    cboMES.SetFocus
+    cboMes.SetFocus
 ElseIf cboCriterio.Text = "DATA" Then
     mskConsData.Visible = True
     cmdConsData.Visible = True
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONmes.Visible = False
     'mskConsData.SetFocus
@@ -1131,17 +1125,17 @@ End Sub
 Private Sub cboMes_GotFocus()
 Dim vMes As Integer
 
-cboMES.Clear
+cboMes.Clear
 
 For vMes = 1 To 12
-   cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+   cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
 Next
 
-moCombo.AttachTo cboMES
+moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cboMes_LostFocus()
-   If cboMES.Text = "" Then Exit Sub Else cboAno.SetFocus
+   If cboMes.Text = "" Then Exit Sub Else cboAno.SetFocus
 End Sub
 
 Private Sub cmdAlterar_Click()
@@ -1257,9 +1251,9 @@ Dim varCriterio As String
 If cboCriterio.Text = "TODOS" Then
     varCriterio = " where codigo <> 0 "
 ElseIf cboCriterio.Text = "MENSAL" Then
-   If cboMES.Text = "" Or cboMES.ListIndex = -1 Then Exit Sub
+   If cboMes.Text = "" Or cboMes.ListIndex = -1 Then Exit Sub
    If cboAno.Text = "" Or cboAno.ListIndex = -1 Then Exit Sub
-    varCriterio = "WHERE (MONTH(data) = " & cboMES.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") "
+    varCriterio = "WHERE (MONTH(data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") "
 ElseIf cboCriterio.Text = "DATA" Then
    If Not IsDate(mskConsData) Then Exit Sub
     varCriterio = "WHERE (data = CONVERT(DATETIME, '" & Format(mskConsData.Text, ocDATA) & "', 103))  "
@@ -1303,10 +1297,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
 Set oIni = Nothing
 
@@ -1324,7 +1318,7 @@ REL_Caixa_Retirada_Cons.rfCriterio.Caption = cboCriterio.Text
 If cboCriterio.Text = "TODOS" Then
     REL_Caixa_Retirada_Cons.rfCriterioDesc.Caption = ""
 ElseIf cboCriterio.Text = "MENSAL" Then
-    REL_Caixa_Retirada_Cons.rfCriterioDesc.Caption = cboMES.Text & " / " & cboAno.Text
+    REL_Caixa_Retirada_Cons.rfCriterioDesc.Caption = cboMes.Text & " / " & cboAno.Text
 ElseIf cboCriterio.Text = "DATA" Then
     REL_Caixa_Retirada_Cons.rfCriterioDesc.Caption = mskConsData.Text
 End If
@@ -1584,10 +1578,10 @@ Set rEmpresa = dbData.OpenRecordset(sSQL)
 f = FreeFile()
    
   'pegar o nome da impressora no ini
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
    Set oIni = Nothing
    
@@ -1749,10 +1743,10 @@ cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 
 'colocar o nome da maquina na barra de status
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
 
 

@@ -1,8 +1,8 @@
 VERSION 5.00
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
-Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "MSFLXGRD.OCX"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "TABCTL32.OCX"
-Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "MSMASK32.OCX"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
+Object = "{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0"; "msmask32.ocx"
 Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Contas_Cadastro 
    BorderStyle     =   3  'Fixed Dialog
@@ -178,7 +178,6 @@ Begin VB.Form Contas_Cadastro
       _ExtentY        =   14102
       _Version        =   393216
       Tabs            =   4
-      Tab             =   2
       TabsPerRow      =   4
       TabHeight       =   520
       TabMaxWidth     =   3528
@@ -193,7 +192,7 @@ Begin VB.Form Contas_Cadastro
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Contas_Cadastro.frx":8D9E
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "imLogoCupom"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdReativarConta"
@@ -216,24 +215,17 @@ Begin VB.Form Contas_Cadastro
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Contas_Cadastro.frx":8DBA
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Grid"
-      Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "Picture3"
-      Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "txtCONquant"
-      Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "txtCONtotal"
-      Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "txtCONsubtotal"
-      Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "txtCONhaveres"
-      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(0)=   "txtCONhaveres"
+      Tab(1).Control(1)=   "txtCONsubtotal"
+      Tab(1).Control(2)=   "txtCONtotal"
+      Tab(1).Control(3)=   "txtCONquant"
+      Tab(1).Control(4)=   "Picture3"
+      Tab(1).Control(5)=   "Grid"
       Tab(1).ControlCount=   6
       TabCaption(2)   =   "HAVER"
       TabPicture(2)   =   "Contas_Cadastro.frx":8DD6
-      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "frmHaver"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
       TabCaption(3)   =   "HISTÓRICO"
       TabPicture(3)   =   "Contas_Cadastro.frx":8DF2
@@ -283,7 +275,7 @@ Begin VB.Form Contas_Cadastro
       Begin VB.Frame frmCadastro 
          Enabled         =   0   'False
          Height          =   6135
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   68
          Top             =   420
          Width           =   9495
@@ -566,6 +558,7 @@ Begin VB.Form Contas_Cadastro
             Left            =   60
             TabIndex        =   81
             Top             =   2460
+            Visible         =   0   'False
             Width           =   9375
             Begin ChamaleonBtn.chameleonButton chameleonButton1 
                Height          =   315
@@ -671,6 +664,45 @@ Begin VB.Form Contas_Cadastro
                CHECK           =   0   'False
                VALUE           =   0   'False
             End
+            Begin ChamaleonBtn.chameleonButton cmdCancelarQuitacao 
+               Height          =   315
+               Left            =   5160
+               TabIndex        =   123
+               Top             =   480
+               Visible         =   0   'False
+               Width           =   1575
+               _ExtentX        =   2778
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "CANCELAR"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   700
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   -2147483633
+               BCOLO           =   -2147483633
+               FCOL            =   255
+               FCOLO           =   255
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Contas_Cadastro.frx":11BB2
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
             Begin VB.Label Label10 
                AutoSize        =   -1  'True
                BackStyle       =   0  'Transparent
@@ -722,7 +754,7 @@ Begin VB.Form Contas_Cadastro
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Contas_Cadastro.frx":11BB2
+            MICON           =   "Contas_Cadastro.frx":11BCE
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -761,7 +793,7 @@ Begin VB.Form Contas_Cadastro
             FCOLO           =   255
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "Contas_Cadastro.frx":11BCE
+            MICON           =   "Contas_Cadastro.frx":11BEA
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -843,7 +875,7 @@ Begin VB.Form Contas_Cadastro
          EndProperty
          ForeColor       =   &H00000000&
          Height          =   7395
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   44
          Top             =   420
          Width           =   6315
@@ -931,9 +963,9 @@ Begin VB.Form Contas_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Contas_Cadastro.frx":11BEA
-               PICN            =   "Contas_Cadastro.frx":11C06
-               PICH            =   "Contas_Cadastro.frx":13F59
+               MICON           =   "Contas_Cadastro.frx":11C06
+               PICN            =   "Contas_Cadastro.frx":11C22
+               PICH            =   "Contas_Cadastro.frx":13F75
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1001,7 +1033,7 @@ Begin VB.Form Contas_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Contas_Cadastro.frx":162AC
+               MICON           =   "Contas_Cadastro.frx":162C8
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1039,7 +1071,7 @@ Begin VB.Form Contas_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Contas_Cadastro.frx":162C8
+               MICON           =   "Contas_Cadastro.frx":162E4
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1278,7 +1310,7 @@ Begin VB.Form Contas_Cadastro
             TabIndex        =   40
             Top             =   60
             Width           =   1275
-            Begin VB.CheckBox optNome 
+            Begin VB.OptionButton optNome 
                Caption         =   "Favorecido"
                Height          =   195
                Left            =   120
@@ -1286,7 +1318,7 @@ Begin VB.Form Contas_Cadastro
                Top             =   1020
                Width           =   1095
             End
-            Begin VB.CheckBox optIntervalo 
+            Begin VB.OptionButton optIntervalo 
                Caption         =   "Intervalo"
                Height          =   195
                Left            =   120
@@ -1294,7 +1326,7 @@ Begin VB.Form Contas_Cadastro
                Top             =   780
                Width           =   1035
             End
-            Begin VB.CheckBox optMensal 
+            Begin VB.OptionButton optMensal 
                Caption         =   "Mês"
                Height          =   195
                Left            =   120
@@ -1302,7 +1334,7 @@ Begin VB.Form Contas_Cadastro
                Top             =   540
                Width           =   1035
             End
-            Begin VB.CheckBox optTodos 
+            Begin VB.OptionButton optTodos 
                Caption         =   "Todos"
                Height          =   195
                Left            =   120
@@ -1407,9 +1439,9 @@ Begin VB.Form Contas_Cadastro
             Width           =   4935
             Begin VB.ComboBox cboMES 
                Height          =   315
-               ItemData        =   "Contas_Cadastro.frx":162E4
+               ItemData        =   "Contas_Cadastro.frx":16300
                Left            =   1260
-               List            =   "Contas_Cadastro.frx":162E6
+               List            =   "Contas_Cadastro.frx":16302
                TabIndex        =   26
                Top             =   240
                Visible         =   0   'False
@@ -1485,7 +1517,7 @@ Begin VB.Form Contas_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Contas_Cadastro.frx":162E8
+               MICON           =   "Contas_Cadastro.frx":16304
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1523,7 +1555,7 @@ Begin VB.Form Contas_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Contas_Cadastro.frx":16304
+               MICON           =   "Contas_Cadastro.frx":16320
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1579,7 +1611,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin VB.PictureBox Picture4 
          Height          =   1215
-         Left            =   -68160
+         Left            =   6840
          ScaleHeight     =   1155
          ScaleWidth      =   2655
          TabIndex        =   15
@@ -1715,7 +1747,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   112
          Top             =   1800
          Width           =   2175
@@ -1741,8 +1773,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":16320
-         PICN            =   "Contas_Cadastro.frx":1633C
+         MICON           =   "Contas_Cadastro.frx":1633C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1754,7 +1785,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   113
          Top             =   2460
          Width           =   2175
@@ -1780,8 +1811,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":180CE
-         PICN            =   "Contas_Cadastro.frx":180EA
+         MICON           =   "Contas_Cadastro.frx":16358
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1793,7 +1823,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   114
          Top             =   3120
          Width           =   2175
@@ -1819,8 +1849,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":19E7C
-         PICN            =   "Contas_Cadastro.frx":19E98
+         MICON           =   "Contas_Cadastro.frx":16374
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1832,7 +1861,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   115
          Top             =   1140
          Width           =   2175
@@ -1858,8 +1887,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":1BC2A
-         PICN            =   "Contas_Cadastro.frx":1BC46
+         MICON           =   "Contas_Cadastro.frx":16390
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1871,7 +1899,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   116
          Top             =   480
          Width           =   2175
@@ -1897,8 +1925,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":1D9D8
-         PICN            =   "Contas_Cadastro.frx":1D9F4
+         MICON           =   "Contas_Cadastro.frx":163AC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1910,7 +1937,7 @@ Begin VB.Form Contas_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdReativarConta 
          Height          =   615
-         Left            =   -65280
+         Left            =   9720
          TabIndex        =   120
          Top             =   3780
          Width           =   2175
@@ -1936,7 +1963,7 @@ Begin VB.Form Contas_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Contas_Cadastro.frx":1F786
+         MICON           =   "Contas_Cadastro.frx":163C8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1948,8 +1975,8 @@ Begin VB.Form Contas_Cadastro
       End
       Begin VB.Image imLogoCupom 
          Height          =   1125
-         Left            =   -64980
-         Picture         =   "Contas_Cadastro.frx":1F7A2
+         Left            =   10020
+         Picture         =   "Contas_Cadastro.frx":163E4
          Top             =   5280
          Visible         =   0   'False
          Width           =   2850
@@ -2008,8 +2035,8 @@ Begin VB.Form Contas_Cadastro
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   14023
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2022,7 +2049,7 @@ Begin VB.Form Contas_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "23:57"
+            TextSave        =   "11:13"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2104,9 +2131,9 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
-Dim mes As Integer
+Dim Mes As Integer
 Dim Ano As Integer
-Dim Data As String
+Dim DATA As String
 Dim i As Integer
 Dim x As Long
 Dim DIA1 As Integer
@@ -2234,10 +2261,10 @@ Next
       Dim Line1 As String
       Dim Line2 As String
       
-      Dim Texto As String
-      Texto = UCase(NumeroExtenso(txtValorHaver.Text, True))
-      Line1 = Mid(Texto, 1, 40)
-      Line2 = Mid(Texto, 41, 80)
+      Dim texto As String
+      texto = UCase(NumeroExtenso(txtValorHaver.Text, True))
+      Line1 = Mid(texto, 1, 40)
+      Line2 = Mid(texto, 41, 80)
      
       Fonte 8, False, False
       Printer.Print Tab(2); "Recebi(emos) de: "
@@ -2407,10 +2434,10 @@ Next
       Dim Line1 As String
       Dim Line2 As String
       
-      Dim Texto As String
-      Texto = UCase(NumeroExtenso(lblTotalGeral.Caption, True))
-      Line1 = Mid(Texto, 1, 40)
-      Line2 = Mid(Texto, 41, 80)
+      Dim texto As String
+      texto = UCase(NumeroExtenso(lblTotalGeral.Caption, True))
+      Line1 = Mid(texto, 1, 40)
+      Line2 = Mid(texto, 41, 80)
      
       Fonte 8, False, False
       Printer.Print Tab(2); "Recebi(emos) de: "
@@ -3145,10 +3172,10 @@ Private Sub LimparGrid_Conta()
    txtCONhaveres.Text = Format(0, ocMONEY)
    txtCONtotal.Text = Format(0, ocMONEY)
    
-   optTodos.Value = Unchecked
-   optMensal.Value = Unchecked
-   optIntervalo.Value = Unchecked
-   optNome.Value = Unchecked
+   optTodos.Value = False
+   optMensal.Value = False
+   optIntervalo.Value = False
+   optNome.Value = False
 End Sub
 
 Private Sub MostrarGrid_Contas()
@@ -3188,11 +3215,11 @@ Private Sub MostrarGrid_Contas()
       var_Forma = ""
    End If
     
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       sSQL = "SELECT *, valor_und, ISNULL(haveres, 0) AS hav, (valor_und - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
          "WHERE (status = '" & cboCONStatus.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
       
-   ElseIf optMensal.Value = Checked And optNome.Value = Unchecked Then
+   ElseIf optMensal.Value = True And optNome.Value = False Then
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
       
       'INDICE SOMENTE PARA CONSULTA DE DATAS
@@ -3228,7 +3255,7 @@ Private Sub MostrarGrid_Contas()
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
          "WHERE " & Tipo_Data & " AND (STATUS = '" & cboCONStatus.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
       
-   ElseIf optIntervalo.Value = Checked And optNome.Value = Unchecked Then
+   ElseIf optIntervalo.Value = True And optNome.Value = False Then
       If Mask1.Text = "" Or Mask2.Text = "" Then Exit Sub
       If Not IsDate(Mask1.Text) Or Not IsDate(Mask2.Text) Then Exit Sub
       
@@ -3243,14 +3270,14 @@ Private Sub MostrarGrid_Contas()
          "WHERE (STATUS = '" & cboCONStatus.Text & "') AND (vencimento >= CONVERT(DATETIME, '" & Format(Mask1, ocDATA) & "', 103)) AND (vencimento <= CONVERT(DATETIME, '" & Format(Mask2, ocDATA) & "', 103)) " & _
          var_Forma & var_Setor & " ORDER BY " & INDICE
       
-   ElseIf optNome.Value = Checked And optIntervalo.Value = Unchecked And optMensal.Value = Unchecked Then
+   ElseIf optNome.Value = True And optIntervalo.Value = False And optMensal.Value = False Then
       If cboNome.Text = "" Then Exit Sub
       
       'MOSTRAR OS DADOS
       sSQL = "SELECT *, total, ISNULL(haveres, 0) AS hav, (total - ISNULL(haveres, 0)) as var_Liquido FROM a_pagar " & _
          "WHERE (status = '" & cboCONStatus.Text & "') AND (favorecido = '" & cboNome.Text & "') " & var_Forma & var_Setor & " ORDER BY " & INDICE
       
-   ElseIf optNome.Value = Checked And optIntervalo.Value = Checked And optMensal.Value = Unchecked Then
+   ElseIf optNome.Value = True And optIntervalo.Value = True And optMensal.Value = False Then
       If cboNome.Text = "" Then Exit Sub
       If Mask1.Text = "" Or Mask2.Text = "" Then Exit Sub
       
@@ -3261,7 +3288,7 @@ Private Sub MostrarGrid_Contas()
          "AND (vencimento <= CONVERT(DATETIME, '" & Format(Mask2, ocDATA) & "', 103)) " & _
          var_Forma & var_Setor & " ORDER BY " & INDICE
       
-   ElseIf optNome.Value = Checked And optIntervalo.Value = Unchecked And optMensal.Value = Checked Then
+   ElseIf optNome.Value = True And optIntervalo.Value = False And optMensal.Value = True Then
       If cboNome.Text = "" Then Exit Sub
       If cboMes.Text = "" Or cboAno.Text = "" Then Exit Sub
       
@@ -3324,7 +3351,7 @@ Private Sub MostrarGrid_Historico()
 End Sub
 
 Private Sub Ocultar_SubCriterios()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       lblCONmes.Visible = False
       cboMes.Visible = False
       cboAno.Visible = False
@@ -3343,8 +3370,8 @@ Private Sub Ocultar_SubCriterios()
       chkPgtoOutros.Enabled = False
    End If
    
-   If optMensal.Value = Checked Then
-      If optNome.Value = Checked Then
+   If optMensal.Value = True Then
+      If optNome.Value = True Then
          lblCONnome.Visible = True
          cboNome.Visible = True
       Else
@@ -3379,7 +3406,7 @@ Private Sub Ocultar_SubCriterios()
       cboAno.Visible = False
    End If
    
-   If optIntervalo.Value = Checked Then
+   If optIntervalo.Value = True Then
       lblCONmes.Visible = False
       cboMes.Visible = False
       cboAno.Visible = False
@@ -3389,7 +3416,7 @@ Private Sub Ocultar_SubCriterios()
       lblCONint2.Visible = True
       Mask2.Visible = True
       
-      If optNome.Value = Checked Then
+      If optNome.Value = True Then
          lblCONnome.Visible = True
          cboNome.Visible = True
       Else
@@ -3408,8 +3435,8 @@ Private Sub Ocultar_SubCriterios()
       Mask2.Visible = False
    End If
    
-   If optNome.Value = Checked Then
-      If optMensal.Value = Checked Then
+   If optNome.Value = True Then
+      If optMensal.Value = True Then
          lblCONmes.Visible = True
          cboMes.Visible = True
          cboAno.Visible = True
@@ -3419,7 +3446,7 @@ Private Sub Ocultar_SubCriterios()
          cboAno.Visible = False
       End If
       
-      If optIntervalo.Value = Checked Then
+      If optIntervalo.Value = True Then
          lblCONint1.Visible = True
          Mask1.Visible = True
          lblCONint2.Visible = True
@@ -3443,7 +3470,7 @@ Private Sub Ocultar_SubCriterios()
       cboNome.Visible = False
    End If
    
-   If optMensal.Value = Checked Or optIntervalo.Value = Checked Or optNome.Value = Checked Then
+   If optMensal.Value = True Or optIntervalo.Value = True Or optNome.Value = True Then
       cmdExibir.Visible = True
    Else
       cmdExibir.Visible = False
@@ -3491,13 +3518,13 @@ Private Sub cboCONForma_Change()
 End Sub
 
 Private Sub cboCONForma_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
@@ -3525,13 +3552,13 @@ Private Sub cboCONsetor_Change()
 End Sub
 
 Private Sub cboCONsetor_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
@@ -3558,7 +3585,7 @@ varTexto = cboCONsetor.Text
    
    moCombo.AttachTo cboCONsetor
    
-cboCONsetor.Text = varTexto
+cboCONsetor.Text = "GERAL"
 End Sub
 
 Private Sub cboCONStatus_Change()
@@ -3567,13 +3594,13 @@ cboCONStatus_Click
 End Sub
 
 Private Sub cboCONStatus_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
    
@@ -3746,7 +3773,7 @@ Private Sub cboSetor_GotFocus()
    If r.State <> 0 Then r.Close
    Set r = Nothing
    
-   cboSetor.Text = VarText
+   cboSetor.Text = IIf(VarText = "", "GERAL", VarText)
    moCombo.AttachTo cboSetor
 End Sub
 
@@ -3848,11 +3875,13 @@ Private Sub chkPgtoOutros_Click()
 End Sub
 
 Private Sub cmdAdicionarHaver_Click()
+On Error GoTo TrataErroHaver
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim novoCodHaver As Long
 Dim novoCodCaixa As Long
 Dim novoCodSaldoRet  As Long
+Dim bTrans As Boolean
 
 If cboFonteHaver.Text = "" Then MsgBox "Selecione uma fonte!", vbInformation, "Aviso do Sistema":  cboFonteHaver.SetFocus: Exit Sub
 If txtCodigo.Text = "" Or txtValorHaver.Text = "" Or mskDataHaver.Text = "" Then Exit Sub
@@ -3965,8 +3994,14 @@ If cboFonteHaver.Text = "CAIXA ATUAL" Then
    
 ElseIf cboFonteHaver.Text = "SALDOS" Then
 
+    'transacao aberta antes da leitura do saldo, com lock, pra evitar 2
+    'operacoes simultaneas passarem na validacao contra o mesmo saldo
+    'desatualizado (mesmo padrao de cmdQuitar_Click)
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
+
     'pegar o valor do ultimo do saldos
-    sSQL = "SELECT top 1 SALDO_ATUAL, RETIRADA, CODIGO FROM caixa_saldo order by codigo desc;"
+    sSQL = "SELECT TOP 1 SALDO_ATUAL, RETIRADA, CODIGO FROM caixa_saldo WITH (UPDLOCK, HOLDLOCK) ORDER BY codigo DESC;"
     Set r = dbData.OpenRecordset(sSQL)
     
     Dim varValorUltimoSaldo As Currency
@@ -3987,13 +4022,20 @@ ElseIf cboFonteHaver.Text = "SALDOS" Then
     
     varValorSaida = txtValorHaver.Text
     
-    If varValorSaida > varValorUltimoSaldo Then MsgBox "O valor da conta é maior que seu saldo atual", vbInformation, "Aviso do Sistema": Exit Sub
+    If varValorSaida > varValorUltimoSaldo Then
+        dbData.Execute "ROLLBACK TRANSACTION"
+        bTrans = False
+        MsgBox "O valor da conta é maior que seu saldo atual", vbInformation, "Aviso do Sistema"
+        Exit Sub
+    End If
     
     'criar uma sangria
     AutoNumeracaoSangria
     
     'inserir dados na tabela caixa_saida
     If Not Inserir_DadosSangriaHaver(varCodSangriaNovo) Then
+       dbData.Execute "ROLLBACK TRANSACTION"
+       bTrans = False
        ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
        Exit Sub
     End If
@@ -4016,9 +4058,8 @@ ElseIf cboFonteHaver.Text = "SALDOS" Then
        " WHERE (codigo = " & varCodSaldo & ") ;"
     dbData.Execute sSQL
 
-
-
-
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 
 End If
 
@@ -4046,6 +4087,14 @@ MostrarGrid_Contas
 LimparObjetos_Haver
 MostrarGrid_Haver
 txtValorHaver.SetFocus
+Exit Sub
+
+TrataErroHaver:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao adicionar o haver: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 Private Sub cmdAlterar_Click()
@@ -4163,7 +4212,7 @@ Private Function Atualizar_Dados_Saldo_Retirada_Haver(ByVal Cod As Long, ByVal C
    
    ElseIf Acao = 2 Then    'Atualiza
       'Comando de atualização
-      sSQL = "UPDATE caixa_saida_retirada SET " & _
+      sSQL = "UPDATE caixa_saldo_retirada SET " & _
          "data = CONVERT(DATETIME, '" & Format(CDate(mskDataHaver), ocDATA) & "', 103), " & _
          "descricao = '" & cboDescricao.Text & "', " & _
          "valor = " & Replace(CCur(txtValorHaver.Text), ",", ".")
@@ -4265,6 +4314,7 @@ End Sub
 Private Sub cmdExcluir_Click()
 Dim sSQL As String
 Dim bRet As Boolean
+Dim bTrans As Boolean
 
 On Error GoTo TrataErro
 
@@ -4292,12 +4342,43 @@ dbData.Execute "DELETE FROM caixa_saida WHERE (cod_conta = " & txtCodigo & ");"
 
 
 If cboFonte.Text = "SALDOS" Then
-   sSQL = "DELETE FROM caixa_saldo_retirada WHERE (COD_DESCRICAO = " & txtCodigo.Text & ");"
+   'descobrir de qual saldo o dinheiro saiu e quanto, pra devolver antes
+   'de apagar o registro - sem isso o SALDO_ATUAL de caixa_saldo nunca
+   'era corrigido (bug achado em analise, 2026-10-27)
+   sSQL = "SELECT COD_SALDO, VALOR FROM caixa_saldo_retirada WHERE (TIPO = 'CONTAS À PAGAR') AND (COD_DESCRICAO = " & txtCodigo.Text & ");"
+   Set r = dbData.OpenRecordset(sSQL)
+
+   Dim varCodSaldoExcl As Long
+   Dim varValorExcl As Currency
+   If Not r.BOF Then
+      varCodSaldoExcl = r("COD_SALDO")
+      varValorExcl = r("VALOR")
+   Else
+      varCodSaldoExcl = 0
+      varValorExcl = 0
+   End If
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
+
+   If varCodSaldoExcl <> 0 Then
+      'devolve o valor pro saldo acumulado (RETIRADA diminui, SALDO_ATUAL volta)
+      dbData.Execute "UPDATE caixa_saldo SET RETIRADA = RETIRADA - " & Replace(CCur(varValorExcl), ",", ".") & ", SALDO_ATUAL = SALDO_ANTERIOR + ENTRADA - (RETIRADA - " & Replace(CCur(varValorExcl), ",", ".") & ") WHERE (CODIGO = " & varCodSaldoExcl & ");"
+   End If
+
+   sSQL = "DELETE FROM caixa_saldo_retirada WHERE (TIPO = 'CONTAS À PAGAR') AND (COD_DESCRICAO = " & txtCodigo.Text & ");"
    bRet = dbData.Execute(sSQL)
 
    If Not bRet Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
       Exit Sub
    End If
+
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
 ElseIf cboFonte.Text = "CAIXA ATUAL" Then
 End If
 
@@ -4312,6 +4393,10 @@ optTodos_Click
 Exit Sub
    
 TrataErro:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
    If Err.Number = 3421 Then
       ShowMsg "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Verifique se todos os dados estão nos campos.", vbInformation
       Exit Sub
@@ -4325,6 +4410,7 @@ End Sub
 Private Sub cmdHabilitarHaver_Click()
    SSTab1.Tab = 2
    frmHaver.Enabled = True
+   frmHaver.Refresh
    mskDataHaver.Text = Format(Date, "dd/mm/yy")
    cmdHabilitarQuitar.Visible = False
    cmdHabilitarHaver.Visible = False
@@ -4341,9 +4427,27 @@ cboStatus.Text = "PAGA"
 cmdHabilitarQuitar.Visible = False
 cmdHabilitarHaver.Visible = False
 cmdQuitar.Visible = True
+cmdCancelarQuitacao.Visible = True
+frmPagamento.Visible = True
+frmPagamento.Enabled = True
 cmdAlterar.Enabled = False
 cmdExcluir.Enabled = False
 cboFonte.SetFocus
+End Sub
+
+Private Sub cmdCancelarQuitacao_Click()
+'cancela o processo de quitacao - desfaz o que cmdHabilitarQuitar_Click
+'preparou na tela (nada foi gravado no banco ainda nesse ponto) e
+'re-le a conta do zero (txtCodigo_Change/Mostrar_Conta), que ja restaura
+'cboStatus/cboFonte/mskPgto certinho e reexibe cmdHabilitarQuitar/
+'cmdHabilitarHaver sozinho (a conta continua "A PAGAR")
+frmPagamento.Visible = False
+frmPagamento.Enabled = False
+cmdQuitar.Visible = False
+cmdCancelarQuitacao.Visible = False
+Label10.Enabled = False
+Label11.Enabled = False
+txtCodigo_Change
 End Sub
 
 Private Sub ImprimirRecibo()
@@ -4360,13 +4464,13 @@ Private Sub ImprimirRecibo()
    REL_ContaApagar.rfHaveres.Caption = txtCONhaveres.Text
    REL_ContaApagar.rfTotal.Caption = txtCONtotal.Text
 
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       REL_ContaApagar.dfTipo.Caption = "Tipo: Todos os registros"
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       REL_ContaApagar.dfTipo.Caption = "Tipo: Intervalo de " & Mask1.Text & " à " & Mask2.Text
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       REL_ContaApagar.dfTipo.Caption = "Tipo: Mês = " & cboMes.Text & "/" & cboAno.Text
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       REL_ContaApagar.dfTipo.Caption = "Tipo: Favorecido"
    Else
       REL_ContaApagar.dfTipo.Caption = "Tipo:"
@@ -4384,10 +4488,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
 Set oIni = Nothing
 
@@ -4405,16 +4509,16 @@ ElseIf cboCONStatus.Text = "VENCIDAS" Then
     REL_ContaApagar_Normal.lblTitulo.Caption = "RELATÓRIO DE CONTAS VENCIDAS"
 End If
 
-If optTodos.Value = Checked Then
+If optTodos.Value = True Then
     REL_ContaApagar_Normal.dfDesc.Caption = "TODOS"
     REL_ContaApagar_Normal.dfCriterio.Caption = ""
-ElseIf optNome.Value = Checked Then
+ElseIf optNome.Value = True Then
     REL_ContaApagar_Normal.dfDesc.Caption = "FAVORECIDO"
     REL_ContaApagar_Normal.dfCriterio.Caption = ""
-ElseIf optMensal.Value = Checked Then
+ElseIf optMensal.Value = True Then
     REL_ContaApagar_Normal.dfDesc.Caption = "MENSAL"
     REL_ContaApagar_Normal.dfCriterio.Caption = cboMes.Text & " / " & cboAno.Text
-ElseIf optIntervalo.Value = Checked Then
+ElseIf optIntervalo.Value = True Then
     REL_ContaApagar_Normal.dfDesc.Caption = "PERÍODO"
     REL_ContaApagar_Normal.dfCriterio.Caption = Mask1.Text
 End If
@@ -4453,6 +4557,7 @@ cmdNovo.Enabled = False
 End Sub
 
 Private Sub cmdQuitar_Click()
+On Error GoTo TrataErroQuitar
 If cboFonte.Text = "" And cboStatus.Text = "PAGA" Then MsgBox "Selecione uma fonte!", vbInformation, "Aviso do sistema": cboFonte.SetFocus: Exit Sub
 If Not IsDate(mskVenc.Text) Then ShowMsg "Data Inválida!", vbInformation: mskVenc.SetFocus: Exit Sub
 If cboStatus.Text = "" Or cboDescricao.Text = "" Or cboFavorecido.Text = "" Or txtVlrUnit.Text = "" Or cboTipo.Text = "" Then ShowMsg "Falta preencher alguns campos!", vbInformation: cboStatus.SetFocus: Exit Sub
@@ -4466,6 +4571,7 @@ Dim S_TOTAIS As Currency
 
 Dim lNovoCodCaixaSaida As Long
 Dim lNovoCodRetirada As Long
+Dim bTrans As Boolean
 
     'verificar caixa
     ConsultarCaixaAtual
@@ -4474,6 +4580,9 @@ Dim lNovoCodRetirada As Long
         MsgBox "O caixa ainda não foi aberto", vbInformation, "Aviso do Sistema"
         Exit Sub
     End If
+
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
 
 'ADICIONAR NA TABELA CAIXA_SAIDA
 If cboFonte.Text = "CAIXA ATUAL" And cboStatus.Text = "PAGA" Then
@@ -4503,6 +4612,8 @@ If cboFonte.Text = "CAIXA ATUAL" And cboStatus.Text = "PAGA" Then
    
    If S_TOTAIS < CCur(lblTotalGeral) Then
       ShowMsg "O Saldo do CAIXA é menor que o valor da conta!", vbInformation
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
       Exit Sub
    End If
    
@@ -4517,7 +4628,7 @@ If cboFonte.Text = "CAIXA ATUAL" And cboStatus.Text = "PAGA" Then
 ElseIf cboFonte.Text = "SALDOS" And cboStatus.Text = "PAGA" Then
 
     'pegar o valor do ultimo do saldos
-    sSQL = "SELECT top 1 SALDO_ATUAL, RETIRADA, CODIGO FROM caixa_saldo order by codigo desc;"
+    sSQL = "SELECT TOP 1 SALDO_ATUAL, RETIRADA, CODIGO FROM caixa_saldo WITH (UPDLOCK, HOLDLOCK) ORDER BY codigo DESC;"
     Set r = dbData.OpenRecordset(sSQL)
     
     Dim varValorUltimoSaldo As Currency
@@ -4538,7 +4649,12 @@ ElseIf cboFonte.Text = "SALDOS" And cboStatus.Text = "PAGA" Then
     
     varValorSaida = lblTotalGeral.Caption
     
-    If varValorSaida > varValorUltimoSaldo Then MsgBox "O valor da conta é maior que seu saldo atual", vbInformation, "Aviso do Sistema": Exit Sub
+    If varValorSaida > varValorUltimoSaldo Then
+        MsgBox "O valor da conta é maior que seu saldo atual", vbInformation, "Aviso do Sistema"
+        dbData.Execute "ROLLBACK TRANSACTION"
+        bTrans = False
+        Exit Sub
+    End If
     
     'criar uma sangria
     AutoNumeracaoSangria
@@ -4546,6 +4662,8 @@ ElseIf cboFonte.Text = "SALDOS" And cboStatus.Text = "PAGA" Then
     'inserir dados na tabela caixa_saida
     If Not Inserir_DadosSangria(varCodSangriaNovo) Then
        ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
+       dbData.Execute "ROLLBACK TRANSACTION"
+       bTrans = False
        Exit Sub
     End If
     
@@ -4570,6 +4688,9 @@ End If
 
 'ADICIONAR NA TABELA A_PAGAR
  dbData.Execute "UPDATE a_pagar SET status = 'PAGA', data_pgto = CONVERT(DATETIME, '" & Format(CDate(mskPgto), ocDATA) & "', 103), fonte = '" & cboFonte.Text & "' WHERE (codigo = " & txtCodigo & ");"
+
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
 
 If ShowMsg("Deseja imprimir o recibo ?", vbQuestion + vbYesNo) = vbYes Then
    IMPRIMIR = True
@@ -4601,6 +4722,14 @@ Limpar_Objetos_Conta
 Form_Load
 'LimparGrid_Conta
 'MostrarGrid_Contas
+Exit Sub
+
+TrataErroQuitar:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
+   MsgBox "Erro ao quitar a conta: " & Err.Description, vbCritical, "Erro"
 End Sub
 
 
@@ -4660,6 +4789,7 @@ End Sub
 Private Sub cmdReativarConta_Click()
 Dim sSQL As String
 Dim bRet As Boolean
+Dim bTrans As Boolean
 
 On Error GoTo TrataErro
 
@@ -4672,12 +4802,43 @@ sSQL = sSQL & " WHERE (codigo = " & txtCodigo.Text & ");"
 dbData.Execute (sSQL)
 
 If cboFonte.Text = "SALDOS" Then
-   sSQL = "DELETE FROM caixa_saldo_retirada WHERE (COD_DESCRICAO = " & txtCodigo.Text & ");"
+   'descobrir de qual saldo o dinheiro saiu e quanto, pra devolver antes
+   'de apagar o registro - sem isso o SALDO_ATUAL de caixa_saldo nunca
+   'era corrigido (bug achado em analise, 2026-10-27)
+   sSQL = "SELECT COD_SALDO, VALOR FROM caixa_saldo_retirada WHERE (TIPO = 'CONTAS À PAGAR') AND (COD_DESCRICAO = " & txtCodigo.Text & ");"
+   Set r = dbData.OpenRecordset(sSQL)
+
+   Dim varCodSaldoReativ As Long
+   Dim varValorReativ As Currency
+   If Not r.BOF Then
+      varCodSaldoReativ = r("COD_SALDO")
+      varValorReativ = r("VALOR")
+   Else
+      varCodSaldoReativ = 0
+      varValorReativ = 0
+   End If
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+
+   dbData.Execute "BEGIN TRANSACTION"
+   bTrans = True
+
+   If varCodSaldoReativ <> 0 Then
+      'devolve o valor pro saldo acumulado (RETIRADA diminui, SALDO_ATUAL volta)
+      dbData.Execute "UPDATE caixa_saldo SET RETIRADA = RETIRADA - " & Replace(CCur(varValorReativ), ",", ".") & ", SALDO_ATUAL = SALDO_ANTERIOR + ENTRADA - (RETIRADA - " & Replace(CCur(varValorReativ), ",", ".") & ") WHERE (CODIGO = " & varCodSaldoReativ & ");"
+   End If
+
+   sSQL = "DELETE FROM caixa_saldo_retirada WHERE (TIPO = 'CONTAS À PAGAR') AND (COD_DESCRICAO = " & txtCodigo.Text & ");"
    bRet = dbData.Execute(sSQL)
 
    If Not bRet Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
       Exit Sub
    End If
+
+   dbData.Execute "COMMIT TRANSACTION"
+   bTrans = False
 ElseIf cboFonte.Text = "CAIXA ATUAL" Then
    dbData.Execute "DELETE FROM caixa_saida WHERE (cod_conta = " & txtCodigo & ");"
 End If
@@ -4690,6 +4851,10 @@ optTodos_Click
 Exit Sub
    
 TrataErro:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
    If Err.Number = 3421 Then
       ShowMsg "FORMULÁRIO INCOMPLETO!" & vbCrLf & "Verifique se todos os dados estão nos campos.", vbInformation
       Exit Sub
@@ -4698,6 +4863,7 @@ End Sub
 
 Private Sub cmdRemoverHaver_Click()
    On Error GoTo erro
+   Dim bTrans As Boolean
 
    'Row retorna a linha selecionada
    i = Grid_Haver.Row
@@ -4730,8 +4896,15 @@ Private Sub cmdRemoverHaver_Click()
    
 If Grid_Haver.TextMatrix(i, 4) = "SALDOS" Then
     
-    'descobrir o codigo do saldo que  foi retirado o dinheiro
-    sSQL = "SELECT COD_SALDO FROM caixa_saldo_retirada where TIPO = 'PGTO CONTA' AND COD_DESCRICAO = " & txtCodigo.Text & ";"
+    'descobrir o codigo do saldo de onde o dinheiro saiu - usa COD_HAVER
+    '(identificador exato desse haver). O filtro antigo (TIPO = 'PGTO
+    'CONTA' AND COD_DESCRICAO = conta) nunca batia - cmdAdicionarHaver_Click
+    'grava TIPO = 'CONTAS À PAGAR', nao 'PGTO CONTA' - a busca sempre
+    'vinha vazia e o dinheiro nunca voltava pro saldo acumulado (bug achado
+    'em analise, 2026-10-27). COD_HAVER tambem e mais preciso que
+    'COD_DESCRICAO sozinho, que so identifica a CONTA (ambiguo se a mesma
+    'conta tiver mais de um haver pago via SALDOS)
+    sSQL = "SELECT COD_SALDO FROM caixa_saldo_retirada WHERE (COD_HAVER = " & Grid_Haver.TextMatrix(i, 1) & ");"
     Set r = dbData.OpenRecordset(sSQL)
     
     Dim varCodSaldo As Integer
@@ -4741,33 +4914,24 @@ If Grid_Haver.TextMatrix(i, 4) = "SALDOS" Then
     Else
         varCodSaldo = 0
     End If
-                
-    'descobrir o valor do saldo para voltar a quantia retirada
-    sSQL = "SELECT ISNULL(RETIRADA, 0) as Ret, ISNULL(SALDO_ATUAL, 0) AS Sald FROM caixa_saldo where CODIGO = " & varCodSaldo & ";"
-    Set r = dbData.OpenRecordset(sSQL)
+    If r.State <> 0 Then r.Close
+    Set r = Nothing
+    
+    'atualizar o valor da retirada e saldo (devolver), apagar a retirada -
+    'expressao relativa (RETIRADA - valor / SALDO_ATUAL + valor) pra o SQL
+    'Server resolver em cima do valor atual da linha, dentro de transacao
+    dbData.Execute "BEGIN TRANSACTION"
+    bTrans = True
 
-    Dim varValorRetAtual As Currency
-    Dim varValorRetNovas As Currency
-    Dim varValorSaldoAtual As Currency
-    Dim varValorSaldoNovo As Currency
-        
-    If Not r.BOF Then
-        varValorRetAtual = r("Ret")
-        varValorSaldoAtual = r("Sald")
-    Else
-        varValorRetAtual = 0
-        varValorSaldoAtual = 0
+    If varCodSaldo <> 0 Then
+        dbData.Execute "UPDATE caixa_saldo SET RETIRADA = RETIRADA - " & Replace(CCur(Grid_Haver.TextMatrix(i, 3)), ",", ".") & ", SALDO_ATUAL = SALDO_ATUAL + " & Replace(CCur(Grid_Haver.TextMatrix(i, 3)), ",", ".") & " WHERE CODIGO = " & varCodSaldo & ";"
     End If
-    
-    'voltar os valores para a tabela de saldos
-    varValorRetNovas = varValorRetAtual - CCur(Grid_Haver.TextMatrix(i, 3))
-    varValorSaldoNovo = varValorSaldoAtual + CCur(Grid_Haver.TextMatrix(i, 3))
-    
-    'atualizar o valor da retirada e saldo (acrescentar)
-    dbData.Execute "UPDATE caixa_saldo SET RETIRADA = " & Replace(CCur(varValorRetNovas), ",", ".") & ", SALDO_ATUAL = " & Replace(CCur(varValorSaldoNovo), ",", ".") & " WHERE CODIGO = " & varCodSaldo & ";"
 
     'apagar a retirada
     dbData.Execute "DELETE FROM caixa_saldo_retirada WHERE (COD_HAVER = " & Grid_Haver.TextMatrix(Grid_Haver.Row, 1) & ");"
+
+    dbData.Execute "COMMIT TRANSACTION"
+    bTrans = False
 End If
    
    txtCodigo_Change
@@ -4776,6 +4940,10 @@ End If
    Exit Sub
    
 erro:
+   If bTrans Then
+      dbData.Execute "ROLLBACK TRANSACTION"
+      bTrans = False
+   End If
    MsgBox "Não existe nenhum haver selecionado para ser excluído!", vbExclamation
    Exit Sub
 End Sub
@@ -4803,7 +4971,7 @@ Private Sub cmdSalvar_Click()
       'Enconta a última chave primária
       lNovoCod = Auto_Numeracao_APagar
       
-      Data = DateAdd("m", i - 1, mskVenc.FormattedText)
+      DATA = DateAdd("m", i - 1, mskVenc.FormattedText)
       
       'PARCELA = CCur(txtVlrUnit.Text)
       
@@ -4844,16 +5012,16 @@ LimparGrid_Historico
 LimparGrid_Haver
 frmCadastro.Enabled = False
 SSTab1.Tab = 0
-If cboCONsetor.ListCount <> 0 Then cboCONsetor.ListIndex = cboCONsetor.ListCount - 1
-optTodos.Value = Checked
+frmPagamento.Visible = False
+optTodos.Value = True
 
 'colocar o nome da maquina na barra de status
 Dim var_Caixa As String
 Dim var_Maquina As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 var_Maquina = oIni.LerTexto("DADOS_MAQUINA", "maquina")
 var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
@@ -4905,14 +5073,14 @@ TOTAL_GERAL = Total - HAVER
 lblTotalGeral = Format(TOTAL_GERAL, ocMONEY)
 End Sub
 
-Public Function Verifica_Dia(DIA, mes As Integer)
+Public Function Verifica_Dia(DIA, Mes As Integer)
    Dim diasDoMes As Variant
    
    DIA = Val(DIA)
    diasDoMes = Array(31, 28, 30, 30, 31, 30, 31, 30, 30, 31, 30, 31)
    
    If DIA = 31 Then
-      Verifica_Dia = diasDoMes(mes - 1)
+      Verifica_Dia = diasDoMes(Mes - 1)
    Else
       Verifica_Dia = DIA
    End If
@@ -5120,6 +5288,10 @@ Private Sub optMensal_Click()
    optTodos.Value = 0
    optIntervalo.Value = 0
    Ocultar_SubCriterios
+   cboMes_GotFocus
+   cboMes.ListIndex = Month(Date) - 1
+   cboAno_GotFocus
+   cboAno.ListIndex = 2   'lista e sempre (ano atual -2) a (ano atual +2), 5 itens - o atual fica no meio
    If cboMes.Visible = True Then cboMes.SetFocus
 End Sub
 
@@ -5130,61 +5302,61 @@ Private Sub optNome_Click()
 End Sub
 
 Private Sub optOrdCadastro_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
 
 Private Sub optOrdFavorecido_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
 
 Private Sub optOrdForma_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
 
 Private Sub optOrdReferente_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
 
 Private Sub optOrdVencimento_Click()
-   If optTodos.Value = Checked Then
+   If optTodos.Value = True Then
       optTodos_Click
-   ElseIf optMensal.Value = Checked Then
+   ElseIf optMensal.Value = True Then
       cmdExibir_Click
-   ElseIf optIntervalo.Value = Checked Then
+   ElseIf optIntervalo.Value = True Then
       cmdExibir_Click
-   ElseIf optNome.Value = Checked Then
+   ElseIf optNome.Value = True Then
       cmdExibir_Click
    End If
 End Sub
@@ -5203,7 +5375,7 @@ Private Sub optPagamento_Click()
 End Sub
 
 Private Sub optTodos_Click()
-If optTodos.Value = 1 Then
+If optTodos.Value = True Then
    optMensal.Value = 0
    optIntervalo.Value = 0
    optNome.Value = 0
@@ -5317,7 +5489,7 @@ Private Function Adicionar_Dados_Conta(ByVal Cod As Long, ByVal Acao As Integer)
    
    If Acao = 1 Then
       sSQL = "INSERT INTO a_pagar (codigo, cadastro, vencimento, valor_und, haveres, total, status, descricao, favorecido, setor, " & _
-         "tipo, forma, ref) VALUES (" & Cod & ", CONVERT(DATETIME, '" & Format$(CDate(mskCadastro), ocDATA) & "', 103), CONVERT(DATETIME, '" & Format$(Data, ocDATA) & "', 103), " & _
+         "tipo, forma, ref) VALUES (" & Cod & ", CONVERT(DATETIME, '" & Format$(CDate(mskCadastro), ocDATA) & "', 103), CONVERT(DATETIME, '" & Format$(DATA, ocDATA) & "', 103), " & _
          Replace(CCur(txtVlrUnit), ",", ".") & ", 0, " & Replace(CCur(txtVlrUnit), ",", ".") & ", '" & cboStatus & "', '" & cboDescricao & "', '" & cboFavorecido & "', '" & _
          cboSetor & "', '" & cboTipo & "', '" & cboForma & "', '" & txtRef & "');"
    
@@ -5325,7 +5497,7 @@ Private Function Adicionar_Dados_Conta(ByVal Cod As Long, ByVal Acao As Integer)
       'Comando de atualizacao
       sSQL = "UPDATE a_pagar SET " & _
          "cadastro = CONVERT(DATETIME, '" & Format(CDate(mskCadastro), ocDATA) & "', 103), " & _
-         "vencimento = CONVERT(DATETIME, '" & Format(Data, ocDATA) & "', 103), " & _
+         "vencimento = CONVERT(DATETIME, '" & Format(DATA, ocDATA) & "', 103), " & _
          "valor_und = " & Replace(CCur(txtVlrUnit), ",", ".") & ", " & _
          "status = '" & cboStatus & "', " & _
          "descricao = '" & cboDescricao & "', " & _
@@ -5391,4 +5563,12 @@ End Sub
 
 Private Sub txtVlrUnit_Validate(Cancel As Boolean)
 If txtVlrUnit.Text = "" Then txtVlrUnit.Text = Format(0, "##,##0.00")
+End Sub
+
+Private Sub txtVlrUnit_LostFocus()
+   If txtVlrUnit.Text = "" Then
+      txtVlrUnit.Text = Format(0, "##,##0.00")
+   Else
+      txtVlrUnit.Text = Format(txtVlrUnit, "##,##0.00")
+   End If
 End Sub

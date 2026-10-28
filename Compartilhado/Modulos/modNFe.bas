@@ -61,11 +61,78 @@ Dim frmForm As Form
       End If
    Next frmForm
 End Function
+Private Sub VerificarCorrigirSnfeConfig()
+'o snfe.config (gerenciado pela DLL snfe.Util, fica ao lado do EXE) fica
+'vulneravel a corrupcao em pico de energia/desligamento incorreto - a
+'escrita nao e atomica, e se o PC desliga no meio, o arquivo fica com o
+'tamanho final mas recheado de bytes 0x00 a partir de onde a escrita
+'parou. A DLL trava com "Erro: Carregando XML" ao tentar LER esse
+'arquivo corrompido e nao chega a regravar ele sozinha - so volta a
+'funcionar reinstalando em pasta nova (sem snfe.config pre-existente).
+'Essa checagem substitui esse workaround manual: detecta corrupcao e
+'renomeia o arquivo ruim (guarda copia pra diagnostico) ANTES de
+'chamar a DLL, deixando ConfigurarDLL/CarregarConfiguracoes (que roda
+'logo em seguida, com dados frescos do banco) recriar o arquivo do zero.
+Dim caminhoConfig As String
+Dim corrompido As Boolean
+Dim nFile As Integer
+Dim bytesConfig() As Byte
+Dim i As Long
+
+On Error GoTo SairVerificacao
+
+caminhoConfig = App.Path & "\snfe.config"
+If Dir$(caminhoConfig) = "" Then Exit Sub   'nada a verificar - DLL cria do zero
+
+corrompido = False
+
+'checagem rapida: bytes NUL embutidos (assinatura da corrupcao por
+'queda de energia - escrita truncada, resto preenchido com zero)
+nFile = FreeFile
+Open caminhoConfig For Binary Access Read As #nFile
+If LOF(nFile) > 0 Then
+   ReDim bytesConfig(LOF(nFile) - 1)
+   Get #nFile, , bytesConfig
+   For i = LBound(bytesConfig) To UBound(bytesConfig)
+      If bytesConfig(i) = 0 Then
+         corrompido = True
+         Exit For
+      End If
+   Next i
+Else
+   corrompido = True   'arquivo vazio tambem conta como invalido
+End If
+Close #nFile
+
+'checagem completa: XML bem formado (cobre outros tipos de corrupcao,
+'nao so a de byte zero)
+If Not corrompido Then
+   Dim oXMLConfig As New MSXML2.DOMDocument30
+   oXMLConfig.async = False
+   oXMLConfig.Load caminhoConfig
+   If oXMLConfig.parseError.errorCode <> 0 Then corrompido = True
+   Set oXMLConfig = Nothing
+End If
+
+If corrompido Then
+   Name caminhoConfig As App.Path & "\snfe.config.corrompido_" & Format(Now, "yyyymmdd_hhmmss")
+End If
+
+Exit Sub
+
+SairVerificacao:
+'nao deixa um erro nessa checagem (ex: arquivo em uso) impedir a
+'tentativa normal de configurar a DLL
+If nFile <> 0 Then Close #nFile
+End Sub
+
 Public Function ConfiguraDLLNFeNFCe(Modelo As Integer, TipoEmissao As String, ByRef objNFeNFCe As snfe.Util) As Boolean
 Dim ComandoSQL As String
 Dim iRetornoLocal As Long   'NAO usar a global iRetorno aqui - essa funcao e chamada de todo lugar, sujar a global vaza resultado errado pro chamador
    
    On Error GoTo deuErro
+   
+   VerificarCorrigirSnfeConfig   'auto-recuperacao de snfe.config corrompido por queda de energia
    
    Set objNFeNFCe = New snfe.Util
    

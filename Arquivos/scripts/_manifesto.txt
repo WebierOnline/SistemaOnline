@@ -64,7 +64,6 @@
 064|alter_tbISClassTrib_ISCST.sql|GERAL
 065|Categorias_Tags.sql|GERAL
 066|alter_produtos_reforma_IS.sql|GERAL
-067|Popular_Produtos_ClassTrib_ViaNCM.sql|GERAL
 068|Fix_Produtos_ClassTrib_SemNCM_NaTbNCM.sql|GERAL
 069|AlterTable_NotaFiscal_IBSCBSIS.sql|GERAL
 070|AlterTable_NotaFiscalItens_CodPedido.sql|GERAL
@@ -118,3 +117,5 @@
 118|AlterTable_Pedidos_AddDataEntrega.sql|GERAL
 119|AlterTable_Pedidos_AddHoraCompra.sql|GERAL
 120|AlterTable_ProdutosSaida_AddHora.sql|GERAL
+121|Popular_Setor_Geral.sql|GERAL
+122|Popular_Produtos_ClassTrib_Fixo.sql|GERAL

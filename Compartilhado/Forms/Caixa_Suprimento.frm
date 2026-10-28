@@ -479,7 +479,6 @@ Begin VB.Form Caixa_Suprimento
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Caixa_Suprimento.frx":B981
-         PICN            =   "Caixa_Suprimento.frx":B99D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -498,7 +497,7 @@ Begin VB.Form Caixa_Suprimento
          _ExtentX        =   3201
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   ""
+         TX              =   "Salvar"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -517,8 +516,7 @@ Begin VB.Form Caixa_Suprimento
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Suprimento.frx":BCB7
-         PICN            =   "Caixa_Suprimento.frx":BCD3
+         MICON           =   "Caixa_Suprimento.frx":B99D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -556,8 +554,7 @@ Begin VB.Form Caixa_Suprimento
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Suprimento.frx":1259D
-         PICN            =   "Caixa_Suprimento.frx":125B9
+         MICON           =   "Caixa_Suprimento.frx":B9B9
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -576,7 +573,7 @@ Begin VB.Form Caixa_Suprimento
          _ExtentX        =   3201
          _ExtentY        =   1085
          BTYPE           =   3
-         TX              =   ""
+         TX              =   "Cancelar"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -595,8 +592,7 @@ Begin VB.Form Caixa_Suprimento
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Suprimento.frx":12E93
-         PICN            =   "Caixa_Suprimento.frx":12EAF
+         MICON           =   "Caixa_Suprimento.frx":B9D5
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -634,8 +630,7 @@ Begin VB.Form Caixa_Suprimento
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Suprimento.frx":19953
-         PICN            =   "Caixa_Suprimento.frx":1996F
+         MICON           =   "Caixa_Suprimento.frx":B9F1
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -673,8 +668,7 @@ Begin VB.Form Caixa_Suprimento
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Caixa_Suprimento.frx":19C89
-         PICN            =   "Caixa_Suprimento.frx":19CA5
+         MICON           =   "Caixa_Suprimento.frx":BA0D
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -948,17 +942,17 @@ End Sub
 Private Sub cboMes_GotFocus()
    Dim vMes As Integer
    
-   cboMES.Clear
+   cboMes.Clear
    
    For vMes = 1 To 12
-      cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+      cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
    
-   moCombo.AttachTo cboMES
+   moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cboMes_LostFocus()
-   If cboMES.Text = "" Then Exit Sub Else cboAno.SetFocus
+   If cboMes.Text = "" Then Exit Sub Else cboAno.SetFocus
 End Sub
 
 Private Sub cboSETOR_KeyPress(KeyAscii As Integer)
@@ -1098,9 +1092,9 @@ ElseIf optConsData.Value = True Then
    sSQL = "SELECT * FROM caixa_entrada WHERE (data = CONVERT(DATETIME, '" & Format(mskConsData.Text, ocDATA) & "', 103)) ORDER BY data, hora;"
    
 ElseIf optConsMes.Value = True Then
-   If cboMES.Text = "" Or cboMES.ListIndex = -1 Then Exit Sub
+   If cboMes.Text = "" Or cboMes.ListIndex = -1 Then Exit Sub
    If cboAno.Text = "" Or cboAno.ListIndex = -1 Then Exit Sub
-   sSQL = "SELECT * FROM caixa_entrada WHERE (MONTH(data) = " & cboMES.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") ORDER BY data, hora;"
+   sSQL = "SELECT * FROM caixa_entrada WHERE (MONTH(data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(data) = " & cboAno & ") ORDER BY data, hora;"
     
 End If
 
@@ -1292,10 +1286,10 @@ Set rEmpresa = dbData.OpenRecordset(sSQL)
 f = FreeFile()
    
   'pegar o nome da impressora no ini
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_ImpTermica = oIni.LerTexto("IMPRESSORA_TERMICA", "impressora")
    Set oIni = Nothing
    
@@ -1444,10 +1438,10 @@ Private Sub Form_Load()
    
    'colocar o nome da maquina na barra de status
    Dim var_Caixa As String
-   Dim oIni As Ini
+   Dim oIni As ini
    
-   Set oIni = New Ini
-   oIni.Arquivo = appPathApp & "config.ini"
+   Set oIni = New ini
+   oIni.arquivo = appPathApp & "config.ini"
    var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
    'Set oIni = Nothing
    
@@ -1656,7 +1650,7 @@ End Sub
 Private Sub optConsData_Click()
 mskConsData.Visible = True
 cmdConsData.Visible = True
-cboMES.Visible = False
+cboMes.Visible = False
 cboAno.Visible = False
 lblCONmes.Visible = False
 cmdExibir.Visible = True
@@ -1667,17 +1661,17 @@ End Sub
 Private Sub optConsMes_Click()
 mskConsData.Visible = False
 cmdConsData.Visible = False
-cboMES.Visible = True
+cboMes.Visible = True
 cboAno.Visible = True
 cmdExibir.Visible = True
 lblCONmes.Visible = True
-cboMES.SetFocus
+cboMes.SetFocus
 End Sub
 
 Private Sub optTodos_Click()
 mskConsData.Visible = False
 cmdConsData.Visible = False
-cboMES.Visible = False
+cboMes.Visible = False
 cboAno.Visible = False
 lblCONmes.Visible = False
 cmdExibir_Click

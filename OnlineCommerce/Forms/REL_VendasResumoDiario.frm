@@ -363,7 +363,7 @@ Begin VB.Form REL_VendasResumoDiario
       Begin ReportX.ReportField dfTotal 
          Height          =   255
          Left            =   9600
-         TabIndex        =   57
+         TabIndex        =   3
          Top             =   1260
          Width           =   1935
          _ExtentX        =   3413
@@ -400,7 +400,7 @@ Begin VB.Form REL_VendasResumoDiario
          ForeColor       =   &H80000008&
          Height          =   225
          Left            =   9120
-         TabIndex        =   58
+         TabIndex        =   4
          Top             =   1260
          Width           =   465
       End
@@ -422,7 +422,7 @@ Begin VB.Form REL_VendasResumoDiario
          ForeColor       =   &H80000008&
          Height          =   225
          Left            =   5550
-         TabIndex        =   55
+         TabIndex        =   8
          Top             =   60
          Width           =   675
       End
@@ -444,7 +444,7 @@ Begin VB.Form REL_VendasResumoDiario
          ForeColor       =   &H80000008&
          Height          =   225
          Left            =   5550
-         TabIndex        =   56
+         TabIndex        =   9
          Top             =   300
          Width           =   660
       End
@@ -805,11 +805,11 @@ Begin VB.Form REL_VendasResumoDiario
       End
       Begin ReportX.ReportField ReportField15 
          Height          =   195
-         Left            =   10400
-         TabIndex        =   60
+         Left            =   10410
+         TabIndex        =   51
          Top             =   0
-         Width           =   1475
-         _ExtentX        =   1402
+         Width           =   1455
+         _ExtentX        =   2566
          _ExtentY        =   344
          Campo           =   "Tipo_Pagamento"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -931,7 +931,7 @@ Begin VB.Form REL_VendasResumoDiario
          EndProperty
          Height          =   225
          Left            =   10400
-         TabIndex        =   59
+         TabIndex        =   52
          Top             =   2040
          Width           =   525
       End
@@ -949,7 +949,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   4500
+         Left            =   5100
          TabIndex        =   46
          Top             =   2040
          Width           =   720
@@ -968,7 +968,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   3100
+         Left            =   3840
          TabIndex        =   45
          Top             =   2040
          Width           =   585
@@ -987,7 +987,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   5900
+         Left            =   6360
          TabIndex        =   34
          Top             =   2040
          Width           =   750
@@ -1006,7 +1006,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   7200
+         Left            =   7680
          TabIndex        =   33
          Top             =   2040
          Width           =   390
@@ -1025,7 +1025,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   8200
+         Left            =   8640
          TabIndex        =   32
          Top             =   2040
          Width           =   450
@@ -1084,7 +1084,7 @@ Begin VB.Form REL_VendasResumoDiario
             Strikethrough   =   0   'False
          EndProperty
          Height          =   225
-         Left            =   9200
+         Left            =   9840
          TabIndex        =   5
          Top             =   2040
          Width           =   450
@@ -1092,7 +1092,7 @@ Begin VB.Form REL_VendasResumoDiario
       Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
-         Caption         =   "COMPRA"
+         Caption         =   "DATA"
          BeginProperty Font 
             Name            =   "Arial Narrow"
             Size            =   8.25
@@ -1106,7 +1106,7 @@ Begin VB.Form REL_VendasResumoDiario
          Left            =   60
          TabIndex        =   2
          Top             =   2040
-         Width           =   630
+         Width           =   390
       End
       Begin VB.Label lblTitulo 
          Alignment       =   2  'Center

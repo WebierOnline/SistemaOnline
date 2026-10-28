@@ -129,16 +129,27 @@ Begin VB.Form Receber_Cadastro
       TabPicture(1)   =   "Receber_Cadastro.frx":2BDA
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label7"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Label23"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "Label12"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "Label13"
+      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "cmdImprimirConsulta"
+      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "GridConsulta"
+      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "txtCONHaver"
+      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "txtCONValor"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "Picture3"
+      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "txtCONquant"
+      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "txtCONtotal"
+      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).ControlCount=   11
       Begin VB.TextBox txtCONtotal 
          Alignment       =   1  'Right Justify
@@ -1224,7 +1235,6 @@ Begin VB.Form Receber_Cadastro
          MCOL            =   12632256
          MPTR            =   1
          MICON           =   "Receber_Cadastro.frx":196F2
-         PICN            =   "Receber_Cadastro.frx":1970E
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1275,8 +1285,7 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":19FE8
-         PICN            =   "Receber_Cadastro.frx":1A004
+         MICON           =   "Receber_Cadastro.frx":1970E
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1314,8 +1323,7 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":1BD96
-         PICN            =   "Receber_Cadastro.frx":1BDB2
+         MICON           =   "Receber_Cadastro.frx":1972A
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1353,8 +1361,7 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":1DB44
-         PICN            =   "Receber_Cadastro.frx":1DB60
+         MICON           =   "Receber_Cadastro.frx":19746
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1392,8 +1399,7 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":1F8F2
-         PICN            =   "Receber_Cadastro.frx":1F90E
+         MICON           =   "Receber_Cadastro.frx":19762
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1431,8 +1437,7 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":216A0
-         PICN            =   "Receber_Cadastro.frx":216BC
+         MICON           =   "Receber_Cadastro.frx":1977E
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1470,8 +1475,8 @@ Begin VB.Form Receber_Cadastro
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Receber_Cadastro.frx":2344E
-         PICN            =   "Receber_Cadastro.frx":2346A
+         MICON           =   "Receber_Cadastro.frx":1979A
+         PICN            =   "Receber_Cadastro.frx":197B6
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1583,7 +1588,7 @@ Begin VB.Form Receber_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "22:26"
+            TextSave        =   "19:37"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1993,7 +1998,7 @@ Private Function AutonNumeracao_Caixa() As Long
    Dim lRet As Long
    
    lRet = 0
-   sSQL = "SELECT ISNULL(MAX(codigo) AS cod FROM caixa_entrada;"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod FROM caixa_entrada;"
    Set r = dbData.OpenRecordset(sSQL)
    If Not r.BOF Then lRet = r("cod") + 1
    If r.State <> 0 Then r.Close
@@ -2008,9 +2013,9 @@ Private Function AutoNumeracao_Detalhes() As Long
    Dim lRet As Long
    
    lRet = 0
-   sSQL = "SELECT ISNULL(MAX(codigo) AS cod_detalhe FROM a_receber_visitas;"
+   sSQL = "SELECT ISNULL(MAX(codigo), 0) AS cod_detalhe FROM a_receber_visitas;"
    Set r = dbData.OpenRecordset(sSQL)
-   If Not r.BOF Then lRet = r("cod") + 1
+   If Not r.BOF Then lRet = r("cod_detalhe") + 1
    If r.State <> 0 Then r.Close
    Set r = Nothing
    
@@ -2104,7 +2109,7 @@ End Sub
 Private Sub cboFiltro_LostFocus()
 If cboFiltro.Text = "TODOS" Then
     lblCONmes.Visible = False
-    cboMES.Visible = False
+    cboMes.Visible = False
     cboAno.Visible = False
     lblCONint1.Visible = False
     Mask1.Visible = False
@@ -2117,7 +2122,7 @@ If cboFiltro.Text = "TODOS" Then
     'cmdExibirConsulta_Click
 ElseIf cboFiltro.Text = "MÊS" Then
    lblCONmes.Visible = True
-   cboMES.Visible = True
+   cboMes.Visible = True
    cboAno.Visible = True
    lblCONint1.Visible = False
    Mask1.Visible = False
@@ -2127,10 +2132,10 @@ ElseIf cboFiltro.Text = "MÊS" Then
     cmdFinal.Visible = False
    lblCONnome.Visible = False
    cboNome.Visible = False
-   cboMES.SetFocus
+   cboMes.SetFocus
 ElseIf cboFiltro.Text = "PERIODO" Then
    lblCONmes.Visible = False
-   cboMES.Visible = False
+   cboMes.Visible = False
    cboAno.Visible = False
    lblCONint1.Visible = True
    Mask1.Visible = True
@@ -2143,7 +2148,7 @@ ElseIf cboFiltro.Text = "PERIODO" Then
    cboNome.Visible = False
 ElseIf cboFiltro.Text = "CLIENTE" Then
    lblCONmes.Visible = False
-   cboMES.Visible = False
+   cboMes.Visible = False
    cboAno.Visible = False
    lblCONint1.Visible = False
    Mask1.Visible = False
@@ -2161,13 +2166,13 @@ End Sub
 Private Sub cboMes_GotFocus()
    Dim vMes As Integer
    
-   cboMES.Clear
+   cboMes.Clear
    
    For vMes = 1 To 12
-      cboMES.AddItem StrConv(MonthName(vMes), vbProperCase)
+      cboMes.AddItem StrConv(MonthName(vMes), vbProperCase)
    Next
    
-   moCombo.AttachTo cboMES
+   moCombo.AttachTo cboMes
 End Sub
 
 Private Sub cboNome_GotFocus()
@@ -2218,7 +2223,7 @@ Private Sub cboOrdem_GotFocus()
 cboOrdem.Clear
 cboOrdem.AddItem "VENC."
 cboOrdem.AddItem "CLIENTE"
-moCombo.AttachTo cboFiltro
+moCombo.AttachTo cboOrdem
 End Sub
 
 
@@ -2407,18 +2412,20 @@ If optTipoAvulso.Value = True Then
     If r.State <> 0 Then r.Close
     Set r = Nothing
     
-    'indice do item
-    Dim IndiceItem As Integer
+    'indice do item (contador PROPRIO, nao reaproveita varCodItem -
+    'antes sobrescrevia o codigo ja calculado acima, arriscando colidir
+    'com um codigo ja existente)
+    Dim IndiceItem As Long
     
     sSQL = "SELECT ISNULL(MAX(item), 0) AS ultimo_item FROM a_receber_itens;"
     Set r = dbData.OpenRecordset(sSQL)
     
-    If Not r.BOF Then varCodItem = r("ultimo_item") + 1
+    If Not r.BOF Then IndiceItem = r("ultimo_item") + 1
     If r.State <> 0 Then r.Close
     Set r = Nothing
     
     dbData.Execute "INSERT INTO a_receber_itens (codigo, cod_pedido, cod_produto, descricao, preco, quantidade, total, data, tipo_venda, item) VALUES (" & _
-          varCodItem & ", " & lblCodigo.Caption & ", " & txtCodProduto.Text & ", '" & cboProdutos.Text & "', " & Replace(CCur(txtValorProduto.Text), ",", ".") & ", " & txtQuant.Text & ", " & Replace(CCur(txtTotalProd.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 'BALCAO', " & varCodItem & ");"
+          varCodItem & ", " & lblCodigo.Caption & ", " & txtCodProduto.Text & ", '" & cboProdutos.Text & "', " & Replace(CCur(txtValorProduto.Text), ",", ".") & ", " & txtQuant.Text & ", " & Replace(CCur(txtTotalProd.Text), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), 'BALCAO', " & IndiceItem & ");"
 
 Else
    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_item FROM pedidos_itens;"
@@ -2505,6 +2512,8 @@ Dim bTrans As Boolean
 
 dbData.Execute "BEGIN TRANSACTION"
 bTrans = True
+dbData.Execute "DELETE FROM a_receber_itens WHERE (cod_pedido = " & lblCodigo.Caption & ");"
+dbData.Execute "DELETE FROM pedidos_itens WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "COMMIT TRANSACTION"
@@ -2612,8 +2621,23 @@ If r.RecordCount > 0 Then
 End If
 If r.State <> 0 Then r.Close
 
+'confere haver lancado nas parcelas dessa conta - sem isso, excluir
+'deixava parcelas_haver orfao (apontando pra uma parcela que deixou
+'de existir) sempre que havia um haver parcial numa parcela ainda
+'nao totalmente quitada (status continua 0 nesse caso)
+sSQL = "SELECT codigo FROM parcelas_haver WHERE (cod_parcela IN (SELECT codigo FROM parcelas WHERE cod_pedido = " & lblCodigo.Caption & "))"
+Set r = dbData.OpenRecordset(sSQL)
+
+If r.RecordCount > 0 Then
+    MsgBox "Existe haver lançado pra essa conta! Não será possivel excluir essa conta.", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+If r.State <> 0 Then r.Close
+
 dbData.Execute "BEGIN TRANSACTION"
 bTrans = True
+dbData.Execute "DELETE FROM a_receber_itens WHERE (cod_pedido = " & lblCodigo.Caption & ");"
+dbData.Execute "DELETE FROM pedidos_itens WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM pedidos WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "DELETE FROM parcelas WHERE (cod_pedido = " & lblCodigo.Caption & ");"
 dbData.Execute "COMMIT TRANSACTION"
@@ -2707,14 +2731,14 @@ Private Sub cmdExibirConsulta_Click()
          var_STATUS & " ORDER BY " & INDICE
       
    ElseIf cboFiltro.Text = "MÊS" Then
-      If cboMES.Text = "" Or cboAno.Text = "" Then
+      If cboMes.Text = "" Or cboAno.Text = "" Then
          MsgBox "Selecione o MÊS e depois o ANO!", vbExclamation
-         cboMES.SetFocus
+         cboMes.SetFocus
          Exit Sub
       End If
       
       'DATA DE VENCIMENTO OU PAGAMENTO
-      Tipo_Data = "AND (MONTH(data) = " & cboMES.ListIndex + 1 & ") AND (YEAR(DATA) = " & cboAno & ") "
+      Tipo_Data = "AND (MONTH(data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(DATA) = " & cboAno & ") "
       
       'MOSTRAR NO GRID
       sSQL = "SELECT " & sql_ATRAZO & " AS var_atrazo, " & _
@@ -2794,11 +2818,11 @@ End Sub
 Private Sub cmdImprimirConsulta_Click()
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 Dim r As ADODB.Recordset
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -2816,7 +2840,7 @@ If cboFiltro.Text = "TODOS" Then
 ElseIf cboFiltro.Text = "PERIODO" Then
    REL_Receber_Consulta.dfTipo.Caption = "Tipo: Intervalo de " & Mask1.Text & " à " & Mask2.Text
 ElseIf cboFiltro.Text = "MÊS" Then
-   REL_Receber_Consulta.dfTipo.Caption = "Tipo: Mês = " & cboMES.Text & "/" & cboAno.Text
+   REL_Receber_Consulta.dfTipo.Caption = "Tipo: Mês = " & cboMes.Text & "/" & cboAno.Text
 ElseIf cboFiltro.Text = "CLIENTE" Then
    REL_Receber_Consulta.dfTipo.Caption = "Cliente = " & cboNome.Text
 Else
@@ -2895,7 +2919,7 @@ Private Function AutoNumeracao_Itens() As Long
    sSQL = "SELECT ISNULL(MAX(codigo), 0) AS ultimo_item FROM pedidos_itens;"
    Set r = dbData.OpenRecordset(sSQL)
    If Not r.BOF Then lRet = r("ultimo_item") + 1
-   If Not r.State <> 0 Then r.Close
+   If r.State <> 0 Then r.Close
    Set r = Nothing
    
    AutoNumeracao_Itens = lRet
@@ -2985,11 +3009,11 @@ cboFiltro.Text = "TODOS"
 StatusBar1.Panels(4).Text = Format(Date, "dd/mm/yy")
 
 'colocar o nome da maquina na barra de status
-Dim oIni As Ini
+Dim oIni As ini
 Dim var_Maquina As String
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Maquina = oIni.LerTexto("DADOS_MAQUINA", "maquina")
 Set oIni = Nothing
 
@@ -3245,14 +3269,7 @@ End If
 End Sub
 
 Private Sub optPorQuant_Click()
-If optPorDatas.Value = True Then
-    lbl2.Enabled = False
-    cboQuantParc.Enabled = False
-    Label4.Enabled = True
-    chameleonButton2.Enabled = True
-    mskFinal.Enabled = True
-    CalcularQuantParcelas
-Else
+If optPorQuant.Value = True Then
     lbl2.Enabled = True
     cboQuantParc.Enabled = True
     Label4.Enabled = False
