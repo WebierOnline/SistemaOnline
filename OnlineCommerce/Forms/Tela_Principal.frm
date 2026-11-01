@@ -21,22 +21,6 @@ Begin VB.MDIForm Tela_Principal
       TabIndex        =   1
       Top             =   0
       Width           =   16755
-      Begin VB.TextBox txtCodigo 
-         Height          =   285
-         Left            =   14820
-         TabIndex        =   5
-         Top             =   0
-         Visible         =   0   'False
-         Width           =   1215
-      End
-      Begin VB.TextBox txtSenha 
-         Height          =   285
-         Left            =   14820
-         TabIndex        =   4
-         Top             =   300
-         Visible         =   0   'False
-         Width           =   1215
-      End
       Begin VB.TextBox txtNivel 
          Appearance      =   0  'Flat
          Height          =   285
@@ -167,88 +151,6 @@ Begin VB.MDIForm Tela_Principal
          MPTR            =   1
          MICON           =   "Tela_Principal.frx":E8AE
          PICN            =   "Tela_Principal.frx":E8CA
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   4
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdOS 
-         Height          =   750
-         Left            =   10140
-         TabIndex        =   9
-         ToolTipText     =   "Ordem de Serviços"
-         Top             =   10
-         Visible         =   0   'False
-         Width           =   750
-         _ExtentX        =   1323
-         _ExtentY        =   1323
-         BTYPE           =   3
-         TX              =   ""
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   16777215
-         BCOLO           =   16777215
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Tela_Principal.frx":13D8E
-         PICN            =   "Tela_Principal.frx":13DAA
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   4
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdConsultaOS 
-         Height          =   750
-         Left            =   10920
-         TabIndex        =   10
-         ToolTipText     =   "O.S. Consulta"
-         Top             =   10
-         Visible         =   0   'False
-         Width           =   750
-         _ExtentX        =   1323
-         _ExtentY        =   1323
-         BTYPE           =   3
-         TX              =   ""
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   16777215
-         BCOLO           =   16777215
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Tela_Principal.frx":19FC6
-         PICN            =   "Tela_Principal.frx":19FE2
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -659,26 +561,6 @@ Begin VB.MDIForm Tela_Principal
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin VB.Label lblAlerta 
-         AutoSize        =   -1  'True
-         Caption         =   "[ COMPROMISSO ]"
-         BeginProperty Font 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   700
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         ForeColor       =   &H00000080&
-         Height          =   195
-         Left            =   14460
-         TabIndex        =   17
-         Top             =   540
-         Visible         =   0   'False
-         Width           =   1635
-      End
    End
    Begin MSComctlLib.StatusBar StatusBar1 
       Align           =   2  'Align Bottom
@@ -713,7 +595,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:19"
+            TextSave        =   "05:06"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -730,30 +612,6 @@ Begin VB.MDIForm Tela_Principal
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-   End
-   Begin VB.Timer trmEstoque2 
-      Enabled         =   0   'False
-      Interval        =   100
-      Left            =   1020
-      Top             =   4920
-   End
-   Begin VB.Timer trmAlerta 
-      Enabled         =   0   'False
-      Interval        =   600
-      Left            =   1980
-      Top             =   4920
-   End
-   Begin VB.Timer trmAgenda 
-      Enabled         =   0   'False
-      Interval        =   60000
-      Left            =   1560
-      Top             =   4920
-   End
-   Begin VB.Timer trmEstoque 
-      Enabled         =   0   'False
-      Interval        =   1
-      Left            =   600
-      Top             =   4920
    End
    Begin VB.Menu menusistema 
       Caption         =   "&Sistema"
@@ -823,6 +681,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_Prod_AjusteTributos 
          Caption         =   "Ajuste de Tributos"
       End
+      Begin VB.Menu Menu_Prod_AjusteReforma 
+         Caption         =   "Reforma Tributaria - Ajustes"
+      End
       Begin VB.Menu Menu_PROD_Categoria 
          Caption         =   "Categorias"
       End
@@ -865,6 +726,7 @@ Begin VB.MDIForm Tela_Principal
    End
    Begin VB.Menu MENU_SERV 
       Caption         =   "&Ordem de Serviços"
+      Visible         =   0   'False
       Begin VB.Menu MENU_SERV_OS 
          Caption         =   "&Cadastro"
          Enabled         =   0   'False
@@ -1158,10 +1020,6 @@ Dim varTipoEmpresa As String
         cmdResumoFiscal.Visible = True
         cmdResumoFiscal.Left = 10140
       End If
-      'cmdOS.Visible = True    'coloquei esses 2 objetos na rotina Habilitar_OS
-      'cmdOS.Left = 10140
-      'cmdConsultaOS.Visible = True
-      'cmdConsultaOS.Left = 10920
       
       'cmdResumoFiscal.Visible = False
 
@@ -1188,14 +1046,8 @@ Dim varTipoEmpresa As String
       cmdParcelas.Left = 6240
       cmdCalculadora.Visible = True
       cmdCalculadora.Left = 9360
-      'cmdOS.Visible = True
-      'cmdOS.Left = 10140
-      'cmdConsultaOS.Visible = True
-      'cmdConsultaOS.Left = 10920
 
       cmdCadProdutos.Visible = False
-      cmdOS.Visible = False
-      cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
       cmdResumoFiscal.Visible = False
       
@@ -1231,20 +1083,12 @@ Dim varTipoEmpresa As String
         cmdResumoFiscal.Visible = True
         cmdResumoFiscal.Left = 10140
       End If
-      'cmdOS.Visible = True
-      'cmdOS.Left = 10140
-      'cmdConsultaOS.Visible = True
-      'cmdConsultaOS.Left = 10920
 
       cmdCadProdutos.Visible = False
-      cmdOS.Visible = False
-      cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
 
       
       cmdCadProdutos.Visible = False
-      cmdOS.Visible = False
-      cmdConsultaOS.Visible = False
       cmdVendasConsRapida.Visible = False
 
       cmdResumoFiscal.Visible = True
@@ -1273,13 +1117,9 @@ bStatus = CBool(oCfg.Value)   'Converte o valor para booleano
 Set oCfg = Nothing            'Destroi o objeto
 
 'Habilita/desabilida conforme valor
-MENU_SERV.Visible = bStatus
+MENU_SERV.Visible = False   'menu Ordem de Servicos oculto
 
-cmdConsultaOS.Visible = bStatus
-cmdOS.Visible = bStatus
 
-cmdOS.Left = 10140
-cmdConsultaOS.Left = 10920
 
 Dim varTipoOS As String
 Set oCfg = sysConfig("TIPO_OS")
@@ -1313,35 +1153,6 @@ End If
 
 Set oCfg = Nothing
 End Sub
-Sub VerificaAgenda()
-' On Local Error GoTo TrataErro
-'Dim sSQL As String
-'Dim r As ADODB.Recordset
-
-'Dim Data As String, Hora As String
-'Dim Agenda As String
-
-'Data = Format(Now, ocDATA_EUA)
-'Hora = Format(Now, ocHRMN)
-
-'sSQL = "SELECT * FROM compromissos WHERE (data <= '" & Data & "') AND (hora <= '" & Hora & "') AND (status = 'À fazer');"
-'Set r = dbData.OpenRecordset(sSQL)
-
-'If r.BOF Or r.RecordCount = 0 Then
-'   trmAlerta.Enabled = False
-'   lblAlerta.Visible = False
-'Else
-'   trmAlerta.Enabled = True
-'End If
-
-'If r.State <> 0 Then r.Close
-'Set r = Nothing
-'Exit Sub
-   
-'TrataErro:
-   'ShowMsg "BANCO DE DADOS AUSENTE!" & vbCrLf & "Verifique o cabo da rede.", vbInformation
-End Sub
-
 Private Sub cmdCadClientes_Click()
    Clientes_Cadastro.Show 1
 End Sub
@@ -1379,50 +1190,9 @@ Private Sub cmdXML_Click()
 Menu_Entrada_Estoque_Click
 End Sub
 
-Private Sub lblalerta_DblClick()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   Dim DATA As String, hora As String
-   Dim Agenda As String
-   
-   DATA = Format(Now, ocDATA)
-   hora = Format(Now, ocHRMN)
-   
-   'sSQL = "SELECT * FROM compromissos WHERE (data <= " & Format$(Data, ocDATA_EUA) & ") AND (hora <= " & Hora & ") AND (status = 'À fazer') ORDER BY hora;"
-   'Set r = dbData.OpenRecordset(sSQL)
-   
-   'If r.BOF Or r.RecordCount = 0 Then
-   '   trmAlerta.Enabled = False
-   '   lblAlerta.Visible = False
-   '   If r.State <> 0 Then r.Close
-   '   Set r = Nothing
-   '   Exit Sub
-   'End If
-   
-   trmAlerta.Enabled = True
-   
-   'Do While Not r.EOF
-    '  Agenda = vbCrLf & "Código: " & r("codigo") & vbCrLf & _
-    '     "Data: " & r("data") & "    Hora: " & r("hora") & vbCrLf & _
-    '     "Para: " & r("para") & vbCrLf & _
-    '    "Tipo: " & r("tipo") & vbCrLf & _
-     '    "Compromisso: " & r("compromisso")
-      
-    '  ShowMsg Agenda, vbInformation
-      
-   '   r.MoveNext
-  ' Loop
-   
-   'If r.State <> 0 Then r.Close
-  ' Set r = Nothing
-End Sub
 Private Sub cmdCaixa_Click()
 'Principal_Caixa.txtCodFunc.Text = txtCodFuncionario.Text
 Principal_Caixa.Show 1
-End Sub
-Private Sub cmdConsultaOS_Click()
-   'MENU_SERV_Consulta_Click
 End Sub
 Private Sub cmdContasApagar_Click()
    Menu_Fin_APagar_Click
@@ -1432,9 +1202,6 @@ Menu_Fin_Parcelas_Click
 End Sub
 Private Sub cmdLogon_Click()
    menulogoff_Click
-End Sub
-Private Sub cmdOS_Click()
-   'MENU_SERV_OS_Click
 End Sub
 Private Sub MDIForm_Activate()
 Habilitar_OS
@@ -1478,7 +1245,6 @@ End If
 StatusBar1.Panels(1).Text = LicTextoStatus()
 
 Habilitar_OS
-VerificaAgenda
 Conf_TipoEmpresa
 StatusBar1.Panels(5).Text = Format(Date, "dd/mm/yy")
 
@@ -1533,6 +1299,7 @@ End If
 If EhServidorLocal() Then
    RegistrarTarefaBackupNuvem
    RegistrarTarefaExportarXMLServidor
+   RegistrarTarefaResumoFiscal
    VerificarAtualizacaoIBPT
 End If
 
@@ -1703,6 +1470,10 @@ End Sub
 
 Private Sub Menu_Entrada_Estoque_Click()
 Entrada_Estoque.Show
+End Sub
+
+Private Sub Menu_Prod_AjusteReforma_Click()
+Produtos_AjusteReforma.Show 1
 End Sub
 
 Private Sub Menu_Prod_VinculosXML_Click()
@@ -2433,6 +2204,32 @@ Dim vComando As String
    End If
 End Sub
 
+'Envio automatico do Resumo Fiscal (mes anterior) para a contabilidade: roda o proprio sistema com /resumofiscal.
+'Duas tarefas: diaria 13:00 e ao fazer logon (pega o caso de maquina desligada no dia). O envio so ocorre a partir
+'do dia 8 e uma unica vez por mes (marcador em RESUMOS) - ver ExecutarResumoFiscalAuto em modResumoFiscal.bas
+Private Sub RegistrarTarefaResumoFiscal()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+Dim vExe As String
+
+   Set vShell = CreateObject("WScript.Shell")
+   vExe = """\""" & appPathApp & appEXEName & "\"" /resumofiscal"""
+
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_ResumoFiscal""", 0, True)
+   If vExitCode <> 0 Then
+      vComando = "schtasks /Create /TN ""OnlineCommerce_ResumoFiscal"" /TR " & vExe & " /SC DAILY /ST 13:00 /F"
+      vShell.Run vComando, 0, True
+   End If
+
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_ResumoFiscal_Logon""", 0, True)
+   If vExitCode <> 0 Then
+      vComando = "schtasks /Create /TN ""OnlineCommerce_ResumoFiscal_Logon"" /TR " & vExe & " /SC ONLOGON /DELAY 0005:00 /F"
+      vShell.Run vComando, 0, True
+   End If
+End Sub
+
 Private Sub VerificarAtualizacaoIBPT()
    ' Etapa 2 da automacao da tabela IBPT: uma vez por mes (a partir do dia 30), so no servidor,
    ' baixa a versao mais recente do Shared Drive "IBPT" e importa se for mais nova que a instalada.
@@ -2483,35 +2280,6 @@ End Sub
 
 Private Sub menusair_Click()
    EncerrarPrograma
-End Sub
-
-Private Sub trmAgenda_Timer()
-   VerificaAgenda
-End Sub
-
-Private Sub trmAlerta_Timer()
-   DoEvents
-   lblAlerta.Visible = Not lblAlerta.Visible
-End Sub
-
-Private Sub trmEstoque_Timer()
-   Dim sSQL As String
-   Dim r As ADODB.Recordset
-   
-   sSQL = "SELECT quant_estoque, quant_min FROM produtos WHERE (quant_estoque < quant_min) ORDER BY codigo;"
-   Set r = dbData.OpenRecordset(sSQL)
-   
-   If r.BOF Then
-      StatusBar1.Panels(3).Text = ""
-   Else
-      trmEstoque2.Enabled = True
-   End If
-End Sub
-
-Private Sub trmEstoque2_Timer()
-   Static bAviso As Boolean
-   StatusBar1.Panels(3).Text = IIf(bAviso, "", "ESTOQUE MÍNIMO")
-   bAviso = Not bAviso
 End Sub
 
 Private Sub StatusBar1_PanelClick(ByVal Panel As MSComctlLib.Panel)

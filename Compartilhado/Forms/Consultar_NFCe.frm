@@ -1642,6 +1642,9 @@ ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As Strin
 ByVal nShowCmd As Long) As Long
 Private Const conSwNormal = 1
 
+'flag pro AbrirNaoEnviadas/Form_Activate (popup de avisos, Caixa_Fechamento)
+Private mbAbrirNaoEnviadas As Boolean
+
 Private Sub Consultar_Faturas()
 Dim vQParc As Integer
 Dim vQNFCe As Integer
@@ -3093,6 +3096,25 @@ End Sub
 
 Private Sub cmdExibir_Click()
     Mostrar_NFCe
+End Sub
+
+Public Sub AbrirNaoEnviadas()
+'Chamado externamente (Caixa_Fechamento) ANTES do .Show 1 - nesse momento
+'o form ja foi carregado (Form_Load ja rodou) mas AINDA NAO esta visivel.
+'So prepara o status aqui; quem chama Mostrar_NFCe de verdade e o
+'Form_Activate, que so dispara DEPOIS do form estar visivel (Mostrar_NFCe
+'termina com Grid.SetFocus, que da erro 5 'Invalid procedure call or
+'argument' se chamado com o form ainda invisivel).
+'O criterio padrao do Form_Load ja e DATA = hoje, so falta o status.
+cboStatus.Text = "NÃO ENVIADAS"
+mbAbrirNaoEnviadas = True
+End Sub
+
+Private Sub Form_Activate()
+If mbAbrirNaoEnviadas Then
+    mbAbrirNaoEnviadas = False
+    Mostrar_NFCe
+End If
 End Sub
 Function EImpar(ByVal iNum As Long) As Boolean
    EImpar = (iNum Mod 2)

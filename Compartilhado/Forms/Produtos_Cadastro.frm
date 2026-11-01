@@ -101,7 +101,7 @@ Begin VB.Form Produtos_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "15:47"
+            TextSave        =   "18:44"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -187,35 +187,20 @@ Begin VB.Form Produtos_Cadastro
       TabPicture(1)   =   "Produtos_Cadastro.frx":2B49
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Label25"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdDesativar"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdApagar"
-      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "cmdEditar"
-      Tab(1).Control(3).Enabled=   0   'False
       Tab(1).Control(4)=   "ccmdDuplicar"
-      Tab(1).Control(4).Enabled=   0   'False
       Tab(1).Control(5)=   "cmdExibir"
-      Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "cmdImprimir"
-      Tab(1).Control(6).Enabled=   0   'False
       Tab(1).Control(7)=   "Grid"
-      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "frmOrdemComum"
-      Tab(1).Control(8).Enabled=   0   'False
       Tab(1).Control(9)=   "frmCriterios"
-      Tab(1).Control(9).Enabled=   0   'False
       Tab(1).Control(10)=   "frmVenda"
-      Tab(1).Control(10).Enabled=   0   'False
       Tab(1).Control(11)=   "frmFiltroComum"
-      Tab(1).Control(11).Enabled=   0   'False
       Tab(1).Control(12)=   "frmSituacao"
-      Tab(1).Control(12).Enabled=   0   'False
       Tab(1).Control(13)=   "frmFiltro"
-      Tab(1).Control(13).Enabled=   0   'False
       Tab(1).Control(14)=   "Frame6"
-      Tab(1).Control(14).Enabled=   0   'False
       Tab(1).ControlCount=   15
       TabCaption(2)   =   "QUANTIDADES"
       TabPicture(2)   =   "Produtos_Cadastro.frx":2B65
@@ -247,19 +232,20 @@ Begin VB.Form Produtos_Cadastro
          _ExtentY        =   4895
          _Version        =   393216
          Tabs            =   2
+         Tab             =   1
          TabsPerRow      =   2
          TabHeight       =   520
          TabMaxWidth     =   3528
          TabCaption(0)   =   "Principais"
          TabPicture(0)   =   "Produtos_Cadastro.frx":2B9D
-         Tab(0).ControlEnabled=   -1  'True
+         Tab(0).ControlEnabled=   0   'False
          Tab(0).Control(0)=   "frmFiscal"
-         Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Reforma Tributária"
          TabPicture(1)   =   "Produtos_Cadastro.frx":2BB9
-         Tab(1).ControlEnabled=   0   'False
+         Tab(1).ControlEnabled=   -1  'True
          Tab(1).Control(0)=   "Frame7"
+         Tab(1).Control(0).Enabled=   0   'False
          Tab(1).ControlCount=   1
          Begin VB.Frame Frame7 
             Caption         =   "IBS e CBS"
@@ -273,7 +259,7 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2115
-            Left            =   -74880
+            Left            =   120
             TabIndex        =   239
             Top             =   420
             Width           =   11535
@@ -550,7 +536,7 @@ Begin VB.Form Produtos_Cadastro
                Strikethrough   =   0   'False
             EndProperty
             Height          =   2355
-            Left            =   60
+            Left            =   -74940
             TabIndex        =   217
             Top             =   360
             Width           =   11595

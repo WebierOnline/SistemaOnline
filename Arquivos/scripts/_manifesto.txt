@@ -125,3 +125,5 @@
 126|Popular_TbContabilista_Ficticio.sql|GERAL
 127|Popular_UsuarioPermissoes_ExibirPopup.sql|GERAL
 128|CreateTable_Usuario_Avisos.sql|GERAL
+129|Popular_UsuarioNivel1_PopupEAvisos.sql|GERAL
+130|Popular_UsuarioNivel1_AvisoAlertasGerais.sql|GERAL

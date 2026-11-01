@@ -1349,6 +1349,9 @@ Private Sub cmdCadastrar_Click()
    Dim sCFOPSaida As String
    If Len(item.CFOP) >= 2 And Mid(item.CFOP, 2, 1) = "4" Then
       sCFOPSaida = "5405"
+   ElseIf Right(item.ICMSCST, 2) = "10" Or Right(item.ICMSCST, 2) = "30" Or Right(item.ICMSCST, 2) = "60" Or Right(item.ICMSCST, 2) = "70" Then
+      'CST de ST (ex: CFOP 5655 c/ CST 060) - tambem vende com ST
+      sCFOPSaida = "5405"
    Else
       sCFOPSaida = "5102"
    End If

@@ -552,6 +552,11 @@ End If
 End Sub
 
 Private Sub Form_Load()
+'Execucao agendada (/resumofiscal): envia o resumo fiscal do mes anterior e encerra, sem mostrar a tela
+If gModoAutomatico Then
+   ExecutarResumoFiscalAuto
+   End
+End If
 'CenterForm Me, Width, Height
 'Set moCombo = New cComboHelper
 'pListarUsuarios

@@ -1128,6 +1128,32 @@ End Sub
 
 
 
+'Chamado externamente (popup de alertas gerais): mostra o contador cadastrado (TbContabilista nao tem codigo,
+'entao pega o primeiro por nome). Sem nenhum cadastrado, deixa o form como abre normalmente.
+Public Sub AbrirPrimeiroContador()
+SSTab1.Tab = 0
+sSQL = "SELECT TOP 1 * FROM TbContabilista ORDER BY NomeContabilista"
+Set r = dbData.OpenRecordset(sSQL)
+
+If r.BOF Then
+   If r.State <> 0 Then r.Close
+   Set r = Nothing
+   Exit Sub
+End If
+
+Campos_Brancos
+Mostrar_Dados r
+frm_Principal.Enabled = True
+cmdSalvar.Enabled = False
+cmdCancelar.Enabled = False
+cmdAlterar.Enabled = True
+cmdExcluir.Enabled = True
+cmdNovo.Enabled = True
+
+If r.State <> 0 Then r.Close
+Set r = Nothing
+End Sub
+
 Private Sub Grid_DblClick()
 SSTab1.Tab = 0
 frm_Principal.Enabled = True

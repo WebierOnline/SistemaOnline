@@ -5121,6 +5121,10 @@ If sCRT2 = "1" And Not bCSTConhecido2 Then
    sCFOPVenda2 = "5102"
 ElseIf Len(sCFOPEnt) >= 2 And Mid(sCFOPEnt, 2, 1) = "4" Then
    sCFOPVenda2 = "5405"
+ElseIf Right(sCSTEnt, 2) = "10" Or Right(sCSTEnt, 2) = "30" Or Right(sCSTEnt, 2) = "60" Or Right(sCSTEnt, 2) = "70" Then
+   'CST de ST (ex: 5655 combustivel/lubrificante c/ CST 060): CFOP de venda tambem
+   'e de ST - nao deixar CFOP 5102 com CSOSN 500/2xx
+   sCFOPVenda2 = "5405"
 Else
    sCFOPVenda2 = "5102"
 End If
@@ -5605,6 +5609,9 @@ If nCRTAtu = 1 And Not bCSTConhecidoAtu Then
     sCFOPNovo = "5102"
 ElseIf Len(txtCFOPSel.Text) >= 2 And Mid(txtCFOPSel.Text, 2, 1) = "4" Then
     sCFOPNovo = "5405"
+ElseIf Right(txtCSTSel.Text, 2) = "10" Or Right(txtCSTSel.Text, 2) = "30" Or Right(txtCSTSel.Text, 2) = "60" Or Right(txtCSTSel.Text, 2) = "70" Then
+    'CST de ST (ex: 5655 c/ CST 060): CFOP de venda tambem e de ST
+    sCFOPNovo = "5405"
 Else
     sCFOPNovo = "5102"
 End If
@@ -5669,7 +5676,7 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     Set rItem = dbData.OpenRecordset( _
         "SELECT pICMS, pRedBC, modBC, modBCST, pMVAST, pICMSST, pRedBCST, " & _
         "PISCST, PISpPIS, COFINSCST, COFINSpCOFINS, IPICST, IPIpIPI, " & _
-        "CEST, IBSCBSCST, IBSUFpAliq, IBSMunpAliq, CBSpAliq, ISCST, ISpIS, CFOP, " & _
+        "CEST, IBSCBSCST, IBSUFpAliq, IBSMunpAliq, CBSpAliq, ISCST, ISpIS, CFOP, ISNULL(CST,'') AS CSTXML, " & _
         "Referencia, ValorUnitarioTributario " & _
         "FROM EntradaEstoqueItens WHERE Item = " & Val(txtItem.Text) & " AND CodigoNota = " & Val(txtCodNota.Text))
 
@@ -5695,7 +5702,10 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     Dim nUlt3 As Long
     nUlt3 = Val(rItem("CFOP") & "") Mod 1000
     Dim sCFOPVenda As String, sCSTVenda As String
-    If nUlt3 = 405 Or nUlt3 = 403 Or nUlt3 = 401 Then
+    Dim sCSTReal As String
+    sCSTReal = Right(rItem("CSTXML") & "", 2)
+    'CST de ST (10/30/60/70) tambem indica ST mesmo com CFOP fora de x401/x403/x405 (ex: 5655 c/ CST 060)
+    If nUlt3 = 405 Or nUlt3 = 403 Or nUlt3 = 401 Or sCSTReal = "10" Or sCSTReal = "30" Or sCSTReal = "60" Or sCSTReal = "70" Then
         sCFOPVenda = "5405": sCSTVenda = IIf(nCRT = 1, "500", "060")
     ElseIf nUlt3 = 101 Then
         sCFOPVenda = "5101": sCSTVenda = IIf(nCRT = 1, "102", "000")

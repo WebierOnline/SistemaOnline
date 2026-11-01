@@ -403,6 +403,15 @@ Begin VB.Form Empresa_Cadastro
       TabIndex        =   59
       Top             =   1080
       Width           =   6915
+      Begin VB.TextBox txtCBSpAliq 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         Height          =   315
+         Left            =   4860
+         TabIndex        =   108
+         Top             =   2160
+         Width           =   495
+      End
       Begin VB.ComboBox cboNFCeSerie 
          Appearance      =   0  'Flat
          Height          =   315
@@ -587,6 +596,16 @@ Begin VB.Form Empresa_Cadastro
          TabIndex        =   16
          Top             =   360
          Width           =   1035
+      End
+      Begin VB.Label Label24 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "% CBS"
+         Height          =   195
+         Left            =   4320
+         TabIndex        =   109
+         Top             =   2220
+         Width           =   480
       End
       Begin VB.Label Label23 
          AutoSize        =   -1  'True
@@ -1421,7 +1440,7 @@ Begin VB.Form Empresa_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "12:37"
+            TextSave        =   "10:36"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1514,15 +1533,16 @@ If txtCodigoIBGE.Text = "" Then txtCodigoIBGE.Text = 0
 If txtCRT.Text = "" Then txtCRT.Text = 0
 If txtAmbienteNF.Text = "" Then txtAmbienteNF.Text = 2
 If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
+If txtCBSpAliq.Text = "" Then txtCBSpAliq.Text = "0,90"
 If txtNum.Text = "" Then txtNum.Text = 0
 If Trim(cboNFCeSerie.Text) = "" Then cboNFCeSerie.Text = "1"
 
 'Comando de inclusão
 sSQL = "INSERT INTO empresa (" & _
-   "fantasia, razao, cnpj, ie, endereco, cidade, estado, telefone, celular, cep, email, caminho, CodigoIBGE, CRT, DiretorioXML, CertificadoDigital, NFCeIDToken, NFCeCSC, LicencaDLL, BAIRRO, AmbienteNF, pCreditoICMSSimplesNacional, numero, Perfil, pAliqUF, UltimoNSU, ContigenciaNFe, ContigenciaNFCe, Banco, Agencia, Conta, Tipo, Favorecido, Pix, WhatsAppApiKey, IPICompoeDIFAL, VencimentoCert, RegimeTributario, NFCeOffline, IEMunicipal, NFCeSerie ) VALUES ('" & _
+   "fantasia, razao, cnpj, ie, endereco, cidade, estado, telefone, celular, cep, email, caminho, CodigoIBGE, CRT, DiretorioXML, CertificadoDigital, NFCeIDToken, NFCeCSC, LicencaDLL, BAIRRO, AmbienteNF, pCreditoICMSSimplesNacional, numero, Perfil, pAliqUF, UltimoNSU, ContigenciaNFe, ContigenciaNFCe, Banco, Agencia, Conta, Tipo, Favorecido, Pix, WhatsAppApiKey, IPICompoeDIFAL, VencimentoCert, RegimeTributario, NFCeOffline, IEMunicipal, NFCeSerie, CBSpAliq ) VALUES ('" & _
    EA(txtFantasia.Text) & "', '" & EA(txtRazao.Text) & "', '" & EA(mskCNPJ.Text) & "', '" & EA(txtIE.Text) & "', '" & _
    EA(txtEndereco.Text) & "', '" & EA(cboCidade.Text) & "', '" & EA(cboEstado.Text) & "', '" & EA(mskTelefone.Text) & "', '" & EA(mskCelular.Text) & "','" & _
-   EA(mskCEP.Text) & "', '" & EA(txtEmail.Text) & "', '" & EA(txtCaminho.Text) & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & EA(txtDiretorioXML.Text) & "', '" & EA(txtCertificadoDigital.Text) & "', '" & EA(LPad(txtNFCeIDToken.Text, 6, "0")) & "', '" & EA(txtNFCeCSC.Text) & "', '" & EA(txtLicencaDLL.Text) & "', '" & EA(txtBairro.Text) & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & EA(cboPerfil.Text) & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & EA(txtBanco.Text) & "', '" & EA(txtAgencia.Text) & "', '" & EA(txtConta.Text) & "', '" & EA(cboTipo.Text) & "', '" & EA(txtFavorecido.Text) & "', '" & EA(txtPix.Text) & "', 0, '" & Abs(bOpt) & "', null, " & txtRegime.Text & ", " & Abs(chkOffline.Value) & ", '" & EA(txtIEMunicipal.Text) & "', " & Val(cboNFCeSerie.Text) & " )"
+   EA(mskCEP.Text) & "', '" & EA(txtEmail.Text) & "', '" & EA(txtCaminho.Text) & "', " & txtCodigoIBGE.Text & ", " & txtCRT.Text & ", '" & EA(txtDiretorioXML.Text) & "', '" & EA(txtCertificadoDigital.Text) & "', '" & EA(LPad(txtNFCeIDToken.Text, 6, "0")) & "', '" & EA(txtNFCeCSC.Text) & "', '" & EA(txtLicencaDLL.Text) & "', '" & EA(txtBairro.Text) & "', " & txtAmbienteNF.Text & ", " & FSQL(txtpICMSSN.Text, 2) & ", " & txtNum.Text & ", '" & EA(cboPerfil.Text) & "', " & FSQL(txtAliqUF.Text, 2) & ", 0, " & Abs(chkContigenciaNFe.Value) & ", " & Abs(chkContigenciaNFCe.Value) & ", '" & EA(txtBanco.Text) & "', '" & EA(txtAgencia.Text) & "', '" & EA(txtConta.Text) & "', '" & EA(cboTipo.Text) & "', '" & EA(txtFavorecido.Text) & "', '" & EA(txtPix.Text) & "', 0, '" & Abs(bOpt) & "', null, " & txtRegime.Text & ", " & Abs(chkOffline.Value) & ", '" & EA(txtIEMunicipal.Text) & "', " & Val(cboNFCeSerie.Text) & ", " & FSQL(txtCBSpAliq.Text, 2) & " )"
 
 'Retorna o resultado da atualização
 Inserir_Dados = dbData.Execute(sSQL)
@@ -1548,6 +1568,7 @@ Private Function Atualizar_Dados() As Boolean
    If txtCRT.Text = "" Then txtCRT.Text = 0
    If txtAmbienteNF.Text = "" Then txtAmbienteNF.Text = 2
    If txtpICMSSN.Text = "" Then txtpICMSSN.Text = 0
+   If txtCBSpAliq.Text = "" Then txtCBSpAliq.Text = "0,90"
    If txtNum.Text = "" Then txtNum.Text = 0
    If Trim(cboNFCeSerie.Text) = "" Then cboNFCeSerie.Text = "1"
    If txtCRT.Text = "1" Or txtCRT.Text = "2" Then txtRegime.Text = "1" Else txtRegime.Text = 3
@@ -1575,7 +1596,7 @@ Private Function Atualizar_Dados() As Boolean
       "NFCeCSC = '" & EA(txtNFCeCSC.Text) & "', " & _
       "LicencaDLL = '" & EA(txtLicencaDLL.Text) & "', " & _
       "AmbienteNF = " & txtAmbienteNF.Text & ", " & _
-      "pCreditoICMSSimplesNacional = " & FSQL(txtpICMSSN.Text, 2) & ", pAliqUF = " & FSQL(txtAliqUF.Text, 2) & ", " & _
+      "pCreditoICMSSimplesNacional = " & FSQL(txtpICMSSN.Text, 2) & ", CBSpAliq = " & FSQL(txtCBSpAliq.Text, 2) & ", pAliqUF = " & FSQL(txtAliqUF.Text, 2) & ", " & _
       "Numero = " & txtNum.Text & ", ContigenciaNFe = " & Abs(chkContigenciaNFe.Value) & ", ContigenciaNFCe = " & Abs(chkContigenciaNFCe.Value) & ", Perfil = '" & EA(cboPerfil.Text) & "', Banco = '" & EA(txtBanco.Text) & "', Agencia = '" & EA(txtAgencia.Text) & "', Conta = '" & EA(txtConta.Text) & "', Tipo = '" & EA(cboTipo.Text) & "', Favorecido = '" & EA(txtFavorecido.Text) & "' , " & _
       "Pix = '" & EA(txtPix.Text) & "',  IPICompoeDIFAL = '" & Abs(bOpt) & "', RegimeTributario = " & txtRegime.Text & ", NFCeOffline = " & Abs(chkOffline.Value) & ", IEMunicipal = '" & EA(txtIEMunicipal.Text) & "', NFCeSerie = " & Val(cboNFCeSerie.Text)
       
@@ -1649,6 +1670,7 @@ txtNFCeCSC.Text = ""
 txtLicencaDLL.Text = ""
 txtAmbienteNF.Text = ""
 txtpICMSSN.Text = "1,11"
+txtCBSpAliq.Text = "0,90"
 cboPerfil.Text = ""
 txtRegime.Text = ""
 cboDIFAL.Text = "NÃO"
@@ -1686,6 +1708,7 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       txtAmbienteNF.Text = rTabela("AmbienteNF")
       txtpICMSSN.Text = Format(rTabela("pCreditoICMSSimplesNacional"), "#0.00")
       txtAliqUF.Text = Format(rTabela("pAliqUF"), "#0.00")
+      txtCBSpAliq.Text = Format(CDbl(ValidateNull(rTabela("CBSpAliq"))), "#0.00")
       txtNum.Text = rTabela("Numero")
       cboPerfil.Text = rTabela("Perfil")
       cboNFCeSerie.Text = ValidateNull(rTabela("NFCeSerie"))
@@ -2041,7 +2064,7 @@ Private Sub txtRegime_Validate(Cancel As Boolean)
     End Select
 End Sub
 Private Sub cmdCertificadoDigital_Click()
-Dim cStat As Integer, NFeMotivo As String, nomeCertificado As String, NroSerie As String, CNPJ As String, InicioValidade As String, FimValidade As String
+Dim cStat As Integer, NFeMotivo As String, nomeCertificado As String, NroSerie As String, cnpj As String, InicioValidade As String, FimValidade As String
 Dim sistCertificado As snfe.CertDigital
 Set sistCertificado = New snfe.CertDigital
 
@@ -2051,15 +2074,15 @@ Set sistCertificado = New snfe.CertDigital
     
     If iRetorno Then
        nomeCertificado = sistCertificado.retCertDigital.nomeCertificado
-       CNPJ = sistCertificado.retCertDigital.CNPJ
+       cnpj = sistCertificado.retCertDigital.cnpj
        NroSerie = sistCertificado.retCertDigital.NumeroSerie
        InicioValidade = sistCertificado.retCertDigital.DataInicio
        FimValidade = sistCertificado.retCertDigital.DataExpira
         
        'MsgBox "Subject Name: " & nomeCertificado & vbNewLine & "CNPJ: " & CNPJ & vbNewLine & "Número de Série: " & NroSerie & vbNewLine & "Validade: " & FimValidade, vbInformation
 
-       If Retira(CNPJ, ".-/ ", UM_A_UM) <> Retira(mskCNPJ.Text, ".-/ ", UM_A_UM) Then
-          If ShowMsg("O CNPJ do certificado selecionado (" & CNPJ & ") é diferente do CNPJ cadastrado (" & mskCNPJ.Text & ")." & vbCrLf & "Deseja usar esse certificado mesmo assim?", vbExclamation + vbYesNo) = vbNo Then
+       If Retira(cnpj, ".-/ ", UM_A_UM) <> Retira(mskCNPJ.Text, ".-/ ", UM_A_UM) Then
+          If ShowMsg("O CNPJ do certificado selecionado (" & cnpj & ") é diferente do CNPJ cadastrado (" & mskCNPJ.Text & ")." & vbCrLf & "Deseja usar esse certificado mesmo assim?", vbExclamation + vbYesNo) = vbNo Then
              nomeCertificado = "Operação cancelada!"
              NroSerie = ""
           End If
@@ -2363,12 +2386,12 @@ If (ValAno Mod 4 = 0) And ((ValAno Mod 100 <> 0) Or (ValAno Mod 400 = 0)) Then
         AnoBisexto = False
 End If
 End Function
-Public Function SomarDigitos(CNPJ As String) As Integer
+Public Function SomarDigitos(cnpj As String) As Integer
     Dim s As Integer
     Dim i As Integer
-    For i = 1 To Len(CNPJ)
-      If IsNumeric(Mid(CNPJ, i, 1)) Then
-        s = s + Mid(CNPJ, i, 1)
+    For i = 1 To Len(cnpj)
+      If IsNumeric(Mid(cnpj, i, 1)) Then
+        s = s + Mid(cnpj, i, 1)
       End If
     Next
     SomarDigitos = s
@@ -2768,6 +2791,22 @@ On Error GoTo erro
     Exit Sub
 erro:
     MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Online.Info": Exit Sub
+End Sub
+
+Private Sub txtCBSpAliq_KeyPress(KeyAscii As Integer)
+    If KeyAscii = 8 Then
+    ElseIf KeyAscii = Asc(".") Then
+        KeyAscii = Asc(",")
+    ElseIf KeyAscii = Asc(",") Then
+        KeyAscii = Asc(",")
+    ElseIf KeyAscii < Asc("0") Or KeyAscii > Asc("9") Then
+        KeyAscii = 0
+    End If
+End Sub
+
+Private Sub txtCBSpAliq_LostFocus()
+    If txtCBSpAliq.Text = "" Then txtCBSpAliq.Text = "0"
+    Moeda txtCBSpAliq
 End Sub
 
 Private Sub txtpICMSSN_LostFocus()

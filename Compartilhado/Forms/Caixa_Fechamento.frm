@@ -4,7 +4,7 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Caixa_Fechamento 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "SITUAÇÃO DO CAIXA"
-   ClientHeight    =   2205
+   ClientHeight    =   2790
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   7845
@@ -12,15 +12,15 @@ Begin VB.Form Caixa_Fechamento
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2205
+   ScaleHeight     =   2790
    ScaleWidth      =   7845
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
    Begin VB.Frame Frame2 
       Height          =   495
-      Left            =   180
+      Left            =   2700
       TabIndex        =   17
-      Top             =   2100
+      Top             =   2220
       Visible         =   0   'False
       Width           =   2595
       Begin VB.TextBox txtCodCaixa 
@@ -95,9 +95,9 @@ Begin VB.Form Caixa_Fechamento
       EndProperty
       ForeColor       =   &H00000080&
       Height          =   495
-      Left            =   240
+      Left            =   2220
       TabIndex        =   9
-      Top             =   2100
+      Top             =   2220
       Visible         =   0   'False
       Width           =   3075
       Begin VB.Label Label19 
@@ -225,7 +225,7 @@ Begin VB.Form Caixa_Fechamento
       End
    End
    Begin VB.Frame Frame7 
-      Height          =   915
+      Height          =   1515
       Left            =   60
       TabIndex        =   8
       Top             =   540
@@ -485,7 +485,7 @@ Begin VB.Form Caixa_Fechamento
       Height          =   270
       Left            =   0
       TabIndex        =   14
-      Top             =   1935
+      Top             =   2520
       Width           =   7845
       _ExtentX        =   13838
       _ExtentY        =   476
@@ -508,7 +508,7 @@ Begin VB.Form Caixa_Fechamento
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11:43"
+            TextSave        =   "05:15"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -530,7 +530,7 @@ Begin VB.Form Caixa_Fechamento
       Height          =   375
       Left            =   4680
       TabIndex        =   2
-      Top             =   1500
+      Top             =   2100
       Width           =   1515
       _ExtentX        =   2672
       _ExtentY        =   661
@@ -568,7 +568,7 @@ Begin VB.Form Caixa_Fechamento
       Height          =   375
       Left            =   6240
       TabIndex        =   7
-      Top             =   1500
+      Top             =   2100
       Width           =   1515
       _ExtentX        =   2672
       _ExtentY        =   661
@@ -601,6 +601,42 @@ Begin VB.Form Caixa_Fechamento
       HAND            =   0   'False
       CHECK           =   0   'False
       VALUE           =   0   'False
+   End
+   Begin VB.Label lblNfce1 
+      Alignment       =   2  'Center
+      AutoSize        =   -1  'True
+      Caption         =   "Existem cupons fiscais não Transmitidos!"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H000000FF&
+      Height          =   210
+      Left            =   600
+      TabIndex        =   29
+      Top             =   2280
+      Visible         =   0   'False
+      Width           =   3465
+   End
+   Begin VB.Image imgNfce1 
+      Height          =   375
+      Left            =   120
+      Picture         =   "Caixa_Fechamento.frx":240A
+      Stretch         =   -1  'True
+      Top             =   2100
+      Visible         =   0   'False
+      Width           =   375
+   End
+   Begin VB.Timer tmrNfce 
+      Enabled         =   0   'False
+      Interval        =   600
+      Left            =   6960
+      Top             =   60
    End
    Begin VB.Label lblTitulo 
       Alignment       =   2  'Center
@@ -640,9 +676,12 @@ Dim vAluguelAtiva As Boolean
 
 Public vConfImprimeNFCeLocal As String
 
+'aviso piscante de NFCe nao enviada (lblNfce1/imgNfce1/tmrNfce)
+Private mbExisteNFCeNaoEnviada As Boolean
+
 'arquivo .ini
 Public cCfg As ConfigItem
-Public oIni As Ini
+Public oIni As ini
 Private Sub AutoNumeracao_Saldos()
 Dim sSQL As String
 Dim r As ADODB.Recordset
@@ -729,9 +768,9 @@ End If
 xCaminhoBK = dirXML & "backup"
 
 'cria a pasta caso não exista
-If Not Existe(xCaminhoBK) Then MkDir xCaminhoBK
+If Not existe(xCaminhoBK) Then MkDir xCaminhoBK
 
-If Not Existe(xCaminhoBK) Then GoTo SairBackup
+If Not existe(xCaminhoBK) Then GoTo SairBackup
 
 'nomeArquivoBK = Format(Date, "yyyy-mm-dd") & "__" & rEmpresa!Razao & ".bak"
 nomeArquivoBK = Retira(rEmpresa!CNPJ, ".-/ ", UM_A_UM) & ".bak"
@@ -851,7 +890,7 @@ If IniciaComponenteCompactacao Then
    'DiretorioDestino = vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMes
    'DiretorioOrigem = nomeArquivoBK  'vCaminhoXML & "\nfe\arquivos\procNFe" & "\" & vAno & vMesNum
      
-   If Not Existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK) Then MsgBox "Não existe o arquivo de BACKUP informado!", vbInformation, "Aviso do Sistema": Exit Function
+   If Not existe(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK) Then MsgBox "Não existe o arquivo de BACKUP informado!", vbInformation, "Aviso do Sistema": Exit Function
    
    PathToCompress = Transforma(diretorioDestino & IIf(Right(diretorioDestino, 1) = "\", "", "\") & nomeArquivoBK)
    
@@ -927,8 +966,8 @@ Dim var_Setor As String
 Dim varTipoCartao2 As String
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -1580,8 +1619,8 @@ Dim sql As String
 If Not IsDate(mskData) Then Exit Sub
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -2351,6 +2390,21 @@ If txtFuncAP.Text = "" Then
    Exit Sub
 End If
 
+'cupons fiscais (NFCe) nao transmitidos no dia - so existe tela pra
+'corrigir (NFCe_Consultar) no projeto PDV. #If PDV_MODULE exclui esse
+'trecho da COMPILACAO no OnlineCommerce (nao so da execucao) - precisa
+'ser assim porque NFCe_Consultar.frm nao esta no OnlineCommerce.vbp.
+#If PDV_MODULE Then
+If mbExisteNFCeNaoEnviada Then
+    If ShowMsg("Existem cupons fiscais não Transmitidos!" & vbCrLf & "Deseja corrigir-los ?", vbQuestion + vbYesNo) = vbYes Then
+        NFCe_Consultar.AbrirNaoEnviadas
+        NFCe_Consultar.Show 1
+        Call VerificarNFCeNaoEnviadas
+        Exit Sub
+    End If
+End If
+#End If
+
 'bloqueia o fechamento se existir venda em aberto (com produtos) em qualquer PDV deste caixa,
 'nao so no terminal atual - evita fechar o caixa enquanto outro PDV ainda esta vendendo.
 'se o usuario confirmar, cancela todas as vendas em aberto e segue o fechamento.
@@ -2437,8 +2491,8 @@ InutilizarCuponsFiscais
 
 'verificar se a maquina é o servidor
 Dim vNomeMaquina As String
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 vNomeMaquina = oIni.LerTexto("IP_MAQUINA", "ip")
 Set oIni = Nothing
 
@@ -2541,8 +2595,8 @@ Dim r As ADODB.Recordset
 Dim var_Caixa As String     'colocar o nome da maquina na barra de status
 'Dim oIni As Ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")
 'Set oIni = Nothing
 
@@ -2661,6 +2715,28 @@ Set r = dbData.OpenRecordset(sSQL)
     cmdReativar.Top = 1500
     cmdFecharCaixa.Top = 1500
  End If
+
+ Call VerificarNFCeNaoEnviadas
+End Sub
+
+Private Sub VerificarNFCeNaoEnviadas()
+'O piscar aparece nos 2 projetos (PDV e OnlineCommerce) - so a pergunta
+'de corrigir + abrir o NFCe_Consultar (cmdFecharCaixa_Click) fica
+'exclusiva do PDV, que e onde essa tela existe.
+mbExisteNFCeNaoEnviada = (SQLExecutaRetorno( _
+    "SELECT COUNT(*) r FROM TbNFCe WHERE NFCeEnviada = 0 AND NFCeCancelada = 0 AND Inutilizada = 0 AND CONVERT(date, DataEmissao) = CONVERT(date, '" & Format(mskData.Text, ocDATA) & "', 103)" _
+    , "r", 0) > 0)
+
+tmrNfce.Enabled = mbExisteNFCeNaoEnviada
+If Not mbExisteNFCeNaoEnviada Then
+    lblNfce1.Visible = False
+    imgNfce1.Visible = False
+End If
+End Sub
+
+Private Sub tmrNfce_Timer()
+lblNfce1.Visible = Not lblNfce1.Visible
+imgNfce1.Visible = lblNfce1.Visible
 End Sub
 
 Private Sub lblSaida_Change()

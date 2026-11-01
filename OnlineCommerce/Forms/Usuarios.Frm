@@ -755,7 +755,8 @@ If cboNivel.Text = "1 - Total" Then
     sSQL = "INSERT INTO Usuario_Avisos (Cod_Usuario, Aviso, Ativo) VALUES " & _
            "(" & idUsuario & ", '" & AVISO_CONTAS_PAGAR & "', 1), " & _
            "(" & idUsuario & ", '" & AVISO_CONTAS_RECEBER & "', 1), " & _
-           "(" & idUsuario & ", '" & AVISO_ESTOQUE_BAIXO & "', 1)"
+           "(" & idUsuario & ", '" & AVISO_ESTOQUE_BAIXO & "', 1), " & _
+           "(" & idUsuario & ", '" & AVISO_ALERTAS_GERAIS & "', 1)"
     vgDb.Execute sSQL
 ElseIf cboNivel.Text = "2 - Limitado" Then
     txtCodNivel.Text = "2"
@@ -1070,6 +1071,8 @@ ListView2.ListItems.Add , "z" & AVISO_CONTAS_RECEBER, "Contas a Receber"
 ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Vencidas / vencendo"
 ListView2.ListItems.Add , "z" & AVISO_ESTOQUE_BAIXO, "Estoque Baixo"
 ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Abaixo do mínimo"
+ListView2.ListItems.Add , "z" & AVISO_ALERTAS_GERAIS, "Alertas Gerais"
+ListView2.ListItems.Item(ListView2.ListItems.Count).SubItems(1) = "Contador, meta fiscal, certificado"
 
 Call AtualizarEstadoListaAvisos
 End Sub

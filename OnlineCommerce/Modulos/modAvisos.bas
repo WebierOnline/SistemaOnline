@@ -7,11 +7,14 @@ Option Explicit
 '  1) ele tiver a permissao 'EXIBIR POPUP' (Usuario_permissoes/Usuario_Acessos)
 '  2) ele tiver marcado "Me avise" pra aquele aviso especifico (Usuario_Avisos)
 '  3) o aviso tiver conteudo relevante no momento (ex: 0 contas vencendo = nao mostra)
-' Fechar (X) so esconde na sessao atual - volta a aparecer no proximo login.
+' Cada popup e um MDIChild da Tela_Principal (como o Resumo Fiscal): fica aberto ate o usuario
+' clicar no X (ou em CLIQUE AQUI), mesmo abrindo outras telas. Fechar so esconde na sessao
+' atual - volta a aparecer no proximo login.
 
 Public Const AVISO_CONTAS_PAGAR As String = "CONTAS_PAGAR"
 Public Const AVISO_CONTAS_RECEBER As String = "CONTAS_RECEBER"
 Public Const AVISO_ESTOQUE_BAIXO As String = "ESTOQUE_BAIXO"
+Public Const AVISO_ALERTAS_GERAIS As String = "ALERTAS_GERAIS"
 
 Private Const COR_AVISO_ATENCAO As Long = &HC0FFFF    'amarelo claro
 Private Const COR_AVISO_URGENTE As Long = &HC0C0FF    'vermelho claro
@@ -20,6 +23,7 @@ Private miPosPopup As Integer
 
 Public Sub MostrarAvisosPopup(ByVal vCodUsuario As Long)
 Dim sTexto As String
+Dim sDestinos As String
 
 If Not TemPermissaoPopup(vCodUsuario) Then Exit Sub
 
@@ -37,20 +41,34 @@ End If
 
 If AvisoAtivo(vCodUsuario, AVISO_ESTOQUE_BAIXO) Then
     sTexto = GerarAvisoEstoqueBaixo()
-    If sTexto <> "" Then ExibirPopup "ESTOQUE BAIXO", sTexto, AVISO_ESTOQUE_BAIXO, COR_AVISO_URGENTE
+    If sTexto <> "" Then ExibirPopup "ESTOQUE BAIXO", sTexto, AVISO_ESTOQUE_BAIXO, COR_AVISO_ATENCAO
+End If
+
+If AvisoAtivo(vCodUsuario, AVISO_ALERTAS_GERAIS) Then
+    sTexto = GerarAlertasGerais(sDestinos)
+    If sTexto <> "" Then ExibirPopupLinhas "ALERTAS GERAIS", sTexto, sDestinos, COR_AVISO_URGENTE
 End If
 End Sub
 
 Private Sub ExibirPopup(ByVal sTitulo As String, ByVal sTexto As String, ByVal sChave As String, ByVal lCor As Long)
 Dim frm As New frmAvisoPopup
-Const LARGURA_POPUP As Long = 3300
 Const MARGEM As Long = 150
-Const TOPO_AREA As Long = 1850
 
 frm.Carregar sTitulo, sTexto, sChave, lCor
-frm.Width = LARGURA_POPUP
-frm.Left = MARGEM + (miPosPopup * (LARGURA_POPUP + MARGEM))
-frm.Top = TOPO_AREA
+frm.Left = MARGEM + (miPosPopup * (frm.Width + MARGEM))   'posicao relativa a area da Tela_Principal (MDIChild)
+frm.Top = MARGEM
+frm.Show vbModeless
+frm.ZOrder 0
+miPosPopup = miPosPopup + 1
+End Sub
+
+Private Sub ExibirPopupLinhas(ByVal sTitulo As String, ByVal sTextos As String, ByVal sDestinos As String, ByVal lCor As Long)
+Dim frm As New frmAvisoPopup
+Const MARGEM As Long = 150
+
+frm.CarregarLinhas sTitulo, sTextos, sDestinos, lCor
+frm.Left = MARGEM + (miPosPopup * (frm.Width + MARGEM))
+frm.Top = MARGEM
 frm.Show vbModeless
 frm.ZOrder 0
 miPosPopup = miPosPopup + 1
@@ -122,3 +140,46 @@ End If
 
 GerarAvisoEstoqueBaixo = "Existem " & nProdutos & " produto(s) com estoque abaixo do mínimo."
 End Function
+
+'Alertas gerais: cada pendencia vira uma linha (texto) e um destino (chave do form aberto pelo clique, ver
+'lblExibir_Click em frmAvisoPopup). Textos separados por vbLf e destinos por "|". Um "~" dentro do texto
+'quebra a linha dentro do mesmo alerta. Novos alertas entram aqui.
+Public Function GerarAlertasGerais(ByRef sDestinos As String) As String
+Dim sTextos As String
+Dim rf As TResumoFiscal
+Dim nDias As Long
+
+sDestinos = ""
+
+'1) contabilidade sem e-mail (necessario para o envio automatico do Resumo Fiscal)
+If RF_EmailContador() = "" Then AddAlerta sTextos, sDestinos, "Contabilidade sem e-mail cadastrado.", "CONTADOR"
+
+'2) quanto falta emitir em notas de saida para bater a meta fiscal do mes
+rf = RF_Calcular(True, Month(Date), Year(Date))
+If rf.vRestante1 > 0 Then
+    AddAlerta sTextos, sDestinos, "Meta fiscal de " & StrConv(Format(Date, "mmm"), vbProperCase) & "/" & Year(Date) & " faltam:~" & Format(rf.vRestante1, ocMONEY) & " em notas de saída.", "RESUMO_FISCAL"
+End If
+
+'3) certificado digital vencendo (avisa a partir de 15 dias antes) ou vencido
+nDias = SQLExecutaRetorno("SELECT ISNULL(DATEDIFF(day, CONVERT(date, GETDATE()), CONVERT(date, VencimentoCert)), 99999) d FROM empresa", "d", 99999)
+If nDias <= 15 Then
+    If nDias < 0 Then
+        AddAlerta sTextos, sDestinos, "Certificado digital VENCIDO há " & Abs(nDias) & " dia(s)!", "EMPRESA"
+    ElseIf nDias = 0 Then
+        AddAlerta sTextos, sDestinos, "Certificado digital vence HOJE!", "EMPRESA"
+    Else
+        AddAlerta sTextos, sDestinos, "Certificado digital vence em " & nDias & " dia(s) (" & Format(Date + nDias, "dd/mm/yyyy") & ").", "EMPRESA"
+    End If
+End If
+
+GerarAlertasGerais = sTextos
+End Function
+
+Private Sub AddAlerta(ByRef sTextos As String, ByRef sDestinos As String, ByVal sTexto As String, ByVal sDestino As String)
+If sTextos <> "" Then
+    sTextos = sTextos & vbLf
+    sDestinos = sDestinos & "|"
+End If
+sTextos = sTextos & sTexto
+sDestinos = sDestinos & sDestino
+End Sub

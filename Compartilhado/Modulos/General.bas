@@ -63,6 +63,7 @@ Public appEXEName As String       'Armazena o nome do executável do programa
 'Public appURLUpdt As String      'Armazena o local de atualização
 
 Public FormParent As String      'Formulário de origem
+Public gModoAutomatico As Boolean  'True quando o sistema e iniciado por tarefa agendada (/resumofiscal): sem janelas
 Public CloseSystem As Boolean    'O sistema está sendo fechado
 
 'Constantes utilizadas no projeto
@@ -169,8 +170,9 @@ Sub TravarVenda(Status As Boolean)
 End Sub
 
 Public Sub Main()
+gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0)
 'Previne a execução de mais de uma vez do sistema
-If App.PrevInstance Then
+If App.PrevInstance And Not gModoAutomatico Then
     ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation
     End
 End If
@@ -182,14 +184,16 @@ appPathIni = appPathApp & ocArqvINI    'Armazena o arquivo ini
 appEXEName = App.EXEName & ".exe"
 
 'Inicializa o sistema
-Load frmConectando   'feedback visual enquanto tenta conectar, pois o VB6 nao mostra nada proprio antes da 1a janela
-frmConectando.Show
-frmConectando.Refresh
-DoEvents
+If Not gModoAutomatico Then
+   Load frmConectando   'feedback visual enquanto tenta conectar, pois o VB6 nao mostra nada proprio antes da 1a janela
+   frmConectando.Show
+   frmConectando.Refresh
+   DoEvents
+End If
 
 IniciarPrograma True
 
-Unload frmConectando
+If Not gModoAutomatico Then Unload frmConectando
 
 'Armazena as configurações do sistema
 LerConfiguracao
@@ -280,6 +284,17 @@ End Sub
 
 'Mosta a MsgBox personalizada com o título do programa e retornar qual ação foi escolhida pelo usuário
 Public Function ShowMsg(Prompt As String, Buttons As Integer) As Integer
+   If gModoAutomatico Then
+      'execucao agendada nao tem ninguem para clicar: grava no log e segue
+      On Error Resume Next
+      Dim nLogAuto As Integer
+      nLogAuto = FreeFile
+      Open appPathApp & "ResumoFiscalAuto_log.txt" For Append As #nLogAuto
+      Print #nLogAuto, Format(Now, "dd/mm/yyyy hh:nn:ss") & "  [aviso do sistema] " & Replace(Prompt, vbCrLf, " ")
+      Close #nLogAuto
+      ShowMsg = vbOK
+      Exit Function
+   End If
    ShowMsg = MsgBox(Prompt, Buttons, ocPrjName)
 End Function
 

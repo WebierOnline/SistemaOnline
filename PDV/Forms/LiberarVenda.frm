@@ -130,7 +130,7 @@ Sub pListarGerentes()
 'Dim sSQL As String
 'Dim r As ADODB.Recordset
 
-sSQL = "SELECT codigo, login FROM usuario WHERE (nivel = 1) ORDER BY login;"
+sSQL = "SELECT codigo, login FROM usuario WHERE (nivel = 1) AND (codigo <> 1) ORDER BY login;"
 Set r = dbData.OpenRecordset(sSQL)
 
 cboGerente.Clear
