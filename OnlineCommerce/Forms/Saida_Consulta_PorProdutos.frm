@@ -1200,7 +1200,7 @@ Select Case sForma
             Parcelas_Consulta_Produtos.Show 1
          End If
       End If
-   Case "AJUSTE"
+   Case "AJUSTE", "CONTAGEM"
       If IsNumeric(Grid.TextMatrix(Grid.Row, 8)) Then
          If Val(Grid.TextMatrix(Grid.Row, 8)) <> 0 Then
             Ajuste_Consulta_PorProdutos.FiltrarPorProduto Val(Grid.TextMatrix(Grid.Row, 8))
@@ -1350,6 +1350,8 @@ If cboFormaSaida.Text = "VENDA" Then
     sFiltro = sFiltro & "AND (mv.FORMA = 'VENDA') "
 ElseIf cboFormaSaida.Text = "AJUSTE" Then
     sFiltro = sFiltro & "AND (mv.FORMA = 'AJUSTE') "
+ElseIf cboFormaSaida.Text = "CONTAGEM" Then
+    sFiltro = sFiltro & "AND (mv.FORMA = 'CONTAGEM') "
 ElseIf cboFormaSaida.Text = "SAÍDA" Then
     sFiltro = sFiltro & "AND (mv.FORMA = 'SAÍDA') "
 End If
@@ -1376,9 +1378,9 @@ End If
 sSQL = "SELECT mv.*, funcionario.NOME AS varNomeUsuario FROM (" & _
    "SELECT Produtos_Quant.CODIGO AS CODIGO, Produtos_Quant.Hora AS Hora, Produtos_Quant.DATA AS DATA, ABS(Produtos_Quant.QUANT) AS QUANT, " & _
       "ISNULL(Produtos_Quant.cod_usuario, '') AS vUsuario, ISNULL(Produtos_Quant.Estoque, ' ') AS vQuantEstoque, " & _
-      "'AJUSTE' AS FORMA, 'REMOÇÃO' AS TIPO, Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos.descricao AS DESCRICAO, produtos.COD_BARRA AS COD_BARRA, produtos.CATEGORIA AS CATEGORIA, produtos.quant_estoque AS varEstoqueAtual, 0 AS vCodPedido " & _
+      "Produtos_Quant.FORMA AS FORMA, 'REMOÇÃO' AS TIPO, Produtos_Quant.COD_PRODUTO AS COD_PRODUTO, produtos.descricao AS DESCRICAO, produtos.COD_BARRA AS COD_BARRA, produtos.CATEGORIA AS CATEGORIA, produtos.quant_estoque AS varEstoqueAtual, 0 AS vCodPedido " & _
       "FROM Produtos_Quant INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
-      "WHERE (Produtos_Quant.FORMA = 'AJUSTE') AND (Produtos_Quant.TIPO = 'REMOÇÃO') " & _
+      "WHERE (Produtos_Quant.FORMA IN ('AJUSTE', 'CONTAGEM')) AND (Produtos_Quant.TIPO = 'REMOÇÃO') " & _
    "UNION ALL " & _
    "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, " & _
       "ABS(Produtos_Quant.QUANT), " & _
@@ -1437,7 +1439,7 @@ soma = 0
 contar = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 5) = "AJUSTE" Then
+      If .TextMatrix(i, 5) = "AJUSTE" Or .TextMatrix(i, 5) = "CONTAGEM" Then 'contagem fisica soma no quadro AJUSTE
             contar = contar + 1
             soma = soma + CCur(.TextMatrix(i, 6))
       End If
@@ -1544,7 +1546,7 @@ With Grid
 
      'linha de AJUSTE em vermelho escuro / SAÍDA em laranja escuro
      For i = 1 To .rows - 1
-        If .TextMatrix(i, 5) = "AJUSTE" Then
+        If .TextMatrix(i, 5) = "AJUSTE" Or .TextMatrix(i, 5) = "CONTAGEM" Then
            .Row = i
            For j = 0 To .Cols - 1
               .Col = j
@@ -1668,6 +1670,7 @@ cboIndice.ListIndex = 0
 cboFormaSaida.AddItem "TODOS"
 cboFormaSaida.AddItem "VENDA"
 cboFormaSaida.AddItem "AJUSTE"
+cboFormaSaida.AddItem "CONTAGEM"
 cboFormaSaida.AddItem "SAÍDA"
 cboFormaSaida.ListIndex = 0
 

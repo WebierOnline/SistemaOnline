@@ -4,8 +4,17 @@ Update empresa set EMAIL = 'seu_email@gmail.com' where EMAIL = ''
 ******/
 IF EXISTS (SELECT 1 FROM empresa WHERE CRT <> 3)
 BEGIN
-	UPDATE produtos SET ESTOQUE_FISCAL = ABS(QUANT_ESTOQUE) WHERE QUANT_ESTOQUE <= 0
-	UPDATE produtos SET ESTOQUE_FISCAL = ABS(QUANT_ESTOQUE) WHERE QUANT_ESTOQUE > 0
+	-- Estoque fiscal = ABS(fisico) so enquanto o cliente NAO tem inventario fechado (Abertura). Depois que existe
+	-- uma base, o ESTOQUE_FISCAL e calculado (inventario + notas) e nao pode ser sobrescrito aqui.
+	DECLARE @temBaseFiscal BIT
+	SET @temBaseFiscal = 0
+	IF OBJECT_ID('dbo.TbInventarios') IS NOT NULL AND COL_LENGTH('dbo.TbInventarios', 'Fechado') IS NOT NULL
+		EXEC sp_executesql N'IF EXISTS (SELECT 1 FROM dbo.TbInventarios WHERE Fechado = 1) SET @r = 1', N'@r BIT OUTPUT', @r = @temBaseFiscal OUTPUT
+	IF @temBaseFiscal = 0
+	BEGIN
+		UPDATE produtos SET ESTOQUE_FISCAL = ABS(QUANT_ESTOQUE) WHERE QUANT_ESTOQUE <= 0
+		UPDATE produtos SET ESTOQUE_FISCAL = ABS(QUANT_ESTOQUE) WHERE QUANT_ESTOQUE > 0
+	END
 	UPDATE produtos SET ESTOQUE_FISCAL = 0 WHERE ESTOQUE_FISCAL is null
 	UPDATE produtos SET QUANT_ESTOQUE = 0 WHERE QUANT_ESTOQUE <= 0
 	UPDATE produtos SET QUANT_ESTOQUE = 0 WHERE QUANT_ESTOQUE is null

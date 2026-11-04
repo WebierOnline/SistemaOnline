@@ -1324,12 +1324,17 @@ For i = 1 To Grid.rows - 1
       "fabricante = '" & Replace(Grid.TextMatrix(i, 5), "'", "''") & "', " & _
       "PRATELEIRA = '" & Replace(Grid.TextMatrix(i, 9), "'", "''") & "'"
    If optMostrarFiscal.Value Then
-      sSQL = sSQL & ", ESTOQUE_FISCAL = " & Replace(CStr(Val(Replace(Replace(Grid.TextMatrix(i, 10), ".", ""), ",", "."))), ",", ".") & ""
+      'ESTOQUE_FISCAL e gravado pela procedure EstoqueFiscalAjustar (registra o ajuste como movimento fiscal)
    Else
       sSQL = sSQL & ", quant_estoque = " & Replace(CStr(Val(Replace(Replace(Grid.TextMatrix(i, 10), ".", ""), ",", "."))), ",", ".") & ""
    End If
    sSQL = sSQL & " WHERE (codigo = " & Grid.TextMatrix(i, 2) & ");"
    dbData.Execute sSQL
+
+   If optMostrarFiscal.Value Then
+      dbData.Execute "EXEC EstoqueFiscalAjustar " & Grid.TextMatrix(i, 2) & ", " & _
+         Replace(CStr(Val(Replace(Replace(Grid.TextMatrix(i, 10), ".", ""), ",", "."))), ",", ".") & ", " & vCodUsuarioLog
+   End If
 
    'Loga o ajuste em produtos_quant (historico) - so quando quant_estoque
    'realmente mudou; ESTOQUE_FISCAL nao gera log aqui (conceito a parte,

@@ -1268,6 +1268,7 @@ Else
     INDICE = "produtos.descricao"
 End If
 
+'(inclui FORMA='CONTAGEM', gravada por Produtos_Contagem)
 'HISTÓRICO DE AJUSTES = FORMA='AJUSTE' (adição e remoção) + a linha de
 'FORMA='CADASTRO' como ponto de partida/referência. Sem entrada/saída/venda.
 'QUANT sempre positivo (ABS) + TIPO indica a direção,
@@ -1279,7 +1280,7 @@ sSQL = "SELECT Produtos_Quant.codigo, Produtos_Quant.Hora, Produtos_Quant.DATA, 
    "FROM Produtos_Quant " & _
    "INNER JOIN produtos ON Produtos_Quant.COD_PRODUTO = produtos.CODIGO " & _
    "LEFT JOIN funcionario ON funcionario.CODIGO = Produtos_Quant.cod_usuario " & _
-   "WHERE (Produtos_Quant.FORMA = 'AJUSTE' OR Produtos_Quant.FORMA = 'CADASTRO') " & sFiltro & "ORDER BY " & INDICE
+   "WHERE (Produtos_Quant.FORMA IN ('AJUSTE', 'CONTAGEM', 'CADASTRO')) " & sFiltro & "ORDER BY " & INDICE
 
 Set r = dbData.OpenRecordset(sSQL, totalRegistros)
 
@@ -1455,11 +1456,16 @@ End Sub
 
 'Mesma coisa que FiltrarPorProduto, mas replicando o filtro de periodo
 '(TODOS/MENSAL/PERIODO) que estava ativo em quem chamou - usado pelo
+'(Tipo opcional: "" = ADIÇÃO e REMOÇÃO, ou o tipo a mostrar; usado pelo Consulta_EntradavsSaida)
 'Consulta_HistoricoProduto pra nao perder o filtro ao abrir essa tela
-Public Sub FiltrarPorProdutoEPeriodo(ByVal CodProduto As Long, ByVal CriterioPrinc As String, Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "")
+Public Sub FiltrarPorProdutoEPeriodo(ByVal CodProduto As Long, ByVal CriterioPrinc As String, Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "", Optional ByVal Tipo As String = "")
 cboCriterioSec.ListIndex = 2     'CÓD. PRODUTO
 txtCodBarra.Text = CodProduto
-cboTipoAjuste.ListIndex = 0      'TODOS
+If Tipo = "" Then
+   cboTipoAjuste.ListIndex = 0   'TODOS
+Else
+   cboTipoAjuste.Text = Tipo     'ADIÇÃO / REMOÇÃO
+End If
 
 If CriterioPrinc = "MENSAL" Then
    cboCriterioPrinc.ListIndex = 1   'MENSAL

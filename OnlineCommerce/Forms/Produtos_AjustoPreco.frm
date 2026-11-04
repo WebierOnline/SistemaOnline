@@ -408,6 +408,7 @@ Begin VB.Form Produtos_AjustoPreco
       End
       Begin VB.TextBox txtQuant 
          Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   9960
          Locked          =   -1  'True
@@ -418,6 +419,7 @@ Begin VB.Form Produtos_AjustoPreco
       End
       Begin VB.TextBox txtFabricante 
          Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   7920
          Locked          =   -1  'True
@@ -428,6 +430,7 @@ Begin VB.Form Produtos_AjustoPreco
       End
       Begin VB.TextBox txtCodProduto 
          Appearance      =   0  'Flat
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   120
          Locked          =   -1  'True
@@ -438,7 +441,7 @@ Begin VB.Form Produtos_AjustoPreco
       End
       Begin VB.TextBox txtDescricao 
          Appearance      =   0  'Flat
-         BackColor       =   &H00FFFFFF&
+         BackColor       =   &H00C0FFFF&
          Height          =   315
          Left            =   1260
          Locked          =   -1  'True
@@ -453,7 +456,7 @@ Begin VB.Form Produtos_AjustoPreco
          BackStyle       =   0  'Transparent
          Caption         =   "Quant. Atual"
          Height          =   195
-         Left            =   10020
+         Left            =   9960
          TabIndex        =   35
          Top             =   240
          Width           =   885
@@ -463,7 +466,7 @@ Begin VB.Form Produtos_AjustoPreco
          BackStyle       =   0  'Transparent
          Caption         =   "Fabricante"
          Height          =   195
-         Left            =   7980
+         Left            =   7920
          TabIndex        =   33
          Top             =   240
          Width           =   750
@@ -473,7 +476,7 @@ Begin VB.Form Produtos_AjustoPreco
          BackStyle       =   0  'Transparent
          Caption         =   "Cód."
          Height          =   195
-         Left            =   180
+         Left            =   120
          TabIndex        =   31
          Top             =   240
          Width           =   330
@@ -483,7 +486,7 @@ Begin VB.Form Produtos_AjustoPreco
          BackStyle       =   0  'Transparent
          Caption         =   "Descrição"
          Height          =   195
-         Left            =   1320
+         Left            =   1260
          TabIndex        =   29
          Top             =   240
          Width           =   720
@@ -935,6 +938,9 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Dim sSQL As String
 Dim r As ADODB.Recordset
+Public Salvou As Boolean          'True quando o custo foi gravado no modo somente custo
+Dim mbSomenteCusto As Boolean     'modo do Inventario: so o CUSTO e editavel
+Dim mlCodPreco As Long            'registro de Produtos_Precos (o ultimo do produto) que tem o custo alterado
 Private Sub LimparObjetos_Produtos()
 txtDescricao.Text = ""
 txtFabricante.Text = ""
@@ -990,6 +996,83 @@ End Sub
 
 
 
+'Modo usado pelo Inventario: carrega o ultimo registro de Produtos_Precos do produto e deixa so o CUSTO editavel
+Public Function PrepararSomenteCusto(ByVal lCodigo As Long) As Boolean
+Dim rP As ADODB.Recordset
+
+Set rP = dbData.OpenRecordset("SELECT TOP 1 * FROM Produtos_Precos WHERE (COD_PRODUTO = " & lCodigo & ") ORDER BY CODIGO DESC;")
+If rP.EOF Then
+   If rP.State <> 0 Then rP.Close
+   Set rP = Nothing
+   MsgBox "Este produto não tem custo cadastrado (Produtos_Precos).", vbExclamation
+   Exit Function
+End If
+
+mbSomenteCusto = True
+Salvou = False
+mlCodPreco = rP("CODIGO")
+
+txtCodProduto.Text = lCodigo     'carrega descricao e os valores anteriores
+txtCusto.Text = FormatNumber(ValidateNull(rP("CUSTO")), 2)
+txtMargemVV.Text = FormatNumber(ValidateNull(rP("MARGEM_VV")), 2) & "%"
+txtMargemVP.Text = FormatNumber(ValidateNull(rP("MARGEM_VP")), 2) & "%"
+txtMargemAV.Text = FormatNumber(ValidateNull(rP("MARGEM_AV")), 2) & "%"
+txtMargemAP.Text = FormatNumber(ValidateNull(rP("MARGEM_AP")), 2) & "%"
+txtValorVV.Text = Format$(ValidateNull(rP("VALOR_VV")), ocMONEY)
+txtValorVP.Text = Format$(ValidateNull(rP("VALOR_VP")), ocMONEY)
+txtValorAV.Text = Format$(ValidateNull(rP("VALOR_AV")), ocMONEY)
+txtValorAP.Text = Format$(ValidateNull(rP("VALOR_AP")), ocMONEY)
+
+If rP.State <> 0 Then rP.Close
+Set rP = Nothing
+
+txtMargemVV.Enabled = False
+txtMargemVP.Enabled = False
+txtMargemAV.Enabled = False
+txtMargemAP.Enabled = False
+txtValorVV.Enabled = False
+txtValorVP.Enabled = False
+txtValorAV.Enabled = False
+txtValorAP.Enabled = False
+cmdRepetir.Enabled = False
+cmdRepetirLucro.Enabled = False
+
+PrepararSomenteCusto = True
+End Function
+
+'Grava o CUSTO no ultimo registro do produto e refaz as margens; os precos de venda nao mudam
+Private Sub SalvarSomenteCusto()
+Dim cCusto As Currency
+Dim sCusto As String
+
+If Trim(txtCusto.Text) = "" Or Not IsNumeric(txtCusto.Text) Then
+   MsgBox "Informe o custo.", vbExclamation
+   txtCusto.SetFocus
+   Exit Sub
+End If
+
+cCusto = CCur(txtCusto.Text)
+If cCusto < 0 Then
+   MsgBox "O custo não pode ser negativo.", vbExclamation
+   txtCusto.SetFocus
+   Exit Sub
+End If
+
+sCusto = Replace(CStr(cCusto), ",", ".")
+
+'precos de venda ficam como estao e as margens sao refeitas sobre o custo novo: margem = (preco / custo - 1) * 100 (custo zero mantem a margem)
+sSQL = "UPDATE Produtos_Precos SET CUSTO = " & sCusto
+sSQL = sSQL & ", MARGEM_VV = CASE WHEN " & sCusto & " > 0 THEN CONVERT(DECIMAL(18,2), (ISNULL(VALOR_VV, 0) / " & sCusto & " - 1) * 100) ELSE MARGEM_VV END"
+sSQL = sSQL & ", MARGEM_VP = CASE WHEN " & sCusto & " > 0 THEN CONVERT(DECIMAL(18,2), (ISNULL(VALOR_VP, 0) / " & sCusto & " - 1) * 100) ELSE MARGEM_VP END"
+sSQL = sSQL & ", MARGEM_AV = CASE WHEN " & sCusto & " > 0 THEN CONVERT(DECIMAL(18,2), (ISNULL(VALOR_AV, 0) / " & sCusto & " - 1) * 100) ELSE MARGEM_AV END"
+sSQL = sSQL & ", MARGEM_AP = CASE WHEN " & sCusto & " > 0 THEN CONVERT(DECIMAL(18,2), (ISNULL(VALOR_AP, 0) / " & sCusto & " - 1) * 100) ELSE MARGEM_AP END"
+sSQL = sSQL & " WHERE (CODIGO = " & mlCodPreco & ")"
+If SQLExecutaTratandoErro(sSQL) Then Exit Sub
+
+Salvou = True
+Me.Hide
+End Sub
+
 Private Sub cmdRepetir_Click()
 txtMargemVP.Text = txtMargemVV.Text
 txtMargemAV = txtMargemVV.Text
@@ -1008,6 +1091,11 @@ End Sub
 
 Private Sub cmdSalvar_Click()
 Dim AutoNumeracao As Long
+
+If mbSomenteCusto Then
+   SalvarSomenteCusto
+   Exit Sub
+End If
 
 If txtMargemVV.Text = "" Then Exit Sub
 If txtMargemVP.Text = "" Then Exit Sub
@@ -1046,6 +1134,7 @@ End Sub
 
 Private Sub CalcularPrecos()
 Dim varValorCusto As Currency
+If mbSomenteCusto Then Exit Sub     'no modo Inventario os precos de venda nao mudam
 If txtCusto.Text = "" Then Exit Sub
 varValorCusto = txtCusto.Text
 
@@ -1109,7 +1198,8 @@ End Sub
 
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
-Produtos_AjustoPreco.Hide
+'so esconde se ainda esta na tela: o Unload feito pelo chamador depois do Hide dava erro 402 (ha outro modal por cima)
+If Me.Visible Then Produtos_AjustoPreco.Hide
 End Sub
 
 
@@ -1350,13 +1440,13 @@ If txtCusto.Text = "" Then Exit Sub
 If txtValorAP.Text = "" Then Exit Sub
 
 Dim a As Currency
-Dim B As Currency
+Dim b As Currency
 Dim c As Currency
 
 a = txtCusto.Text
 If a = 0 Then Exit Sub
-B = txtValorAP.Text
-c = ((B - a) / a) * 100
+b = txtValorAP.Text
+c = ((b - a) / a) * 100
 
 txtMargemAP.Text = FormatNumber(c, 2) & "%"
 End Sub
@@ -1375,13 +1465,13 @@ If txtCusto.Text = "" Then Exit Sub
 If txtValorAV.Text = "" Then Exit Sub
 
 Dim a As Currency
-Dim B As Currency
+Dim b As Currency
 Dim c As Currency
 
 a = txtCusto.Text
 If a = 0 Then Exit Sub
-B = txtValorAV.Text
-c = ((B - a) / a) * 100
+b = txtValorAV.Text
+c = ((b - a) / a) * 100
 
 txtMargemAV.Text = FormatNumber(c, 2) & "%"
 End Sub
@@ -1400,13 +1490,13 @@ If txtCusto.Text = "" Then Exit Sub
 If txtValorVP.Text = "" Then Exit Sub
 
 Dim a As Currency
-Dim B As Currency
+Dim b As Currency
 Dim c As Currency
 
 a = txtCusto.Text
 If a = 0 Then Exit Sub
-B = txtValorVP.Text
-c = ((B - a) / a) * 100
+b = txtValorVP.Text
+c = ((b - a) / a) * 100
 
 txtMargemVP.Text = FormatNumber(c, 2) & "%"
 End Sub
@@ -1425,13 +1515,13 @@ If txtCusto.Text = "" Then Exit Sub
 If txtValorVV.Text = "" Then Exit Sub
 
 Dim a As Currency
-Dim B As Currency
+Dim b As Currency
 Dim c As Currency
 
 a = txtCusto.Text
 If a = 0 Then Exit Sub
-B = txtValorVV.Text
-c = ((B - a) / a) * 100
+b = txtValorVV.Text
+c = ((b - a) / a) * 100
 
 txtMargemVV.Text = FormatNumber(c, 2) & "%"
 End Sub

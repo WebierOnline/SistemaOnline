@@ -428,12 +428,12 @@ Begin VB.Form Contador_Cadastro
          End
          Begin VB.Label Label11 
             AutoSize        =   -1  'True
-            Caption         =   "Correio Eletrônico"
+            Caption         =   "E-mail"
             Height          =   195
             Left            =   3120
             TabIndex        =   30
             Top             =   1680
-            Width           =   1245
+            Width           =   420
          End
          Begin VB.Label Label12 
             AutoSize        =   -1  'True
@@ -763,7 +763,7 @@ Begin VB.Form Contador_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:36"
+            TextSave        =   "09:57"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1070,8 +1070,8 @@ Unload Rel_Fornecedores
 Dim var_ImpNormal As String
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")

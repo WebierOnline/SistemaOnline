@@ -1057,7 +1057,7 @@ Select Case sForma
          End If
       End If
 
-   Case "CADASTRO", "AJUSTE"
+   Case "CADASTRO", "AJUSTE", "CONTAGEM"
       'Replica o mesmo filtro de periodo que estava ativo aqui (TODOS/MENSAL/
       'PERIODO) - FiltrarPorProdutoEPeriodo nao marca volta pra nenhuma tela
       'Agrupada, diferente do FiltrarPorProdutoEForma usado em outro lugar
@@ -1481,6 +1481,7 @@ cboForma.AddItem "TODOS"
 cboForma.AddItem "CADASTRO"
 cboForma.AddItem "ENTRADA"
 cboForma.AddItem "AJUSTE"
+cboForma.AddItem "CONTAGEM"
 cboForma.AddItem "SAÍDA"
 cboForma.AddItem "VENDA"
 cboForma.AddItem "OFICINA"

@@ -999,10 +999,12 @@ End If
 sAjusteSaidaBranch = ""
 sVendaBranch = ""
 
-If cboFormaSaida.Text = "" Or cboFormaSaida.Text = "TODOS" Or cboFormaSaida.Text = "AJUSTE" Or cboFormaSaida.Text = "SAÍDA" Then
+If cboFormaSaida.Text = "" Or cboFormaSaida.Text = "TODOS" Or cboFormaSaida.Text = "AJUSTE" Or cboFormaSaida.Text = "CONTAGEM" Or cboFormaSaida.Text = "SAÍDA" Then
    sFormaProdQuant = ""
    If cboFormaSaida.Text = "AJUSTE" Then
       sFormaProdQuant = "AND (Produtos_Quant.FORMA = 'AJUSTE') "
+   ElseIf cboFormaSaida.Text = "CONTAGEM" Then
+      sFormaProdQuant = "AND (Produtos_Quant.FORMA = 'CONTAGEM') "
    ElseIf cboFormaSaida.Text = "SAÍDA" Then
       sFormaProdQuant = "AND (Produtos_Quant.FORMA = 'SAÍDA') "
    End If
@@ -1174,6 +1176,7 @@ cboCriterioPrinc.ListIndex = 0   'TODOS
 cboFormaSaida.AddItem "TODOS"
 cboFormaSaida.AddItem "VENDA"
 cboFormaSaida.AddItem "AJUSTE"
+cboFormaSaida.AddItem "CONTAGEM"
 cboFormaSaida.AddItem "SAÍDA"
 cboFormaSaida.ListIndex = 0
 

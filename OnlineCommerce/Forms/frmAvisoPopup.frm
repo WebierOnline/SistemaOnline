@@ -168,23 +168,13 @@ Select Case msDestinos(Index)
         Contador_Cadastro.AbrirPrimeiroContador
         Contador_Cadastro.Show 1
     Case "RESUMO_FISCAL"
-        'abre o Resumo Fiscal ao lado deste popup, na mesma altura dos popups
+        'abre o Resumo Fiscal ao lado do ultimo popup, na mesma altura dos popups
         Notas_Adesivas.Show
-        Notas_Adesivas.Move PosicaoAoLado(Notas_Adesivas.Width), Me.Top
+        PosicionarAoLadoDosPopups Notas_Adesivas
     Case "EMPRESA"
         Empresa_Cadastro.Show
 End Select
 End Sub
-
-'Left para uma janela de largura nLarg ficar a direita deste popup (sem sair da area da Tela_Principal)
-Private Function PosicaoAoLado(ByVal nLarg As Long) As Long
-Dim nLeft As Long
-
-nLeft = Me.Left + Me.Width + 150
-If nLeft + nLarg > Tela_Principal.ScaleWidth Then nLeft = Tela_Principal.ScaleWidth - nLarg
-If nLeft < 0 Then nLeft = 0
-PosicaoAoLado = nLeft
-End Function
 
 Private Sub lblClique_Click()
 Select Case msTelaDestino

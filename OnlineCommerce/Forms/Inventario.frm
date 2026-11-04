@@ -600,7 +600,7 @@ Begin VB.Form Inventario_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "06:30"
+            TextSave        =   "11:53"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -640,18 +640,19 @@ Dim i As Integer, x As Integer
 
 With Grid
    .Clear
-   .Cols = 9
+   .Cols = 10
    .rows = 2
    
    .ColWidth(0) = 0
-   .ColWidth(1) = 500
-   .ColWidth(2) = 1000
-   .ColWidth(3) = 500
-   .ColWidth(4) = 1000
-   .ColWidth(5) = 1000
-   .ColWidth(6) = 1000
-   .ColWidth(7) = 1000
-   .ColWidth(8) = 1000
+   .ColWidth(1) = 0        'ID (oculto, usado pelas rotinas)
+   .ColWidth(2) = 880
+   .ColWidth(3) = 1000
+   .ColWidth(4) = 700
+   .ColWidth(5) = 1105
+   .ColWidth(6) = 500
+   .ColWidth(7) = 1400
+   .ColWidth(8) = 1100
+   .ColWidth(9) = 1100
    
    For x = 0 To .Cols - 1
       .Col = x
@@ -660,31 +661,42 @@ With Grid
    Next
    'IdInventario, Data, IDFuncionario, AnoInventario, PeriodoInventarioTipo, PeriodoInventario, DataInventario,
    .TextMatrix(0, 1) = "ID"
-   .TextMatrix(0, 2) = "DATA"
-   .TextMatrix(0, 3) = "FUNC"
-   .TextMatrix(0, 4) = "ANO"
-   .TextMatrix(0, 5) = "TIPO"
-   .TextMatrix(0, 6) = "PERÍODO"
-   .TextMatrix(0, 7) = "DATA"
-   .TextMatrix(0, 8) = "FECHADO"
+   .TextMatrix(0, 2) = "GERADO"
+   .TextMatrix(0, 3) = "USUÁRIO"
+   .TextMatrix(0, 4) = "TIPO"
+   .TextMatrix(0, 5) = "PERÍODO"
+   .TextMatrix(0, 6) = "ANO"
+   .TextMatrix(0, 7) = "SALDO FISCAL"
+   .TextMatrix(0, 8) = "DATA REF."
+   .TextMatrix(0, 9) = "SITUAÇÃO"
    .Redraw = False
    
    i = 1
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
          .TextMatrix(.rows - 1, 1) = rTabela("IdInventario")
-         .TextMatrix(.rows - 1, 2) = Format(rTabela("DATA"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 3) = rTabela("IDFuncionario")
-         .TextMatrix(.rows - 1, 4) = rTabela("AnoInventario")
-         .TextMatrix(.rows - 1, 5) = rTabela("PeriodoInventarioTipo")
-         .TextMatrix(.rows - 1, 6) = rTabela("PeriodoInventario")
-         .TextMatrix(.rows - 1, 7) = Format(rTabela("DataInventario"), "dd/mm/yy")
-         .TextMatrix(.rows - 1, 8) = rTabela("VFECHADO")
+         .TextMatrix(.rows - 1, 2) = Format(rTabela("DATA") & "", "dd/mm/yy")
+         .TextMatrix(.rows - 1, 3) = rTabela("vNome") & ""
+         .TextMatrix(.rows - 1, 4) = rTabela("PeriodoInventarioTipo")
+         If UCase(rTabela("PeriodoInventarioTipo") & "") = "MENSAL" And IsNumeric(rTabela("PeriodoInventario") & "") Then
+            .TextMatrix(.rows - 1, 5) = NomeMes(Val(rTabela("PeriodoInventario")))
+         Else
+            .TextMatrix(.rows - 1, 5) = rTabela("PeriodoInventario") & ""
+         End If
+         .TextMatrix(.rows - 1, 6) = rTabela("AnoInventario")
+         .TextMatrix(.rows - 1, 7) = Format(rTabela("vSaldo"), ocMONEY)
+         .TextMatrix(.rows - 1, 8) = Format(rTabela("DataInventario") & "", "dd/mm/yy")
+         .TextMatrix(.rows - 1, 9) = rTabela("VFECHADO")
+         .Row = .rows - 1
+         .Col = 9
+         .CellFontBold = True
+         If rTabela("VFECHADO") = "FECHADO" Then .CellForeColor = &H800000 Else .CellForeColor = &H80&
          rTabela.MoveNext
          
          .rows = .rows + 1
          i = i + 1
       Loop
+      .Row = 1
    End If
    
    'MUDAR COR DE FONTE DA COLUNA
@@ -716,29 +728,70 @@ Private Sub cboAno_GotFocus()
 'moCombo.AttachTo cboAno
 Dim iAno As Integer, FirstYear As Integer, LastYear As Integer
 Dim i As Integer
+Dim sAnoSel As String
 
+sAnoSel = cboAno.Text
 cboAno.Clear
 
 iAno = Year(Date)
-' O último ano será o anterior ao atual
+'so anos finalizados: Anual = ate o ano passado; Mensal = o ano atual tambem (a partir de fevereiro, quando ja ha mes fechado)
 LastYear = iAno - 1
-' O primeiro ano será 5 anos atrás em relação ao LastYear
-FirstYear = iAno - 5
+If cboTipo.Text = "Mensal" And Month(Date) > 1 Then LastYear = iAno
+FirstYear = LastYear - 5
 
 For i = FirstYear To LastYear
    cboAno.AddItem CStr(i)
 Next
 
-' Se o moCombo for um componente de subclasse ou skin, mantenha a linha abaixo
-' moCombo.AttachTo cboAno
-
-' Opcional: Deixar o ano mais recente (ano passado) já selecionado
-If cboAno.ListCount > 0 Then
-    cboAno.ListIndex = cboAno.ListCount - 1
+' Mantem o ano ja escolhido (se ainda valido) ou seleciona o mais recente
+If sAnoSel <> "" And Val(sAnoSel) >= FirstYear And Val(sAnoSel) <= LastYear Then
+   cboAno.Text = sAnoSel
+Else
+   cboAno.Text = CStr(LastYear)
 End If
 End Sub
 
+Private Sub cboAno_Click()
+'mudou o ano: os meses finalizados dependem dele
+If cboTipo.Text = "Mensal" Then CarregarMeses
+End Sub
+
+Private Sub CarregarMeses()
+'meses por extenso; ItemData = numero do mes. Mantem o mes ja escolhido (senao, o ultimo mes finalizado)
+Dim i As Integer
+Dim nSel As Integer
+Dim nMax As Integer
+
+'so meses finalizados: no ano atual ate o mes passado; em anos anteriores os 12
+nMax = 12
+If Val(cboAno.Text) >= Year(Date) Then nMax = Month(Date) - 1
+
+If cboPeriodo.ListIndex >= 0 Then nSel = cboPeriodo.ItemData(cboPeriodo.ListIndex)
+If nSel = 0 Or nSel > nMax Then nSel = nMax
+
+cboPeriodo.Clear
+If nMax < 1 Then Exit Sub
+For i = 1 To nMax
+   cboPeriodo.AddItem StrConv(Format(DateSerial(2000, i, 1), "mmmm"), vbProperCase)
+   cboPeriodo.ItemData(cboPeriodo.NewIndex) = i
+Next
+cboPeriodo.ListIndex = nSel - 1
+End Sub
+
+'numero do periodo para gravar/consultar (Mensal: numero do mes; demais: o texto da lista)
+Private Function PeriodoSelecionado() As String
+If cboTipo.Text = "Mensal" Then
+   If cboPeriodo.ListIndex >= 0 Then PeriodoSelecionado = CStr(cboPeriodo.ItemData(cboPeriodo.ListIndex))
+Else
+   PeriodoSelecionado = Trim(cboPeriodo.Text)
+End If
+End Function
+
 Private Sub cboPeriodo_GotFocus()
+If cboTipo.Text = "Mensal" Then
+   CarregarMeses
+   Exit Sub
+End If
 cboPeriodo.Clear
 
 If cboTipo.Text = "Anual" Then
@@ -759,18 +812,7 @@ ElseIf cboTipo.Text = "Bimestral" Then
     cboPeriodo.AddItem "5"
     cboPeriodo.AddItem "6"
 ElseIf cboTipo.Text = "Mensal" Then
-    cboPeriodo.AddItem "1"
-    cboPeriodo.AddItem "2"
-    cboPeriodo.AddItem "3"
-    cboPeriodo.AddItem "4"
-    cboPeriodo.AddItem "5"
-    cboPeriodo.AddItem "6"
-    cboPeriodo.AddItem "7"
-    cboPeriodo.AddItem "8"
-    cboPeriodo.AddItem "9"
-    cboPeriodo.AddItem "10"
-    cboPeriodo.AddItem "11"
-    cboPeriodo.AddItem "12"
+    CarregarMeses
 ElseIf cboTipo.Text = "Dia" Then
 
 End If
@@ -788,7 +830,8 @@ cboTipo.AddItem "Anual"
 'cboTipo.AddItem "Semestral"
 'cboTipo.AddItem "Trimestral"
 'cboTipo.AddItem "Bimestral"
-'cboTipo.AddItem "Mensal"
+cboTipo.AddItem "Mensal"
+cboTipo.AddItem "Abertura"
 'cboTipo.AddItem "Dia"
 moCombo.AttachTo cboTipo
 End Sub
@@ -796,6 +839,9 @@ End Sub
 
 Private Sub cboTipo_LostFocus()
 If cboTipo.Text = "Anual" Then
+    cboPeriodo.Clear
+    cboPeriodo.Text = ""
+    cboAno_GotFocus
     lblPeriodo.Enabled = False
     cboPeriodo.Enabled = False
     lblAno.Enabled = True
@@ -832,6 +878,19 @@ ElseIf cboTipo.Text = "Mensal" Then
     cboPeriodo.Enabled = True
     lblAno.Enabled = True
     cboAno.Enabled = True
+    cboAno_GotFocus
+    CarregarMeses
+    lvlData.Enabled = False
+    mskData.Enabled = False
+    cmdCal1.Enabled = False
+ElseIf cboTipo.Text = "Abertura" Then
+    cboPeriodo.Clear
+    cboPeriodo.Text = ""
+    cboAno.Text = ""
+    lblPeriodo.Enabled = False
+    cboPeriodo.Enabled = False
+    lblAno.Enabled = False
+    cboAno.Enabled = False
     lvlData.Enabled = False
     mskData.Enabled = False
     cmdCal1.Enabled = False
@@ -868,26 +927,38 @@ End Sub
 Private Sub cmdExcluir_Click()
 vQuantLinhas = Grid.rows - 1
 If vQuantLinhas < 1 Then Exit Sub
-
-If ShowMsg("Tem certeza que deseja excluir esse inventário?", vbInformation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+If Grid.Row < 1 Then Exit Sub
 
 vCod = (Grid.TextMatrix(Grid.Row, 1))
+If Not IsNumeric(vCod) Then Exit Sub
 
-sSQL = "DELETE FROM TbInventarios WHERE (IdInventario = " & vCod & ");"
-bRet = dbData.Execute(sSQL)
+If ShowMsg("Tem certeza que deseja excluir o inventário nº " & vCod & "?" & vbCrLf & _
+           "Os " & SQLExecutaRetorno("SELECT COUNT(*) r FROM TbInventariosItens WHERE (IdInventario = " & vCod & ")", "r", 0) & _
+           " itens dele também serão excluídos.", vbExclamation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+
+If SQLExecutaRetorno("SELECT COUNT(*) r FROM TbInventarios WHERE (IdInventario = " & vCod & ") AND (PeriodoInventarioTipo = 'Abertura')", "r", 0) > 0 Then
+   If ShowMsg("Este é o Inventário de ABERTURA: a base do ESTOQUE FISCAL." & vbCrLf & "Sem ele o saldo fiscal volta a ser calculado sem base." & vbCrLf & "Excluir mesmo assim?", vbExclamation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+End If
+
+'inventario fechado nao pode ser excluido (leitura ANTES da transacao)
+If SQLExecutaRetorno("SELECT COUNT(*) r FROM TbInventarios WHERE (IdInventario = " & vCod & ") AND (Fechado = 1) AND (PeriodoInventarioTipo <> 'Abertura')", "r", 0) > 0 Then
+   ShowMsg "Esse inventário está FECHADO e não pode ser excluído.", vbExclamation
+   Exit Sub
+End If
+
+'itens e cabecalho juntos: ou apaga os dois ou nao apaga nada
+If Not dbData.Execute("BEGIN TRANSACTION") Then Exit Sub
+
+bRet = dbData.Execute("DELETE FROM TbInventariosItens WHERE (IdInventario = " & vCod & ");")
+If bRet Then bRet = dbData.Execute("DELETE FROM TbInventarios WHERE (IdInventario = " & vCod & ");")
 
 If Not bRet Then
+   dbData.Execute "ROLLBACK TRANSACTION"
    ShowMsg "Não foi possível excluir o registro.", vbCritical
    Exit Sub
 End If
 
-sSQL = "DELETE FROM TbInventariosItens WHERE (IdInventario = " & vCod & ");"
-bRet = dbData.Execute(sSQL)
-
-If Not bRet Then
-   ShowMsg "Não foi possível excluir o registro.", vbCritical
-   Exit Sub
-End If
+dbData.Execute "COMMIT TRANSACTION"
 
 Limpar_Objetos
 Form_Load
@@ -915,13 +986,18 @@ Dim ComandoSQL As String, filtroSQL As String
 Dim vFilial As Integer
 vFilial = 1
   
-  If Len(cboAno) < 4 Then
+  If cboTipo.Text <> "Abertura" And Len(cboAno) < 4 Then
     MsgBox "Ano Invalido", vbExclamation, "ATENÇÃO"
     Exit Sub
   End If
   
   If Vazio(txtCodFuncionario.Text) Or txtCodFuncionario.Text = 0 Then
     MsgBox "Responsável Inválido", vbExclamation, "ATENÇÃO"
+    Exit Sub
+  End If
+
+  If Trim(cboTipo.Text) = "" Then
+    MsgBox "Informe o tipo do Inventário", vbExclamation, "ATENÇÃO"
     Exit Sub
   End If
   
@@ -957,7 +1033,14 @@ vFilial = 1
         End If
         filtroSQL = "PeriodoInventarioTipo = '" & cboTipo.Text & "' AND AnoInventario = " & cboAno.Text & " AND PeriodoInventario = '" & cboPeriodo.Text & "'"
      Case "Mensal"
-        filtroSQL = "PeriodoInventarioTipo = '" & cboTipo.Text & "' AND AnoInventario = " & cboAno.Text & " AND PeriodoInventario = '" & cboPeriodo.Text & "'"
+        If PeriodoSelecionado() = "" Then
+           MsgBox "Informe o mês do Inventário", vbExclamation, "ATENÇÃO"
+           Exit Sub
+        End If
+        filtroSQL = "PeriodoInventarioTipo = 'Mensal' AND AnoInventario = " & cboAno.Text & " AND PeriodoInventario = '" & PeriodoSelecionado() & "'"
+     Case "Abertura"
+        If ShowMsg("Gerar o Inventário de ABERTURA do estoque fiscal?" & vbCrLf & "O ESTOQUE FISCAL atual de cada produto será gravado, já FECHADO, como saldo-base." & vbCrLf & "A partir dele o saldo fiscal é calculado com as notas.", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+        filtroSQL = "PeriodoInventarioTipo = 'Abertura' AND DataInventario = " & FdtSQL(Date)
      Case Else
         If Not IsDate(mskData.Text) Then
            MsgBox "Data Inválida!", vbCritical + vbOKOnly, "SISC"
@@ -982,6 +1065,7 @@ vFilial = 1
   If SQLExecutaRetorno(ComandoSQL, "r", 0) > 0 Then
       'Pega o Id
       ComandoSQL = "SELECT IdInventario As r FROM TbInventarios WHERE " & filtroSQL
+      ShowMsg "Já existe o Inventário nº " & SQLExecutaRetorno(ComandoSQL, "r", 0) & " para esse período." & vbCrLf & "Para gerar novamente, exclua o inventário existente.", vbInformation
       
       'Chama o inventário gerado
       'frmInvGerad.xIdInvent = SQLExecutaRetorno(ComandoSQL, "r", 0)
@@ -995,11 +1079,14 @@ vFilial = 1
       
       'Prepara
         If cboTipo.Text = "Anual" Then
-            ComandoSQL = "EXEC InventarioGerar " & cboAno.Text & ", " & vFilial & ", '" & cboTipo.Text & "', '', NULL"
+            ComandoSQL = "EXEC InventarioGerar " & cboAno.Text & ", " & Val(txtCodFuncionario.Text) & ", '" & cboTipo.Text & "', '', NULL, " & vFilial
         ElseIf cboTipo.Text = "Semestral" Then
         ElseIf cboTipo.Text = "Trimestral" Then
         ElseIf cboTipo.Text = "Bimestral" Then
         ElseIf cboTipo.Text = "Mensal" Then
+            ComandoSQL = "EXEC InventarioGerar " & cboAno.Text & ", " & Val(txtCodFuncionario.Text) & ", 'Mensal', '" & PeriodoSelecionado() & "', NULL, " & vFilial
+        ElseIf cboTipo.Text = "Abertura" Then
+            ComandoSQL = "EXEC InventarioAbertura " & Val(txtCodFuncionario.Text) & ", " & vFilial
         ElseIf cboTipo.Text = "Dia" Then
         End If
           
@@ -1027,6 +1114,7 @@ cmdSalvar.Enabled = False
 cmdCancelar.Enabled = False
 frmCadastro.Enabled = False
 cmdNovo.Enabled = True
+MostrarGrid
 'On Error GoTo TrataErro
 
 'If txtCodigo.Text = "" Or frmCadastro.Text = "" Then Exit Sub
@@ -1134,7 +1222,7 @@ varCodAntes = txtCodFuncionario.Text
 
 cboFuncionario.Clear
 
-sSQL = "SELECT DISTINCT nome, codigo FROM funcionario WHERE (cargo <> 'mecânico') ORDER BY nome;"
+sSQL = "SELECT DISTINCT nome, codigo FROM funcionario WHERE (ISNULL(cargo, '') <> 'mecânico') ORDER BY nome;"
 Set r = dbData.OpenRecordset(sSQL)
 
 Do While Not r.EOF
@@ -1182,6 +1270,31 @@ Private Sub Form_Unload(Cancel As Integer)
    Set moCombo = Nothing
 End Sub
 
+'Excluir so fica ativo com uma linha de inventario selecionada (fora do modo de cadastro) e se o login for do usuario 1
+Private Sub AtualizarBotaoExcluir()
+cmdExcluir.Enabled = False
+If vCodFunc <> 1 Then Exit Sub
+If Not cmdNovo.Enabled Then Exit Sub
+If Grid.rows < 2 Then Exit Sub
+If Grid.Row < 1 Then Exit Sub
+cmdExcluir.Enabled = IsNumeric(Grid.TextMatrix(Grid.Row, 1))
+End Sub
+
+'Nome do mes por extenso (nao depende do idioma do Windows)
+Private Function NomeMes(ByVal vMes As Integer) As String
+Dim a As Variant
+a = Array("JANEIRO", "FEVEREIRO", "MARÇO", "ABRIL", "MAIO", "JUNHO", "JULHO", "AGOSTO", "SETEMBRO", "OUTUBRO", "NOVEMBRO", "DEZEMBRO")
+If vMes >= 1 And vMes <= 12 Then NomeMes = a(vMes - 1)
+End Function
+
+Private Sub Grid_Click()
+AtualizarBotaoExcluir
+End Sub
+
+Private Sub Grid_RowColChange()
+AtualizarBotaoExcluir
+End Sub
+
 Private Sub Grid_DblClick()
 'txtCodigo.Text = ""
 'txtCodigo.Text = (Grid.TextMatrix(Grid.Row, 1))
@@ -1198,12 +1311,17 @@ Private Sub MostrarGrid()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
-sSQL = "SELECT  IdInventario, Data, IDFuncionario, AnoInventario, PeriodoInventarioTipo, PeriodoInventario, DataInventario, (CASE WHEN fechado = 1 THEN 'SIM' ELSE 'NÃO' END) as vFechado FROM TbInventarios ORDER BY IdInventario;"
+sSQL = "SELECT i.IdInventario, i.Data, ISNULL(f.nome, '') as vNome, i.AnoInventario, i.PeriodoInventarioTipo, i.PeriodoInventario, i.DataInventario, " & _
+       "ISNULL((SELECT SUM(t.TotalInvent) FROM TbInventariosItens t WHERE (t.IdInventario = i.IdInventario)), 0) as vSaldo, " & _
+       "(CASE WHEN i.fechado = 1 THEN 'FECHADO' ELSE 'ABERTO' END) as vFechado " & _
+       "FROM TbInventarios i LEFT JOIN funcionario f ON (f.codigo = i.IDFuncionario) ORDER BY i.IdInventario;"
 Set r = dbData.OpenRecordset(sSQL)
 
 FormatarGrid r
 
 If r.State <> 0 Then r.Close
 Set r = Nothing
+
+AtualizarBotaoExcluir
 End Sub
 

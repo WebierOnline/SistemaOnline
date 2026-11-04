@@ -1387,6 +1387,8 @@ sSQL = "SELECT Produtos_Quant.CODIGO, Produtos_Quant.Hora, Produtos_Quant.DATA, 
         sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'ENTRADA') "
     ElseIf cboFormaEntrada.Text = "AJUSTE" Then
         sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'AJUSTE') "
+    ElseIf cboFormaEntrada.Text = "CONTAGEM" Then
+        sSQL = sSQL & "AND (Produtos_Quant.FORMA = 'CONTAGEM') "
     End If
    
 sSQL = sSQL & " ORDER BY " & INDICE
@@ -1439,7 +1441,7 @@ soma = 0
 contar = 0
 With Grid
    For i = 1 To .rows - 1
-      If .TextMatrix(i, 7) = "AJUSTE" Then
+      If .TextMatrix(i, 7) = "AJUSTE" Or .TextMatrix(i, 7) = "CONTAGEM" Then 'contagem fisica (Produtos_Contagem) soma no quadro AJUSTE
             contar = contar + 1
             soma = soma + CCur(.TextMatrix(i, 9))
       End If
@@ -1585,6 +1587,35 @@ vAbrirDaAgrupada = True
 cmdLocalizar_Click
 End Sub
 
+'Mesmo que FiltrarPorProdutoEForma, mas sem a marca que reabre a tela Agrupadas ao fechar -
+'usado por quem nao e a Agrupadas (ex: Consulta_EntradavsSaida)
+Public Sub FiltrarPorProdutoEPeriodo(ByVal CodProduto As Long, ByVal Forma As String, ByVal CriterioPrinc As String, Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "")
+cboCriterioSec.ListIndex = 2   'CÓD. PRODUTO
+txtCodBarra.Text = CodProduto
+
+If Forma = "" Then
+   cboFormaEntrada.ListIndex = 0   'TODOS
+Else
+   cboFormaEntrada.Text = Forma
+End If
+
+If CriterioPrinc = "MENSAL" Then
+   cboCriterioPrinc.ListIndex = 1   'MENSAL
+   cboMes_GotFocus
+   If Mes >= 1 And Mes <= 12 Then cboMes.ListIndex = Mes - 1
+   cboAno_GotFocus
+   cboAno.Text = Ano
+ElseIf CriterioPrinc = "PERÍODO" Then
+   cboCriterioPrinc.ListIndex = 2   'PERÍODO
+   mskInicio.Text = DataIni
+   mskFim.Text = DataFim
+Else
+   cboCriterioPrinc.ListIndex = 0   'TODOS
+End If
+
+cmdLocalizar_Click
+End Sub
+
 Private Sub Form_Load()
 Set cCfg = sysConfig("TIPO_EMPRESA")
 tipoEmpresa = cCfg.Value
@@ -1609,6 +1640,7 @@ cboFormaEntrada.AddItem "TODOS"
 cboFormaEntrada.AddItem "CADASTRO"
 cboFormaEntrada.AddItem "ENTRADA"
 cboFormaEntrada.AddItem "AJUSTE"
+cboFormaEntrada.AddItem "CONTAGEM"
 cboFormaEntrada.ListIndex = 0
 
 If txtCodBarra.Visible = True Then txtCodBarra.SetFocus

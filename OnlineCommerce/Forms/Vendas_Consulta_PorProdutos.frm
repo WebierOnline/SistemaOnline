@@ -2150,6 +2150,32 @@ Unload REL_Cons_Venda_Prod
 Me.Show 1
 End Sub
 
+'Chamado de fora (Consulta_EntradavsSaida) pra abrir ja filtrado no produto (cod. barra) e no periodo
+'da consulta. CriterioPrinc = "TODOS"/"MENSAL"/"PERÍODO"; Mes/Ano so valem para MENSAL,
+'DataIni/DataFim so valem para PERÍODO. Chamar ANTES do .Show
+Public Sub FiltrarPorProdutoEPeriodo(ByVal CodBarra As String, ByVal CriterioPrinc As String, Optional ByVal Mes As Integer = 0, Optional ByVal Ano As String = "", Optional ByVal DataIni As String = "", Optional ByVal DataFim As String = "")
+cboTipo.Text = "POR PRODUTOS"
+cboCriterioSec.Text = "CÓD. BARRA"
+txtCodBarra.Text = CodBarra
+
+If CriterioPrinc = "MENSAL" Then
+   cboCriterioPrinc.Text = "MENSAL"
+   cboMes_GotFocus
+   If Mes >= 1 And Mes <= 12 Then cboMes.ListIndex = Mes - 1
+   cboAno_GotFocus
+   cboAno.Text = Ano
+ElseIf CriterioPrinc = "PERÍODO" Then
+   cboCriterioPrinc.Text = "PERÍODO"
+   mskInicio.Text = DataIni
+   mskFim.Text = DataFim
+Else
+   cboCriterioPrinc.Text = "TODOS"
+End If
+
+cboCriterioPrinc_LostFocus   'mostra/esconde mes-ano e datas conforme o criterio
+cmdLocalizar_Click
+End Sub
+
 Public Sub cmdLocalizar_Click()
 Dim INDICE As String
 

@@ -614,6 +614,44 @@ Begin VB.Form Consulta_EntradavsSaida
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin ChamaleonBtn.chameleonButton cmdExibirRemocoes 
+      Height          =   255
+      Left            =   6180
+      TabIndex        =   33
+      Top             =   8940
+      Width           =   1995
+      _ExtentX        =   3519
+      _ExtentY        =   450
+      BTYPE           =   3
+      TX              =   "EXIBIR REMOÇÕES"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   13160660
+      BCOLO           =   13160660
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Consulta_EntradavsSaida.frx":12A44
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label Label3 
       Caption         =   "Label3"
       Height          =   255
@@ -642,36 +680,43 @@ Dim tipoEmpresa As Integer
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim totalRegistros As Long
+
+'Periodo da consulta exibida no grid - repassado aos formularios de detalhe (Entradas/Vendas/Saídas)
+Dim mCritPeriodo As String, mMes As Integer, mAno As String, mDataIni As String, mDataFim As String
 Private Sub FormatarGrid_Produtos(rTabela As ADODB.Recordset)
    Dim i As Integer
+
+   GuardarPeriodo
 
 picAguarde.Visible = True
 DoEvents
    With Grid
       .Clear
-      .Cols = 10
+      .Cols = 11
       .rows = 2
       
       .ColWidth(0) = 0
       .ColWidth(1) = 600
-      .ColWidth(2) = 7000
-      .ColWidth(3) = 1200
-      .ColWidth(4) = 1100
+      .ColWidth(2) = 8200
+      .ColWidth(3) = 0      'SALDO ANT. oculta (entra no TOTAL, so nao aparece)
+      .ColWidth(4) = 1200
       .ColWidth(5) = 1100
       .ColWidth(6) = 1100
       .ColWidth(7) = 1100
-      .ColWidth(8) = 1100
-      .ColWidth(9) = 0
+      .ColWidth(8) = 0      'TOTAL oculto (continua calculado)
+      .ColWidth(9) = 1100
+      .ColWidth(10) = 0
       
       .TextMatrix(0, 1) = "CÓD."
       .TextMatrix(0, 2) = "DESCRIÇÃO"
-      .TextMatrix(0, 3) = "ENTRADAS"
-      .TextMatrix(0, 4) = "VENDAS"
-      .TextMatrix(0, 5) = "SAÍDAS"
-      .TextMatrix(0, 6) = "REMOÇÃO"
-      .TextMatrix(0, 7) = "TOTAL"
-      .TextMatrix(0, 8) = "ESTOQUE"
-      .TextMatrix(0, 9) = "CÓD. BARRA"
+      .TextMatrix(0, 3) = "SALDO ANT."
+      .TextMatrix(0, 4) = "ENTRADAS"
+      .TextMatrix(0, 5) = "VENDAS"
+      .TextMatrix(0, 6) = "SAÍDAS"
+      .TextMatrix(0, 7) = "REMOÇÃO"
+      .TextMatrix(0, 8) = "TOTAL"
+      .TextMatrix(0, 9) = "ESTOQUE"
+      .TextMatrix(0, 10) = "CÓD. BARRA"
       
       .Redraw = False
       
@@ -697,13 +742,14 @@ DoEvents
          Do While Not rTabela.EOF
             .TextMatrix(.rows - 1, 1) = ValidateNull(rTabela("CODIGO"))
             .TextMatrix(.rows - 1, 2) = rTabela("DESCRICAO") & " /  " & rTabela("FABRICANTE")
-            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("vEntradas"))
-            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("vVendas"))
-            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("vSaidas"))
-            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("vRemocao"))
-            .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("vEstoqueCalculado"))
-            .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("Quant_Estoque"))
-            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("COD_BARRA"))
+            .TextMatrix(.rows - 1, 3) = ValidateNull(rTabela("vSaldoAnt"))
+            .TextMatrix(.rows - 1, 4) = ValidateNull(rTabela("vEntradas"))
+            .TextMatrix(.rows - 1, 5) = ValidateNull(rTabela("vVendas"))
+            .TextMatrix(.rows - 1, 6) = ValidateNull(rTabela("vSaidas"))
+            .TextMatrix(.rows - 1, 7) = ValidateNull(rTabela("vRemocao"))
+            .TextMatrix(.rows - 1, 8) = ValidateNull(rTabela("vEstoqueCalculado"))
+            .TextMatrix(.rows - 1, 9) = ValidateNull(rTabela("Quant_Estoque"))
+            .TextMatrix(.rows - 1, 10) = ValidateNull(rTabela("COD_BARRA"))
             
             rTabela.MoveNext
             .rows = .rows + 1
@@ -713,7 +759,7 @@ DoEvents
       'MUDAR COR DE FONTE DA COLUNA
       For i = 1 To .rows - 1
          .Row = i
-         .Col = 3
+         .Col = 4
          .CellForeColor = &HC0&
          .CellFontBold = True
       Next
@@ -723,10 +769,53 @@ DoEvents
       .Col = 0
       .Redraw = True
    End With
+   AtualizarBotoesDetalhe
    
    'lblQtda.Caption = Format(SomaGrid(Grid, 3), ocPESO)
 picAguarde.Visible = False
 End Sub
+Private Sub GuardarPeriodo()
+mCritPeriodo = "TODOS"
+mMes = 0
+mAno = ""
+mDataIni = ""
+mDataFim = ""
+
+If Left(cboCriterioPrinc.Text, 6) = "MENSAL" Then
+   mCritPeriodo = "MENSAL"
+   mMes = cboMes.ListIndex + 1
+   mAno = cboAno.Text
+ElseIf Left(cboCriterioPrinc.Text, 7) = "PERÍODO" Then
+   mCritPeriodo = "PERÍODO"
+   mDataIni = mskInicio.Text
+   mDataFim = mskFim.Text
+End If
+End Sub
+
+'Valor numerico de uma coluna da linha selecionada (0 se vazio)
+Private Function ValorLinha(ByVal lCol As Long) As Double
+ValorLinha = 0
+If Grid.Row < 1 Or lCol >= Grid.Cols Then Exit Function   'antes da 1a consulta o grid tem menos colunas
+If IsNumeric(Grid.TextMatrix(Grid.Row, lCol)) Then ValorLinha = CDbl(Grid.TextMatrix(Grid.Row, lCol))
+End Function
+
+'Cada botao de detalhe so fica ativo se a linha selecionada tem aquele movimento no periodo
+Private Sub AtualizarBotoesDetalhe()
+Dim bLinha As Boolean
+
+bLinha = (Grid.Row >= 1)
+If bLinha Then bLinha = IsNumeric(Grid.TextMatrix(Grid.Row, 1))
+
+cmdExibirEntradas.Enabled = bLinha And (ValorLinha(4) > 0)
+cmdExibirVendas.Enabled = bLinha And (ValorLinha(5) > 0)
+cmdExibirSaidas.Enabled = bLinha And (ValorLinha(6) > 0)
+cmdExibirRemocoes.Enabled = bLinha And (ValorLinha(7) > 0)
+End Sub
+
+Private Sub Grid_RowColChange()
+AtualizarBotoesDetalhe
+End Sub
+
 Private Sub LimparObjetos_Consulta()
 cboMes.Text = ""
 cboAno.Text = ""
@@ -740,7 +829,9 @@ End Sub
 Private Sub cboAno_GotFocus()
 Dim iAno As Integer, FirstYear As Integer, LastYear As Integer
 Dim i As Integer
+Dim sSel As String
 
+sSel = cboAno.Text   'o Clear apagaria o ano já escolhido
 cboAno.Clear
 
 iAno = Year(Date)
@@ -749,6 +840,7 @@ LastYear = iAno + 2
 
 For i = FirstYear To LastYear
    cboAno.AddItem i
+   If CStr(i) = sSel Then cboAno.ListIndex = cboAno.NewIndex
 Next
 
 moCombo.AttachTo cboAno
@@ -1041,6 +1133,9 @@ moCombo.AttachTo cboIndice
 End Sub
 
 Private Sub cboMes_GotFocus()
+Dim iSel As Integer
+
+iSel = cboMes.ListIndex   'o Clear apagaria o mês já escolhido
 cboMes.Clear
 
 cboMes.AddItem "Janeiro"
@@ -1055,6 +1150,8 @@ cboMes.AddItem "Setembro"
 cboMes.AddItem "Outubro"
 cboMes.AddItem "Novembro"
 cboMes.AddItem "Dezembro"
+
+If iSel >= 0 Then cboMes.ListIndex = iSel
 
 moCombo.AttachTo cboMes
 End Sub
@@ -1079,6 +1176,8 @@ Dim vCMPed_Itens1 As String
 Dim vCMSaida1 As String
 Dim vCMProd_Quant3 As String
 Dim vCriterio As String
+Dim vDtIni As String      'inicio do periodo (SQL) - base do saldo anterior
+Dim sSaldoAnt As String   'expressao SQL do saldo anterior ao periodo
 
 If Left(cboCriterioPrinc.Text, 6) = "MENSAL" Then
     vCMProd_Quant1 = " AND (MONTH(Produtos_Quant_1.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant_1.data) = " & cboAno & ") "
@@ -1129,16 +1228,38 @@ Else
     vCriterio = " "
 End If
 
+'Saldo anterior ao periodo = mesmas regras do estoque calculado, so que ate o dia anterior ao inicio.
+'Sem periodo (TODOS/CÓD.BARRA/DESCRIÇÃO) nao ha o que somar: saldo anterior = 0
+vDtIni = ""
+If Left(cboCriterioPrinc.Text, 6) = "MENSAL" Then
+    If cboAno.Text <> "" And cboMes.ListIndex >= 0 Then vDtIni = "CONVERT(DATETIME, '" & Format(DateSerial(Val(cboAno.Text), cboMes.ListIndex + 1, 1), ocDATA) & "', 103)"
+ElseIf Left(cboCriterioPrinc.Text, 7) = "PERÍODO" Then
+    If IsDate(mskInicio.Text) Then vDtIni = "CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)"
+End If
+
+If vDtIni = "" Then
+    sSaldoAnt = "CONVERT(FLOAT, 0)"
+Else
+    sSaldoAnt = "((SELECT ISNULL(SUM(QUANT), 0) FROM Produtos_Quant AS pq_a WHERE (pq_a.COD_PRODUTO = C.CODIGO) AND (pq_a.TIPO <> 'REMOÇÃO') AND (pq_a.data < " & vDtIni & ")) - " & _
+                "((SELECT ISNULL(SUM(pi_a.QUANTIDADE), 0) FROM pedidos_itens AS pi_a INNER JOIN pedidos AS pd_a ON pi_a.COD_PEDIDO = pd_a.COD_PEDIDO WHERE (pi_a.cancelado = 0) AND (pd_a.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pi_a.COD_PRODUTO = C.CODIGO) AND (pi_a.data < " & vDtIni & ")) + " & _
+                "(SELECT ISNULL(SUM(ps_a.saida), 0) FROM produtos_saida AS ps_a WHERE (ps_a.cod_produto = C.CODIGO) AND (ps_a.EXCLUIDO = 0) AND (ps_a.data < " & vDtIni & ")) + " & _
+                "(SELECT ISNULL(SUM(ABS(pr_a.QUANT)), 0) FROM Produtos_Quant AS pr_a WHERE (pr_a.COD_PRODUTO = C.CODIGO) AND (pr_a.TIPO = 'REMOÇÃO') AND (pr_a.FORMA IN ('AJUSTE', 'CONTAGEM')) AND (pr_a.data < " & vDtIni & "))))"
+End If
+
 sSQL = "SELECT DISTINCT C.CODIGO, C.DESCRICAO, C.FABRICANTE, C.COD_BARRA, " & _
+       sSaldoAnt & " AS vSaldoAnt, " & _
        "(SELECT isnull(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant & " " & vCriterio & ") AS vEntradas, " & _
        "(SELECT isnull(SUM(pedidos_itens.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO WHERE (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens & " " & vCriterio & ") AS vVendas, " & _
        "(SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida & " " & vCriterio & ") AS vSaidas, " & _
-       "(SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ") AS vRemocao, " & _
-       "(SELECT ISNULL(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_1 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant1 & " " & vCriterio & ") -  " & _
-       "((SELECT ISNULL(SUM(pedidos_itens_1.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA = 'AJUSTE') " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
+       "(SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA IN ('AJUSTE', 'CONTAGEM')) " & vCMProd_Quant3 & " " & vCriterio & ") AS vRemocao, " & _
+       sSaldoAnt & " + (SELECT ISNULL(SUM(QUANT), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_1 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO <> 'REMOÇÃO') " & vCMProd_Quant1 & " " & vCriterio & ") -  " & _
+       "((SELECT ISNULL(SUM(pedidos_itens_1.QUANTIDADE), 0) AS Expr1 FROM pedidos_itens AS pedidos_itens_1 INNER JOIN pedidos AS pedidos_1 ON pedidos_itens_1.COD_PEDIDO = pedidos_1.COD_PEDIDO WHERE (pedidos_itens_1.cancelado = 0) AND (pedidos_1.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens_1.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(saida), 0) AS Expr1 FROM produtos_saida AS produtos_saida_1 WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida1 & " " & vCriterio & ") + (SELECT ISNULL(SUM(ABS(QUANT)), 0) AS Expr1 FROM Produtos_Quant AS Produtos_Quant_3 WHERE (COD_PRODUTO = C.CODIGO) AND (TIPO = 'REMOÇÃO') AND (FORMA IN ('AJUSTE', 'CONTAGEM')) " & vCMProd_Quant3 & " " & vCriterio & ")) AS vEstoqueCalculado,  " & _
        "C.QUANT_ESTOQUE " & _
-       "FROM produtos AS C INNER JOIN Produtos_Quant AS Produtos_Quant_2 ON C.CODIGO = Produtos_Quant_2.COD_PRODUTO " & _
-       "WHERE (Produtos_Quant_2.TIPO <> 'REMOÇÃO') "
+       "FROM produtos AS C " & _
+       "WHERE (EXISTS (SELECT 1 FROM Produtos_Quant WHERE (COD_PRODUTO = C.CODIGO) " & vCMProd_Quant & ") " & _
+       "OR EXISTS (SELECT 1 FROM pedidos_itens INNER JOIN pedidos ON pedidos_itens.COD_PEDIDO = pedidos.COD_PEDIDO WHERE (pedidos_itens.cancelado = 0) AND (pedidos.TIPO_PEDIDO <> 'ORÇAMENTO') AND (pedidos_itens.COD_PRODUTO = C.CODIGO) " & vCMPed_Itens & ") " & _
+       "OR EXISTS (SELECT 1 FROM produtos_saida WHERE (cod_produto = C.CODIGO) AND (EXCLUIDO = 0) " & vCMSaida & ")) "
+       'lista todo produto com movimento no periodo: Produtos_Quant (adicao/remocao), venda ou saida de estoque
        
 If cboCriterioPrinc.Text = "TODOS" Then
 
@@ -1152,35 +1273,35 @@ ElseIf cboCriterioPrinc.Text = "DESCRIÇÃO" Then
     
 ElseIf cboCriterioPrinc.Text = "MENSAL" Then
     If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = sSQL & " AND (MONTH(Produtos_Quant_2.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant_2.data) = " & cboAno & ")"
+    'periodo ja aplicado no EXISTS (vCMProd_Quant/vCMPed_Itens/vCMSaida)
 
 ElseIf cboCriterioPrinc.Text = "PERÍODO" Then
     If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-    sSQL = sSQL & " AND (Produtos_Quant_2.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant_2.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
+    'periodo ja aplicado no EXISTS (vCMProd_Quant/vCMPed_Itens/vCMSaida)
 
 ElseIf cboCriterioPrinc.Text = "MENSAL/CÓD.BARRA" Then
     If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = sSQL & " AND (c.cod_barra = '" & txtCodBarra.Text & "') AND (MONTH(Produtos_Quant_2.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant_2.data) = " & cboAno & ") "
+    sSQL = sSQL & " AND (c.cod_barra = '" & txtCodBarra.Text & "') "
 
 ElseIf cboCriterioPrinc.Text = "MENSAL/DESCRIÇÃO" Then
     If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = sSQL & " AND (C.descricao = '" & cboDescricao.Text & "') AND (MONTH(Produtos_Quant_2.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant_2.data) = " & cboAno & ") "
+    sSQL = sSQL & " AND (C.descricao = '" & cboDescricao.Text & "') "
 
 ElseIf cboCriterioPrinc.Text = "MENSAL/CATEGORIA" Then
     If cboAno.Text = "" Or cboMes.Text = "" Then Exit Sub
-    sSQL = sSQL & " AND (C.categoria = '" & cboCategoria.Text & "') AND (MONTH(Produtos_Quant_2.data) = " & cboMes.ListIndex + 1 & ") AND (YEAR(Produtos_Quant_2.data) = " & cboAno & ") "
+    sSQL = sSQL & " AND (C.categoria = '" & cboCategoria.Text & "') "
 
 ElseIf cboCriterioPrinc.Text = "PERÍODO/CÓD.BARRA" Then
     If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-    sSQL = sSQL & " AND (c.cod_barra = '" & txtCodBarra.Text & "') AND (Produtos_Quant_2.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant_2.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
+    sSQL = sSQL & " AND (c.cod_barra = '" & txtCodBarra.Text & "') "
 
 ElseIf cboCriterioPrinc.Text = "PERÍODO/DESCRIÇÃO" Then
     If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-    sSQL = sSQL & " AND (C.descricao = '" & cboDescricao.Text & "') AND (Produtos_Quant_2.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant_2.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
+    sSQL = sSQL & " AND (C.descricao = '" & cboDescricao.Text & "') "
 
 ElseIf cboCriterioPrinc.Text = "PERÍODO/CATEGORIA" Then
     If Not IsDate(mskInicio.Text) Or Not IsDate(mskFim.Text) Then Exit Sub
-    sSQL = sSQL & " AND (C.categoria = '" & cboCategoria.Text & "') AND (Produtos_Quant_2.data >= CONVERT(DATETIME, '" & Format(mskInicio.Text, ocDATA) & "', 103)) AND (Produtos_Quant_2.data <= CONVERT(DATETIME, '" & Format(mskFim.Text, ocDATA) & "', 103)) "
+    sSQL = sSQL & " AND (C.categoria = '" & cboCategoria.Text & "') "
 
 End If
 
@@ -1242,8 +1363,9 @@ End Sub
 Private Sub cmdExibirEntradas_Click()
 If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 If IsNumeric(Grid.TextMatrix(Grid.Row, 1)) = True Then
-      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.loadPedidos (Grid.TextMatrix(Grid.Row, 1))
-      Entrada_Consulta_PorProdutosAgrupadas_Detralhamento.Show
+      'so as entradas do periodo exibido (antes abria o historico inteiro do produto)
+      Entrada_Consulta_PorProdutos.FiltrarPorProdutoEPeriodo CLng(Grid.TextMatrix(Grid.Row, 1)), "", mCritPeriodo, mMes, mAno, mDataIni, mDataFim
+      Entrada_Consulta_PorProdutos.Show
 End If
 End Sub
 Public Function SomaGrid(var_Grid As MSFlexGrid, Col As Integer) As Double
@@ -1263,12 +1385,24 @@ End Function
 Private Sub cmdExibirVendas_Click()
 If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 
-Vendas_Consulta_PorProdutos.cboCriterioPrinc.Text = "TODOS"
-Vendas_Consulta_PorProdutos.cboTipo.Text = "POR PRODUTOS"
-Vendas_Consulta_PorProdutos.cboCriterioSec.Text = "CÓD. BARRA"
-Vendas_Consulta_PorProdutos.txtCodBarra.Text = Grid.TextMatrix(Grid.Row, 9)
-Vendas_Consulta_PorProdutos.cmdLocalizar_Click
+If Trim(Grid.TextMatrix(Grid.Row, 10)) = "" Then
+   ShowMsg "Esse produto não tem código de barras - a consulta de vendas localiza por ele.", vbInformation
+   Exit Sub
+End If
+
+'so as vendas do periodo exibido
+Vendas_Consulta_PorProdutos.FiltrarPorProdutoEPeriodo Grid.TextMatrix(Grid.Row, 10), mCritPeriodo, mMes, mAno, mDataIni, mDataFim
 Vendas_Consulta_PorProdutos.Show
+End Sub
+
+'Abre o historico de remocoes (ajuste/contagem) desse produto no periodo (coluna 1 = CODIGO)
+Private Sub cmdExibirRemocoes_Click()
+If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
+If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
+
+'so as remocoes (ajuste/contagem) do periodo exibido
+Ajuste_Consulta_PorProdutos.FiltrarPorProdutoEPeriodo CLng(Grid.TextMatrix(Grid.Row, 1)), mCritPeriodo, mMes, mAno, mDataIni, mDataFim, "REMOÇÃO"
+Ajuste_Consulta_PorProdutos.Show
 End Sub
 
 'Chamado a partir da linha selecionada no Grid - abre o historico de saida
@@ -1276,10 +1410,10 @@ End Sub
 Private Sub cmdExibirSaidas_Click()
 If Grid.Col = 0 Or Grid.Row = 0 Then Exit Sub
 
-Saida_Consulta_PorProdutos.cboCriterioPrinc.ListIndex = 0   'TODOS
-Saida_Consulta_PorProdutos.cboCriterioSec.ListIndex = 2     'CÓD. PRODUTO
-Saida_Consulta_PorProdutos.txtCodBarra.Text = Grid.TextMatrix(Grid.Row, 1)
-Saida_Consulta_PorProdutos.cmdLocalizar_Click
+If Not IsNumeric(Grid.TextMatrix(Grid.Row, 1)) Then Exit Sub
+
+'so as saidas do periodo exibido (forma SAÍDA = Produtos_Saida_Estoque)
+Saida_Consulta_PorProdutos.FiltrarPorProdutoEPeriodo CLng(Grid.TextMatrix(Grid.Row, 1)), "SAÍDA", mCritPeriodo, mMes, mAno, mDataIni, mDataFim
 Saida_Consulta_PorProdutos.Show
 End Sub
 
@@ -1371,6 +1505,13 @@ cboIndice.ListIndex = 0
 
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 Set moCombo = New cComboHelper
+
+'abre ja no mês/ano atuais (criterio inicial = MENSAL). As listas so eram preenchidas no GotFocus
+cboMes_GotFocus
+cboAno_GotFocus
+cboMes.ListIndex = Month(Date) - 1
+cboAno.ListIndex = 2   'lista = ano atual -2 a +2; o atual é o 3º item
+AtualizarBotoesDetalhe   'sem linha selecionada: botoes de detalhe inativos
 End Sub
 Private Sub PreencherCriterio()
 cboCriterioPrinc.AddItem "TODOS"

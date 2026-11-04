@@ -189,8 +189,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":204FD
-         PICN            =   "Tela_Principal.frx":20519
+         MICON           =   "Tela_Principal.frx":13D8E
+         PICN            =   "Tela_Principal.frx":13DAA
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -230,8 +230,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":25ED5
-         PICN            =   "Tela_Principal.frx":25EF1
+         MICON           =   "Tela_Principal.frx":19766
+         PICN            =   "Tela_Principal.frx":19782
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -270,8 +270,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2683F
-         PICN            =   "Tela_Principal.frx":2685B
+         MICON           =   "Tela_Principal.frx":1A0D0
+         PICN            =   "Tela_Principal.frx":1A0EC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -310,8 +310,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2744F
-         PICN            =   "Tela_Principal.frx":2746B
+         MICON           =   "Tela_Principal.frx":1ACE0
+         PICN            =   "Tela_Principal.frx":1ACFC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -350,8 +350,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2819B
-         PICN            =   "Tela_Principal.frx":281B7
+         MICON           =   "Tela_Principal.frx":1BA2C
+         PICN            =   "Tela_Principal.frx":1BA48
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -390,8 +390,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":28E09
-         PICN            =   "Tela_Principal.frx":28E25
+         MICON           =   "Tela_Principal.frx":1C69A
+         PICN            =   "Tela_Principal.frx":1C6B6
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -404,7 +404,7 @@ Begin VB.MDIForm Tela_Principal
       Begin ChamaleonBtn.chameleonButton cmdResumoFiscal 
          Height          =   750
          Left            =   1560
-         TabIndex        =   18
+         TabIndex        =   4
          ToolTipText     =   "Resumo Fiscal"
          Top             =   10
          Width           =   750
@@ -430,8 +430,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2921F
-         PICN            =   "Tela_Principal.frx":2923B
+         MICON           =   "Tela_Principal.frx":1CAB0
+         PICN            =   "Tela_Principal.frx":1CACC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -444,7 +444,7 @@ Begin VB.MDIForm Tela_Principal
       Begin ChamaleonBtn.chameleonButton cmdXML 
          Height          =   750
          Left            =   7020
-         TabIndex        =   19
+         TabIndex        =   5
          ToolTipText     =   "Entrada de NFe pela XML"
          Top             =   0
          Width           =   750
@@ -470,8 +470,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":29ECE
-         PICN            =   "Tela_Principal.frx":29EEA
+         MICON           =   "Tela_Principal.frx":1D75F
+         PICN            =   "Tela_Principal.frx":1D77B
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -484,7 +484,7 @@ Begin VB.MDIForm Tela_Principal
       Begin ChamaleonBtn.chameleonButton cmdPreco 
          Height          =   750
          Left            =   7800
-         TabIndex        =   20
+         TabIndex        =   9
          ToolTipText     =   "Ajuste de estoque"
          Top             =   0
          Width           =   750
@@ -510,8 +510,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2AA46
-         PICN            =   "Tela_Principal.frx":2AA62
+         MICON           =   "Tela_Principal.frx":1E2D7
+         PICN            =   "Tela_Principal.frx":1E2F3
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -524,7 +524,7 @@ Begin VB.MDIForm Tela_Principal
       Begin ChamaleonBtn.chameleonButton cmdNFe 
          Height          =   750
          Left            =   8580
-         TabIndex        =   21
+         TabIndex        =   10
          ToolTipText     =   "Nota Fiscal Eletronica"
          Top             =   0
          Width           =   750
@@ -550,8 +550,8 @@ Begin VB.MDIForm Tela_Principal
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "Tela_Principal.frx":2B433
-         PICN            =   "Tela_Principal.frx":2B44F
+         MICON           =   "Tela_Principal.frx":1ECC4
+         PICN            =   "Tela_Principal.frx":1ECE0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   4
@@ -595,7 +595,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "05:06"
+            TextSave        =   "21:41"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -692,6 +692,9 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_PROD_Saida 
          Caption         =   "&Retirada do Estoque Justificada"
+      End
+      Begin VB.Menu Menu_PROD_Contagem 
+         Caption         =   "Contagem de Produtos"
       End
       Begin VB.Menu Menu_CONS_EstoqueMinimo 
          Caption         =   "E&stoque Minimo"
@@ -1179,6 +1182,8 @@ End Sub
 
 Private Sub cmdResumoFiscal_Click()
 Notas_Adesivas.Show
+'abre ao lado do ultimo popup de aviso (ou na posicao do primeiro, se nao houver popup aberto)
+PosicionarAoLadoDosPopups Notas_Adesivas
 End Sub
 
 
@@ -1743,6 +1748,10 @@ Produtos_Estoque_Simples.lblCodUsuario.Caption = vCodFunc
 Produtos_Estoque_Simples.Show 1
 End Sub
 
+Private Sub Menu_PROD_Contagem_Click()
+Produtos_Contagem.Show 1
+End Sub
+
 Private Sub Menu_PROD_Tags_Click()
 Tags_Cadastro.Show 1
 End Sub
@@ -2283,7 +2292,7 @@ Private Sub menusair_Click()
 End Sub
 
 Private Sub StatusBar1_PanelClick(ByVal Panel As MSComctlLib.Panel)
-   Select Case Panel.index
+   Select Case Panel.Index
       Case 1
       Case 2
       Case 3
@@ -2307,6 +2316,7 @@ If vCodUsuario = False Then
     Menu_PROD_Saida.Enabled = False
     Menu_PROD_Cadastro.Enabled = False
     Menu_PROD_Simples.Enabled = False
+    Menu_PROD_Contagem.Enabled = False
     Menu_CAD_Empresa.Enabled = False
     Menu_SIS_Config.Enabled = False
     Menu_Fin_APagar.Enabled = False
@@ -2314,8 +2324,10 @@ If vCodUsuario = False Then
 Else
     If LerPermissoesUsuario(vCodUsuario, 3) = True Then
          Menu_PROD_Simples.Enabled = True
+         Menu_PROD_Contagem.Enabled = True
      Else
          Menu_PROD_Simples.Enabled = False
+         Menu_PROD_Contagem.Enabled = False
     End If
     
     If LerPermissoesUsuario(vCodUsuario, 4) = True Then

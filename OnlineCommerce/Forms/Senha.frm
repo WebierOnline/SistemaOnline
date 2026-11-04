@@ -343,6 +343,8 @@ If oCfg.Value = "NOME" Then
         Unload Senha
         Tela_Principal.Show
         Call MostrarAvisosPopup(codUsuario)
+        GerarInventarioMensalAuto codUsuario
+        RecalcularEstoqueFiscalAuto
     Else
         ShowMsg "USUÁRIO SEM NIVEL DE ACESSO!" & vbCrLf & "Consulte seu nivel de acesso para essa permissão" & vbCrLf & "Consulte o gerente.", vbInformation
         KillProcess "OnlineCommerce"
@@ -379,6 +381,8 @@ Else
                 Tela_Principal.txtNivel.Text = nivelAcesso
                 Tela_Principal.Show
                 Call MostrarAvisosPopup(codUsuario)
+        GerarInventarioMensalAuto codUsuario
+        RecalcularEstoqueFiscalAuto
             Else
                 ShowMsg "USUÁRIO SEM NIVEL DE ACESSO!" & vbCrLf & "Consulte seu nivel de acesso para essa permissão" & vbCrLf & "Consulte o gerente.", vbInformation
                 KillProcess "OnlineCommerce"

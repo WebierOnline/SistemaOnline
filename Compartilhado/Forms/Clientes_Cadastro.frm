@@ -152,41 +152,41 @@ Begin VB.Form Clientes_Cadastro
       TabCaption(1)   =   "HISTÓRICO"
       TabPicture(1)   =   "Clientes_Cadastro.frx":3749
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "Grid_Historico"
+      Tab(1).Control(0)=   "lblTotalHistorico"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdExibirPedidos"
+      Tab(1).Control(1)=   "lblQuantHistorico"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdExibirParcelas"
+      Tab(1).Control(2)=   "cmdHistoricoFinanceiro"
       Tab(1).Control(2).Enabled=   0   'False
       Tab(1).Control(3)=   "cmdImprimirHistorico"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "cmdHistoricoFinanceiro"
+      Tab(1).Control(4)=   "cmdExibirParcelas"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "lblQuantHistorico"
+      Tab(1).Control(5)=   "cmdExibirPedidos"
       Tab(1).Control(5).Enabled=   0   'False
-      Tab(1).Control(6)=   "lblTotalHistorico"
+      Tab(1).Control(6)=   "Grid_Historico"
       Tab(1).Control(6).Enabled=   0   'False
       Tab(1).ControlCount=   7
       TabCaption(2)   =   "CONSULTA"
       TabPicture(2)   =   "Clientes_Cadastro.frx":3765
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Label25"
+      Tab(2).Control(0)=   "Frame5"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Label26"
+      Tab(2).Control(1)=   "Grid_Consulta"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "lblQuant"
+      Tab(2).Control(2)=   "Frame4"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdImprimir"
+      Tab(2).Control(3)=   "Frame3"
       Tab(2).Control(3).Enabled=   0   'False
       Tab(2).Control(4)=   "cmdExibir"
       Tab(2).Control(4).Enabled=   0   'False
-      Tab(2).Control(5)=   "Frame3"
+      Tab(2).Control(5)=   "cmdImprimir"
       Tab(2).Control(5).Enabled=   0   'False
-      Tab(2).Control(6)=   "Frame4"
+      Tab(2).Control(6)=   "lblQuant"
       Tab(2).Control(6).Enabled=   0   'False
-      Tab(2).Control(7)=   "Grid_Consulta"
+      Tab(2).Control(7)=   "Label26"
       Tab(2).Control(7).Enabled=   0   'False
-      Tab(2).Control(8)=   "Frame5"
+      Tab(2).Control(8)=   "Label25"
       Tab(2).Control(8).Enabled=   0   'False
       Tab(2).ControlCount=   9
       Begin VB.Frame Frame5 
@@ -903,12 +903,12 @@ Begin VB.Form Clientes_Cadastro
          End
          Begin VB.Label Label11 
             AutoSize        =   -1  'True
-            Caption         =   "Correio Eletrônico:"
+            Caption         =   "E-mail:"
             Height          =   195
             Left            =   6120
             TabIndex        =   55
             Top             =   1680
-            Width           =   1290
+            Width           =   465
          End
          Begin VB.Label Label16 
             AutoSize        =   -1  'True
@@ -1798,7 +1798,7 @@ Begin VB.Form Clientes_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "18:33"
+            TextSave        =   "09:57"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -2672,10 +2672,10 @@ sSQL = "SELECT parcelas.CODIGO, parcelas.COD_PEDIDO, parcelas.NUMERO, parcelas.D
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -2711,8 +2711,8 @@ Unload Imp_ListaClientes
 Dim var_ImpNormal As String
 
 'abrindo arquivo .ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da maquina
 var_ImpNormal = oIni.LerTexto("IMPRESSORA_NORMAL", "impressora")
@@ -2763,10 +2763,10 @@ Dim r As ADODB.Recordset
 
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 

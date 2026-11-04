@@ -1019,6 +1019,8 @@ ElseIf cboFormaEntrada.Text = "ENTRADA" Then
    sFormaFiltro = "AND (Produtos_Quant.FORMA = 'ENTRADA') "
 ElseIf cboFormaEntrada.Text = "AJUSTE" Then
    sFormaFiltro = "AND (Produtos_Quant.FORMA = 'AJUSTE') "
+ElseIf cboFormaEntrada.Text = "CONTAGEM" Then
+   sFormaFiltro = "AND (Produtos_Quant.FORMA = 'CONTAGEM') "
 End If
 
 sSQL = "SELECT Produtos_Quant.COD_PRODUTO, SUM(Produtos_Quant.QUANT) AS vSomaQuant, produtos.DESCRICAO, produtos.FABRICANTE, produtos.cod_barra " & _
@@ -1206,6 +1208,7 @@ cboFormaEntrada.AddItem "TODOS"
 cboFormaEntrada.AddItem "CADASTRO"
 cboFormaEntrada.AddItem "ENTRADA"
 cboFormaEntrada.AddItem "AJUSTE"
+cboFormaEntrada.AddItem "CONTAGEM"
 cboFormaEntrada.ListIndex = 0
 
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")

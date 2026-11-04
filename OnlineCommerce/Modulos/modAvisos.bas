@@ -183,3 +183,33 @@ End If
 sTextos = sTextos & sTexto
 sDestinos = sDestinos & sDestino
 End Sub
+
+'Posiciona uma janela filha da Tela_Principal (ex: Resumo Fiscal) na mesma altura dos popups: ao lado do ultimo
+'popup aberto (o mais a direita) ou, se nao houver nenhum, na posicao do primeiro popup.
+Public Sub PosicionarAoLadoDosPopups(frmDestino As Form)
+Const MARGEM As Long = 150
+Dim f As Form
+Dim bAchou As Boolean
+Dim nMaxLeft As Long
+Dim nLeft As Long
+
+nLeft = MARGEM
+For Each f In Forms
+    If TypeOf f Is frmAvisoPopup Then
+        If Not bAchou Then
+            bAchou = True
+            nMaxLeft = f.Left
+            nLeft = f.Left + f.Width + MARGEM
+        ElseIf f.Left > nMaxLeft Then
+            nMaxLeft = f.Left
+            nLeft = f.Left + f.Width + MARGEM
+        End If
+    End If
+Next
+
+'nao deixa sair da area da Tela_Principal
+If nLeft + frmDestino.Width > Tela_Principal.ScaleWidth Then nLeft = Tela_Principal.ScaleWidth - frmDestino.Width
+If nLeft < 0 Then nLeft = 0
+
+frmDestino.Move nLeft, MARGEM
+End Sub
