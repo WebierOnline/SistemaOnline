@@ -332,7 +332,7 @@ If oCfg.Value = "NOME" Then
     'Carrega o form principal
     If nivelAcesso <> 3 Then
         Unload Me
-        If Not VerificarBloqueioOS() Then Exit Sub
+        If Not VerificarBloqueioOS() Then End
         
         Load OS_Recapadora
         vCodFunc = codUsuario
@@ -365,7 +365,7 @@ Else
       If txtSenha = r("password") Then
             If r("nivel") <> 3 Then
                 Unload Me
-                If Not VerificarBloqueioOS() Then Exit Sub
+                If Not VerificarBloqueioOS() Then End
                 
                 Load OS_Recapadora
                 vCodFunc = codUsuario
