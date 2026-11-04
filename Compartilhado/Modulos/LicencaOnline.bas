@@ -89,7 +89,8 @@ Public Function VerificarLicencaOnline(Optional ByVal CodUsuario As Long = 0) As
    LicSincronizar msg
    Select Case LicAvaliar()
       Case licLiberada
-         'segue normalmente
+         'Dia do vencimento: pergunta se quer pagar já (só nesse dia).
+         LicAvisarVenceHoje CodUsuario
       Case licAviso
          LicMostrarTela True, CodUsuario
       Case Else
@@ -103,6 +104,34 @@ Falha:
    VerificarLicencaOnline = True
 End Function
 
+'Mensalidade vencendo hoje (e ainda em aberto): pergunta uma vez se quer pagar agora pelo Pix.
+'SIM abre o QR Code; NÃO segue o login e não pergunta mais neste dia (vale para todos os computadores).
+'Os avisos de bloqueio dos dias seguintes continuam iguais.
+Private Sub LicAvisarVenceHoje(ByVal CodUsuario As Long)
+   On Error GoTo Falha
+   Dim hoje As String
+
+   If Not mTemDados Then Exit Sub
+   If Len(mDados.Abertas) = 0 Then Exit Sub
+   If DateValue(mDados.Vencimento) <> Date Then Exit Sub
+   hoje = Format$(Date, "yyyymmdd")
+   If LicConfig("LicencaAvisoVencimentoNao") = hoje Then Exit Sub
+
+   If MsgBox("A sua mensalidade " & mDados.Abertas & " (R$ " & Format$(mDados.ValorAberto, "#,##0.00") & ") vence HOJE." & vbCrLf & vbCrLf & _
+             "Deseja pagar agora pelo Pix?" & vbCrLf & vbCrLf & _
+             "SIM: abre o QR Code para pagar." & vbCrLf & _
+             "NÃO: continua usando o sistema normalmente.", _
+             vbQuestion + vbYesNo, "Licença do sistema - vence hoje") = vbYes Then
+      LicPagarMensalidade CodUsuario, True
+   Else
+      LicGravarConfig "LicencaAvisoVencimentoNao", hoje
+   End If
+   Exit Sub
+Falha:
+   'Aviso não pode atrapalhar o login.
+   Debug.Print "LicAvisarVenceHoje: " & Err.Number & " " & Err.Description
+End Sub
+
 Private Function LicMostrarTela(ByVal ModoAviso As Boolean, ByVal CodUsuario As Long) As Boolean
    Load Licenca_Bloqueio
    Licenca_Bloqueio.Preparar ModoAviso, CodUsuario
@@ -112,12 +141,13 @@ Private Function LicMostrarTela(ByVal ModoAviso As Boolean, ByVal CodUsuario As 
 End Function
 
 'Botão "Licença" do PDV: pagar pelo Pix a mensalidade que ainda vai vencer, antes do bloqueio.
-Public Sub LicPagarMensalidade(Optional ByVal CodUsuario As Long = 0)
+'GerarPix = já abre com o QR Code na tela (aviso do dia do vencimento).
+Public Sub LicPagarMensalidade(Optional ByVal CodUsuario As Long = 0, Optional ByVal GerarPix As Boolean = False)
    On Error GoTo Falha
    If Not LicGarantirTabelas() Then Exit Sub
    LicAvaliar
    Load Licenca_Bloqueio
-   Licenca_Bloqueio.PrepararPagamento CodUsuario
+   Licenca_Bloqueio.PrepararPagamento CodUsuario, GerarPix
    Licenca_Bloqueio.Show vbModal
    Unload Licenca_Bloqueio
    Exit Sub
@@ -345,6 +375,9 @@ Public Function LicCriarPix(ByRef TxId As String, ByRef CopiaECola As String, By
    comp = LicJsonTexto(resp, "competencia")
    Descricao = IIf(InStr(comp, ",") > 0 Or InStr(comp, " e ") > 0, "Mensalidades ", "Mensalidade ") & comp & _
                "  -  R$ " & Format$(Val(LicJsonValor(resp, "valor")), "#,##0.00")
+   If Val(LicJsonValor(resp, "encargos")) > 0 Then
+      Descricao = Descricao & "  (inclui multa e juros: R$ " & Format$(Val(LicJsonValor(resp, "encargos")), "#,##0.00") & ")"
+   End If
 
    ArquivoImagem = ""
    img = LicJsonTexto(resp, "imagem")

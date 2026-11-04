@@ -276,6 +276,7 @@ Private mTextoEspera As String
 Private mPagarEstava As Boolean
 Private mCodUsuario As Long
 Private mTxId As String
+Private mGerarAoAbrir As Boolean
 
 'ModoAviso = só avisa (botão CONTINUAR); senão bloqueia (botão FECHAR O SISTEMA).
 Public Sub Preparar(ByVal ModoAviso As Boolean, ByVal CodUsuario As Long)
@@ -288,12 +289,14 @@ Public Sub Preparar(ByVal ModoAviso As Boolean, ByVal CodUsuario As Long)
 End Sub
 
 'Só pagar a mensalidade (antes do vencimento); fechar não afeta o sistema.
-Public Sub PrepararPagamento(ByVal CodUsuario As Long)
+'GerarPix = gera o QR Code assim que a tela aparece (sem precisar clicar em PAGAR AGORA).
+Public Sub PrepararPagamento(ByVal CodUsuario As Long, Optional ByVal GerarPix As Boolean = False)
    pModoAviso = True
    mModoPagar = True
    pDesbloqueado = True
    mCodUsuario = CodUsuario
    mTxId = ""
+   mGerarAoAbrir = GerarPix
    AtualizarTela
 End Sub
 
@@ -507,6 +510,13 @@ Private Sub Liberar(ByVal Mensagem As String)
    pDesbloqueado = True
    MsgBox Mensagem, vbInformation, "Licença do sistema"
    Me.Hide
+End Sub
+
+Private Sub Form_Activate()
+   If Not mGerarAoAbrir Then Exit Sub
+   mGerarAoAbrir = False
+   DoEvents
+   cmdPagar_Click
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
