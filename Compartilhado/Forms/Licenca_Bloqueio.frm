@@ -1,5 +1,6 @@
 VERSION 5.00
-Begin VB.Form Licenca_Bloqueio
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Begin VB.Form Licenca_Bloqueio 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Licença do sistema"
    ClientHeight    =   7560
@@ -15,20 +16,20 @@ Begin VB.Form Licenca_Bloqueio
    ScaleWidth      =   9600
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Timer tmrPix
+   Begin VB.Timer tmrPix 
       Enabled         =   0   'False
       Interval        =   10000
       Left            =   9000
       Top             =   120
    End
-   Begin VB.Timer tmrEspera
+   Begin VB.Timer tmrEspera 
       Enabled         =   0   'False
       Interval        =   50
       Left            =   8520
       Top             =   120
    End
-   Begin VB.TextBox txtCodigo
-      BeginProperty Font
+   Begin VB.TextBox txtCodigo 
+      BeginProperty Font 
          Name            =   "Arial"
          Size            =   12
          Charset         =   0
@@ -44,86 +45,213 @@ Begin VB.Form Licenca_Bloqueio
       Top             =   5520
       Width           =   1815
    End
-   Begin VB.CommandButton cmdCodigo
-      Caption         =   "LIBERAR"
-      Height          =   420
-      Left            =   4320
+   Begin VB.TextBox txtCopiaCola 
+      Height          =   900
+      Left            =   3240
+      Locked          =   -1  'True
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
       TabIndex        =   1
-      Top             =   5512
-      Width           =   1455
+      Top             =   3780
+      Visible         =   0   'False
+      Width           =   6120
    End
-   Begin VB.CommandButton cmdPagar
-      Caption         =   "PAGAR AGORA (PIX)"
-      BeginProperty Font
-         Name            =   "Arial"
-         Size            =   10
+   Begin ChamaleonBtn.chameleonButton cmdFechar 
+      Height          =   615
+      Left            =   6180
+      TabIndex        =   8
+      Top             =   6780
+      Visible         =   0   'False
+      Width           =   2895
+      _ExtentX        =   5106
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "FECHAR O SISTEMA"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Licenca_Bloqueio.frx":0000
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdPagar 
+      Height          =   615
+      Left            =   240
+      TabIndex        =   9
+      Top             =   6780
+      Visible         =   0   'False
+      Width           =   2895
+      _ExtentX        =   5106
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "PAGAR AGORA (PIX)"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   600
-      Left            =   240
-      TabIndex        =   2
-      Top             =   6780
-      Width           =   2895
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   128
+      FCOLO           =   128
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Licenca_Bloqueio.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.CommandButton cmdVerificar
-      Caption         =   "VERIFICAR NOVAMENTE"
-      BeginProperty Font
-         Name            =   "Arial"
-         Size            =   10
+   Begin ChamaleonBtn.chameleonButton cmdVerificar 
+      Height          =   615
+      Left            =   3240
+      TabIndex        =   10
+      Top             =   6780
+      Visible         =   0   'False
+      Width           =   2895
+      _ExtentX        =   5106
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "VERIFICAR NOVAMENTE"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   600
-      Left            =   3352
-      TabIndex        =   3
-      Top             =   6780
-      Width           =   2895
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Licenca_Bloqueio.frx":0038
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.CommandButton cmdFechar
-      Caption         =   "FECHAR O SISTEMA"
-      BeginProperty Font
-         Name            =   "Arial"
-         Size            =   10
+   Begin ChamaleonBtn.chameleonButton cmdCopiar 
+      Height          =   435
+      Left            =   3240
+      TabIndex        =   11
+      Top             =   4740
+      Visible         =   0   'False
+      Width           =   1995
+      _ExtentX        =   3519
+      _ExtentY        =   767
+      BTYPE           =   3
+      TX              =   "Copiar código Pix"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   600
-      Left            =   6465
-      TabIndex        =   4
-      Top             =   6780
-      Width           =   2895
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Licenca_Bloqueio.frx":0054
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.CommandButton cmdCopiar
-      Caption         =   "Copiar código Pix"
-      Height          =   420
-      Left            =   3240
-      TabIndex        =   5
-      Top             =   4800
+   Begin ChamaleonBtn.chameleonButton cmdCodigo 
+      Height          =   435
+      Left            =   4260
+      TabIndex        =   12
+      Top             =   5460
       Visible         =   0   'False
-      Width           =   2415
+      Width           =   1575
+      _ExtentX        =   2778
+      _ExtentY        =   767
+      BTYPE           =   3
+      TX              =   "LIBERAR"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Licenca_Bloqueio.frx":0070
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.TextBox txtCopiaCola
-      Height          =   900
-      Left            =   3240
-      Locked          =   -1  'True
-      MultiLine       =   -1  'True
-      ScrollBars      =   2  'Vertical
-      TabIndex        =   6
-      Top             =   3780
-      Visible         =   0   'False
-      Width           =   6120
-   End
-   Begin VB.Image imgQR
+   Begin VB.Image imgQR 
       BorderStyle     =   1  'Fixed Single
       Height          =   2775
       Left            =   240
@@ -132,9 +260,9 @@ Begin VB.Form Licenca_Bloqueio
       Visible         =   0   'False
       Width           =   2775
    End
-   Begin VB.Label lblTitulo
+   Begin VB.Label lblTitulo 
       Caption         =   "SISTEMA BLOQUEADO"
-      BeginProperty Font
+      BeginProperty Font 
          Name            =   "Arial"
          Size            =   14.25
          Charset         =   0
@@ -146,14 +274,14 @@ Begin VB.Form Licenca_Bloqueio
       ForeColor       =   &H000000C0&
       Height          =   420
       Left            =   240
-      TabIndex        =   7
+      TabIndex        =   2
       Top             =   180
       Width           =   9120
    End
-   Begin VB.Label lblMensagem
-      BeginProperty Font
+   Begin VB.Label lblMensagem 
+      BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -162,12 +290,12 @@ Begin VB.Form Licenca_Bloqueio
       EndProperty
       Height          =   1695
       Left            =   240
-      TabIndex        =   8
+      TabIndex        =   3
       Top             =   720
       Width           =   9120
    End
-   Begin VB.Label lblReferencia
-      BeginProperty Font
+   Begin VB.Label lblReferencia 
+      BeginProperty Font 
          Name            =   "Arial"
          Size            =   12
          Charset         =   0
@@ -179,15 +307,15 @@ Begin VB.Form Licenca_Bloqueio
       ForeColor       =   &H00800000&
       Height          =   360
       Left            =   3240
-      TabIndex        =   12
+      TabIndex        =   7
       Top             =   2520
       Visible         =   0   'False
       Width           =   6120
    End
-   Begin VB.Label lblPix
-      BeginProperty Font
+   Begin VB.Label lblPix 
+      BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -196,16 +324,16 @@ Begin VB.Form Licenca_Bloqueio
       EndProperty
       Height          =   795
       Left            =   3240
-      TabIndex        =   9
+      TabIndex        =   4
       Top             =   2940
       Visible         =   0   'False
       Width           =   6120
    End
-   Begin VB.Label lblCodigo
+   Begin VB.Label lblCodigo 
       Caption         =   "Código de liberação:"
-      BeginProperty Font
+      BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   400
          Underline       =   0   'False
@@ -214,12 +342,12 @@ Begin VB.Form Licenca_Bloqueio
       EndProperty
       Height          =   285
       Left            =   240
-      TabIndex        =   10
+      TabIndex        =   5
       Top             =   5580
       Width           =   2055
    End
-   Begin VB.Label lblStatus
-      BeginProperty Font
+   Begin VB.Label lblStatus 
+      BeginProperty Font 
          Name            =   "Arial"
          Size            =   9.75
          Charset         =   0
@@ -231,11 +359,11 @@ Begin VB.Form Licenca_Bloqueio
       ForeColor       =   &H00800000&
       Height          =   300
       Left            =   240
-      TabIndex        =   11
+      TabIndex        =   6
       Top             =   6090
       Width           =   9120
    End
-   Begin VB.Shape shpTrilho
+   Begin VB.Shape shpTrilho 
       BorderColor     =   &H00C0C0C0&
       Height          =   210
       Left            =   240
@@ -243,7 +371,7 @@ Begin VB.Form Licenca_Bloqueio
       Visible         =   0   'False
       Width           =   9120
    End
-   Begin VB.Shape shpBarra
+   Begin VB.Shape shpBarra 
       BorderStyle     =   0  'Transparent
       FillColor       =   &H00800000&
       FillStyle       =   0  'Solid
@@ -333,16 +461,16 @@ Private Sub AtualizarTela()
 End Sub
 
 'Enquanto fala com o servidor: botões desligados e "AGUARDE!" com os segundos (a tela não parece travada).
-Private Sub Ocupar(ByVal Texto As String)
+Private Sub Ocupar(ByVal texto As String)
    mOcupado = True
-   mTextoEspera = Texto
+   mTextoEspera = texto
    mPagarEstava = cmdPagar.Enabled
    cmdPagar.Enabled = False
    cmdVerificar.Enabled = False
    cmdFechar.Enabled = False
    cmdCodigo.Enabled = False
    lblStatus.ForeColor = &HC0&
-   lblStatus.Caption = Texto & " AGUARDE!"
+   lblStatus.Caption = texto & " AGUARDE!"
    Screen.MousePointer = vbHourglass
    shpBarra.Left = shpTrilho.Left + 30
    shpTrilho.Visible = True
