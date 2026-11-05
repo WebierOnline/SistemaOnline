@@ -566,6 +566,7 @@ Private Sub cmdPagar_Click()
          On Error GoTo 0
       End If
       lblReferencia.Caption = descricao
+      AjustarReferencia
       lblReferencia.Visible = True
       lblPix.Caption = "Pague pelo aplicativo do banco (QR Code ou Pix copia e cola)." & vbCrLf & _
                        IIf(mModoPagar, "Assim que o pagamento for confirmado, a licença é atualizada sozinha.", _
@@ -579,6 +580,19 @@ Private Sub cmdPagar_Click()
    Else
       lblStatus.Caption = msg
    End If
+End Sub
+
+'Referência numa linha só: diminui a fonte (12 até 8,25) até caber. Várias mensalidades ou multa e juros deixam o texto longo.
+Private Sub AjustarReferencia()
+   Dim tamanho As Single
+
+   Me.FontName = lblReferencia.FontName
+   Me.FontBold = lblReferencia.FontBold
+   For tamanho = 12 To 8.25 Step -0.75
+      Me.FontSize = tamanho
+      If Me.TextWidth(lblReferencia.Caption) <= lblReferencia.Width - 60 Then Exit For
+   Next
+   lblReferencia.FontSize = Me.FontSize
 End Sub
 
 Private Sub cmdCopiar_Click()
