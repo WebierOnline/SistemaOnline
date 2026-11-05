@@ -465,7 +465,7 @@ Private Sub AtualizarTela()
 End Sub
 
 'Mensagem com negrito no meio da linha (o Label não faz): desenhada no picMensagem.
-'**texto** = negrito; linha vazia = espaço entre parágrafos; linha "• ..." quebra alinhada depois do marcador.
+'**texto** = negrito; linha vazia = espaço entre parágrafos; linha "• ..." ou "1. ..." quebra alinhada depois do marcador.
 Private Sub DesenharMensagem(ByVal Texto As String)
    Dim linhas() As String, partes() As String, palavras() As String, palavra As String
    Dim i As Long, j As Long, k As Long, alturaLinha As Single, recuo As Single
@@ -482,6 +482,7 @@ Private Sub DesenharMensagem(ByVal Texto As String)
       Else
          recuo = 0
          If Left$(linhas(i), 2) = "• " Then recuo = picMensagem.TextWidth("• ")
+         If linhas(i) Like "#. *" Then recuo = picMensagem.TextWidth(Left$(linhas(i), 3))
          picMensagem.CurrentX = 0
          partes = Split(linhas(i), "**")
          For j = 0 To UBound(partes)

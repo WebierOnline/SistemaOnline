@@ -156,14 +156,17 @@ Falha:
    MsgBox "Não foi possível abrir o pagamento da mensalidade: " & Err.Description, vbExclamation, "Licença do sistema"
 End Sub
 
-'Mensagem da tela no modo "pagar mensalidade" (sem aviso nem bloqueio).
+'Mensagem da tela no modo "pagar mensalidade" (sem aviso nem bloqueio). **texto** = negrito (Licenca_Bloqueio.DesenharMensagem).
 Public Function LicMensagemPagamento() As String
    Dim s As String
-   s = "Pague a sua mensalidade pelo Pix, mesmo antes do vencimento." & vbCrLf & _
-       "Clique em PAGAR AGORA: aparece o QR Code com o mês/ano e o valor que está sendo pago." & vbCrLf & _
-       "Assim que o pagamento for confirmado, a licença é atualizada sozinha."
-   If LicBloqueiaEm > 0 Then s = s & vbCrLf & vbCrLf & "Licença atual válida até " & Format$(LicBloqueiaEm, "dd/mm/yyyy") & "."
-   s = s & LicTextoAbertas()
+   s = "Antecipe o pagamento do seu plano via Pix a qualquer momento." & vbCrLf & vbCrLf
+   If LicBloqueiaEm > 0 Then s = s & "• **Licença atual válida até:** " & Format$(LicBloqueiaEm, "dd/mm/yyyy") & vbCrLf
+   'Já vencidas (ainda antes do bloqueio): uma linha por mensalidade.
+   If mTemDados And Len(mDados.Parcelas) > 0 Then s = s & mDados.Parcelas & vbCrLf
+   If LicBloqueiaEm > 0 Or (mTemDados And Len(mDados.Parcelas) > 0) Then s = s & vbCrLf
+   s = s & "**Como pagar:**" & vbCrLf & _
+       "1. Clique no botão **PAGAR AGORA (PIX)** abaixo para gerar o QR Code com o valor atualizado." & vbCrLf & vbCrLf & _
+       "2. Assim que o pagamento for confirmado, sua licença será renovada automaticamente."
    LicMensagemPagamento = s
 End Function
 
