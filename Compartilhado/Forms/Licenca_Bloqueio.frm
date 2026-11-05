@@ -3,7 +3,7 @@ Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Begin VB.Form Licenca_Bloqueio 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Licença do sistema"
-   ClientHeight    =   7560
+   ClientHeight    =   8640
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   9600
@@ -12,7 +12,7 @@ Begin VB.Form Licenca_Bloqueio
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7560
+   ScaleHeight     =   8640
    ScaleWidth      =   9600
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -42,7 +42,7 @@ Begin VB.Form Licenca_Bloqueio
       Left            =   2400
       MaxLength       =   9
       TabIndex        =   0
-      Top             =   5520
+      Top             =   6600
       Width           =   1815
    End
    Begin VB.TextBox txtCopiaCola 
@@ -52,7 +52,7 @@ Begin VB.Form Licenca_Bloqueio
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   1
-      Top             =   3780
+      Top             =   4860
       Visible         =   0   'False
       Width           =   6120
    End
@@ -60,8 +60,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   615
       Left            =   6180
       TabIndex        =   8
-      Top             =   6780
-      Visible         =   0   'False
+      Top             =   7860
       Width           =   2895
       _ExtentX        =   5106
       _ExtentY        =   1085
@@ -99,8 +98,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   615
       Left            =   240
       TabIndex        =   9
-      Top             =   6780
-      Visible         =   0   'False
+      Top             =   7860
       Width           =   2895
       _ExtentX        =   5106
       _ExtentY        =   1085
@@ -138,8 +136,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   615
       Left            =   3240
       TabIndex        =   10
-      Top             =   6780
-      Visible         =   0   'False
+      Top             =   7860
       Width           =   2895
       _ExtentX        =   5106
       _ExtentY        =   1085
@@ -177,7 +174,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   435
       Left            =   3240
       TabIndex        =   11
-      Top             =   4740
+      Top             =   5820
       Visible         =   0   'False
       Width           =   1995
       _ExtentX        =   3519
@@ -216,7 +213,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   435
       Left            =   4260
       TabIndex        =   12
-      Top             =   5460
+      Top             =   6540
       Visible         =   0   'False
       Width           =   1575
       _ExtentX        =   2778
@@ -256,7 +253,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   2775
       Left            =   240
       Stretch         =   -1  'True
-      Top             =   2520
+      Top             =   3600
       Visible         =   0   'False
       Width           =   2775
    End
@@ -278,7 +275,10 @@ Begin VB.Form Licenca_Bloqueio
       Top             =   180
       Width           =   9120
    End
-   Begin VB.Label lblMensagem 
+   Begin VB.PictureBox picMensagem 
+      Appearance      =   0  'Flat
+      AutoRedraw      =   -1  'True
+      BorderStyle     =   0  'None
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9.75
@@ -288,9 +288,13 @@ Begin VB.Form Licenca_Bloqueio
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1695
+      ForeColor       =   &H80000008&
+      Height          =   2775
       Left            =   240
+      ScaleHeight     =   2775
+      ScaleWidth      =   9120
       TabIndex        =   3
+      TabStop         =   0   'False
       Top             =   720
       Width           =   9120
    End
@@ -308,7 +312,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   360
       Left            =   3240
       TabIndex        =   7
-      Top             =   2520
+      Top             =   3600
       Visible         =   0   'False
       Width           =   6120
    End
@@ -325,7 +329,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   795
       Left            =   3240
       TabIndex        =   4
-      Top             =   2940
+      Top             =   4020
       Visible         =   0   'False
       Width           =   6120
    End
@@ -343,7 +347,7 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   285
       Left            =   240
       TabIndex        =   5
-      Top             =   5580
+      Top             =   6660
       Width           =   2055
    End
    Begin VB.Label lblStatus 
@@ -360,14 +364,14 @@ Begin VB.Form Licenca_Bloqueio
       Height          =   300
       Left            =   240
       TabIndex        =   6
-      Top             =   6090
+      Top             =   7170
       Width           =   9120
    End
    Begin VB.Shape shpTrilho 
       BorderColor     =   &H00C0C0C0&
       Height          =   210
       Left            =   240
-      Top             =   6450
+      Top             =   7530
       Visible         =   0   'False
       Width           =   9120
    End
@@ -377,7 +381,7 @@ Begin VB.Form Licenca_Bloqueio
       FillStyle       =   0  'Solid
       Height          =   150
       Left            =   270
-      Top             =   6480
+      Top             =   7560
       Visible         =   0   'False
       Width           =   1800
    End
@@ -434,7 +438,7 @@ Private Sub AtualizarTela()
       lblTitulo.Caption = "PAGAR MENSALIDADE"
       lblTitulo.ForeColor = &H800000
       cmdFechar.Caption = "FECHAR"
-      lblMensagem.Caption = LicMensagemPagamento()
+      DesenharMensagem LicMensagemPagamento()
       cmdPagar.Enabled = True
       lblCodigo.Visible = False
       txtCodigo.Visible = False
@@ -452,12 +456,54 @@ Private Sub AtualizarTela()
       lblTitulo.ForeColor = &HC0&
       cmdFechar.Caption = "FECHAR O SISTEMA"
    End If
-   lblMensagem.Caption = LicMensagemTela()
+   DesenharMensagem LicMensagemTela()
    cmdPagar.Enabled = (LicEstadoAtual = licBloqueada Or LicEstadoAtual = licAviso)
    'Código de liberação só faz sentido bloqueado.
    lblCodigo.Visible = Not pModoAviso
    txtCodigo.Visible = Not pModoAviso
    cmdCodigo.Visible = Not pModoAviso
+End Sub
+
+'Mensagem com negrito no meio da linha (o Label não faz): desenhada no picMensagem.
+'**texto** = negrito; linha vazia = espaço entre parágrafos; linha "• ..." quebra alinhada depois do marcador.
+Private Sub DesenharMensagem(ByVal Texto As String)
+   Dim linhas() As String, partes() As String, palavras() As String, palavra As String
+   Dim i As Long, j As Long, k As Long, alturaLinha As Single, recuo As Single
+
+   picMensagem.BackColor = Me.BackColor
+   picMensagem.Cls
+   picMensagem.FontBold = False
+   alturaLinha = picMensagem.TextHeight("Ag")
+   picMensagem.CurrentY = 0
+   linhas = Split(Replace(Texto, vbCr, ""), vbLf)
+   For i = 0 To UBound(linhas)
+      If Len(Trim$(linhas(i))) = 0 Then
+         picMensagem.CurrentY = picMensagem.CurrentY + alturaLinha * 0.6
+      Else
+         recuo = 0
+         If Left$(linhas(i), 2) = "• " Then recuo = picMensagem.TextWidth("• ")
+         picMensagem.CurrentX = 0
+         partes = Split(linhas(i), "**")
+         For j = 0 To UBound(partes)
+            picMensagem.FontBold = (j Mod 2 = 1)
+            palavras = Split(partes(j), " ")
+            For k = 0 To UBound(palavras)
+               palavra = palavras(k) & IIf(k < UBound(palavras), " ", "")
+               'Não cabe no resto da linha: continua na de baixo (sem começar por espaço).
+               If Len(palavra) > 0 And picMensagem.CurrentX > recuo Then
+                  If picMensagem.CurrentX + picMensagem.TextWidth(RTrim$(palavra)) > picMensagem.ScaleWidth Then
+                     picMensagem.CurrentY = picMensagem.CurrentY + alturaLinha
+                     picMensagem.CurrentX = recuo
+                     If palavra = " " Then palavra = ""
+                  End If
+               End If
+               If Len(palavra) > 0 Then picMensagem.Print palavra;
+            Next
+         Next
+         picMensagem.FontBold = False
+         picMensagem.CurrentY = picMensagem.CurrentY + alturaLinha
+      End If
+   Next
 End Sub
 
 'Enquanto fala com o servidor: botões desligados e "AGUARDE!" com os segundos (a tela não parece travada).

@@ -43,6 +43,7 @@ Private Type LicDados
    DataBloqueio As Date
    ChaveOffline As String
    Abertas As String          'ex.: "09/2026, 10/2026"
+   Parcelas As String         'uma linha "• **Competência:** ..." por mensalidade (tela de bloqueio)
    ValorAberto As Currency
 End Type
 
@@ -181,9 +182,17 @@ Public Function LicMensagemTela() As String
          s = s & LicTextoAbertas() & vbCrLf & vbCrLf & _
              "Pague agora pelo Pix (botão PAGAR AGORA): a liberação é automática."
       Case licBloqueada
-         s = "O sistema está bloqueado por falta de pagamento." & LicTextoAbertas() & vbCrLf & vbCrLf & _
-             "Pague pelo Pix (botão PAGAR AGORA): assim que o pagamento for confirmado, o sistema libera sozinho." & vbCrLf & _
-             "Se já pagou de outra forma, peça o código de liberação ao financeiro: " & SUPORTE & "."
+         '**texto** sai em negrito; linha vazia = espaço entre parágrafos (Licenca_Bloqueio.DesenharMensagem).
+         If mTemDados And Len(mDados.Parcelas) > 0 Then
+            s = "O sistema foi temporariamente bloqueado devido ao seguinte débito em aberto:" & vbCrLf & vbCrLf & mDados.Parcelas
+         Else
+            s = "O sistema foi temporariamente bloqueado."
+         End If
+         s = s & vbCrLf & vbCrLf & _
+             "**Para regularizar via Pix:**" & vbCrLf & _
+             "Utilize o botão **PAGAR AGORA (PIX)**. O sistema será desbloqueado automaticamente após a confirmação do pagamento." & vbCrLf & vbCrLf & _
+             "**Outras formas de pagamento:**" & vbCrLf & _
+             "Caso tenha efetuado o pagamento por outro meio, informe o setor financeiro para receber seu código de ativação: **" & SUPORTE & "**."
       Case licCnpjDiferente
          s = "A licença guardada é de outro CNPJ. Confira o CNPJ no cadastro da empresa e clique em VERIFICAR NOVAMENTE." & vbCrLf & _
              "Suporte: " & SUPORTE & "."
@@ -682,9 +691,11 @@ End Function
 '"emAberto":[{"competencia":"2026-09-01","valor":10.0}, ...]
 Private Sub LicLerAbertas(ByVal Json As String, ByRef D As LicDados)
    Dim ini As Long, fim As Long, lista As String, p As Long, item As String, prox As Long, comp As Date
+   Dim valor As Currency, venc As Date
 
    D.Abertas = ""
    D.ValorAberto = 0
+   D.Parcelas = ""
    ini = InStr(Json, """emAberto"":[")
    If ini = 0 Then Exit Sub
    ini = ini + Len("""emAberto"":[")
@@ -699,8 +710,15 @@ Private Sub LicLerAbertas(ByVal Json As String, ByRef D As LicDados)
       item = Mid$(lista, p, prox - p + 1)
       comp = LicJsonData(item, "competencia")
       If comp > 0 Then
+         valor = CCur(Val(LicJsonValor(item, "valor")))
+         'Licença antiga (sem vencimento por mensalidade): a primeira é a do vencimento da licença.
+         venc = LicJsonData(item, "vencimento")
+         If venc = 0 And Len(D.Abertas) = 0 Then venc = D.Vencimento
+         D.Parcelas = D.Parcelas & IIf(Len(D.Parcelas) > 0, vbCrLf, "") & _
+                      "• **Competência:** " & Format$(comp, "mm/yyyy") & " — **Valor:** R$ " & Format$(valor, "#,##0.00") & _
+                      IIf(venc > 0, " — **Vencimento:** " & Format$(venc, "dd/mm/yy"), "")
          D.Abertas = D.Abertas & IIf(Len(D.Abertas) > 0, ", ", "") & Format$(comp, "mm/yyyy")
-         D.ValorAberto = D.ValorAberto + CCur(Val(LicJsonValor(item, "valor")))
+         D.ValorAberto = D.ValorAberto + valor
       End If
       p = InStr(prox + 1, lista, "{")
    Loop
