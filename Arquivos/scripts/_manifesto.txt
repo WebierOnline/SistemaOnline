@@ -162,3 +162,4 @@
 163|AlterProcedure_InventarioItemContar.sql|GERAL
 164|AlterProcedure_InventarioFechar.sql|GERAL
 165|AlterProcedure_ProdutoContagemGravar.sql|GERAL
+166|AlterTable_Configuracao_ExibirTributos.sql|GERAL

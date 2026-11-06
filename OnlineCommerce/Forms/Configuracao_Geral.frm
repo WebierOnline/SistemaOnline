@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "11:11"
+            TextSave        =   "21:35"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -113,6 +113,7 @@ Begin VB.Form Configuracao_Geral
       _ExtentY        =   15796
       _Version        =   393216
       Tabs            =   5
+      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   520
       TabMaxWidth     =   2999
@@ -127,7 +128,7 @@ Begin VB.Form Configuracao_Geral
       EndProperty
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdSalvarGeral"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "FrameBackup"
@@ -141,7 +142,7 @@ Begin VB.Form Configuracao_Geral
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Frame4"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
@@ -150,75 +151,75 @@ Begin VB.Form Configuracao_Geral
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdSalvarBalanca"
+      Tab(2).Control(0)=   "Frame13"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Frame3"
+      Tab(2).Control(1)=   "Frame6"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "Frame6"
+      Tab(2).Control(2)=   "Frame3"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "Frame13"
+      Tab(2).Control(3)=   "cmdSalvarBalanca"
       Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Label48"
+      Tab(3).Control(0)=   "Frame14"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "Label14"
+      Tab(3).Control(1)=   "cboDeclararRecebedor"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "Label49"
+      Tab(3).Control(2)=   "txtFormaParcelasImpressao"
       Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "Label61"
+      Tab(3).Control(3)=   "cboFormaParcelasImpressao"
       Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).Control(4)=   "cmdSalvarImpressao"
+      Tab(3).Control(4)=   "cboINIImpNormal"
       Tab(3).Control(4).Enabled=   0   'False
-      Tab(3).Control(5)=   "Frame2"
+      Tab(3).Control(5)=   "Frame7"
       Tab(3).Control(5).Enabled=   0   'False
-      Tab(3).Control(6)=   "Frame17"
+      Tab(3).Control(6)=   "Frame8"
       Tab(3).Control(6).Enabled=   0   'False
-      Tab(3).Control(7)=   "Frame8"
+      Tab(3).Control(7)=   "Frame17"
       Tab(3).Control(7).Enabled=   0   'False
-      Tab(3).Control(8)=   "Frame7"
+      Tab(3).Control(8)=   "Frame2"
       Tab(3).Control(8).Enabled=   0   'False
-      Tab(3).Control(9)=   "cboINIImpNormal"
+      Tab(3).Control(9)=   "cmdSalvarImpressao"
       Tab(3).Control(9).Enabled=   0   'False
-      Tab(3).Control(10)=   "cboFormaParcelasImpressao"
+      Tab(3).Control(10)=   "Label61"
       Tab(3).Control(10).Enabled=   0   'False
-      Tab(3).Control(11)=   "txtFormaParcelasImpressao"
+      Tab(3).Control(11)=   "Label49"
       Tab(3).Control(11).Enabled=   0   'False
-      Tab(3).Control(12)=   "cboDeclararRecebedor"
+      Tab(3).Control(12)=   "Label14"
       Tab(3).Control(12).Enabled=   0   'False
-      Tab(3).Control(13)=   "Frame14"
+      Tab(3).Control(13)=   "Label48"
       Tab(3).Control(13).Enabled=   0   'False
       Tab(3).ControlCount=   14
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "chameleonButton1"
-      Tab(4).Control(1)=   "txtCodDesbloqueioTemp"
-      Tab(4).Control(2)=   "txtCodDesbloqueio"
-      Tab(4).Control(3)=   "txtFantasia"
-      Tab(4).Control(4)=   "cboAno"
-      Tab(4).Control(5)=   "cboMes"
-      Tab(4).Control(6)=   "txtRazao"
-      Tab(4).Control(7)=   "Grid"
-      Tab(4).Control(8)=   "mskCPF"
-      Tab(4).Control(9)=   "cmdAdicionar"
-      Tab(4).Control(10)=   "cmdMostrarSenha"
-      Tab(4).Control(11)=   "cmdPrepara"
+      Tab(4).Control(0)=   "Label53"
+      Tab(4).Control(1)=   "Label54"
+      Tab(4).Control(2)=   "Label56"
+      Tab(4).Control(3)=   "Label57"
+      Tab(4).Control(4)=   "Label58"
+      Tab(4).Control(5)=   "Label59"
+      Tab(4).Control(6)=   "Label60"
+      Tab(4).Control(7)=   "cmdDesmarcarTodos"
+      Tab(4).Control(8)=   "cmdDesmarcar"
+      Tab(4).Control(9)=   "cmdMarcar"
+      Tab(4).Control(10)=   "cmdLocalizar"
+      Tab(4).Control(11)=   "cmdNovo"
       Tab(4).Control(12)=   "cmdPrepara2"
-      Tab(4).Control(13)=   "cmdNovo"
-      Tab(4).Control(14)=   "cmdLocalizar"
-      Tab(4).Control(15)=   "cmdMarcar"
-      Tab(4).Control(16)=   "cmdDesmarcar"
-      Tab(4).Control(17)=   "cmdDesmarcarTodos"
-      Tab(4).Control(18)=   "Label60"
-      Tab(4).Control(19)=   "Label59"
-      Tab(4).Control(20)=   "Label58"
-      Tab(4).Control(21)=   "Label57"
-      Tab(4).Control(22)=   "Label56"
-      Tab(4).Control(23)=   "Label54"
-      Tab(4).Control(24)=   "Label53"
+      Tab(4).Control(13)=   "cmdPrepara"
+      Tab(4).Control(14)=   "cmdMostrarSenha"
+      Tab(4).Control(15)=   "cmdAdicionar"
+      Tab(4).Control(16)=   "mskCPF"
+      Tab(4).Control(17)=   "Grid"
+      Tab(4).Control(18)=   "txtRazao"
+      Tab(4).Control(19)=   "cboMes"
+      Tab(4).Control(20)=   "cboAno"
+      Tab(4).Control(21)=   "txtFantasia"
+      Tab(4).Control(22)=   "txtCodDesbloqueio"
+      Tab(4).Control(23)=   "txtCodDesbloqueioTemp"
+      Tab(4).Control(24)=   "chameleonButton1"
       Tab(4).ControlCount=   25
       Begin VB.Frame Frame14 
          Caption         =   "Recibos"
@@ -411,7 +412,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
          Height          =   1335
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   178
          Top             =   5280
          Width           =   3615
@@ -725,10 +726,10 @@ Begin VB.Form Configuracao_Geral
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   2055
-         Left            =   -74820
+         Height          =   1875
+         Left            =   180
          TabIndex        =   112
-         Top             =   6840
+         Top             =   7020
          Width           =   8535
          Begin VB.Frame Frame12 
             Caption         =   "Critérios"
@@ -741,10 +742,10 @@ Begin VB.Form Configuracao_Geral
                Italic          =   0   'False
                Strikethrough   =   0   'False
             EndProperty
-            Height          =   1755
+            Height          =   1635
             Left            =   60
             TabIndex        =   206
-            Top             =   240
+            Top             =   180
             Width           =   2295
             Begin VB.ComboBox cboTipoDesconto 
                Height          =   315
@@ -768,9 +769,9 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Excluir Cartão Crédito"
                ForeColor       =   &H80000008&
                Height          =   195
-               Left            =   180
+               Left            =   120
                TabIndex        =   210
-               Top             =   1500
+               Top             =   1380
                Width           =   1995
             End
             Begin VB.CheckBox chkCartaoDebito 
@@ -779,9 +780,9 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Excluir Cartão Débito"
                ForeColor       =   &H80000008&
                Height          =   195
-               Left            =   180
+               Left            =   120
                TabIndex        =   209
-               Top             =   1320
+               Top             =   1200
                Width           =   1995
             End
             Begin VB.CheckBox chkLimiteDesc 
@@ -790,9 +791,9 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Limitar Desconto"
                ForeColor       =   &H80000008&
                Height          =   195
-               Left            =   180
+               Left            =   120
                TabIndex        =   208
-               Top             =   960
+               Top             =   840
                Width           =   1515
             End
             Begin VB.CheckBox chkLimiteGerente 
@@ -801,9 +802,9 @@ Begin VB.Form Configuracao_Geral
                Caption         =   "Permissão do Gerente"
                ForeColor       =   &H80000008&
                Height          =   195
-               Left            =   180
+               Left            =   120
                TabIndex        =   207
-               Top             =   1140
+               Top             =   1020
                Width           =   1935
             End
             Begin VB.Label Label55 
@@ -822,7 +823,7 @@ Begin VB.Form Configuracao_Geral
             Height          =   855
             Left            =   2400
             TabIndex        =   126
-            Top             =   240
+            Top             =   180
             Width           =   2115
             Begin VB.TextBox txtValorDescAV 
                Appearance      =   0  'Flat
@@ -866,7 +867,7 @@ Begin VB.Form Configuracao_Geral
             Height          =   1575
             Left            =   4560
             TabIndex        =   113
-            Top             =   240
+            Top             =   180
             Width           =   2715
             Begin VB.TextBox txtDescAV3 
                Appearance      =   0  'Flat
@@ -1043,7 +1044,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FraConfiguracao 
          Caption         =   "Balança e Peso"
          Height          =   1515
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   106
          Top             =   6660
          Width           =   8655
@@ -1179,7 +1180,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
          Height          =   4875
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   78
          Top             =   360
          Width           =   8655
@@ -1423,11 +1424,19 @@ Begin VB.Form Configuracao_Geral
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   6435
-         Left            =   -74820
+         Height          =   6675
+         Left            =   180
          TabIndex        =   53
          Top             =   360
          Width           =   8535
+         Begin VB.CheckBox chkExibirTributos 
+            Caption         =   "Sim"
+            Height          =   195
+            Left            =   2820
+            TabIndex        =   237
+            Top             =   6300
+            Width           =   615
+         End
          Begin VB.TextBox txtTempoLogoff 
             Appearance      =   0  'Flat
             Enabled         =   0   'False
@@ -1705,6 +1714,16 @@ Begin VB.Form Configuracao_Geral
             HAND            =   0   'False
             CHECK           =   0   'False
             VALUE           =   0   'False
+         End
+         Begin VB.Label Label78 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Exibir Tributos:"
+            Height          =   195
+            Left            =   1680
+            TabIndex        =   238
+            Top             =   6300
+            Width           =   1035
          End
          Begin VB.Label Label46 
             Alignment       =   1  'Right Justify
@@ -2196,7 +2215,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
          Height          =   1335
-         Left            =   3780
+         Left            =   -71220
          TabIndex        =   10
          Top             =   5280
          Width           =   4995
@@ -2310,7 +2329,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
-         Left            =   6600
+         Left            =   -68400
          TabIndex        =   77
          Top             =   8220
          Width           =   2175
@@ -3367,6 +3386,23 @@ dbData.Execute sSQL
 sysConfig("TEMPOLOGOFF").Value = txtTempoLogoff.Text
 
 txtTempoLogoff.Enabled = False
+End Sub
+
+Private Sub AtualizarExibirTributos()
+Dim sSQL As String
+
+'Atualiza a base de dados
+sSQL = "UPDATE configuracao SET config_valor = '" & IIf(chkExibirTributos.Value = vbChecked, "1", "0") & "' WHERE (config_nome = 'EXIBIR_TRIBUTOS');"
+dbData.Execute sSQL
+
+'Atualiza a configuração carregada na memória
+sysConfig("EXIBIR_TRIBUTOS").Value = IIf(chkExibirTributos.Value = vbChecked, "1", "0")
+End Sub
+
+Private Sub Mostrar_ExibirTributos()
+Set oCfg = sysConfig("EXIBIR_TRIBUTOS")
+chkExibirTributos.Value = IIf(CStr(oCfg.Value) = "1", vbChecked, vbUnchecked)
+Set oCfg = Nothing
 End Sub
 
 Private Sub AtualizarBloquearCliente()
@@ -5983,6 +6019,7 @@ Atualizar_ValorCartaoDebito
 Atualizar_ValorCartaoCredito
 AtualizarTipoLogin
 AtualizarLogoffAutomatico
+AtualizarExibirTributos
 
 AtualizarTipoDesconto
 AtualizarAVDesc
@@ -6040,6 +6077,7 @@ Mostrar_ValorCartaoCredito
 Mostrar_ValorCartaoDebito
 MostrarTipoLogin
 MostrarLogoffAutomatico
+Mostrar_ExibirTributos
 Mostrar_TipoDesconto
 Mostrar_DescGradual
 MostrarConfDeclararRecebedor

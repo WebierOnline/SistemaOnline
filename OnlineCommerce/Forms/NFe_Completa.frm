@@ -53,38 +53,38 @@ Begin VB.Form NFe_Completa
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "cmdEnviarXML"
-      Tab(1).Control(1)=   "cmdEspelho"
-      Tab(1).Control(2)=   "cmdEditar"
-      Tab(1).Control(3)=   "cmdCartaCorrecao"
-      Tab(1).Control(4)=   "cmdInutilizar"
-      Tab(1).Control(5)=   "cmdDuplicar"
-      Tab(1).Control(6)=   "cmdConsultar"
-      Tab(1).Control(7)=   "cmdCancelarNota"
+      Tab(1).Control(0)=   "txtCodObservacao"
+      Tab(1).Control(0).Enabled=   0   'False
+      Tab(1).Control(1)=   "frmCorreção"
+      Tab(1).Control(2)=   "picAguarde"
+      Tab(1).Control(3)=   "lvwTotais"
+      Tab(1).Control(4)=   "Frame4"
+      Tab(1).Control(5)=   "GridNotas"
+      Tab(1).Control(6)=   "cmdCopiarChave"
+      Tab(1).Control(7)=   "cmdImprimir"
       Tab(1).Control(8)=   "cmdTransmitir"
-      Tab(1).Control(9)=   "cmdImprimir"
-      Tab(1).Control(10)=   "cmdCopiarChave"
-      Tab(1).Control(11)=   "GridNotas"
-      Tab(1).Control(12)=   "Frame4"
-      Tab(1).Control(13)=   "lvwTotais"
-      Tab(1).Control(14)=   "picAguarde"
-      Tab(1).Control(15)=   "frmCorreção"
-      Tab(1).Control(16)=   "txtCodObservacao"
-      Tab(1).Control(16).Enabled=   0   'False
+      Tab(1).Control(9)=   "cmdCancelarNota"
+      Tab(1).Control(10)=   "cmdConsultar"
+      Tab(1).Control(11)=   "cmdDuplicar"
+      Tab(1).Control(12)=   "cmdInutilizar"
+      Tab(1).Control(13)=   "cmdCartaCorrecao"
+      Tab(1).Control(14)=   "cmdEditar"
+      Tab(1).Control(15)=   "cmdEspelho"
+      Tab(1).Control(16)=   "cmdEnviarXML"
       Tab(1).ControlCount=   17
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "picAguarde2"
-      Tab(2).Control(1)=   "frmFiltrosPedidos"
-      Tab(2).Control(2)=   "GridPedidos"
-      Tab(2).Control(3)=   "cmdConverterNFe"
-      Tab(2).Control(4)=   "lblCodFabrica(9)"
-      Tab(2).Control(5)=   "ImgMarcadaTODAS"
-      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
-      Tab(2).Control(7)=   "imgDesmarcada"
-      Tab(2).Control(8)=   "ImgMarcada"
-      Tab(2).Control(9)=   "lblQuantPedidos"
+      Tab(2).Control(0)=   "lblQuantPedidos"
+      Tab(2).Control(1)=   "ImgMarcada"
+      Tab(2).Control(2)=   "imgDesmarcada"
+      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(4)=   "ImgMarcadaTODAS"
+      Tab(2).Control(5)=   "lblCodFabrica(9)"
+      Tab(2).Control(6)=   "cmdConverterNFe"
+      Tab(2).Control(7)=   "GridPedidos"
+      Tab(2).Control(8)=   "frmFiltrosPedidos"
+      Tab(2).Control(9)=   "picAguarde2"
       Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
@@ -1888,48 +1888,58 @@ Begin VB.Form NFe_Completa
          _ExtentY        =   8811
          _Version        =   393216
          Tabs            =   7
+         Tab             =   3
          TabsPerRow      =   7
          TabHeight       =   467
          TabMaxWidth     =   3351
          TabCaption(0)   =   "Produtos"
          TabPicture(0)   =   "NFe_Completa.frx":20EF6
-         Tab(0).ControlEnabled=   -1  'True
+         Tab(0).ControlEnabled=   0   'False
          Tab(0).Control(0)=   "frmItens"
          Tab(0).Control(0).Enabled=   0   'False
          Tab(0).ControlCount=   1
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "Label71"
+         Tab(1).Control(0)=   "cboModFrete"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(2)=   "cboModFrete"
+         Tab(1).Control(2)=   "Label71"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "cboFormaPgto"
-         Tab(2).Control(1)=   "frmDuplicata"
-         Tab(2).Control(2)=   "frmFatura"
-         Tab(2).Control(3)=   "cboIndicadorPagamento"
-         Tab(2).Control(4)=   "Label67"
-         Tab(2).Control(5)=   "Label15"
+         Tab(2).Control(0)=   "Label15"
+         Tab(2).Control(1)=   "Label67"
+         Tab(2).Control(2)=   "cboIndicadorPagamento"
+         Tab(2).Control(3)=   "frmFatura"
+         Tab(2).Control(4)=   "frmDuplicata"
+         Tab(2).Control(5)=   "cboFormaPgto"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":20F4A
-         Tab(3).ControlEnabled=   0   'False
+         Tab(3).ControlEnabled=   -1  'True
          Tab(3).Control(0)=   "lblCodFabrica(10)"
+         Tab(3).Control(0).Enabled=   0   'False
          Tab(3).Control(1)=   "lblCodFabrica(11)"
+         Tab(3).Control(1).Enabled=   0   'False
          Tab(3).Control(2)=   "cmdConsultarVeiculos"
+         Tab(3).Control(2).Enabled=   0   'False
          Tab(3).Control(3)=   "txtInfAdicionais"
+         Tab(3).Control(3).Enabled=   0   'False
          Tab(3).Control(4)=   "txtInfComple"
+         Tab(3).Control(4).Enabled=   0   'False
          Tab(3).Control(5)=   "chkDadosBancarios"
+         Tab(3).Control(5).Enabled=   0   'False
          Tab(3).Control(6)=   "chkDadosVeiculo"
-         Tab(3).ControlCount=   7
+         Tab(3).Control(6).Enabled=   0   'False
+         Tab(3).Control(7)=   "chkTributos"
+         Tab(3).Control(7).Enabled=   0   'False
+         Tab(3).ControlCount=   8
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboTipoEmissao"
-         Tab(4).Control(1)=   "cboFormatoDANFe"
+         Tab(4).Control(0)=   "cboFormatoDANFe"
+         Tab(4).Control(1)=   "cboTipoEmissao"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
          TabPicture(5)   =   "NFe_Completa.frx":20F82
@@ -1940,10 +1950,19 @@ Begin VB.Form NFe_Completa
          Tab(6).ControlEnabled=   0   'False
          Tab(6).Control(0)=   "frmDevolucao"
          Tab(6).ControlCount=   1
+         Begin VB.CheckBox chkTributos 
+            Caption         =   "Tributos"
+            Height          =   195
+            Left            =   15480
+            TabIndex        =   253
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   915
+         End
          Begin VB.CheckBox chkDadosVeiculo 
             Caption         =   "Dados do veículo"
             Height          =   195
-            Left            =   -61920
+            Left            =   12120
             TabIndex        =   251
             Top             =   420
             Visible         =   0   'False
@@ -1952,14 +1971,14 @@ Begin VB.Form NFe_Completa
          Begin VB.CheckBox chkDadosBancarios 
             Caption         =   "Dados Bancários"
             Height          =   195
-            Left            =   -60180
+            Left            =   13860
             TabIndex        =   248
             Top             =   420
             Width           =   1515
          End
          Begin VB.TextBox txtInfComple 
             Height          =   2685
-            Left            =   -74880
+            Left            =   120
             MultiLine       =   -1  'True
             TabIndex        =   245
             Top             =   660
@@ -1967,7 +1986,7 @@ Begin VB.Form NFe_Completa
          End
          Begin VB.TextBox txtInfAdicionais 
             Height          =   1185
-            Left            =   -74880
+            Left            =   120
             MultiLine       =   -1  'True
             TabIndex        =   244
             Top             =   3660
@@ -2425,7 +2444,7 @@ Begin VB.Form NFe_Completa
                Strikethrough   =   0   'False
             EndProperty
             Height          =   4575
-            Left            =   120
+            Left            =   -74880
             TabIndex        =   85
             Top             =   360
             Width           =   16275
@@ -3037,18 +3056,18 @@ Begin VB.Form NFe_Completa
             TabCaption(1)   =   "Volumes"
             TabPicture(1)   =   "NFe_Completa.frx":25794
             Tab(1).ControlEnabled=   0   'False
-            Tab(1).Control(0)=   "txtVolPesoBruto"
-            Tab(1).Control(1)=   "txtVolQuant"
-            Tab(1).Control(2)=   "txtVolEspecie"
-            Tab(1).Control(3)=   "txtVolMarca"
-            Tab(1).Control(4)=   "txtVolNumeracao"
-            Tab(1).Control(5)=   "txtVolPesoLiquido"
-            Tab(1).Control(6)=   "Label11"
-            Tab(1).Control(7)=   "Label18"
-            Tab(1).Control(8)=   "Label17"
-            Tab(1).Control(9)=   "Label10"
-            Tab(1).Control(10)=   "Label12"
-            Tab(1).Control(11)=   "Label13"
+            Tab(1).Control(0)=   "Label13"
+            Tab(1).Control(1)=   "Label12"
+            Tab(1).Control(2)=   "Label10"
+            Tab(1).Control(3)=   "Label17"
+            Tab(1).Control(4)=   "Label18"
+            Tab(1).Control(5)=   "Label11"
+            Tab(1).Control(6)=   "txtVolPesoLiquido"
+            Tab(1).Control(7)=   "txtVolNumeracao"
+            Tab(1).Control(8)=   "txtVolMarca"
+            Tab(1).Control(9)=   "txtVolEspecie"
+            Tab(1).Control(10)=   "txtVolQuant"
+            Tab(1).Control(11)=   "txtVolPesoBruto"
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
             TabPicture(2)   =   "NFe_Completa.frx":257B0
@@ -3311,7 +3330,7 @@ Begin VB.Form NFe_Completa
          End
          Begin ChamaleonBtn.chameleonButton cmdConsultarVeiculos 
             Height          =   255
-            Left            =   -63840
+            Left            =   10260
             TabIndex        =   252
             Top             =   360
             Visible         =   0   'False
@@ -3354,7 +3373,7 @@ Begin VB.Form NFe_Completa
             Caption         =   "Informações Adicionais"
             Height          =   195
             Index           =   11
-            Left            =   -74880
+            Left            =   120
             TabIndex        =   247
             Top             =   3420
             Width           =   1635
@@ -3374,7 +3393,7 @@ Begin VB.Form NFe_Completa
             EndProperty
             Height          =   195
             Index           =   10
-            Left            =   -74880
+            Left            =   120
             TabIndex        =   246
             Top             =   420
             Width           =   2475
@@ -4201,7 +4220,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "11:18"
+            TextSave        =   "21:57"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -4258,6 +4277,8 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim vTipoCRT As Integer
 Dim bSupressChkEvents As Boolean
+Private Const MARCA_TRIBUTOS = "Valor Aproximado dos Tributos R$"
+Private Const FIM_TRIBUTOS = "Fonte: IBPT"
 Dim vRegimeTributario As Integer
 Dim vIPICompoeDIFAL As Integer
 Dim vPCreditoSN     As Double
@@ -5132,6 +5153,9 @@ cboFormatoDANFe.Text = ""
 cboTipoEmissao.Text = ""
 txtChaveReferenciada.Text = ""
 chkDadosBancarios.Value = 0
+bSupressChkEvents = True
+chkTributos.Value = 0
+bSupressChkEvents = False
 End Sub
 
 Private Sub LimparObjetosDestinatario()
@@ -5426,7 +5450,9 @@ txtTotalDup.Text = FormatNumber(varNota, 2)
 txtNumParcDup.Text = "1"
 txtIntervaloDup.Text = "30"
 If IsDate(mskEmissao) Then mskInicioDup.Text = Format(mskEmissao.Text, "dd/mm/yy") Else mskInicioDup.Text = Format(mskEmissao.Text, "dd/mm/yy")
+RemoverTextoTributos
 AtualizarInfCompleCredSN
+AtualizarTextoTributos
 End Sub
 
 Private Sub AtualizarInfCompleCredSN()
@@ -7106,6 +7132,7 @@ Public Sub Load_Controls()
     txtCodPedido = Format(TbNotas("cod_pedido"), "@")
     'txtInfComple.Text = Format(TbNotas("InformacoesComplementares"), "@")
     txtInfComple.Text = TbNotas("InformacoesComplementares")
+    SincronizarChkTributos
     txtChaveReferenciada.Text = Format(TbNotas("ChavedeAcessoAdicional"), "@")
     
     'cboIndicadorPagamento.Text = "0 - Pagamento à vista"
@@ -7562,6 +7589,79 @@ Sub chkOutros_Click()
     AplicarVisibilidadeGridItens
 End Sub
 
+'Texto do total aproximado de tributos (Lei 12.741/2012) da nota: soma de NotaFiscalItens.ValorTributos; "" se nao houver
+Private Function GetTributosStr() As String
+    Dim rTrib As ADODB.Recordset, dblTrib As Double, dblNota As Double
+    GetTributosStr = ""
+    If Val(txtCodNota.Text) = 0 Then Exit Function
+    RsOpen rTrib, "SELECT ISNULL(SUM(ValorTributos), 0) AS trib FROM NotaFiscalItens WHERE CodigoNota = " & Val(txtCodNota.Text)
+    If Not rTrib.EOF Then dblTrib = CDbl(rTrib("trib"))
+    rTrib.Close
+    Set rTrib = Nothing
+    If dblTrib <= 0 Then Exit Function
+    RsOpen rTrib, "SELECT ISNULL(ValorNota, 0) AS vnota FROM NotaFiscal WHERE CodigoNota = " & Val(txtCodNota.Text)
+    If Not rTrib.EOF Then dblNota = CDbl(rTrib("vnota"))
+    rTrib.Close
+    Set rTrib = Nothing
+    GetTributosStr = MARCA_TRIBUTOS & " " & Format(dblTrib, "#,##0.00")
+    If dblNota > 0 Then GetTributosStr = GetTributosStr & " (" & Format((dblTrib / dblNota) * 100, "0.00") & "%)"
+    GetTributosStr = GetTributosStr & " (Conforme Lei Fed. 12.741/2012) " & FIM_TRIBUTOS
+End Function
+
+'Tira de txtInfComple o texto de tributos (da marca ate "Fonte: IBPT") com o separador que vem antes dele
+Private Sub RemoverTextoTributos()
+    Dim sTmp As String, iIni As Integer, iFim As Integer
+    sTmp = txtInfComple.Text
+    iIni = InStr(sTmp, MARCA_TRIBUTOS)
+    If iIni = 0 Then Exit Sub
+    iFim = InStr(iIni, sTmp, FIM_TRIBUTOS)
+    If iFim = 0 Then Exit Sub
+    iFim = iFim + Len(FIM_TRIBUTOS) - 1
+    If iIni >= 4 And Mid(sTmp, iIni - 3, 3) = " / " Then
+        iIni = iIni - 3
+    ElseIf iIni >= 3 And Mid(sTmp, iIni - 2, 2) = vbCrLf Then
+        iIni = iIni - 2
+    End If
+    txtInfComple.Text = Trim(Left(sTmp, iIni - 1) & Mid(sTmp, iFim + 1))
+End Sub
+
+'Com chkTributos marcado, deixa em txtInfComple o texto de tributos atualizado (no final, depois de " / ")
+Private Sub AtualizarTextoTributos()
+    Dim sTrib As String
+    RemoverTextoTributos
+    If chkTributos.Value <> 1 Then Exit Sub
+    sTrib = GetTributosStr()
+    If Len(sTrib) = 0 Then Exit Sub
+    If Len(Trim(txtInfComple.Text)) > 0 Then
+        txtInfComple.Text = Trim(txtInfComple.Text) & " / " & sTrib
+    Else
+        txtInfComple.Text = sTrib
+    End If
+End Sub
+
+Private Sub chkTributos_Click()
+    If bSupressChkEvents Then Exit Sub
+    AtualizarTextoTributos
+End Sub
+
+'Marca/desmarca chkTributos conforme o que ja esta em txtInfComple (nota carregada) sem disparar o click
+Private Sub SincronizarChkTributos()
+    bSupressChkEvents = True
+    chkTributos.Value = IIf(InStr(txtInfComple.Text, MARCA_TRIBUTOS) > 0, 1, 0)
+    bSupressChkEvents = False
+End Sub
+
+'Nota nova: o checkbox nasce conforme a configuracao EXIBIR_TRIBUTOS (Configuracao_Geral)
+Private Sub ChkTributosPadrao()
+    Dim bExibir As Boolean
+    On Error Resume Next
+    bExibir = (CStr(sysConfig("EXIBIR_TRIBUTOS").Value) = "1")
+    On Error GoTo 0
+    bSupressChkEvents = True
+    chkTributos.Value = IIf(bExibir, 1, 0)
+    bSupressChkEvents = False
+End Sub
+
 Private Sub chkDadosBancarios_Click()
     Static sBancoAdicionado As String
     Dim sBanco As String, sTmp As String, iPos As Integer
@@ -7708,7 +7808,7 @@ Set r = dbData.OpenRecordset(sSQL)
 Dim vItem As Integer
 vItem = 1
 
-If r!Item = "0" Then
+If r!item = "0" Then
     For i = 1 To r.RecordCount
         dbData.Execute "UPDATE pedidos_itens SET item = " & vItem & " WHERE COD_PRODUTO = " & r!COD_PRODUTO & " and COD_PEDIDO = " & txtCodPedido.Text & ";"
     vItem = vItem + 1
@@ -9666,12 +9766,12 @@ Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 End Sub
 
 Private Function TipoOSVeiculoNFe() As Boolean
-    Dim St As String
+    Dim st As String
     TipoOSVeiculoNFe = False
     On Error Resume Next
-    St = CStr(sysConfig("TIPO_OS").Value)
+    st = CStr(sysConfig("TIPO_OS").Value)
     On Error GoTo 0
-    TipoOSVeiculoNFe = (St = "Autom" & Chr(243) & "veis" Or St = "Motocicletas")
+    TipoOSVeiculoNFe = (st = "Autom" & Chr(243) & "veis" Or st = "Motocicletas")
 End Function
 
 Private Sub cmdConsultarVeiculos_Click()
@@ -9934,7 +10034,7 @@ Dim objNFe As New snfe.Util
     
    textoCorrecao = Grid_Correcao.TextMatrix(i, 5)
     
-    iRetorno = objNFe.CartaCorrecao(Parametros!CNPJ, CLng(vCodNota), SeqEvento, vChave, textoCorrecao, xCaminhoXMLAuxiliar)
+    iRetorno = objNFe.CartaCorrecao(Parametros!cnpj, CLng(vCodNota), SeqEvento, vChave, textoCorrecao, xCaminhoXMLAuxiliar)
     
     If Not iRetorno Then GoTo Caifora
     cStat = objNFe.retEnvEvento.cStat
@@ -10562,7 +10662,7 @@ dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM empresa", "DiretorioXML", A
 xCaminhoXML = dirXML & "\nfe\arquivos\procNFe\" & Format(vDataProt, "yyyymm") & "\" & vChave & "-procNFe.xml"
 xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\NFe" & vChave & ".pdf"
 
-If Not Existe(xCaminhoXML) Then
+If Not existe(xCaminhoXML) Then
     Set sistNFe = Nothing
     Dim vMaquinaOrigem As String
     vMaquinaOrigem = SQLExecutaRetorno("SELECT MAQUINA FROM NotaFiscal WHERE CodigoNota = " & Val(GridNotas.TextMatrix(GridNotas.Row, 1)), "MAQUINA", "")
@@ -10575,7 +10675,7 @@ If Not Existe(xCaminhoXML) Then
     Exit Sub
 End If
 
-If Not Existe(xCaminhoPDF) Then
+If Not existe(xCaminhoPDF) Then
     iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
     Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, vNotaCancelada, True, "", True, False, False, False, True)
 End If
@@ -10590,7 +10690,7 @@ If InStr(1, emailDestino, "@") = 0 Then
     Exit Sub
 End If
 
-If Existe(xCaminhoPDF) Then
+If existe(xCaminhoPDF) Then
     Call EnviaEmailXMLPDF(emailDestino, xCaminhoXML, xCaminhoPDF)
 Else
     Call EnviaEmail(emailDestino, xCaminhoXML)
@@ -10672,7 +10772,7 @@ If Vazio(emailDest) Then Exit Sub
 
 iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
 
-If Not Vazio(Anexo2) And Existe(Anexo2) Then
+If Not Vazio(Anexo2) And existe(Anexo2) Then
     ReDim pathAnexo(1)
     pathAnexo(0) = Anexo1
     pathAnexo(1) = Anexo2
@@ -10786,7 +10886,7 @@ If vPossuiErro = False Then
         xCaminhoXML = dirXML & "\nfe\arquivos\assinado\NFe" & NFeChaveAcesso & "-assinado.xml"
         xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\NFe" & NFeChaveAcesso & ".pdf"
         
-        If Not Existe(xCaminhoXML) Then
+        If Not existe(xCaminhoXML) Then
            picAguarde.Visible = False
            Exit Sub
         End If
@@ -11098,12 +11198,12 @@ End Sub
 
 Private Sub cmdImprimirConsulta_Click()
 'colocar o nome da maquina na barra de status
-Dim oIni As Ini
+Dim oIni As ini
 Dim var_Impressora As String
 'Dim r As ADODB.Recordset
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -11135,7 +11235,7 @@ End Sub
 Private Sub cmdInutilizar_Click()
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
 
-Dim codPedido As String, nNota As String, CNPJ As String, idInutilizacao As Long
+Dim codPedido As String, nNota As String, cnpj As String, idInutilizacao As Long
 Dim sSQL As String, IdNFProd As Long
 
 vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
@@ -11143,7 +11243,7 @@ codPedido = (GridNotas.TextMatrix(GridNotas.Row, 1))
 
 dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM Empresa", "DiretorioXML", App.path)
 dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
-CNPJ = SQLExecutaRetorno("SELECT CNPJ FROM Empresa", "CNPJ", "")
+cnpj = SQLExecutaRetorno("SELECT CNPJ FROM Empresa", "CNPJ", "")
 
 sSQL = "SELECT CodigoNota FROM NotaFiscal WHERE CodigoNota  = " & codPedido
 IdNFProd = SQLExecutaRetorno(sSQL, "CodigoNota", 0)
@@ -11162,7 +11262,7 @@ If IdNFProd > 0 Then
    Dim sistNFe As snfe.Util
    Set sistNFe = New snfe.Util
    iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-   iRetorno = sistNFe.InutilizarNumeracao(Format(Date, "yyyy"), CNPJ, "ERRO AO TRANSMITIR NOTA, PERDA DE SEQUENCIA", nNota, nNota, 1, xCaminhoXML)
+   iRetorno = sistNFe.InutilizarNumeracao(Format(Date, "yyyy"), cnpj, "ERRO AO TRANSMITIR NOTA, PERDA DE SEQUENCIA", nNota, nNota, 1, xCaminhoXML)
    cStat = sistNFe.retInutilizacao.infInut.cStat
    NFeMotivo = sistNFe.retInutilizacao.infInut.xMotivo
    NFeDataHora = sistNFe.retInutilizacao.infInut.dhRecbto
@@ -11286,6 +11386,7 @@ If TbNotas.RecordCount > 0 Then totalRegistros = TbNotas.RecordCount
         txtInfComple.Text = "EMPRESA ME OU EPP OPTANTE PELO SIMPLES NACIONAL NÃO GERA DIREITO A CREDITO FISCAL DE ICMS OU ISS."
         vUltimoTextoAutoInfComple = txtInfComple.Text
     End If
+    ChkTributosPadrao
     
     Mostrar_AliqUF
     cboTipoDest.SetFocus
@@ -11536,7 +11637,7 @@ vNotaCancelada = (GridNotas.TextMatrix(GridNotas.Row, 7) = "Cancelada")
      xCaminhoXML = dirXML & "\nfe\arquivos\procNFe\" & Format(vDataProt, "yyyymm") & "\" & vChave & "-procNFe.xml"
      xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\NFe" & vChave & ".pdf"
      
-     If Not Existe(xCaminhoXML) Then
+     If Not existe(xCaminhoXML) Then
          Dim vMaquinaOrigem As String
          vMaquinaOrigem = SQLExecutaRetorno("SELECT MAQUINA FROM NotaFiscal WHERE CodigoNota = " & Val(GridNotas.TextMatrix(GridNotas.Row, 1)), "MAQUINA", "")
          If Vazio(vMaquinaOrigem) Then
@@ -12530,6 +12631,7 @@ optCodProd.Visible = bUsaOS
 optCodBarra.Visible = bUsaOS
 optCodBarra.Value = True
 chkDadosVeiculo.Visible = bUsaOS
+chkTributos.Visible = True
 chkDadosVeiculo.Value = 0
 bUsaOSNFe = bUsaOS
 cmdConsultarVeiculos.Visible = bUsaOS
@@ -12585,9 +12687,9 @@ cboConNotaMes.Text = Format(Date, "mmmm")
 cboConNotaAno.Text = Year(Date)
 cmdExibirConNotas_Click
 
-Dim oIniMaquina As Ini
-Set oIniMaquina = New Ini
-oIniMaquina.Arquivo = appPathApp & "config.ini"
+Dim oIniMaquina As ini
+Set oIniMaquina = New ini
+oIniMaquina.arquivo = appPathApp & "config.ini"
 StatusBar1.Panels(2).Text = oIniMaquina.LerTexto("DADOS_MAQUINA", "maquina")
 Set oIniMaquina = Nothing
 
@@ -12653,7 +12755,7 @@ Private Sub Label26_Click()
 'chkDesc_Click
 End Sub
 
-Private Sub lblCodFabrica_Click(index As Integer)
+Private Sub lblCodFabrica_Click(Index As Integer)
 'chkCodBarra.Value = 1
 'chkCodBarra_Click
 End Sub

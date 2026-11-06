@@ -236,6 +236,14 @@ Dim sResultado As String
     FormatarMensagemRejeicao = sResultado
 End Function
 
+'Config EXIBIR_TRIBUTOS (Configuracao_Geral > PDV): 1 = escreve o valor aproximado dos tributos (Lei 12.741) nos documentos;
+'0 (padrao) ou linha ainda nao criada = nao escreve. O vTotTrib do XML e enviado de qualquer jeito.
+Public Function ExibirTributosConfig() As Boolean
+On Error Resume Next
+ExibirTributosConfig = (CStr(sysConfig("EXIBIR_TRIBUTOS").Value) = "1")
+If Err.Number <> 0 Then ExibirTributosConfig = False
+End Function
+
 Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
 Dim txtNumerado As String, Retorno As String, vsNFe As String, dhEmi As String, dhProtocolo As String
 Dim Parametros As New ADODB.Recordset, Destinatario As New ADODB.Recordset, Produtos As New ADODB.Recordset
@@ -500,12 +508,9 @@ End If
         
         '================grupo de detalhe do produto (grupo I01 do Manual de integração - páginas 95)=======================
         Dim infAdiProd As String
-        If NFeItens!ValorTributos > 0 Then
-           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informações adicionais do produto
-           vlTrib = vlTrib + NFeItens!ValorTributos
-        Else
-           infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 500)))     ' informações adicionais do produto
-        End If
+        'o valor aproximado dos tributos por item nao e mais escrito aqui: so soma para o vTotTrib; o total aparece em informacoes complementares (NFe_Completa.chkTributos)
+        If NFeItens!ValorTributos > 0 Then vlTrib = vlTrib + NFeItens!ValorTributos
+        infAdiProd = RemoveAcento(Trim(Left(NFeItens!InformacoesAdicionaisProduto, 500)))     ' informações adicionais do produto
         
         If NFeItens!TipoProduto = "Combustível" Then infAdiProd = "ICMS monofasico sobre combustiveis cobrado anteriormente conforme Convenio ICMS 199/2022. " + infAdiProd
         
@@ -1564,12 +1569,12 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     For i = 1 To NFeItens.RecordCount
         '================grupo de detalhe do produto (grupo I01 do Manual de integração - páginas 95)=======================
         Dim infAdProd As String, pAliqSN As Double, vCredSN As Double, vlCredICMSSN As Double
-        If NFeItens!ValorTributos > 0 Then
+        If NFeItens!ValorTributos > 0 And ExibirTributosConfig() Then
            infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 400))) & " - Valor Aproximado dos Tributos R$ " & Substitui(Format(NFeItens!ValorTributos, "#0.00"), ",", ".", UM_A_UM)        ' informações adicionais do produto
-           vlTrib = vlTrib + NFeItens!ValorTributos
         Else
            infAdProd = RemoveAcento(Trim(Left(NFeItens!ProdInfAdicional, 500)))     ' informações adicionais do produto
         End If
+        If NFeItens!ValorTributos > 0 Then vlTrib = vlTrib + NFeItens!ValorTributos
         
         'desativei pq nao encontrei o campo TipoProduto na tabela de NFCeItens
         'If NFeCombustivel.RecordCount > 0 Then infAdProd = "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022. " + infAdProd
@@ -1791,7 +1796,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     obsCpl = obsCpl & IIf(Not Vazio(NFe!Linha3), " " & RemoveAcento(Trim(NFe!Linha3)), "")
     obsCpl = obsCpl & IIf(Not Vazio(NFe!Linha4), " " & RemoveAcento(Trim(NFe!Linha4)), "")
     obsCpl = obsCpl & IIf(Not Vazio(NFe!Linha5), " " & RemoveAcento(Trim(NFe!Linha5)), "")
-    If vlTrib > 0 And vlNF > 0 Then
+    If vlTrib > 0 And vlNF > 0 And ExibirTributosConfig() Then
        vlNF = (NFe!Valor_NF_Prod - NFe!DescontoPromocional) + (NFe!Valor_Frete + NFe!Valor_Seguro + NFe!Valor_IPI + NFe!OutrasDespesasAces + NFe!ValorImpostoImportacao)
        pTributos = Format((vlTrib / vlNF) * 100, "#0.00")
        obsCpl = obsCpl & " - Valor Aproximado dos Tributos R$ " & FormatoDecimal(Format(vlTrib, "#0.00")) & " (" & FormatoDecimal(pTributos) & "%) (Conforme Lei Fed. 12.741/2012) Fonte: IBPT"
