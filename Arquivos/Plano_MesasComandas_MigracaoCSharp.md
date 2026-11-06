@@ -233,6 +233,29 @@ notebook principal) — mas como o código fica sincronizado via Git, o estado d
 está sempre atualizado independente disso. Esse arquivo aqui é exatamente a ponte pra não
 perder o contexto da CONVERSA (decisões, plano, motivação) entre as duas sessões.
 
+## Requisito futuro: PDV com tela responsiva (anotado em 2026-11-05)
+
+O PDV atual em VB6 (`PDV.frm`) tem **tela de tamanho fixo** (desenhada em torno de 1024×768,
+imagem de fundo, `chameleonButton` e coordenadas absolutas). Concorrentes têm telas que
+acompanham o monitor. Em VB6 só dá com código de redimensionamento no `Form_Resize` (zoom
+proporcional ou re-layout manual por região), caro e arriscado num form gigante com muitos
+frames; por isso **não será feito no VB6** — fica como requisito do PDV novo na migração.
+
+Requisitos para o PDV em C#/.NET:
+
+- **Layout responsivo por regiões** (cabeçalho, grid de itens, totais, barra de ações), não por
+  coordenadas: o grid de itens cresce, o painel de total fica ancorado à direita, as ações ao rodapé.
+- **Escala do Windows (125%/150%) e várias resoluções** (ex.: 1366×768, Full HD) testadas desde o
+  início, não só no final. O VB6 não lida bem com DPI escalado.
+- **Touch**: botões grandes e espaçamento adequado, se houver clientes com tela sensível ao toque
+  (perguntar quais resoluções/escala/touch os clientes usam antes de fechar o desenho).
+- **Imagem de fundo** que aceite corte ou gradiente (não esticar/deformar em outras proporções).
+- **Escolha da tecnologia de tela do PDV (em aberto)**: o plano acima prevê Blazor/web para
+  Mesas/Comandas, mas o PDV depende de periféricos (impressora fiscal/térmica, balança, leitor,
+  gaveta, NFC-e) — avaliar **WPF** (melhor para layout fluido/visual próprio/touch) ou
+  **WinForms** (mais simples, `Dock`/`Anchor`/`TableLayoutPanel`) para o PDV de balcão, e deixar
+  Blazor/MAUI para mesas, garçom e painel do dono.
+
 ## Próximos passos (nada disso foi feito ainda)
 
 1. ~~Usuário vai reassistir o vídeo de referência e listar os recursos da tela de mesas com

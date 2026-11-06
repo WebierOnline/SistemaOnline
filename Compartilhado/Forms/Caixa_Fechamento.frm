@@ -2293,12 +2293,67 @@ End Sub
 
 
 
+'Protege a abertura do caixa contra o relogio do PC errado (pilha da placa-mae fraca: ao ligar, o Windows
+'volta para a data da BIOS e so corrige depois, quando sincroniza). A data da abertura:
+'  - nunca pode ser anterior ao ultimo caixa registrado (abertura ou fechamento de qualquer caixa) -> bloqueia
+'  - muito adiantada em relacao ao ultimo caixa (mais de DIAS_SALTO_ALERTA dias) -> pede confirmacao
+'Chamada ANTES do BEGIN TRANSACTION (leitura fora da transacao)
+Private Function ValidarDataAberturaCaixa() As Boolean
+Const DIAS_SALTO_ALERTA As Long = 10
+Dim rsU As ADODB.Recordset
+Dim dAbertura As Date
+Dim dUltima As Date
+Dim lDias As Long
+
+ValidarDataAberturaCaixa = False
+
+'sem data valida no painel o proprio INSERT acusa - nao e papel desta checagem
+If Not IsDate(StatusBar1.Panels(4).Text) Then
+   ValidarDataAberturaCaixa = True
+   Exit Function
+End If
+dAbertura = CDate(StatusBar1.Panels(4).Text)
+
+Set rsU = dbData.OpenRecordset("SELECT MAX(d) AS ultima FROM (SELECT DATA_ABERTURA AS d FROM caixa_dia UNION ALL SELECT DATA_FECHAMENTO FROM caixa_dia) x;")
+dUltima = 0
+If Not rsU.EOF Then
+   If Not IsNull(rsU("ultima")) Then dUltima = Int(CDate(rsU("ultima")))
+End If
+If rsU.State <> 0 Then rsU.Close
+Set rsU = Nothing
+
+'primeiro caixa do sistema: nada para comparar
+If dUltima = 0 Then
+   ValidarDataAberturaCaixa = True
+   Exit Function
+End If
+
+If dAbertura < dUltima Then
+   MsgBox "A data da abertura (" & Format(dAbertura, "dd/mm/yyyy") & ") é anterior ao último caixa registrado (" & Format(dUltima, "dd/mm/yyyy") & ")." & vbCrLf & vbCrLf & _
+          "O relógio do computador pode estar errado (bateria da placa-mãe fraca). Acerte a data e a hora do Windows, feche esta tela e abra o caixa novamente.", vbExclamation, "Aviso do Sistema"
+   Exit Function
+End If
+
+lDias = DateDiff("d", dUltima, dAbertura)
+If lDias > DIAS_SALTO_ALERTA Then
+   If MsgBox("A data da abertura (" & Format(dAbertura, "dd/mm/yyyy") & ") está " & lDias & " dias à frente do último caixa registrado (" & Format(dUltima, "dd/mm/yyyy") & ")." & vbCrLf & vbCrLf & _
+             "Confira se a data do computador está correta. Abrir o caixa com essa data?", vbQuestion + vbYesNo + vbDefaultButton2, "Aviso do Sistema") = vbNo Then Exit Function
+End If
+
+ValidarDataAberturaCaixa = True
+End Function
+
 Private Sub cmdReativar_Click()
 Dim var_CodSequencia As Long
 Dim var_CodCaixa As Long
 Dim bTrans As Boolean
 
 If txtCodFuncAP.Text = "" Then MsgBox "Coloque o Cód de Funcinario!", vbInformation, "Aviso do Sistema": txtCodFuncAP.SetFocus: Exit Sub
+
+'abrir caixa novo: a data nao pode voltar no tempo (relogio do PC errado) - so na abertura, nao na reativacao
+If cmdReativar.Caption = "Abrir Caixa" Then
+   If Not ValidarDataAberturaCaixa() Then Exit Sub
+End If
 
 On Error GoTo ErrHandlerReativar
 dbData.Execute "BEGIN TRANSACTION"

@@ -3370,27 +3370,6 @@ Begin VB.Form PDV
       Visible         =   0   'False
       Width           =   375
    End
-   Begin VB.Label lblMSG1 
-      Alignment       =   2  'Center
-      AutoSize        =   -1  'True
-      Caption         =   "Há NFCe não Transmitida!!"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H000000FF&
-      Height          =   210
-      Left            =   13140
-      TabIndex        =   160
-      Top             =   10140
-      Visible         =   0   'False
-      Width           =   2145
-   End
    Begin VB.Label lblAlerta 
       Alignment       =   1  'Right Justify
       AutoSize        =   -1  'True
@@ -3495,14 +3474,6 @@ Begin VB.Form PDV
       TabIndex        =   81
       Top             =   9660
       Width           =   1755
-   End
-   Begin VB.Label lblTipoVenda 
-      Height          =   315
-      Left            =   10800
-      TabIndex        =   80
-      Top             =   10320
-      Visible         =   0   'False
-      Width           =   2055
    End
    Begin VB.Label lblTipoPedido 
       Height          =   315
@@ -3612,6 +3583,12 @@ Dim vBotaoOrcamento As Boolean
 Dim vBotaoOrcAtivo As Boolean
 
 Dim CAIXA_FECHADO As Boolean    'caixa
+Dim vLoginConcluido As Boolean          'True depois do login do PDV - o aviso de caixa antigo so aparece depois dele
+Dim vDataAberturaCaixa As Date          'data de abertura do caixa aberto desta maquina (0 = nenhum)
+Dim vCaixaReaberto As Boolean            'caixa aberto foi reaberto pelo Fluxo_Caixa (caixa_dia.REABERTO) - nao e tratado como caixa antigo
+Dim vAvisoCaixaAntigoMostrado As Boolean   'a mensagem completa aparece uma vez por execucao
+Dim vAvisoRelogioMostrado As Boolean   'o aviso de relogio errado aparece uma vez por abertura
+Private Const HORA_LIMITE_CAIXA_ANTIGO = 6   'caixa aberto de ontem so e "antigo" a partir das 6h de hoje (bares/distribuidoras viram a madrugada)
 Dim varCodCaixa As Long         'caixa
 Dim vBloqueadoPorFalhaConexao As Boolean    'controla se os botoes de aãço foram desabilitados por queda de conexao (Verificar_Caixa)
 
@@ -3890,7 +3867,6 @@ If varTipoValorVenda = 1 Then
     End If
     HabilitaObjetosVenda False
     'If txtCodBarra.Enabled = True Then txtCodBarra.SetFocus
-    lblTipoVenda.Caption = ""
 ElseIf varTipoValorVenda = 2 Then
     'txtCodBarra.Enabled = False
     'If CAIXA_FECHADO = False Then frmTipoVenda.Visible = True
@@ -3903,7 +3879,6 @@ ElseIf varTipoValorVenda = 2 Then
         If txtCodBarra.Enabled = True Then txtCodBarra.SetFocus
     End If
     'txtCodBarra.SetFocus
-    lblTipoVenda.Caption = ""
 End If
 Exit Sub
 
@@ -6838,6 +6813,115 @@ Private Sub cmdAvanVendaTransferir_Click()
 pTransferirVendaCaixa
 End Sub
 
+'Relogio do computador coerente? Vendas e OS gravam a data/hora do PROPRIO computador; com a pilha da placa-mae fraca o
+'Windows liga com a data da BIOS (ex.: 2022) e so corrige depois. Compara com (1) a abertura do caixa, que nao pode ser
+'posterior a hoje, e (2) a hora do servidor SQL (diferenca maior que 24h). Mostra a mensagem e devolve False se nao confere.
+'Sem resposta do banco nao bloqueia por causa desta checagem.
+Private Function RelogioConfere() As Boolean
+Dim rsH As ADODB.Recordset
+Dim dServidor As Date
+Dim sDetalhe As String
+
+RelogioConfere = True
+On Error GoTo SemChecagem
+
+If vDataAberturaCaixa <> 0 Then
+   If Date < vDataAberturaCaixa Then
+      sDetalhe = "A data do computador (" & Format(Date, "dd/mm/yyyy") & ") é anterior à abertura do caixa (" & Format(vDataAberturaCaixa, "dd/mm/yyyy") & ")."
+   End If
+End If
+
+If sDetalhe = "" Then
+   Set rsH = dbData.OpenRecordset("SELECT GETDATE() AS agora;")
+   If Not rsH.EOF Then
+      If Not IsNull(rsH("agora")) Then dServidor = CDate(rsH("agora"))
+   End If
+   If rsH.State <> 0 Then rsH.Close
+   Set rsH = Nothing
+
+   If dServidor <> 0 Then
+      If Abs(DateDiff("n", dServidor, Now)) > 1440 Then
+         sDetalhe = "O computador está com data e hora diferentes do servidor (computador: " & Format(Now, "dd/mm/yyyy hh:nn") & " / servidor: " & Format(dServidor, "dd/mm/yyyy hh:nn") & ")."
+      End If
+   End If
+End If
+
+If sDetalhe <> "" Then
+   RelogioConfere = False
+   MsgBox "ATENÇÃO: DATA DO COMPUTADOR INCORRETA" & vbCrLf & vbCrLf & sDetalhe & vbCrLf & vbCrLf & _
+          "Acerte a data e a hora do Windows antes de vender, para que a venda não seja gravada com a data errada.", vbExclamation, "Aviso do Sistema"
+End If
+Exit Function
+
+SemChecagem:
+RelogioConfere = True
+End Function
+
+'Le caixa_dia.REABERTO do registro atual (a coluna e gravada pelo Fluxo_Caixa ao reabrir um caixa antigo);
+'procura pelo nome para nao quebrar em banco sem a coluna
+Private Function CaixaMarcadoReaberto(rs As ADODB.Recordset) As Boolean
+Dim f As ADODB.Field
+CaixaMarcadoReaberto = False
+For Each f In rs.Fields
+    If UCase(f.Name) = "REABERTO" Then
+       If Not IsNull(f.Value) Then CaixaMarcadoReaberto = CBool(f.Value)
+       Exit For
+    End If
+Next
+End Function
+
+'Caixa aberto de um dia anterior so e "antigo" depois das 6h da manha do dia seguinte
+'(bares e distribuidoras abrem num dia e fecham na madrugada, sem alerta nem bloqueio)
+Private Function CaixaAntigoVencido() As Boolean
+CaixaAntigoVencido = False
+If vDataAberturaCaixa = 0 Then Exit Function
+If vCaixaReaberto Then Exit Function   'reaberto de proposito (troca/devolucao de venda de outro dia): nao bloqueia
+If Now >= DateAdd("h", 24 + HORA_LIMITE_CAIXA_ANTIGO, vDataAberturaCaixa) Then CaixaAntigoVencido = True
+End Function
+
+'Caixa antigo aberto: bloqueia as vendas (reaproveita o bloqueio de caixa fechado, com o botao levando ao
+'fechamento) e, depois do login, avisa no rodape (lblRotuloAberto) e numa mensagem unica
+Private Sub AtualizarAvisoCaixaAntigo()
+If CaixaAntigoVencido() Then
+    CAIXA_FECHADO = True
+    Label12.Caption = "FECHE O CAIXA ANTIGO!"
+    cmdAbrirCaixa.Caption = "1 - FECHAR O CAIXA"
+
+    If vLoginConcluido Then
+        lblRotuloAberto.Caption = "ATENÇÃO: CAIXA ANTIGO ABERTO (" & Format(vDataAberturaCaixa, "dd/mm/yy") & ")"
+        lblRotuloAberto.ForeColor = vbRed
+        lblRotuloAberto.FontBold = True
+        lblRotuloAberto.Left = 15255 - lblRotuloAberto.Width   'mantem a borda direita onde estava a data
+        lblRotuloAberto.Visible = True
+        lblDataAberturaCaixa.Visible = False
+        lblAlerta.Visible = True
+
+        If Not vAvisoCaixaAntigoMostrado Then
+            vAvisoCaixaAntigoMostrado = True
+            MsgBox "ATENÇÃO: CAIXA ANTIGO ABERTO (" & Format(vDataAberturaCaixa, "dd/mm/yy") & ")" & vbCrLf & vbCrLf & _
+                   "Identificamos que o caixa do dia anterior não foi fechado." & vbCrLf & _
+                   "O que fazer? Feche o caixa antigo antes de iniciar as vendas de hoje.", vbExclamation, "Aviso do Sistema"
+        End If
+    End If
+Else
+    Label12.Caption = "SEU CAIXA ENCONTRA-SE FECHADO!"
+    cmdAbrirCaixa.Caption = "1 - ABRIR O CAIXA"
+    lblRotuloAberto.Caption = "Caixa Atual Aberto:"
+    lblRotuloAberto.ForeColor = vbBlack
+    lblRotuloAberto.FontBold = False
+    lblRotuloAberto.Left = 12780
+    lblRotuloAberto.Visible = False
+    lblDataAberturaCaixa.Visible = False
+    lblAlerta.Visible = False
+End If
+
+'relogio do computador errado: avisa uma vez depois do login (o bloqueio e ao finalizar a venda)
+If vLoginConcluido And Not vAvisoRelogioMostrado Then
+    vAvisoRelogioMostrado = True
+    RelogioConfere
+End If
+End Sub
+
 Private Sub Verificar_Caixa()
 sSQL = "SELECT * " & _
        "FROM caixa_dia " & _
@@ -6886,22 +6970,17 @@ If r.BOF Then
     varCodCaixa = CInt(0)
     StatusBar1.Panels(5).Text = Format(varCodCaixa, "0000")
     CAIXA_FECHADO = True
+    vDataAberturaCaixa = 0
+    vCaixaReaberto = False
 Else
-    If CDate(r("DATA_ABERTURA")) <> Date Then
-        MsgBox "A data do caixa aberto é diferente da data atual!", vbInformation, "Aviso do Sistema"
-        lblAlerta.Visible = True
-        lblRotuloAberto.Visible = True
-        lblDataAberturaCaixa.Visible = True
-    Else
-        lblAlerta.Visible = False
-        lblRotuloAberto.Visible = False
-        lblDataAberturaCaixa.Visible = False
-    End If
+    vDataAberturaCaixa = Int(CDate(r("DATA_ABERTURA")))
+    vCaixaReaberto = CaixaMarcadoReaberto(r)
     varCodCaixa = CInt(r("codcaixa"))
     StatusBar1.Panels(5).Text = Format(varCodCaixa, "0000")
     lblDataAberturaCaixa.Caption = CDate(r("DATA_ABERTURA"))
     CAIXA_FECHADO = False
 End If
+AtualizarAvisoCaixaAntigo
 
 If CAIXA_FECHADO = True Then
     If vBotaoOrcamento = False Then
@@ -9297,260 +9376,138 @@ Dim varTipoCartao As String
 vDataFlexivel = False
 cmdCal1.Enabled = False
 
-If CDate(lblDataAberturaCaixa.Caption) <> Date Then
-    If MsgBox("A data do caixa aberto é diferente da data atual. Continuar mesmo assim?", vbQuestion + vbYesNo, "Alerta") = vbYes Then
-        If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
-        cboTipoPgto.Text = "À VISTA"
-        frmVendaFechamento.Visible = True
-        LimparObjetos_Prazo
-        txtSubtotal.Text = txtTotalGeral.Text
-        txtAcresc.Text = FormatNumber(0, 2)
-        txtFrete.Text = FormatNumber(0, 2)
-        
-        If lblEstornar.Caption = "ESTORNO" Then
-            sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            'txtCodCliente.Text = ""
-            
-            If Not r.EOF Then
-                 
-                If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
-                    mskInicio.Text = Format(Date, "dd/mm/yy")
-                    mskTermino.Text = Format(Date, "dd/mm/yy")
-                    txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
-                Else
-                    txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    'txtHoraCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
-                    mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
-                End If
-                
-                txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
-                txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
-                'lblTipoPedido.Caption = ValidateNull(r("tipo_pedido"))
-                varTipoPgto = ValidateNull(r("pagamento"))
-                varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
-                
-                If r("TIPO_DESC") = "P" Then
-                    optDescPorc.Value = True
-                Else
-                    optDescRS.Value = True
-                End If
-                
-                txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
-                If r("TIPO_ACRESCIMO") = "R" Then
-                    optAscrescRS.Value = True
-                Else
-                    optAscrescPorc.Value = True
-                End If
-                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
-                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
-        
-                 If varTipoPgto = "DINHEIRO" Then
-                     cboFormaPgto.Text = "1 - DINHEIRO"
-                 ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
-                 ElseIf varTipoPgto = "CHEQUE" Then
-                     cboFormaPgto.Text = "5 - CHEQUE"
-                 ElseIf varTipoPgto = "BOLETO" Then
-                     cboFormaPgto.Text = "6 - BOLETO"
-                 ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboFormaPgto.Text = "9 - FINANCEIRA"
-                 End If
-                 
-                cboFormaPgto.Text = "1 - DINHEIRO"
-                cboQuantForma.Text = "1 - FORMA"
-                
-                txtRecebido.SetFocus
-            End If
-                Calcular_Desconto
-                'Calcular_Prazo
-        Else
-            
-            cboFormaPgto.Text = "1 - DINHEIRO"
-            cboQuantForma.Text = "1 - FORMA"
-            optDescPorc.Value = False
-            optDescPorc.Value = True
-            cboQuantForma_LostFocus
-            
-            'limpar campo funcionario
-            'If varLoginFunc <> "" Then
-               If varLoginFunc = "2" Then
-                  If lblEstornar.Caption <> "ESTORNO" Then
-                     txtCodFuncAP.Text = ""
-                     txtFuncAP.Text = ""
-                     txtCodFuncAP.SetFocus
-                  Else
-                     'cboCliente.SetFocus
-                  End If
-               Else
-                  'cboCliente.SetFocus
-               End If
-            'End If
-            
-            'If lblEstornar.Caption = "ESTORNO" Then
-            
-                mskInicio.Text = Format(Date, "dd/mm/yy")
-                mskTermino.Text = Format(Date, "dd/mm/yy")
-                'optDescPorc.Value = True
-                'cboCliente.Text = ""
-                BuscarClienteConsumidor    'desabilitei para testar no caskback
-                Mostrar_Desconto
-                Calcular_Desconto
-                'Calcular_Prazo
-                If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-                If varLoginFunc = "2" Then txtFuncAP.Text = ""
-                If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else txtRecebido.SetFocus
-            
-            'HabilitaObjetosVenda True
-        End If
-        
-        cmdFinalizarAvista.Enabled = False
-        cmdFinalizarPrazo.Enabled = False
-        cmdOrçamento.Enabled = False
-        cmdCancelarPedido.Enabled = False
-        cmdRemover.Enabled = False
-        cmdAvancado.Enabled = False
-        cmdInfProduto.Enabled = False
-        Grid.Enabled = False
-        txtCodBarra.Enabled = False
-        txtValor.Enabled = False
-        txtQuant.Enabled = False
-        txtTotal.Enabled = False
-    End If
-Else
-        If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
-        cboTipoPgto.Text = "À VISTA"
-        frmVendaFechamento.Visible = True
-        LimparObjetos_Prazo
-        txtSubtotal.Text = txtTotalGeral.Text
-        txtAcresc.Text = FormatNumber(0, 2)
-        txtFrete.Text = FormatNumber(0, 2)
-        
-        If lblEstornar.Caption = "ESTORNO" Then
-            sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            'txtCodCliente.Text = ""
-            
-            If Not r.EOF Then
-
-                
-                If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
-                    mskInicio.Text = Format(Date, "dd/mm/yy")
-                    mskTermino.Text = Format(Date, "dd/mm/yy")
-                    txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
-                Else
-                    txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    'txtHoraCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
-                    mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
-                End If
-                
-                txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
-                txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
-                'lblTipoPedido.Caption = ValidateNull(r("tipo_pedido"))
-                varTipoPgto = ValidateNull(r("pagamento"))
-                varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
-                
-                If r("TIPO_DESC") = "P" Then
-                    optDescPorc.Value = True
-                Else
-                    optDescRS.Value = True
-                End If
-                
-                txtDesc.Text = FormatNumber(r("VALOR_DESC"), 3)
-                If r("TIPO_ACRESCIMO") = "R" Then
-                    optAscrescRS.Value = True
-                Else
-                    optAscrescPorc.Value = True
-                End If
-                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
-                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
-        
-                 If varTipoPgto = "DINHEIRO" Then
-                     cboFormaPgto.Text = "1 - DINHEIRO"
-                 ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
-                 ElseIf varTipoPgto = "CHEQUE" Then
-                     cboFormaPgto.Text = "5 - CHEQUE"
-                 ElseIf varTipoPgto = "BOLETO" Then
-                     cboFormaPgto.Text = "6 - BOLETO"
-                 ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboFormaPgto.Text = "9 - FINANCEIRA"
-                 End If
-                 
-                cboFormaPgto.Text = "1 - DINHEIRO"
-                cboQuantForma.Text = "1 - FORMA"
-                
-                txtRecebido.SetFocus
-            End If
-                Calcular_Desconto
-                'Calcular_Prazo
-        Else
-            
-            cboFormaPgto.Text = "1 - DINHEIRO"
-            cboQuantForma.Text = "1 - FORMA"
-            optDescPorc.Value = False
-            optDescPorc.Value = True
-            cboQuantForma_LostFocus
-            
-            'limpar campo funcionario
-            'If varLoginFunc <> "" Then
-               If varLoginFunc = "2" Then
-                  If lblEstornar.Caption <> "ESTORNO" Then
-                     txtCodFuncAP.Text = ""
-                     txtFuncAP.Text = ""
-                     txtCodFuncAP.SetFocus
-                  Else
-                     'cboCliente.SetFocus
-                  End If
-               Else
-                  'cboCliente.SetFocus
-               End If
-            'End If
-            
-            'If lblEstornar.Caption = "ESTORNO" Then
-            
-                mskInicio.Text = Format(Date, "dd/mm/yy")
-                mskTermino.Text = Format(Date, "dd/mm/yy")
-                'optDescPorc.Value = True
-                'cboCliente.Text = ""
-                BuscarClienteConsumidor
-                Mostrar_Desconto
-                Calcular_Desconto
-                'Calcular_Prazo
-                If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-                If varLoginFunc = "2" Then txtFuncAP.Text = ""
-                If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else txtRecebido.SetFocus
-            
-            'HabilitaObjetosVenda True
-        End If
-        
-        cmdFinalizarAvista.Enabled = False
-        cmdFinalizarPrazo.Enabled = False
-        cmdOrçamento.Enabled = False
-        cmdCancelarPedido.Enabled = False
-        cmdRemover.Enabled = False
-        cmdAvancado.Enabled = False
-        cmdInfProduto.Enabled = False
-        Grid.Enabled = False
-        txtCodBarra.Enabled = False
-        txtValor.Enabled = False
-        txtQuant.Enabled = False
-        txtTotal.Enabled = False
+If CaixaAntigoVencido() Then
+    MsgBox "Caixa antigo aberto (" & Format(vDataAberturaCaixa, "dd/mm/yy") & ")! Feche o caixa antigo antes de vender.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
 End If
+
+If Not RelogioConfere() Then Exit Sub
+
+If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
+cboTipoPgto.Text = "À VISTA"
+frmVendaFechamento.Visible = True
+LimparObjetos_Prazo
+txtSubtotal.Text = txtTotalGeral.Text
+txtAcresc.Text = FormatNumber(0, 2)
+txtFrete.Text = FormatNumber(0, 2)
+
+If lblEstornar.Caption = "ESTORNO" Then
+    sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
+    Set r = dbData.OpenRecordset(sSQL)
+    
+    'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
+    'txtCodCliente.Text = ""
+    
+    If Not r.EOF Then
+
+        
+        If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
+            mskInicio.Text = Format(Date, "dd/mm/yy")
+            mskTermino.Text = Format(Date, "dd/mm/yy")
+            txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
+        Else
+            txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
+            'txtHoraCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
+            mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
+            mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
+        End If
+        
+        txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
+        txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
+        'lblTipoPedido.Caption = ValidateNull(r("tipo_pedido"))
+        varTipoPgto = ValidateNull(r("pagamento"))
+        varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
+        
+        If r("TIPO_DESC") = "P" Then
+            optDescPorc.Value = True
+        Else
+            optDescRS.Value = True
+        End If
+        
+        txtDesc.Text = FormatNumber(r("VALOR_DESC"), 3)
+        If r("TIPO_ACRESCIMO") = "R" Then
+            optAscrescRS.Value = True
+        Else
+            optAscrescPorc.Value = True
+        End If
+        txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+        txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
+
+         If varTipoPgto = "DINHEIRO" Then
+             cboFormaPgto.Text = "1 - DINHEIRO"
+         ElseIf varTipoPgto = "PROMISSORIA" Then
+             cboFormaPgto.Text = "2 - PROMISSÓRIA"
+         ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
+             cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
+         ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
+             cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
+         ElseIf varTipoPgto = "CHEQUE" Then
+             cboFormaPgto.Text = "5 - CHEQUE"
+         ElseIf varTipoPgto = "BOLETO" Then
+             cboFormaPgto.Text = "6 - BOLETO"
+         ElseIf varTipoPgto = "FINANCEIRA" Then
+             cboFormaPgto.Text = "9 - FINANCEIRA"
+         End If
+         
+        cboFormaPgto.Text = "1 - DINHEIRO"
+        cboQuantForma.Text = "1 - FORMA"
+        
+        txtRecebido.SetFocus
+    End If
+        Calcular_Desconto
+        'Calcular_Prazo
+Else
+    
+    cboFormaPgto.Text = "1 - DINHEIRO"
+    cboQuantForma.Text = "1 - FORMA"
+    optDescPorc.Value = False
+    optDescPorc.Value = True
+    cboQuantForma_LostFocus
+    
+    'limpar campo funcionario
+    'If varLoginFunc <> "" Then
+       If varLoginFunc = "2" Then
+          If lblEstornar.Caption <> "ESTORNO" Then
+             txtCodFuncAP.Text = ""
+             txtFuncAP.Text = ""
+             txtCodFuncAP.SetFocus
+          Else
+             'cboCliente.SetFocus
+          End If
+       Else
+          'cboCliente.SetFocus
+       End If
+    'End If
+    
+    'If lblEstornar.Caption = "ESTORNO" Then
+    
+        mskInicio.Text = Format(Date, "dd/mm/yy")
+        mskTermino.Text = Format(Date, "dd/mm/yy")
+        'optDescPorc.Value = True
+        'cboCliente.Text = ""
+        BuscarClienteConsumidor
+        Mostrar_Desconto
+        Calcular_Desconto
+        'Calcular_Prazo
+        If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
+        If varLoginFunc = "2" Then txtFuncAP.Text = ""
+        If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else txtRecebido.SetFocus
+    
+    'HabilitaObjetosVenda True
+End If
+
+cmdFinalizarAvista.Enabled = False
+cmdFinalizarPrazo.Enabled = False
+cmdOrçamento.Enabled = False
+cmdCancelarPedido.Enabled = False
+cmdRemover.Enabled = False
+cmdAvancado.Enabled = False
+cmdInfProduto.Enabled = False
+Grid.Enabled = False
+txtCodBarra.Enabled = False
+txtValor.Enabled = False
+txtQuant.Enabled = False
+txtTotal.Enabled = False
 cmdFinalizar.Enabled = True
 End Sub
 
@@ -9607,10 +9564,6 @@ End Sub
 
 
 
-Private Sub lblMsg1_Click()
-Estonar.Show
-End Sub
-
 Private Sub MSComm1_OnComm()
 If MSComm1.CommEvent = comEvReceive Then
     Delay (100)
@@ -9649,301 +9602,162 @@ Set oCfgBloqueioAPrazo = Nothing
 vDataFlexivel = False
 cmdCal1.Enabled = True
 
-If CDate(lblDataAberturaCaixa.Caption) <> Date Then
-    If MsgBox("A data do caixa aberto é diferente da data atual. Continuar mesmo assim?", vbQuestion + vbYesNo, "Alerta") = vbYes Then
-        If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
-        cboTipoPgto.Text = "À PRAZO"
-        frmVendaFechamento.Visible = True
-        LimparObjetos_Prazo
-        txtSubtotal.Text = txtTotalGeral.Text
-        txtAcresc.Text = FormatNumber(0, 2)
-        txtFrete.Text = FormatNumber(0, 2)
-        HabilitaObjetosVenda True
-        
-        If lblEstornar.Caption = "ESTORNO" Then
+If CaixaAntigoVencido() Then
+    MsgBox "Caixa antigo aberto (" & Format(vDataAberturaCaixa, "dd/mm/yy") & ")! Feche o caixa antigo antes de vender.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
 
-            sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            'txtCodCliente.Text = ""
-            
-            If Not r.EOF Then
-                If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
-                    mskInicio.Text = Format(Date, "dd/mm/yy")
-                    mskTermino.Text = Format(Date, "dd/mm/yy")
-                    txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
-                Else
-                    txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
-                    mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
-                End If
+If Not RelogioConfere() Then Exit Sub
 
-                varTipoPgto = ValidateNull(r("pagamento"))
-                varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
-                
-                If r("TIPO_DESC") = "P" Then
-                    optDescPorc.Value = True
-                Else
-                    optDescRS.Value = True
-                End If
-                
-                txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
-                If r("TIPO_ACRESCIMO") = "R" Then
-                    optAscrescRS.Value = True
-                Else
-                    optAscrescPorc.Value = True
-                End If
-                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
-                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
-                
-                 If varTipoPgto = "DINHEIRO" Then
-                     cboFormaPgto.Text = "1 - DINHEIRO"
-                 ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
-                 ElseIf varTipoPgto = "CHEQUE" Then
-                     cboFormaPgto.Text = "5 - CHEQUE"
-                 ElseIf varTipoPgto = "BOLETO" Then
-                     cboFormaPgto.Text = "6 - BOLETO"
-                 ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboFormaPgto.Text = "9 - FINANCEIRA"
-                 End If
-                 
-                cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                cboQuantForma.Text = "1 - SEM ENTRADA"
-                
-                txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
-                txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
-                
-                txtRecebido.SetFocus
-                Calcular_Desconto
-                Calcular_Parcelas
-                Calcular_Prazo
-            End If
-        Else
-            cboFormaPgto.Text = "2 - PROMISSÓRIA"
-            cboQuantForma.Text = "1 - SEM ENTRADA"
-            'mskInicio.Text = Format(txtDataCompra, "dd/mm/yy")
-            Mostrar_ValorRestante
-            Calcular_Parcelas
-            Calcular_Prazo
-            optDescPorc.Value = False
+If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
+cboTipoPgto.Text = "À PRAZO"
+frmVendaFechamento.Visible = True
+LimparObjetos_Prazo
+txtSubtotal.Text = txtTotalGeral.Text
+txtAcresc.Text = FormatNumber(0, 2)
+txtFrete.Text = FormatNumber(0, 2)
+HabilitaObjetosVenda True
+
+If lblEstornar.Caption = "ESTORNO" Then
+    'If r.State <> 0 Then r.Close
+    'Set r = Nothing
+
+    sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
+    Set r = dbData.OpenRecordset(sSQL)
+    
+    'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
+    'txtCodCliente.Text = ""
+    
+    'Debug.Print sSQL
+    
+    If Not r.EOF Then
+        'MsgBox r("pagamento")
+        varTipoPgto = ValidateNull(r("pagamento"))
+        varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
+        If r("TIPO_DESC") = "P" Then
             optDescPorc.Value = True
-            
-            'mostrar o DESCONTO
-            'If vValorDescFixoAP <> "" Then
-            '   txtDesc.Text = Format(0, ocMONEY)
-            '   optDescPorc.Value = True
-            '   txtDesc.Text = Format(vValorDescFixoAP, ocMONEY)
-            'Else
-            '   txtDesc.Text = Format(0, ocMONEY)
-            'End If
-            
-            'txtAcresc.Text = Format(0, ocMONEY)
-            
-            
-            'limpar campo funcionario
-        '    If varLoginFunc <> "" Then
-               If varLoginFunc = "2" Then
-                  If lblEstornar.Caption <> "ESTORNO" Then
-                     txtCodFuncAP.Text = ""
-                     txtFuncAP.Text = ""
-                     txtCodFuncAP.SetFocus
-                  Else
-                     txtEntrada.SetFocus
-                  End If
-               Else
-                  'cboCliente.SetFocus
-               End If
-         '   End If
-            
-            'Preencher_FormaPgto
-            'cboformaPgto.ListIndex = 0
-            Mostrar_Desconto
-            Calcular_Desconto
-            'Calcular_Prazo
-            
-            If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            If varLoginFunc = "2" Then txtFuncAP.Text = ""
-            If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else cboCliente.SetFocus
-            
-            'HabilitaObjetosVenda True
+        Else
+            optDescRS.Value = True
         End If
         
-        If lblEstornar.Caption <> "ESTORNO" And lblEstornar.Caption <> "REIMPRESSÃO" Then
-           cboCliente.Clear
+        txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
+        If r("TIPO_ACRESCIMO") = "R" Then
+            optAscrescRS.Value = True
+        Else
+            optAscrescPorc.Value = True
+        End If
+        txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
+        txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
+        
+         If varTipoPgto = "DINHEIRO" Then
+             cboFormaPgto.Text = "1 - DINHEIRO"
+         ElseIf varTipoPgto = "PROMISSORIA" Then
+             cboFormaPgto.Text = "2 - PROMISSÓRIA"
+         ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
+             cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
+         ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
+             cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
+         ElseIf varTipoPgto = "CHEQUE" Then
+             cboFormaPgto.Text = "5 - CHEQUE"
+         ElseIf varTipoPgto = "BOLETO" Then
+             cboFormaPgto.Text = "6 - BOLETO"
+         ElseIf varTipoPgto = "FINANCEIRA" Then
+             cboFormaPgto.Text = "9 - FINANCEIRA"
+         End If
+         
+        cboFormaPgto.Text = "2 - PROMISSÓRIA"
+        cboQuantForma.Text = "1 - SEM ENTRADA"
+        
+        If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
+            mskInicio.Text = Format(Date, "dd/mm/yy")
+            mskTermino.Text = Format(Date, "dd/mm/yy")
+            txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
+        Else
+            txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
+            mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
+            mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
         End If
         
-        HabilitaObjetosVenda False
+        txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
+        txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
+        'lblTipoPedido.Caption = ValidateNull(r("tipo_pedido"))
+
         
-        cmdFinalizarAvista.Enabled = False
-        cmdFinalizarPrazo.Enabled = False
-        cmdOrçamento.Enabled = False
-        cmdCancelarPedido.Enabled = False
-        cmdRemover.Enabled = False
-        cmdAvancado.Enabled = False
-        cmdInfProduto.Enabled = False
-        Grid.Enabled = False
-        txtCodBarra.Enabled = False
-        txtValor.Enabled = False
-        txtQuant.Enabled = False
-        txtTotal.Enabled = False
+
+        
+        txtRecebido.SetFocus
+        Calcular_Desconto
+        Calcular_Parcelas
+        Calcular_Prazo
     End If
 Else
-        If txtTotalGeral.Text = "" Or txtTotalGeral.Text = "0,00" Then Exit Sub
-        cboTipoPgto.Text = "À PRAZO"
-        frmVendaFechamento.Visible = True
-        LimparObjetos_Prazo
-        txtSubtotal.Text = txtTotalGeral.Text
-        txtAcresc.Text = FormatNumber(0, 2)
-        txtFrete.Text = FormatNumber(0, 2)
-        HabilitaObjetosVenda True
-        
-        If lblEstornar.Caption = "ESTORNO" Then
-            'If r.State <> 0 Then r.Close
-            'Set r = Nothing
-
-            sSQL = "SELECT * FROM pedidos WHERE (cod_pedido = " & txtCodPedido.Text & ");"
-            Set r = dbData.OpenRecordset(sSQL)
-            
-            'If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            'txtCodCliente.Text = ""
-            
-            'Debug.Print sSQL
-            
-            If Not r.EOF Then
-                'MsgBox r("pagamento")
-                varTipoPgto = ValidateNull(r("pagamento"))
-                varTipoCartao = ValidateNull(r("TIPO_CARTAO"))
-                If r("TIPO_DESC") = "P" Then
-                    optDescPorc.Value = True
-                Else
-                    optDescRS.Value = True
-                End If
-                
-                txtDesc.Text = FormatNumber(r("VALOR_DESC"), 2)
-                If r("TIPO_ACRESCIMO") = "R" Then
-                    optAscrescRS.Value = True
-                Else
-                    optAscrescPorc.Value = True
-                End If
-                txtAcresc.Text = FormatNumber(ValidateNull(r("VALOR_ACRESCIMO")), 2)
-                txtFrete.Text = FormatNumber(ValidateNull(r("ValorFreteReal")), 2)
-                
-                 If varTipoPgto = "DINHEIRO" Then
-                     cboFormaPgto.Text = "1 - DINHEIRO"
-                 ElseIf varTipoPgto = "PROMISSORIA" Then
-                     cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "D" Then
-                     cboFormaPgto.Text = "3 - CARTÃO - DÉBITO"
-                 ElseIf varTipoPgto = "CARTAO" And varTipoCartao = "C" Then
-                     cboFormaPgto.Text = "4 - CARTÃO - CRÉDITO"
-                 ElseIf varTipoPgto = "CHEQUE" Then
-                     cboFormaPgto.Text = "5 - CHEQUE"
-                 ElseIf varTipoPgto = "BOLETO" Then
-                     cboFormaPgto.Text = "6 - BOLETO"
-                 ElseIf varTipoPgto = "FINANCEIRA" Then
-                     cboFormaPgto.Text = "9 - FINANCEIRA"
-                 End If
-                 
-                cboFormaPgto.Text = "2 - PROMISSÓRIA"
-                cboQuantForma.Text = "1 - SEM ENTRADA"
-                
-                If r("TIPO_PEDIDO") = "ORÇAMENTO" Then
-                    mskInicio.Text = Format(Date, "dd/mm/yy")
-                    mskTermino.Text = Format(Date, "dd/mm/yy")
-                    txtDataCompra.Text = Format(Date, "dd/mm/yyyy")
-                Else
-                    txtDataCompra.Text = Format(r("data_compra"), "dd/mm/yyyy")
-                    mskInicio.Text = Format(r("data_compra"), "dd/mm/yy")
-                    mskTermino.Text = Format(r("data_compra"), "dd/mm/yy")
-                End If
-                
-                txtCodFuncAP.Text = ValidateNull(r("cod_funcionario"))
-                txtCodCliente.Text = ValidateNull(r("COD_CLIENTE"))
-                'lblTipoPedido.Caption = ValidateNull(r("tipo_pedido"))
-
-                
-
-                
-                txtRecebido.SetFocus
-                Calcular_Desconto
-                Calcular_Parcelas
-                Calcular_Prazo
-            End If
-        Else
-            cboFormaPgto.Text = "2 - PROMISSÓRIA"
-            cboQuantForma.Text = "1 - SEM ENTRADA"
-            'mskInicio.Text = Format(txtDataCompra, "dd/mm/yy")
-            Mostrar_ValorRestante
-            Calcular_Parcelas
-            Calcular_Prazo
-            optDescPorc.Value = False
-            optDescPorc.Value = True
-            
-            'mostrar o DESCONTO
-            'If vValorDescFixoAP <> "" Then
-            '   txtDesc.Text = Format(0, ocMONEY)
-            '   optDescPorc.Value = True
-            '   txtDesc.Text = Format(vValorDescFixoAP, ocMONEY)
-            'Else
-            '   txtDesc.Text = Format(0, ocMONEY)
-            'End If
-            
-            'txtAcresc.Text = Format(0, ocMONEY)
-            
-            
-            'limpar campo funcionario
-        '    If varLoginFunc <> "" Then
-               If varLoginFunc = "2" Then
-                  If lblEstornar.Caption <> "ESTORNO" Then
-                     txtCodFuncAP.Text = ""
-                     txtFuncAP.Text = ""
-                     txtCodFuncAP.SetFocus
-                  Else
-                     txtEntrada.SetFocus
-                  End If
-               Else
-                  'cboCliente.SetFocus
-               End If
-         '   End If
-            
-            'Preencher_FormaPgto
-            'cboformaPgto.ListIndex = 0
-            Mostrar_Desconto
-            Calcular_Desconto
-            'Calcular_Prazo
-            
-            If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
-            If varLoginFunc = "2" Then txtFuncAP.Text = ""
-            If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else cboCliente.SetFocus
-            
-            'HabilitaObjetosVenda True
-        End If
-        
-        If lblEstornar.Caption <> "ESTORNO" And lblEstornar.Caption <> "REIMPRESSÃO" Then
-           cboCliente.Clear
-        End If
-        
-        HabilitaObjetosVenda False
-        
-        cmdFinalizarAvista.Enabled = False
-        cmdFinalizarPrazo.Enabled = False
-        cmdOrçamento.Enabled = False
-        cmdCancelarPedido.Enabled = False
-        cmdRemover.Enabled = False
-        cmdAvancado.Enabled = False
-        cmdInfProduto.Enabled = False
-        Grid.Enabled = False
-        txtCodBarra.Enabled = False
-        txtValor.Enabled = False
-        txtQuant.Enabled = False
-        txtTotal.Enabled = False
+    cboFormaPgto.Text = "2 - PROMISSÓRIA"
+    cboQuantForma.Text = "1 - SEM ENTRADA"
+    'mskInicio.Text = Format(txtDataCompra, "dd/mm/yy")
+    Mostrar_ValorRestante
+    Calcular_Parcelas
+    Calcular_Prazo
+    optDescPorc.Value = False
+    optDescPorc.Value = True
+    
+    'mostrar o DESCONTO
+    'If vValorDescFixoAP <> "" Then
+    '   txtDesc.Text = Format(0, ocMONEY)
+    '   optDescPorc.Value = True
+    '   txtDesc.Text = Format(vValorDescFixoAP, ocMONEY)
+    'Else
+    '   txtDesc.Text = Format(0, ocMONEY)
+    'End If
+    
+    'txtAcresc.Text = Format(0, ocMONEY)
+    
+    
+    'limpar campo funcionario
+'    If varLoginFunc <> "" Then
+       If varLoginFunc = "2" Then
+          If lblEstornar.Caption <> "ESTORNO" Then
+             txtCodFuncAP.Text = ""
+             txtFuncAP.Text = ""
+             txtCodFuncAP.SetFocus
+          Else
+             txtEntrada.SetFocus
+          End If
+       Else
+          'cboCliente.SetFocus
+       End If
+ '   End If
+    
+    'Preencher_FormaPgto
+    'cboformaPgto.ListIndex = 0
+    Mostrar_Desconto
+    Calcular_Desconto
+    'Calcular_Prazo
+    
+    If varLoginFunc = "2" Then txtCodFuncAP.Text = ""
+    If varLoginFunc = "2" Then txtFuncAP.Text = ""
+    If varLoginFunc = "2" Then txtCodFuncAP.SetFocus Else cboCliente.SetFocus
+    
+    'HabilitaObjetosVenda True
 End If
+
+If lblEstornar.Caption <> "ESTORNO" And lblEstornar.Caption <> "REIMPRESSÃO" Then
+   cboCliente.Clear
+End If
+
+HabilitaObjetosVenda False
+
+cmdFinalizarAvista.Enabled = False
+cmdFinalizarPrazo.Enabled = False
+cmdOrçamento.Enabled = False
+cmdCancelarPedido.Enabled = False
+cmdRemover.Enabled = False
+cmdAvancado.Enabled = False
+cmdInfProduto.Enabled = False
+Grid.Enabled = False
+txtCodBarra.Enabled = False
+txtValor.Enabled = False
+txtQuant.Enabled = False
+txtTotal.Enabled = False
 cmdFinalizar.Enabled = True
 End Sub
 
@@ -11016,6 +10830,8 @@ If StatusBar1.Panels(2).Text = "" Then
       PDV.Show
    End If
 End If
+
+vLoginConcluido = True   'a partir daqui o aviso de caixa antigo pode aparecer (Form_Activate -> Verificar_Caixa)
 
 If Not EhServidorLocal() Then RegistrarTarefaExportarXMLTerminal
 

@@ -5,7 +5,7 @@ Begin VB.Form NFCe_Consultar_Produtos
    BackColor       =   &H00C0FFC0&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "ITENS DO PEDIDO"
-   ClientHeight    =   7260
+   ClientHeight    =   8970
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   13095
@@ -13,7 +13,7 @@ Begin VB.Form NFCe_Consultar_Produtos
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7260
+   ScaleHeight     =   8970
    ScaleWidth      =   13095
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -197,7 +197,7 @@ Begin VB.Form NFCe_Consultar_Produtos
       ScaleHeight     =   1905
       ScaleWidth      =   3165
       TabIndex        =   0
-      Top             =   5280
+      Top             =   6960
       Width           =   3195
       Begin VB.Label Label6 
          AutoSize        =   -1  'True
@@ -402,9 +402,9 @@ Begin VB.Form NFCe_Consultar_Produtos
    End
    Begin ChamaleonBtn.chameleonButton cmdCorrigirProduto 
       Height          =   315
-      Left            =   120
+      Left            =   60
       TabIndex        =   13
-      Top             =   5800
+      Top             =   7185
       Width           =   1635
       _ExtentX        =   2884
       _ExtentY        =   556
@@ -502,13 +502,13 @@ Begin VB.Form NFCe_Consultar_Produtos
       Width           =   495
    End
    Begin MSFlexGridLib.MSFlexGrid Grid 
-      Height          =   3915
+      Height          =   5535
       Left            =   60
       TabIndex        =   15
       Top             =   1320
       Width           =   12975
       _ExtentX        =   22886
-      _ExtentY        =   6906
+      _ExtentY        =   9763
       _Version        =   393216
       AllowBigSelection=   0   'False
       FocusRect       =   0
@@ -525,9 +525,9 @@ Begin VB.Form NFCe_Consultar_Produtos
    End
    Begin ChamaleonBtn.chameleonButton cmdConsultarNCM 
       Height          =   315
-      Left            =   1800
+      Left            =   1740
       TabIndex        =   17
-      Top             =   5800
+      Top             =   7185
       Width           =   2535
       _ExtentX        =   4471
       _ExtentY        =   556
@@ -563,9 +563,9 @@ Begin VB.Form NFCe_Consultar_Produtos
    End
    Begin ChamaleonBtn.chameleonButton cmdConsultaNCMean 
       Height          =   315
-      Left            =   4380
+      Left            =   4320
       TabIndex        =   18
-      Top             =   5800
+      Top             =   7185
       Width           =   2535
       _ExtentX        =   4471
       _ExtentY        =   556
@@ -601,9 +601,9 @@ Begin VB.Form NFCe_Consultar_Produtos
    End
    Begin ChamaleonBtn.chameleonButton cmdRecalcular 
       Height          =   315
-      Left            =   6960
+      Left            =   6900
       TabIndex        =   19
-      Top             =   5800
+      Top             =   7185
       Visible         =   0   'False
       Width           =   1935
       _ExtentX        =   3413
@@ -663,9 +663,9 @@ Begin VB.Form NFCe_Consultar_Produtos
       EndProperty
       ForeColor       =   &H000000C0&
       Height          =   435
-      Left            =   120
+      Left            =   60
       TabIndex        =   16
-      Top             =   5500
+      Top             =   6885
       Width           =   8595
    End
 End
