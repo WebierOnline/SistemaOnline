@@ -16,6 +16,10 @@ GO
 ALTER PROCEDURE dbo.EstoqueFiscalRecalcular AS
 SET NOCOUNT ON
 
+-- funcao de tabela recebe variavel (expressao como argumento da erro de sintaxe em banco com compatibilidade antiga)
+DECLARE @hoje DATE
+SET @hoje = CAST(GETDATE() AS DATE)
+
 IF NOT EXISTS (SELECT 1 FROM TbInventarios WHERE Fechado = 1 AND DataInventario IS NOT NULL AND CAST(DataInventario AS DATE) <= CAST(GETDATE() AS DATE))
  BEGIN
    RAISERROR('Não há Inventário de Abertura (fechado) para servir de base ao estoque fiscal.', 16, 1)
@@ -24,6 +28,6 @@ IF NOT EXISTS (SELECT 1 FROM TbInventarios WHERE Fechado = 1 AND DataInventario 
 
 UPDATE p SET ESTOQUE_FISCAL = ISNULL(s.Saldo, 0)
 FROM Produtos p
-LEFT JOIN dbo.EstoqueFiscalNaData(CAST(GETDATE() AS DATE)) s ON s.IdProduto = p.CODIGO
+LEFT JOIN dbo.EstoqueFiscalNaData(@hoje) s ON s.IdProduto = p.CODIGO
 WHERE ISNULL(p.ESTOQUE_FISCAL, -999999) <> ISNULL(s.Saldo, 0)
 GO

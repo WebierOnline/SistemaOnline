@@ -21,7 +21,7 @@ IF OBJECT_ID('dbo.InventarioGerar') IS NULL
 GO
 
 ALTER PROCEDURE dbo.InventarioGerar(@ano INT, @fu INT, @periodotipo VARCHAR(10), @periodo VARCHAR(2), @datainventario DATETIME, @filial INT = 1) AS
-DECLARE @idInv INT, @dt DATETIME, @qt INT, @trans INT, @temBase BIT
+DECLARE @idInv INT, @dt DATETIME, @qt INT, @trans INT, @temBase BIT, @dtDia DATE
 DECLARE @msg VARCHAR(200)
 
 --Desabilita a contagem recuperacao/alteracao de dados
@@ -128,6 +128,9 @@ IF (@msg <> '')
 	RETURN
  END
 
+--funcao de tabela recebe variavel (expressao como argumento da erro de sintaxe em banco com compatibilidade antiga)
+SET @dtDia = CAST(@dt AS DATE)
+
 --Existe inventario fechado (base do estoque fiscal) ate a data do inventario?
 SET @temBase = 0
 IF EXISTS (SELECT 1 FROM TbInventarios WHERE Fechado = 1 AND DataInventario IS NOT NULL AND CAST(DataInventario AS DATE) <= CAST(@dt AS DATE))
@@ -151,7 +154,7 @@ BEGIN TRY
                 CASE WHEN @temBase = 1 THEN ISNULL(s.Saldo, 0) ELSE ISNULL(p.ESTOQUE_FISCAL, 0) END AS Saldo,
                 ISNULL((SELECT TOP 1 pr.CUSTO FROM Produtos_Precos pr WHERE pr.COD_PRODUTO = p.CODIGO ORDER BY pr.CODIGO DESC), 0) AS Custo
          FROM Produtos p
-         LEFT JOIN dbo.EstoqueFiscalNaData(CAST(@dt AS DATE)) s ON s.IdProduto = p.CODIGO) x
+         LEFT JOIN dbo.EstoqueFiscalNaData(@dtDia) s ON s.IdProduto = p.CODIGO) x
    WHERE (x.ATIVO = 1) AND (x.Saldo > 0)
    ORDER BY x.DESCRICAO, x.CODIGO
 
