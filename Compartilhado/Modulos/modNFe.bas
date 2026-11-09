@@ -10,6 +10,29 @@ Attribute VB_Name = "NFe_DLL"
 '* * * * * * *
 
 Option Explicit                                   'requer variáveis explicitamente declaradas
+Public CertFalhaMotivo As Integer                 'ultimo CertificadoDiasRestantes que falhou: 0 = nao foi possivel ler, 1 = certificado nao encontrado nesta maquina, 2 = empresa sem certificado cadastrado
+'--- leitura do certificado digital no repositorio do Windows (usuario atual > Pessoal), sem depender da DLL snfe (BuscaNroSerie nao e visivel para COM)
+Private Type CertFT
+    dwLow As Long
+    dwHigh As Long
+End Type
+Private Type CertST
+    wYear As Integer
+    wMonth As Integer
+    wDayOfWeek As Integer
+    wDay As Integer
+    wHour As Integer
+    wMinute As Integer
+    wSecond As Integer
+    wMilliseconds As Integer
+End Type
+Private Declare Function CertOpenSystemStore Lib "crypt32.dll" Alias "CertOpenSystemStoreA" (ByVal hProv As Long, ByVal szSubsystemProtocol As String) As Long
+Private Declare Function CertEnumCertificatesInStore Lib "crypt32.dll" (ByVal hCertStore As Long, ByVal pPrevCertContext As Long) As Long
+Private Declare Function CertFreeCertificateContext Lib "crypt32.dll" (ByVal pCertContext As Long) As Long
+Private Declare Function CertCloseStore Lib "crypt32.dll" (ByVal hCertStore As Long, ByVal dwFlags As Long) As Long
+Private Declare Function CertFileTimeToLocalFileTime Lib "kernel32" Alias "FileTimeToLocalFileTime" (lpFileTime As CertFT, lpLocalFileTime As CertFT) As Long
+Private Declare Function CertFileTimeToSystemTime Lib "kernel32" Alias "FileTimeToSystemTime" (lpFileTime As CertFT, lpSystemTime As CertST) As Long
+Private Declare Sub CertCopyMem Lib "kernel32" Alias "RtlMoveMemory" (Destination As Any, Source As Any, ByVal Length As Long)
 
 Private Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Long) As Long
 Private Declare Function RegCreateKey Lib "advapi32.dll" Alias "RegCreateKeyA" (ByVal hKey As Long, ByVal lpSubKey As String, phkResult As Long) As Long
@@ -242,6 +265,129 @@ Public Function ExibirTributosConfig() As Boolean
 On Error Resume Next
 ExibirTributosConfig = (CStr(sysConfig("EXIBIR_TRIBUTOS").Value) = "1")
 If Err.Number <> 0 Then ExibirTributosConfig = False
+End Function
+
+'Config PIX_DINAMICO (Configuracao_Geral > PDV): 1 = o Pix da venda e dinamico (tPag 17); 0 (padrao) ou linha inexistente = estatico (tPag 20)
+Public Function PixDinamicoNFCe() As Boolean
+On Error Resume Next
+PixDinamicoNFCe = (CStr(sysConfig("PIX_DINAMICO").Value) = "1")
+If Err.Number <> 0 Then PixDinamicoNFCe = False
+End Function
+
+'Procura no repositorio de certificados do usuario atual (Pessoal) o certificado com o numero de serie informado e devolve o NotAfter (hora local).
+'Retorno: 1 = achou (dVenc preenchido), 0 = nao existe nesta maquina, -1 = nao foi possivel abrir o repositorio.
+'Layout 32 bits: CERT_CONTEXT.pCertInfo em +12; CERT_INFO.SerialNumber (cbData +4, pbData +8, bytes em ordem invertida) e NotAfter (FILETIME) em +40.
+Private Function CertBuscaPorSerie(ByVal sSerie As String, ByRef dVenc As Date) As Long
+Dim hStore As Long, pCtx As Long, pInfo As Long, pAux As Long, cb As Long, pb As Long, i As Long
+Dim abSerie() As Byte, sHex As String
+Dim ft As CertFT, ftLocal As CertFT, st As CertST
+CertBuscaPorSerie = 0
+sSerie = UCase$(Replace(Replace(sSerie, " ", ""), "-", ""))
+Do While Left$(sSerie, 1) = "0": sSerie = Mid$(sSerie, 2): Loop
+hStore = CertOpenSystemStore(0, "MY")
+If hStore = 0 Then CertBuscaPorSerie = -1: Exit Function
+pCtx = CertEnumCertificatesInStore(hStore, 0)
+Do While pCtx <> 0
+    pAux = pCtx + 12
+    CertCopyMem pInfo, ByVal pAux, 4
+    If pInfo <> 0 Then
+        pAux = pInfo + 4
+        CertCopyMem cb, ByVal pAux, 4
+        pAux = pInfo + 8
+        CertCopyMem pb, ByVal pAux, 4
+        If cb > 0 And cb <= 64 And pb <> 0 Then
+            ReDim abSerie(0 To cb - 1)
+            CertCopyMem abSerie(0), ByVal pb, cb
+            sHex = ""
+            For i = cb - 1 To 0 Step -1
+                sHex = sHex & Right$("0" & Hex$(abSerie(i)), 2)
+            Next
+            Do While Left$(sHex, 1) = "0": sHex = Mid$(sHex, 2): Loop
+            If sHex = sSerie Then
+                pAux = pInfo + 40
+                CertCopyMem ft, ByVal pAux, 8
+                If CertFileTimeToLocalFileTime(ft, ftLocal) <> 0 Then
+                    If CertFileTimeToSystemTime(ftLocal, st) <> 0 Then
+                        dVenc = DateSerial(st.wYear, st.wMonth, st.wDay) + TimeSerial(st.wHour, st.wMinute, st.wSecond)
+                        CertBuscaPorSerie = 1
+                    End If
+                End If
+                CertFreeCertificateContext pCtx
+                pCtx = 0
+                Exit Do
+            End If
+        End If
+    End If
+    pCtx = CertEnumCertificatesInStore(hStore, pCtx)   'libera o contexto anterior sozinha
+Loop
+CertCloseStore hStore, 0
+End Function
+
+'Validade do certificado digital INSTALADO NESTA MAQUINA (cada computador pode ter um certificado diferente - nao usa Empresa.VencimentoCert).
+'Procura o certificado no repositorio do Windows desta maquina pelo numero de serie cadastrado na empresa (CertBuscaPorSerie) e le o NotAfter.
+'(o campo Util.certificadoVencimento so e preenchido depois de uma operacao com a SEFAZ e CertDigital.BuscaNroSerie nao e visivel para COM)
+'nDias = dias ate vencer (0 = vence hoje, negativo = vencido); dVenc = data/hora de validade. False = certificado nao encontrado nesta maquina / nao foi possivel ler.
+'oDll (opcional) = objeto Util que acabou de operar com a SEFAZ: usa o certificadoVencimento dele; se nao vier preenchido, cai na busca local.
+'O resultado da busca local fica guardado ate o dia mudar.
+Public Function CertificadoDiasRestantes(ByRef nDias As Long, ByRef dVenc As Date, Optional ByVal oDll As Object = Nothing) As Boolean
+Static dCacheDia As Date, dCacheVenc As Date
+Dim sSerie As String, bOk As Boolean
+CertFalhaMotivo = 0
+If Not oDll Is Nothing Then
+    On Error Resume Next
+    dVenc = oDll.certificadoVencimento
+    bOk = (Err.Number = 0 And CDbl(dVenc) > 0)
+    Err.Clear
+    On Error GoTo 0
+End If
+If Not bOk Then
+    If dCacheDia = Date And dCacheVenc <> 0 Then
+        dVenc = dCacheVenc
+        bOk = True
+    Else
+        On Error Resume Next
+        sSerie = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 CertificadoDigital FROM empresa", "CertificadoDigital", "")))
+        If sSerie = "" Then
+            CertFalhaMotivo = 2
+        Else
+            Select Case CertBuscaPorSerie(sSerie, dVenc)
+                Case 1: bOk = (CDbl(dVenc) > 0)
+                Case 0: CertFalhaMotivo = 1
+            End Select
+        End If
+        Err.Clear
+        On Error GoTo 0
+        If bOk Then dCacheDia = Date: dCacheVenc = dVenc
+    End If
+End If
+If bOk Then
+    nDias = CLng(Int(dVenc) - Date)
+    If nDias >= 0 And dVenc < Now Then nDias = -1   'vence hoje, mas o horario de validade ja passou
+End If
+CertificadoDiasRestantes = bOk
+End Function
+
+'Texto do aviso quando a ultima leitura falhou porque o certificado nao esta nesta maquina (ou a empresa nao tem certificado cadastrado); "" nos demais casos.
+Public Function MsgCertificadoAusente() As String
+MsgCertificadoAusente = ""
+If CertFalhaMotivo = 1 Then
+    MsgCertificadoAusente = "O certificado digital da empresa NÃO foi encontrado nesta máquina." & vbCr & vbCr & _
+                            "Instale o certificado neste computador para poder emitir NFCe/NFe."
+ElseIf CertFalhaMotivo = 2 Then
+    MsgCertificadoAusente = "A empresa não tem certificado digital cadastrado." & vbCr & vbCr & _
+                            "Selecione o certificado no cadastro da empresa para poder emitir NFCe/NFe."
+End If
+End Function
+
+'Se o certificado digital venceu, devolve a mensagem explicando; "" se esta valido (ou se nao foi possivel ler a validade na DLL).
+Public Function MsgCertificadoVencido(Optional ByVal oDll As Object = Nothing) As String
+Dim nDias As Long, dVenc As Date
+MsgCertificadoVencido = ""
+If Not CertificadoDiasRestantes(nDias, dVenc, oDll) Then Exit Function
+If nDias < 0 Then
+    MsgCertificadoVencido = "O certificado digital VENCEU em " & Format(dVenc, "dd/mm/yyyy") & IIf(Int(dVenc) < Date, " (há " & CLng(Date - Int(dVenc)) & " dia(s))", "") & "." & vbCr & vbCr & _
+                            "Renove o certificado com o contador e instale o novo arquivo. Enquanto isso a NFCe/NFe não pode ser transmitida."
+End If
 End Function
 
 Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
@@ -788,7 +934,7 @@ End If
                        Case "03"
                            iRetorno = sistNFe.GerarPagamentos(1, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "04"
-                           iRetorno = sistNFe.GerarPagamentos(1, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Débito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "05"
                            iRetorno = sistNFe.GerarPagamentos(1, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crédito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "10"
@@ -810,7 +956,19 @@ End If
                        Case "19"
                            iRetorno = sistNFe.GerarPagamentos(1, 19, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "20"
-                           iRetorno = sistNFe.GerarPagamentos(1, 20, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(1, 20, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Estático", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "17"
+                           iRetorno = sistNFe.GerarPagamentos(1, 17, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Dinâmico", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "21"
+                           iRetorno = sistNFe.GerarPagamentos(1, 21, NFe!ValorNota, 0, 0, 0, "", "", "Crédito em Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "22"
+                           iRetorno = sistNFe.GerarPagamentos(1, 22, NFe!ValorNota, 0, 0, 0, "", "", "Pagamento Eletrônico não Informado", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "23"
+                           iRetorno = sistNFe.GerarPagamentos(1, 23, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Automático", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "24"
+                           iRetorno = sistNFe.GerarPagamentos(1, 24, NFe!ValorNota, 0, 0, 0, "", "", "TEF - Book Transfer", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "91"
+                           iRetorno = sistNFe.GerarPagamentos(1, 91, NFe!ValorNota, 0, 0, 0, "", "", "Pagamento Posterior", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "99"
                            iRetorno = sistNFe.GerarPagamentos(2, 99, NFe!ValorNota, 0, 0, 0, "", "", "Outros", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case Else
@@ -829,7 +987,7 @@ End If
                        Case "03"
                            iRetorno = sistNFe.GerarPagamentos(0, 3, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "04"
-                           iRetorno = sistNFe.GerarPagamentos(0, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Crédito", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 4, NFe!ValorNota, 0, 0, 0, "", "", "Cartão de Débito", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "05"
                            iRetorno = sistNFe.GerarPagamentos(0, 5, NFe!ValorNota, 0, 0, 0, "", "", "Crédito Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "10"
@@ -851,7 +1009,19 @@ End If
                        Case "19"
                            iRetorno = sistNFe.GerarPagamentos(0, 19, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "20"
-                           iRetorno = sistNFe.GerarPagamentos(0, 20, NFe!ValorNota, 0, 0, 0, "", "", "Programa de fidelidade", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                           iRetorno = sistNFe.GerarPagamentos(0, 20, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Estático", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "17"
+                           iRetorno = sistNFe.GerarPagamentos(0, 17, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Dinâmico", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "21"
+                           iRetorno = sistNFe.GerarPagamentos(0, 21, NFe!ValorNota, 0, 0, 0, "", "", "Crédito em Loja", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "22"
+                           iRetorno = sistNFe.GerarPagamentos(0, 22, NFe!ValorNota, 0, 0, 0, "", "", "Pagamento Eletrônico não Informado", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "23"
+                           iRetorno = sistNFe.GerarPagamentos(0, 23, NFe!ValorNota, 0, 0, 0, "", "", "Pix - Automático", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "24"
+                           iRetorno = sistNFe.GerarPagamentos(0, 24, NFe!ValorNota, 0, 0, 0, "", "", "TEF - Book Transfer", "", "", "", "", "", mensagemAlerta, mensagemErro)
+                       Case "91"
+                           iRetorno = sistNFe.GerarPagamentos(0, 91, NFe!ValorNota, 0, 0, 0, "", "", "Pagamento Posterior", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case "99"
                            iRetorno = sistNFe.GerarPagamentos(2, 99, NFe!ValorNota, 0, 0, 0, "", "", "Outros", "", "", "", "", "", mensagemAlerta, mensagemErro)
                        Case Else
@@ -1747,6 +1917,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     'parcelas
     vsSQL = "SELECT COUNT(IDParcela) as qt FROM TbNFCe_Faturas WHERE IdNFProd = " & NumeroNota & " GROUP BY IDParcela, TipoPgto, IdBandeira"
 
+    Dim iInd As Integer, iTPag As Integer, sXPag As String
     Dim idparc As Integer, vTotalRecebido As Double, vTotalNF As Double, vTotalDinheiro As Double, vTotalOutras As Double, vTroco As Double
     idparc = 0
     If SQLExecutaRetorno(vsSQL, "qt", 0) >= 0 Then
@@ -1764,20 +1935,39 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
        'Set NFeParcelas = vgDb.OpenRecordset(vsSQL)
        vTotalNF = vlNF
        Do While Not NFeParcelas.EOF
-          '01 - Dinheiro|02 - Cheque|03 - Cartão de Crédito|04 - Cartão de Débito|05 - Crédito Loja|10 - Vale Alimentação|11 - Vale Refeição|12 - Vale Presente|13 - Vale Combustível| 17 - PIX - 99 - Outros
+          'tPag (tabela oficial): 01 Dinheiro|02 Cheque|03 Cartão de Crédito|04 Cartão de Débito|05 Cartão da Loja|10 Vale Alimentação|11 Vale Refeição|12 Vale Presente|13 Vale Combustível|
+          '14 Duplicata|15 Boleto|16 Depósito|17 Pix Dinâmico|18 Transferência/Carteira digital|19 Fidelidade/Cashback|20 Pix Estático|21 Crédito em Loja|22 Pgto eletrônico não informado|23 Pix Automático|24 TEF Book Transfer|90 Sem pagamento|91 Pagamento Posterior|99 Outros
+          iInd = 0: iTPag = 99: sXPag = ""
           Select Case NFeParcelas!TipoPgto
-                 Case "DH": iRetorno = sistNFCe.GerarPagamentos(0, 1, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)               'pag <tPag>
-                 Case "CH": iRetorno = sistNFCe.GerarPagamentos(1, 2, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "CC": iRetorno = sistNFCe.GerarPagamentos(0, 3, NFeParcelas!Valor, 0, NFeParcelas!IdBandeira, 2, "", Retira(Parametros!CNPJ, ".-/ ", UM_A_UM), "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "CD": iRetorno = sistNFCe.GerarPagamentos(0, 4, NFeParcelas!Valor, 0, NFeParcelas!IdBandeira, 2, "", Retira(Parametros!CNPJ, ".-/ ", UM_A_UM), "", "", "", "", "", "", mensagemAlerta, mensagemErro)                     'pag <tPag>
-                 Case "PM": iRetorno = sistNFCe.GerarPagamentos(1, 5, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "FI": iRetorno = sistNFCe.GerarPagamentos(1, 14, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "BL": iRetorno = sistNFCe.GerarPagamentos(1, 15, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "DP": iRetorno = sistNFCe.GerarPagamentos(0, 16, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "PX": iRetorno = sistNFCe.GerarPagamentos(0, 20, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case "TR": iRetorno = sistNFCe.GerarPagamentos(0, 18, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
-                 Case Else: iRetorno = sistNFCe.GerarPagamentos(0, 99, NFeParcelas!Valor, 0, 0, 0, "", "", "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
+                 Case "DH": iTPag = 1
+                 Case "CH": iInd = 1: iTPag = 2
+                 Case "CC": iTPag = 3
+                 Case "CD": iTPag = 4
+                 Case "VA": iTPag = 10
+                 Case "VR": iTPag = 11
+                 Case "VP": iTPag = 12
+                 Case "VC": iTPag = 13
+                 Case "BL": iInd = 1: iTPag = 15
+                 Case "DP": iTPag = 16
+                 Case "PX": If PixDinamicoNFCe() Then iTPag = 17 Else iTPag = 20
+                 Case "TR": iTPag = 18
+                 Case "FD": iTPag = 19
+                 Case "PM": iInd = 1: iTPag = 21
+                 Case "PN": iTPag = 22
+                 Case "PA": iTPag = 23
+                 Case "TB": iTPag = 24
+                 Case "SP": iTPag = 90
+                 Case "PP": iInd = 1: iTPag = 91
+                 Case "FI": iInd = 1: iTPag = 99: sXPag = "Financeira"
+                 Case Else: iTPag = 99: sXPag = "Outros"
           End Select
+          If iTPag = 3 Or iTPag = 4 Then
+             iRetorno = sistNFCe.GerarPagamentos(iInd, iTPag, NFeParcelas!Valor, 0, NFeParcelas!IdBandeira, 2, "", Retira(Parametros!CNPJ, ".-/ ", UM_A_UM), "", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
+          ElseIf iTPag = 90 Then
+             iRetorno = sistNFCe.GerarPagamentos(iInd, iTPag, 0, 0, 0, 0, "", "", "Sem pagamento", "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
+          Else
+             iRetorno = sistNFCe.GerarPagamentos(iInd, iTPag, NFeParcelas!Valor, 0, 0, 0, "", "", sXPag, "", "", "", "", "", mensagemAlerta, mensagemErro)                    'pag <tPag>
+          End If
           idparc = idparc + 1
           NFeParcelas.MoveNext
        Loop
@@ -2049,14 +2239,19 @@ deuErro:
 '       'MsgBox Err.Description, vbCritical + vbOKOnly
 '    End If
 
-    Dim vErrDescTransmitir As String
+    Dim vErrDescTransmitir As String, sCertVenc As String
     vErrDescTransmitir = Err.Description
     On Error Resume Next
     NFeMotivo = sistNFCe.xMotivo
     On Error GoTo 0
     If Vazio(NFeMotivo) Then NFeMotivo = vErrDescTransmitir
+    'certificado vencido e a causa mais comum de "HTTP 403: Forbidden" / falha de comunicacao: avisa o motivo real
+    sCertVenc = MsgCertificadoVencido(sistNFCe)
+    If sCertVenc <> "" Then NFeMotivo = sCertVenc & vbCr & vbCr & "Detalhe: " & NFeMotivo
     If Not Silencioso Then
-    If InStr(1, sistNFCe.xMotivo, "Erros na validação") > 0 Then
+    If sCertVenc <> "" Then
+       MsgBox NFeMotivo, vbCritical + vbOKOnly, "CERTIFICADO DIGITAL VENCIDO"
+    ElseIf InStr(1, sistNFCe.xMotivo, "Erros na validação") > 0 Then
        MsgBox TrataErroValidacao(sistNFCe.xMotivo, NFe!IdNFProd), vbExclamation + vbOKOnly, "ERRO VALIDAÇÃO XML"
     ElseIf Not Vazio(sistNFCe.xMotivo) Then
        MsgBox sistNFCe.xMotivo, vbExclamation + vbOKOnly, "ERRO"

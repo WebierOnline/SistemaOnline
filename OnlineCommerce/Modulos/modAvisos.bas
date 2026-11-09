@@ -161,7 +161,9 @@ If rf.vRestante1 > 0 Then
 End If
 
 '3) certificado digital vencendo (avisa a partir de 15 dias antes) ou vencido
-nDias = SQLExecutaRetorno("SELECT ISNULL(DATEDIFF(day, CONVERT(date, GETDATE()), CONVERT(date, VencimentoCert)), 99999) d FROM empresa", "d", 99999)
+'validade lida pela DLL (certificado instalado nesta maquina)
+Dim dVencCert As Date
+If Not CertificadoDiasRestantes(nDias, dVencCert) Then nDias = 99999
 If nDias <= 15 Then
     If nDias < 0 Then
         AddAlerta sTextos, sDestinos, "Certificado digital VENCIDO há " & Abs(nDias) & " dia(s)!", "EMPRESA"

@@ -163,3 +163,4 @@
 164|AlterProcedure_InventarioFechar.sql|GERAL
 165|AlterProcedure_ProdutoContagemGravar.sql|GERAL
 166|AlterTable_Configuracao_ExibirTributos.sql|GERAL
+167|AlterTable_Configuracao_PixDinamico.sql|GERAL

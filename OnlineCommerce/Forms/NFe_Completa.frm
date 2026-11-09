@@ -4277,6 +4277,7 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim vTipoCRT As Integer
 Dim bSupressChkEvents As Boolean
+Dim vClienteNFeVerificado As Long    'ultimo cliente ja conferido ao escolher no cboCliente (evita perguntar de novo)
 Private Const MARCA_TRIBUTOS = "Valor Aproximado dos Tributos R$"
 Private Const FIM_TRIBUTOS = "Fonte: IBPT"
 Dim vRegimeTributario As Integer
@@ -4626,7 +4627,8 @@ Loop
 
 If iSemAliqIBS > 0 Then
     MsgBox iSemAliqIBS & " item(ns) continuam com Al" & Chr(237) & "quota do IBS da UF = 0,00." & vbNewLine & _
-           "A cidade do destinat" & Chr(225) & "rio n" & Chr(227) & "o tem IBSUFpAliq cadastrado na tabela Cidade.", _
+           "A cidade do destinat" & Chr(225) & "rio n" & Chr(227) & "o tem IBSUFpAliq cadastrado na tabela Cidade," & vbNewLine & _
+           "ou o cadastro do cliente est" & Chr(225) & " sem cidade/c" & Chr(243) & "digo IBGE. Confira o cadastro do cliente.", _
            vbExclamation, "Recalcular"
 End If
 If iSemAliqCBS > 0 Then
@@ -5162,6 +5164,7 @@ Private Sub LimparObjetosDestinatario()
 txtCodCliente.Text = ""
 cboTipoDest.Text = ""
 cboCliente.Text = ""
+vClienteNFeVerificado = 0
 cboTipoContribuinte.Text = ""
 cboConsumidorFinal.Text = ""
 'txtAliqUFDest.Text = ""
@@ -5587,35 +5590,169 @@ Private Function MontarDadosOSStr(ByVal lCodOS As Long) As String
     End If
 End Function
 
-Private Function ClienteCompletoParaNFe(ByVal lCod As Long) As Boolean
-    ' checagem silenciosa dos campos obrigatorios do cliente para emitir NFe (respeita SN)
+'Lista (um por linha, com "  - ") os campos obrigatorios que faltam no cadastro do cliente para emitir NFe; "" se estiver completo.
+'Regra: nome, endereco, numero (exceto SN), bairro, cidade, estado, CEP, codigo IBGE e CPF (fisica/rural) ou CNPJ (juridica) sempre;
+'IE so quando o contribuinte e "1 - CONTRIBUINTE ICMS". Valida tambem o digito do CPF/CNPJ e a combinacao tipo de pessoa x contribuinte
+'(mesma do Clientes_Cadastro: FISICA so 9; JURIDICA nao e 9; RURAL so 1).
+Private Function ClienteCamposFaltando(ByVal lCod As Long) As String
     Dim r As ADODB.Recordset
-    Dim bSN As Boolean, sCPF As String, iTipoCtr As Integer, sTipo As String
-    ClienteCompletoParaNFe = False
-    If lCod <= 0 Then Exit Function
+    Dim bSN As Boolean, bJur As Boolean, sDoc As String, iTipoCtr As Integer, sTipo As String, sFalta As String
+    ClienteCamposFaltando = ""
+    If lCod <= 0 Then ClienteCamposFaltando = "  - Cliente não informado": Exit Function
     Set r = dbData.OpenRecordset("SELECT *, tipo AS vTipo, nome AS vNome FROM cliente WHERE codigo = " & lCod)
-    If r.EOF Then Exit Function
+    If r.EOF Then ClienteCamposFaltando = "  - Cliente não encontrado": Exit Function
     bSN = (ValidateNull(r("SN")) = True)
-    sCPF = RemoverFormato(IIf(IsNull(r("cpf")), "", r("cpf")))
+    sDoc = RemoverFormato(IIf(IsNull(r("cpf")), "", r("cpf")))
     iTipoCtr = Val(IIf(IsNull(r("TipoContribuinte")), 0, r("TipoContribuinte")))
-    sTipo = Trim(IIf(IsNull(r("vTipo")), "", r("vTipo")))
-    If Vazio(r("vNome")) Then Exit Function
-    If Vazio(r("endereco")) Then Exit Function
-    If Vazio(r("numero")) And Not bSN Then Exit Function
-    If Vazio(r("bairro")) Or Len(IIf(IsNull(r("bairro")), "", r("bairro"))) < 4 Then Exit Function
-    If Vazio(r("cidade")) Then Exit Function
-    If Vazio(r("estado")) Then Exit Function
-    If Vazio(r("CodigoIBGE")) Or Len(CStr(IIf(IsNull(r("CodigoIBGE")), 0, r("CodigoIBGE")))) <> 7 Then Exit Function
-    If Vazio(r("CEP")) Or Len(RemoverFormato(r("CEP") & "")) <> 8 Then Exit Function
-    If iTipoCtr = 9 Or sTipo = "RURAL" Then
-        If Len(sCPF) < 11 Then Exit Function
+    sTipo = UCase(Trim(IIf(IsNull(r("vTipo")), "", r("vTipo"))))
+
+    If Vazio(r("vNome")) Then sFalta = sFalta & vbCrLf & "  - Nome"
+    If Vazio(r("endereco")) Then sFalta = sFalta & vbCrLf & "  - Endereço"
+    If Vazio(r("numero")) And Not bSN Then sFalta = sFalta & vbCrLf & "  - Número"
+    If Vazio(r("bairro")) Then
+        sFalta = sFalta & vbCrLf & "  - Bairro"
+    ElseIf Len(r("bairro") & "") < 4 Then
+        sFalta = sFalta & vbCrLf & "  - Bairro (mínimo 4 caracteres)"
+    End If
+    If Vazio(r("cidade")) Then sFalta = sFalta & vbCrLf & "  - Cidade"
+    If Vazio(r("estado")) Then sFalta = sFalta & vbCrLf & "  - Estado"
+    If Len(RemoverFormato(r("CEP") & "")) <> 8 Then sFalta = sFalta & vbCrLf & "  - CEP"
+    If Vazio(r("CodigoIBGE")) Then
+        sFalta = sFalta & vbCrLf & "  - Código IBGE da cidade"
+    ElseIf Len(CStr(r("CodigoIBGE"))) <> 7 Then
+        sFalta = sFalta & vbCrLf & "  - Código IBGE da cidade (precisa ter 7 dígitos)"
+    End If
+
+    'documento: JURIDICA = CNPJ (14); FISICA/RURAL = CPF (11); sem tipo cadastrado, usa o contribuinte (9 = CPF)
+    If sTipo = "" Then bJur = (iTipoCtr <> 9) Else bJur = (sTipo = "JURÍDICA")
+    If bJur Then
+        If Len(sDoc) <> 14 Then
+            sFalta = sFalta & vbCrLf & "  - CNPJ"
+        ElseIf Not Validar_CNPJ(sDoc) Then
+            sFalta = sFalta & vbCrLf & "  - CNPJ inválido"
+        End If
     Else
-        If Len(sCPF) < 14 Then Exit Function
+        If Len(sDoc) <> 11 Then
+            sFalta = sFalta & vbCrLf & "  - CPF"
+        ElseIf Not Validar_CPF(sDoc) Then
+            sFalta = sFalta & vbCrLf & "  - CPF inválido"
+        End If
     End If
-    If iTipoCtr = 1 Then
-        If Vazio(r("ie")) Then Exit Function
+
+    If iTipoCtr = 0 Then sFalta = sFalta & vbCrLf & "  - Tipo de contribuinte"
+    If iTipoCtr = 1 And Vazio(r("ie")) Then sFalta = sFalta & vbCrLf & "  - Inscrição Estadual (IE)"
+
+    If (sTipo = "FÍSICA" And iTipoCtr <> 9 And iTipoCtr <> 0) Or (sTipo = "JURÍDICA" And iTipoCtr = 9) Or _
+       (sTipo = "RURAL" And (iTipoCtr = 9 Or iTipoCtr = 2)) Then
+        sFalta = sFalta & vbCrLf & "  - Tipo de contribuinte incompatível com o tipo de pessoa (" & sTipo & ")"
     End If
-    ClienteCompletoParaNFe = True
+
+    r.Close
+    Set r = Nothing
+    If Len(sFalta) > 0 Then ClienteCamposFaltando = Mid$(sFalta, Len(vbCrLf) + 1)
+End Function
+
+Private Function ClienteCompletoParaNFe(ByVal lCod As Long) As Boolean
+    ClienteCompletoParaNFe = (Len(ClienteCamposFaltando(lCod)) = 0)
+End Function
+
+'Lista os campos obrigatorios que faltam no cadastro do fornecedor para emitir NFe; "" se estiver completo.
+'Fornecedor nao tem tipo de pessoa: documento de 14 digitos = CNPJ, 11 = CPF (contribuinte 9 exige CPF). IE so quando o contribuinte e 1.
+Private Function FornecedorCamposFaltando(ByVal lCod As Long) As String
+    Dim r As ADODB.Recordset
+    Dim bSN As Boolean, sDoc As String, iTipoCtr As Integer, sFalta As String
+    FornecedorCamposFaltando = ""
+    If lCod <= 0 Then FornecedorCamposFaltando = "  - Fornecedor não informado": Exit Function
+    Set r = dbData.OpenRecordset("SELECT * FROM fornecedor WHERE codigo = " & lCod)
+    If r.EOF Then FornecedorCamposFaltando = "  - Fornecedor não encontrado": Exit Function
+    bSN = (ValidateNull(r("SN")) = True)
+    sDoc = RemoverFormato(IIf(IsNull(r("cpf")), "", r("cpf")))
+    iTipoCtr = Val(IIf(IsNull(r("TipoContribuinte")), 0, r("TipoContribuinte")))
+
+    If Vazio(r("razao")) Then sFalta = sFalta & vbCrLf & "  - Razão social"
+    If Vazio(r("endereco")) Then sFalta = sFalta & vbCrLf & "  - Endereço"
+    If (Vazio(r("numero")) Or Val(r("numero") & "") = 0) And Not bSN Then sFalta = sFalta & vbCrLf & "  - Número"
+    If Vazio(r("bairro")) Then sFalta = sFalta & vbCrLf & "  - Bairro"
+    If Vazio(r("cidade")) Then sFalta = sFalta & vbCrLf & "  - Cidade"
+    If Vazio(r("estado")) Then sFalta = sFalta & vbCrLf & "  - Estado"
+    If Len(RemoverFormato(r("cep") & "")) <> 8 Then sFalta = sFalta & vbCrLf & "  - CEP"
+    If Vazio(r("codigoibge")) Or Val(r("codigoibge") & "") = 0 Then
+        sFalta = sFalta & vbCrLf & "  - Código IBGE da cidade"
+    ElseIf Len(CStr(r("codigoibge"))) <> 7 Then
+        sFalta = sFalta & vbCrLf & "  - Código IBGE da cidade (precisa ter 7 dígitos)"
+    End If
+
+    If iTipoCtr = 9 Then
+        If Len(sDoc) <> 11 Then
+            sFalta = sFalta & vbCrLf & "  - CPF"
+        ElseIf Not Validar_CPF(sDoc) Then
+            sFalta = sFalta & vbCrLf & "  - CPF inválido"
+        End If
+    ElseIf Len(sDoc) = 11 Then
+        If Not Validar_CPF(sDoc) Then sFalta = sFalta & vbCrLf & "  - CPF inválido"
+    ElseIf Len(sDoc) = 14 Then
+        If Not Validar_CNPJ(sDoc) Then sFalta = sFalta & vbCrLf & "  - CNPJ inválido"
+    Else
+        sFalta = sFalta & vbCrLf & "  - CNPJ"
+    End If
+
+    If iTipoCtr = 0 Then sFalta = sFalta & vbCrLf & "  - Tipo de contribuinte"
+    If iTipoCtr = 1 And Vazio(r("ie")) Then sFalta = sFalta & vbCrLf & "  - Inscrição Estadual (IE)"
+
+    r.Close
+    Set r = Nothing
+    If Len(sFalta) > 0 Then FornecedorCamposFaltando = Mid$(sFalta, Len(vbCrLf) + 1)
+End Function
+
+'Abre o cadastro do cliente ja em CADASTRO (todos os campos obrigatorios) e so volta quando o formulario for fechado
+Private Sub AbrirCadastroClienteNFe(ByVal lCod As Long)
+    Load Clientes_Cadastro
+    Clientes_Cadastro.bForcarCadastroNFe = True
+    Clientes_Cadastro.SSTab1.Tab = 0
+    Clientes_Cadastro.cmdNovo.Enabled = False
+    Clientes_Cadastro.cmdSalvar.Enabled = False
+    Clientes_Cadastro.cmdCancelar.Enabled = False
+    Clientes_Cadastro.txtCodigo.Text = CStr(lCod)
+    Clientes_Cadastro.Show 1
+End Sub
+
+Private Sub AbrirCadastroFornecedorNFe(ByVal lCod As Long)
+    Load Fornecedor_Cadastro
+    Fornecedor_Cadastro.SSTab1.Tab = 0
+    Fornecedor_Cadastro.cmdNovo.Enabled = False
+    Fornecedor_Cadastro.cmdSalvar.Enabled = False
+    Fornecedor_Cadastro.cmdCancelar.Enabled = False
+    Fornecedor_Cadastro.txtCodigo.Text = CStr(lCod)
+    Fornecedor_Cadastro.Show 1
+End Sub
+
+'Confere o cadastro do destinatario (cliente ou fornecedor) da NFe: se faltar dado, mostra quais campos e oferece abrir o cadastro.
+'Devolve True se (depois do ajuste) estiver completo. Se o cadastro foi aberto e a nota ja tem itens, recalcula os itens (IBS/CBS dependem da cidade/IBGE).
+Private Function VerificarClienteNFe(ByVal lCod As Long) As Boolean
+    Dim sFalta As String, bForn As Boolean, sQuem As String
+    VerificarClienteNFe = True
+    bForn = (cboTipoDest.Text = "FORNECEDOR")
+    If cboTipoDest.Text <> "CLIENTE" And Not bForn Then Exit Function
+    If lCod <= 0 Then Exit Function
+    If bForn Then
+        sFalta = FornecedorCamposFaltando(lCod)
+        sQuem = "fornecedor"
+    Else
+        sFalta = ClienteCamposFaltando(lCod)
+        sQuem = "cliente"
+    End If
+    If Len(sFalta) = 0 Then Exit Function
+    VerificarClienteNFe = False
+    If MsgBox("O cadastro do " & sQuem & " " & cboCliente.Text & " está incompleto para emitir a NFe:" & vbCrLf & vbCrLf & sFalta & vbCrLf & vbCrLf & _
+              "Deseja abrir o cadastro do " & sQuem & " para ajustar agora?", vbQuestion + vbYesNo, "Online Commerce") = vbYes Then
+        If bForn Then AbrirCadastroFornecedorNFe lCod Else AbrirCadastroClienteNFe lCod
+        If bForn Then
+            VerificarClienteNFe = (Len(FornecedorCamposFaltando(lCod)) = 0)
+        Else
+            VerificarClienteNFe = (Len(ClienteCamposFaltando(lCod)) = 0)
+        End If
+        If Val(txtCodNota.Text) > 0 And GridNotasItens.rows > 1 Then RecalcularItensNota
+    End If
 End Function
 
 Private Function NumSeguro(ByVal v As Variant) As Double
@@ -6048,22 +6185,17 @@ Private Sub Exibir_Duplicatas()
 If txtCodNota.Text = "" Then Exit Sub
 
 sSQL = "SELECT *, " & _
-"(CASE WHEN CodigoFormaPagamento = 1  THEN 'Dinheiro' " & _
-"WHEN CodigoFormaPagamento = 2 THEN 'Cheque' " & _
-"WHEN CodigoFormaPagamento = 3 THEN 'Cartão de Crédito' " & _
-"WHEN CodigoFormaPagamento = 4 THEN 'Cartão de Débito' " & _
-"WHEN CodigoFormaPagamento = 5 THEN 'Crédito Loja' " & _
-"WHEN CodigoFormaPagamento = 10 THEN 'Vale Alimentação' " & _
-"WHEN CodigoFormaPagamento = 11 THEN 'Vale Refeição' " & _
-"WHEN CodigoFormaPagamento = 12 THEN 'Vale Presente' " & _
-"WHEN CodigoFormaPagamento = 13 THEN 'Vale Combustível' " & _
-"WHEN CodigoFormaPagamento = 14 THEN 'Duplicata Mercantil' " & _
-"WHEN CodigoFormaPagamento = 15 THEN 'Boleto Bancário' " & _
-"WHEN CodigoFormaPagamento = 16 THEN 'Depósito Bancário' " & _
-"WHEN CodigoFormaPagamento = 17 THEN 'PIX' " & _
-"WHEN CodigoFormaPagamento = 18 THEN 'Transferência bancária' " & _
-"WHEN CodigoFormaPagamento = 19 THEN 'Programa de fidelidade' " & _
-"WHEN CodigoFormaPagamento = 90 THEN 'Sem pagamento' " & _
+"(CASE WHEN CodigoFormaPagamento = 1  THEN 'Dinheiro' WHEN CodigoFormaPagamento = 2 THEN 'Cheque' " & _
+"WHEN CodigoFormaPagamento = 3 THEN 'Cartão de Crédito' WHEN CodigoFormaPagamento = 4 THEN 'Cartão de Débito' " & _
+"WHEN CodigoFormaPagamento = 5 THEN 'Crédito Loja' WHEN CodigoFormaPagamento = 10 THEN 'Vale Alimentação' " & _
+"WHEN CodigoFormaPagamento = 11 THEN 'Vale Refeição' WHEN CodigoFormaPagamento = 12 THEN 'Vale Presente' " & _
+"WHEN CodigoFormaPagamento = 13 THEN 'Vale Combustível' WHEN CodigoFormaPagamento = 14 THEN 'Duplicata Mercantil' " & _
+"WHEN CodigoFormaPagamento = 15 THEN 'Boleto Bancário' WHEN CodigoFormaPagamento = 16 THEN 'Depósito Bancário' " & _
+"WHEN CodigoFormaPagamento = 17 THEN 'PIX - Dinâmico' WHEN CodigoFormaPagamento = 18 THEN 'Transferência bancária' " & _
+"WHEN CodigoFormaPagamento = 19 THEN 'Programa de fidelidade' WHEN CodigoFormaPagamento = 20 THEN 'PIX - Estático' " & _
+"WHEN CodigoFormaPagamento = 21 THEN 'Crédito em Loja' WHEN CodigoFormaPagamento = 22 THEN 'Pagamento Eletrônico não Informado' " & _
+"WHEN CodigoFormaPagamento = 23 THEN 'PIX - Automático' WHEN CodigoFormaPagamento = 24 THEN 'TEF - Book Transfer' " & _
+"WHEN CodigoFormaPagamento = 90 THEN 'Sem pagamento' WHEN CodigoFormaPagamento = 91 THEN 'Pagamento Posterior' " & _
 "WHEN CodigoFormaPagamento = 99 THEN 'Outros' " & _
 "Else 'Dinheiro' END) As var_FormaPgto " & _
 "FROM NotaFiscalParcelas " & _
@@ -7649,6 +7781,7 @@ Private Sub SincronizarChkTributos()
     bSupressChkEvents = True
     chkTributos.Value = IIf(InStr(txtInfComple.Text, MARCA_TRIBUTOS) > 0, 1, 0)
     bSupressChkEvents = False
+    chkTributos.Enabled = ExibirTributosConfig()
 End Sub
 
 'Nota nova: o checkbox nasce conforme a configuracao EXIBIR_TRIBUTOS (Configuracao_Geral)
@@ -7660,6 +7793,7 @@ Private Sub ChkTributosPadrao()
     bSupressChkEvents = True
     chkTributos.Value = IIf(bExibir, 1, 0)
     bSupressChkEvents = False
+    chkTributos.Enabled = bExibir
 End Sub
 
 Private Sub chkDadosBancarios_Click()
@@ -7991,6 +8125,7 @@ If vPossuiErro = True Then
         Fornecedor_Cadastro.Show 1
     Else
         Load Clientes_Cadastro
+        Clientes_Cadastro.bForcarCadastroNFe = True
         Clientes_Cadastro.SSTab1.Tab = 0
         Clientes_Cadastro.cmdNovo.Enabled = False
         Clientes_Cadastro.cmdSalvar.Enabled = False
@@ -8054,6 +8189,7 @@ If cboTipoDest.Text = "FORNECEDOR" Then
     Fornecedor_Cadastro.Show 1
 Else
     Load Clientes_Cadastro
+    Clientes_Cadastro.bForcarCadastroNFe = True
     Clientes_Cadastro.SSTab1.Tab = 0
     Clientes_Cadastro.cmdNovo.Enabled = False
     Clientes_Cadastro.cmdSalvar.Enabled = False
@@ -8671,8 +8807,14 @@ cboFormaPgto.AddItem "15 = Boleto Bancário"
 cboFormaPgto.AddItem "16 = Depósito Bancário"
 cboFormaPgto.AddItem "18 = Transferência bancária"
 cboFormaPgto.AddItem "19 = Programa de fidelidade"
-cboFormaPgto.AddItem "20 = PIX"
+cboFormaPgto.AddItem "17 = PIX - Dinâmico"
+cboFormaPgto.AddItem "20 = PIX - Estático"
+cboFormaPgto.AddItem "21 = Crédito em Loja"
+cboFormaPgto.AddItem "22 = Pagamento Eletrônico não Informado"
+cboFormaPgto.AddItem "23 = PIX - Automático"
+cboFormaPgto.AddItem "24 = TEF - Book Transfer"
 cboFormaPgto.AddItem "90 = Sem pagamento"
+cboFormaPgto.AddItem "91 = Pagamento Posterior"
 cboFormaPgto.AddItem "99 = Outros"
 
 If cboFormaPgto.Text = "" Then cboFormaPgto.Text = VarText
@@ -9403,6 +9545,14 @@ If cboCliente.ListIndex = -1 Then txtCodCliente.Text = "": Exit Sub
 'End If
 
 txtCodCliente = cboCliente.ItemData(cboCliente.ListIndex)
+
+'confere o cadastro do cliente escolhido (uma vez por cliente) enquanto a nota esta em edicao
+If cmdSalvar.Enabled And (cboTipoDest.Text = "CLIENTE" Or cboTipoDest.Text = "FORNECEDOR") Then
+    If Val(txtCodCliente.Text) <> vClienteNFeVerificado Then
+        vClienteNFeVerificado = Val(txtCodCliente.Text)
+        VerificarClienteNFe vClienteNFeVerificado
+    End If
+End If
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
@@ -10260,6 +10410,7 @@ varCodCliente = txtCodCliente.Text
 If cboTipoDest.Text = "CLIENTE" Then
     If ShowMsg("Deseja atualizar o cliente " & cboCliente.Text & " ?", vbInformation + vbYesNo) = vbYes Then
         Load Clientes_Cadastro
+        Clientes_Cadastro.bForcarCadastroNFe = True
         Clientes_Cadastro.SSTab1.Tab = 0
         Clientes_Cadastro.cmdNovo.Enabled = False
         Clientes_Cadastro.cmdSalvar.Enabled = False
@@ -11493,6 +11644,7 @@ If mskHora.Text = "" Then MsgBox "O campo hora é obrigatório!", vbInformation, "
 If Not IsDate(mskEmissao) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskEmissao.SetFocus: Exit Sub
 If Not IsDate(mskSaida) Then MsgBox "O campo hora é obrigatório!", vbInformation, "Aviso do Sistema": mskSaida.SetFocus: Exit Sub
 If txtCodCliente.Text = "" Then MsgBox "O campo CLIENTE é obrigatório.", vbCritical, "Online Commerce": cboCliente.SetFocus: Exit Sub
+If Not VerificarClienteNFe(Val(txtCodCliente.Text)) Then cboCliente.SetFocus: Exit Sub
 If cboModFrete.Text = "" Then
    Frm_NF.Tab = 0
    Tab_Produtos.Tab = 1
@@ -12632,6 +12784,7 @@ optCodBarra.Visible = bUsaOS
 optCodBarra.Value = True
 chkDadosVeiculo.Visible = bUsaOS
 chkTributos.Visible = True
+chkTributos.Enabled = ExibirTributosConfig()   'EXIBIR_TRIBUTOS = 0: checkbox desativado
 chkDadosVeiculo.Value = 0
 bUsaOSNFe = bUsaOS
 cmdConsultarVeiculos.Visible = bUsaOS

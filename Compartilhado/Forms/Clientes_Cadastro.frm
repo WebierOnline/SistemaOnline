@@ -1995,6 +1995,7 @@ If Not rTabela Is Nothing Then
    txtCodigoIBGE.Text = ValidateNull(rTabela("CodigoIBGE"))
    txtObs.Text = ValidateNull(rTabela("obs"))
    
+    Preencher_TipoContribuinte
     If rTabela("TipoContribuinte") = 1 Then
         cboTipo.Text = "1 - CONTRIBUINTE ICMS"
     ElseIf rTabela("TipoContribuinte") = 2 Then
@@ -2029,11 +2030,20 @@ Set r = Nothing
 End Sub
 
 Private Sub Preencher_TipoContribuinte()
-'If cboTipo.ListCount = 0 Then 'Desnecessário a comparação bastar limpar a lista primeiro
+'Lista do contribuinte conforme o tipo de pessoa (o texto atual do combo e preservado):
+'FÍSICA = so "9 - NÃO CONTRIBUINTE"; RURAL = so "1"; JURÍDICA (ou sem tipo) = "1" e "2"
+Dim sAtual As String
+sAtual = cboTipo.Text
 cboTipo.Clear
-cboTipo.AddItem "1 - CONTRIBUINTE ICMS"
-cboTipo.AddItem "2 - CONTRIBUINTE ISENTO"
-cboTipo.AddItem "9 - NÃO CONTRIBUINTE"
+If cboTipoPessoa.Text = "FÍSICA" Then
+    cboTipo.AddItem "9 - NÃO CONTRIBUINTE"
+ElseIf cboTipoPessoa.Text = "RURAL" Then
+    cboTipo.AddItem "1 - CONTRIBUINTE ICMS"
+Else
+    cboTipo.AddItem "1 - CONTRIBUINTE ICMS"
+    cboTipo.AddItem "2 - CONTRIBUINTE ISENTO"
+End If
+cboTipo.Text = sAtual
 End Sub
 
 
@@ -2271,6 +2281,7 @@ End Sub
 
 
 Private Sub cboTipoPessoa_LostFocus()
+Preencher_TipoContribuinte
 If cboTipoPessoa.Text = "FÍSICA" Then
     cboTipo.Text = "9 - NÃO CONTRIBUINTE"
 ElseIf cboTipoPessoa.Text = "JURÍDICA" Then
@@ -2378,7 +2389,7 @@ Else
 End If
 
 If cboTipoCliente.Text <> "PRÉ-CADASTRO" Then
-    If cboTipoPessoa.Text = "FÍSICA" And cboTipo.Text = "1 - CONTRIBUINTE ICMS" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
+    If cboTipoPessoa.Text = "FÍSICA" And cboTipo.Text <> "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "JURÍDICA" And cboTipo.Text = "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "RURAL" And cboTipo.Text = "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "RURAL" And cboTipo.Text = "2 - CONTRIBUINTE ISENTO" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
@@ -3188,7 +3199,7 @@ Else
 End If
 
 If cboTipoCliente.Text <> "PRÉ-CADASTRO" Then
-    If cboTipoPessoa.Text = "FÍSICA" And cboTipo.Text = "1 - CONTRIBUINTE ICMS" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
+    If cboTipoPessoa.Text = "FÍSICA" And cboTipo.Text <> "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "JURÍDICA" And cboTipo.Text = "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "RURAL" And cboTipo.Text = "9 - NÃO CONTRIBUINTE" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
     If cboTipoPessoa.Text = "RURAL" And cboTipo.Text = "2 - CONTRIBUINTE ISENTO" Then MsgBox "Tipo de contribuinte incompatível com o tipo de cadastro fiscal!", vbCritical, "Online Commerce":  Exit Sub
@@ -3219,10 +3230,11 @@ Frame1.Enabled = True
 Frame2.Enabled = True
 txtCadastro.Text = Format(Date, ocDATA)
 cboStatus.Text = "ATIVO"
-cboTipoCliente.Text = "PRÉ-CADASTRO"
+cboTipoCliente.Text = "CADASTRO"
 AutoNumeracao
 cboTipoPessoa.ListIndex = 0
-cboTipo.ListIndex = 2
+Preencher_TipoContribuinte   'FISICA: a lista so tem o 9
+cboTipo.ListIndex = 0
 If cboTipo.Text = "1 - CONTRIBUINTE ICMS" Then
     lblCPF.Caption = "CNPJ"
 ElseIf cboTipo.Text = "2 - CONTRIBUINTE ISENTO" Then

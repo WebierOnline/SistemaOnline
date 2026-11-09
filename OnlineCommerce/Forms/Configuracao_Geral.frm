@@ -1429,6 +1429,14 @@ Begin VB.Form Configuracao_Geral
          TabIndex        =   53
          Top             =   360
          Width           =   8535
+         Begin VB.CheckBox chkPixDinamico 
+            Caption         =   "Sim"
+            Height          =   195
+            Left            =   2820
+            TabIndex        =   239
+            Top             =   6660
+            Width           =   615
+         End
          Begin VB.CheckBox chkExibirTributos 
             Caption         =   "Sim"
             Height          =   195
@@ -1714,6 +1722,16 @@ Begin VB.Form Configuracao_Geral
             HAND            =   0   'False
             CHECK           =   0   'False
             VALUE           =   0   'False
+         End
+         Begin VB.Label lblPixDinamico 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Pix Dinâmico:"
+            Height          =   195
+            Left            =   1740
+            TabIndex        =   240
+            Top             =   6660
+            Width           =   975
          End
          Begin VB.Label Label78 
             Alignment       =   1  'Right Justify
@@ -3397,6 +3415,27 @@ dbData.Execute sSQL
 
 'Atualiza a configuração carregada na memória
 sysConfig("EXIBIR_TRIBUTOS").Value = IIf(chkExibirTributos.Value = vbChecked, "1", "0")
+End Sub
+
+Private Sub AtualizarPixDinamico()
+Dim sSQL As String
+
+'Cria a linha caso o script 167 ainda nao tenha rodado
+sSQL = "IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'PIX_DINAMICO') INSERT INTO configuracao (config_nome, config_valor) VALUES ('PIX_DINAMICO', '0');"
+dbData.Execute sSQL
+sSQL = "UPDATE configuracao SET config_valor = '" & IIf(chkPixDinamico.Value = vbChecked, "1", "0") & "' WHERE (config_nome = 'PIX_DINAMICO');"
+dbData.Execute sSQL
+
+'Atualiza a configuração carregada na memória (se a linha nao existia na carga, o PDV le na proxima abertura)
+On Error Resume Next
+sysConfig("PIX_DINAMICO").Value = IIf(chkPixDinamico.Value = vbChecked, "1", "0")
+On Error GoTo 0
+End Sub
+
+Private Sub Mostrar_PixDinamico()
+On Error Resume Next
+chkPixDinamico.Value = vbUnchecked
+chkPixDinamico.Value = IIf(CStr(sysConfig("PIX_DINAMICO").Value) = "1", vbChecked, vbUnchecked)
 End Sub
 
 Private Sub Mostrar_ExibirTributos()
@@ -6020,6 +6059,7 @@ Atualizar_ValorCartaoCredito
 AtualizarTipoLogin
 AtualizarLogoffAutomatico
 AtualizarExibirTributos
+AtualizarPixDinamico
 
 AtualizarTipoDesconto
 AtualizarAVDesc
@@ -6078,6 +6118,7 @@ Mostrar_ValorCartaoDebito
 MostrarTipoLogin
 MostrarLogoffAutomatico
 Mostrar_ExibirTributos
+Mostrar_PixDinamico
 Mostrar_TipoDesconto
 Mostrar_DescGradual
 MostrarConfDeclararRecebedor

@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "12:17"
+            TextSave        =   "05:37"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -166,7 +166,6 @@ Begin VB.Form OS_Recapadora
       _ExtentY        =   15637
       _Version        =   393216
       Tabs            =   5
-      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   452
       TabMaxWidth     =   2646
@@ -181,7 +180,7 @@ Begin VB.Form OS_Recapadora
       EndProperty
       TabCaption(0)   =   "SITUAÇÃO"
       TabPicture(0)   =   "OS_Recapadora.frx":2441
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "lblPecasServicos"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "lblQuantOS"
@@ -192,44 +191,46 @@ Begin VB.Form OS_Recapadora
       Tab(0).Control(3).Enabled=   0   'False
       Tab(0).Control(4)=   "Label15"
       Tab(0).Control(4).Enabled=   0   'False
-      Tab(0).Control(5)=   "cmdExcluir"
+      Tab(0).Control(5)=   "cmdReabrir"
       Tab(0).Control(5).Enabled=   0   'False
-      Tab(0).Control(6)=   "cmdPedidoPDF"
+      Tab(0).Control(6)=   "cmdExcluir"
       Tab(0).Control(6).Enabled=   0   'False
-      Tab(0).Control(7)=   "cmdOrcamentoPDF"
+      Tab(0).Control(7)=   "cmdPedidoPDF"
       Tab(0).Control(7).Enabled=   0   'False
-      Tab(0).Control(8)=   "cmdImpGarantia1"
+      Tab(0).Control(8)=   "cmdOrcamentoPDF"
       Tab(0).Control(8).Enabled=   0   'False
-      Tab(0).Control(9)=   "cmdImpPedido1"
+      Tab(0).Control(9)=   "cmdImpGarantia1"
       Tab(0).Control(9).Enabled=   0   'False
-      Tab(0).Control(10)=   "cmdImpOrcamento1"
+      Tab(0).Control(10)=   "cmdImpPedido1"
       Tab(0).Control(10).Enabled=   0   'False
-      Tab(0).Control(11)=   "cmdImpEntrada1"
+      Tab(0).Control(11)=   "cmdImpOrcamento1"
       Tab(0).Control(11).Enabled=   0   'False
-      Tab(0).Control(12)=   "cmdFinanceiroOS"
+      Tab(0).Control(12)=   "cmdImpEntrada1"
       Tab(0).Control(12).Enabled=   0   'False
-      Tab(0).Control(13)=   "cmdNovoOS"
+      Tab(0).Control(13)=   "cmdFinanceiroOS"
       Tab(0).Control(13).Enabled=   0   'False
-      Tab(0).Control(14)=   "cmdEditarOS"
+      Tab(0).Control(14)=   "cmdNovoOS"
       Tab(0).Control(14).Enabled=   0   'False
-      Tab(0).Control(15)=   "GridPecasServicos"
+      Tab(0).Control(15)=   "cmdEditarOS"
       Tab(0).Control(15).Enabled=   0   'False
-      Tab(0).Control(16)=   "Grid_OS"
+      Tab(0).Control(16)=   "GridPecasServicos"
       Tab(0).Control(16).Enabled=   0   'False
-      Tab(0).Control(17)=   "Text2"
+      Tab(0).Control(17)=   "Grid_OS"
       Tab(0).Control(17).Enabled=   0   'False
-      Tab(0).Control(18)=   "optFinanceiroAberto"
+      Tab(0).Control(18)=   "Text2"
       Tab(0).Control(18).Enabled=   0   'False
-      Tab(0).Control(19)=   "optFinanceiroFechado"
+      Tab(0).Control(19)=   "optFinanceiroAberto"
       Tab(0).Control(19).Enabled=   0   'False
-      Tab(0).Control(20)=   "Frame6"
+      Tab(0).Control(20)=   "optFinanceiroFechado"
       Tab(0).Control(20).Enabled=   0   'False
-      Tab(0).Control(21)=   "Text1"
+      Tab(0).Control(21)=   "Frame6"
       Tab(0).Control(21).Enabled=   0   'False
-      Tab(0).ControlCount=   22
+      Tab(0).Control(22)=   "Text1"
+      Tab(0).Control(22).Enabled=   0   'False
+      Tab(0).ControlCount=   23
       TabCaption(1)   =   "CADASTRO"
       TabPicture(1)   =   "OS_Recapadora.frx":245D
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "lblDataAberturaCaixa"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "cmdImpPedido2"
@@ -289,7 +290,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   2955
-         Left            =   2940
+         Left            =   -72060
          TabIndex        =   226
          Top             =   3180
          Visible         =   0   'False
@@ -395,7 +396,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H80000005&
          Height          =   420
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   111
          Text            =   "ORDEM DE SERVIÇO"
          Top             =   600
@@ -407,7 +408,7 @@ Begin VB.Form OS_Recapadora
          ClipControls    =   0   'False
          ForeColor       =   &H80000008&
          Height          =   375
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   215
          Top             =   270
          Width           =   4335
@@ -1266,7 +1267,7 @@ Begin VB.Form OS_Recapadora
       Begin VB.OptionButton optFinanceiroFechado 
          Caption         =   "Fechado"
          Height          =   195
-         Left            =   -63480
+         Left            =   11520
          TabIndex        =   139
          Top             =   390
          Width           =   975
@@ -1274,7 +1275,7 @@ Begin VB.Form OS_Recapadora
       Begin VB.OptionButton optFinanceiroAberto 
          Caption         =   "Aberto"
          Height          =   195
-         Left            =   -64320
+         Left            =   10680
          TabIndex        =   138
          Top             =   390
          Value           =   -1  'True
@@ -1295,7 +1296,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H00000080&
          Height          =   360
-         Left            =   11160
+         Left            =   -63840
          TabIndex        =   128
          TabStop         =   0   'False
          Top             =   7800
@@ -1306,7 +1307,7 @@ Begin VB.Form OS_Recapadora
          Enabled         =   0   'False
          ForeColor       =   &H80000008&
          Height          =   7515
-         Left            =   120
+         Left            =   -74880
          ScaleHeight     =   7485
          ScaleWidth      =   10305
          TabIndex        =   114
@@ -3026,7 +3027,7 @@ Begin VB.Form OS_Recapadora
          Appearance      =   0  'Flat
          ForeColor       =   &H80000008&
          Height          =   795
-         Left            =   120
+         Left            =   -74880
          ScaleHeight     =   765
          ScaleWidth      =   10305
          TabIndex        =   30
@@ -3286,7 +3287,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H80000005&
          Height          =   420
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   110
          Text            =   "PEÇAS / SERVIÇOS"
          Top             =   5700
@@ -3294,7 +3295,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin MSFlexGridLib.MSFlexGrid Grid_OS 
          Height          =   3915
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   0
          Top             =   1020
          Width           =   12495
@@ -3315,7 +3316,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarEntrada 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   66
          Top             =   1740
          Width           =   1995
@@ -3354,7 +3355,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   67
          Top             =   2400
          Width           =   1995
@@ -3393,7 +3394,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdApagar 
          Height          =   615
-         Left            =   10515
+         Left            =   -64485
          TabIndex        =   68
          Top             =   3060
          Width           =   1995
@@ -3432,7 +3433,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdGerarEntrada 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   65
          Top             =   1080
          Width           =   1995
@@ -3471,7 +3472,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   10
          Top             =   360
          Width           =   1995
@@ -3510,7 +3511,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin MSFlexGridLib.MSFlexGrid GridPecasServicos 
          Height          =   2415
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   123
          TabStop         =   0   'False
          Top             =   6120
@@ -3524,7 +3525,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdEditarOS 
          Height          =   375
-         Left            =   -73980
+         Left            =   1020
          TabIndex        =   2
          Top             =   5100
          Width           =   795
@@ -3562,7 +3563,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdNovoOS 
          Height          =   375
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   1
          Top             =   5100
          Width           =   855
@@ -3600,7 +3601,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdFinanceiroOS 
          Height          =   375
-         Left            =   -73140
+         Left            =   1860
          TabIndex        =   3
          Top             =   5100
          Width           =   975
@@ -3638,7 +3639,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpEntrada2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   69
          Top             =   4260
          Width           =   1995
@@ -3677,7 +3678,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpOrcamento2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   70
          Top             =   4920
          Width           =   1995
@@ -3716,7 +3717,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpEntrada1 
          Height          =   375
-         Left            =   -72120
+         Left            =   2880
          TabIndex        =   4
          Top             =   5100
          Width           =   1455
@@ -3754,11 +3755,11 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpOrcamento1 
          Height          =   375
-         Left            =   -70620
+         Left            =   4380
          TabIndex        =   5
          Top             =   5100
-         Width           =   1455
-         _ExtentX        =   2566
+         Width           =   1095
+         _ExtentX        =   1931
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Orçamento"
@@ -3792,7 +3793,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpPedido1 
          Height          =   375
-         Left            =   -67740
+         Left            =   6960
          TabIndex        =   7
          Top             =   5100
          Width           =   1275
@@ -3830,7 +3831,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpPedido2 
          Height          =   615
-         Left            =   10500
+         Left            =   -64500
          TabIndex        =   71
          Top             =   5580
          Width           =   1995
@@ -3869,7 +3870,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpGarantia1 
          Height          =   375
-         Left            =   -65160
+         Left            =   9540
          TabIndex        =   9
          Top             =   5100
          Width           =   855
@@ -3907,11 +3908,11 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdOrcamentoPDF 
          Height          =   375
-         Left            =   -69120
+         Left            =   5520
          TabIndex        =   6
          Top             =   5100
-         Width           =   1335
-         _ExtentX        =   2355
+         Width           =   1395
+         _ExtentX        =   2461
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Orçamento PDF"
@@ -3945,7 +3946,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdPedidoPDF 
          Height          =   375
-         Left            =   -66420
+         Left            =   8280
          TabIndex        =   8
          Top             =   5100
          Width           =   1215
@@ -4061,7 +4062,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   375
-         Left            =   -64260
+         Left            =   10440
          TabIndex        =   214
          Top             =   5100
          Width           =   855
@@ -4097,6 +4098,44 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin ChamaleonBtn.chameleonButton cmdReabrir 
+         Height          =   375
+         Left            =   11340
+         TabIndex        =   241
+         Top             =   5100
+         Width           =   855
+         _ExtentX        =   1508
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "Reabrir"
+         ENAB            =   0   'False
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":19A63
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin VB.Label lblDataAberturaCaixa 
          Alignment       =   1  'Right Justify
          AutoSize        =   -1  'True
@@ -4113,7 +4152,7 @@ Begin VB.Form OS_Recapadora
          EndProperty
          ForeColor       =   &H000000FF&
          Height          =   195
-         Left            =   11040
+         Left            =   -63960
          TabIndex        =   141
          Top             =   6600
          Width           =   1035
@@ -4122,7 +4161,7 @@ Begin VB.Form OS_Recapadora
          AutoSize        =   -1  'True
          Caption         =   "Financeiro:"
          Height          =   195
-         Left            =   -65220
+         Left            =   9780
          TabIndex        =   140
          Top             =   390
          Width           =   780
@@ -4142,7 +4181,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -64800
+         Left            =   10200
          TabIndex        =   134
          Top             =   8595
          Width           =   225
@@ -4162,7 +4201,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -63840
+         Left            =   11160
          TabIndex        =   133
          Top             =   8595
          Width           =   225
@@ -4198,7 +4237,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -62700
+         Left            =   12300
          TabIndex        =   125
          Top             =   4980
          Width           =   225
@@ -4218,7 +4257,7 @@ Begin VB.Form OS_Recapadora
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   -62700
+         Left            =   12300
          TabIndex        =   124
          Top             =   8580
          Width           =   225
@@ -7086,6 +7125,7 @@ If r.BOF Then
     CAIXA_FECHADO = True
     vDataAberturaCaixa = 0
     vCaixaReaberto = False
+    lblDataAberturaCaixa.Caption = ""
     
 Else
     vDataAberturaCaixa = Int(CDate(r("DATA_ABERTURA")))
@@ -9323,6 +9363,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
         
         dbData.Execute "COMMIT TRANSACTION"
         bTrans = False
+        FecharLogReaberturaOS Val(txtCodPedido.Text)
 
         If iCopiasAP <> 0 Then  'saber a quantidade de copias
            If bEntregaAP = True Then
@@ -9544,6 +9585,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
         
         dbData.Execute "COMMIT TRANSACTION"
         bTrans = False
+        FecharLogReaberturaOS Val(txtCodPedido.Text)
 
         If iCopiasAP <> 0 Then  'saber a quantidade de copias
            If bEntregaAP = True Then
@@ -9635,7 +9677,9 @@ If txtTotalPecasServicos.Text = "" Or txtTotalPecasServicos.Text = "0,00" Then E
 Dim varTipoPgto As String
 Dim varTipoCartao As String
 
-If IsDate(lblDataAberturaCaixa.Caption) = False Then
+'reconsulta o caixa na hora do clique: o estado lido ao abrir a OS pode estar velho (caixa aberto/fechado depois)
+Verificar_Caixa
+If CAIXA_FECHADO Then
     MsgBox "Caixa Fechado"
     Exit Sub
 End If
@@ -9791,7 +9835,9 @@ If cboTipoOS.Text <> "CONSERTO" Then MsgBox "Somente é possivel geral financeiro
 Dim varTipoPgto As String
 Dim varTipoCartao As String
 
-If IsDate(lblDataAberturaCaixa.Caption) = False Then
+'reconsulta o caixa na hora do clique: o estado lido ao abrir a OS pode estar velho (caixa aberto/fechado depois)
+Verificar_Caixa
+If CAIXA_FECHADO Then
     MsgBox "Caixa Fechado"
     Exit Sub
 End If
@@ -9935,6 +9981,106 @@ Calcular_Desconto
 Calcular_Parcelas
 Calcular_Prazo
 cmdFinalizar.Enabled = True
+End Sub
+
+'Marca como concluido o registro de reabertura (Pedidos_Reabertura) quando a OS reaberta e finalizada de novo no financeiro
+Private Sub FecharLogReaberturaOS(ByVal lCodPedido As Long)
+On Error Resume Next
+If lCodPedido > 0 Then dbData.Execute "UPDATE Pedidos_Reabertura SET STATUS_PEDIDO = 1 WHERE (COD_PEDIDO = " & lCodPedido & ") AND (STATUS_PEDIDO = 0);"
+End Sub
+
+'Reabre no financeiro uma OS ja fechada (status_os = 1): volta para EM EXECUCAO / financeiro ABERTO; DATA_TERMINO e HORA_TERMINO ficam como estao
+'(a proxima finalizacao grava a data nova no lugar).
+'Estoque NAO e mexido: o estoque das pecas e debitado em cmdAdicionarPecas_Click e devolvido em cmdRemoverPecas_Click,
+'nunca ao finalizar. Bloqueia se houver nota fiscal/NFCe ativa, caixa ja fechado ou parcela quitada em outro dia.
+'Mesma permissao que o PDV exige para reabrir venda (Usuario_Acessos, Cod_Permissao 1 = ABRIR VENDA); vCodFunc e o Usuario.Codigo do login
+Private Function UsuarioPodeReabrirOS() As Boolean
+UsuarioPodeReabrirOS = (Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM Usuario_Acessos WHERE (Cod_Usuario = " & vCodFunc & ") AND (Cod_Permissao = 1);", "qtd", "0")) > 0)
+End Function
+
+Private Sub cmdReabrir_Click()
+Dim rR As ADODB.Recordset
+Dim lCodOS As Long, lCodPedido As Long
+Dim curTotal As Currency
+Dim sLoginR As String, sErroR As String
+Dim bTransR As Boolean
+
+If optFinanceiroFechado.Value = False Then Exit Sub
+If Grid_OS.Row < 1 Then Exit Sub
+If Not UsuarioPodeReabrirOS() Then
+    MsgBox "Você não tem permissão para reabrir (ABRIR VENDA)!" & vbCrLf & "Consulte o gerente.", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+lCodOS = Val(Grid_OS.TextMatrix(Grid_OS.Row, 0))
+If lCodOS = 0 Then Exit Sub
+
+Set rR = dbData.OpenRecordset("SELECT cod_pedido, ISNULL(status_os, 0) AS st, ISNULL(total, 0) AS tot FROM os WHERE (cod_os = " & lCodOS & ");")
+If rR.EOF Then
+    rR.Close: Set rR = Nothing
+    MsgBox "OS não encontrada!", vbInformation, "Aviso do Sistema"
+    Exit Sub
+End If
+lCodPedido = Val(ValidateNull(rR("cod_pedido")))
+curTotal = CCur(ValidateNull(rR("tot")))
+If Val(ValidateNull(rR("st"))) <> 1 Then
+    rR.Close: Set rR = Nothing
+    MsgBox "Essa OS não está fechada no financeiro!", vbInformation, "Aviso do Sistema"
+    MostrarGrid_OS_Situacao
+    DesabilitarBotoesOS
+    Exit Sub
+End If
+rR.Close
+Set rR = Nothing
+
+'nota fiscal / NFCe ativa vinculada: precisa ser cancelada antes
+If Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM TbNFCe WHERE (Num_OS_VD_Origem = " & lCodPedido & ") AND (ISNULL(NFCeCancelada, 0) = 0) AND (ISNULL(Inutilizada, 0) = 0);", "qtd", "0")) > 0 Or _
+   Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM NotaFiscal WHERE (Cod_Pedido = " & lCodPedido & ") AND (ISNULL(Cancelada, 0) = 0);", "qtd", "0")) > 0 Then
+    MsgBox "Essa OS possui NFe/NFCe vinculada que não está cancelada!" & vbCrLf & vbCrLf & "Cancele a nota fiscal antes de reabrir a OS.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+'o caixa onde o financeiro foi recebido precisa estar aberto
+If Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM parcelas p WHERE (p.cod_os = " & lCodOS & ") AND (p.CODCAIXA IS NOT NULL) AND NOT EXISTS (SELECT 1 FROM caixa_dia c WHERE (c.CODCAIXA = p.CODCAIXA) AND (c.CAIXA = p.CAIXA) AND (c.STATUS = 0));", "qtd", "0")) > 0 Then
+    MsgBox "O caixa onde essa OS foi recebida já está fechado!" & vbCrLf & vbCrLf & "Não é possível reabrir uma OS de caixa fechado.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+'parcela quitada depois do dia do fechamento: reabrir apagaria um recebimento de outro dia
+If Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM parcelas p INNER JOIN pedidos pd ON pd.cod_pedido = p.cod_pedido WHERE (p.cod_os = " & lCodOS & ") AND (p.STATUS = 1) AND (p.PAGAMENTO IS NOT NULL) AND (CONVERT(VARCHAR(8), p.PAGAMENTO, 112) <> CONVERT(VARCHAR(8), pd.data_compra, 112));", "qtd", "0")) > 0 Then
+    MsgBox "Essa OS possui parcela quitada em outro dia!" & vbCrLf & vbCrLf & "Não é possível reabrir: o recebimento já foi lançado no caixa de outro dia.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+If ShowMsg("Reabrir a OS " & Format(lCodOS, "0000") & " no financeiro?" & vbCrLf & vbCrLf & _
+           "As parcelas e os recebimentos dessa OS serão apagados e a OS volta para EM EXECUÇÃO (financeiro ABERTO)." & vbCrLf & _
+           "O estoque das peças não é alterado.", vbQuestion + vbYesNo + vbDefaultButton2) <> vbYes Then Exit Sub
+
+'login de quem reabriu (para o registro de reaberturas)
+sLoginR = SQLExecutaRetorno("SELECT nome FROM funcionario WHERE (codigo = " & vCodFunc & ");", "nome", "")
+
+On Error GoTo ErrReabrirOS
+dbData.Execute "BEGIN TRANSACTION"
+bTransR = True
+
+dbData.Execute "DELETE FROM parcelas WHERE (cod_os = " & lCodOS & ");"
+dbData.Execute "UPDATE os SET status_os = 0, status = 'EM EXECUÇÃO', tipo_pagamento = NULL, pagamento = NULL, entrada = 0 WHERE (cod_os = " & lCodOS & ");"
+dbData.Execute "UPDATE pedidos SET status_pedido = 0, reaberto = 1, entrada = 0 WHERE (cod_pedido = " & lCodPedido & ");"
+dbData.Execute "INSERT INTO Pedidos_Reabertura (COD_USUARIO, LOGIN, VLR_PEDIDO, DATA, HORA, CANCELADO, COD_PEDIDO, STATUS_PEDIDO) VALUES (" & vCodFunc & ", '" & Replace(sLoginR, "'", "''") & "', " & Replace(CStr(curTotal), ",", ".") & ", CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), '" & Format(Now, ocHORA) & "', 0, " & lCodPedido & ", 0);"
+
+dbData.Execute "COMMIT TRANSACTION"
+bTransR = False
+On Error GoTo 0
+
+optFinanceiroAberto.Value = True   'atualiza o grid e os botoes (a OS passa a aparecer no financeiro aberto)
+MsgBox "OS " & Format(lCodOS, "0000") & " reaberta: voltou para EM EXECUÇÃO." & vbCrLf & "Termine a OS novamente para gerar o financeiro.", vbInformation, "Aviso do Sistema"
+Exit Sub
+
+ErrReabrirOS:
+sErroR = Err.Description
+On Error Resume Next
+If bTransR Then dbData.Execute "ROLLBACK TRANSACTION"
+On Error GoTo 0
+MsgBox "Não foi possível reabrir a OS:" & vbCrLf & sErroR, vbCritical, "Erro ao Reabrir"
 End Sub
 
 Private Sub cmdFinanceiroOS_Click()
@@ -12566,6 +12712,10 @@ If (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("À COMEÇAR") Then
       cmdOrcamentoPDF.Enabled = True
    End If
 If optFinanceiroAberto.Value = True Then cmdExcluir.Enabled = True
+
+'reabrir o financeiro: so com o filtro Financeiro Fechado e uma OS realmente selecionada no grid
+cmdReabrir.Enabled = (optFinanceiroFechado.Value = True And posit > 0 And Val(Grid_OS.TextMatrix(posit, 0)) > 0)
+If cmdReabrir.Enabled Then cmdReabrir.Enabled = UsuarioPodeReabrirOS()
 End Sub
 
 
@@ -13279,6 +13429,7 @@ Private Sub DesabilitarBotoesOS()
     cmdOrcamentoPDF.Enabled = False
     cmdPedidoPDF.Enabled = False
     cmdExcluir.Enabled = False
+    cmdReabrir.Enabled = False
 End Sub
 
 Private Sub optFinanceiroAberto_Click()

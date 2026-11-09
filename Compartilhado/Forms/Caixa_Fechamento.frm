@@ -2401,23 +2401,6 @@ End If
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
 
-sSQL = "SELECT VencimentoCert FROM empresa"
-Set r = dbData.OpenRecordset(sSQL)
-
-If Not IsNull(r!VencimentoCert) Then
-   If (DateDiff("d", Date, r!VencimentoCert) <= 10) Then
-      If (DateDiff("d", Date, r!VencimentoCert) <= 0) Then
-         MsgBox "Seu certificado digital venceu." & vbNewLine & "Todo ano tem que renovar." & vbNewLine & "Mande mensagem para seu contador para ele renovar para você. Assim que ele te enviar o arquivo, instalamos para você!", vbCritical + vbOKOnly, "CERTIFICADO DIGITAL VENCIDO"
-      ElseIf (DateDiff("d", Date, r!VencimentoCert) = 1) Then
-         MsgBox "Seu certificado digital vence hoje!" & vbNewLine & "Todo ano tem que renovar." & vbNewLine & "Mande mensagem para seu contador para ele renovar para você. Assim que ele te enviar o arquivo, instalamos para você!", vbExclamation + vbOKOnly, "CERTIFICADO DIGITAL"
-      Else
-         MsgBox "Faltam " & CStr(Int(DateDiff("d", r!VencimentoCert, Date)) * (-1)) & " dias para vencer o seu CERTIFICADO DIGITAL!", vbInformation + vbOKOnly, "CERTIFICADO DIGITAL"
-      End If
-   End If
-End If
-If r.State <> 0 Then r.Close
-Set r = Nothing
-
 MsgBox "SEU CAIXA FOI ABERTO COM SUCESSO!!" & Chr(13) & "Reabra seu PDV novamente", vbInformation, "Aviso do Sistema"
 
 If varFluxoCaixa = False Then
