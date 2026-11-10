@@ -324,6 +324,10 @@ Sub GravarMarcador(caminho)
    f.Close
 End Sub
 
+Function IIf2(condicao, valorSe, valorSenao)
+   If condicao Then IIf2 = valorSe Else IIf2 = valorSenao
+End Function
+
 Sub GarantirCompartilhamento(pasta)
    Dim resultado
    ' consulta se o compartilhamento ja existe (exit code 0 = existe)
@@ -335,7 +339,10 @@ Sub GarantirCompartilhamento(pasta)
       If resultado = 0 Then
          RegistrarLog "Pasta ExportarXML compartilhada na rede com sucesso (" & pasta & ")."
       Else
-         RegistrarLog "Falha ao compartilhar a pasta ExportarXML na rede (codigo " & resultado & "). Verifique permissoes/rede."
+         RegistrarLog "Falha ao compartilhar a pasta ExportarXML na rede (codigo " & resultado & IIf2(resultado = 2, " = acesso negado: criar compartilhamento exige administrador", "") & ")."
+         RegistrarLog "  SOLUCAO (fazer UMA vez, no servidor): de duplo clique em CompartilharExportarXML.bat (pasta do sistema) e confirme a janela do Windows,"
+         RegistrarLog "  ou, num Prompt de Comando como administrador: net share ExportarXML=" & Chr(34) & pasta & Chr(34) & " /GRANT:Everyone,FULL"
+         RegistrarLog "  Sem o compartilhamento, os arquivos .rar dos terminais PDV nao chegam ao servidor (o envio do servidor continua normal)."
       End If
    End If
 End Sub
@@ -490,31 +497,48 @@ Sub CopiarArquivosPorData(pastaOrigem, pastaDestino, vMesAlvo, vAnoAlvo)
    If vCopiados > 0 Then RegistrarLog "Inutilizados: " & vCopiados & " arquivo(s) copiado(s) de " & pastaOrigem
 End Sub
 
-' O EmailEnviar da DLL snfe.Util exige um array ByRef fortemente tipado (String())
-' como parametro - o VBScript so tem arrays de Variant e nao suporta isso via
-' CreateObject tardio (lanca "Tipos incompativeis"). Testado e confirmado: o
-' PowerShell CONSEGUE (usando [string[]] + [ref]), entao delega-se essa etapa
-' pra um script PowerShell separado (EnviarEmailContador.ps1, mesma pasta).
-' O envio e assincrono do lado do servidor SMTP do fornecedor - o retorno True
-' so confirma que a chamada foi aceita, o email pode demorar alguns minutos
-' pra chegar de fato (confirmado em teste real).
+' O envio do email e feito pelo proprio sistema (OnlineCommerce.exe /enviarxml "pedido"), nao mais por
+' PowerShell: a DLL snfe grava o snfe.config na pasta do executavel que a hospeda, e na pasta do
+' powershell.exe (Windows) a tarefa agendada nao tinha permissao - ConfigurarDLL falhava com "acesso negado
+' ... snfe.config" e o email nunca saia (so funcionava rodando manualmente como administrador).
+' O .vbs grava o pedido (mes, ano e os anexos, um por linha), roda o sistema e espera; o sistema grava o
+' resultado ("OK" ou "ERRO: ...") em pedido.resultado e registra os detalhes em EnviarEmailContador_log.txt.
+' O envio e assincrono dentro da DLL: o sistema espera conforme o tamanho dos anexos antes de encerrar.
 Function EnviarEmailContador(anexos, totalAnexos, vMesNum, vAnoNum)
-   Dim vAnexosStr, i, vComandoPS, vExitCode, vShellPS
+   Dim i, vExe, vPedido, vResultado, vArqPedido, vArqResultado, vShellX, vTexto
 
    EnviarEmailContador = False
 
-   vAnexosStr = anexos(0)
-   For i = 1 To totalAnexos - 1
-      vAnexosStr = vAnexosStr & "|" & anexos(i)
+   vExe = scriptDir & "\OnlineCommerce.exe"
+   If Not fso.FileExists(vExe) Then
+      RegistrarLog "OnlineCommerce.exe nao encontrado em " & scriptDir & " - email nao enviado."
+      Exit Function
+   End If
+
+   vPedido = scriptDir & "\EnviarXMLContador_pedido.txt"
+   vResultado = vPedido & ".resultado"
+
+   If fso.FileExists(vResultado) Then fso.DeleteFile vResultado, True
+
+   Set vArqPedido = fso.CreateTextFile(vPedido, True)
+   vArqPedido.WriteLine vMesNum
+   vArqPedido.WriteLine vAnoNum
+   For i = 0 To totalAnexos - 1
+      vArqPedido.WriteLine anexos(i)
    Next
+   vArqPedido.Close
 
-   Set vShellPS = CreateObject("WScript.Shell")
+   Set vShellX = CreateObject("WScript.Shell")
+   vShellX.Run Chr(34) & vExe & Chr(34) & " /enviarxml " & Chr(34) & vPedido & Chr(34), 0, True
 
-   vComandoPS = Chr(34) & "C:\Windows\SysWOW64\WindowsPowerShell\v1.0\powershell.exe" & Chr(34) & _
-      " -NoProfile -ExecutionPolicy Bypass -File " & Chr(34) & scriptDir & "\EnviarEmailContador.ps1" & Chr(34) & _
-      " -Anexos " & Chr(34) & vAnexosStr & Chr(34) & " -Mes " & vMesNum & " -Ano " & vAnoNum
+   If Not fso.FileExists(vResultado) Then
+      RegistrarLog "O sistema nao devolveu resultado do envio (ver EnviarEmailContador_log.txt)."
+      Exit Function
+   End If
+   Set vArqResultado = fso.OpenTextFile(vResultado, 1)
+   If Not vArqResultado.AtEndOfStream Then vTexto = Trim(vArqResultado.ReadLine)
+   vArqResultado.Close
 
-   vExitCode = vShellPS.Run(vComandoPS, 0, True)
-
-   EnviarEmailContador = (vExitCode = 0)
+   EnviarEmailContador = (vTexto = "OK")
+   If Not EnviarEmailContador Then RegistrarLog "Envio do email: " & vTexto
 End Function

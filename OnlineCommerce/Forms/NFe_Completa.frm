@@ -4417,6 +4417,8 @@ Dim curISqUnid2  As Currency, curISvUnid2 As Currency
 bSimples = (vRegimeTributario = 1 Or vRegimeTributario = 2 Or vRegimeTributario = 5)
 bDevolucao = (Left(cboFinalidade.Text, 1) = "4")
 
+    AplicarAliquotasReforma            'CBS/IBS vigentes hoje (tabelas de vigencia)
+
     ' IBS UF de referencia (cidade do destinatario) - usada pra preencher item que veio com IBS_UFpAliq = 0
     Dim dblPIBSUFRef As Double, iSemAliqIBS As Integer
     dblPIBSUFRef = 0: iSemAliqIBS = 0
@@ -9675,6 +9677,7 @@ End If
 End Sub
 Private Sub Mostrar_Aliquotas_Produto()
 If txtCodProduto.Text = "" Then Exit Sub
+AplicarAliquotasReforma            'CBS/IBS vigentes hoje (tabelas de vigencia)
 sSQL = "SELECT codigo, descricao, INF_ADICIONA, EAN, COD_BARRA, unid_medida, ncm, tamanho, REF, fabricante, CFOP, ICMSCST, ICMSAliq, pRedBC, modBC, piscst, pisAliq, cofinscst, cofinsAliq, ipicst, ipiAliq, cest, pMVAST, pICMSST, pRedBCST, cClassTrib, IBSCBSCST, ISCST, cClassTrib_IS, fator_conversao_IS, CASE WHEN abs(combustivel) = 1 THEN 'Combustível' ELSE '' END as vTProduto FROM produtos WHERE (codigo = " & txtCodProduto.Text & ");"
 Set r = dbData.OpenRecordset(sSQL)
 

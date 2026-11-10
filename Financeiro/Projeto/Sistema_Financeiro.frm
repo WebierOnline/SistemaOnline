@@ -86,12 +86,190 @@ Begin VB.Form Sistema_Financeiro
       Tab(1).Control(0)=   "Frame3"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).ControlCount=   1
-      TabCaption(2)   =   "0"
+      TabCaption(2)   =   "ALÍQUOTAS CBS/IBS"
       TabPicture(2)   =   "Sistema_Financeiro.frx":240A
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdSalvarBalanca"
+      Tab(2).Control(0)=   "fraAlq"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
+      Begin VB.Frame fraAlq 
+         Caption         =   "Alíquotas da Reforma Tributária (CBS / IBS) - publicadas para os clientes pela nuvem"
+         Height          =   6120
+         Left            =   -74880
+         TabIndex        =   75
+         Top             =   480
+         Width           =   11760
+         Begin VB.Label lblAlqTipo 
+            AutoSize        =   -1  'True
+            Caption         =   "Tipo:"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   0
+            Top             =   330
+            Width           =   345
+         End
+         Begin VB.ComboBox cboAlqTipo 
+            Height          =   315
+            Left            =   720
+            Style           =   2  'Dropdown List
+            TabIndex        =   1
+            Top             =   285
+            Width           =   1500
+         End
+         Begin VB.Label lblAlqEscopo 
+            AutoSize        =   -1  'True
+            Caption         =   "Escopo:"
+            Height          =   195
+            Left            =   2520
+            TabIndex        =   2
+            Top             =   330
+            Width           =   525
+         End
+         Begin VB.TextBox txtAlqEscopo 
+            Height          =   288
+            Left            =   3180
+            MaxLength       =   7
+            TabIndex        =   3
+            Top             =   285
+            Width           =   1200
+         End
+         Begin VB.Label lblAlqEscopoDica 
+            AutoSize        =   -1  'True
+            Caption         =   "TODOS, UF (ex.: SP) ou código IBGE do município (7 dígitos)"
+            Height          =   195
+            Left            =   4560
+            TabIndex        =   4
+            Top             =   330
+            Width           =   4200
+         End
+         Begin VB.Label lblAlqAliq 
+            AutoSize        =   -1  'True
+            Caption         =   "Alíq. %:"
+            Height          =   195
+            Left            =   120
+            TabIndex        =   5
+            Top             =   780
+            Width           =   585
+         End
+         Begin VB.TextBox txtAlqAliq 
+            Height          =   288
+            Left            =   840
+            MaxLength       =   8
+            TabIndex        =   6
+            Top             =   735
+            Width           =   900
+         End
+         Begin VB.Label lblAlqIni 
+            AutoSize        =   -1  'True
+            Caption         =   "Início:"
+            Height          =   195
+            Left            =   2040
+            TabIndex        =   7
+            Top             =   780
+            Width           =   465
+         End
+         Begin VB.TextBox txtAlqIni 
+            Height          =   288
+            Left            =   2640
+            MaxLength       =   10
+            TabIndex        =   8
+            Top             =   735
+            Width           =   1200
+         End
+         Begin VB.Label lblAlqFim 
+            AutoSize        =   -1  'True
+            Caption         =   "Fim:"
+            Height          =   195
+            Left            =   4140
+            TabIndex        =   9
+            Top             =   780
+            Width           =   285
+         End
+         Begin VB.TextBox txtAlqFim 
+            Height          =   288
+            Left            =   4560
+            MaxLength       =   10
+            TabIndex        =   10
+            Top             =   735
+            Width           =   1200
+         End
+         Begin VB.Label lblAlqObs 
+            AutoSize        =   -1  'True
+            Caption         =   "Obs.:"
+            Height          =   195
+            Left            =   6060
+            TabIndex        =   11
+            Top             =   780
+            Width           =   375
+         End
+         Begin VB.TextBox txtAlqObs 
+            Height          =   288
+            Left            =   6540
+            MaxLength       =   100
+            TabIndex        =   12
+            Top             =   735
+            Width           =   4980
+         End
+         Begin VB.CommandButton cmdAlqIncluir 
+            Caption         =   "Incluir / Alterar"
+            Height          =   360
+            Left            =   120
+            TabIndex        =   13
+            Top             =   1200
+            Width           =   1800
+         End
+         Begin VB.CommandButton cmdAlqExcluir 
+            Caption         =   "Excluir"
+            Height          =   360
+            Left            =   2040
+            TabIndex        =   14
+            Top             =   1200
+            Width           =   1440
+         End
+         Begin VB.CommandButton cmdAlqLimpar 
+            Caption         =   "Limpar"
+            Height          =   360
+            Left            =   3600
+            TabIndex        =   15
+            Top             =   1200
+            Width           =   1440
+         End
+         Begin MSFlexGridLib.MSFlexGrid grdAlq 
+            Height          =   3600
+            Left            =   120
+            TabIndex        =   16
+            Top             =   1740
+            Width           =   11520
+            _ExtentX        =   20320
+            _ExtentY        =   6350
+            _Version        =   393216
+         End
+         Begin VB.CommandButton cmdAlqNuvem 
+            Caption         =   "Carregar da nuvem"
+            Height          =   360
+            Left            =   120
+            TabIndex        =   17
+            Top             =   5520
+            Width           =   2160
+         End
+         Begin VB.CommandButton cmdAlqEnviar 
+            Caption         =   "Gerar e enviar"
+            Height          =   360
+            Left            =   2400
+            TabIndex        =   18
+            Top             =   5520
+            Width           =   2160
+         End
+         Begin VB.Label lblAlqVersao 
+            AutoSize        =   -1  'True
+            Caption         =   ""
+            Height          =   195
+            Left            =   4800
+            TabIndex        =   19
+            Top             =   5580
+            Width           =   6840
+         End
+      End
       Begin VB.Frame Frame3 
          Caption         =   "Tabela IBPT"
          Height          =   1035
@@ -1398,45 +1576,6 @@ Begin VB.Form Sistema_Financeiro
             Width           =   465
          End
       End
-      Begin ChamaleonBtn.chameleonButton cmdSalvarBalanca 
-         Height          =   615
-         Left            =   -68400
-         TabIndex        =   5
-         Top             =   7680
-         Width           =   2175
-         _ExtentX        =   3836
-         _ExtentY        =   1085
-         BTYPE           =   3
-         TX              =   "Salvar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "Sistema_Financeiro.frx":26E2
-         PICN            =   "Sistema_Financeiro.frx":26FE
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   3675
          Left            =   -74880
@@ -1958,6 +2097,7 @@ Dim r As ADODB.Recordset
 Dim i As Integer
 Dim vMesRef As String
 Dim vAnoRef As String
+Dim alqVersaoCarregada As String   'versao (AAAAMMDDHHMMSS) do arquivo de aliquotas que originou a grade
 
 'abrir site para consultar ncm
 Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, _
@@ -2894,6 +3034,7 @@ End Sub
 Private Sub Form_Load()
     Set moCombo = New cComboHelper
     MostrarEmpresa
+    AlqIniciar
     
     If ZapConectado Then
        imgOnLine.Visible = True
@@ -3347,4 +3488,283 @@ End Sub
 
 Private Sub txtRazao_KeyPress(KeyAscii As Integer)
     KeyAscii = Asc(UCase(Chr(KeyAscii)))
+End Sub
+
+' ============================================================
+' ABA "ALIQUOTAS CBS/IBS" - regras publicadas na nuvem
+' ============================================================
+' A grade e a fonte das regras. "Gerar e enviar" grava TODAS as regras num arquivo texto com uma VERSAO
+' (AAAAMMDDHHMMSS) e sobe para a pasta "ALIQUOTAS" do Shared Drive "IBPT". OnlineCommerce e PDV conferem a nuvem
+' na abertura (1x por dia) e, se a versao for maior que a aplicada no banco do cliente, gravam as regras em
+' CBS_Aliquota / IBS_Estado / IBS_Municipio. Formato do arquivo (aliquota com ponto, datas AAAAMMDD):
+'   VERSAO;20261110153000
+'   TIPO;ESCOPO;ALIQUOTA;INICIO;FIM;OBSERVACAO      TIPO = CBS | IBS_UF | IBS_MUN
+'   ESCOPO = TODOS | UF (SP) | codigo IBGE do municipio (so IBS_MUN)
+Private Function AlqPasta() As String
+    Dim s As String
+    s = App.Path
+    If Right$(s, 1) <> "\" Then s = s & "\"
+    AlqPasta = s
+End Function
+
+Private Sub AlqIniciar()
+    cboAlqTipo.Clear
+    cboAlqTipo.AddItem "CBS"
+    cboAlqTipo.AddItem "IBS_UF"
+    cboAlqTipo.AddItem "IBS_MUN"
+    cboAlqTipo.ListIndex = 0
+    With grdAlq
+        .Rows = 1
+        .Cols = 6
+        .FixedCols = 0
+        .ColWidth(0) = 1200: .TextMatrix(0, 0) = "Tipo"
+        .ColWidth(1) = 1200: .TextMatrix(0, 1) = "Escopo"
+        .ColWidth(2) = 1200: .TextMatrix(0, 2) = "Alíq. %"
+        .ColWidth(3) = 1400: .TextMatrix(0, 3) = "Início"
+        .ColWidth(4) = 1400: .TextMatrix(0, 4) = "Fim"
+        .ColWidth(5) = 4900: .TextMatrix(0, 5) = "Observação"
+        .SelectionMode = 1
+        .AllowUserResizing = 1
+    End With
+    If Dir$(AlqPasta & "AliquotasReforma.csv") <> "" Then AlqLerArquivo AlqPasta & "AliquotasReforma.csv"
+    AlqAtualizarVersao
+End Sub
+
+Private Sub AlqAtualizarVersao()
+    If alqVersaoCarregada = "" Then
+        lblAlqVersao.Caption = "Nenhuma versão enviada ainda a partir desta grade."
+    Else
+        lblAlqVersao.Caption = "Última versão gravada/carregada: " & alqVersaoCarregada & "   (" & (grdAlq.Rows - 1) & " regra(s))"
+    End If
+End Sub
+
+Private Sub AlqLimparCampos()
+    cboAlqTipo.ListIndex = 0
+    txtAlqEscopo.Text = "TODOS"
+    txtAlqAliq.Text = "": txtAlqIni.Text = "": txtAlqFim.Text = "": txtAlqObs.Text = ""
+End Sub
+
+Private Function AlqDataSQL(ByVal s As String) As String
+    ' dd/mm/aaaa -> AAAAMMDD ("" se vazia)
+    If Trim$(s) = "" Then AlqDataSQL = "": Exit Function
+    AlqDataSQL = Format(CDate(s), "yyyymmdd")
+End Function
+
+' Le o arquivo para a grade (substitui o conteudo). Retorna "" se OK, ou o motivo.
+Private Function AlqLerArquivo(ByVal sArq As String) As String
+    Dim nArq As Integer, sLinha As String, a() As String
+    Dim sVersao As String, nLinha As Long, r As Long
+    Dim dI As Date, dF As Date
+    On Error GoTo ErrLer
+    grdAlq.Rows = 1
+    nArq = FreeFile
+    Open sArq For Input As #nArq
+    Do While Not EOF(nArq)
+        Line Input #nArq, sLinha
+        sLinha = Trim$(sLinha)
+        nLinha = nLinha + 1
+        If sLinha <> "" Then
+            a = Split(sLinha, ";")
+            If UCase$(a(0)) = "VERSAO" Then
+                If UBound(a) >= 1 Then sVersao = Trim$(a(1))
+            ElseIf UBound(a) >= 4 Then
+                dI = DateSerial(Val(Left$(a(3), 4)), Val(Mid$(a(3), 5, 2)), Val(Right$(a(3), 2)))
+                grdAlq.AddItem UCase$(a(0)) & vbTab & UCase$(a(1)) & vbTab & Format(Val(a(2)), "0.00##") & vbTab & Format(dI, "dd/mm/yyyy") & vbTab & ""
+                r = grdAlq.Rows - 1
+                If Trim$(a(4)) <> "" Then
+                    dF = DateSerial(Val(Left$(a(4), 4)), Val(Mid$(a(4), 5, 2)), Val(Right$(a(4), 2)))
+                    grdAlq.TextMatrix(r, 4) = Format(dF, "dd/mm/yyyy")
+                End If
+                If UBound(a) >= 5 Then grdAlq.TextMatrix(r, 5) = a(5)
+            End If
+        End If
+    Loop
+    Close #nArq
+    alqVersaoCarregada = sVersao
+    AlqAtualizarVersao
+    Exit Function
+ErrLer:
+    AlqLerArquivo = "linha " & nLinha & ": " & Err.Description
+    On Error Resume Next
+    Close #nArq
+End Function
+
+' Grava a grade no arquivo (cabecalho VERSAO + uma linha por regra)
+Private Sub AlqGravarArquivo(ByVal sArq As String, ByVal sVersao As String)
+    Dim nArq As Integer, r As Long
+    Dim sAliq As String
+    nArq = FreeFile
+    Open sArq For Output As #nArq
+    Print #nArq, "VERSAO;" & sVersao
+    For r = 1 To grdAlq.Rows - 1
+        sAliq = Replace(CStr(Val(Replace(grdAlq.TextMatrix(r, 2), ",", "."))), ",", ".")
+        Print #nArq, grdAlq.TextMatrix(r, 0) & ";" & grdAlq.TextMatrix(r, 1) & ";" & sAliq & ";" & _
+                     AlqDataSQL(grdAlq.TextMatrix(r, 3)) & ";" & AlqDataSQL(grdAlq.TextMatrix(r, 4)) & ";" & _
+                     Replace(grdAlq.TextMatrix(r, 5), ";", ",")
+    Next
+    Close #nArq
+End Sub
+
+' Guarda a grade em AliquotasReforma.csv (rascunho local, mantem a versao ja carregada/enviada)
+Private Sub AlqSalvarRascunho()
+    On Error Resume Next
+    AlqGravarArquivo AlqPasta & "AliquotasReforma.csv", alqVersaoCarregada
+    AlqAtualizarVersao
+End Sub
+
+Private Sub grdAlq_Click()
+    If grdAlq.Row < 1 Then Exit Sub
+    cboAlqTipo.Text = grdAlq.TextMatrix(grdAlq.Row, 0)
+    txtAlqEscopo.Text = grdAlq.TextMatrix(grdAlq.Row, 1)
+    txtAlqAliq.Text = grdAlq.TextMatrix(grdAlq.Row, 2)
+    txtAlqIni.Text = grdAlq.TextMatrix(grdAlq.Row, 3)
+    txtAlqFim.Text = grdAlq.TextMatrix(grdAlq.Row, 4)
+    txtAlqObs.Text = grdAlq.TextMatrix(grdAlq.Row, 5)
+End Sub
+
+Private Sub cmdAlqLimpar_Click()
+    AlqLimparCampos
+End Sub
+
+Private Sub cmdAlqIncluir_Click()
+    Dim sTipo As String, sEsc As String, sAliq As String, sIni As String, sFim As String
+    Dim dAliq As Double, k As Long, r As Long, rAlvo As Long
+    Dim sI2 As String, sF2 As String
+
+    sTipo = cboAlqTipo.Text
+    sEsc = UCase$(Trim$(txtAlqEscopo.Text))
+    If sEsc = "" Then sEsc = "TODOS"
+    sAliq = Replace(Trim$(txtAlqAliq.Text), ",", ".")
+    dAliq = Val(sAliq)
+
+    If Not (sEsc = "TODOS" Or sEsc Like "[A-Z][A-Z]" Or sEsc Like "#######") Then
+        MsgBox "Escopo inválido. Use TODOS, a sigla da UF (ex.: SP) ou o código IBGE do município (7 dígitos).", vbExclamation: txtAlqEscopo.SetFocus: Exit Sub
+    End If
+    If sTipo = "CBS" And sEsc <> "TODOS" Then
+        MsgBox "A CBS é nacional: use o escopo TODOS.", vbExclamation: txtAlqEscopo.SetFocus: Exit Sub
+    End If
+    If sTipo = "IBS_UF" And sEsc Like "#######" Then
+        MsgBox "IBS_UF aceita TODOS ou a sigla da UF. Para município use o tipo IBS_MUN.", vbExclamation: txtAlqEscopo.SetFocus: Exit Sub
+    End If
+    If sAliq = "" Or dAliq < 0 Or dAliq > 100 Then
+        MsgBox "Informe a alíquota em % (de 0 a 100).", vbExclamation: txtAlqAliq.SetFocus: Exit Sub
+    End If
+    If Not IsDate(txtAlqIni.Text) Then
+        MsgBox "Informe o início da vigência (dd/mm/aaaa).", vbExclamation: txtAlqIni.SetFocus: Exit Sub
+    End If
+    If Trim$(txtAlqFim.Text) <> "" Then
+        If Not IsDate(txtAlqFim.Text) Then
+            MsgBox "Fim da vigência inválido. Use dd/mm/aaaa ou deixe vazio (sem fim).", vbExclamation: txtAlqFim.SetFocus: Exit Sub
+        End If
+        If CDate(txtAlqFim.Text) < CDate(txtAlqIni.Text) Then
+            MsgBox "O fim da vigência não pode ser anterior ao início.", vbExclamation: txtAlqFim.SetFocus: Exit Sub
+        End If
+    End If
+    sIni = AlqDataSQL(txtAlqIni.Text)
+    sFim = AlqDataSQL(txtAlqFim.Text)
+    If Trim$(txtAlqFim.Text) = "" Then sF2 = "99991231" Else sF2 = sFim
+
+    ' mesma chave (tipo + escopo + início) = altera a linha; períodos do mesmo tipo/escopo não podem se sobrepor
+    rAlvo = 0
+    For r = 1 To grdAlq.Rows - 1
+        If grdAlq.TextMatrix(r, 0) = sTipo And grdAlq.TextMatrix(r, 1) = sEsc Then
+            If AlqDataSQL(grdAlq.TextMatrix(r, 3)) = sIni Then
+                rAlvo = r
+            Else
+                sI2 = AlqDataSQL(grdAlq.TextMatrix(r, 3))
+                If Trim$(grdAlq.TextMatrix(r, 4)) = "" Then k = 99991231 Else k = CLng(AlqDataSQL(grdAlq.TextMatrix(r, 4)))
+                If CLng(sI2) <= CLng(sF2) And k >= CLng(sIni) Then
+                    MsgBox "Este período se sobrepõe a outra regra do mesmo tipo e escopo (início " & grdAlq.TextMatrix(r, 3) & ")." & vbCrLf & _
+                           "Ajuste o fim da regra anterior antes de incluir.", vbExclamation
+                    Exit Sub
+                End If
+            End If
+        End If
+    Next
+
+    If rAlvo = 0 Then
+        grdAlq.AddItem sTipo & vbTab & sEsc & vbTab & "" & vbTab & "" & vbTab & "" & vbTab & ""
+        rAlvo = grdAlq.Rows - 1
+    End If
+    grdAlq.TextMatrix(rAlvo, 0) = sTipo
+    grdAlq.TextMatrix(rAlvo, 1) = sEsc
+    grdAlq.TextMatrix(rAlvo, 2) = Format(dAliq, "0.00##")
+    grdAlq.TextMatrix(rAlvo, 3) = Format(CDate(txtAlqIni.Text), "dd/mm/yyyy")
+    If sFim = "" Then grdAlq.TextMatrix(rAlvo, 4) = "" Else grdAlq.TextMatrix(rAlvo, 4) = Format(CDate(txtAlqFim.Text), "dd/mm/yyyy")
+    grdAlq.TextMatrix(rAlvo, 5) = Replace(Trim$(txtAlqObs.Text), ";", ",")
+    AlqSalvarRascunho
+    AlqLimparCampos
+End Sub
+
+Private Sub cmdAlqExcluir_Click()
+    If grdAlq.Row < 1 Or grdAlq.Rows < 2 Then
+        MsgBox "Selecione uma regra na grade.", vbExclamation: Exit Sub
+    End If
+    If MsgBox("Excluir a regra " & grdAlq.TextMatrix(grdAlq.Row, 0) & " / " & grdAlq.TextMatrix(grdAlq.Row, 1) & " (início " & grdAlq.TextMatrix(grdAlq.Row, 3) & ")?" & vbCrLf & vbCrLf & _
+              "Atenção: excluir aqui não apaga a regra nos clientes que já a receberam; para encerrar uma regra, preencha o Fim.", vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    If grdAlq.Rows = 2 Then grdAlq.Rows = 1 Else grdAlq.RemoveItem grdAlq.Row
+    AlqSalvarRascunho
+    AlqLimparCampos
+End Sub
+
+Private Sub cmdAlqEnviar_Click()
+    Dim sVersao As String, sPasta As String, sArq As String, bOK As Boolean
+    If grdAlq.Rows < 2 Then
+        MsgBox "Cadastre ao menos uma regra antes de enviar.", vbExclamation: Exit Sub
+    End If
+    If MsgBox("Publicar as " & (grdAlq.Rows - 1) & " regra(s) de alíquota para TODOS os clientes?" & vbCrLf & vbCrLf & _
+              "Os sistemas vão aplicar na próxima abertura (conferem 1 vez por dia).", vbQuestion + vbYesNo, "Alíquotas CBS/IBS") = vbNo Then Exit Sub
+
+    sVersao = Format(Now, "yyyymmddhhnnss")
+    sPasta = AlqPasta & "AliquotasReforma\"
+    On Error Resume Next
+    MkDir sPasta
+    On Error GoTo ErrEnv
+    sArq = sPasta & "AliquotasReforma_" & sVersao & ".csv"
+    AlqGravarArquivo sArq, sVersao
+
+    Screen.MousePointer = 11
+    mensagemErro = ""
+    bOK = GoogleEnviarArquivo(sArq, "ALIQUOTAS", "0AI0VAvFMSupDUk9PVA")
+    Screen.MousePointer = 0
+
+    If bOK Then
+        alqVersaoCarregada = sVersao
+        AlqSalvarRascunho
+        MsgBox "Alíquotas publicadas na nuvem com sucesso!" & vbCrLf & "Versão: " & sVersao, vbInformation, "Alíquotas CBS/IBS"
+    Else
+        MsgBox "Falha ao enviar as alíquotas." & IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbCritical, "Alíquotas CBS/IBS"
+    End If
+    Exit Sub
+ErrEnv:
+    Screen.MousePointer = 0
+    MsgBox "Erro ao gerar o arquivo: " & Err.Description, vbCritical, "Alíquotas CBS/IBS"
+End Sub
+
+Private Sub cmdAlqNuvem_Click()
+    Dim sPasta As String, sNome As String, sErro As String
+    If grdAlq.Rows > 1 Then
+        If MsgBox("Substituir a grade atual pelo último arquivo publicado na nuvem?", vbQuestion + vbYesNo, "Alíquotas CBS/IBS") = vbNo Then Exit Sub
+    End If
+    sPasta = AlqPasta & "AliquotasReforma\"
+    On Error Resume Next
+    MkDir sPasta
+    On Error GoTo 0
+
+    Screen.MousePointer = 11
+    mensagemErro = ""
+    sNome = GoogleBaixarArquivo(sPasta, "ALIQUOTAS", "0AI0VAvFMSupDUk9PVA")
+    Screen.MousePointer = 0
+    If Trim$(sNome) = "" Then
+        MsgBox "Não foi possível baixar o arquivo da nuvem." & IIf(mensagemErro <> "", vbCrLf & vbCrLf & mensagemErro, ""), vbExclamation, "Alíquotas CBS/IBS"
+        Exit Sub
+    End If
+    sErro = AlqLerArquivo(sPasta & sNome)
+    If sErro <> "" Then
+        MsgBox "Arquivo baixado, mas não pôde ser lido (" & sErro & ").", vbExclamation, "Alíquotas CBS/IBS"
+        Exit Sub
+    End If
+    AlqSalvarRascunho
+    AlqLimparCampos
+    MsgBox "Grade carregada da nuvem (" & (grdAlq.Rows - 1) & " regra(s)).", vbInformation, "Alíquotas CBS/IBS"
 End Sub

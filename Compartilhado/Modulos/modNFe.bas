@@ -1392,6 +1392,240 @@ DeuErro:
     Exit Function
 End Function
 
+'Aplica as aliquotas da reforma tributaria VIGENTES HOJE (CBS em Empresa.CBSpAliq; IBS UF/Municipio em Cidade), copiando-as das
+'tabelas de vigencia CBS_Aliquota, IBS_Estado e IBS_Municipio (procedure dbo.AplicarAliquotasReforma, script 168).
+'E barata (so grava se algo mudou) e deve ser chamada antes de calcular IBS/CBS de uma nota: assim a virada de ano
+'(ex.: IBS 0,05% + 0,05% e CBS nova em 01/01/2027) acontece sozinha, sem o cliente alterar nada.
+'Se a procedure ainda nao existe no banco (script nao aplicado), ignora o erro e segue com os valores atuais.
+Public Sub AplicarAliquotasReforma(Optional ByRef cnAlvo As ADODB.Connection = Nothing)
+On Error Resume Next
+If cnAlvo Is Nothing Then
+   vgDb.Execute "EXEC dbo.AplicarAliquotasReforma"
+Else
+   cnAlvo.Execute "EXEC dbo.AplicarAliquotasReforma"
+End If
+Err.Clear
+End Sub
+
+'---------------------------------------------------------------------------
+' Atualizacao das aliquotas CBS/IBS pela nuvem
+'---------------------------------------------------------------------------
+'O desenvolvedor mantem as regras na aba "ALIQUOTAS CBS/IBS" do Sistema_Financeiro, que gera um arquivo texto
+'(pasta "ALIQUOTAS" do Shared Drive "IBPT") com TODAS as regras e uma VERSAO (AAAAMMDDHHMMSS). Formato:
+'   VERSAO;20261110153000
+'   TIPO;ESCOPO;ALIQUOTA;INICIO;FIM;OBSERVACAO       (aliquota com ponto, datas AAAAMMDD, FIM vazio = sem fim)
+'   TIPO   = CBS | IBS_UF | IBS_MUN
+'   ESCOPO = TODOS | UF (ex.: SP) | codigo IBGE do municipio (7 digitos, so IBS_MUN)
+'Chamada na abertura do OnlineCommerce e do PDV (nao a cada venda). Confere a nuvem no maximo 1 vez por dia
+'(empresa.AliquotasReformaChecagem) e so aplica se a VERSAO for maior que empresa.AliquotasReformaVersao.
+'Regras mais especificas (UF, municipio) sao aplicadas depois das gerais (TODOS) e, no mesmo inicio, as substituem.
+'Retorna "" quando nao ha nada a informar; senao um texto com o resultado (usado pelo menu manual).
+Private Sub AliqNuvem_Log(ByVal sMsg As String)
+Dim nLog As Integer
+
+On Error Resume Next
+nLog = FreeFile
+Open App.path & "\AliquotasReforma_log.txt" For Append As #nLog
+Print #nLog, Format(Now, "dd/mm/yyyy hh:nn:ss") & " - " & sMsg
+Close #nLog
+End Sub
+
+Private Function AliqNuvem_Baixar(ByVal sPastaDestino As String) As String
+Dim uploader As Object
+
+AliqNuvem_Baixar = ""
+On Error GoTo deuErro
+If Dir$(App.path & "\NFE\backupclientes-488021-067a35f7c315.json") = "" Then
+   mensagemErro = "credencial do Google Drive nao encontrada nesta maquina"
+   Exit Function
+End If
+Set uploader = CreateObject("GoogleDriveUploader.Uploader")
+If uploader Is Nothing Then Exit Function
+uploader.UseInternalDialog = False
+uploader.ApplicationName = "OnlineInfo"
+uploader.CredentialsPath = App.path & "\NFE\backupclientes-488021-067a35f7c315.json"
+uploader.AuthMode = "ServiceAccount"
+uploader.SharedDriveId = "0AI0VAvFMSupDUk9PVA"   'Shared Drive "IBPT"
+uploader.TokenPath = App.path & "\tokens"
+AliqNuvem_Baixar = uploader.DownloadLatestFileByPath("ALIQUOTAS", sPastaDestino)
+Exit Function
+deuErro:
+mensagemErro = Err.Description
+Err.Clear
+End Function
+
+Private Function AliqNuvem_DataOk(ByVal s As String) As Boolean
+Dim a As Long, m As Long, d As Long
+
+If Not (s Like "########") Then Exit Function
+a = Val(Left$(s, 4)): m = Val(Mid$(s, 5, 2)): d = Val(Right$(s, 2))
+If a < 2000 Or m < 1 Or m > 12 Or d < 1 Or d > 31 Then Exit Function
+AliqNuvem_DataOk = (Day(DateSerial(a, m, d)) = d)
+End Function
+
+Private Function AliqNuvem_SQL(ByVal sTipo As String, ByVal sEsc As String, ByVal sAliq As String, ByVal sIni As String, ByVal sFim As String, ByVal sObs As String) As String
+Dim sI As String, sF As String, sFiltro As String
+
+sI = "CONVERT(date,'" & sIni & "',112)"
+If sFim = "" Then sF = "NULL" Else sF = "CONVERT(date,'" & sFim & "',112)"
+sObs = Replace(sObs, "'", "''")
+
+Select Case sTipo
+Case "CBS"
+   AliqNuvem_SQL = "IF EXISTS (SELECT 1 FROM CBS_Aliquota WHERE dIniVig=" & sI & ") " & _
+      "UPDATE CBS_Aliquota SET CBSpAliq=" & sAliq & ",dFimVig=" & sF & ",Obs='" & sObs & "' WHERE dIniVig=" & sI & " " & _
+      "ELSE INSERT INTO CBS_Aliquota (CBSpAliq,dIniVig,dFimVig,Obs) VALUES (" & sAliq & "," & sI & "," & sF & ",'" & sObs & "')"
+Case "IBS_UF"
+   If sEsc <> "TODOS" Then sFiltro = " AND UF='" & sEsc & "'"
+   AliqNuvem_SQL = "MERGE IBS_Estado AS T USING (SELECT DISTINCT IdEstado, UF FROM Cidade WHERE IdEstado IS NOT NULL" & sFiltro & ") AS S " & _
+      "ON T.IdEstado=S.IdEstado AND T.dIniVig=" & sI & " " & _
+      "WHEN MATCHED THEN UPDATE SET T.UF=S.UF,T.IBSUFpAliq=" & sAliq & ",T.dFimVig=" & sF & " " & _
+      "WHEN NOT MATCHED THEN INSERT (IdEstado,UF,IBSUFpAliq,dIniVig,dFimVig) VALUES (S.IdEstado,S.UF," & sAliq & "," & sI & "," & sF & ");"
+Case "IBS_MUN"
+   If Len(sEsc) = 2 Then
+      sFiltro = " WHERE UF='" & sEsc & "'"
+   ElseIf sEsc <> "TODOS" Then
+      sFiltro = " WHERE CAST(CodigoMunicipio AS NVARCHAR(7))='" & sEsc & "'"
+   End If
+   AliqNuvem_SQL = "MERGE IBS_Municipio AS T USING (SELECT DISTINCT CAST(CodigoMunicipio AS NVARCHAR(7)) AS Cod FROM Cidade" & sFiltro & ") AS S " & _
+      "ON T.CodigoMunicipio=S.Cod AND T.dIniVig=" & sI & " " & _
+      "WHEN MATCHED THEN UPDATE SET T.IBSMunpAliq=" & sAliq & ",T.dFimVig=" & sF & " " & _
+      "WHEN NOT MATCHED THEN INSERT (CodigoMunicipio,IBSMunpAliq,dIniVig,dFimVig) VALUES (S.Cod," & sAliq & "," & sI & "," & sF & ");"
+End Select
+End Function
+
+Public Function AtualizarAliquotasDaNuvem(Optional ByVal bForcar As Boolean = False) As String
+Dim sHoje As String, sVersaoAplicada As String, sChecagem As String
+Dim sPasta As String, sArq As String, sCaminho As String
+Dim nArq As Integer, sLinha As String, aCampos() As String
+Dim sVersao As String
+Dim aTipo() As String, aEsc() As String, aAliq() As String, aIni() As String, aFim() As String, aObs() As String
+Dim n As Long, i As Long, nivel As Long, nLinha As Long, nAplic As Long
+Dim sTipo As String, sEsc As String, sAliq As String, sIni As String, sFim As String
+Dim bTrans As Boolean, bAbriu As Boolean
+Dim sErro As String, sSQL As String
+Dim rs As ADODB.Recordset
+
+On Error GoTo deuErro
+sHoje = Format(Date, "yyyymmdd")
+
+'--- uma checagem por dia (a menos que seja o disparo manual)
+Set rs = vgDb.Execute("SELECT TOP 1 ISNULL(AliquotasReformaVersao,'') AS V, ISNULL(AliquotasReformaChecagem,'') AS C FROM Empresa")
+If rs.EOF Then Exit Function
+sVersaoAplicada = rs("V") & "": sChecagem = rs("C") & ""
+rs.Close
+If Not bForcar And sChecagem = sHoje Then Exit Function
+
+'--- baixa o arquivo mais recente da nuvem
+sPasta = App.path & "\Aliquotas_Auto"
+On Error Resume Next
+MkDir sPasta
+On Error GoTo deuErro
+mensagemErro = ""
+sArq = Trim$(AliqNuvem_Baixar(sPasta))
+If sArq = "" Then
+   AliqNuvem_Log "Nao foi possivel baixar o arquivo de aliquotas: " & mensagemErro
+   AtualizarAliquotasDaNuvem = IIf(bForcar, "Nao foi possivel baixar o arquivo da nuvem." & vbCrLf & mensagemErro, "")
+   Exit Function
+End If
+sCaminho = sPasta & "\" & sArq
+
+'--- le e valida o arquivo inteiro antes de gravar qualquer coisa
+nArq = FreeFile
+Open sCaminho For Input As #nArq
+bAbriu = True
+Do While Not EOF(nArq)
+   Line Input #nArq, sLinha
+   sLinha = Trim$(sLinha)
+   nLinha = nLinha + 1
+   If sLinha <> "" Then
+      aCampos = Split(sLinha, ";")
+      If UCase$(aCampos(0)) = "VERSAO" Then
+         If UBound(aCampos) >= 1 Then sVersao = Trim$(aCampos(1))
+      Else
+         If UBound(aCampos) < 4 Then sErro = "linha " & nLinha & " incompleta": Exit Do
+         sTipo = UCase$(Trim$(aCampos(0))): sEsc = UCase$(Trim$(aCampos(1))): sAliq = Trim$(aCampos(2))
+         sIni = Trim$(aCampos(3)): sFim = Trim$(aCampos(4))
+         If sTipo <> "CBS" And sTipo <> "IBS_UF" And sTipo <> "IBS_MUN" Then sErro = "linha " & nLinha & ": tipo invalido": Exit Do
+         If Not (sEsc = "TODOS" Or sEsc Like "[A-Z][A-Z]" Or sEsc Like "#######") Then sErro = "linha " & nLinha & ": escopo invalido": Exit Do
+         If sTipo = "CBS" And sEsc <> "TODOS" Then sErro = "linha " & nLinha & ": CBS so aceita escopo TODOS": Exit Do
+         If sTipo = "IBS_UF" And sEsc Like "#######" Then sErro = "linha " & nLinha & ": IBS_UF nao aceita municipio": Exit Do
+         If sAliq = "" Or sAliq Like "*[!0-9.]*" Or Len(sAliq) - Len(Replace(sAliq, ".", "")) > 1 Then sErro = "linha " & nLinha & ": aliquota invalida": Exit Do
+         If Val(sAliq) < 0 Or Val(sAliq) > 100 Then sErro = "linha " & nLinha & ": aliquota fora de 0 a 100": Exit Do
+         If Not AliqNuvem_DataOk(sIni) Then sErro = "linha " & nLinha & ": inicio invalido": Exit Do
+         If sFim <> "" Then
+            If Not AliqNuvem_DataOk(sFim) Then sErro = "linha " & nLinha & ": fim invalido": Exit Do
+            If sFim < sIni Then sErro = "linha " & nLinha & ": fim anterior ao inicio": Exit Do
+         End If
+         ReDim Preserve aTipo(n): ReDim Preserve aEsc(n): ReDim Preserve aAliq(n)
+         ReDim Preserve aIni(n): ReDim Preserve aFim(n): ReDim Preserve aObs(n)
+         aTipo(n) = sTipo: aEsc(n) = sEsc: aAliq(n) = sAliq: aIni(n) = sIni: aFim(n) = sFim
+         If UBound(aCampos) >= 5 Then aObs(n) = Left$(Trim$(aCampos(5)), 200)
+         n = n + 1
+      End If
+   End If
+Loop
+Close #nArq
+bAbriu = False
+
+If sErro = "" Then
+   If Not (sVersao Like "##############") Then sErro = "cabecalho VERSAO ausente ou invalido"
+   If sErro = "" And n = 0 Then sErro = "arquivo sem regras"
+End If
+If sErro <> "" Then
+   AliqNuvem_Log "Arquivo " & sArq & " ignorado: " & sErro
+   AtualizarAliquotasDaNuvem = IIf(bForcar, "O arquivo da nuvem e invalido (" & sErro & "). Nada foi alterado.", "")
+   GoTo limpa
+End If
+
+'--- ja esta na versao mais nova: so registra a checagem do dia
+If sVersao <= sVersaoAplicada Then
+   vgDb.Execute "UPDATE Empresa SET AliquotasReformaChecagem='" & sHoje & "'"
+   AtualizarAliquotasDaNuvem = IIf(bForcar, "As aliquotas ja estao atualizadas (versao " & sVersaoAplicada & ").", "")
+   GoTo limpa
+End If
+
+'--- aplica: gerais (TODOS) primeiro, depois UF, depois municipio especifico
+vgDb.BeginTrans
+bTrans = True
+For nivel = 0 To 2
+   For i = 0 To n - 1
+      If aEsc(i) = "TODOS" Then
+         If nivel = 0 Then sSQL = AliqNuvem_SQL(aTipo(i), aEsc(i), aAliq(i), aIni(i), aFim(i), aObs(i)) Else sSQL = ""
+      ElseIf Len(aEsc(i)) = 2 Then
+         If nivel = 1 Then sSQL = AliqNuvem_SQL(aTipo(i), aEsc(i), aAliq(i), aIni(i), aFim(i), aObs(i)) Else sSQL = ""
+      Else
+         If nivel = 2 Then sSQL = AliqNuvem_SQL(aTipo(i), aEsc(i), aAliq(i), aIni(i), aFim(i), aObs(i)) Else sSQL = ""
+      End If
+      If sSQL <> "" Then
+         vgDb.Execute sSQL
+         nAplic = nAplic + 1
+      End If
+   Next
+Next
+vgDb.Execute "UPDATE Empresa SET AliquotasReformaVersao='" & sVersao & "',AliquotasReformaChecagem='" & sHoje & "'"
+vgDb.CommitTrans
+bTrans = False
+
+AplicarAliquotasReforma            'ja copia as vigentes de hoje para Empresa/Cidade
+AliqNuvem_Log "Versao " & sVersao & " aplicada (" & nAplic & " regra(s)) - arquivo " & sArq
+AtualizarAliquotasDaNuvem = "Aliquotas CBS/IBS atualizadas para a versao " & sVersao & " (" & nAplic & " regra(s))."
+
+limpa:
+On Error Resume Next
+Kill sCaminho
+Exit Function
+
+deuErro:
+sErro = Err.Description
+Err.Clear
+On Error Resume Next
+If bAbriu Then Close #nArq
+If bTrans Then vgDb.RollbackTrans
+AliqNuvem_Log "ERRO: " & sErro
+AtualizarAliquotasDaNuvem = IIf(bForcar, "Erro ao atualizar as aliquotas: " & sErro, "")
+End Function
+
 Public Sub PreencherReformaTributariaNFCe(ByVal IdNFProd As Long, Optional ByRef cnAlvo As ADODB.Connection = Nothing)
 'Calcula e grava IBS/CBS/IS em TbNFCe_Itens para uma NFCe ja inserida via NFCeIncluir.
 'Mesma logica de NFe_Completa.frm (Mostrar_Aliquotas_Produto + Load_Data_Itens), adaptada pra ler de TbNFCe_Itens/produtos
@@ -1407,6 +1641,8 @@ If cnAlvo Is Nothing Then
 Else
    Set cn = cnAlvo
 End If
+
+AplicarAliquotasReforma cn            'aliquotas vigentes na data de hoje (CBS/IBS por vigencia)
 
 Dim sSQLReforma As String
 sSQLReforma = "SELECT i.IdNFProd_Item, i.QtdeMov, i.ValorUnit, i.Desconto, i.Valor_Frete, i.ValorOutras, " & _

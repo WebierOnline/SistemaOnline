@@ -63,6 +63,8 @@ Public appEXEName As String       'Armazena o nome do executável do programa
 'Public appURLUpdt As String      'Armazena o local de atualização
 
 Public FormParent As String      'Formulário de origem
+Public gModoEnviarXML As Boolean   'True quando iniciado com /enviarxml "arquivo" pelo ExportarXMLServidor.vbs: envia os .rar do mes para o contador e encerra
+Public gArqPedidoXML As String     'arquivo de pedido do /enviarxml (mes, ano e anexos)
 Public gModoAutomatico As Boolean  'True quando o sistema e iniciado por tarefa agendada (/resumofiscal): sem janelas
 Public CloseSystem As Boolean    'O sistema está sendo fechado
 
@@ -170,7 +172,11 @@ Sub TravarVenda(Status As Boolean)
 End Sub
 
 Public Sub Main()
-gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0)
+Dim nPosXML As Long
+nPosXML = InStr(1, Command$, "/enviarxml", vbTextCompare)
+gModoEnviarXML = (nPosXML > 0)
+If gModoEnviarXML Then gArqPedidoXML = Trim$(Replace(Mid$(Command$, nPosXML + Len("/enviarxml")), Chr(34), ""))
+gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML
 'Previne a execução de mais de uma vez do sistema
 If App.PrevInstance And Not gModoAutomatico Then
     ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation

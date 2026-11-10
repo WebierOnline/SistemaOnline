@@ -580,3 +580,131 @@ RF_Log "Erro no envio automatico do Resumo Fiscal: " & Err.Description
 Err.Clear
 Resume fim
 End Sub
+
+'---------------------------------------------------------------------------
+' Envio dos XML (.rar) do mes para o contador - chamado pelo ExportarXMLServidor.vbs
+'---------------------------------------------------------------------------
+'Feito dentro do proprio sistema (e nao num PowerShell) porque a DLL snfe grava o snfe.config na pasta do
+'executavel que a hospeda: na pasta do sistema isso funciona; na pasta do powershell.exe (Windows) a tarefa
+'agendada nao tem permissao de escrita e o envio falhava sempre ("acesso negado ... snfe.config").
+Private Sub EnvioXML_Log(ByVal sMsg As String)
+Dim nLog As Integer
+
+On Error Resume Next
+nLog = FreeFile
+Open appPathApp & "EnviarEmailContador_log.txt" For Append As #nLog
+Print #nLog, Format(Now, "dd/mm/yyyy hh:nn:ss") & " - " & sMsg
+Close #nLog
+End Sub
+
+'Chamada pelo Senha.Form_Load quando o sistema e iniciado com /enviarxml "arquivo".
+'Arquivo de pedido (texto, criado pelo .vbs): linha 1 = mes, linha 2 = ano, demais linhas = caminho de cada anexo.
+'O resultado fica em "arquivo.resultado" ("OK" ou "ERRO: motivo"), que o .vbs le para decidir se grava o marcador de enviado.
+Public Sub ExecutarEnvioXMLAuto()
+Dim nArq As Integer
+Dim sLinha As String
+Dim nMes As Integer, nAno As Integer
+Dim sAnexos() As String
+Dim nAnexos As Long, i As Long
+Dim dMB As Double
+Dim sEmail As String, sRazao As String, sCorpo As String
+Dim sistNFe As snfe.Util
+Dim emailCC() As String
+Dim vRet As Variant
+Dim nEspera As Long
+Dim sResultado As String
+Dim bAbriu As Boolean
+
+On Error GoTo deuErro
+
+sResultado = "ERRO: arquivo de pedido do envio nao encontrado"
+If gArqPedidoXML = "" Then GoTo fim
+If Dir$(gArqPedidoXML) = "" Then GoTo fim
+
+EnvioXML_Log "----- Inicio envio email contador (sistema, /enviarxml) -----"
+
+nArq = FreeFile
+Open gArqPedidoXML For Input As #nArq
+bAbriu = True
+Line Input #nArq, sLinha
+nMes = Val(sLinha)
+Line Input #nArq, sLinha
+nAno = Val(sLinha)
+Do While Not EOF(nArq)
+   Line Input #nArq, sLinha
+   sLinha = Trim$(sLinha)
+   If sLinha <> "" Then
+      ReDim Preserve sAnexos(nAnexos)
+      sAnexos(nAnexos) = sLinha
+      nAnexos = nAnexos + 1
+   End If
+Loop
+Close #nArq
+bAbriu = False
+
+If nAnexos = 0 Or nMes < 1 Or nMes > 12 Or nAno < 2000 Then
+   sResultado = "ERRO: pedido de envio sem anexos ou com mes/ano invalido"
+   GoTo fim
+End If
+For i = 0 To nAnexos - 1
+   If Dir$(sAnexos(i)) = "" Then
+      sResultado = "ERRO: anexo nao encontrado: " & sAnexos(i)
+      GoTo fim
+   End If
+   dMB = dMB + FileLen(sAnexos(i)) / 1048576
+Next
+EnvioXML_Log "Anexos: " & nAnexos & " arquivo(s), " & Format(dMB, "0.0") & " MB - ref. " & Format(nMes, "00") & "/" & nAno
+
+sEmail = RF_EmailContador
+If sEmail = "" Then
+   sResultado = "ERRO: e-mail do contador nao cadastrado (TbContabilista)"
+   GoTo fim
+End If
+If InStr(1, sEmail, "@") = 0 Then
+   sResultado = "ERRO: e-mail do contador invalido (" & sEmail & ")"
+   GoTo fim
+End If
+
+Set sistNFe = New snfe.Util
+Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+
+ReDim emailCC(0)
+emailCC(0) = sEmail
+sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
+sCorpo = "Segue em anexo os arquivos XML/RAR de NFe e NFCe emitidos no periodo. <br><br>Atenciosamente, <br><br>" & sRazao
+
+vRet = sistNFe.EmailEnviar(sEmail, "Arquivos XML ref. Mês " & Format(nMes, "00") & "/" & nAno, sCorpo, sAnexos, emailCC)
+If Not vRet Then
+   sResultado = "ERRO: a DLL de e-mail retornou falha no envio"
+   GoTo fim
+End If
+
+'a entrega e assincrona dentro da DLL: o processo nao pode terminar logo apos o EmailEnviar.
+'Espera 20s + 10s por MB de anexo (minimo 25s, maximo 5 min) para o upload terminar.
+nEspera = 20 + CLng(dMB * 10)
+If nEspera < 25 Then nEspera = 25
+If nEspera > 300 Then nEspera = 300
+EnvioXML_Log "Aguardando " & nEspera & "s para a entrega terminar..."
+Sleep nEspera * 1000
+
+EnvioXML_Log "Email enviado com sucesso para " & sEmail & " (" & nAnexos & " anexo(s))"
+sResultado = "OK"
+
+fim:
+On Error Resume Next
+If bAbriu Then Close #nArq
+Set sistNFe = Nothing
+If sResultado <> "OK" Then EnvioXML_Log sResultado
+If gArqPedidoXML <> "" Then
+   nArq = FreeFile
+   Open gArqPedidoXML & ".resultado" For Output As #nArq
+   Print #nArq, sResultado
+   Close #nArq
+End If
+Exit Sub
+
+deuErro:
+sResultado = "ERRO: " & Err.Description
+Err.Clear
+Resume fim
+End Sub

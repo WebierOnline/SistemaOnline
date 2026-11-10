@@ -3929,6 +3929,7 @@ Private moCombo As New cComboHelper
 Private Declare Function SendMessageForma Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
 Private Const CB_SHOWDROPDOWN_F = &H14F
 Private vCertVencido As Boolean       'True = certificado digital desta maquina vencido ou nao encontrado (verificado depois do login / a cada venda): o PDV nao emite NFCe
+Private vPerguntarImpressoraDepois As Boolean   'venda com Pix dinamico: a pergunta "Impressora Pronta?" (define se gera a NFCe) so e feita depois do QR Code
 Private vSlotForma As Integer          'forma rapida: 1 = 1a forma (cboFormaPgtoEntrada), 2 = forma unica ou 2a forma (cboformaPgto)
 Private vFormaRapida2Ant As Boolean    'forma rapida: estava com 2 formas na ultima atualizacao (para voltar ao slot 1 quando passa a ter 2)
 Private vOutros1 As Boolean      'OUTROS marcado: 1a forma (cboFormaPgtoEntrada) / 2a (cboformaPgto) / 3a (reservado)
@@ -8381,6 +8382,7 @@ Private Function DecidirGeracaoNFCe(ByRef pNFCeContingencia As Boolean) As Strin
 'retorna "OK" (NFCe_OK=True), "NAO_GERAR" (segue a venda sem NFCe) ou "ABORTAR" (PararFechamentoVenda=True -
 'cmdFinalizar_Click deve dar Exit Sub, ainda antes do BEGIN TRANSACTION).
 DecidirGeracaoNFCe = "NAO_GERAR"
+vPerguntarImpressoraDepois = False
 'o certificado pode ter vencido durante o expediente: confere de novo a cada venda (a DLL so e consultada uma vez por dia, depois usa a data guardada)
 If Not vCertVencido And vConfImprimeNFCeLocal = "SIM" Then
     Dim nDiasCert As Long, dVencCert As Date
@@ -8415,7 +8417,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
         
         If cboTipoPgto.Text = "À VISTA" Then    'vendas à vista
             If vNFCeConfImp = "SIM" Then
-                If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
+                If PerguntarImpressoraNFCe() Then
                     If PararFechamentoVenda = True Then
                         NFCe_OK = False
                         DecidirGeracaoNFCe = "ABORTAR"
@@ -8442,7 +8444,7 @@ If cboTipoPgto.Text <> "ORÇAMENTO" And cboTipoPgto.Text <> "CONSIGNADO" Then
         Else                                    'vendas à prazo
             If vNFCeConfPrazo = "SIM" Then
                 If vNFCeConfImp = "SIM" Then
-                    If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes Then
+                    If PerguntarImpressoraNFCe() Then
                         If PararFechamentoVenda = True Then
                             NFCe_OK = False
                             DecidirGeracaoNFCe = "ABORTAR"
@@ -8483,6 +8485,21 @@ Private Function ReceberPixDinamico() As Boolean
    Dim f As PDV_PixVenda
 
    ReceberPixDinamico = True
+   Valor = ValorPixDinamico()
+   If Valor <= 0 Then Exit Function
+
+   Set f = New PDV_PixVenda
+   Load f
+   f.Preparar Valor, txtCodPedido.Text, IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text)
+   f.Show vbModal
+   ReceberPixDinamico = f.pPago
+   Unload f
+   Set f = Nothing
+End Function
+
+'Valor da venda que sera pago em Pix dinâmico (0 = a venda não tem Pix dinâmico)
+Private Function ValorPixDinamico() As Currency
+   Dim Valor As Currency
    If cboQuantForma.Text = "2 - FORMAS" Or cboQuantForma.Text = "2 - COM ENTRADA" Or cboQuantForma.Text = "3 - FORMAS" Then
       If cboFormaPgtoEntrada.Text = "11 - PIX DINÂMICO" Then Valor = Valor + CCur(txtEntrada.Text)
    End If
@@ -8496,16 +8513,26 @@ Private Function ReceberPixDinamico() As Boolean
          Valor = Valor + CCur(txtTotalDesc.Text)
       End If
    End If
-   If Valor <= 0 Then Exit Function
-
-   Set f = New PDV_PixVenda
-   Load f
-   f.Preparar Valor, txtCodPedido.Text, IIf(StatusBar1.Panels(3).Text = "", "CAIXA01", StatusBar1.Panels(3).Text)
-   f.Show vbModal
-   ReceberPixDinamico = f.pPago
-   Unload f
-   Set f = Nothing
+   ValorPixDinamico = Valor
 End Function
+
+'Pergunta "Impressora Pronta?" (True = sim, gera a NFCe). Com Pix dinâmico na venda a pergunta fica para depois do QR Code
+'(ConfirmarImpressoraDepoisDoPix); aqui segue como "sim" para as demais verificações da NFCe (internet, parada do fechamento) acontecerem antes.
+Private Function PerguntarImpressoraNFCe() As Boolean
+If ValorPixDinamico() > 0 Then
+    vPerguntarImpressoraDepois = True
+    PerguntarImpressoraNFCe = True
+Else
+    PerguntarImpressoraNFCe = (MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") = vbYes)
+End If
+End Function
+
+'Chamado depois que o Pix dinâmico foi pago: faz a pergunta que ficou adiada; "não" = a venda segue sem NFCe
+Private Sub ConfirmarImpressoraDepoisDoPix()
+If Not vPerguntarImpressoraDepois Then Exit Sub
+vPerguntarImpressoraDepois = False
+If MsgBox("Impressora Pronta?", vbQuestion + vbYesNo, "NFCe") <> vbYes Then NFCe_OK = False
+End Sub
 
 'Trava de desconto em cartao (vLimitarDesc): usada no LostFocus dos combos de forma de pagamento e na escolha rapida por imagem/atalho
 Private Sub ChecarDescontoCartao(oCbo As ComboBox)
@@ -9130,6 +9157,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
 
            'Pix dinâmico: recebe pelo QR Code antes de gravar; sem pagamento a venda continua aberta.
            If Not ReceberPixDinamico() Then cmdFinalizar.Enabled = True: Exit Sub
+           ConfirmarImpressoraDepoisDoPix
 
            'ATUALIZANDO A TABELA PEDIDOS
             dbData.Execute "BEGIN TRANSACTION"
@@ -9460,6 +9488,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
            
            'Pix dinâmico: recebe pelo QR Code antes de gravar; sem pagamento a venda continua aberta.
            If Not ReceberPixDinamico() Then cmdFinalizar.Enabled = True: Exit Sub
+           ConfirmarImpressoraDepoisDoPix
 
            'ATUALIZANDO A TABELA PEDIDOS
            dbData.Execute "BEGIN TRANSACTION"
@@ -11796,6 +11825,9 @@ If TemConexaoInternet() Then
 End If
 
 AtualizarLabelConexaoInternet   'estado inicial do lblConexaoInternet, sem esperar o primeiro tick do TimerInternet
+
+AplicarAliquotasReforma   'aplica as aliquotas CBS/IBS vigentes hoje (virada de vigencia, mesmo sem emitir nota)
+If TemConexaoInternet() Then AtualizarAliquotasDaNuvem   'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso)
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)

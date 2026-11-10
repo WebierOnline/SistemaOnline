@@ -790,6 +790,12 @@ Begin VB.MDIForm Tela_Principal
          Begin VB.Menu Menu_FISCAL_Reforma_IBSAliq 
             Caption         =   "IBS Aliquotas"
          End
+         Begin VB.Menu Menu_FISCAL_Reforma_CBSAliq 
+            Caption         =   "CBS Aliquotas"
+         End
+         Begin VB.Menu Menu_FISCAL_Reforma_AliqNuvem 
+            Caption         =   "Atualizar Aliquotas CBS/IBS (nuvem)"
+         End
          Begin VB.Menu Menu_FISCAL_Reforma_ISAliq 
             Caption         =   "IS Aliquotas"
          End
@@ -1308,6 +1314,9 @@ If EhServidorLocal() Then
    VerificarAtualizacaoIBPT
 End If
 
+AplicarAliquotasReforma            'aplica as aliquotas CBS/IBS vigentes hoje (virada de vigencia, mesmo sem emitir nota)
+AtualizarAliquotasDaNuvem          'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso)
+
 End Sub
 
 Private Sub MDIForm_Unload(Cancel As Integer)
@@ -1606,6 +1615,19 @@ End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSAliq_Click()
 frmIBS_Aliquotas.Show 1
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_AliqNuvem_Click()
+Dim sMsg As String
+
+Me.MousePointer = 11
+sMsg = AtualizarAliquotasDaNuvem(True)
+Me.MousePointer = 0
+MsgBox sMsg, vbInformation, "Al" & Chr(237) & "quotas CBS/IBS"
+End Sub
+
+Private Sub Menu_FISCAL_Reforma_CBSAliq_Click()
+frmCBS_Aliquotas.Show 1
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSCBS_Click()
