@@ -34,10 +34,10 @@ Begin VB.Form PDV
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   9135
-      Left            =   6780
-      TabIndex        =   44
-      Top             =   840
+      Height          =   9615
+      Left            =   7020
+      TabIndex        =   50
+      Top             =   240
       Visible         =   0   'False
       Width           =   7515
       Begin VB.Frame frmFormaRapida 
@@ -52,10 +52,10 @@ Begin VB.Form PDV
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   4095
+         Height          =   3855
          Left            =   120
-         TabIndex        =   158
-         Top             =   3000
+         TabIndex        =   164
+         Top             =   2940
          Width           =   7275
          Begin VB.Frame frmRecebiveis 
             BackColor       =   &H00C0FFFF&
@@ -70,15 +70,15 @@ Begin VB.Form PDV
                Strikethrough   =   0   'False
             EndProperty
             Height          =   1695
-            Left            =   720
-            TabIndex        =   163
-            Top             =   2100
+            Left            =   660
+            TabIndex        =   169
+            Top             =   2040
             Width           =   6075
             Begin VB.ComboBox cboformaPgto 
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   2640
-               TabIndex        =   169
+               TabIndex        =   25
                Top             =   480
                Width           =   2175
             End
@@ -86,7 +86,7 @@ Begin VB.Form PDV
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   2640
-               TabIndex        =   168
+               TabIndex        =   27
                Top             =   840
                Width           =   2175
             End
@@ -96,7 +96,8 @@ Begin VB.Form PDV
                Height          =   315
                Left            =   1560
                Locked          =   -1  'True
-               TabIndex        =   167
+               TabIndex        =   24
+               TabStop         =   0   'False
                Text            =   "0"
                Top             =   480
                Width           =   1035
@@ -106,7 +107,7 @@ Begin VB.Form PDV
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1560
-               TabIndex        =   166
+               TabIndex        =   26
                Text            =   "0"
                Top             =   840
                Width           =   1035
@@ -115,7 +116,7 @@ Begin VB.Form PDV
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   2640
-               TabIndex        =   165
+               TabIndex        =   29
                Top             =   1200
                Width           =   2175
             End
@@ -124,7 +125,7 @@ Begin VB.Form PDV
                Appearance      =   0  'Flat
                Height          =   315
                Left            =   1560
-               TabIndex        =   164
+               TabIndex        =   28
                Text            =   "0"
                Top             =   1200
                Width           =   1035
@@ -211,133 +212,171 @@ Begin VB.Form PDV
                Width           =   1350
             End
          End
-         Begin VB.Label lblEntrada 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Valor:"
-            Height          =   195
-            Left            =   6900
-            TabIndex        =   162
-            Top             =   2460
-            Width           =   405
+         Begin VB.Image imgDinheiroDesa 
+            Height          =   825
+            Left            =   840
+            Picture         =   "PDV.frx":FEAD
+            Stretch         =   -1  'True
+            Top             =   230
+            Visible         =   0   'False
+            Width           =   1620
          End
-         Begin VB.Label lblFormaEntrada 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            BackStyle       =   0  'Transparent
-            Caption         =   "Forma de Pagamento"
-            Height          =   195
-            Left            =   6060
-            TabIndex        =   161
-            Top             =   2160
-            Width           =   1515
+         Begin VB.Image imgPixDesa 
+            Height          =   810
+            Left            =   2830
+            Picture         =   "PDV.frx":11990
+            Stretch         =   -1  'True
+            Top             =   230
+            Visible         =   0   'False
+            Width           =   1620
+         End
+         Begin VB.Image imgDebitoDesa 
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":1327F
+            Stretch         =   -1  'True
+            Top             =   230
+            Visible         =   0   'False
+            Width           =   1620
+         End
+         Begin VB.Image imgCreditoDesa 
+            Height          =   810
+            Left            =   840
+            Picture         =   "PDV.frx":14D13
+            Stretch         =   -1  'True
+            Top             =   1140
+            Visible         =   0   'False
+            Width           =   1620
+         End
+         Begin VB.Image imgOutrosDesa 
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":167F0
+            Stretch         =   -1  'True
+            Top             =   1140
+            Visible         =   0   'False
+            Width           =   1620
+         End
+         Begin VB.Image imgCredLojaDesa 
+            Height          =   825
+            Left            =   2830
+            Picture         =   "PDV.frx":1834C
+            Stretch         =   -1  'True
+            Top             =   1140
+            Visible         =   0   'False
+            Width           =   1620
          End
          Begin VB.Image imgCredLojaSel 
-            Height          =   735
-            Left            =   2760
-            Picture         =   "PDV.frx":FEAD
-            Top             =   1260
+            Height          =   825
+            Left            =   2830
+            Picture         =   "PDV.frx":19F94
+            Stretch         =   -1  'True
+            Top             =   1140
             Visible         =   0   'False
-            Width           =   1950
+            Width           =   1620
          End
          Begin VB.Image imgCredLoja 
-            Height          =   735
-            Left            =   2760
-            Picture         =   "PDV.frx":11471
-            Top             =   1020
-            Width           =   1950
+            Height          =   825
+            Left            =   2830
+            Picture         =   "PDV.frx":1B9B2
+            Top             =   1140
+            Width           =   1650
          End
          Begin VB.Image imgOutrosSel 
-            Height          =   735
-            Left            =   4800
-            Picture         =   "PDV.frx":127B3
-            Top             =   1200
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":1D2DF
+            Stretch         =   -1  'True
+            Top             =   1140
             Visible         =   0   'False
-            Width           =   1950
+            Width           =   1620
          End
          Begin VB.Image imgCreditoSel 
-            Height          =   735
-            Left            =   720
-            Picture         =   "PDV.frx":14198
-            Top             =   1320
+            Height          =   825
+            Left            =   840
+            Picture         =   "PDV.frx":1ECD3
+            Stretch         =   -1  'True
+            Top             =   1140
             Visible         =   0   'False
-            Width           =   1950
+            Width           =   1620
          End
          Begin VB.Image imgDebitoSel 
-            Height          =   735
-            Left            =   4800
-            Picture         =   "PDV.frx":15B81
-            Top             =   0
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":2064C
+            Stretch         =   -1  'True
+            Top             =   230
             Visible         =   0   'False
-            Width           =   2025
+            Width           =   1620
          End
          Begin VB.Image imgPixSel 
-            Height          =   735
-            Left            =   2760
-            Picture         =   "PDV.frx":1753C
-            Top             =   0
+            Height          =   825
+            Left            =   2830
+            Picture         =   "PDV.frx":21F34
+            Stretch         =   -1  'True
+            Top             =   230
             Visible         =   0   'False
-            Width           =   1950
+            Width           =   1620
          End
          Begin VB.Image imgDinheiroSel 
-            Height          =   735
-            Left            =   720
-            Picture         =   "PDV.frx":18C49
-            Top             =   -60
+            Height          =   825
+            Left            =   840
+            Picture         =   "PDV.frx":2383A
+            Stretch         =   -1  'True
+            Top             =   230
             Visible         =   0   'False
-            Width           =   1950
+            Width           =   1620
          End
          Begin VB.Image imgOutros 
-            Height          =   735
-            Left            =   4800
-            Picture         =   "PDV.frx":1A6CB
-            Top             =   1020
-            Width           =   1950
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":251FC
+            Top             =   1140
+            Width           =   1650
          End
          Begin VB.Image imgDinheiro 
-            Height          =   735
-            Left            =   720
-            Picture         =   "PDV.frx":1C13C
-            Top             =   240
-            Width           =   1950
+            Height          =   825
+            Left            =   840
+            Picture         =   "PDV.frx":26ACA
+            Top             =   230
+            Width           =   1620
          End
          Begin VB.Image imgCredito 
-            Height          =   735
-            Left            =   720
-            Picture         =   "PDV.frx":1DB51
-            Top             =   1020
-            Width           =   1950
+            Height          =   825
+            Left            =   840
+            Picture         =   "PDV.frx":283A0
+            Top             =   1140
+            Width           =   1620
          End
          Begin VB.Image imgDebito 
-            Height          =   735
-            Left            =   4800
-            Picture         =   "PDV.frx":1F594
-            Top             =   240
-            Width           =   1950
+            Height          =   825
+            Left            =   4830
+            Picture         =   "PDV.frx":29C7D
+            Top             =   230
+            Width           =   1635
          End
          Begin VB.Image imgPix 
-            Height          =   735
-            Left            =   2760
-            Picture         =   "PDV.frx":20F7C
-            Top             =   240
-            Width           =   1950
+            Height          =   825
+            Left            =   2830
+            Picture         =   "PDV.frx":2B496
+            Top             =   230
+            Width           =   1635
          End
       End
       Begin VB.CommandButton Command1 
          Caption         =   "X"
          Height          =   195
          Left            =   7320
-         TabIndex        =   113
+         TabIndex        =   119
          Top             =   60
          Width           =   195
       End
       Begin VB.Frame Frame17 
          BackColor       =   &H00C0FFFF&
          Height          =   855
-         Left            =   360
-         TabIndex        =   108
-         Top             =   2040
+         Left            =   3960
+         TabIndex        =   114
+         Top             =   6780
          Width           =   3435
          Begin VB.TextBox txtRecebido 
             Alignment       =   1  'Right Justify
@@ -377,7 +416,7 @@ Begin VB.Form PDV
             Height          =   360
             Left            =   1980
             Locked          =   -1  'True
-            TabIndex        =   24
+            TabIndex        =   30
             TabStop         =   0   'False
             Top             =   420
             Width           =   1335
@@ -397,7 +436,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1980
-            TabIndex        =   110
+            TabIndex        =   116
             Top             =   180
             Width           =   570
          End
@@ -416,7 +455,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   120
-            TabIndex        =   109
+            TabIndex        =   115
             Top             =   180
             Width           =   885
          End
@@ -426,7 +465,7 @@ Begin VB.Form PDV
          Caption         =   "Forma Pagamento"
          Height          =   615
          Left            =   3360
-         TabIndex        =   107
+         TabIndex        =   113
          Top             =   240
          Width           =   1695
          Begin VB.ComboBox cboTipoPgto 
@@ -443,7 +482,7 @@ Begin VB.Form PDV
          Caption         =   "Quant. de Forma de Pgto"
          Height          =   615
          Left            =   5100
-         TabIndex        =   106
+         TabIndex        =   112
          Top             =   240
          Width           =   2295
          Begin VB.ComboBox cboQuantForma 
@@ -457,15 +496,15 @@ Begin VB.Form PDV
       Begin VB.Timer tmrDebito 
          Enabled         =   0   'False
          Interval        =   150
-         Left            =   120
-         Top             =   8520
+         Left            =   60
+         Top             =   9180
       End
       Begin VB.Frame Frame12 
          BackColor       =   &H00C0FFFF&
          Caption         =   "Usuário"
          Height          =   615
          Left            =   120
-         TabIndex        =   61
+         TabIndex        =   67
          Top             =   240
          Width           =   3195
          Begin VB.TextBox txtFuncAP 
@@ -473,7 +512,7 @@ Begin VB.Form PDV
             Height          =   285
             Left            =   840
             Locked          =   -1  'True
-            TabIndex        =   37
+            TabIndex        =   43
             TabStop         =   0   'False
             Top             =   240
             Width           =   2235
@@ -491,13 +530,13 @@ Begin VB.Form PDV
          BackColor       =   &H00C0FFFF&
          Height          =   1455
          Left            =   120
-         TabIndex        =   52
-         Top             =   7080
+         TabIndex        =   58
+         Top             =   7620
          Width           =   7275
          Begin ChamaleonBtn.chameleonButton cmdCal1 
             Height          =   315
             Left            =   3780
-            TabIndex        =   30
+            TabIndex        =   36
             TabStop         =   0   'False
             Tag             =   "Calendario"
             Top             =   1020
@@ -524,9 +563,9 @@ Begin VB.Form PDV
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "PDV.frx":22946
-            PICN            =   "PDV.frx":22962
-            PICH            =   "PDV.frx":24CB5
+            MICON           =   "PDV.frx":2CC82
+            PICN            =   "PDV.frx":2CC9E
+            PICH            =   "PDV.frx":2EFF1
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -539,7 +578,7 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboCliente 
             Height          =   315
             Left            =   120
-            TabIndex        =   25
+            TabIndex        =   31
             Top             =   420
             Width           =   7035
          End
@@ -548,7 +587,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1620
             Locked          =   -1  'True
-            TabIndex        =   28
+            TabIndex        =   34
             Text            =   "0"
             Top             =   1020
             Width           =   1155
@@ -556,7 +595,7 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboQuantParc 
             Height          =   315
             Left            =   120
-            TabIndex        =   26
+            TabIndex        =   32
             Text            =   "1"
             Top             =   1020
             Width           =   735
@@ -565,7 +604,7 @@ Begin VB.Form PDV
             Appearance      =   0  'Flat
             Height          =   285
             Left            =   6360
-            TabIndex        =   53
+            TabIndex        =   59
             TabStop         =   0   'False
             Top             =   120
             Visible         =   0   'False
@@ -574,7 +613,7 @@ Begin VB.Form PDV
          Begin VB.ComboBox cboPrazo 
             Height          =   315
             Left            =   900
-            TabIndex        =   27
+            TabIndex        =   33
             Text            =   "30"
             Top             =   1020
             Width           =   675
@@ -582,7 +621,7 @@ Begin VB.Form PDV
          Begin MSMask.MaskEdBox mskInicio 
             Height          =   315
             Left            =   2820
-            TabIndex        =   29
+            TabIndex        =   35
             Top             =   1020
             Width           =   1275
             _ExtentX        =   2249
@@ -593,7 +632,7 @@ Begin VB.Form PDV
          Begin MSMask.MaskEdBox mskTermino 
             Height          =   315
             Left            =   4080
-            TabIndex        =   31
+            TabIndex        =   37
             Top             =   1020
             Width           =   1035
             _ExtentX        =   1826
@@ -607,7 +646,7 @@ Begin VB.Form PDV
             Caption         =   "Termino:"
             Height          =   195
             Left            =   4080
-            TabIndex        =   60
+            TabIndex        =   66
             Top             =   780
             Width           =   615
          End
@@ -617,7 +656,7 @@ Begin VB.Form PDV
             Caption         =   "Valor Parc.:"
             Height          =   195
             Left            =   1620
-            TabIndex        =   59
+            TabIndex        =   65
             Top             =   780
             Width           =   825
          End
@@ -627,7 +666,7 @@ Begin VB.Form PDV
             Caption         =   "Quant:"
             Height          =   195
             Left            =   120
-            TabIndex        =   58
+            TabIndex        =   64
             Top             =   780
             Width           =   480
          End
@@ -637,7 +676,7 @@ Begin VB.Form PDV
             Caption         =   "Cliente"
             Height          =   195
             Left            =   120
-            TabIndex        =   56
+            TabIndex        =   62
             Top             =   180
             Width           =   480
          End
@@ -647,7 +686,7 @@ Begin VB.Form PDV
             Caption         =   "Prazo:"
             Height          =   195
             Left            =   900
-            TabIndex        =   55
+            TabIndex        =   61
             Top             =   780
             Width           =   450
          End
@@ -657,7 +696,7 @@ Begin VB.Form PDV
             Caption         =   "Inicio:"
             Height          =   195
             Left            =   2820
-            TabIndex        =   54
+            TabIndex        =   60
             Top             =   780
             Width           =   420
          End
@@ -666,7 +705,7 @@ Begin VB.Form PDV
          BackColor       =   &H00C0FFFF&
          Height          =   2115
          Left            =   3960
-         TabIndex        =   47
+         TabIndex        =   53
          Top             =   840
          Width           =   3435
          Begin VB.TextBox txtFrete 
@@ -722,7 +761,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   315
             Left            =   60
-            TabIndex        =   35
+            TabIndex        =   41
             Top             =   480
             Visible         =   0   'False
             Width           =   855
@@ -742,7 +781,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   315
             Left            =   60
-            TabIndex        =   33
+            TabIndex        =   39
             Top             =   120
             Visible         =   0   'False
             Width           =   855
@@ -752,7 +791,7 @@ Begin VB.Form PDV
             BackColor       =   &H00FFC0FF&
             Height          =   315
             Left            =   120
-            TabIndex        =   116
+            TabIndex        =   122
             Top             =   1440
             Visible         =   0   'False
             Width           =   855
@@ -773,7 +812,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1860
             Locked          =   -1  'True
-            TabIndex        =   34
+            TabIndex        =   40
             TabStop         =   0   'False
             Text            =   "0,00"
             Top             =   240
@@ -814,7 +853,7 @@ Begin VB.Form PDV
             Height          =   315
             Left            =   1920
             Locked          =   -1  'True
-            TabIndex        =   38
+            TabIndex        =   44
             TabStop         =   0   'False
             Text            =   "0,00"
             Top             =   1680
@@ -827,7 +866,7 @@ Begin VB.Form PDV
             Left            =   1620
             ScaleHeight     =   210
             ScaleWidth      =   915
-            TabIndex        =   48
+            TabIndex        =   54
             TabStop         =   0   'False
             Top             =   660
             Width           =   915
@@ -882,7 +921,7 @@ Begin VB.Form PDV
             Left            =   1620
             ScaleHeight     =   210
             ScaleWidth      =   1035
-            TabIndex        =   63
+            TabIndex        =   69
             TabStop         =   0   'False
             Top             =   1020
             Width           =   1035
@@ -945,7 +984,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1740
-            TabIndex        =   154
+            TabIndex        =   160
             Top             =   1320
             Width           =   735
          End
@@ -964,7 +1003,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1080
-            TabIndex        =   51
+            TabIndex        =   57
             Top             =   660
             Width           =   510
          End
@@ -983,7 +1022,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   960
-            TabIndex        =   64
+            TabIndex        =   70
             Top             =   1020
             Width           =   660
          End
@@ -1002,7 +1041,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   1380
-            TabIndex        =   50
+            TabIndex        =   56
             Top             =   1740
             Width           =   510
          End
@@ -1021,7 +1060,7 @@ Begin VB.Form PDV
             EndProperty
             Height          =   195
             Left            =   960
-            TabIndex        =   49
+            TabIndex        =   55
             Top             =   300
             Width           =   840
          End
@@ -1029,8 +1068,8 @@ Begin VB.Form PDV
       Begin ChamaleonBtn.chameleonButton cmdFinalizar 
          Height          =   315
          Left            =   5520
-         TabIndex        =   32
-         Top             =   8580
+         TabIndex        =   38
+         Top             =   9180
          Width           =   855
          _ExtentX        =   1508
          _ExtentY        =   556
@@ -1054,7 +1093,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":27008
+         MICON           =   "PDV.frx":31344
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1066,9 +1105,9 @@ Begin VB.Form PDV
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   315
-         Left            =   6420
-         TabIndex        =   36
-         Top             =   8580
+         Left            =   6480
+         TabIndex        =   42
+         Top             =   9180
          Width           =   855
          _ExtentX        =   1508
          _ExtentY        =   556
@@ -1092,7 +1131,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":27024
+         MICON           =   "PDV.frx":31360
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1106,7 +1145,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   120
-         TabIndex        =   111
+         TabIndex        =   117
          Top             =   900
          Visible         =   0   'False
          Width           =   1875
@@ -1132,7 +1171,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":27040
+         MICON           =   "PDV.frx":3137C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1157,7 +1196,7 @@ Begin VB.Form PDV
          ForeColor       =   &H00808080&
          Height          =   450
          Left            =   180
-         TabIndex        =   160
+         TabIndex        =   166
          Top             =   1440
          Width           =   2655
          WordWrap        =   -1  'True
@@ -1177,7 +1216,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   210
          Left            =   180
-         TabIndex        =   159
+         TabIndex        =   165
          Top             =   1260
          Width           =   375
       End
@@ -1186,9 +1225,9 @@ Begin VB.Form PDV
          BackStyle       =   0  'Transparent
          Caption         =   "POR FAVOR, ENCAMINHE O CLIENTE PARA GERÊNCIA"
          Height          =   195
-         Left            =   180
-         TabIndex        =   70
-         Top             =   8580
+         Left            =   120
+         TabIndex        =   76
+         Top             =   9240
          Visible         =   0   'False
          Width           =   4215
       End
@@ -1198,14 +1237,14 @@ Begin VB.Form PDV
       Caption         =   "CashBack"
       Height          =   4275
       Left            =   360
-      TabIndex        =   155
+      TabIndex        =   161
       Top             =   1620
       Visible         =   0   'False
       Width           =   5355
       Begin MSComctlLib.ListView lstCashBack 
          Height          =   3555
          Left            =   120
-         TabIndex        =   156
+         TabIndex        =   162
          Top             =   240
          Visible         =   0   'False
          Width           =   5115
@@ -1226,7 +1265,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   1500
-         TabIndex        =   157
+         TabIndex        =   163
          Top             =   3840
          Width           =   1335
          _ExtentX        =   2355
@@ -1251,7 +1290,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":2705C
+         MICON           =   "PDV.frx":31398
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1265,7 +1304,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   120
-         TabIndex        =   74
+         TabIndex        =   80
          Top             =   3840
          Width           =   1335
          _ExtentX        =   2355
@@ -1290,7 +1329,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":27078
+         MICON           =   "PDV.frx":313B4
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1304,7 +1343,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   3780
-         TabIndex        =   152
+         TabIndex        =   158
          Top             =   3840
          Width           =   1455
          _ExtentX        =   2566
@@ -1329,7 +1368,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":27094
+         MICON           =   "PDV.frx":313D0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1353,10 +1392,10 @@ Begin VB.Form PDV
       ForeColor       =   &H80000008&
       Height          =   1095
       Left            =   1200
-      Picture         =   "PDV.frx":270B0
+      Picture         =   "PDV.frx":313EC
       ScaleHeight     =   1095
       ScaleWidth      =   2895
-      TabIndex        =   153
+      TabIndex        =   159
       Top             =   180
       Visible         =   0   'False
       Width           =   2895
@@ -1375,7 +1414,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   1815
       Left            =   -1080
-      TabIndex        =   141
+      TabIndex        =   147
       Top             =   4860
       Visible         =   0   'False
       Width           =   7755
@@ -1383,7 +1422,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   4080
-         TabIndex        =   142
+         TabIndex        =   148
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -1408,7 +1447,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":280E8
+         MICON           =   "PDV.frx":32424
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1422,7 +1461,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   1500
-         TabIndex        =   143
+         TabIndex        =   149
          Top             =   960
          Width           =   2295
          _ExtentX        =   4048
@@ -1447,7 +1486,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28104
+         MICON           =   "PDV.frx":32440
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1472,7 +1511,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   360
          Left            =   1140
-         TabIndex        =   144
+         TabIndex        =   150
          Top             =   360
          Width           =   5760
       End
@@ -1491,7 +1530,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   6435
       Left            =   1080
-      TabIndex        =   76
+      TabIndex        =   82
       Top             =   1800
       Visible         =   0   'False
       Width           =   3135
@@ -1499,7 +1538,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   77
+         TabIndex        =   83
          Top             =   480
          Width           =   2775
          _ExtentX        =   4895
@@ -1524,7 +1563,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28120
+         MICON           =   "PDV.frx":3245C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1538,7 +1577,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   78
+         TabIndex        =   84
          Top             =   840
          Width           =   2775
          _ExtentX        =   4895
@@ -1563,7 +1602,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":2813C
+         MICON           =   "PDV.frx":32478
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1577,7 +1616,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   79
+         TabIndex        =   85
          Top             =   1560
          Width           =   2775
          _ExtentX        =   4895
@@ -1602,7 +1641,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28158
+         MICON           =   "PDV.frx":32494
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1616,7 +1655,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   80
+         TabIndex        =   86
          Top             =   4320
          Width           =   2775
          _ExtentX        =   4895
@@ -1641,7 +1680,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28174
+         MICON           =   "PDV.frx":324B0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1655,7 +1694,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   81
+         TabIndex        =   87
          Top             =   6000
          Width           =   2775
          _ExtentX        =   4895
@@ -1680,7 +1719,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28190
+         MICON           =   "PDV.frx":324CC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1694,7 +1733,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   82
+         TabIndex        =   88
          Top             =   5040
          Width           =   2775
          _ExtentX        =   4895
@@ -1719,7 +1758,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":281AC
+         MICON           =   "PDV.frx":324E8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1733,7 +1772,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   85
+         TabIndex        =   91
          Top             =   4680
          Width           =   2775
          _ExtentX        =   4895
@@ -1758,7 +1797,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":281C8
+         MICON           =   "PDV.frx":32504
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1772,7 +1811,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   86
+         TabIndex        =   92
          Top             =   5400
          Width           =   2775
          _ExtentX        =   4895
@@ -1797,7 +1836,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":281E4
+         MICON           =   "PDV.frx":32520
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1811,7 +1850,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   135
+         TabIndex        =   141
          Top             =   1200
          Width           =   2775
          _ExtentX        =   4895
@@ -1836,7 +1875,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28200
+         MICON           =   "PDV.frx":3253C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1850,7 +1889,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   147
+         TabIndex        =   153
          Top             =   3360
          Width           =   2775
          _ExtentX        =   4895
@@ -1875,7 +1914,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":2821C
+         MICON           =   "PDV.frx":32558
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1889,7 +1928,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   148
+         TabIndex        =   154
          Top             =   3720
          Width           =   2775
          _ExtentX        =   4895
@@ -1914,7 +1953,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28238
+         MICON           =   "PDV.frx":32574
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1928,7 +1967,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   149
+         TabIndex        =   155
          Top             =   2640
          Width           =   2775
          _ExtentX        =   4895
@@ -1953,7 +1992,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28254
+         MICON           =   "PDV.frx":32590
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -1967,7 +2006,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   150
+         TabIndex        =   156
          Top             =   3000
          Width           =   2775
          _ExtentX        =   4895
@@ -1992,7 +2031,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28270
+         MICON           =   "PDV.frx":325AC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2006,7 +2045,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   180
-         TabIndex        =   151
+         TabIndex        =   157
          Top             =   1920
          Width           =   2775
          _ExtentX        =   4895
@@ -2031,7 +2070,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":2828C
+         MICON           =   "PDV.frx":325C8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2056,7 +2095,7 @@ Begin VB.Form PDV
          ForeColor       =   &H000000FF&
          Height          =   195
          Left            =   1860
-         TabIndex        =   137
+         TabIndex        =   143
          Top             =   4260
          Width           =   75
       End
@@ -2078,7 +2117,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   88
+         TabIndex        =   94
          Top             =   5760
          Width           =   2685
       End
@@ -2100,7 +2139,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   87
+         TabIndex        =   93
          Top             =   2400
          Width           =   2685
       End
@@ -2122,7 +2161,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   240
-         TabIndex        =   84
+         TabIndex        =   90
          Top             =   4080
          Width           =   2685
       End
@@ -2144,7 +2183,7 @@ Begin VB.Form PDV
          ForeColor       =   &H8000000D&
          Height          =   195
          Left            =   180
-         TabIndex        =   83
+         TabIndex        =   89
          Top             =   240
          Width           =   2685
       End
@@ -2162,7 +2201,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   1875
       Left            =   -1800
-      TabIndex        =   94
+      TabIndex        =   100
       Top             =   4860
       Width           =   8295
       Begin VB.Frame Frame15 
@@ -2178,14 +2217,14 @@ Begin VB.Form PDV
          EndProperty
          Height          =   1275
          Left            =   4200
-         TabIndex        =   98
+         TabIndex        =   104
          Top             =   360
          Width           =   3915
          Begin ChamaleonBtn.chameleonButton cmdAV 
             CausesValidation=   0   'False
             Height          =   495
             Left            =   180
-            TabIndex        =   99
+            TabIndex        =   105
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -2210,7 +2249,7 @@ Begin VB.Form PDV
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "PDV.frx":282A8
+            MICON           =   "PDV.frx":325E4
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2224,7 +2263,7 @@ Begin VB.Form PDV
             CausesValidation=   0   'False
             Height          =   495
             Left            =   2040
-            TabIndex        =   100
+            TabIndex        =   106
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -2249,7 +2288,7 @@ Begin VB.Form PDV
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "PDV.frx":282C4
+            MICON           =   "PDV.frx":32600
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2273,14 +2312,14 @@ Begin VB.Form PDV
          EndProperty
          Height          =   1275
          Left            =   180
-         TabIndex        =   95
+         TabIndex        =   101
          Top             =   360
          Width           =   3915
          Begin ChamaleonBtn.chameleonButton cmdVV 
             CausesValidation=   0   'False
             Height          =   495
             Left            =   180
-            TabIndex        =   96
+            TabIndex        =   102
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -2305,7 +2344,7 @@ Begin VB.Form PDV
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "PDV.frx":282E0
+            MICON           =   "PDV.frx":3261C
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2319,7 +2358,7 @@ Begin VB.Form PDV
             CausesValidation=   0   'False
             Height          =   495
             Left            =   2040
-            TabIndex        =   97
+            TabIndex        =   103
             Top             =   480
             Width           =   1695
             _ExtentX        =   2990
@@ -2344,7 +2383,7 @@ Begin VB.Form PDV
             FCOLO           =   0
             MCOL            =   12632256
             MPTR            =   1
-            MICON           =   "PDV.frx":282FC
+            MICON           =   "PDV.frx":32638
             UMCOL           =   -1  'True
             SOFT            =   0   'False
             PICPOS          =   0
@@ -2370,7 +2409,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   1815
       Left            =   -1020
-      TabIndex        =   124
+      TabIndex        =   130
       Top             =   5100
       Visible         =   0   'False
       Width           =   7755
@@ -2378,7 +2417,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   2640
-         TabIndex        =   125
+         TabIndex        =   131
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -2403,7 +2442,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28318
+         MICON           =   "PDV.frx":32654
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2417,7 +2456,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   240
-         TabIndex        =   127
+         TabIndex        =   133
          Top             =   960
          Width           =   2295
          _ExtentX        =   4048
@@ -2442,7 +2481,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28334
+         MICON           =   "PDV.frx":32670
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2456,7 +2495,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   495
          Left            =   5160
-         TabIndex        =   128
+         TabIndex        =   134
          Top             =   960
          Width           =   2415
          _ExtentX        =   4260
@@ -2481,7 +2520,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28350
+         MICON           =   "PDV.frx":3268C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2506,7 +2545,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   360
          Left            =   1440
-         TabIndex        =   126
+         TabIndex        =   132
          Top             =   360
          Width           =   4620
       End
@@ -2525,7 +2564,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   1035
       Left            =   -60
-      TabIndex        =   129
+      TabIndex        =   135
       Top             =   6060
       Visible         =   0   'False
       Width           =   4395
@@ -2534,7 +2573,7 @@ Begin VB.Form PDV
          Height          =   285
          Left            =   180
          Locked          =   -1  'True
-         TabIndex        =   133
+         TabIndex        =   139
          Text            =   "PRODUTO AVULSO"
          Top             =   600
          Width           =   2295
@@ -2544,7 +2583,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   2520
-         TabIndex        =   131
+         TabIndex        =   137
          Top             =   600
          Width           =   1215
       End
@@ -2552,7 +2591,7 @@ Begin VB.Form PDV
          CausesValidation=   0   'False
          Height          =   315
          Left            =   3780
-         TabIndex        =   132
+         TabIndex        =   138
          Top             =   600
          Width           =   435
          _ExtentX        =   767
@@ -2577,7 +2616,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":2836C
+         MICON           =   "PDV.frx":326A8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2602,7 +2641,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   2520
-         TabIndex        =   134
+         TabIndex        =   140
          Top             =   360
          Width           =   450
       End
@@ -2621,7 +2660,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   180
-         TabIndex        =   130
+         TabIndex        =   136
          Top             =   360
          Width           =   855
       End
@@ -2638,7 +2677,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   450
       Left            =   120
-      TabIndex        =   146
+      TabIndex        =   152
       Top             =   7800
       Visible         =   0   'False
       Width           =   1455
@@ -2666,7 +2705,7 @@ Begin VB.Form PDV
       EndProperty
       Height          =   450
       Left            =   120
-      TabIndex        =   145
+      TabIndex        =   151
       Top             =   7320
       Visible         =   0   'False
       Width           =   1455
@@ -2706,7 +2745,7 @@ Begin VB.Form PDV
       ForeColor       =   &H80000008&
       Height          =   1155
       Left            =   540
-      TabIndex        =   117
+      TabIndex        =   123
       Top             =   3780
       Visible         =   0   'False
       Width           =   5115
@@ -2714,7 +2753,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   2640
-         TabIndex        =   122
+         TabIndex        =   128
          Top             =   720
          Width           =   795
       End
@@ -2722,7 +2761,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1800
-         TabIndex        =   121
+         TabIndex        =   127
          Top             =   720
          Width           =   795
       End
@@ -2730,7 +2769,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   960
-         TabIndex        =   120
+         TabIndex        =   126
          Top             =   720
          Width           =   795
       End
@@ -2738,7 +2777,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   120
-         TabIndex        =   119
+         TabIndex        =   125
          Top             =   720
          Width           =   795
       End
@@ -2746,7 +2785,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   120
-         TabIndex        =   118
+         TabIndex        =   124
          Top             =   360
          Width           =   4875
       End
@@ -2765,7 +2804,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   4920
-         TabIndex        =   123
+         TabIndex        =   129
          Top             =   120
          Width           =   105
       End
@@ -2774,7 +2813,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   315
       Left            =   10740
-      TabIndex        =   115
+      TabIndex        =   121
       Top             =   8940
       Visible         =   0   'False
       Width           =   1035
@@ -2783,7 +2822,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   8760
-      TabIndex        =   112
+      TabIndex        =   118
       Top             =   9840
       Visible         =   0   'False
       Width           =   1515
@@ -2796,14 +2835,14 @@ Begin VB.Form PDV
       Left            =   4260
       ScaleHeight     =   1425
       ScaleWidth      =   2025
-      TabIndex        =   90
+      TabIndex        =   96
       Top             =   6960
       Visible         =   0   'False
       Width           =   2055
       Begin VB.ComboBox cboUsuario 
          Height          =   315
          Left            =   120
-         TabIndex        =   89
+         TabIndex        =   95
          Top             =   360
          Width           =   1815
       End
@@ -2811,7 +2850,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1560
-         TabIndex        =   105
+         TabIndex        =   111
          Top             =   60
          Visible         =   0   'False
          Width           =   375
@@ -2820,7 +2859,7 @@ Begin VB.Form PDV
          Appearance      =   0  'Flat
          Height          =   285
          Left            =   1140
-         TabIndex        =   103
+         TabIndex        =   109
          Top             =   60
          Visible         =   0   'False
          Width           =   375
@@ -2830,14 +2869,14 @@ Begin VB.Form PDV
          IMEMode         =   3  'DISABLE
          Left            =   120
          PasswordChar    =   "*"
-         TabIndex        =   91
+         TabIndex        =   97
          Top             =   1020
          Width           =   1335
       End
       Begin ChamaleonBtn.chameleonButton cmdSenha 
          Height          =   315
          Left            =   1500
-         TabIndex        =   92
+         TabIndex        =   98
          Top             =   1020
          Width           =   375
          _ExtentX        =   661
@@ -2862,7 +2901,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":28388
+         MICON           =   "PDV.frx":326C4
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -2875,7 +2914,7 @@ Begin VB.Form PDV
       Begin MSMask.MaskEdBox mskCPF 
          Height          =   315
          Left            =   120
-         TabIndex        =   114
+         TabIndex        =   120
          Top             =   360
          Width           =   1815
          _ExtentX        =   3201
@@ -2901,7 +2940,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   120
-         TabIndex        =   104
+         TabIndex        =   110
          Top             =   120
          Width           =   645
       End
@@ -2920,7 +2959,7 @@ Begin VB.Form PDV
          EndProperty
          Height          =   195
          Left            =   120
-         TabIndex        =   93
+         TabIndex        =   99
          Top             =   780
          Width           =   555
       End
@@ -2929,7 +2968,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   8760
-      TabIndex        =   102
+      TabIndex        =   108
       Top             =   9540
       Visible         =   0   'False
       Width           =   1515
@@ -2939,14 +2978,14 @@ Begin VB.Form PDV
       CausesValidation=   0   'False
       Height          =   255
       Left            =   14760
-      TabIndex        =   72
+      TabIndex        =   78
       Top             =   0
       Width           =   255
    End
    Begin MSComctlLib.ListView lstBusca 
       Height          =   2895
       Left            =   360
-      TabIndex        =   69
+      TabIndex        =   75
       Top             =   6720
       Visible         =   0   'False
       Width           =   6375
@@ -2975,22 +3014,22 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
       Height          =   675
-      Left            =   6240
-      TabIndex        =   65
-      Top             =   8460
+      Left            =   3240
+      TabIndex        =   71
+      Top             =   9780
       Visible         =   0   'False
       Width           =   2595
       Begin VB.ComboBox cboMaquina 
          Height          =   315
          Left            =   120
-         TabIndex        =   66
+         TabIndex        =   72
          Top             =   240
          Width           =   1815
       End
       Begin ChamaleonBtn.chameleonButton cmdMaqOK 
          Height          =   315
          Left            =   1980
-         TabIndex        =   67
+         TabIndex        =   73
          Top             =   240
          Width           =   495
          _ExtentX        =   873
@@ -3015,7 +3054,7 @@ Begin VB.Form PDV
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "PDV.frx":283A4
+         MICON           =   "PDV.frx":326E0
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -3030,7 +3069,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   285
       Left            =   10740
-      TabIndex        =   62
+      TabIndex        =   68
       Top             =   8640
       Visible         =   0   'False
       Width           =   975
@@ -3039,7 +3078,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   315
       Left            =   8760
-      TabIndex        =   46
+      TabIndex        =   52
       Top             =   10140
       Visible         =   0   'False
       Width           =   1515
@@ -3048,7 +3087,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   11160
-      TabIndex        =   45
+      TabIndex        =   51
       Top             =   900
       Visible         =   0   'False
       Width           =   1155
@@ -3057,7 +3096,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   8820
-      TabIndex        =   43
+      TabIndex        =   49
       Top             =   900
       Visible         =   0   'False
       Width           =   1095
@@ -3079,7 +3118,7 @@ Begin VB.Form PDV
       Height          =   615
       Left            =   13020
       Locked          =   -1  'True
-      TabIndex        =   42
+      TabIndex        =   48
       TabStop         =   0   'False
       ToolTipText     =   "Código da Venda"
       Top             =   480
@@ -3089,7 +3128,7 @@ Begin VB.Form PDV
       Appearance      =   0  'Flat
       Height          =   375
       Left            =   9960
-      TabIndex        =   41
+      TabIndex        =   47
       Top             =   900
       Visible         =   0   'False
       Width           =   1155
@@ -3120,7 +3159,7 @@ Begin VB.Form PDV
       Height          =   675
       Left            =   12000
       Locked          =   -1  'True
-      TabIndex        =   40
+      TabIndex        =   46
       Top             =   8820
       Width           =   3015
    End
@@ -3164,15 +3203,15 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdFinalizarAvista 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   6060
       TabIndex        =   5
-      Top             =   7980
+      Top             =   7940
       Width           =   1635
       _ExtentX        =   2884
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
-      TX              =   "Venda à Vista"
+      TX              =   "Venda à Vista  [F10]"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -3191,7 +3230,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":283C0
+      MICON           =   "PDV.frx":326FC
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3203,13 +3242,13 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdRemover 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   12360
       TabIndex        =   10
-      Top             =   7980
+      Top             =   7940
       Width           =   1155
       _ExtentX        =   2037
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
       TX              =   "Remover Item"
       ENAB            =   -1  'True
@@ -3230,7 +3269,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":283DC
+      MICON           =   "PDV.frx":32718
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3242,15 +3281,15 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdFinalizarPrazo 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   7740
       TabIndex        =   6
-      Top             =   7980
+      Top             =   7940
       Width           =   1635
       _ExtentX        =   2884
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
-      TX              =   "Venda à Prazo"
+      TX              =   "Venda à Prazo [F12]"
       ENAB            =   -1  'True
       BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
@@ -3269,7 +3308,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":283F8
+      MICON           =   "PDV.frx":32734
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3282,7 +3321,7 @@ Begin VB.Form PDV
    Begin ChamaleonBtn.chameleonButton cmdAlterar 
       Height          =   315
       Left            =   9240
-      TabIndex        =   57
+      TabIndex        =   63
       Top             =   9000
       Visible         =   0   'False
       Width           =   1035
@@ -3308,7 +3347,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":28414
+      MICON           =   "PDV.frx":32750
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3320,13 +3359,13 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdOrçamento 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   9420
       TabIndex        =   7
-      Top             =   7980
+      Top             =   7940
       Width           =   1635
       _ExtentX        =   2884
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
       TX              =   "Orçamento"
       ENAB            =   -1  'True
@@ -3347,7 +3386,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":28430
+      MICON           =   "PDV.frx":3276C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3359,13 +3398,13 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdAvancado 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   13560
       TabIndex        =   11
-      Top             =   7980
+      Top             =   7940
       Width           =   1095
       _ExtentX        =   1931
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
       TX              =   "Avançado"
       ENAB            =   -1  'True
@@ -3386,7 +3425,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":2844C
+      MICON           =   "PDV.frx":32788
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3417,7 +3456,7 @@ Begin VB.Form PDV
       Align           =   2  'Align Bottom
       Height          =   270
       Left            =   0
-      TabIndex        =   101
+      TabIndex        =   107
       Top             =   10890
       Width           =   15375
       _ExtentX        =   27120
@@ -3471,7 +3510,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   2293
             MinWidth        =   2293
-            TextSave        =   "09/11/2026"
+            TextSave        =   "10/11/2026"
             Object.ToolTipText     =   "Data atual"
          EndProperty
          BeginProperty Panel9 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
@@ -3479,7 +3518,7 @@ Begin VB.Form PDV
             Alignment       =   1
             Object.Width           =   1411
             MinWidth        =   1411
-            TextSave        =   "17:44"
+            TextSave        =   "09:10"
             Object.ToolTipText     =   "Hora atual"
          EndProperty
       EndProperty
@@ -3495,13 +3534,13 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdCancelarPedido 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   11100
       TabIndex        =   8
-      Top             =   7980
+      Top             =   7940
       Width           =   1215
       _ExtentX        =   2143
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
       TX              =   "Cancelar"
       ENAB            =   -1  'True
@@ -3522,7 +3561,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":28468
+      MICON           =   "PDV.frx":327A4
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3534,13 +3573,13 @@ Begin VB.Form PDV
    End
    Begin ChamaleonBtn.chameleonButton cmdInfProduto 
       CausesValidation=   0   'False
-      Height          =   315
+      Height          =   435
       Left            =   14700
       TabIndex        =   12
-      Top             =   7980
+      Top             =   7940
       Width           =   315
       _ExtentX        =   556
-      _ExtentY        =   556
+      _ExtentY        =   767
       BTYPE           =   3
       TX              =   "..."
       ENAB            =   -1  'True
@@ -3561,7 +3600,7 @@ Begin VB.Form PDV
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
-      MICON           =   "PDV.frx":28484
+      MICON           =   "PDV.frx":327C0
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -3608,6 +3647,65 @@ Begin VB.Form PDV
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Label Label16 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Use F12 para vendas À Prazo"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00808080&
+      Height          =   210
+      Left            =   6180
+      TabIndex        =   167
+      Top             =   9720
+      Width           =   2655
+      WordWrap        =   -1  'True
+   End
+   Begin VB.Label Label15 
+      AutoSize        =   -1  'True
+      BackStyle       =   0  'Transparent
+      Caption         =   "Dica:"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   210
+      Left            =   6180
+      TabIndex        =   168
+      Top             =   9360
+      Width           =   375
+   End
+   Begin VB.Label Label14 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Use F10 para vendas À Vista"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00808080&
+      Height          =   210
+      Left            =   6180
+      TabIndex        =   176
+      Top             =   9540
+      Width           =   2655
+      WordWrap        =   -1  'True
+   End
    Begin VB.Label lblCert 
       Alignment       =   2  'Center
       AutoSize        =   -1  'True
@@ -3632,7 +3730,7 @@ Begin VB.Form PDV
    Begin VB.Image imgCert 
       Height          =   375
       Left            =   9360
-      Picture         =   "PDV.frx":284A0
+      Picture         =   "PDV.frx":327DC
       Stretch         =   -1  'True
       Top             =   10440
       Visible         =   0   'False
@@ -3641,7 +3739,7 @@ Begin VB.Form PDV
    Begin VB.Image imgNfce1 
       Height          =   375
       Left            =   12480
-      Picture         =   "PDV.frx":28D28
+      Picture         =   "PDV.frx":33064
       Stretch         =   -1  'True
       Top             =   10440
       Visible         =   0   'False
@@ -3664,7 +3762,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00000000&
       Height          =   210
       Left            =   13605
-      TabIndex        =   140
+      TabIndex        =   146
       Top             =   9660
       Width           =   990
    End
@@ -3685,7 +3783,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00000000&
       Height          =   210
       Left            =   12780
-      TabIndex        =   139
+      TabIndex        =   145
       Top             =   9900
       Width           =   1410
    End
@@ -3706,7 +3804,7 @@ Begin VB.Form PDV
       ForeColor       =   &H000000FF&
       Height          =   210
       Left            =   14445
-      TabIndex        =   138
+      TabIndex        =   144
       Top             =   9900
       Width           =   810
    End
@@ -3726,7 +3824,7 @@ Begin VB.Form PDV
       ForeColor       =   &H000000C0&
       Height          =   210
       Left            =   12900
-      TabIndex        =   136
+      TabIndex        =   142
       Top             =   10620
       Visible         =   0   'False
       Width           =   2415
@@ -3748,14 +3846,14 @@ Begin VB.Form PDV
       ForeColor       =   &H80000008&
       Height          =   255
       Left            =   13260
-      TabIndex        =   75
+      TabIndex        =   81
       Top             =   9660
       Width           =   1755
    End
    Begin VB.Label lblTipoPedido 
       Height          =   315
       Left            =   10800
-      TabIndex        =   73
+      TabIndex        =   79
       Top             =   9600
       Visible         =   0   'False
       Width           =   2055
@@ -3765,7 +3863,7 @@ Begin VB.Form PDV
       Caption         =   "PESQUISANDO PRODUTOS. AGUARDE..."
       Height          =   375
       Left            =   360
-      TabIndex        =   71
+      TabIndex        =   77
       Top             =   5640
       Visible         =   0   'False
       Width           =   5415
@@ -3773,16 +3871,16 @@ Begin VB.Form PDV
    Begin VB.Label lblEstornar 
       Height          =   315
       Left            =   10800
-      TabIndex        =   68
+      TabIndex        =   74
       Top             =   9960
       Visible         =   0   'False
       Width           =   2055
    End
    Begin VB.Image imLogoCupom 
       Height          =   1125
-      Left            =   6180
-      Picture         =   "PDV.frx":295B0
-      Top             =   9600
+      Left            =   -60
+      Picture         =   "PDV.frx":338EC
+      Top             =   9540
       Visible         =   0   'False
       Width           =   2850
    End
@@ -3800,7 +3898,7 @@ Begin VB.Form PDV
       ForeColor       =   &H00FFFFFF&
       Height          =   855
       Left            =   420
-      TabIndex        =   39
+      TabIndex        =   45
       Top             =   360
       Width           =   12375
    End
@@ -6263,6 +6361,27 @@ If txtEntrada.Text <> "" Then
 End If
 End Sub
 
+'Recalcula o valor restante (txtValorRest) enquanto o operador digita na 1a (txtEntrada) ou na 3a (txtValorTerceira) forma.
+'Silencioso: se a soma passar do total nao avisa nem altera nada (o aviso e o desfazer ficam no LostFocus, em Mostrar_ValorRestante)
+Private Sub Mostrar_ValorRestanteDigitando(oTxt As TextBox)
+Dim oAtivo As Object
+Dim Valor As Currency, ENTRADA As Currency, TERCEIRA As Currency
+On Error Resume Next
+Set oAtivo = Me.ActiveControl
+On Error GoTo 0
+If oAtivo Is Nothing Then Exit Sub
+If Not (oAtivo Is oTxt) Then Exit Sub          'so quando e o operador digitando (nao quando o codigo preenche o campo)
+If txtTotalGeral.Text = "" Then Exit Sub
+If Not IsNumeric(txtTotalDesc.Text) Then Exit Sub
+Valor = CCur(txtTotalDesc.Text)
+If IsNumeric(txtEntrada.Text) Then ENTRADA = CCur(txtEntrada.Text)
+If cboQuantForma.Text = "3 - FORMAS" Then
+    If IsNumeric(txtValorTerceira.Text) Then TERCEIRA = CCur(txtValorTerceira.Text)
+End If
+If ENTRADA + TERCEIRA > Valor Then Exit Sub
+txtValorRest.Text = Format(Valor - ENTRADA - TERCEIRA, ocMONEY)
+End Sub
+
 Private Sub Verificar_NFCe()
 'Dim sSQL As String
 'Dim r As ADODB.Recordset
@@ -6553,9 +6672,7 @@ End Sub
 
 Private Sub cboQuantForma_LostFocus()
 If cboQuantForma.Text = "1 - FORMA" Then
-    lblEntrada.Enabled = False
     txtEntrada.Enabled = False
-    lblFormaEntrada.Enabled = False
     cboFormaPgtoEntrada.Enabled = False
     cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
@@ -6564,9 +6681,7 @@ If cboQuantForma.Text = "1 - FORMA" Then
     txtEntrada.Text = Format(0, ocMONEY)
     'txtValorRest.Locked = True
 ElseIf cboQuantForma.Text = "2 - FORMAS" Then
-    lblEntrada.Enabled = True
     txtEntrada.Enabled = True
-    lblFormaEntrada.Enabled = True
     cboFormaPgtoEntrada.Enabled = True
     cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
@@ -6574,9 +6689,7 @@ ElseIf cboQuantForma.Text = "2 - FORMAS" Then
     txtValorRest.Enabled = True
     'txtValorRest.Locked = True
 ElseIf cboQuantForma.Text = "3 - FORMAS" Then
-    lblEntrada.Enabled = True
     txtEntrada.Enabled = True
-    lblFormaEntrada.Enabled = True
     cboFormaPgtoEntrada.Enabled = True
     cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
@@ -6584,9 +6697,7 @@ ElseIf cboQuantForma.Text = "3 - FORMAS" Then
     txtValorRest.Enabled = True
     If cboformaPgtoTerceira.Text = "" Then cboformaPgtoTerceira.Text = "1 - DINHEIRO"
 ElseIf cboQuantForma.Text = "1 - SEM ENTRADA" Then
-    lblEntrada.Enabled = False
     txtEntrada.Enabled = False
-    lblFormaEntrada.Enabled = False
     cboFormaPgtoEntrada.Enabled = False
     cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
@@ -6595,9 +6706,7 @@ ElseIf cboQuantForma.Text = "1 - SEM ENTRADA" Then
     txtEntrada.Text = Format(0, ocMONEY)
     'txtValorRest.Locked = True
 ElseIf cboQuantForma.Text = "2 - COM ENTRADA" Then
-    lblEntrada.Enabled = True
     txtEntrada.Enabled = True
-    lblFormaEntrada.Enabled = True
     cboFormaPgtoEntrada.Enabled = True
     cboFormaPgto.Enabled = True
     lblFormaParcelas.Enabled = True
@@ -6647,7 +6756,6 @@ If cboTipoPgto.Text = "À VISTA" Then
     txtValorRest.Enabled = False
     txtValorParc.Enabled = False
     Label7.Enabled = False
-    lblEntrada.Enabled = False
     lblQuantParc.Enabled = False
     lblValorParc.Enabled = False
     
@@ -6664,7 +6772,6 @@ If cboTipoPgto.Text = "À VISTA" Then
     mskTermino.Visible = False
     
     cboFormaPgtoEntrada.Enabled = False
-    lblFormaEntrada.Enabled = False
     BuscarClienteConsumidor
     cboFormaPgto.Text = "1 - DINHEIRO"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
@@ -6674,7 +6781,6 @@ ElseIf cboTipoPgto.Text = "À PRAZO" Then
     txtValorRest.Enabled = True
     txtValorParc.Enabled = True
     Label7.Enabled = True
-    lblEntrada.Enabled = True
     lblQuantParc.Enabled = True
     lblValorParc.Enabled = True
     
@@ -6692,7 +6798,6 @@ ElseIf cboTipoPgto.Text = "À PRAZO" Then
     mskTermino.Visible = True
     
     cboFormaPgtoEntrada.Enabled = True
-    lblFormaEntrada.Enabled = True
     cboFormaPgto.Text = "1 - PROMISSÓRIA"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
@@ -6700,7 +6805,6 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
     cboPrazo.Enabled = True
     txtValorRest.Enabled = False
     txtValorParc.Enabled = False
-    lblEntrada.Enabled = False
     lblQuantParc.Enabled = False
     lblValorParc.Enabled = False
     Label7.Enabled = False
@@ -6728,7 +6832,6 @@ ElseIf cboTipoPgto.Text = "ORÇAMENTO" Then
     
     BuscarClienteConsumidor
     cboFormaPgtoEntrada.Enabled = True
-    lblFormaEntrada.Enabled = True
     cboFormaPgto.Text = "1 - DINHEIRO"
     cboFormaPgtoEntrada.Text = "1 - DINHEIRO"
 End If
@@ -8502,11 +8605,13 @@ Select Case sCod
 End Select
 End Function
 
-Private Sub FormaRapidaImagem(oImg As Image, oImgSel As Image, ByVal bDisp As Boolean, ByVal bSel As Boolean)
+Private Sub FormaRapidaImagem(oImg As Image, oImgSel As Image, oImgDesa As Image, ByVal bDisp As Boolean, ByVal bSel As Boolean)
 oImgSel.Move oImg.Left, oImg.Top
-oImg.Visible = Not bSel
+oImgDesa.Move oImg.Left, oImg.Top
+oImg.Visible = (Not bSel And bDisp)
 oImgSel.Visible = bSel
-oImg.Enabled = bDisp          'indisponivel para o combo ativo: continua na tela, mas nao responde ao clique
+oImgDesa.Visible = (Not bSel And Not bDisp)   'indisponivel para o combo ativo: fica na tela em cinza e nao responde ao clique
+oImg.Enabled = bDisp
 oImgSel.Enabled = bDisp
 End Sub
 
@@ -8538,8 +8643,7 @@ ElseIf bPrazo Then
     mskTermino.Visible = True
 End If
 
-lblEntrada.Visible = False          'substituidos por lblPrimeiroPGTO / lblSegundoPGTO / lblTerceiroPGTO
-lblFormaEntrada.Visible = False
+'(os rotulos antigos de entrada foram substituidos por lblPrimeiroPGTO / lblSegundoPGTO / lblTerceiroPGTO)
 txtEntrada.Visible = (bDuas Or bOrc)
 txtValorTerceira.Visible = (bVista And FormaRapidaTresFormas())    'so com "3 - FORMAS" (a vista)
 End Sub
@@ -8565,12 +8669,12 @@ sSel3 = ""
 If FormaRapidaTresFormas() Then
     If vOutros3 Then sSel3 = "OUT" Else sSel3 = FormaRapidaCodigo(cboformaPgtoTerceira.Text)
 End If
-FormaRapidaImagem imgDinheiro, imgDinheiroSel, FormaRapidaDisponivel("DIN"), (sSel1 = "DIN" Or sSel2 = "DIN" Or sSel3 = "DIN")
-FormaRapidaImagem imgPix, imgPixSel, FormaRapidaDisponivel("PIX"), (sSel1 = "PIX" Or sSel2 = "PIX" Or sSel3 = "PIX")
-FormaRapidaImagem imgDebito, imgDebitoSel, FormaRapidaDisponivel("DEB"), (sSel1 = "DEB" Or sSel2 = "DEB" Or sSel3 = "DEB")
-FormaRapidaImagem imgCredito, imgCreditoSel, FormaRapidaDisponivel("CRE"), (sSel1 = "CRE" Or sSel2 = "CRE" Or sSel3 = "CRE")
-FormaRapidaImagem imgCredLoja, imgCredLojaSel, FormaRapidaDisponivel("LOJ"), (sSel1 = "LOJ" Or sSel2 = "LOJ" Or sSel3 = "LOJ")
-FormaRapidaImagem imgOutros, imgOutrosSel, FormaRapidaDisponivel("OUT"), (sSel1 = "OUT" Or sSel2 = "OUT" Or sSel3 = "OUT")
+FormaRapidaImagem imgDinheiro, imgDinheiroSel, imgDinheiroDesa, FormaRapidaDisponivel("DIN"), (sSel1 = "DIN" Or sSel2 = "DIN" Or sSel3 = "DIN")
+FormaRapidaImagem imgPix, imgPixSel, imgPixDesa, FormaRapidaDisponivel("PIX"), (sSel1 = "PIX" Or sSel2 = "PIX" Or sSel3 = "PIX")
+FormaRapidaImagem imgDebito, imgDebitoSel, imgDebitoDesa, FormaRapidaDisponivel("DEB"), (sSel1 = "DEB" Or sSel2 = "DEB" Or sSel3 = "DEB")
+FormaRapidaImagem imgCredito, imgCreditoSel, imgCreditoDesa, FormaRapidaDisponivel("CRE"), (sSel1 = "CRE" Or sSel2 = "CRE" Or sSel3 = "CRE")
+FormaRapidaImagem imgCredLoja, imgCredLojaSel, imgCredLojaDesa, FormaRapidaDisponivel("LOJ"), (sSel1 = "LOJ" Or sSel2 = "LOJ" Or sSel3 = "LOJ")
+FormaRapidaImagem imgOutros, imgOutrosSel, imgOutrosDesa, FormaRapidaDisponivel("OUT"), (sSel1 = "OUT" Or sSel2 = "OUT" Or sSel3 = "OUT")
 If bDuas Then
     Select Case FormaRapidaSlotAtivo()
         Case 1: frmFormaRapida.Caption = "Forma de Pagamentos: 1ª forma"
@@ -12886,7 +12990,7 @@ End Sub
 
 
 Private Sub txtEntrada_Change()
-'txtEntrada_Click
+Mostrar_ValorRestanteDigitando txtEntrada
 End Sub
 
 Private Sub txtEntrada_Click()
@@ -12897,6 +13001,10 @@ Private Sub txtEntrada_Click()
 '   Calcular_Parcelas
  '  Calcular_Prazo
 'End If
+End Sub
+
+Private Sub txtValorTerceira_Change()
+Mostrar_ValorRestanteDigitando txtValorTerceira
 End Sub
 
 Private Sub txtValorTerceira_GotFocus()
