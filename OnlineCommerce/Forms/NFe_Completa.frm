@@ -9470,6 +9470,7 @@ End Sub
 Private Sub cmdCancelarNota_Click()
 Dim Justificativa As String
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
+If CertificadoImpedeAcao("cancelar a NFe") Then Exit Sub
 vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
 
  If MsgBox("Tem certeza que deseja Cancelar a Nota Fiscal?", vbQuestion + vbYesNo) = vbNo Then Exit Sub
@@ -10310,6 +10311,7 @@ End Sub
 
 Private Sub cmdConsultar_Click()
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
+If CertificadoImpedeAcao("consultar a NFe") Then Exit Sub
 
 vCodNota = (GridNotas.TextMatrix(GridNotas.Row, 1))
 
@@ -11385,6 +11387,7 @@ End Sub
 
 Private Sub cmdInutilizar_Click()
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
+If CertificadoImpedeAcao("inutilizar a numeração") Then Exit Sub
 
 Dim codPedido As String, nNota As String, cnpj As String, idInutilizacao As Long
 Dim sSQL As String, IdNFProd As Long
@@ -11830,6 +11833,8 @@ If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then MsgBox "Existem um 
 Dim vStatusNF As String
 vStatusNF = GridNotas.TextMatrix(GridNotas.Row, 7)
 If vStatusNF = "Enviada" Or vStatusNF = "Cancelada" Or vStatusNF = "Inutilizada" Then MsgBox "Esta nota já foi " & vStatusNF & "!", vbExclamation, "Online Commerce": Exit Sub
+
+If CertificadoImpedeAcao("transmitir a NFe") Then Exit Sub
 
 'verificar erros
 If vPossuiErro = False Then VerificarDestinatarioEnviar Else Exit Sub

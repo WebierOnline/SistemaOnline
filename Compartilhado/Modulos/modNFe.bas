@@ -27,6 +27,7 @@ Private Type CertST
     wMilliseconds As Integer
 End Type
 Private Declare Function CertOpenSystemStore Lib "crypt32.dll" Alias "CertOpenSystemStoreA" (ByVal hProv As Long, ByVal szSubsystemProtocol As String) As Long
+Private Declare Function CertOpenStore Lib "crypt32.dll" (ByVal lpszStoreProvider As Long, ByVal dwEncodingType As Long, ByVal hCryptProv As Long, ByVal dwFlags As Long, ByVal pvPara As String) As Long
 Private Declare Function CertEnumCertificatesInStore Lib "crypt32.dll" (ByVal hCertStore As Long, ByVal pPrevCertContext As Long) As Long
 Private Declare Function CertFreeCertificateContext Lib "crypt32.dll" (ByVal pCertContext As Long) As Long
 Private Declare Function CertCloseStore Lib "crypt32.dll" (ByVal hCertStore As Long, ByVal dwFlags As Long) As Long
@@ -274,18 +275,12 @@ PixDinamicoNFCe = (CStr(sysConfig("PIX_DINAMICO").Value) = "1")
 If Err.Number <> 0 Then PixDinamicoNFCe = False
 End Function
 
-'Procura no repositorio de certificados do usuario atual (Pessoal) o certificado com o numero de serie informado e devolve o NotAfter (hora local).
-'Retorno: 1 = achou (dVenc preenchido), 0 = nao existe nesta maquina, -1 = nao foi possivel abrir o repositorio.
+'Procura em UM repositorio aberto o certificado com o numero de serie informado (sSerie ja normalizado) e devolve o NotAfter (hora local).
 'Layout 32 bits: CERT_CONTEXT.pCertInfo em +12; CERT_INFO.SerialNumber (cbData +4, pbData +8, bytes em ordem invertida) e NotAfter (FILETIME) em +40.
-Private Function CertBuscaPorSerie(ByVal sSerie As String, ByRef dVenc As Date) As Long
-Dim hStore As Long, pCtx As Long, pInfo As Long, pAux As Long, cb As Long, pb As Long, i As Long
+Private Function CertBuscaNaLoja(ByVal hStore As Long, ByVal sSerie As String, ByRef dVenc As Date) As Boolean
+Dim pCtx As Long, pInfo As Long, pAux As Long, cb As Long, pb As Long, i As Long
 Dim abSerie() As Byte, sHex As String
 Dim ft As CertFT, ftLocal As CertFT, st As CertST
-CertBuscaPorSerie = 0
-sSerie = UCase$(Replace(Replace(sSerie, " ", ""), "-", ""))
-Do While Left$(sSerie, 1) = "0": sSerie = Mid$(sSerie, 2): Loop
-hStore = CertOpenSystemStore(0, "MY")
-If hStore = 0 Then CertBuscaPorSerie = -1: Exit Function
 pCtx = CertEnumCertificatesInStore(hStore, 0)
 Do While pCtx <> 0
     pAux = pCtx + 12
@@ -309,18 +304,41 @@ Do While pCtx <> 0
                 If CertFileTimeToLocalFileTime(ft, ftLocal) <> 0 Then
                     If CertFileTimeToSystemTime(ftLocal, st) <> 0 Then
                         dVenc = DateSerial(st.wYear, st.wMonth, st.wDay) + TimeSerial(st.wHour, st.wMinute, st.wSecond)
-                        CertBuscaPorSerie = 1
+                        CertBuscaNaLoja = True
                     End If
                 End If
                 CertFreeCertificateContext pCtx
-                pCtx = 0
-                Exit Do
+                Exit Function
             End If
         End If
     End If
     pCtx = CertEnumCertificatesInStore(hStore, pCtx)   'libera o contexto anterior sozinha
 Loop
-CertCloseStore hStore, 0
+End Function
+
+'Procura o certificado (numero de serie) no repositorio Pessoal do usuario atual e, se nao estiver la, no do computador local.
+'Retorno: 1 = achou (dVenc preenchido), 0 = nao existe nesta maquina, -1 = nao foi possivel abrir nenhum repositorio.
+Private Function CertBuscaPorSerie(ByVal sSerie As String, ByRef dVenc As Date) As Long
+Dim hStore As Long, bAbriu As Boolean
+CertBuscaPorSerie = 0
+sSerie = UCase$(Replace(Replace(sSerie, " ", ""), "-", ""))
+Do While Left$(sSerie, 1) = "0": sSerie = Mid$(sSerie, 2): Loop
+
+hStore = CertOpenSystemStore(0, "MY")                      'usuario atual
+If hStore <> 0 Then
+    bAbriu = True
+    If CertBuscaNaLoja(hStore, sSerie, dVenc) Then CertBuscaPorSerie = 1
+    CertCloseStore hStore, 0
+    If CertBuscaPorSerie = 1 Then Exit Function
+End If
+
+hStore = CertOpenStore(9, 0, 0, &H2C000, "MY")             'computador local (CERT_STORE_PROV_SYSTEM_A, LOCAL_MACHINE | READONLY | OPEN_EXISTING)
+If hStore <> 0 Then
+    bAbriu = True
+    If CertBuscaNaLoja(hStore, sSerie, dVenc) Then CertBuscaPorSerie = 1
+    CertCloseStore hStore, 0
+End If
+If Not bAbriu Then CertBuscaPorSerie = -1
 End Function
 
 'Validade do certificado digital INSTALADO NESTA MAQUINA (cada computador pode ter um certificado diferente - nao usa Empresa.VencimentoCert).
@@ -341,7 +359,7 @@ If Not oDll Is Nothing Then
     On Error GoTo 0
 End If
 If Not bOk Then
-    If dCacheDia = Date And dCacheVenc <> 0 Then
+    If dCacheDia = Date And dCacheVenc > Now Then
         dVenc = dCacheVenc
         bOk = True
     Else
@@ -388,6 +406,18 @@ If nDias < 0 Then
     MsgCertificadoVencido = "O certificado digital VENCEU em " & Format(dVenc, "dd/mm/yyyy") & IIf(Int(dVenc) < Date, " (há " & CLng(Date - Int(dVenc)) & " dia(s))", "") & "." & vbCr & vbCr & _
                             "Renove o certificado com o contador e instale o novo arquivo. Enquanto isso a NFCe/NFe não pode ser transmitida."
 End If
+End Function
+
+'Confere o certificado digital desta maquina antes de uma acao que depende dele (transmitir, cancelar, consultar, inutilizar).
+'Mostra o aviso e devolve True quando a acao NAO deve continuar (certificado vencido, nao encontrado nesta maquina ou empresa sem certificado).
+'Se nao foi possivel ler o repositorio do Windows, nao bloqueia (deixa a DLL tentar e responder).
+Public Function CertificadoImpedeAcao(ByVal sAcao As String) As Boolean
+Dim sMsg As String
+sMsg = MsgCertificadoVencido()
+If sMsg = "" Then sMsg = MsgCertificadoAusente()
+If sMsg = "" Then Exit Function
+MsgBox sMsg & vbCr & vbCr & "A operação (" & sAcao & ") não foi realizada.", vbCritical, "CERTIFICADO DIGITAL"
+CertificadoImpedeAcao = True
 End Function
 
 Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita

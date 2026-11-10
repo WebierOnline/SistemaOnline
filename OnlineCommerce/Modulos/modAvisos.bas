@@ -163,7 +163,10 @@ End If
 '3) certificado digital vencendo (avisa a partir de 15 dias antes) ou vencido
 'validade lida pela DLL (certificado instalado nesta maquina)
 Dim dVencCert As Date
-If Not CertificadoDiasRestantes(nDias, dVencCert) Then nDias = 99999
+If Not CertificadoDiasRestantes(nDias, dVencCert) Then
+    nDias = 99999
+    If CertFalhaMotivo = 1 Then AddAlerta sTextos, sDestinos, "Certificado digital não encontrado nesta máquina!", "EMPRESA"
+End If
 If nDias <= 15 Then
     If nDias < 0 Then
         AddAlerta sTextos, sDestinos, "Certificado digital VENCIDO há " & Abs(nDias) & " dia(s)!", "EMPRESA"
