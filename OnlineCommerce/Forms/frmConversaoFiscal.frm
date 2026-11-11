@@ -352,7 +352,6 @@ Private Sub Form_Load()
 
     With lstRegras
         .Cols = 10
-        .Rows = 1
         .FixedCols = 0
         .SelectionMode = flexSelectionByRow
         .AllowUserResizing = flexResizeColumns

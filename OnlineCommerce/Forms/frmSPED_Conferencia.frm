@@ -117,9 +117,8 @@ End Function
 
 Private Sub MontarGrade()
     With grdLista
+        'Rows/FixedRows ficam no padrao (2 e 1): FixedRows = 1 com Rows = 1 da erro 30016; o Carregar limpa as linhas
         .Cols = 13
-        .Rows = 1
-        .FixedRows = 1
         .FixedCols = 0
         .SelectionMode = flexSelectionByRow
         .AllowUserResizing = flexResizeColumns
