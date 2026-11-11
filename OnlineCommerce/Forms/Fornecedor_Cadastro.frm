@@ -1194,6 +1194,8 @@ If cboCidade.Text = "" Then txtCodCid.Text = "": txtCodigoIBGE.Text = "": Exit S
 If cboCidade.ListIndex = -1 Then txtCodCid.Text = "": Exit Sub
 
 txtCodCid = cboCidade.ItemData(cboCidade.ListIndex)
+'codigo do municipio (IBGE) da cidade escolhida - antes ficava para digitar e era gravado 0
+txtCodigoIBGE.Text = Trim(CStr(SQLExecutaRetorno("SELECT CodigoMunicipio FROM Cidade WHERE Id = " & Val(txtCodCid.Text), "CodigoMunicipio", "")))
 
 TrataErro:
    If Err.Number = 381 Then Exit Sub
@@ -1261,6 +1263,8 @@ ElseIf cboTipo.Text = "2 - CONTRIBUINTE ISENTO" Then
     If mskCNPJ.Text = "" Or txtIE.Text <> "" Then MsgBox "Fornecedor ISENTO não pode conter inscrição estadual", vbInformation, "Aviso do Sistema": Exit Sub
 End If
    
+If Not ValidarFiscal Then Exit Sub
+
 If Not Atualizar_Dados Then
    ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
    Exit Sub
@@ -1276,6 +1280,45 @@ cmdNovo.Enabled = True
 Campos_Brancos
 Mostrar_Fornecedores
 End Sub
+
+'Dados que vao para a NF-e e o SPED: CNPJ/CPF com digito valido e codigo do municipio (IBGE) da cidade. Cadastro antigo
+'com a cidade digitada (fora da lista) e sem o codigo: procura pela cidade + UF; sem achar, pede para escolher na lista.
+Private Function ValidarFiscal() As Boolean
+Dim sDoc As String, sIBGE As String
+
+sDoc = RetirarMascaras(mskCNPJ.Text)
+If Len(sDoc) = 11 Then
+   If Not Validar_CPF(sDoc) Then
+      ShowMsg "CPF inválido." & vbCrLf & "Confira os números do CPF do fornecedor.", vbExclamation
+      Exit Function
+   End If
+ElseIf Len(sDoc) = 14 Then
+   If Not Validar_CNPJ(sDoc) Then
+      ShowMsg "CNPJ inválido." & vbCrLf & "Confira os números do CNPJ do fornecedor.", vbExclamation
+      Exit Function
+   End If
+ElseIf Len(sDoc) > 0 Then
+   ShowMsg "CNPJ/CPF incompleto.", vbExclamation
+   Exit Function
+End If
+
+sIBGE = Trim(txtCodigoIBGE.Text)
+If Not CodigoIBGEValido(sIBGE) Then
+   sIBGE = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 CodigoMunicipio FROM Cidade WHERE UF = '" & Replace(Trim(cboEstado.Text), "'", "''") & _
+           "' AND Nome COLLATE Latin1_General_CI_AI = '" & Replace(Trim(cboCidade.Text), "'", "''") & "' COLLATE Latin1_General_CI_AI", "CodigoMunicipio", "")))
+   If Not CodigoIBGEValido(sIBGE) Then
+      ShowMsg "Cidade sem o código do município (IBGE)." & vbCrLf & "Escolha a UF e depois a cidade na lista.", vbExclamation
+      Exit Function
+   End If
+   txtCodigoIBGE.Text = sIBGE
+End If
+ValidarFiscal = True
+End Function
+
+Private Function CodigoIBGEValido(ByVal sCodigo As String) As Boolean
+If Len(sCodigo) <> 7 Or Not IsNumeric(sCodigo) Then Exit Function
+CodigoIBGEValido = (Val(SQLExecutaRetorno("SELECT COUNT(*) r FROM Cidade WHERE CodigoMunicipio = '" & sCodigo & "'", "r", 0)) > 0)
+End Function
 
 Private Function Inserir_Dados() As Boolean
 Dim sSQL As String
@@ -1528,6 +1571,8 @@ ElseIf cboTipo.Text = "2 - CONTRIBUINTE ISENTO" Then
 End If
 
    'Faz a inserção de forma direta e verifica se houve algum erro
+   If Not ValidarFiscal Then Exit Sub
+
    If Not Inserir_Dados Then
       ShowMsg "Não foi possível cadastrar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
       Exit Sub

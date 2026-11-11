@@ -694,6 +694,114 @@ If sPedido <> "" Then
 End If
 End Function
 
+'Roda o SpedGerador com o pedido (a conexao e incluida aqui) e devolve a 1a linha do resultado ("OK", "NADA" ou
+'"ERRO: motivo"); as demais linhas ficam em sLinhas (separadas por vbCrLf).
+Private Function SPED_Executar(ByVal sParametros As String, ByRef sLinhas As String) As String
+Dim sExe As String, sPedido As String, sLinha As String, sStatus As String
+Dim nArq As Integer
+Dim bAbriu As Boolean
+Dim oShell As Object
+
+On Error GoTo deuErro
+
+sLinhas = ""
+sExe = appPathApp & "SpedGerador\SpedGerador.exe"
+If Dir$(sExe) = "" Then
+   SPED_Executar = "ERRO: " & sExe & " nao encontrado"
+   Exit Function
+End If
+
+sPedido = appPathApp & "SpedGerador_pedido.txt"
+If Dir$(sPedido & ".resultado") <> "" Then Kill sPedido & ".resultado"
+nArq = FreeFile
+Open sPedido For Output As #nArq
+Print #nArq, "conexao=" & gConexaoBD
+Print #nArq, sParametros
+Close #nArq
+
+Set oShell = CreateObject("WScript.Shell")
+oShell.Run Chr(34) & sExe & Chr(34) & " " & Chr(34) & sPedido & Chr(34), 0, True
+Set oShell = Nothing
+If Dir$(sPedido) <> "" Then Kill sPedido
+
+If Dir$(sPedido & ".resultado") = "" Then
+   SPED_Executar = "ERRO: o SpedGerador nao devolveu resultado (ver SpedGerador\SpedGerador_log.txt)"
+   Exit Function
+End If
+
+nArq = FreeFile
+Open sPedido & ".resultado" For Input As #nArq
+bAbriu = True
+Line Input #nArq, sStatus
+Do While Not EOF(nArq)
+   Line Input #nArq, sLinha
+   sLinhas = sLinhas & sLinha & vbCrLf
+Loop
+Close #nArq
+bAbriu = False
+Kill sPedido & ".resultado"
+SPED_Executar = sStatus
+Exit Function
+
+deuErro:
+SPED_Executar = "ERRO: " & Err.Description
+Err.Clear
+On Error Resume Next
+If bAbriu Then Close #nArq
+If sPedido <> "" Then
+   If Dir$(sPedido) <> "" Then Kill sPedido
+End If
+End Function
+
+'Valor de "chave=valor" nas linhas do resultado ("" se nao houver).
+Private Function SPED_Valor(ByVal sLinhas As String, ByVal sChave As String) As String
+Dim vLinhas As Variant
+Dim i As Long
+
+vLinhas = Split(sLinhas, vbCrLf)
+For i = 0 To UBound(vLinhas)
+   If Left$(vLinhas(i), Len(sChave) + 1) = sChave & "=" Then
+      SPED_Valor = Mid$(vLinhas(i), Len(sChave) + 2)
+      Exit Function
+   End If
+Next
+End Function
+
+'Lista da ultima conferencia: uma pendencia por linha, campos separados por TAB (chave, situacao, tipo, codigo, nome,
+'campo, atual, correcao, problema, fonte, onde corrigir). Situacao: CORRIGIR, MANUAL ou DIVERGENTE.
+Public Function SPED_ArquivoConferencia() As String
+SPED_ArquivoConferencia = appPathApp & "SpedGerador_pedido.txt.conferencia"
+End Function
+
+'Conferencia dos cadastros que vao no arquivo (tela SPED Fiscal, antes de gerar): sParametros = os mesmos da geracao
+'manual. Devolve "OK" (lista em SPED_ArquivoConferencia) ou "ERRO: motivo".
+Public Function SPED_Conferir(ByVal sParametros As String, ByRef nCorrigiveis As Long, ByRef nManuais As Long, ByRef nDivergentes As Long) As String
+Dim sLinhas As String
+
+On Error Resume Next
+If Dir$(SPED_ArquivoConferencia) <> "" Then Kill SPED_ArquivoConferencia
+On Error GoTo 0
+
+nCorrigiveis = 0
+nManuais = 0
+nDivergentes = 0
+SPED_Conferir = SPED_Executar(sParametros & vbCrLf & "acao=conferir", sLinhas)
+If SPED_Conferir <> "OK" Then Exit Function
+nCorrigiveis = Val(SPED_Valor(sLinhas, "corrigiveis"))
+nManuais = Val(SPED_Valor(sLinhas, "manuais"))
+nDivergentes = Val(SPED_Valor(sLinhas, "divergentes"))
+End Function
+
+'Aplica as correcoes escolhidas (sChaves = chaves da conferencia separadas por virgula); o valor anterior fica na
+'tabela SPED_CorrecaoCadastro. Devolve "OK" ou "ERRO: motivo".
+Public Function SPED_Corrigir(ByVal sParametros As String, ByVal sChaves As String, ByRef nCorrigidos As Long) As String
+Dim sLinhas As String
+
+nCorrigidos = 0
+SPED_Corrigir = SPED_Executar(sParametros & vbCrLf & "acao=corrigir" & vbCrLf & "chaves=" & sChaves & vbCrLf & "usuario=" & vCodFunc, sLinhas)
+If SPED_Corrigir = "OK" Then nCorrigidos = Val(SPED_Valor(sLinhas, "corrigidos"))
+End Function
+
 'Pasta dos arquivos do SPED: ExportarXML\SPED dentro do DiretorioXML da empresa (a mesma do envio dos XML).
 Public Function SPED_Pasta() As String
 Dim sDir As String

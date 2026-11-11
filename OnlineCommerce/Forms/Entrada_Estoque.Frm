@@ -5079,58 +5079,36 @@ Else
    sCFOPEntrada2 = sCFOPEnt
 End If
 
-'-- CST->CSOSN quando regime Simples Nacional (CRT=1)
-'   sCSTEnt vem como origem(1 digito, 0-8)+CST(2 digitos), ex: "060" (origem
-'   nacional) ou "560" (origem nacional c/ conteudo importado <=40%) - o que
-'   determina o CSOSN e so o CST real (ultimos 2 digitos), a origem nao entra
-'   no CSOSN. Comparar o valor cru inteiro (bug anterior) so batia pra
-'   origem=0 e deixava qualquer outra origem sem converter (Case Else)
-Dim sCSTEntrada2 As String
-Dim bCSTConhecido2 As Boolean
-bCSTConhecido2 = True
-If sCRT2 = "1" Then
-   Select Case Right(sCSTEnt, 2)
-      Case "00": sCSTEntrada2 = "102"
-      Case "10": sCSTEntrada2 = "201"
-      Case "20": sCSTEntrada2 = "101"
-      Case "30": sCSTEntrada2 = "202"
-      Case "40": sCSTEntrada2 = "300"
-      Case "41": sCSTEntrada2 = "400"
-      Case "60": sCSTEntrada2 = "500"
-      Case "70": sCSTEntrada2 = "203"
-      Case "90": sCSTEntrada2 = "900"
-      Case Else
-         'CST fora da tabela - padrao seguro 5102/102 (CFOP e CST juntos,
-         'nunca mantem o CFOP calculado separadamente com um CST generico)
-         sCSTEntrada2 = "102"
-         bCSTConhecido2 = False
-   End Select
-Else
-   sCSTEntrada2 = sCSTEnt
+'-- CFOP e CST/CSOSN de VENDA do produto pela tabela de conversao (Fiscal > Conversao CFOP/CST, TbConversaoFiscal):
+'   regime da empresa + CST/CSOSN e CFOP do XML do fornecedor. sCSTEntrada2 (gravado em produtos_entrada_itens.CST)
+'   continua sendo o CST/CSOSN convertido. O cadastro do produto so e trocado quando o CFOP/CST atual dele esta
+'   incoerente com o regime (dbo.CFOPCSTCoerente: ex. CFOP de entrada 1405, 5405 com CSOSN 102); coerente, fica como
+'   esta - a diferenca aparece na conferencia do SPED. (Antes: conversao fixa que lia o CSOSN do fornecedor do Simples
+'   como CST 00 e, no regime normal, copiava o CST do fornecedor.)
+Dim sCFOPVenda2 As String, sCSTEntrada2 As String, sICMSCST2 As String, sCoerente2 As String
+Dim rConv2 As ADODB.Recordset
+On Error Resume Next
+RsOpen rConv2, "SELECT CAST(CFOPVenda AS VARCHAR(4)) AS CFOP, CSTVenda FROM dbo.ConversaoFiscalVenda(" & Val(sCRT2) & ", '" & Replace(sCSTEnt, "'", "") & "', " & Val(sCFOPEnt) & ")"
+If Not rConv2 Is Nothing Then
+   If rConv2.State <> 0 Then
+      If Not rConv2.EOF Then
+         sCFOPVenda2 = rConv2!CFOP & ""
+         sCSTEntrada2 = rConv2!CSTVenda & ""
+      End If
+      rConv2.Close
+   End If
 End If
-
-'-- CFOP de VENDA (pra atualizar o CADASTRO do produto - produtos.CFOP). NAO usar
-'   sCFOPEntrada2 aqui: aquele e o CFOP de ENTRADA (so serve pra produtos_entrada_itens,
-'   a tabela da nota de entrada). Normaliza pela familia do CFOP recebido na XML
-'   (2o digito "4" = operacao com ST -> 5405; senao -> 5102), igual a conversao
-'   ja usada em frmVinculoProdutoXML. Excecao: se o CST da XML nao bateu com
-'   nenhum valor conhecido da tabela acima, forca 5102 (mesmo que o CFOP da
-'   XML parecesse indicar ST) pra nao deixar CFOP 5405 com CST generico.
-Dim sCFOPVenda2 As String
-If sCRT2 = "1" And Not bCSTConhecido2 Then
-   sCFOPVenda2 = "5102"
-ElseIf Len(sCFOPEnt) >= 2 And Mid(sCFOPEnt, 2, 1) = "4" Then
-   sCFOPVenda2 = "5405"
-ElseIf Right(sCSTEnt, 2) = "10" Or Right(sCSTEnt, 2) = "30" Or Right(sCSTEnt, 2) = "60" Or Right(sCSTEnt, 2) = "70" Then
-   'CST de ST (ex: 5655 combustivel/lubrificante c/ CST 060): CFOP de venda tambem
-   'e de ST - nao deixar CFOP 5102 com CSOSN 500/2xx
-   sCFOPVenda2 = "5405"
-Else
-   sCFOPVenda2 = "5102"
-End If
-
-Dim sICMSCST2 As String
+Set rConv2 = Nothing
+sCoerente2 = Trim(CStr(SQLExecutaRetorno("SELECT dbo.CFOPCSTCoerente(" & Val(sCRT2) & ", " & Val(sCFOPAtual2) & ", '" & Replace(sICMSCSTAtual2, "'", "") & "') AS r", "r", "?")))
+Err.Clear
+On Error GoTo 0
+If sCSTEntrada2 = "" Then sCSTEntrada2 = sCSTEnt     'tabela ausente (script 172 nao aplicado): mantem o CST do XML
 sICMSCST2 = sCSTEntrada2
+If sCoerente2 = "" Then
+   'cadastro do produto coerente com o regime: nao troca o CFOP/CST
+   sCFOPVenda2 = ""
+   sICMSCST2 = ""
+End If
 
 Dim sPISCST2 As String
 Select Case sPISCSTEnt
@@ -5568,54 +5546,31 @@ End Sub
 'um sem o outro deixava o cadastro incoerente (ex: CFOP 5405 com CST/CSOSN ainda em
 '102). Por isso os 2 botoes (Atualizar CFOP / Atualizar CST) disparam essa mesma rotina.
 Private Sub AtualizarCFOPeCST()
-'CST/CSOSN: converte o CST cru da XML pro CSOSN quando a empresa e Simples Nacional
-'(regime normal usa o CST da XML direto, sem conversao - mesma logica do cmdAdicionar2)
+'CFOP e CST/CSOSN de venda pela tabela de conversao (Fiscal > Conversao CFOP/CST), a partir do CST/CSOSN e do CFOP do
+'XML do fornecedor e do regime da empresa (mesma regra da entrada e do cadastro do produto pelo XML)
 Dim nCRTAtu As Integer
 nCRTAtu = Val(SQLExecutaRetorno("SELECT TOP 1 ISNULL(CRT,1) r FROM empresa", "r", 1))
 
-Dim sCSTNovo As String
-Dim bCSTConhecidoAtu As Boolean
-bCSTConhecidoAtu = True
-If nCRTAtu = 1 Then
-    'ver mesmo comentario/correcao em cmdAdicionar2_Click - compara so os
-    'ultimos 2 digitos (o CST real), ignorando a origem (1o digito)
-    Select Case Right(txtCSTSel.Text, 2)
-        Case "00": sCSTNovo = "102"
-        Case "10": sCSTNovo = "201"
-        Case "20": sCSTNovo = "101"
-        Case "30": sCSTNovo = "202"
-        Case "40": sCSTNovo = "300"
-        Case "41": sCSTNovo = "400"
-        Case "60": sCSTNovo = "500"
-        Case "70": sCSTNovo = "203"
-        Case "90": sCSTNovo = "900"
-        Case Else
-            'CST fora da tabela - padrao seguro 5102/102 (CFOP e CST
-            'juntos, nunca mantem o CFOP calculado separadamente com um
-            'CST generico)
-            sCSTNovo = "102"
-            bCSTConhecidoAtu = False
-    End Select
-Else
-    sCSTNovo = txtCSTSel.Text
+Dim sCSTNovo As String, sCFOPNovo As String
+Dim rConvAtu As ADODB.Recordset
+On Error Resume Next
+RsOpen rConvAtu, "SELECT CAST(CFOPVenda AS VARCHAR(4)) AS CFOP, CSTVenda FROM dbo.ConversaoFiscalVenda(" & nCRTAtu & ", '" & Replace(txtCSTSel.Text, "'", "") & "', " & Val(txtCFOPSel.Text) & ")"
+If Not rConvAtu Is Nothing Then
+    If rConvAtu.State <> 0 Then
+        If Not rConvAtu.EOF Then
+            sCFOPNovo = rConvAtu!CFOP & ""
+            sCSTNovo = rConvAtu!CSTVenda & ""
+        End If
+        rConvAtu.Close
+    End If
 End If
-
-'CFOP de venda: normaliza pela familia (2o digito "4" = operacao com ST -> 5405;
-'senao -> 5102), igual a conversao usada em cmdAdicionar2/frmVinculoProdutoXML.
-'Excecao: se o CST da XML nao bateu com nenhum valor conhecido da tabela
-'acima, forca 5102 (nao deixa CFOP 5405 com CST generico)
-Dim sCFOPNovo As String
-If nCRTAtu = 1 And Not bCSTConhecidoAtu Then
-    sCFOPNovo = "5102"
-ElseIf Len(txtCFOPSel.Text) >= 2 And Mid(txtCFOPSel.Text, 2, 1) = "4" Then
-    sCFOPNovo = "5405"
-ElseIf Right(txtCSTSel.Text, 2) = "10" Or Right(txtCSTSel.Text, 2) = "30" Or Right(txtCSTSel.Text, 2) = "60" Or Right(txtCSTSel.Text, 2) = "70" Then
-    'CST de ST (ex: 5655 c/ CST 060): CFOP de venda tambem e de ST
-    sCFOPNovo = "5405"
-Else
-    sCFOPNovo = "5102"
+Set rConvAtu = Nothing
+Err.Clear
+On Error GoTo 0
+If sCFOPNovo = "" Or sCSTNovo = "" Then
+    ShowMsg "Tabela de conversão CFOP/CST não encontrada (Fiscal > Conversão CFOP/CST)." & vbCrLf & "Rode os scripts de atualização do banco.", vbExclamation
+    Exit Sub
 End If
-
 If ShowMsg("Tem certeza que deseja alterar o CFOP/CST do produto:" & vbCrLf & _
            "CFOP: " & txtCFOPExist.Text & " -> " & sCFOPNovo & vbCrLf & _
            "CST : " & txtCSTExist.Text & " -> " & sCSTNovo, _
@@ -5693,26 +5648,26 @@ If ShowMsg("Deseja cadastrar o produto " & txtDescricaoSel & " ?", vbInformation
     nCRT = IIf(rEmp.EOF, 1, Val(rEmp("CRT") & ""))
     rEmp.Close: Set rEmp = Nothing
 
-    ' 3. Converter CFOP entrada -> CFOP venda pelos ultimos 3 digitos
-    ' x401/x403/x405 = produto com ICMS-ST ja recolhido antes do consumidor final
-    '                  (substituto ou substituido na entrada - de qualquer forma,
-    '                  na sua revenda voce sempre e o substituido) -> 5405 / CSOSN 500 / CST 060
-    ' x101 = industrializacao propria  -> 5101 / CSOSN 102 / CST 000
-    ' demais (102 etc) = revenda normal -> 5102 / CSOSN 102 / CST 000
-    Dim nUlt3 As Long
-    nUlt3 = Val(rItem("CFOP") & "") Mod 1000
+    ' 3. CFOP e CST/CSOSN de venda pela tabela de conversao (Fiscal > Conversao CFOP/CST, TbConversaoFiscal):
+    '    regime da empresa + CST/CSOSN e CFOP do XML. (Antes: fixo - x101 virava 5101, que e venda de producao propria,
+    '    e o CSOSN do fornecedor do Simples era lido como CST.)
     Dim sCFOPVenda As String, sCSTVenda As String
-    Dim sCSTReal As String
-    sCSTReal = Right(rItem("CSTXML") & "", 2)
-    'CST de ST (10/30/60/70) tambem indica ST mesmo com CFOP fora de x401/x403/x405 (ex: 5655 c/ CST 060)
-    If nUlt3 = 405 Or nUlt3 = 403 Or nUlt3 = 401 Or sCSTReal = "10" Or sCSTReal = "30" Or sCSTReal = "60" Or sCSTReal = "70" Then
-        sCFOPVenda = "5405": sCSTVenda = IIf(nCRT = 1, "500", "060")
-    ElseIf nUlt3 = 101 Then
-        sCFOPVenda = "5101": sCSTVenda = IIf(nCRT = 1, "102", "000")
-    Else
-        sCFOPVenda = "5102": sCSTVenda = IIf(nCRT = 1, "102", "000")
+    Dim rConvNovo As ADODB.Recordset
+    On Error Resume Next
+    RsOpen rConvNovo, "SELECT CAST(CFOPVenda AS VARCHAR(4)) AS CFOP, CSTVenda FROM dbo.ConversaoFiscalVenda(" & nCRT & ", '" & Replace(rItem("CSTXML") & "", "'", "") & "', " & Val(rItem("CFOP") & "") & ")"
+    If Not rConvNovo Is Nothing Then
+        If rConvNovo.State <> 0 Then
+            If Not rConvNovo.EOF Then
+                sCFOPVenda = rConvNovo!CFOP & ""
+                sCSTVenda = rConvNovo!CSTVenda & ""
+            End If
+            rConvNovo.Close
+        End If
     End If
-
+    Set rConvNovo = Nothing
+    Err.Clear
+    On Error GoTo 0
+    If sCFOPVenda = "" Then sCFOPVenda = "5102": sCSTVenda = IIf(nCRT = 2 Or nCRT = 3, "000", "102")
     ' 4. Abrir e inicializar Produtos_Cadastro
     Dim lMaxCodAntAP As Long
     lMaxCodAntAP = SQLExecutaRetorno("SELECT ISNULL(MAX(CODIGO),0) r FROM Produtos", "r", 0)
@@ -6514,12 +6469,12 @@ If Fornecedores.RecordCount = 0 Then
     Dim varCNPJforn As String
     Dim varIEforn As String
     Dim varENDERECOforn As String
-    Dim varNUMforn As Integer
+    Dim varNUMforn As Long
     Dim varBairroforn As String
     Dim varCidadeforn As String
     Dim varEstadoforn As String
     Dim varCEPform As String
-    Dim varCODIBGEform As Integer
+    Dim varCODIBGEform As Long        'codigo IBGE tem 7 digitos: em Integer estourava (calado pelo On Error Resume Next) e gravava 0
     Dim varTelefoneForn As String
     Dim varComplementoForn As String
 
@@ -6593,6 +6548,14 @@ Else
     Fornecedores!Cidade = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/xMun").item(0).Text), 20)
     Fornecedores!Estado = UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/UF").item(0).Text)
     Fornecedores!CEP = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/enderEmit/CEP").item(0).Text
+    'codigo do municipio e IE do emitente: antes nao eram atualizados e o fornecedor antigo ficava com CodigoIBGE 0
+    '(registro 0150 do SPED rejeitado pelo validador)
+    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cMun").Length > 0 Then
+       If Val(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cMun").item(0).Text) > 0 Then Fornecedores!CodigoIBGE = CLng(Val(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/cMun").item(0).Text))
+    End If
+    If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IE").Length > 0 Then
+       If Trim(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IE").item(0).Text) <> "" Then Fornecedores!IE = Trim(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/IE").item(0).Text)
+    End If
     If XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").Length > 0 Then
        Fornecedores!Complemento = Left(UCase(XMLDOC.selectNodes("nfeProc/NFe/infNFe/emit/enderEmit/xCpl").item(0).Text), 30)
     End If
@@ -8193,7 +8156,7 @@ Dim varBairroforn As String
 Dim varCidadeforn As String
 Dim varEstadoforn As String
 Dim varCEPform As String
-Dim varCODIBGEform As Integer
+Dim varCODIBGEform As Long
 
 varCodFornecedor = SQLExecutaRetorno("SELECT ISNULL(MAX(Codigo),0) r FROM fornecedor", "r", 0) + 1
 varRAZAOForn = Left(UCase(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/emit/xNome").item(0).Text), 35)

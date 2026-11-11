@@ -503,6 +503,9 @@ Private Sub cmdGerar_Click()
              "usoconsumo=" & IIf(chkUsoConsumo.Value = vbChecked, "1", "0") & vbCrLf & _
              "imobilizado=" & IIf(chkImobilizado.Value = vbChecked, "1", "0")
 
+    'confere (e corrige, quando há fonte confiável) os cadastros que vão no arquivo
+    If Not ConferirCadastros(sParam) Then Exit Sub
+
     sArquivoGerado = ""
     cmdEnviar.Enabled = False
     lblStatus.Caption = "Gerando o arquivo do SPED..."
@@ -527,7 +530,8 @@ Private Sub cmdGerar_Click()
     End If
 End Sub
 
-Private Sub cmdEnviar_Click()
+' Antes de gerar: confere os cadastros que vão no arquivo (empresa, contador, fornecedores, produtos), corrige o que tem
+' fonte confiável (XML da nota de entrada) depois de confirmar e lista o resto (frmSPED_Conferencia).
     Dim sEmail As String, sErro As String
 
     If sArquivoGerado = "" Then Exit Sub

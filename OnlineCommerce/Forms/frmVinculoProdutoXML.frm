@@ -1343,19 +1343,30 @@ Private Sub cmdCadastrar_Click()
       iRegime = SQLExecutaRetorno("SELECT ISNULL(CRT,1) r FROM empresa", "r", 1)
    End If
 
-   'Determina CFOP de saida pelo 2o digito do CFOP de entrada
-   'Digito 4 (ex: 1405,2403,5405) -> 5405 (com ST)
-   'Digito 1 (ex: 1102,5102) ou outros -> 5102
-   Dim sCFOPSaida As String
-   If Len(item.CFOP) >= 2 And Mid(item.CFOP, 2, 1) = "4" Then
-      sCFOPSaida = "5405"
-   ElseIf Right(item.ICMSCST, 2) = "10" Or Right(item.ICMSCST, 2) = "30" Or Right(item.ICMSCST, 2) = "60" Or Right(item.ICMSCST, 2) = "70" Then
-      'CST de ST (ex: CFOP 5655 c/ CST 060) - tambem vende com ST
-      sCFOPSaida = "5405"
-   Else
-      sCFOPSaida = "5102"
+   'CFOP e CST/CSOSN de venda pela tabela de conversao (Fiscal > Conversao CFOP/CST, TbConversaoFiscal): regime da
+   'empresa + CST/CSOSN e CFOP do XML. Antes era fixo: o CSOSN do fornecedor do Simples nao era tratado e, no regime
+   'normal, o CST do fornecedor era copiado (ex.: CST 10 da compra ia para a venda no lugar de 60).
+   Dim sCFOPSaida As String, sCSTTabela As String
+   Dim rConv As ADODB.Recordset
+   On Error Resume Next
+   RsOpen rConv, "SELECT CAST(CFOPVenda AS VARCHAR(4)) AS CFOP, CSTVenda FROM dbo.ConversaoFiscalVenda(" & iRegime & ", '" & Replace(item.ICMSCST, "'", "") & "', " & Val(item.CFOP) & ")"
+   If Not rConv Is Nothing Then
+      If rConv.State <> 0 Then
+         If Not rConv.EOF Then
+            sCFOPSaida = rConv!CFOP & ""
+            sCSTTabela = rConv!CSTVenda & ""
+         End If
+         rConv.Close
+      End If
    End If
-
+   Set rConv = Nothing
+   Err.Clear
+   On Error GoTo 0
+   If sCFOPSaida = "" Then
+      'tabela ausente (script 172 nao aplicado): padrao de revenda tributada
+      sCFOPSaida = "5102"
+      sCSTTabela = IIf(iRegime = 2 Or iRegime = 3, "000", "102")
+   End If
    Dim sICMSCST    As String
    Dim dICMSAliq   As Double
    Dim dpRedBC     As Double
@@ -1368,18 +1379,14 @@ Private Sub cmdCadastrar_Click()
 
    If iRegime = 1 Or iRegime = 2 Then
       'Simples Nacional: ICMSCST depende do CFOP de saida
-      If sCFOPSaida = "5405" Then
-         sICMSCST = "500"   '5405 + SN = ICMS-ST retido pelo substituto
-      Else
-         sICMSCST = "102"   '5102 + SN = tributacao normal sem tributacao
-      End If
+      sICMSCST = sCSTTabela   'CSOSN da tabela de conversao
       dICMSAliq = 0: dpRedBC = 0
       sIPICST = "99": dIPIAliq = 0
       sPISCST = "07": dPISAliq = 0
       sCOFINSCST = "07": dCOFINSAliq = 0
    Else
       'Regime Normal: usa valores da NF-e de entrada
-      sICMSCST = item.ICMSCST: dICMSAliq = item.ICMSAliq
+      sICMSCST = sCSTTabela: dICMSAliq = item.ICMSAliq   'CST de venda da tabela (origem do XML)
       dpRedBC = item.pRedBC
       sIPICST = item.IPICST: dIPIAliq = item.IPIAliq
       sPISCST = item.PISCST: dPISAliq = item.PISAliq

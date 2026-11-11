@@ -778,6 +778,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_FAT_SPED_Fiscal 
          Caption         =   "SPED Fiscal"
       End
+      Begin VB.Menu Menu_FISCAL_ConversaoCFOP 
+         Caption         =   "Conversão CFOP/CST (entrada > venda)"
+      End
       Begin VB.Menu Menu_FAT_Linha2 
          Caption         =   "-"
       End
@@ -1637,6 +1640,11 @@ If Not EhServidorLocal() Then
    Exit Sub
 End If
 frmSPED_Fiscal.Show 1
+End Sub
+
+'Regras de conversao do CFOP/CST da nota de entrada para o CFOP e o CST/CSOSN de venda (TbConversaoFiscal)
+Private Sub Menu_FISCAL_ConversaoCFOP_Click()
+frmConversaoFiscal.Show 1
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSCBS_Click()

@@ -6341,6 +6341,8 @@ End If
 
 If txtCodBarra.Text = "" Then MsgBox "Não será permitido cadastrar produto sem código de barra", vbInformation, "Aviso do Sistema": Exit Sub
 
+If Not ConferirCFOPCST Then Exit Sub
+
 If Not Atualizar_Dados Then
    ShowMsg "Não foi possível atualizar o registro." & vbCr & "Verifique os dados informados e tente novamente.", vbExclamation
    Exit Sub
@@ -6399,6 +6401,22 @@ Private Sub PopularModalidades()
     ' Define o padrão como "MVA" (o mais usado para ST)
     cboModBCST.ListIndex = 4
 End Sub
+'Aviso quando o CFOP e o CST/CSOSN de venda nao combinam com o regime da empresa (funcao dbo.CFOPCSTCoerente, script
+'172): ex. CFOP de entrada (1405) no lugar do de venda, 5405 com CSOSN 102, CST no Simples. So avisa - o usuario decide.
+Private Function ConferirCFOPCST() As Boolean
+Dim sMsg As String
+On Error Resume Next
+sMsg = Trim(CStr(SQLExecutaRetorno("SELECT dbo.CFOPCSTCoerente((SELECT TOP 1 ISNULL(CRT, 1) FROM empresa), " & Val(cboCFOP.Text) & ", '" & Replace(cboCST.Text, "'", "") & "') AS r", "r", "")))
+Err.Clear
+On Error GoTo 0
+If sMsg = "" Then
+   ConferirCFOPCST = True
+   Exit Function
+End If
+ConferirCFOPCST = (MsgBox("O CFOP/CST do produto não combina com o regime da empresa:" & vbCrLf & vbCrLf & sMsg & vbCrLf & vbCrLf & _
+                          "As regras ficam em Fiscal > Conversão CFOP/CST." & vbCrLf & "Salvar assim mesmo?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes)
+End Function
+
 Private Function ValidarCampos() As Boolean
     ValidarCampos = False
     
@@ -7162,6 +7180,7 @@ If cboCFOP.Text = "" Then ShowMsg "Digite o CFOP do produto", vbInformation: cbo
 If cboCST.Text = "" Then ShowMsg "Digite o ICMS CST do produto", vbInformation: cboCST.SetFocus: Exit Sub
 
 If ValidarCampos = False Then Exit Sub
+If Not ConferirCFOPCST Then Exit Sub
 
 If vTipoEdicao = "Novo" Or vTipoEdicao = "Duplicar" Then
     

@@ -10,6 +10,7 @@ ALTERACAO.: 2026-11 - transacao (cabecalho + itens ou nada), ESTOQUE_FISCAL nulo
             + movimento fiscal depois dele ate a data. Sem nenhum inventario fechado ate a data (cliente ainda sem
             Abertura, ou data anterior a ela) usa o ESTOQUE_FISCAL atual, como antes.
             2026-11 - so entram produtos ATIVOS com saldo positivo (zerados e negativos ficam fora do inventario).
+            2026-11 - o produto avulso do sistema (codigo 1) nunca entra no inventario.
 ***************************/
 -- Idempotente: cria um placeholder se o objeto ainda nao existir e sempre roda o ALTER com a definicao final.
 SET ANSI_NULLS ON
@@ -155,7 +156,7 @@ BEGIN TRY
                 ISNULL((SELECT TOP 1 pr.CUSTO FROM Produtos_Precos pr WHERE pr.COD_PRODUTO = p.CODIGO ORDER BY pr.CODIGO DESC), 0) AS Custo
          FROM Produtos p
          LEFT JOIN dbo.EstoqueFiscalNaData(@dtDia) s ON s.IdProduto = p.CODIGO) x
-   WHERE (x.ATIVO = 1) AND (x.Saldo > 0)
+   WHERE (x.ATIVO = 1) AND (x.Saldo > 0) AND (x.CODIGO <> 1)
    ORDER BY x.DESCRICAO, x.CODIGO
 
    IF (@trans = 0) COMMIT TRANSACTION
