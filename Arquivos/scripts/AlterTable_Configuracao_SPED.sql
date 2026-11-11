@@ -11,3 +11,8 @@ GO
 IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'SPED_COD_RECEITA')
     INSERT INTO configuracao (config_nome, config_valor) VALUES ('SPED_COD_RECEITA', '');
 GO
+-- SPED_MENSAL (Configuracao_Geral, chkEnviarSpedMensal): '1' = envia a EFD completa todo mes para o contador (conforme
+--             o SPED_ENVIO); '0' (padrao) = nao envia a mensal. O inventario de 31/12 (Bloco H, em fevereiro) vai sempre.
+IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'SPED_MENSAL')
+    INSERT INTO configuracao (config_nome, config_valor) VALUES ('SPED_MENSAL', '0');
+GO

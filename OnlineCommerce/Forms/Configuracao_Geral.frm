@@ -8,7 +8,7 @@ Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.2#0"; "mscomctl.ocx"
 Begin VB.Form Configuracao_Geral 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "CONFIGURAÇÕES"
-   ClientHeight    =   10200
+   ClientHeight    =   10560
    ClientLeft      =   45
    ClientTop       =   330
    ClientWidth     =   9060
@@ -16,7 +16,7 @@ Begin VB.Form Configuracao_Geral
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   10200
+   ScaleHeight     =   10560
    ScaleWidth      =   9060
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -104,7 +104,7 @@ Begin VB.Form Configuracao_Geral
       EndProperty
    End
    Begin TabDlg.SSTab SSTab1 
-      Height          =   8955
+      Height          =   9315
       Left            =   60
       TabIndex        =   9
       Top             =   900
@@ -729,7 +729,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   1875
          Left            =   180
          TabIndex        =   112
-         Top             =   7020
+         Top             =   7380
          Width           =   8535
          Begin VB.Frame Frame12 
             Caption         =   "Critérios"
@@ -1424,7 +1424,7 @@ Begin VB.Form Configuracao_Geral
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   6675
+         Height          =   7035
          Left            =   180
          TabIndex        =   53
          Top             =   360
@@ -1434,8 +1434,27 @@ Begin VB.Form Configuracao_Geral
             Height          =   195
             Left            =   2820
             TabIndex        =   239
+            Top             =   7020
+            Width           =   615
+         End
+         Begin VB.CheckBox chkEnviarSpedMensal 
+            Caption         =   "Sim"
+            Height          =   195
+            Left            =   2820
+            TabIndex        =   241
+            ToolTipText     =   "Envia todo mês o arquivo do SPED Fiscal (EFD ICMS/IPI) para o contador. O inventário de 31/12 vai sempre em fevereiro."
             Top             =   6660
             Width           =   615
+         End
+         Begin VB.Label lblEnviarSpedMensal 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Enviar SPED Mensal:"
+            Height          =   195
+            Left            =   1290
+            TabIndex        =   242
+            Top             =   6660
+            Width           =   1425
          End
          Begin VB.CheckBox chkExibirTributos 
             Caption         =   "Sim"
@@ -1730,7 +1749,7 @@ Begin VB.Form Configuracao_Geral
             Height          =   195
             Left            =   1740
             TabIndex        =   240
-            Top             =   6660
+            Top             =   7020
             Width           =   975
          End
          Begin VB.Label Label78 
@@ -3430,6 +3449,28 @@ dbData.Execute sSQL
 On Error Resume Next
 sysConfig("PIX_DINAMICO").Value = IIf(chkPixDinamico.Value = vbChecked, "1", "0")
 On Error GoTo 0
+End Sub
+
+Private Sub AtualizarSpedMensal()
+Dim sSQL As String
+
+'Cria a linha caso o script 170 ainda nao tenha rodado (padrao: nao envia a mensal)
+sSQL = "IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'SPED_MENSAL') INSERT INTO configuracao (config_nome, config_valor) VALUES ('SPED_MENSAL', '0');"
+dbData.Execute sSQL
+sSQL = "UPDATE configuracao SET config_valor = '" & IIf(chkEnviarSpedMensal.Value = vbChecked, "1", "0") & "' WHERE (config_nome = 'SPED_MENSAL');"
+dbData.Execute sSQL
+
+'Atualiza a configuração carregada na memória (o envio automático lê direto do banco, pelo SpedGerador)
+On Error Resume Next
+sysConfig("SPED_MENSAL").Value = IIf(chkEnviarSpedMensal.Value = vbChecked, "1", "0")
+On Error GoTo 0
+End Sub
+
+'SPED_MENSAL: 1 = envia a EFD completa todo mês para o contador; 0 (padrão) = não envia. O inventário de 31/12 vai sempre.
+Private Sub Mostrar_SpedMensal()
+On Error Resume Next
+chkEnviarSpedMensal.Value = vbUnchecked
+chkEnviarSpedMensal.Value = IIf(CStr(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'SPED_MENSAL'", "r", "0")) = "1", vbChecked, vbUnchecked)
 End Sub
 
 Private Sub Mostrar_PixDinamico()
@@ -6059,6 +6100,7 @@ Atualizar_ValorCartaoCredito
 AtualizarTipoLogin
 AtualizarLogoffAutomatico
 AtualizarExibirTributos
+AtualizarSpedMensal
 AtualizarPixDinamico
 
 AtualizarTipoDesconto
@@ -6118,6 +6160,7 @@ Mostrar_ValorCartaoDebito
 MostrarTipoLogin
 MostrarLogoffAutomatico
 Mostrar_ExibirTributos
+Mostrar_SpedMensal
 Mostrar_PixDinamico
 Mostrar_TipoDesconto
 Mostrar_DescGradual
