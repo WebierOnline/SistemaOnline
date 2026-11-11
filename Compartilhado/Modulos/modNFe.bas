@@ -1281,7 +1281,7 @@ buscaNFe:
     dhProtocolo = Format(Left(NFeDataHora, 10), "yyyy/mm/dd")
     xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\NFe" & NFeChaveAcesso & ".pdf"
     xCaminhoXML = dirXML & "\nfe\arquivos\procNFe\" & Format(CDate(dhProtocolo), "yyyymm") & "\" & NFeChaveAcesso & "-procNFe.xml"            'Aqui Gera o DANFE
-    If Existe(xCaminhoXML) Then Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, False, False, "", True, False, False, False, True) 'gera pdf
+    If Existe(xCaminhoXML) Then Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, False, False, "", True, False, False, False, True) 'gera pdf
 
 NaoPodeEnviar:
     Set sistNFe = Nothing

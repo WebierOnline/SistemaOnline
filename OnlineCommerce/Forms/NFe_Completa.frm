@@ -30,11 +30,12 @@ Begin VB.Form NFe_Completa
       _ExtentX        =   29448
       _ExtentY        =   15266
       _Version        =   393216
+      Tab             =   1
       TabHeight       =   520
       TabMaxWidth     =   5292
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "NFe_Completa.frx":0000
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdSalvar"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdNovo"
@@ -52,43 +53,59 @@ Begin VB.Form NFe_Completa
       Tab(0).ControlCount=   7
       TabCaption(1)   =   "NOTAS FISCAIS"
       TabPicture(1)   =   "NFe_Completa.frx":001C
-      Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "txtCodObservacao"
+      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).Control(0)=   "cmdEnviarXML"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "frmCorreção"
-      Tab(1).Control(2)=   "picAguarde"
-      Tab(1).Control(3)=   "lvwTotais"
-      Tab(1).Control(4)=   "Frame4"
-      Tab(1).Control(5)=   "GridNotas"
-      Tab(1).Control(6)=   "cmdCopiarChave"
-      Tab(1).Control(7)=   "cmdImprimir"
+      Tab(1).Control(1)=   "cmdEspelho"
+      Tab(1).Control(1).Enabled=   0   'False
+      Tab(1).Control(2)=   "cmdEditar"
+      Tab(1).Control(2).Enabled=   0   'False
+      Tab(1).Control(3)=   "cmdCartaCorrecao"
+      Tab(1).Control(3).Enabled=   0   'False
+      Tab(1).Control(4)=   "cmdInutilizar"
+      Tab(1).Control(4).Enabled=   0   'False
+      Tab(1).Control(5)=   "cmdDuplicar"
+      Tab(1).Control(5).Enabled=   0   'False
+      Tab(1).Control(6)=   "cmdConsultar"
+      Tab(1).Control(6).Enabled=   0   'False
+      Tab(1).Control(7)=   "cmdCancelarNota"
+      Tab(1).Control(7).Enabled=   0   'False
       Tab(1).Control(8)=   "cmdTransmitir"
-      Tab(1).Control(9)=   "cmdCancelarNota"
-      Tab(1).Control(10)=   "cmdConsultar"
-      Tab(1).Control(11)=   "cmdDuplicar"
-      Tab(1).Control(12)=   "cmdInutilizar"
-      Tab(1).Control(13)=   "cmdCartaCorrecao"
-      Tab(1).Control(14)=   "cmdEditar"
-      Tab(1).Control(15)=   "cmdEspelho"
-      Tab(1).Control(16)=   "cmdEnviarXML"
+      Tab(1).Control(8).Enabled=   0   'False
+      Tab(1).Control(9)=   "cmdImprimir"
+      Tab(1).Control(9).Enabled=   0   'False
+      Tab(1).Control(10)=   "cmdCopiarChave"
+      Tab(1).Control(10).Enabled=   0   'False
+      Tab(1).Control(11)=   "GridNotas"
+      Tab(1).Control(11).Enabled=   0   'False
+      Tab(1).Control(12)=   "Frame4"
+      Tab(1).Control(12).Enabled=   0   'False
+      Tab(1).Control(13)=   "lvwTotais"
+      Tab(1).Control(13).Enabled=   0   'False
+      Tab(1).Control(14)=   "picAguarde"
+      Tab(1).Control(14).Enabled=   0   'False
+      Tab(1).Control(15)=   "frmCorreção"
+      Tab(1).Control(15).Enabled=   0   'False
+      Tab(1).Control(16)=   "txtCodObservacao"
+      Tab(1).Control(16).Enabled=   0   'False
       Tab(1).ControlCount=   17
       TabCaption(2)   =   "PEDIDOS"
       TabPicture(2)   =   "NFe_Completa.frx":0038
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "lblQuantPedidos"
-      Tab(2).Control(1)=   "ImgMarcada"
-      Tab(2).Control(2)=   "imgDesmarcada"
-      Tab(2).Control(3)=   "imgDesmarcadaTODAS"
-      Tab(2).Control(4)=   "ImgMarcadaTODAS"
-      Tab(2).Control(5)=   "lblCodFabrica(9)"
-      Tab(2).Control(6)=   "cmdConverterNFe"
-      Tab(2).Control(7)=   "GridPedidos"
-      Tab(2).Control(8)=   "frmFiltrosPedidos"
-      Tab(2).Control(9)=   "picAguarde2"
+      Tab(2).Control(0)=   "picAguarde2"
+      Tab(2).Control(1)=   "frmFiltrosPedidos"
+      Tab(2).Control(2)=   "GridPedidos"
+      Tab(2).Control(3)=   "cmdConverterNFe"
+      Tab(2).Control(4)=   "lblCodFabrica(9)"
+      Tab(2).Control(5)=   "ImgMarcadaTODAS"
+      Tab(2).Control(6)=   "imgDesmarcadaTODAS"
+      Tab(2).Control(7)=   "imgDesmarcada"
+      Tab(2).Control(8)=   "ImgMarcada"
+      Tab(2).Control(9)=   "lblQuantPedidos"
       Tab(2).ControlCount=   10
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   48
          Top             =   1740
          Width           =   1815
@@ -142,7 +159,7 @@ Begin VB.Form NFe_Completa
       End
       Begin VB.TextBox txtCodObservacao 
          Height          =   315
-         Left            =   -66120
+         Left            =   8880
          MaxLength       =   50
          TabIndex        =   217
          TabStop         =   0   'False
@@ -163,7 +180,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3975
-         Left            =   -73620
+         Left            =   1380
          TabIndex        =   206
          Top             =   1380
          Visible         =   0   'False
@@ -395,7 +412,7 @@ Begin VB.Form NFe_Completa
          BorderStyle     =   0  'None
          ForeColor       =   &H80000008&
          Height          =   1095
-         Left            =   -68100
+         Left            =   6900
          Picture         =   "NFe_Completa.frx":2EC6
          ScaleHeight     =   1095
          ScaleWidth      =   2895
@@ -406,7 +423,7 @@ Begin VB.Form NFe_Completa
       End
       Begin MSComctlLib.ListView lvwTotais 
          Height          =   1155
-         Left            =   -61920
+         Left            =   13080
          TabIndex        =   191
          Top             =   6360
          Width           =   3435
@@ -688,7 +705,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   975
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   137
          Top             =   7440
          Width           =   16455
@@ -987,7 +1004,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1035
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   136
          Top             =   1260
          Width           =   14535
@@ -1317,7 +1334,7 @@ Begin VB.Form NFe_Completa
             Strikethrough   =   0   'False
          EndProperty
          Height          =   915
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   69
          Top             =   360
          Width           =   14535
@@ -1448,7 +1465,7 @@ Begin VB.Form NFe_Completa
       End
       Begin TabDlg.SSTab Tab_Totais 
          Height          =   1095
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   72
          Top             =   7380
          Width           =   16455
@@ -1880,7 +1897,7 @@ Begin VB.Form NFe_Completa
       End
       Begin TabDlg.SSTab Tab_Produtos 
          Height          =   4995
-         Left            =   120
+         Left            =   -74880
          TabIndex        =   84
          Top             =   2340
          Width           =   16485
@@ -1901,19 +1918,19 @@ Begin VB.Form NFe_Completa
          TabCaption(1)   =   "Transporte"
          TabPicture(1)   =   "NFe_Completa.frx":20F12
          Tab(1).ControlEnabled=   0   'False
-         Tab(1).Control(0)=   "cboModFrete"
+         Tab(1).Control(0)=   "Label71"
          Tab(1).Control(1)=   "Tab_transp"
-         Tab(1).Control(2)=   "Label71"
+         Tab(1).Control(2)=   "cboModFrete"
          Tab(1).ControlCount=   3
          TabCaption(2)   =   "Cobrança"
          TabPicture(2)   =   "NFe_Completa.frx":20F2E
          Tab(2).ControlEnabled=   0   'False
-         Tab(2).Control(0)=   "Label15"
-         Tab(2).Control(1)=   "Label67"
-         Tab(2).Control(2)=   "cboIndicadorPagamento"
-         Tab(2).Control(3)=   "frmFatura"
-         Tab(2).Control(4)=   "frmDuplicata"
-         Tab(2).Control(5)=   "cboFormaPgto"
+         Tab(2).Control(0)=   "cboFormaPgto"
+         Tab(2).Control(1)=   "frmDuplicata"
+         Tab(2).Control(2)=   "frmFatura"
+         Tab(2).Control(3)=   "cboIndicadorPagamento"
+         Tab(2).Control(4)=   "Label67"
+         Tab(2).Control(5)=   "Label15"
          Tab(2).ControlCount=   6
          TabCaption(3)   =   "Informações"
          TabPicture(3)   =   "NFe_Completa.frx":20F4A
@@ -1938,8 +1955,8 @@ Begin VB.Form NFe_Completa
          TabCaption(4)   =   "DANFe"
          TabPicture(4)   =   "NFe_Completa.frx":20F66
          Tab(4).ControlEnabled=   0   'False
-         Tab(4).Control(0)=   "cboFormatoDANFe"
-         Tab(4).Control(1)=   "cboTipoEmissao"
+         Tab(4).Control(0)=   "cboTipoEmissao"
+         Tab(4).Control(1)=   "cboFormatoDANFe"
          Tab(4).ControlCount=   2
          TabCaption(5)   =   "Exportação e Compra"
          TabPicture(5)   =   "NFe_Completa.frx":20F82
@@ -3056,18 +3073,18 @@ Begin VB.Form NFe_Completa
             TabCaption(1)   =   "Volumes"
             TabPicture(1)   =   "NFe_Completa.frx":25794
             Tab(1).ControlEnabled=   0   'False
-            Tab(1).Control(0)=   "Label13"
-            Tab(1).Control(1)=   "Label12"
-            Tab(1).Control(2)=   "Label10"
-            Tab(1).Control(3)=   "Label17"
-            Tab(1).Control(4)=   "Label18"
-            Tab(1).Control(5)=   "Label11"
-            Tab(1).Control(6)=   "txtVolPesoLiquido"
-            Tab(1).Control(7)=   "txtVolNumeracao"
-            Tab(1).Control(8)=   "txtVolMarca"
-            Tab(1).Control(9)=   "txtVolEspecie"
-            Tab(1).Control(10)=   "txtVolQuant"
-            Tab(1).Control(11)=   "txtVolPesoBruto"
+            Tab(1).Control(0)=   "txtVolPesoBruto"
+            Tab(1).Control(1)=   "txtVolQuant"
+            Tab(1).Control(2)=   "txtVolEspecie"
+            Tab(1).Control(3)=   "txtVolMarca"
+            Tab(1).Control(4)=   "txtVolNumeracao"
+            Tab(1).Control(5)=   "txtVolPesoLiquido"
+            Tab(1).Control(6)=   "Label11"
+            Tab(1).Control(7)=   "Label18"
+            Tab(1).Control(8)=   "Label17"
+            Tab(1).Control(9)=   "Label10"
+            Tab(1).Control(10)=   "Label12"
+            Tab(1).Control(11)=   "Label13"
             Tab(1).ControlCount=   12
             TabCaption(2)   =   "Reboques / Outros"
             TabPicture(2)   =   "NFe_Completa.frx":257B0
@@ -3481,7 +3498,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   0
          Top             =   420
          Width           =   1815
@@ -3520,7 +3537,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   14700
+         Left            =   -60300
          TabIndex        =   47
          Top             =   1080
          Width           =   1815
@@ -3559,7 +3576,7 @@ Begin VB.Form NFe_Completa
       End
       Begin MSFlexGridLib.MSFlexGrid GridNotas 
          Height          =   5940
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   150
          Top             =   420
          Width           =   16395
@@ -3585,7 +3602,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
          Height          =   315
-         Left            =   -65400
+         Left            =   9600
          TabIndex        =   182
          Top             =   6420
          Width           =   1155
@@ -3623,7 +3640,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   315
-         Left            =   -69300
+         Left            =   5700
          TabIndex        =   184
          Top             =   6420
          Width           =   855
@@ -3661,7 +3678,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdTransmitir 
          Height          =   315
-         Left            =   -73800
+         Left            =   1200
          TabIndex        =   185
          Top             =   6420
          Width           =   1035
@@ -3699,7 +3716,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
          Height          =   315
-         Left            =   -72720
+         Left            =   2280
          TabIndex        =   186
          Top             =   6420
          Width           =   1155
@@ -3737,7 +3754,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdConsultar 
          Height          =   315
-         Left            =   -71520
+         Left            =   3480
          TabIndex        =   187
          Top             =   6420
          Width           =   975
@@ -3775,7 +3792,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdDuplicar 
          Height          =   315
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   188
          Top             =   6420
          Width           =   915
@@ -3813,7 +3830,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdInutilizar 
          Height          =   315
-         Left            =   -70500
+         Left            =   4500
          TabIndex        =   189
          Top             =   6420
          Width           =   1155
@@ -3851,7 +3868,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdCartaCorrecao 
          Height          =   315
-         Left            =   -66600
+         Left            =   8400
          TabIndex        =   190
          Top             =   6420
          Width           =   1155
@@ -3889,7 +3906,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEditar 
          Height          =   315
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   204
          Top             =   6420
          Width           =   1035
@@ -3927,7 +3944,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEspelho 
          Height          =   315
-         Left            =   -67440
+         Left            =   7560
          TabIndex        =   216
          Top             =   6420
          Width           =   795
@@ -4004,7 +4021,7 @@ Begin VB.Form NFe_Completa
       End
       Begin ChamaleonBtn.chameleonButton cmdEnviarXML 
          Height          =   315
-         Left            =   -64200
+         Left            =   10800
          TabIndex        =   223
          Top             =   6420
          Width           =   1095
@@ -4220,7 +4237,7 @@ Begin VB.Form NFe_Completa
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "21:57"
+            TextSave        =   "20:02"
          EndProperty
          BeginProperty Panel4 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -10833,7 +10850,7 @@ End If
 
 If Not existe(xCaminhoPDF) Then
     iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-    Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, vNotaCancelada, True, "", True, False, False, False, True)
+    Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, True, "", True, False, False, False, True)
 End If
 
 On Error GoTo 0
@@ -10857,7 +10874,7 @@ Exit Sub
 deuErro:
     If InStr(1, Err.Description, "Exception") > 0 Then
        iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 1, vNotaCancelada, True, "", True, False, False, False, True)
+       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, True, "", True, False, False, False, True)
     Else
        MsgBox Err.Description, vbInformation
     End If
@@ -11048,7 +11065,7 @@ If vPossuiErro = False Then
         End If
         
         iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-        Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, False, False, "", True, False, False, False, True)
+        Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, False, False, "", True, False, False, False, True)
     End If
     picAguarde.Visible = False
     Call cmdExibirConNotas_Click
@@ -11059,7 +11076,7 @@ deuErro:
     picAguarde.Visible = False
     If InStr(1, Err.Description, "Exception") > 0 Then
        iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 1, False, False, "", True, False, False, False, True)
+       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, False, False, "", True, False, False, False, True)
     Else
        MsgBox Err.Description, vbInformation
     End If
@@ -11809,14 +11826,14 @@ vNotaCancelada = (GridNotas.TextMatrix(GridNotas.Row, 7) = "Cancelada")
      End If
      
      iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-     Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 0, vNotaCancelada, False, "", True, False, False, False, True)
+     Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, False, "", True, False, False, False, True)
      
      Exit Sub
 deuErro:
     If InStr(1, Err.Description, "Exception") > 0 Then
        On Error GoTo deuErroRetry
        iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 1, vNotaCancelada, False, "", True, False, False, False, True)
+       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, False, "", True, False, False, False, True)
     Else
        MsgBox Err.Description, vbInformation
     End If

@@ -1115,7 +1115,7 @@ Dim sistNFe As snfe.Util
   End If
 
   iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-  Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", False, "", 0, False, False, "", False, False, True, False, True)
+  Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", False, "", 4, False, False, "", False, False, True, False, True)
  
   Set sistNFe = Nothing
   Exit Sub
