@@ -532,6 +532,27 @@ End Sub
 
 ' Antes de gerar: confere os cadastros que vão no arquivo (empresa, contador, fornecedores, produtos), corrige o que tem
 ' fonte confiável (XML da nota de entrada) depois de confirmar e lista o resto (frmSPED_Conferencia).
+Private Function ConferirCadastros(ByVal sParam As String) As Boolean
+    Dim sRes As String, nC As Long, nM As Long, nD As Long
+    lblStatus.Caption = "Conferindo os cadastros que vão no arquivo..."
+    Screen.MousePointer = vbHourglass
+    DoEvents
+    sRes = SPED_Conferir(sParam, nC, nM, nD)
+    Screen.MousePointer = vbDefault
+    lblStatus.Caption = ""
+    If sRes <> "OK" Then
+        ConferirCadastros = (MsgBox("Não foi possível conferir os cadastros:" & vbCrLf & Mid$(sRes, IIf(Left$(sRes, 6) = "ERRO: ", 7, 1)) & vbCrLf & vbCrLf & _
+                                    "Gerar o arquivo assim mesmo?", vbQuestion + vbYesNo + vbDefaultButton2) = vbYes)
+        Exit Function
+    End If
+    If nC + nM + nD = 0 Then
+        ConferirCadastros = True
+        Exit Function
+    End If
+    ConferirCadastros = frmSPED_Conferencia.Mostrar(sParam)
+End Function
+
+Private Sub cmdEnviar_Click()
     Dim sEmail As String, sErro As String
 
     If sArquivoGerado = "" Then Exit Sub
