@@ -67,7 +67,7 @@ Begin VB.Form Configuracao_Geral
       Height          =   270
       Left            =   0
       TabIndex        =   0
-      Top             =   9930
+      Top             =   10290
       Width           =   9060
       _ExtentX        =   15981
       _ExtentY        =   476
@@ -85,7 +85,7 @@ Begin VB.Form Configuracao_Geral
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:35"
+            TextSave        =   "17:57"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -113,7 +113,6 @@ Begin VB.Form Configuracao_Geral
       _ExtentY        =   15796
       _Version        =   393216
       Tabs            =   5
-      Tab             =   1
       TabsPerRow      =   5
       TabHeight       =   520
       TabMaxWidth     =   2999
@@ -128,7 +127,7 @@ Begin VB.Form Configuracao_Geral
       EndProperty
       TabCaption(0)   =   "GERAL"
       TabPicture(0)   =   "Configuracao_Geral.frx":82DC
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "cmdSalvarGeral"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "FrameBackup"
@@ -142,7 +141,7 @@ Begin VB.Form Configuracao_Geral
       Tab(0).ControlCount=   5
       TabCaption(1)   =   "PDV"
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
-      Tab(1).ControlEnabled=   -1  'True
+      Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
       Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
@@ -151,75 +150,75 @@ Begin VB.Form Configuracao_Geral
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "Frame13"
+      Tab(2).Control(0)=   "cmdSalvarBalanca"
       Tab(2).Control(0).Enabled=   0   'False
-      Tab(2).Control(1)=   "Frame6"
+      Tab(2).Control(1)=   "Frame3"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "Frame3"
+      Tab(2).Control(2)=   "Frame6"
       Tab(2).Control(2).Enabled=   0   'False
-      Tab(2).Control(3)=   "cmdSalvarBalanca"
+      Tab(2).Control(3)=   "Frame13"
       Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
       Tab(3).ControlEnabled=   0   'False
-      Tab(3).Control(0)=   "Frame14"
+      Tab(3).Control(0)=   "Label48"
       Tab(3).Control(0).Enabled=   0   'False
-      Tab(3).Control(1)=   "cboDeclararRecebedor"
+      Tab(3).Control(1)=   "Label14"
       Tab(3).Control(1).Enabled=   0   'False
-      Tab(3).Control(2)=   "txtFormaParcelasImpressao"
+      Tab(3).Control(2)=   "Label49"
       Tab(3).Control(2).Enabled=   0   'False
-      Tab(3).Control(3)=   "cboFormaParcelasImpressao"
+      Tab(3).Control(3)=   "Label61"
       Tab(3).Control(3).Enabled=   0   'False
-      Tab(3).Control(4)=   "cboINIImpNormal"
+      Tab(3).Control(4)=   "cmdSalvarImpressao"
       Tab(3).Control(4).Enabled=   0   'False
-      Tab(3).Control(5)=   "Frame7"
+      Tab(3).Control(5)=   "Frame2"
       Tab(3).Control(5).Enabled=   0   'False
-      Tab(3).Control(6)=   "Frame8"
+      Tab(3).Control(6)=   "Frame17"
       Tab(3).Control(6).Enabled=   0   'False
-      Tab(3).Control(7)=   "Frame17"
+      Tab(3).Control(7)=   "Frame8"
       Tab(3).Control(7).Enabled=   0   'False
-      Tab(3).Control(8)=   "Frame2"
+      Tab(3).Control(8)=   "Frame7"
       Tab(3).Control(8).Enabled=   0   'False
-      Tab(3).Control(9)=   "cmdSalvarImpressao"
+      Tab(3).Control(9)=   "cboINIImpNormal"
       Tab(3).Control(9).Enabled=   0   'False
-      Tab(3).Control(10)=   "Label61"
+      Tab(3).Control(10)=   "cboFormaParcelasImpressao"
       Tab(3).Control(10).Enabled=   0   'False
-      Tab(3).Control(11)=   "Label49"
+      Tab(3).Control(11)=   "txtFormaParcelasImpressao"
       Tab(3).Control(11).Enabled=   0   'False
-      Tab(3).Control(12)=   "Label14"
+      Tab(3).Control(12)=   "cboDeclararRecebedor"
       Tab(3).Control(12).Enabled=   0   'False
-      Tab(3).Control(13)=   "Label48"
+      Tab(3).Control(13)=   "Frame14"
       Tab(3).Control(13).Enabled=   0   'False
       Tab(3).ControlCount=   14
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
       Tab(4).ControlEnabled=   0   'False
-      Tab(4).Control(0)=   "Label53"
-      Tab(4).Control(1)=   "Label54"
-      Tab(4).Control(2)=   "Label56"
-      Tab(4).Control(3)=   "Label57"
-      Tab(4).Control(4)=   "Label58"
-      Tab(4).Control(5)=   "Label59"
-      Tab(4).Control(6)=   "Label60"
-      Tab(4).Control(7)=   "cmdDesmarcarTodos"
-      Tab(4).Control(8)=   "cmdDesmarcar"
-      Tab(4).Control(9)=   "cmdMarcar"
-      Tab(4).Control(10)=   "cmdLocalizar"
-      Tab(4).Control(11)=   "cmdNovo"
+      Tab(4).Control(0)=   "chameleonButton1"
+      Tab(4).Control(1)=   "txtCodDesbloqueioTemp"
+      Tab(4).Control(2)=   "txtCodDesbloqueio"
+      Tab(4).Control(3)=   "txtFantasia"
+      Tab(4).Control(4)=   "cboAno"
+      Tab(4).Control(5)=   "cboMes"
+      Tab(4).Control(6)=   "txtRazao"
+      Tab(4).Control(7)=   "Grid"
+      Tab(4).Control(8)=   "mskCPF"
+      Tab(4).Control(9)=   "cmdAdicionar"
+      Tab(4).Control(10)=   "cmdMostrarSenha"
+      Tab(4).Control(11)=   "cmdPrepara"
       Tab(4).Control(12)=   "cmdPrepara2"
-      Tab(4).Control(13)=   "cmdPrepara"
-      Tab(4).Control(14)=   "cmdMostrarSenha"
-      Tab(4).Control(15)=   "cmdAdicionar"
-      Tab(4).Control(16)=   "mskCPF"
-      Tab(4).Control(17)=   "Grid"
-      Tab(4).Control(18)=   "txtRazao"
-      Tab(4).Control(19)=   "cboMes"
-      Tab(4).Control(20)=   "cboAno"
-      Tab(4).Control(21)=   "txtFantasia"
-      Tab(4).Control(22)=   "txtCodDesbloqueio"
-      Tab(4).Control(23)=   "txtCodDesbloqueioTemp"
-      Tab(4).Control(24)=   "chameleonButton1"
+      Tab(4).Control(13)=   "cmdNovo"
+      Tab(4).Control(14)=   "cmdLocalizar"
+      Tab(4).Control(15)=   "cmdMarcar"
+      Tab(4).Control(16)=   "cmdDesmarcar"
+      Tab(4).Control(17)=   "cmdDesmarcarTodos"
+      Tab(4).Control(18)=   "Label60"
+      Tab(4).Control(19)=   "Label59"
+      Tab(4).Control(20)=   "Label58"
+      Tab(4).Control(21)=   "Label57"
+      Tab(4).Control(22)=   "Label56"
+      Tab(4).Control(23)=   "Label54"
+      Tab(4).Control(24)=   "Label53"
       Tab(4).ControlCount=   25
       Begin VB.Frame Frame14 
          Caption         =   "Recibos"
@@ -412,7 +411,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
          Height          =   1335
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   178
          Top             =   5280
          Width           =   3615
@@ -727,9 +726,9 @@ Begin VB.Form Configuracao_Geral
             Strikethrough   =   0   'False
          EndProperty
          Height          =   1875
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   112
-         Top             =   7380
+         Top             =   6960
          Width           =   8535
          Begin VB.Frame Frame12 
             Caption         =   "Critérios"
@@ -1044,7 +1043,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FraConfiguracao 
          Caption         =   "Balança e Peso"
          Height          =   1515
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   106
          Top             =   6660
          Width           =   8655
@@ -1180,10 +1179,19 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
          Height          =   4875
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   78
          Top             =   360
          Width           =   8655
+         Begin VB.CheckBox chkEnviarSpedMensal 
+            Caption         =   "Sim"
+            Height          =   195
+            Left            =   4020
+            TabIndex        =   241
+            ToolTipText     =   "Envia todo mês o arquivo do SPED Fiscal (EFD ICMS/IPI) para o contador. O inventário de 31/12 vai sempre em fevereiro."
+            Top             =   3360
+            Width           =   615
+         End
          Begin VB.CheckBox chkBloqueioAPrazo 
             Caption         =   "Bloqueio"
             Height          =   195
@@ -1322,6 +1330,16 @@ Begin VB.Form Configuracao_Geral
             CHECK           =   0   'False
             VALUE           =   0   'False
          End
+         Begin VB.Label lblEnviarSpedMensal 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Enviar SPED Mensal:"
+            Height          =   195
+            Left            =   2520
+            TabIndex        =   242
+            Top             =   3360
+            Width           =   1425
+         End
          Begin VB.Label Label77 
             Alignment       =   1  'Right Justify
             AutoSize        =   -1  'True
@@ -1424,8 +1442,8 @@ Begin VB.Form Configuracao_Geral
             Italic          =   0   'False
             Strikethrough   =   0   'False
          EndProperty
-         Height          =   7035
-         Left            =   180
+         Height          =   6555
+         Left            =   -74820
          TabIndex        =   53
          Top             =   360
          Width           =   8535
@@ -1436,25 +1454,6 @@ Begin VB.Form Configuracao_Geral
             TabIndex        =   239
             Top             =   7020
             Width           =   615
-         End
-         Begin VB.CheckBox chkEnviarSpedMensal 
-            Caption         =   "Sim"
-            Height          =   195
-            Left            =   2820
-            TabIndex        =   241
-            ToolTipText     =   "Envia todo mês o arquivo do SPED Fiscal (EFD ICMS/IPI) para o contador. O inventário de 31/12 vai sempre em fevereiro."
-            Top             =   6660
-            Width           =   615
-         End
-         Begin VB.Label lblEnviarSpedMensal 
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Enviar SPED Mensal:"
-            Height          =   195
-            Left            =   1290
-            TabIndex        =   242
-            Top             =   6660
-            Width           =   1425
          End
          Begin VB.CheckBox chkExibirTributos 
             Caption         =   "Sim"
@@ -2252,7 +2251,7 @@ Begin VB.Form Configuracao_Geral
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
          Height          =   1335
-         Left            =   -71220
+         Left            =   3780
          TabIndex        =   10
          Top             =   5280
          Width           =   4995
@@ -2366,7 +2365,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarGeral 
          Height          =   615
-         Left            =   -68400
+         Left            =   6600
          TabIndex        =   77
          Top             =   8220
          Width           =   2175
@@ -6046,6 +6045,7 @@ AtualizarQuantDigitosBalanca
 AtualizarMultiplasRef
 AtualizarLimitarCompra
 AtualizarTipoJuros
+AtualizarSpedMensal
 MsgBox "Informações Salvas", vbInformation, "Aviso do Sistema"
 End Sub
 
@@ -6100,7 +6100,6 @@ Atualizar_ValorCartaoCredito
 AtualizarTipoLogin
 AtualizarLogoffAutomatico
 AtualizarExibirTributos
-AtualizarSpedMensal
 AtualizarPixDinamico
 
 AtualizarTipoDesconto
