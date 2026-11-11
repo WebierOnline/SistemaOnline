@@ -5,6 +5,8 @@ DESCRICAO.: Procedure de Processamento de Unidades SPED
 DATA......: 2022-03-15
 ALTERACAO.: 2026-11 - filtro unico de uso/consumo e imobilizado (@usoconsumo/@imobilizado = 1 incluem esses produtos;
             o produto avulso (codigo 1) nao entra; antes, com os dois marcados, nenhum ramo rodava e a tabela vSPEDUnidades nao era criada).
+            2026-11 - unidades dos produtos lancados no estoque pelas notas de entrada (dbo.SPEDItensEntrada, script 156);
+            produto sem unidade = UN (igual ao 0200).
 ***************************/
 -- Idempotente: cria um placeholder se o objeto ainda nao existir e sempre roda o ALTER com a definicao final.
 SET ANSI_NULLS ON
@@ -34,9 +36,9 @@ SELECT UND
 INTO vSPEDUnidades
 FROM
 (
-SELECT UND
-FROM NFeEntradasItens
-WHERE @somenteinventario = 0 AND UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
+SELECT ISNULL(NULLIF(LTRIM(RTRIM(p.UNID_MEDIDA)), ''), 'UN') AS UND
+FROM dbo.SPEDItensEntrada(@dataini, @datafim) v INNER JOIN produtos p ON p.CODIGO = v.IDProduto
+WHERE @somenteinventario = 0
 UNION ALL
 SELECT UN AS UND
 FROM InventarioGerado

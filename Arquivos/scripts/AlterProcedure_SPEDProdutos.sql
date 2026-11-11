@@ -6,6 +6,8 @@ DATA......: 2022-03-15
 ALTERACAO.: 2026-11 - filtro unico de uso/consumo e imobilizado (@usoconsumo/@imobilizado = 1 incluem esses produtos;
             o produto avulso (codigo 1) nao entra; antes, com os dois marcados, nenhum ramo rodava e a tabela vSPEDProdCod nao era criada).
             2026-11 - TipoItem do 0200 pelo cadastro: 08 = ativo imobilizado, 07 = uso e consumo, 00 = mercadoria.
+            2026-11 - produtos das notas de entrada pelo que foi lancado no estoque (dbo.SPEDItensEntrada, script 156),
+            nao mais pelo produto gravado no item do XML; produto sem unidade entra (UN, igual ao 0200).
 ***************************/
 -- Idempotente: cria um placeholder se o objeto ainda nao existir e sempre roda o ALTER com a definicao final.
 SET ANSI_NULLS ON
@@ -36,8 +38,8 @@ INTO vSPEDProdCod
 FROM
 (
 SELECT IDProduto
-FROM NFeEntradasItens
-WHERE @somenteinventario = 0 AND UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
+FROM dbo.SPEDItensEntrada(@dataini, @datafim)
+WHERE @somenteinventario = 0 AND IDProduto IS NOT NULL
 UNION ALL
 SELECT IDProduto
 FROM InventarioGerado

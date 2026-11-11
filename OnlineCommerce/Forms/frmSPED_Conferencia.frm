@@ -370,6 +370,40 @@ Begin VB.Form frmSPED_Conferencia
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin VB.PictureBox picCarregando 
+      Appearance      =   0  'Flat
+      BackColor       =   &H00C0FFFF&
+      ForeColor       =   &H80000008&
+      Height          =   975
+      Left            =   4560
+      ScaleHeight     =   945
+      ScaleWidth      =   5895
+      TabIndex        =   16
+      TabStop         =   0   'False
+      Top             =   4440
+      Visible         =   0   'False
+      Width           =   5925
+      Begin VB.Label lblCarregando 
+         Alignment       =   2  'Center
+         BackStyle       =   0  'Transparent
+         Caption         =   "CARREGANDO, AGUARDE!"
+         BeginProperty Font 
+            Name            =   "Arial Black"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   900
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H000000C0&
+         Height          =   495
+         Left            =   0
+         TabIndex        =   17
+         Top             =   225
+         Width           =   5895
+      End
+   End
    Begin VB.Label lblRodape 
       Caption         =   "Somente após a correção de todos o arquivo poderá ser gerado."
       BeginProperty Font 
@@ -728,6 +762,8 @@ Private Sub cmdCorrigirManual_Click()
             Empresa_Cadastro.Show vbModal, Me
             Unload Empresa_Cadastro
         Case "Contador"
+            Load Contador_Cadastro
+            Contador_Cadastro.AbrirPrimeiroContador   ' abre com o contador carregado (igual ao aviso de pendências)
             Contador_Cadastro.Show vbModal, Me
             Unload Contador_Cadastro
         Case Else
@@ -744,15 +780,39 @@ End Sub
 ' Roda a conferência de novo e recarrega a lista (depois de corrigir ou manter).
 Private Sub Reconferir()
     Dim sRes As String, nC As Long, nM As Long, nD As Long
-    Screen.MousePointer = vbHourglass
-    DoEvents
+    MostrarCarregando True
     sRes = SPED_Conferir(sParametros, nC, nM, nD)
-    Screen.MousePointer = vbDefault
+    If sRes = "OK" Then Carregar
+    MostrarCarregando False
     If sRes <> "OK" Then
         MsgBox "Não foi possível conferir de novo: " & Mid$(sRes, IIf(Left$(sRes, 6) = "ERRO: ", 7, 1)), vbExclamation
         Exit Sub
     End If
-    Carregar
+End Sub
+
+' Aviso "CARREGANDO, AGUARDE!" no meio da grade enquanto a conferência roda de novo; botões e grade travados (sem clique duplo).
+Private Sub MostrarCarregando(ByVal bMostrar As Boolean)
+    Dim ctl As Control
+    If bMostrar Then
+        For Each ctl In Me.Controls
+            If TypeName(ctl) = "chameleonButton" Then ctl.Enabled = False
+        Next
+        grdLista.Enabled = False
+        picCarregando.Move grdLista.Left + (grdLista.Width - picCarregando.Width) \ 2, grdLista.Top + (grdLista.Height - picCarregando.Height) \ 2
+        picCarregando.Visible = True
+        picCarregando.ZOrder 0
+        picCarregando.Refresh
+        Screen.MousePointer = vbHourglass
+        DoEvents
+    Else
+        picCarregando.Visible = False
+        For Each ctl In Me.Controls
+            If TypeName(ctl) = "chameleonButton" Then ctl.Enabled = True
+        Next
+        grdLista.Enabled = True
+        Screen.MousePointer = vbDefault
+        AtualizarBotoes
+    End If
 End Sub
 
 ' Lista em texto (para corrigir os cadastros com calma ou mandar para alguém), aberta no Bloco de Notas.
