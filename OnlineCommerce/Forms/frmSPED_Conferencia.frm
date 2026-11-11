@@ -1,110 +1,378 @@
 VERSION 5.00
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
-Begin VB.Form frmSPED_Conferencia
+Begin VB.Form frmSPED_Conferencia 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "SPED Fiscal - Conferência dos cadastros"
    ClientHeight    =   8490
    ClientLeft      =   45
    ClientTop       =   360
-   ClientWidth     =   14295
+   ClientWidth     =   15045
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
    ScaleHeight     =   8490
-   ScaleWidth      =   14295
+   ScaleWidth      =   15045
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
-   Begin VB.CommandButton cmdCancelar
-      Cancel          =   -1  'True
-      Caption         =   "&Cancelar"
-      Height          =   420
-      Left            =   12720
-      TabIndex        =   17
-      Top             =   7980
-      Width           =   1500
+   Begin ChamaleonBtn.chameleonButton cmdCorrigirAmarelos 
+      Height          =   615
+      Left            =   5760
+      TabIndex        =   7
+      Top             =   7800
+      Width           =   2115
+      _ExtentX        =   3731
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "CORRIGIR OS AMARELOS (automaticamente)"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   0
+      MICON           =   "frmSPED_Conferencia.frx":0000
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.CommandButton cmdGerar
-      Caption         =   "&Gerar o arquivo"
-      Height          =   420
-      Left            =   10860
-      TabIndex        =   16
-      Top             =   7980
-      Width           =   1800
-   End
-   Begin VB.CommandButton cmdSalvar
-      Caption         =   "&Salvar lista"
-      Height          =   420
-      Left            =   1920
-      TabIndex        =   15
-      Top             =   7980
-      Width           =   1500
-   End
-   Begin VB.CommandButton cmdCorrigirManual
-      Caption         =   "CORRIGIR"
-      Enabled         =   0   'False
-      Height          =   420
+   Begin MSFlexGridLib.MSFlexGrid grdLista 
+      Height          =   5595
       Left            =   60
-      TabIndex        =   14
-      Top             =   7980
-      Width           =   1800
-   End
-   Begin VB.CommandButton cmdManter
-      Caption         =   "MANTER O ATUAL"
-      Enabled         =   0   'False
-      Height          =   420
-      Left            =   12120
-      TabIndex        =   13
-      Top             =   7500
-      Width           =   2100
-   End
-   Begin VB.CommandButton cmdCorrigirAmarelos
-      Caption         =   "CORRIGIR OS AMARELOS (automaticamente)"
-      Enabled         =   0   'False
-      Height          =   420
-      Left            =   8040
-      TabIndex        =   12
-      Top             =   7500
-      Width           =   4020
-   End
-   Begin VB.CommandButton cmdMarcarAmarelos
-      Caption         =   "MARCAR AMARELOS"
-      Height          =   420
-      Left            =   5880
-      TabIndex        =   11
-      Top             =   7500
-      Width           =   2100
-   End
-   Begin VB.CommandButton cmdCorrigir
-      Caption         =   "CORRIGIR OS VERDES (automaticamente)"
-      Height          =   420
-      Left            =   2220
-      TabIndex        =   10
-      Top             =   7500
-      Width           =   3600
-   End
-   Begin VB.CommandButton cmdMarcar
-      Caption         =   "DESMARCAR VERDES"
-      Height          =   420
-      Left            =   60
-      TabIndex        =   9
-      Top             =   7500
-      Width           =   2100
-   End
-   Begin MSFlexGridLib.MSFlexGrid grdLista
-      Height          =   5235
-      Left            =   60
-      TabIndex        =   8
+      TabIndex        =   6
       Top             =   2160
-      Width           =   14175
-      _ExtentX        =   25003
-      _ExtentY        =   9234
+      Width           =   14955
+      _ExtentX        =   26379
+      _ExtentY        =   9869
       _Version        =   393216
       FixedCols       =   0
       AllowUserResizing=   1
+      Appearance      =   0
    End
-   Begin VB.Label lblRodape
+   Begin ChamaleonBtn.chameleonButton cmdCorrigir 
+      Height          =   615
+      Left            =   3660
+      TabIndex        =   8
+      Top             =   7800
+      Width           =   2055
+      _ExtentX        =   3625
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "CORRIGIR OS VERDES (automaticamente)"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdMarcar 
+      Height          =   615
+      Left            =   60
+      TabIndex        =   9
+      Top             =   7800
+      Width           =   1755
+      _ExtentX        =   3096
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "MARCAR VERDES"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":0038
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdMarcarAmarelos 
+      Height          =   615
+      Left            =   1860
+      TabIndex        =   10
+      Top             =   7800
+      Width           =   1755
+      _ExtentX        =   3096
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "MARCAR AMARELOS"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":0054
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdCorrigirManual 
+      Height          =   615
+      Left            =   7920
+      TabIndex        =   11
+      Top             =   7800
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "CORRIGIR"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":0070
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdCancelar 
+      Height          =   615
+      Left            =   13860
+      TabIndex        =   12
+      Top             =   7800
+      Width           =   1095
+      _ExtentX        =   1931
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "CANCELAR"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":008C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdGerar 
+      Height          =   615
+      Left            =   9300
+      TabIndex        =   13
+      Top             =   7800
+      Width           =   1515
+      _ExtentX        =   2672
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "GERAR ARQUIVO"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":00A8
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdManter 
+      Height          =   615
+      Left            =   10860
+      TabIndex        =   14
+      Top             =   7800
+      Width           =   1515
+      _ExtentX        =   2672
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "MANTER O ATUAL"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":00C4
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdSalvar 
+      Height          =   615
+      Left            =   12420
+      TabIndex        =   15
+      Top             =   7800
+      Width           =   1395
+      _ExtentX        =   2461
+      _ExtentY        =   1085
+      BTYPE           =   3
+      TX              =   "SALVAR LISTA"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   15790320
+      BCOLO           =   15790320
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmSPED_Conferencia.frx":00E0
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin VB.Label lblRodape 
       Caption         =   "Somente após a correção de todos o arquivo poderá ser gerado."
-      BeginProperty Font
+      BeginProperty Font 
          Name            =   "MS Sans Serif"
          Size            =   8.25
          Charset         =   0
@@ -115,50 +383,50 @@ Begin VB.Form frmSPED_Conferencia
       EndProperty
       Height          =   255
       Left            =   60
-      TabIndex        =   7
+      TabIndex        =   5
       Top             =   1860
       Width           =   14175
    End
-   Begin VB.Label lblVermelhos
+   Begin VB.Label lblVermelhos 
       BackColor       =   &H00DCDCFA&
       Height          =   255
       Left            =   60
-      TabIndex        =   6
+      TabIndex        =   4
       Top             =   1560
-      Width           =   14175
+      Width           =   14955
    End
-   Begin VB.Label lblAmarelos
+   Begin VB.Label lblAmarelos 
       BackColor       =   &H00C8F5FF&
       Height          =   495
       Left            =   60
-      TabIndex        =   5
+      TabIndex        =   3
       Top             =   1020
-      Width           =   14175
+      Width           =   14955
       WordWrap        =   -1  'True
    End
-   Begin VB.Label lblVerdes
+   Begin VB.Label lblVerdes 
       BackColor       =   &H00DCF5DC&
       Height          =   255
       Left            =   60
-      TabIndex        =   4
+      TabIndex        =   2
       Top             =   720
-      Width           =   14175
+      Width           =   14955
    End
-   Begin VB.Label lblTotal
+   Begin VB.Label lblTotal 
       Height          =   255
       Left            =   60
-      TabIndex        =   3
+      TabIndex        =   1
       Top             =   420
-      Width           =   14175
+      Width           =   14955
    End
-   Begin VB.Label lblTitulo
+   Begin VB.Label lblTitulo 
       Alignment       =   2  'Center
       Caption         =   "RELATÓRIO DE ERROS ENCONTRADOS"
-      BeginProperty Font
-         Name            =   "MS Sans Serif"
+      BeginProperty Font 
+         Name            =   "Arial Black"
          Size            =   12
          Charset         =   0
-         Weight          =   700
+         Weight          =   900
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
@@ -167,7 +435,7 @@ Begin VB.Form frmSPED_Conferencia
       Left            =   60
       TabIndex        =   0
       Top             =   60
-      Width           =   14175
+      Width           =   14955
    End
 End
 Attribute VB_Name = "frmSPED_Conferencia"
@@ -244,7 +512,7 @@ Private Sub Carregar()
     Dim nCor As Long
 
     nVerdes = 0: nAmarelos = 0: nVermelhos = 0
-    grdLista.Rows = 1
+    grdLista.rows = 1
     If Dir$(SPED_ArquivoConferencia) <> "" Then
         nArq = FreeFile
         Open SPED_ArquivoConferencia For Input As #nArq
@@ -253,7 +521,7 @@ Private Sub Carregar()
             v = Split(sLinha, vbTab)
             If UBound(v) >= 10 Then
                 grdLista.AddItem ""
-                r = grdLista.Rows - 1
+                r = grdLista.rows - 1
                 grdLista.TextMatrix(r, COL_SIT) = v(1)
                 Select Case v(1)
                     Case "CORRIGIR"
@@ -305,7 +573,7 @@ End Sub
 
 Private Function Contar(ByVal sSituacao As String, ByVal bMarcados As Boolean) As Long
     Dim r As Long
-    For r = 1 To grdLista.Rows - 1
+    For r = 1 To grdLista.rows - 1
         If grdLista.TextMatrix(r, COL_SIT) = sSituacao Then
             If Not bMarcados Or grdLista.TextMatrix(r, COL_MARCA) = "X" Then Contar = Contar + 1
         End If
@@ -313,7 +581,7 @@ Private Function Contar(ByVal sSituacao As String, ByVal bMarcados As Boolean) A
 End Function
 
 Private Function SituacaoSelecionada() As String
-    If grdLista.Row >= 1 And grdLista.Rows > 1 Then SituacaoSelecionada = grdLista.TextMatrix(grdLista.Row, COL_SIT)
+    If grdLista.Row >= 1 And grdLista.rows > 1 Then SituacaoSelecionada = grdLista.TextMatrix(grdLista.Row, COL_SIT)
 End Function
 
 Private Sub AtualizarBotoes()
@@ -351,7 +619,7 @@ End Sub
 
 Private Sub Marcar(ByVal sSituacao As String, ByVal sMarca As String)
     Dim r As Long
-    For r = 1 To grdLista.Rows - 1
+    For r = 1 To grdLista.rows - 1
         If grdLista.TextMatrix(r, COL_SIT) = sSituacao And grdLista.TextMatrix(r, COL_NOVO) <> "" Then grdLista.TextMatrix(r, COL_MARCA) = sMarca
     Next
     AtualizarBotoes
@@ -368,7 +636,7 @@ End Sub
 ' Chaves das linhas marcadas de uma situação, separadas por vírgula.
 Private Function ChavesMarcadas(ByVal sSituacao As String) As String
     Dim r As Long
-    For r = 1 To grdLista.Rows - 1
+    For r = 1 To grdLista.rows - 1
         If grdLista.TextMatrix(r, COL_SIT) = sSituacao And grdLista.TextMatrix(r, COL_MARCA) = "X" Then
             ChavesMarcadas = ChavesMarcadas & IIf(ChavesMarcadas <> "", ",", "") & grdLista.TextMatrix(r, COL_CHAVE)
         End If
@@ -508,7 +776,7 @@ Private Sub cmdSalvar_Click()
     Print #nArq, lblAmarelos.Caption
     Print #nArq, lblVermelhos.Caption
     Print #nArq, String(100, "-")
-    For r = 1 To grdLista.Rows - 1
+    For r = 1 To grdLista.rows - 1
         Print #nArq, UCase(grdLista.TextMatrix(r, COL_SITUACAO)) & " | " & grdLista.TextMatrix(r, COL_TIPO) & " " & grdLista.TextMatrix(r, COL_CODIGO) & _
                      " - " & grdLista.TextMatrix(r, COL_NOME)
         Print #nArq, "   " & grdLista.TextMatrix(r, COL_CAMPO) & ": " & grdLista.TextMatrix(r, COL_PROBLEMA) & _
