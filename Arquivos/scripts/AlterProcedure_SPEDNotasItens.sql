@@ -3,7 +3,8 @@ PROJETO...: Online.Info
 ANALISTA..: Leandro Santos
 DESCRICAO.: Procedure de Processamento de Notas SPED
 DATA......: 2022-03-16
-ALTERACAO.: 2026-11 - Notas de entrada: itens sem produto vinculado (uso e consumo lancado sem vincular) entram com o
+ALTERACAO.: 2026-11 - Base do ICMS zerada com ICMS e aliquota preenchidos = ICMS / aliquota (reducao CST 20/70 certa).
+            2026-11 - Notas de entrada: itens sem produto vinculado (uso e consumo lancado sem vincular) entram com o
             codigo 'NE<nota>-<item>' (0200 gerado pelo SpedGerador com a descricao do XML); antes o INNER JOIN com
             produtos tirava o item e a nota saia sem C170/C190. CFOP do item convertido para o de entrada
             (dbo.CFOPEntradaSPED: 5/6/7 -> 1/2/3, venda -> compra para revenda/uso e consumo/imobilizado, com ou sem ST).
@@ -73,7 +74,9 @@ ALTER FUNCTION dbo.SPEDItensEntrada(@dataini DATETIME, @datafim DATETIME) RETURN
 SELECT e.CodigoNota, e.Item,
        COALESCE(l.CodigoProduto, pv.CODIGO) AS IDProduto,
        CAST(CASE WHEN l.CodigoProduto IS NOT NULL THEN l.Qtd ELSE e.QuantidadeComercial END AS DECIMAL(18, 6)) AS QtdEstoque,
-       CASE WHEN l.CodigoProduto IS NOT NULL THEN 1 ELSE 0 END AS Lancado
+       CASE WHEN l.CodigoProduto IS NOT NULL THEN 1 ELSE 0 END AS Lancado,
+       -- base do ICMS gravada zerada com ICMS e aliquota preenchidos (CST 20/70 de importacoes antigas): ICMS / aliquota
+       CAST(CASE WHEN ISNULL(e.vBC, 0) = 0 AND ISNULL(e.vICMS, 0) > 0 AND ISNULL(e.pICMS, 0) > 0 THEN ROUND(e.vICMS * 100 / e.pICMS, 2) ELSE ISNULL(e.vBC, 0) END AS DECIMAL(18, 2)) AS BaseICMS
 FROM EntradaEstoqueItens e
      INNER JOIN EntradaEstoque ee ON ee.CodigoNota = e.CodigoNota
      OUTER APPLY (SELECT TOP 1 pe.CODIGO FROM produtos_entrada pe
@@ -130,9 +133,9 @@ CAST(CASE WHEN Produtos.CODIGO IS NULL THEN UPPER(LEFT(ISNULL(NULLIF(LTRIM(RTRIM
 (CASE WHEN LEN(EntradaEstoqueItens.CST) < 3 THEN '0' + EntradaEstoqueItens.CST ELSE EntradaEstoqueItens.CST END) AS ICMSCST,
 dbo.CFOPEntradaSPED(EntradaEstoqueItens.CFOP, EntradaEstoqueItens.CST,
     CASE WHEN Produtos.CODIGO IS NULL THEN 'U' WHEN ISNULL(Produtos.IMOBILIZADO, 0) <> 0 THEN 'I' WHEN ISNULL(Produtos.USOCONSUMO, 0) <> 0 THEN 'U' ELSE 'R' END) AS CFOP,
-'' AS CodNatOperacao, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE EntradaEstoqueItens.vBC END) AS BaseICMS, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE EntradaEstoqueItens.pICMS END) AS AliqICMS, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE EntradaEstoqueItens.vICMS END) AS ValorICMS,
+'' AS CodNatOperacao, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE v.BaseICMS END) AS BaseICMS, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE EntradaEstoqueItens.pICMS END) AS AliqICMS, (CASE WHEN EntradaEstoqueItens.CST = '060' THEN 0 ELSE EntradaEstoqueItens.vICMS END) AS ValorICMS,
 0 AS BaseICMSST, 0 AS AliqICMSST, 0 AS ValorICMSST, 0 AS IndApuracao, '03' AS IPICST, '' AS CodENQ, 0 AS BaseIPI, 0 AS AliqIPI, 0 AS ValorIPI, (CASE WHEN EntradaEstoqueItens.PISCST = '' THEN '01' ELSE EntradaEstoqueItens.PISCST END) AS PISCST, (CASE WHEN EntradaEstoqueItens.COFINSCST = '' THEN '01' ELSE EntradaEstoqueItens.COFINSCST END) AS COFINSCST,
-0 AS QtdeBasePIS, 0 AS BasePIS, 0 AS AliqPIS, 0 AS ValorPIS, 0 AS QtdeBaseCOFINS, 0 AS BaseCOFINS, 0 AS AliqCOFINS, 0 AS ValorCOFINS, '' AS CodContaContabil, 0 AS VlAbatimentoNT, (CASE WHEN (EntradaEstoqueItens.vBC - (EntradaEstoqueItens.QuantidadeComercial * EntradaEstoqueItens.ValorUnitarioComercializacao)) < 0 THEN ((EntradaEstoqueItens.QuantidadeComercial * EntradaEstoqueItens.ValorUnitarioComercializacao) - EntradaEstoqueItens.vBC) ELSE 0 END ) AS VlRedBCICMS, 0 AS TemCredICMS,
+0 AS QtdeBasePIS, 0 AS BasePIS, 0 AS AliqPIS, 0 AS ValorPIS, 0 AS QtdeBaseCOFINS, 0 AS BaseCOFINS, 0 AS AliqCOFINS, 0 AS ValorCOFINS, '' AS CodContaContabil, 0 AS VlAbatimentoNT, (CASE WHEN (v.BaseICMS - (EntradaEstoqueItens.QuantidadeComercial * EntradaEstoqueItens.ValorUnitarioComercializacao)) < 0 THEN ((EntradaEstoqueItens.QuantidadeComercial * EntradaEstoqueItens.ValorUnitarioComercializacao) - v.BaseICMS) ELSE 0 END ) AS VlRedBCICMS, 0 AS TemCredICMS,
 CASE WHEN Produtos.CODIGO IS NULL THEN 1 ELSE 0 END AS ProdutoAvulso,
 v.QtdEstoque, CAST(UPPER(LEFT(ISNULL(NULLIF(LTRIM(RTRIM(EntradaEstoqueItens.UnidadeComercial)), ''), 'UN'), 6)) AS VARCHAR(10)) AS UNXML,
 CAST(ISNULL(EntradaEstoqueItens.EAN, '') AS VARCHAR(20)) AS EANXML
