@@ -20,6 +20,8 @@ Option Explicit
 '  3) A partir do dia 2 de cada mes, se ainda nao enviado, junta todos os
 '     .rar do mes (SERVIDOR + terminais que ja copiaram o deles) e manda um
 '     unico email com todos em anexo para o contador.
+'  4) A partir do dia 2, o SPED Fiscal (configuracao SPED_ENVIO) num email
+'     separado, so com o arquivo do SPED (OnlineCommerce.exe /enviarsped).
 ' Roda todo dia, via Agendador de Tarefas do Windows (tarefa
 ' "OnlineCommerce_ExportarXMLServidor"), registrada automaticamente pelo
 ' proprio OnlineCommerce.exe no MDIForm_Load, somente na maquina servidor.
@@ -237,6 +239,26 @@ Else
             RegistrarLog "Falha ao enviar o email para o contador (ver EnviarEmailContador_log.txt) - tenta de novo na proxima execucao diaria"
          End If
       End If
+   End If
+End If
+
+' --- 8) A partir do dia 2, SPED Fiscal para o contador num e-mail SEPARADO (uma unica vez por mes) ---
+' O sistema (OnlineCommerce.exe /enviarsped) decide pela configuracao SPED_ENVIO o que vai: 1 = so o Bloco H do
+' inventario de 31/12, no envio de fevereiro (XML de janeiro); 2 = EFD completa do mes; 3 (padrao) = as duas (em
+' fevereiro vao dois arquivos, cada um no seu e-mail); 0 = nada.
+' Resultado OK ou NADA grava o marcador do mes; ERRO tenta de novo na proxima execucao diaria.
+Dim vMarcadorSPED, vResSPED
+vMarcadorSPED = vCaminhoExport & "\.marker_envio_sped_" & vAnoMes & ".txt"
+If Day(Date) >= 2 And Not fso.FileExists(vMarcadorSPED) Then
+   vResSPED = EnviarSPEDContador(vMesAlvo, vAnoAlvo)
+   If vResSPED = "OK" Then
+      RegistrarLog "SPED Fiscal referente a " & vMesNomeAlvo & "/" & vAnoAlvo & " enviado ao contador (email separado)."
+      GravarMarcador vMarcadorSPED
+   ElseIf vResSPED = "NADA" Then
+      RegistrarLog "SPED Fiscal: nada a enviar referente a " & vMesNomeAlvo & "/" & vAnoAlvo & " (configuracao SPED_ENVIO)."
+      GravarMarcador vMarcadorSPED
+   Else
+      RegistrarLog "SPED Fiscal nao enviado (" & vResSPED & ") - tenta de novo na proxima execucao diaria (ver EnviarEmailContador_log.txt)"
    End If
 End If
 
@@ -496,6 +518,40 @@ Sub CopiarArquivosPorData(pastaOrigem, pastaDestino, vMesAlvo, vAnoAlvo)
    Next
    If vCopiados > 0 Then RegistrarLog "Inutilizados: " & vCopiados & " arquivo(s) copiado(s) de " & pastaOrigem
 End Sub
+
+' SPED Fiscal: o sistema (OnlineCommerce.exe /enviarsped "pedido") gera o arquivo pelo SpedGerador e manda num e-mail
+' so dele para o contador. Pedido: mes e ano dos XML do mes-alvo. Devolve "OK", "NADA" ou "ERRO: ...".
+Function EnviarSPEDContador(vMesNum, vAnoNum)
+   Dim vExe, vPedido, vResultado, vArqPedido, vArqResultado, vShellX, vTexto
+
+   EnviarSPEDContador = "ERRO: OnlineCommerce.exe nao encontrado"
+
+   vExe = scriptDir & "\OnlineCommerce.exe"
+   If Not fso.FileExists(vExe) Then Exit Function
+
+   vPedido = scriptDir & "\EnviarSPEDContador_pedido.txt"
+   vResultado = vPedido & ".resultado"
+   If fso.FileExists(vResultado) Then fso.DeleteFile vResultado, True
+
+   Set vArqPedido = fso.CreateTextFile(vPedido, True)
+   vArqPedido.WriteLine vMesNum
+   vArqPedido.WriteLine vAnoNum
+   vArqPedido.Close
+
+   Set vShellX = CreateObject("WScript.Shell")
+   vShellX.Run Chr(34) & vExe & Chr(34) & " /enviarsped " & Chr(34) & vPedido & Chr(34), 0, True
+
+   If Not fso.FileExists(vResultado) Then
+      EnviarSPEDContador = "ERRO: o sistema nao devolveu resultado"
+      Exit Function
+   End If
+   vTexto = ""
+   Set vArqResultado = fso.OpenTextFile(vResultado, 1)
+   If Not vArqResultado.AtEndOfStream Then vTexto = Trim(vArqResultado.ReadLine)
+   vArqResultado.Close
+   If vTexto = "" Then vTexto = "ERRO: resultado vazio"
+   EnviarSPEDContador = vTexto
+End Function
 
 ' O envio do email e feito pelo proprio sistema (OnlineCommerce.exe /enviarxml "pedido"), nao mais por
 ' PowerShell: a DLL snfe grava o snfe.config na pasta do executavel que a hospeda, e na pasta do

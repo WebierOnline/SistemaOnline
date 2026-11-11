@@ -166,3 +166,4 @@
 167|AlterTable_Configuracao_PixDinamico.sql|GERAL
 168|AlterTable_AliquotasReforma_Vigencia.sql|GERAL
 169|AlterTable_AliquotasReforma_Nuvem.sql|GERAL
+170|AlterTable_Configuracao_SPED.sql|GERAL

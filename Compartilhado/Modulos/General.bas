@@ -65,6 +65,9 @@ Public appEXEName As String       'Armazena o nome do executável do programa
 Public FormParent As String      'Formulário de origem
 Public gModoEnviarXML As Boolean   'True quando iniciado com /enviarxml "arquivo" pelo ExportarXMLServidor.vbs: envia os .rar do mes para o contador e encerra
 Public gArqPedidoXML As String     'arquivo de pedido do /enviarxml (mes, ano e anexos)
+Public gModoEnviarSPED As Boolean  'True quando iniciado com /enviarsped "arquivo" pelo ExportarXMLServidor.vbs: gera o SPED Fiscal e envia ao contador num e-mail separado
+Public gArqPedidoSPED As String    'arquivo de pedido do /enviarsped (mes e ano dos XML que estao indo)
+Public gConexaoBD As String        'conexao do sistema (AbrirConexaoBD): repassada ao SpedGerador.exe (SPED Fiscal)
 Public gModoAutomatico As Boolean  'True quando o sistema e iniciado por tarefa agendada (/resumofiscal): sem janelas
 Public CloseSystem As Boolean    'O sistema está sendo fechado
 
@@ -172,11 +175,14 @@ Sub TravarVenda(Status As Boolean)
 End Sub
 
 Public Sub Main()
-Dim nPosXML As Long
+Dim nPosXML As Long, nPosSPED As Long
 nPosXML = InStr(1, Command$, "/enviarxml", vbTextCompare)
 gModoEnviarXML = (nPosXML > 0)
 If gModoEnviarXML Then gArqPedidoXML = Trim$(Replace(Mid$(Command$, nPosXML + Len("/enviarxml")), Chr(34), ""))
-gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML
+nPosSPED = InStr(1, Command$, "/enviarsped", vbTextCompare)
+gModoEnviarSPED = (nPosSPED > 0)
+If gModoEnviarSPED Then gArqPedidoSPED = Trim$(Replace(Mid$(Command$, nPosSPED + Len("/enviarsped")), Chr(34), ""))
+gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML Or gModoEnviarSPED
 'Previne a execução de mais de uma vez do sistema
 If App.PrevInstance And Not gModoAutomatico Then
     ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation
@@ -436,6 +442,7 @@ Public Function AbrirConexaoBD() As Boolean
    'Conexão padrão do SQL Server
    'Dim BC As String
    cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=" + vNomeBanco + ";Connect Timeout=15;TRUSTED_CONNECTION=NO"
+   gConexaoBD = cn1
    'Set BC = ws.OpenDatabase("", dbDriverComplete, False, "Driver={SQL Server Native Client 10.0};Server=" + var_IP + ";uid=sa;pwd=190106web;Database=cyber_base;Trusted_Connection=yes")
     
     'Instancia os objetos

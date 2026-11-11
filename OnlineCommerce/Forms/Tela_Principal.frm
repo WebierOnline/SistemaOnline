@@ -777,7 +777,6 @@ Begin VB.MDIForm Tela_Principal
       End
       Begin VB.Menu Menu_FAT_SPED_Fiscal 
          Caption         =   "SPED Fiscal"
-         Enabled         =   0   'False
       End
       Begin VB.Menu Menu_FAT_Linha2 
          Caption         =   "-"
@@ -1628,6 +1627,16 @@ End Sub
 
 Private Sub Menu_FISCAL_Reforma_CBSAliq_Click()
 frmCBS_Aliquotas.Show 1
+End Sub
+
+'Geracao manual do SPED Fiscal (EFD ICMS/IPI) e envio ao contador. So no servidor: e onde ficam o SpedGerador e a pasta
+'ExportarXML\SPED com os arquivos do envio automatico.
+Private Sub Menu_FAT_SPED_Fiscal_Click()
+If Not EhServidorLocal() Then
+   MsgBox "O SPED Fiscal é gerado somente no computador servidor." & vbCrLf & vbCrLf & "Abra o sistema no servidor para gerar ou enviar o arquivo ao contador.", vbInformation, "SPED Fiscal"
+   Exit Sub
+End If
+frmSPED_Fiscal.Show 1
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSCBS_Click()

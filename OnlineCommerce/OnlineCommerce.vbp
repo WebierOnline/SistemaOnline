@@ -163,6 +163,7 @@ Form=Forms\frmModoVenda.frm
 Form=Forms\frmIBSCBS_Cadastro.frm
 Form=Forms\frmIBS_Aliquotas.frm
 Form=Forms\frmCBS_Aliquotas.frm
+Form=Forms\frmSPED_Fiscal.frm
 Form=..\Compartilhado\Forms\REL_Cons_Venda_ProdAgrupado.frm
 Class=cStringBuilder; ..\Compartilhado\Classes\cStringBuilder.cls
 Form=..\Compartilhado\Forms\REL_Caixa_Sangria.frm

@@ -3,7 +3,9 @@ PROJETO...: Online.Info
 ANALISTA..: Leandro
 DESCRICAO.: Procedure de Processamento de Produtos SPED
 DATA......: 2022-03-15
-ALTERACAO.: 
+ALTERACAO.: 2026-11 - filtro unico de uso/consumo e imobilizado (@usoconsumo/@imobilizado = 1 incluem esses produtos;
+            antes, com os dois marcados, nenhum ramo rodava e a tabela vSPEDProdCod nao era criada).
+            2026-11 - TipoItem do 0200 pelo cadastro: 08 = ativo imobilizado, 07 = uso e consumo, 00 = mercadoria.
 ***************************/
 -- Idempotente: cria um placeholder se o objeto ainda nao existir e sempre roda o ALTER com a definicao final.
 SET ANSI_NULLS ON
@@ -15,156 +17,42 @@ IF OBJECT_ID('dbo.SPEDProdutos') IS NULL
 GO
 
 ALTER PROCEDURE dbo.SPEDProdutos(@filial INT, @dataini DATETIME, @datafim DATETIME, @inventario INT, @usoconsumo BIT, @imobilizado BIT, @tipoescrituracao INT, @somenteinventario INT, @blococ170saidas INT) AS
-DECLARE @msg VARCHAR(200), @saldoEst DECIMAL(10,3), @saldoMeta DECIMAL(10,3), @ExisteProd INT
 
 --Desabilita a contagem recuperacao/alteracao de dados
 SET NOCOUNT ON
 
---Valor padrão
-SET @msg = ''
-
---Opa, tem mensagem, entao retorna em formato de erro  
-IF (@msg <> '')
- BEGIN
-	RAISERROR(@msg, 16, 1)
-	RETURN
- END
+SET @usoconsumo = ISNULL(@usoconsumo, 0)
+SET @imobilizado = ISNULL(@imobilizado, 0)
+SET @inventario = ISNULL(@inventario, 0)
 
 IF NOT (object_id('vSPEDProdCod') is null)
 BEGIN
     DROP TABLE vSPEDProdCod
 END
 
-IF (@somenteinventario = 0)
-	BEGIN
-	IF (@inventario = 0)
-	  BEGIN
-		SELECT IDProduto
-		INTO vSPEDProdCod
-		FROM
-		(
-		SELECT IDProduto
-		FROM NFeEntradasItens
-		WHERE UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
-		) tb
-		GROUP BY IDProduto
-	  END
-	ELSE
-	  BEGIN
-		IF (@usoconsumo = 0 AND @imobilizado = 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM NFeEntradasItens
-			WHERE UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
-			UNION ALL
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND Imobilizado = 0 AND UsoConsumo = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-		ELSE IF (@usoconsumo <> 0 AND @imobilizado = 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM NFeEntradasItens
-			WHERE UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
-			UNION ALL
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND Imobilizado = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-		ELSE IF (@usoconsumo = 0 AND @imobilizado <> 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM NFeEntradasItens
-			WHERE UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
-			UNION ALL
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND UsoConsumo = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-	  END
-	END
-ELSE
-	BEGIN
-	IF (@inventario = 0)
-	  BEGIN
-		SELECT IDProduto
-		INTO vSPEDProdCod
-		FROM
-		(
-		SELECT IDProduto
-		FROM NFeEntradasItens
-		WHERE UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
-		) tb
-		GROUP BY IDProduto
-	  END
-	ELSE
-	  BEGIN
-		IF (@usoconsumo = 0 AND @imobilizado = 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND Imobilizado = 0 AND UsoConsumo = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-		ELSE IF (@usoconsumo <> 0 AND @imobilizado = 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND Imobilizado = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-		ELSE IF (@usoconsumo = 0 AND @imobilizado <> 0)
-		  BEGIN
-			SELECT IDProduto
-			INTO vSPEDProdCod
-			FROM
-			(
-			SELECT IDProduto
-			FROM InventarioGerado
-			WHERE MetaCalculado > 0 AND IdInventario = @inventario AND UsoConsumo = 0
-			) tb
-			GROUP BY IDProduto
-		  END 
-	  END
-	END
-
+--Produtos das notas de entrada do periodo (EFD completa) + dos itens do inventario (Bloco H)
+SELECT IDProduto
+INTO vSPEDProdCod
+FROM
+(
+SELECT IDProduto
+FROM NFeEntradasItens
+WHERE @somenteinventario = 0 AND UND <> '' AND IDLancamento in (SELECT CodigoNota FROM EntradaEstoque WHERE EntradaEstoque.ModeloNF = '55' AND EntradaEstoque.DataSaida BETWEEN @dataini AND @datafim)
+UNION ALL
+SELECT IDProduto
+FROM InventarioGerado
+WHERE @inventario <> 0 AND MetaCalculado > 0 AND IdInventario = @inventario
+      AND (@imobilizado <> 0 OR Imobilizado = 0) AND (@usoconsumo <> 0 OR UsoConsumo = 0)
+) tb
+GROUP BY IDProduto
 
 IF NOT (object_id('vSPEDProdutos') is null)
 BEGIN
     DROP TABLE vSPEDProdutos
 END
 
-
 SELECT CODIGO AS CodigoProduto, DESCRICAO AS NomeProduto, (CASE WHEN LEFT(COD_BARRA, 3) = '789' THEN COD_BARRA ELSE '' END) AS EAN, ISNULL((CASE WHEN UNID_MEDIDA = '' THEN 'UN' ELSE UNID_MEDIDA END), 'UN') AS UN, NCM,
-'00' AS TipoItem, ICMSAliq AS ICMS, CEST
+CAST(CASE WHEN ISNULL(IMOBILIZADO, 0) <> 0 THEN '08' WHEN ISNULL(USOCONSUMO, 0) <> 0 THEN '07' ELSE '00' END AS VARCHAR(2)) AS TipoItem, ICMSAliq AS ICMS, CEST
 INTO vSPEDProdutos
 FROM Produtos
 WHERE CODIGO IN (SELECT IDProduto FROM vSPEDProdCod)

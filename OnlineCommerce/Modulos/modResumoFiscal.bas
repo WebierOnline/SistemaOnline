@@ -597,6 +597,267 @@ Print #nLog, Format(Now, "dd/mm/yyyy hh:nn:ss") & " - " & sMsg
 Close #nLog
 End Sub
 
+'---------------------------------------------------------------------------
+' SPED Fiscal (EFD ICMS/IPI) - SpedGerador.exe (pasta SpedGerador do sistema, .NET Framework 4.8)
+'---------------------------------------------------------------------------
+'Usado pelo envio automatico (/enviarsped, chamado pelo ExportarXMLServidor.vbs) e pela tela frmSPED_Fiscal.
+'sParametros = linhas "chave=valor" do pedido, separadas por vbCrLf (a conexao do banco e incluida aqui; o
+'SpedGerador apaga o pedido assim que le, porque ele tem a senha).
+'Devolve "OK", "NADA" (nada a gerar neste mes) ou "ERRO: motivo" (com ERRO podem vir arquivos gerados antes da falha).
+'sArquivo/sDescricao/sPeriodo = o primeiro arquivo gerado; sLista = todos, um por linha (vbCrLf), cada um
+'"arquivo<TAB>descricao<TAB>periodo" (no modo 3, em fevereiro, sao dois: so o Bloco H e a EFD completa de janeiro).
+Public Function SPED_Gerar(ByVal sParametros As String, ByRef sArquivo As String, ByRef sDescricao As String, ByRef sPeriodo As String, ByRef sAvisos As String, Optional ByRef sLista As String) As String
+Dim sExe As String, sPedido As String, sLinha As String, sStatus As String
+Dim vItens As Variant
+Dim i As Integer
+Dim nArq As Integer
+Dim bAbriu As Boolean
+Dim oShell As Object
+
+On Error GoTo deuErro
+
+sArquivo = ""
+sDescricao = ""
+sPeriodo = ""
+sAvisos = ""
+sLista = ""
+sExe = appPathApp & "SpedGerador\SpedGerador.exe"
+If Dir$(sExe) = "" Then
+   SPED_Gerar = "ERRO: " & sExe & " nao encontrado"
+   Exit Function
+End If
+
+sPedido = appPathApp & "SpedGerador_pedido.txt"
+If Dir$(sPedido & ".resultado") <> "" Then Kill sPedido & ".resultado"
+nArq = FreeFile
+Open sPedido For Output As #nArq
+Print #nArq, "conexao=" & gConexaoBD
+Print #nArq, sParametros
+Close #nArq
+
+Set oShell = CreateObject("WScript.Shell")
+oShell.Run Chr(34) & sExe & Chr(34) & " " & Chr(34) & sPedido & Chr(34), 0, True
+Set oShell = Nothing
+If Dir$(sPedido) <> "" Then Kill sPedido
+
+If Dir$(sPedido & ".resultado") = "" Then
+   SPED_Gerar = "ERRO: o SpedGerador nao devolveu resultado (ver SpedGerador\SpedGerador_log.txt)"
+   Exit Function
+End If
+
+'1a linha: OK, NADA ou "ERRO: motivo"; depois, para cada arquivo, arquivo=, descricao= e periodo=; por fim aviso=
+nArq = FreeFile
+Open sPedido & ".resultado" For Input As #nArq
+bAbriu = True
+Line Input #nArq, sStatus
+Do While Not EOF(nArq)
+   Line Input #nArq, sLinha
+   If Left$(sLinha, 8) = "arquivo=" Then
+      If sArquivo = "" Then sArquivo = Mid$(sLinha, 9)
+      If sLista <> "" Then sLista = sLista & vbCrLf
+      sLista = sLista & Mid$(sLinha, 9)
+   End If
+   If Left$(sLinha, 10) = "descricao=" Then
+      If sDescricao = "" Then sDescricao = Mid$(sLinha, 11)
+      sLista = sLista & vbTab & Mid$(sLinha, 11)
+   End If
+   If Left$(sLinha, 8) = "periodo=" Then
+      If sPeriodo = "" Then sPeriodo = Mid$(sLinha, 9)
+      sLista = sLista & vbTab & Mid$(sLinha, 9)
+   End If
+   If Left$(sLinha, 6) = "aviso=" Then sAvisos = sAvisos & Mid$(sLinha, 7) & vbCrLf
+Loop
+Close #nArq
+bAbriu = False
+Kill sPedido & ".resultado"
+
+If sStatus = "OK" And sArquivo = "" Then sStatus = "ERRO: o SpedGerador nao informou o arquivo gerado"
+If sLista <> "" Then
+   vItens = Split(sLista, vbCrLf)
+   For i = 0 To UBound(vItens)
+      If Dir$(Split(vItens(i), vbTab)(0)) = "" Then
+         sStatus = "ERRO: arquivo gerado nao encontrado: " & Split(vItens(i), vbTab)(0)
+         Exit For
+      End If
+   Next
+End If
+SPED_Gerar = sStatus
+Exit Function
+
+deuErro:
+SPED_Gerar = "ERRO: " & Err.Description
+Err.Clear
+On Error Resume Next
+If bAbriu Then Close #nArq
+If sPedido <> "" Then
+   If Dir$(sPedido) <> "" Then Kill sPedido
+End If
+End Function
+
+'Pasta dos arquivos do SPED: ExportarXML\SPED dentro do DiretorioXML da empresa (a mesma do envio dos XML).
+Public Function SPED_Pasta() As String
+Dim sDir As String
+
+sDir = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 DiretorioXML FROM empresa ORDER BY fantasia", "DiretorioXML", "")))
+If sDir = "" Then sDir = appPathApp
+If Right$(sDir, 1) <> "\" Then sDir = sDir & "\"
+SPED_Pasta = sDir & "ExportarXML\SPED"
+End Function
+
+'E-mail so do SPED para o contador (separado do e-mail dos XML).
+'bAguardar = True no envio automatico: a entrega e assincrona dentro da DLL e o processo encerra logo depois.
+Public Function SPED_EnviarEmail(ByVal sArquivo As String, ByVal sDescricao As String, ByVal sPeriodo As String, ByVal bAguardar As Boolean, ByRef sErro As String) As Boolean
+Dim sEmail As String, sRazao As String, sCorpo As String, sAssunto As String
+Dim sistNFe As snfe.Util
+Dim sAnexos() As String
+Dim emailCC() As String
+Dim vRet As Variant
+Dim nEspera As Long
+
+On Error GoTo deuErro
+
+sErro = ""
+sEmail = RF_EmailContador
+If InStr(1, sEmail, "@") = 0 Then
+   sErro = "e-mail do contador nao cadastrado ou invalido (Contabilidade > Contador)"
+   Exit Function
+End If
+If Dir$(sArquivo) = "" Then
+   sErro = "arquivo nao encontrado: " & sArquivo
+   Exit Function
+End If
+
+ReDim sAnexos(0)
+sAnexos(0) = sArquivo
+ReDim emailCC(0)
+emailCC(0) = sEmail
+
+Set sistNFe = New snfe.Util
+Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+
+sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
+If sDescricao = "" Then sDescricao = "SPED Fiscal (EFD ICMS/IPI)"
+sAssunto = "SPED Fiscal (EFD ICMS/IPI)"
+If sPeriodo <> "" Then sAssunto = sAssunto & " - período " & sPeriodo
+sCorpo = "Segue em anexo o arquivo do " & sDescricao & ". <br><br>Atenciosamente, <br><br>" & sRazao
+
+vRet = sistNFe.EmailEnviar(sEmail, sAssunto, sCorpo, sAnexos, emailCC)
+If Not vRet Then
+   sErro = "a DLL de e-mail retornou falha no envio"
+   GoTo fim
+End If
+
+If bAguardar Then
+   nEspera = 20 + CLng(FileLen(sArquivo) / 1048576 * 10)
+   If nEspera < 25 Then nEspera = 25
+   If nEspera > 300 Then nEspera = 300
+   EnvioXML_Log "SPED: aguardando " & nEspera & "s para a entrega terminar..."
+   Sleep nEspera * 1000
+End If
+SPED_EnviarEmail = True
+
+fim:
+On Error Resume Next
+Set sistNFe = Nothing
+Exit Function
+
+deuErro:
+sErro = Err.Description
+Err.Clear
+Resume fim
+End Function
+
+'Chamada pelo Senha.Form_Load quando o sistema e iniciado com /enviarsped "arquivo" (ExportarXMLServidor.vbs, a partir
+'do dia 2, ate dar certo uma vez no mes). Pedido: linha 1 = mes, linha 2 = ano (dos XML que estao indo, o mes anterior).
+'O SpedGerador decide pela configuracao SPED_ENVIO: 1 = so o Bloco H do inventario de 31/12 (no envio de fevereiro, mes 1);
+'2 = EFD completa do mes (a de fevereiro com o Bloco H); 3 (padrao) = as duas coisas (em fevereiro vao dois arquivos);
+'0 ou mes sem nada a enviar = NADA.
+'Cada arquivo vai num e-mail so dele, separado do dos XML; o enviado ganha um marcador "arquivo.efd.enviado" e nao e
+'mandado de novo. Resultado em "pedido.resultado": OK, NADA ou "ERRO: motivo" (o .vbs grava o marcador do mes com OK/NADA;
+'com ERRO tenta de novo no dia seguinte, so com o que faltou).
+Public Sub ExecutarEnvioSPEDAuto()
+Dim nArq As Integer
+Dim sLinha As String
+Dim nMes As Integer, nAno As Integer
+Dim sResultado As String, sArquivo As String, sDescricao As String, sPeriodo As String, sAvisos As String, sErro As String
+Dim sLista As String, sFalhas As String
+Dim vItens As Variant, vCampos As Variant
+Dim i As Integer
+Dim bAbriu As Boolean
+
+On Error GoTo deuErro
+
+sResultado = "ERRO: arquivo de pedido do SPED nao encontrado"
+If gArqPedidoSPED = "" Then GoTo fim
+If Dir$(gArqPedidoSPED) = "" Then GoTo fim
+
+EnvioXML_Log "----- Inicio envio SPED contador (sistema, /enviarsped) -----"
+
+nArq = FreeFile
+Open gArqPedidoSPED For Input As #nArq
+bAbriu = True
+Line Input #nArq, sLinha
+nMes = Val(sLinha)
+Line Input #nArq, sLinha
+nAno = Val(sLinha)
+Close #nArq
+bAbriu = False
+
+If nMes < 1 Or nMes > 12 Or nAno < 2000 Then
+   sResultado = "ERRO: pedido do SPED com mes/ano invalido"
+   GoTo fim
+End If
+
+sResultado = SPED_Gerar("mes=" & nMes & vbCrLf & "ano=" & nAno & vbCrLf & "pasta=" & SPED_Pasta, sArquivo, sDescricao, sPeriodo, sAvisos, sLista)
+If sAvisos <> "" Then EnvioXML_Log "SPED: " & Replace(sAvisos, vbCrLf, " ")
+If sResultado = "NADA" Then
+   EnvioXML_Log "SPED: nada a enviar ref. " & Format(nMes, "00") & "/" & nAno & " (configuracao SPED_ENVIO)."
+   GoTo fim
+End If
+'com ERRO ainda manda o que foi gerado (ex.: modo 3 em fevereiro sem inventario de 31/12 = so a EFD de janeiro vai)
+If sLista <> "" Then
+   vItens = Split(sLista, vbCrLf)
+   For i = 0 To UBound(vItens)
+      vCampos = Split(vItens(i) & vbTab & vbTab, vbTab)
+      If Dir$(vCampos(0) & ".enviado") <> "" Then
+         EnvioXML_Log "SPED ja enviado antes: " & vCampos(0)
+      Else
+         EnvioXML_Log "SPED gerado: " & vCampos(0)
+         If SPED_EnviarEmail(CStr(vCampos(0)), CStr(vCampos(1)), CStr(vCampos(2)), True, sErro) Then
+            EnvioXML_Log "SPED enviado ao contador (e-mail separado): " & vCampos(0)
+            nArq = FreeFile
+            Open vCampos(0) & ".enviado" For Output As #nArq
+            Print #nArq, "Enviado em " & Format(Now, "dd/mm/yyyy hh:nn:ss") & " para " & RF_EmailContador
+            Close #nArq
+         Else
+            sFalhas = sFalhas & IIf(sFalhas <> "", " | ", "") & "nao enviado " & vCampos(0) & " - " & sErro
+         End If
+      End If
+   Next
+End If
+If sFalhas <> "" Then
+   If sResultado = "OK" Then sResultado = "ERRO: " & sFalhas Else sResultado = sResultado & " | " & sFalhas
+End If
+
+fim:
+On Error Resume Next
+If bAbriu Then Close #nArq
+If sResultado <> "OK" And sResultado <> "NADA" Then EnvioXML_Log sResultado
+If gArqPedidoSPED <> "" Then
+   If Dir$(gArqPedidoSPED) <> "" Then Kill gArqPedidoSPED
+   nArq = FreeFile
+   Open gArqPedidoSPED & ".resultado" For Output As #nArq
+   Print #nArq, sResultado
+   Close #nArq
+End If
+Exit Sub
+
+deuErro:
+sResultado = "ERRO: " & Err.Description
+Err.Clear
+Resume fim
+End Sub
+
 'Chamada pelo Senha.Form_Load quando o sistema e iniciado com /enviarxml "arquivo".
 'Arquivo de pedido (texto, criado pelo .vbs): linha 1 = mes, linha 2 = ano, demais linhas = caminho de cada anexo.
 'O resultado fica em "arquivo.resultado" ("OK" ou "ERRO: motivo"), que o .vbs le para decidir se grava o marcador de enviado.

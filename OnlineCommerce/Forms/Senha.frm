@@ -558,7 +558,13 @@ End Sub
 Private Sub Form_Load()
 'Execucao agendada (/resumofiscal): envia o resumo fiscal do mes anterior e encerra, sem mostrar a tela
 If gModoAutomatico Then
-   If gModoEnviarXML Then ExecutarEnvioXMLAuto Else ExecutarResumoFiscalAuto
+   If gModoEnviarSPED Then
+      ExecutarEnvioSPEDAuto
+   ElseIf gModoEnviarXML Then
+      ExecutarEnvioXMLAuto
+   Else
+      ExecutarResumoFiscalAuto
+   End If
    End
 End If
 'CenterForm Me, Width, Height
