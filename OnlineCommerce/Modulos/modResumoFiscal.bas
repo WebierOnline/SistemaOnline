@@ -605,8 +605,9 @@ End Sub
 'SpedGerador apaga o pedido assim que le, porque ele tem a senha).
 'Devolve "OK", "NADA" (nada a gerar neste mes) ou "ERRO: motivo" (com ERRO podem vir arquivos gerados antes da falha).
 'sArquivo/sDescricao/sPeriodo = o primeiro arquivo gerado; sLista = todos, um por linha (vbCrLf), cada um
-'"arquivo<TAB>descricao<TAB>periodo" (no modo 3, em fevereiro, sao dois: so o Bloco H e a EFD completa de janeiro).
-Public Function SPED_Gerar(ByVal sParametros As String, ByRef sArquivo As String, ByRef sDescricao As String, ByRef sPeriodo As String, ByRef sAvisos As String, Optional ByRef sLista As String) As String
+'"arquivo<TAB>descricao<TAB>periodo[<TAB>data do inventario]" (no modo 3, em fevereiro, sao dois: so o Bloco H e a EFD
+'completa de janeiro); sDataInventario = data do inventario (Bloco H) do primeiro arquivo, "" sem inventario.
+Public Function SPED_Gerar(ByVal sParametros As String, ByRef sArquivo As String, ByRef sDescricao As String, ByRef sPeriodo As String, ByRef sAvisos As String, Optional ByRef sLista As String, Optional ByRef sDataInventario As String) As String
 Dim sExe As String, sPedido As String, sLinha As String, sStatus As String
 Dim vItens As Variant
 Dim i As Integer
@@ -621,6 +622,7 @@ sDescricao = ""
 sPeriodo = ""
 sAvisos = ""
 sLista = ""
+sDataInventario = ""
 sExe = appPathApp & "SpedGerador\SpedGerador.exe"
 If Dir$(sExe) = "" Then
    SPED_Gerar = "ERRO: " & sExe & " nao encontrado"
@@ -664,6 +666,10 @@ Do While Not EOF(nArq)
    If Left$(sLinha, 8) = "periodo=" Then
       If sPeriodo = "" Then sPeriodo = Mid$(sLinha, 9)
       sLista = sLista & vbTab & Mid$(sLinha, 9)
+   End If
+   If Left$(sLinha, 15) = "datainventario=" Then
+      If sDataInventario = "" Then sDataInventario = Mid$(sLinha, 16)
+      sLista = sLista & vbTab & Mid$(sLinha, 16)
    End If
    If Left$(sLinha, 6) = "aviso=" Then sAvisos = sAvisos & Mid$(sLinha, 7) & vbCrLf
 Loop
@@ -802,6 +808,15 @@ SPED_Corrigir = SPED_Executar(sParametros & vbCrLf & "acao=corrigir" & vbCrLf & 
 If SPED_Corrigir = "OK" Then nCorrigidos = Val(SPED_Valor(sLinhas, "corrigidos"))
 End Function
 
+'Amarelos (divergencias) confirmados como estao pelo usuario: nao voltam enquanto o valor atual e a sugestao nao mudarem.
+Public Function SPED_Manter(ByVal sParametros As String, ByVal sChaves As String, ByRef nMantidos As Long) As String
+Dim sLinhas As String
+
+nMantidos = 0
+SPED_Manter = SPED_Executar(sParametros & vbCrLf & "acao=manter" & vbCrLf & "chaves=" & sChaves & vbCrLf & "usuario=" & vCodFunc, sLinhas)
+If SPED_Manter = "OK" Then nMantidos = Val(SPED_Valor(sLinhas, "mantidos"))
+End Function
+
 'Pasta dos arquivos do SPED: ExportarXML\SPED dentro do DiretorioXML da empresa (a mesma do envio dos XML).
 Public Function SPED_Pasta() As String
 Dim sDir As String
@@ -812,9 +827,73 @@ If Right$(sDir, 1) <> "\" Then sDir = sDir & "\"
 SPED_Pasta = sDir & "ExportarXML\SPED"
 End Function
 
-'E-mail so do SPED para o contador (separado do e-mail dos XML).
+'Assunto e corpo (HTML) do e-mail do SPED para a contabilidade, pedindo a conferencia antes da transmissao ao Fisco.
+'Arquivo so do inventario (Bloco H): texto do inventario de 31/12; EFD completa: mesmo texto, falando do periodo (e do
+'inventario, quando a EFD de fevereiro leva o Bloco H). Assinatura: razao social, telefone e celular (WhatsApp) da empresa.
+Private Sub SPED_TextoEmail(ByVal sDescricao As String, ByVal sPeriodo As String, ByVal sDataInventario As String, ByRef sAssunto As String, ByRef sCorpo As String)
+Dim bSoInventario As Boolean, bComInventario As Boolean
+Dim sPosicao As String, sMesAno As String, sRazao As String, sFone As String, sCel As String, sContato As String
+Dim sPara As String
+
+bSoInventario = (InStr(1, sDescricao, "somente com o Bloco H", vbTextCompare) > 0)
+bComInventario = bSoInventario Or (InStr(1, sDescricao, "Bloco H", vbTextCompare) > 0)
+sPosicao = IIf(Len(sDataInventario) >= 5, Left$(sDataInventario, 5), "31/12")
+sMesAno = IIf(Len(sPeriodo) >= 10, Mid$(sPeriodo, 4, 7), "")
+
+sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
+sFone = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 ISNULL(TELEFONE, '') AS r FROM empresa", "r", "")))
+sCel = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 ISNULL(CELULAR, '') AS r FROM empresa", "r", "")))
+If sFone <> "" Then sContato = "Telefone: " & sFone
+If sCel <> "" Then sContato = sContato & IIf(sContato <> "", " / ", "") & "WhatsApp: " & sCel
+
+If bSoInventario Then
+   sAssunto = "Envio do Arquivo de Inventário (" & sPosicao & ") – Necessidade de Conferência e Validação Contábil"
+   sPara = "Segue em anexo o arquivo referente ao inventário fiscal (posição de " & sPosicao & ") extraído do sistema."
+ElseIf bComInventario Then
+   sAssunto = "Envio do Arquivo do SPED Fiscal (" & sMesAno & ") com o Inventário (" & sPosicao & ") – Necessidade de Conferência e Validação Contábil"
+   sPara = "Segue em anexo o arquivo do SPED Fiscal (EFD ICMS/IPI) do período " & sMesAno & ", com o inventário fiscal (posição de " & sPosicao & "), extraído do sistema."
+Else
+   sAssunto = "Envio do Arquivo do SPED Fiscal (" & sMesAno & ") – Necessidade de Conferência e Validação Contábil"
+   sPara = "Segue em anexo o arquivo do SPED Fiscal (EFD ICMS/IPI) do período " & sMesAno & " extraído do sistema."
+End If
+
+sCorpo = "<p>Olá, equipe da contabilidade. Tudo bem?</p>" & _
+         "<p>" & sPara & "</p>" & _
+         "<p>Antes de realizar a transmissão oficial ao Fisco (SPED Fiscal" & IIf(bComInventario, " / Bloco H", "") & "), " & _
+         "<b>solicitamos expressamente que esse arquivo seja conferido e confrontado com " & _
+         IIf(bComInventario, "o saldo contábil projetado/esperado por vocês.", "a escrituração e a apuração de vocês.") & "</b></p>" & _
+         "<p>Como a operação diária do comércio envolve movimentações físicas e lançamentos que podem gerar divergências (" & _
+         IIf(bComInventario, "saldos a maior ou a menor em relação ao estoque contábil", "notas, valores e impostos em relação aos registros contábeis") & _
+         "), o envio direto sem essa auditoria prévia expõe a empresa a <b>riscos graves de malha fiscal, autuações e multas.</b></p>" & _
+         "<p>Caso identifiquem qualquer discrepância entre os valores do arquivo enviado e " & _
+         IIf(bComInventario, "a projeção da contabilidade", "os registros da contabilidade") & _
+         ", pedimos que <b>não transmitam a declaração e sinalizem a empresa imediatamente</b> para que os devidos ajustes sejam alinhados em conjunto.</p>" & _
+         "<p>Ficamos no aguardo da confirmação de recebimento e da validação dos valores antes do envio.</p>" & _
+         "<p>Atenciosamente,</p>" & _
+         "<p><b>" & sRazao & IIf(sContato <> "", "<br>" & sContato, "") & "</b></p>"
+End Sub
+
+'Copias dos e-mails para a contabilidade (SPED e XML): o proprio destinatario (como o sistema sempre fez) e o e-mail do
+'cadastro da Empresa, quando houver e for diferente.
+Public Sub MontarCopiasEmail(ByVal sEmailPara As String, ByRef emailCC() As String)
+Dim sEmailEmpresa As String
+
+On Error Resume Next
+sEmailEmpresa = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 ISNULL(EMAIL, '') AS r FROM empresa", "r", "")))
+On Error GoTo 0
+If InStr(1, sEmailEmpresa, "@") > 0 And LCase(sEmailEmpresa) <> LCase(Trim(sEmailPara)) Then
+   ReDim emailCC(1)
+   emailCC(0) = sEmailPara
+   emailCC(1) = sEmailEmpresa
+Else
+   ReDim emailCC(0)
+   emailCC(0) = sEmailPara
+End If
+End Sub
+
+'E-mail so do SPED para o contador (separado do e-mail dos XML); texto em SPED_TextoEmail.
 'bAguardar = True no envio automatico: a entrega e assincrona dentro da DLL e o processo encerra logo depois.
-Public Function SPED_EnviarEmail(ByVal sArquivo As String, ByVal sDescricao As String, ByVal sPeriodo As String, ByVal bAguardar As Boolean, ByRef sErro As String) As Boolean
+Public Function SPED_EnviarEmail(ByVal sArquivo As String, ByVal sDescricao As String, ByVal sPeriodo As String, ByVal bAguardar As Boolean, ByRef sErro As String, Optional ByVal sDataInventario As String = "") As Boolean
 Dim sEmail As String, sRazao As String, sCorpo As String, sAssunto As String
 Dim sistNFe As snfe.Util
 Dim sAnexos() As String
@@ -837,17 +916,12 @@ End If
 
 ReDim sAnexos(0)
 sAnexos(0) = sArquivo
-ReDim emailCC(0)
-emailCC(0) = sEmail
+MontarCopiasEmail sEmail, emailCC     'copia para o e-mail da empresa
 
 Set sistNFe = New snfe.Util
 Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
 
-sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
-If sDescricao = "" Then sDescricao = "SPED Fiscal (EFD ICMS/IPI)"
-sAssunto = "SPED Fiscal (EFD ICMS/IPI)"
-If sPeriodo <> "" Then sAssunto = sAssunto & " - período " & sPeriodo
-sCorpo = "Segue em anexo o arquivo do " & sDescricao & ". <br><br>Atenciosamente, <br><br>" & sRazao
+SPED_TextoEmail sDescricao, sPeriodo, sDataInventario, sAssunto, sCorpo
 
 vRet = sistNFe.EmailEnviar(sEmail, sAssunto, sCorpo, sAnexos, emailCC)
 If Not vRet Then
@@ -926,12 +1000,12 @@ End If
 If sLista <> "" Then
    vItens = Split(sLista, vbCrLf)
    For i = 0 To UBound(vItens)
-      vCampos = Split(vItens(i) & vbTab & vbTab, vbTab)
+      vCampos = Split(vItens(i) & vbTab & vbTab & vbTab, vbTab)
       If Dir$(vCampos(0) & ".enviado") <> "" Then
          EnvioXML_Log "SPED ja enviado antes: " & vCampos(0)
       Else
          EnvioXML_Log "SPED gerado: " & vCampos(0)
-         If SPED_EnviarEmail(CStr(vCampos(0)), CStr(vCampos(1)), CStr(vCampos(2)), True, sErro) Then
+         If SPED_EnviarEmail(CStr(vCampos(0)), CStr(vCampos(1)), CStr(vCampos(2)), True, sErro, CStr(vCampos(3))) Then
             EnvioXML_Log "SPED enviado ao contador (e-mail separado): " & vCampos(0)
             nArq = FreeFile
             Open vCampos(0) & ".enviado" For Output As #nArq
@@ -1037,8 +1111,7 @@ End If
 Set sistNFe = New snfe.Util
 Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
 
-ReDim emailCC(0)
-emailCC(0) = sEmail
+MontarCopiasEmail sEmail, emailCC     'copia para o e-mail da empresa
 sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
 sCorpo = "Segue em anexo os arquivos XML/RAR de NFe e NFCe emitidos no periodo. <br><br>Atenciosamente, <br><br>" & sRazao
 

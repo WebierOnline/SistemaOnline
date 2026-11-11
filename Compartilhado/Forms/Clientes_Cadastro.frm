@@ -2803,6 +2803,17 @@ Label32.Font.Bold = False
 End Sub
 
 
+'Abre o cliente para alterar (chamado pela conferencia do SPED, botao CORRIGIR): igual ao duplo clique na consulta.
+Public Sub EditarCliente(ByVal lCodigo As Long)
+SSTab1.Tab = 0
+cmdSalvar.Enabled = False
+cmdCancelar.Enabled = False
+cmdAlterar.Enabled = True
+cmdExcluir.Enabled = True
+txtCodigo.Text = ""
+txtCodigo.Text = Format(lCodigo, "00000")
+End Sub
+
 Private Sub Grid_Consulta_DblClick()
 SSTab1.Tab = 0
 cmdSalvar.Enabled = False

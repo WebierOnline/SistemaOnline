@@ -1494,6 +1494,20 @@ End Sub
 
 
 
+'Abre o fornecedor para alterar (chamado pela conferencia do SPED, botao CORRIGIR): igual ao duplo clique na consulta.
+Public Sub EditarFornecedor(ByVal lCodigo As Long)
+SSTab1.Tab = 0
+frm_Principal.Enabled = True
+frm_Secundario.Enabled = True
+cmdSalvar.Enabled = False
+cmdCancelar.Enabled = False
+cmdAlterar.Enabled = True
+cmdExcluir.Enabled = True
+cmdNovo.Enabled = True
+txtCodigo.Text = ""
+txtCodigo.Text = CStr(lCodigo)
+End Sub
+
 Private Sub Grid_DblClick()
 SSTab1.Tab = 0
 frm_Principal.Enabled = True

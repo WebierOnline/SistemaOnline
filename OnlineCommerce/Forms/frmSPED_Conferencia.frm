@@ -3,14 +3,14 @@ Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form frmSPED_Conferencia
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "SPED Fiscal - Conferência dos cadastros"
-   ClientHeight    =   7215
+   ClientHeight    =   8490
    ClientLeft      =   45
    ClientTop       =   360
    ClientWidth     =   14295
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7215
+   ScaleHeight     =   8490
    ScaleWidth      =   14295
    ShowInTaskbar   =   0   'False
    StartUpPosition =   2  'CenterScreen
@@ -19,61 +19,155 @@ Begin VB.Form frmSPED_Conferencia
       Caption         =   "&Cancelar"
       Height          =   420
       Left            =   12720
-      TabIndex        =   6
-      Top             =   6720
+      TabIndex        =   17
+      Top             =   7980
       Width           =   1500
    End
    Begin VB.CommandButton cmdGerar
       Caption         =   "&Gerar o arquivo"
       Height          =   420
-      Left            =   10920
-      TabIndex        =   5
-      Top             =   6720
-      Width           =   1740
+      Left            =   10860
+      TabIndex        =   16
+      Top             =   7980
+      Width           =   1800
    End
    Begin VB.CommandButton cmdSalvar
       Caption         =   "&Salvar lista"
       Height          =   420
-      Left            =   4260
-      TabIndex        =   4
-      Top             =   6720
+      Left            =   1920
+      TabIndex        =   15
+      Top             =   7980
       Width           =   1500
    End
-   Begin VB.CommandButton cmdMarcar
-      Caption         =   "&Marcar / desmarcar"
+   Begin VB.CommandButton cmdCorrigirManual
+      Caption         =   "CORRIGIR"
+      Enabled         =   0   'False
       Height          =   420
-      Left            =   2280
-      TabIndex        =   3
-      Top             =   6720
-      Width           =   1920
+      Left            =   60
+      TabIndex        =   14
+      Top             =   7980
+      Width           =   1800
+   End
+   Begin VB.CommandButton cmdManter
+      Caption         =   "MANTER O ATUAL"
+      Enabled         =   0   'False
+      Height          =   420
+      Left            =   12120
+      TabIndex        =   13
+      Top             =   7500
+      Width           =   2100
+   End
+   Begin VB.CommandButton cmdCorrigirAmarelos
+      Caption         =   "CORRIGIR OS AMARELOS (automaticamente)"
+      Enabled         =   0   'False
+      Height          =   420
+      Left            =   8040
+      TabIndex        =   12
+      Top             =   7500
+      Width           =   4020
+   End
+   Begin VB.CommandButton cmdMarcarAmarelos
+      Caption         =   "MARCAR AMARELOS"
+      Height          =   420
+      Left            =   5880
+      TabIndex        =   11
+      Top             =   7500
+      Width           =   2100
    End
    Begin VB.CommandButton cmdCorrigir
-      Caption         =   "C&orrigir os marcados"
+      Caption         =   "CORRIGIR OS VERDES (automaticamente)"
+      Height          =   420
+      Left            =   2220
+      TabIndex        =   10
+      Top             =   7500
+      Width           =   3600
+   End
+   Begin VB.CommandButton cmdMarcar
+      Caption         =   "DESMARCAR VERDES"
       Height          =   420
       Left            =   60
-      TabIndex        =   2
-      Top             =   6720
-      Width           =   2160
+      TabIndex        =   9
+      Top             =   7500
+      Width           =   2100
    End
    Begin MSFlexGridLib.MSFlexGrid grdLista
-      Height          =   5955
+      Height          =   5235
       Left            =   60
-      TabIndex        =   1
-      Top             =   660
+      TabIndex        =   8
+      Top             =   2160
       Width           =   14175
       _ExtentX        =   25003
-      _ExtentY        =   10504
+      _ExtentY        =   9234
       _Version        =   393216
       FixedCols       =   0
       AllowUserResizing=   1
    End
-   Begin VB.Label lblResumo
-      Height          =   555
+   Begin VB.Label lblRodape
+      Caption         =   "Somente após a correção de todos o arquivo poderá ser gerado."
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   60
+      TabIndex        =   7
+      Top             =   1860
+      Width           =   14175
+   End
+   Begin VB.Label lblVermelhos
+      BackColor       =   &H00DCDCFA&
+      Height          =   255
+      Left            =   60
+      TabIndex        =   6
+      Top             =   1560
+      Width           =   14175
+   End
+   Begin VB.Label lblAmarelos
+      BackColor       =   &H00C8F5FF&
+      Height          =   495
+      Left            =   60
+      TabIndex        =   5
+      Top             =   1020
+      Width           =   14175
+      WordWrap        =   -1  'True
+   End
+   Begin VB.Label lblVerdes
+      BackColor       =   &H00DCF5DC&
+      Height          =   255
+      Left            =   60
+      TabIndex        =   4
+      Top             =   720
+      Width           =   14175
+   End
+   Begin VB.Label lblTotal
+      Height          =   255
+      Left            =   60
+      TabIndex        =   3
+      Top             =   420
+      Width           =   14175
+   End
+   Begin VB.Label lblTitulo
+      Alignment       =   2  'Center
+      Caption         =   "RELATÓRIO DE ERROS ENCONTRADOS"
+      BeginProperty Font
+         Name            =   "MS Sans Serif"
+         Size            =   12
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   315
       Left            =   60
       TabIndex        =   0
       Top             =   60
       Width           =   14175
-      WordWrap        =   -1  'True
    End
 End
 Attribute VB_Name = "frmSPED_Conferencia"
@@ -84,9 +178,12 @@ Attribute VB_Exposed = False
 Option Explicit
 
 ' Conferência dos cadastros antes de gerar o SPED (chamada pelo frmSPED_Fiscal): lista o que o SpedGerador achou
-' (modResumoFiscal.SPED_Conferir). "Corrige" = há fonte confiável (XML da nota de entrada ou tabela de cidades) e vem
-' marcado; "Corrigir à mão" = sem fonte (ou NF-e já emitida, que não é corrigida); "Conferir" = NCM válido mas
-' diferente da nota de entrada. As correções guardam o valor anterior em SPED_CorrecaoCadastro.
+' (modResumoFiscal.SPED_Conferir).
+'   VERDE    = há fonte confiável (XML da nota de entrada ou tabela de cidades): CORRIGIR OS VERDES, vem marcado;
+'   AMARELO  = válido, mas diferente da nota de entrada/tabela de conversão: CORRIGIR OS AMARELOS (marcando antes),
+'              CORRIGIR (abre o cadastro) ou MANTER O ATUAL (não volta enquanto os valores não mudarem);
+'   VERMELHO = sem fonte para corrigir: CORRIGIR abre o cadastro da linha.
+' O arquivo só é gerado depois que não sobra nenhum. As correções guardam o valor anterior em SPED_CorrecaoCadastro.
 Private Const COL_MARCA As Integer = 0
 Private Const COL_SITUACAO As Integer = 1
 Private Const COL_TIPO As Integer = 2
@@ -103,6 +200,7 @@ Private Const COL_SIT As Integer = 12
 
 Dim sParametros As String
 Dim bGerar As Boolean
+Dim nVerdes As Long, nAmarelos As Long, nVermelhos As Long
 
 ' Mostra a conferência (modal). True = gerar o arquivo; False = cancelado.
 Public Function Mostrar(ByVal sParam As String) As Boolean
@@ -117,7 +215,7 @@ End Function
 
 Private Sub MontarGrade()
     With grdLista
-        'Rows/FixedRows ficam no padrao (2 e 1): FixedRows = 1 com Rows = 1 da erro 30016; o Carregar limpa as linhas
+        'Rows/FixedRows ficam no padrão (2 e 1): FixedRows = 1 com Rows = 1 dá erro 30016; o Carregar limpa as linhas
         .Cols = 13
         .FixedCols = 0
         .SelectionMode = flexSelectionByRow
@@ -143,117 +241,250 @@ Private Sub Carregar()
     Dim sLinha As String
     Dim v As Variant
     Dim r As Long, c As Integer
-    Dim nCorr As Long, nMan As Long, nDiv As Long
+    Dim nCor As Long
 
+    nVerdes = 0: nAmarelos = 0: nVermelhos = 0
     grdLista.Rows = 1
-    If Dir$(SPED_ArquivoConferencia) = "" Then GoTo resumo
-
-    nArq = FreeFile
-    Open SPED_ArquivoConferencia For Input As #nArq
-    Do While Not EOF(nArq)
-        Line Input #nArq, sLinha
-        v = Split(sLinha, vbTab)
-        If UBound(v) >= 10 Then
-            grdLista.AddItem ""
-            r = grdLista.Rows - 1
-            grdLista.TextMatrix(r, COL_SIT) = v(1)
-            Select Case v(1)
-                Case "CORRIGIR"
-                    grdLista.TextMatrix(r, COL_SITUACAO) = "Corrige"
-                    grdLista.TextMatrix(r, COL_MARCA) = "X"
-                    nCorr = nCorr + 1
-                Case "DIVERGENTE"
-                    grdLista.TextMatrix(r, COL_SITUACAO) = "Conferir"
-                    nDiv = nDiv + 1
-                Case Else
-                    grdLista.TextMatrix(r, COL_SITUACAO) = "Corrigir à mão"
-                    nMan = nMan + 1
-            End Select
-            grdLista.TextMatrix(r, COL_CHAVE) = v(0)
-            grdLista.TextMatrix(r, COL_TIPO) = v(2)
-            grdLista.TextMatrix(r, COL_CODIGO) = v(3)
-            grdLista.TextMatrix(r, COL_NOME) = v(4)
-            grdLista.TextMatrix(r, COL_CAMPO) = v(5)
-            grdLista.TextMatrix(r, COL_ATUAL) = v(6)
-            grdLista.TextMatrix(r, COL_NOVO) = v(7)
-            grdLista.TextMatrix(r, COL_PROBLEMA) = v(8)
-            grdLista.TextMatrix(r, COL_FONTE) = v(9)
-            grdLista.TextMatrix(r, COL_ONDE) = v(10)
-            'cor da linha: verde = corrige sozinho, amarelo = conferir, vermelho = corrigir à mão
-            grdLista.Row = r
-            For c = 0 To COL_ONDE
-                grdLista.Col = c
+    If Dir$(SPED_ArquivoConferencia) <> "" Then
+        nArq = FreeFile
+        Open SPED_ArquivoConferencia For Input As #nArq
+        Do While Not EOF(nArq)
+            Line Input #nArq, sLinha
+            v = Split(sLinha, vbTab)
+            If UBound(v) >= 10 Then
+                grdLista.AddItem ""
+                r = grdLista.Rows - 1
+                grdLista.TextMatrix(r, COL_SIT) = v(1)
                 Select Case v(1)
-                    Case "CORRIGIR": grdLista.CellBackColor = RGB(220, 245, 220)
-                    Case "DIVERGENTE": grdLista.CellBackColor = RGB(255, 245, 200)
-                    Case Else: grdLista.CellBackColor = RGB(250, 220, 220)
+                    Case "CORRIGIR"
+                        grdLista.TextMatrix(r, COL_SITUACAO) = "Verde"
+                        grdLista.TextMatrix(r, COL_MARCA) = "X"
+                        nVerdes = nVerdes + 1
+                        nCor = RGB(220, 245, 220)
+                    Case "DIVERGENTE"
+                        grdLista.TextMatrix(r, COL_SITUACAO) = "Amarelo"
+                        nAmarelos = nAmarelos + 1
+                        nCor = RGB(255, 245, 200)
+                    Case Else
+                        grdLista.TextMatrix(r, COL_SITUACAO) = "Vermelho"
+                        nVermelhos = nVermelhos + 1
+                        nCor = RGB(250, 220, 220)
                 End Select
-            Next
-        End If
-    Loop
-    Close #nArq
-
-resumo:
-    If nCorr + nMan + nDiv = 0 Then
-        lblResumo.Caption = "Nenhuma pendência nos cadastros que vão no arquivo."
-    Else
-        lblResumo.Caption = nCorr & " cadastro(s) podem ser corrigidos pelo sistema (verde, marcados com X - clique na coluna Corr. para desmarcar), " & _
-                            nMan & " precisam ser corrigidos à mão (vermelho) e " & nDiv & " estão diferentes da nota de entrada (amarelo, confira qual está certo)." & vbCrLf & _
-                            "Notas fiscais (NF-e/NFC-e) já emitidas não são corrigidas."
+                grdLista.TextMatrix(r, COL_CHAVE) = v(0)
+                grdLista.TextMatrix(r, COL_TIPO) = v(2)
+                grdLista.TextMatrix(r, COL_CODIGO) = v(3)
+                grdLista.TextMatrix(r, COL_NOME) = v(4)
+                grdLista.TextMatrix(r, COL_CAMPO) = v(5)
+                grdLista.TextMatrix(r, COL_ATUAL) = v(6)
+                grdLista.TextMatrix(r, COL_NOVO) = v(7)
+                grdLista.TextMatrix(r, COL_PROBLEMA) = v(8)
+                grdLista.TextMatrix(r, COL_FONTE) = v(9)
+                grdLista.TextMatrix(r, COL_ONDE) = v(10)
+                grdLista.Row = r
+                For c = 0 To COL_ONDE
+                    grdLista.Col = c
+                    grdLista.CellBackColor = nCor
+                Next
+            End If
+        Loop
+        Close #nArq
     End If
-    cmdCorrigir.Enabled = (nCorr > 0)
-    cmdMarcar.Enabled = (nCorr > 0)
-    cmdSalvar.Enabled = (nCorr + nMan + nDiv > 0)
+
+    If nVerdes + nAmarelos + nVermelhos = 0 Then
+        lblTotal.Caption = "Nenhum erro encontrado nos cadastros que vão no arquivo. O arquivo pode ser gerado."
+    Else
+        lblTotal.Caption = "Existem " & (nVerdes + nAmarelos + nVermelhos) & " cadastro(s) que precisam ser avaliados/corrigidos antes de gerar o arquivo."
+    End If
+    lblVerdes.Caption = nVerdes & " ERROS VERDES - Podem ser corrigidos automaticamente clicando no botão 'CORRIGIR OS VERDES (automaticamente)'."
+    lblAmarelos.Caption = nAmarelos & " ERROS AMARELOS - Podem ser corrigidos automaticamente clicando 'MARCAR AMARELOS' e depois no botão 'CORRIGIR OS AMARELOS (automaticamente)', " & _
+                          "manualmente no botão 'CORRIGIR' ou, se o cadastro estiver certo, mantidos no botão 'MANTER O ATUAL'."
+    lblVermelhos.Caption = nVermelhos & " ERROS VERMELHOS - Precisam ser corrigidos manualmente pelo usuário (selecione a linha e clique em 'CORRIGIR')."
+    lblRodape.Caption = IIf(nVerdes + nAmarelos + nVermelhos = 0, "", "Somente após a correção de todos o arquivo poderá ser gerado.")
+    AtualizarBotoes
+End Sub
+
+Private Function Contar(ByVal sSituacao As String, ByVal bMarcados As Boolean) As Long
+    Dim r As Long
+    For r = 1 To grdLista.Rows - 1
+        If grdLista.TextMatrix(r, COL_SIT) = sSituacao Then
+            If Not bMarcados Or grdLista.TextMatrix(r, COL_MARCA) = "X" Then Contar = Contar + 1
+        End If
+    Next
+End Function
+
+Private Function SituacaoSelecionada() As String
+    If grdLista.Row >= 1 And grdLista.Rows > 1 Then SituacaoSelecionada = grdLista.TextMatrix(grdLista.Row, COL_SIT)
+End Function
+
+Private Sub AtualizarBotoes()
+    Dim nVerdesMarc As Long, nAmarMarc As Long, sSel As String
+    nVerdesMarc = Contar("CORRIGIR", True)
+    nAmarMarc = Contar("DIVERGENTE", True)
+    sSel = SituacaoSelecionada
+
+    cmdMarcar.Enabled = (nVerdes > 0)
+    cmdMarcar.Caption = IIf(nVerdes > 0 And nVerdesMarc = nVerdes, "DESMARCAR VERDES", "MARCAR VERDES")
+    cmdCorrigir.Enabled = (nVerdesMarc > 0)
+    cmdMarcarAmarelos.Enabled = (nAmarelos > 0)
+    cmdMarcarAmarelos.Caption = IIf(nAmarelos > 0 And nAmarMarc = nAmarelos, "DESMARCAR AMARELOS", "MARCAR AMARELOS")
+    cmdCorrigirAmarelos.Enabled = (nAmarMarc > 0)
+    cmdCorrigirManual.Enabled = (sSel = "DIVERGENTE" Or sSel = "MANUAL")
+    cmdManter.Enabled = (sSel = "DIVERGENTE")
+    cmdSalvar.Enabled = (nVerdes + nAmarelos + nVermelhos > 0)
+    cmdGerar.Enabled = (nVerdes + nAmarelos + nVermelhos = 0)
 End Sub
 
 Private Sub grdLista_Click()
     Dim r As Long
     r = grdLista.MouseRow
-    If r < 1 Or grdLista.MouseCol <> COL_MARCA Then Exit Sub
-    If grdLista.TextMatrix(r, COL_SIT) <> "CORRIGIR" Then Exit Sub
-    grdLista.TextMatrix(r, COL_MARCA) = IIf(grdLista.TextMatrix(r, COL_MARCA) = "X", "", "X")
+    If r >= 1 And grdLista.MouseCol = COL_MARCA Then
+        If grdLista.TextMatrix(r, COL_SIT) = "CORRIGIR" Or (grdLista.TextMatrix(r, COL_SIT) = "DIVERGENTE" And grdLista.TextMatrix(r, COL_NOVO) <> "") Then
+            grdLista.TextMatrix(r, COL_MARCA) = IIf(grdLista.TextMatrix(r, COL_MARCA) = "X", "", "X")
+        End If
+    End If
+    AtualizarBotoes
+End Sub
+
+Private Sub grdLista_RowColChange()
+    AtualizarBotoes
+End Sub
+
+Private Sub Marcar(ByVal sSituacao As String, ByVal sMarca As String)
+    Dim r As Long
+    For r = 1 To grdLista.Rows - 1
+        If grdLista.TextMatrix(r, COL_SIT) = sSituacao And grdLista.TextMatrix(r, COL_NOVO) <> "" Then grdLista.TextMatrix(r, COL_MARCA) = sMarca
+    Next
+    AtualizarBotoes
 End Sub
 
 Private Sub cmdMarcar_Click()
-    Dim r As Long, sMarca As String
-    sMarca = "X"
-    For r = 1 To grdLista.Rows - 1
-        If grdLista.TextMatrix(r, COL_SIT) = "CORRIGIR" And grdLista.TextMatrix(r, COL_MARCA) = "X" Then sMarca = "": Exit For
-    Next
-    For r = 1 To grdLista.Rows - 1
-        If grdLista.TextMatrix(r, COL_SIT) = "CORRIGIR" Then grdLista.TextMatrix(r, COL_MARCA) = sMarca
-    Next
+    Marcar "CORRIGIR", IIf(cmdMarcar.Caption = "DESMARCAR VERDES", "", "X")
 End Sub
 
-Private Sub cmdCorrigir_Click()
-    Dim r As Long, n As Long, nFeitos As Long
-    Dim sChaves As String, sRes As String
-    Dim nC As Long, nM As Long, nD As Long
+Private Sub cmdMarcarAmarelos_Click()
+    Marcar "DIVERGENTE", IIf(cmdMarcarAmarelos.Caption = "DESMARCAR AMARELOS", "", "X")
+End Sub
 
+' Chaves das linhas marcadas de uma situação, separadas por vírgula.
+Private Function ChavesMarcadas(ByVal sSituacao As String) As String
+    Dim r As Long
     For r = 1 To grdLista.Rows - 1
-        If grdLista.TextMatrix(r, COL_SIT) = "CORRIGIR" And grdLista.TextMatrix(r, COL_MARCA) = "X" Then
-            sChaves = sChaves & IIf(sChaves <> "", ",", "") & grdLista.TextMatrix(r, COL_CHAVE)
-            n = n + 1
+        If grdLista.TextMatrix(r, COL_SIT) = sSituacao And grdLista.TextMatrix(r, COL_MARCA) = "X" Then
+            ChavesMarcadas = ChavesMarcadas & IIf(ChavesMarcadas <> "", ",", "") & grdLista.TextMatrix(r, COL_CHAVE)
         End If
     Next
+End Function
+
+' Corrige os marcados da situação (verdes ou amarelos) com os valores da coluna Correção.
+Private Sub CorrigirMarcados(ByVal sSituacao As String, ByVal sCor As String)
+    Dim sChaves As String, sRes As String
+    Dim n As Long, nFeitos As Long
+
+    sChaves = ChavesMarcadas(sSituacao)
+    n = Contar(sSituacao, True)
     If n = 0 Then
-        MsgBox "Marque (X) os cadastros a corrigir.", vbInformation
+        MsgBox "Marque (X) os " & sCor & " a corrigir.", vbInformation
         Exit Sub
     End If
-    If MsgBox("Corrigir " & n & " cadastro(s) com os valores da coluna Correção?" & vbCrLf & vbCrLf & _
+    If MsgBox("Corrigir " & n & " cadastro(s) " & sCor & " com os valores da coluna Correção?" & vbCrLf & vbCrLf & _
               "O valor anterior fica guardado no histórico (tabela SPED_CorrecaoCadastro).", vbQuestion + vbYesNo) = vbNo Then Exit Sub
 
     Screen.MousePointer = vbHourglass
     DoEvents
     sRes = SPED_Corrigir(sParametros, sChaves, nFeitos)
-    If sRes = "OK" Then sRes = SPED_Conferir(sParametros, nC, nM, nD)
     Screen.MousePointer = vbDefault
     If sRes <> "OK" Then
         MsgBox "Não foi possível corrigir: " & Mid$(sRes, IIf(Left$(sRes, 6) = "ERRO: ", 7, 1)), vbExclamation
         Exit Sub
     End If
-    Carregar
+    Reconferir
     MsgBox nFeitos & " cadastro(s) corrigido(s).", vbInformation
+End Sub
+
+Private Sub cmdCorrigir_Click()
+    CorrigirMarcados "CORRIGIR", "verdes"
+End Sub
+
+Private Sub cmdCorrigirAmarelos_Click()
+    CorrigirMarcados "DIVERGENTE", "amarelos"
+End Sub
+
+' Confirma o amarelo selecionado como está (o cadastro está certo): não aparece mais enquanto os valores não mudarem.
+Private Sub cmdManter_Click()
+    Dim r As Long, sRes As String, n As Long
+    r = grdLista.Row
+    If r < 1 Or SituacaoSelecionada <> "DIVERGENTE" Then Exit Sub
+    If MsgBox("Manter o cadastro como está?" & vbCrLf & vbCrLf & _
+              grdLista.TextMatrix(r, COL_TIPO) & " " & grdLista.TextMatrix(r, COL_CODIGO) & " - " & grdLista.TextMatrix(r, COL_NOME) & vbCrLf & _
+              grdLista.TextMatrix(r, COL_CAMPO) & ": fica " & grdLista.TextMatrix(r, COL_ATUAL) & " (sugestão era " & grdLista.TextMatrix(r, COL_NOVO) & ")", _
+              vbQuestion + vbYesNo) = vbNo Then Exit Sub
+    Screen.MousePointer = vbHourglass
+    DoEvents
+    sRes = SPED_Manter(sParametros, grdLista.TextMatrix(r, COL_CHAVE), n)
+    Screen.MousePointer = vbDefault
+    If sRes <> "OK" Then
+        MsgBox "Não foi possível registrar: " & Mid$(sRes, IIf(Left$(sRes, 6) = "ERRO: ", 7, 1)), vbExclamation
+        Exit Sub
+    End If
+    Reconferir
+End Sub
+
+' Abre o cadastro da linha selecionada (amarela ou vermelha); ao fechar, a conferência roda de novo.
+Private Sub cmdCorrigirManual_Click()
+    Dim r As Long, sGrupo As String, lCodigo As Long
+    r = grdLista.Row
+    If r < 1 Then Exit Sub
+    If SituacaoSelecionada <> "DIVERGENTE" And SituacaoSelecionada <> "MANUAL" Then Exit Sub
+    sGrupo = grdLista.TextMatrix(r, COL_TIPO)
+    lCodigo = Val(grdLista.TextMatrix(r, COL_CODIGO))
+
+    On Error GoTo ErrL
+    Select Case sGrupo
+        Case "Fornecedor"
+            Load Fornecedor_Cadastro
+            Fornecedor_Cadastro.EditarFornecedor lCodigo
+            Fornecedor_Cadastro.Show vbModal, Me
+            Unload Fornecedor_Cadastro
+        Case "Produto"
+            Load Produtos_Cadastro
+            Produtos_Cadastro.SSTab1.Tab = 0
+            Produtos_Cadastro.EditarProduto lCodigo
+            Produtos_Cadastro.Show vbModal, Me
+            Unload Produtos_Cadastro
+        Case "Cliente NF-e"
+            Load Clientes_Cadastro
+            Clientes_Cadastro.EditarCliente lCodigo
+            Clientes_Cadastro.Show vbModal, Me
+            Unload Clientes_Cadastro
+        Case "Empresa"
+            Empresa_Cadastro.Show vbModal, Me
+            Unload Empresa_Cadastro
+        Case "Contador"
+            Contador_Cadastro.Show vbModal, Me
+            Unload Contador_Cadastro
+        Case Else
+            MsgBox "Corrija em: " & grdLista.TextMatrix(r, COL_ONDE), vbInformation
+            Exit Sub
+    End Select
+    Reconferir
+    Exit Sub
+ErrL:
+    Screen.MousePointer = vbDefault
+    MsgBox "Não foi possível abrir o cadastro: " & Err.Description & vbCrLf & "Corrija em: " & grdLista.TextMatrix(r, COL_ONDE), vbExclamation
+End Sub
+
+' Roda a conferência de novo e recarrega a lista (depois de corrigir ou manter).
+Private Sub Reconferir()
+    Dim sRes As String, nC As Long, nM As Long, nD As Long
+    Screen.MousePointer = vbHourglass
+    DoEvents
+    sRes = SPED_Conferir(sParametros, nC, nM, nD)
+    Screen.MousePointer = vbDefault
+    If sRes <> "OK" Then
+        MsgBox "Não foi possível conferir de novo: " & Mid$(sRes, IIf(Left$(sRes, 6) = "ERRO: ", 7, 1)), vbExclamation
+        Exit Sub
+    End If
+    Carregar
 End Sub
 
 ' Lista em texto (para corrigir os cadastros com calma ou mandar para alguém), aberta no Bloco de Notas.
@@ -271,10 +502,14 @@ Private Sub cmdSalvar_Click()
 
     nArq = FreeFile
     Open sArq For Output As #nArq
-    Print #nArq, "SPED Fiscal - conferência dos cadastros - " & Format(Now, "dd/mm/yyyy hh:nn")
+    Print #nArq, "RELATÓRIO DE ERROS ENCONTRADOS - SPED Fiscal - " & Format(Now, "dd/mm/yyyy hh:nn")
+    Print #nArq, lblTotal.Caption
+    Print #nArq, lblVerdes.Caption
+    Print #nArq, lblAmarelos.Caption
+    Print #nArq, lblVermelhos.Caption
     Print #nArq, String(100, "-")
     For r = 1 To grdLista.Rows - 1
-        Print #nArq, grdLista.TextMatrix(r, COL_SITUACAO) & " | " & grdLista.TextMatrix(r, COL_TIPO) & " " & grdLista.TextMatrix(r, COL_CODIGO) & _
+        Print #nArq, UCase(grdLista.TextMatrix(r, COL_SITUACAO)) & " | " & grdLista.TextMatrix(r, COL_TIPO) & " " & grdLista.TextMatrix(r, COL_CODIGO) & _
                      " - " & grdLista.TextMatrix(r, COL_NOME)
         Print #nArq, "   " & grdLista.TextMatrix(r, COL_CAMPO) & ": " & grdLista.TextMatrix(r, COL_PROBLEMA) & _
                      " (atual: " & grdLista.TextMatrix(r, COL_ATUAL) & IIf(grdLista.TextMatrix(r, COL_NOVO) <> "", "; correção: " & grdLista.TextMatrix(r, COL_NOVO), "") & ")"
@@ -289,12 +524,9 @@ ErrL:
 End Sub
 
 Private Sub cmdGerar_Click()
-    Dim r As Long, n As Long
-    For r = 1 To grdLista.Rows - 1
-        If grdLista.TextMatrix(r, COL_SIT) = "MANUAL" Or grdLista.TextMatrix(r, COL_SIT) = "CORRIGIR" Then n = n + 1
-    Next
-    If n > 0 Then
-        If MsgBox("Ainda há " & n & " pendência(s) que o validador do SPED deve apontar." & vbCrLf & "Gerar o arquivo assim mesmo?", vbQuestion + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
+    If nVerdes + nAmarelos + nVermelhos > 0 Then
+        MsgBox "Somente após a correção de todos o arquivo poderá ser gerado.", vbExclamation
+        Exit Sub
     End If
     bGerar = True
     Me.Hide

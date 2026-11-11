@@ -299,7 +299,7 @@ Option Explicit
 ' empresa usa). Blocos desmarcados vão sem dados (abertura e encerramento). Uso/consumo e imobilizado são as marcações
 ' do cadastro do produto.
 Dim dInventario() As Date          'data de cada inventário da lista (mesmo índice do cboInventario)
-Dim sArquivoGerado As String, sDescGerado As String, sPeriodoGerado As String
+Dim sArquivoGerado As String, sDescGerado As String, sPeriodoGerado As String, sDataInvGerado As String
 Dim bBlocoKEmpresa As Boolean
 Dim bCarregando As Boolean
 
@@ -455,7 +455,7 @@ End Function
 Private Sub cmdGerar_Click()
     Dim dIni As Date, dFim As Date
     Dim sBlocos As String, sParam As String, sRes As String
-    Dim sArq As String, sDesc As String, sPer As String, sAvisos As String
+    Dim sArq As String, sDesc As String, sPer As String, sAvisos As String, sLista As String, sDataInv As String
     Dim nInv As Long
 
     If Not DataTexto(txtDataIni.Text, dIni) Then
@@ -512,7 +512,7 @@ Private Sub cmdGerar_Click()
     Screen.MousePointer = vbHourglass
     cmdGerar.Enabled = False
     DoEvents
-    sRes = SPED_Gerar(sParam, sArq, sDesc, sPer, sAvisos)
+    sRes = SPED_Gerar(sParam, sArq, sDesc, sPer, sAvisos, sLista, sDataInv)
     cmdGerar.Enabled = True
     Screen.MousePointer = vbDefault
 
@@ -520,6 +520,7 @@ Private Sub cmdGerar_Click()
         sArquivoGerado = sArq
         sDescGerado = sDesc
         sPeriodoGerado = sPer
+        sDataInvGerado = sDataInv
         cmdEnviar.Enabled = True
         lblStatus.Caption = "Arquivo gerado: " & sArq
         MsgBox "Arquivo do SPED gerado:" & vbCrLf & sArq & IIf(sAvisos <> "", vbCrLf & vbCrLf & "Avisos:" & vbCrLf & sAvisos, ""), vbInformation
@@ -566,7 +567,7 @@ Private Sub cmdEnviar_Click()
     Screen.MousePointer = vbHourglass
     cmdEnviar.Enabled = False
     DoEvents
-    If SPED_EnviarEmail(sArquivoGerado, sDescGerado, sPeriodoGerado, False, sErro) Then
+    If SPED_EnviarEmail(sArquivoGerado, sDescGerado, sPeriodoGerado, False, sErro, sDataInvGerado) Then
         Screen.MousePointer = vbDefault
         lblStatus.Caption = "Enviado para " & sEmail & ": " & sArquivoGerado
         MsgBox "E-mail com o SPED enviado para " & sEmail & "." & vbCrLf & vbCrLf & _

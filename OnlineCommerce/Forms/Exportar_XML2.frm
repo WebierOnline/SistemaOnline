@@ -707,8 +707,7 @@ Set sistNFe = New snfe.Util
 
 emailDest = EmailPara
 
-ReDim emailCC(0)
-emailCC(0) = EmailPara
+MontarCopiasEmail EmailPara, emailCC     'contador + copia para o e-mail da empresa (modResumoFiscal)
 
 If Vazio(emailDest) Then Exit Sub
 

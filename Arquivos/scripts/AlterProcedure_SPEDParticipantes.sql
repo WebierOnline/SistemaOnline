@@ -3,7 +3,7 @@ PROJETO...: Online.Info
 ANALISTA..: Leandro
 DESCRICAO.: Procedure de Processamento de Participantes SPED
 DATA......: 2022-03-15
-ALTERACAO.: 
+ALTERACAO.: 2026-11 - clientes das NF-e: CNPJ/CPF e codigo do municipio invalidos na nota saem do cadastro do cliente.
 ***************************/
 -- Idempotente: cria um placeholder se o objeto ainda nao existir e sempre roda o ALTER com a definicao final.
 SET ANSI_NULLS ON
@@ -53,14 +53,18 @@ IF (@tipoescrituracao = 1)
 
 		UNION ALL
 
-		SELECT NotaFiscal.CNPJ_CPF AS IDParticipante, NotaFiscal.CNPJ_CPF AS CNPJCPF, NotaFiscal.RazaoSocial, NotaFiscal.RazaoSocial AS Fantasia, NotaFiscal.Logradouro AS Endereco, NotaFiscal.Numero, 
-		NotaFiscal.Bairro, NotaFiscal.Municipio AS Cidade, NotaFiscal.UF AS UF, NotaFiscal.CodigoIBGE, NotaFiscal.CEP AS CEP, 
-		NotaFiscal.Telefone AS Fone, NotaFiscal.Telefone AS Fax, NotaFiscal.InscricaoEstadual AS IERG, '' AS Email, 1058 AS CodigoPais, 'BRASIL' AS NomePais
-		FROM NotaFiscal 
-		WHERE Enviada <> 0 AND Cancelada = 0 AND DataEmissao BETWEEN @dataini AND @datafim AND 1 = (CASE WHEN @somenteinventario = 1 THEN 0 ELSE 1 END)
-		GROUP BY NotaFiscal.CodigoCorrentista, NotaFiscal.CNPJ_CPF, NotaFiscal.RazaoSocial, 
-		NotaFiscal.RazaoSocial, NotaFiscal.Logradouro, NotaFiscal.Bairro, NotaFiscal.Municipio, NotaFiscal.UF, 
-		NotaFiscal.CodigoIBGE, NotaFiscal.CEP, NotaFiscal.Telefone, NotaFiscal.InscricaoEstadual, NotaFiscal.Numero
+		--dados gravados na NF-e; CNPJ/CPF e codigo do municipio invalidos na nota (notas antigas) saem do cadastro do cliente
+		SELECT nf.Doc AS IDParticipante, nf.Doc AS CNPJCPF, nf.RazaoSocial, nf.RazaoSocial AS Fantasia, nf.Logradouro AS Endereco, nf.Numero,
+		nf.Bairro, nf.Municipio AS Cidade, nf.UF AS UF, nf.CodigoIBGE, nf.CEP AS CEP,
+		nf.Telefone AS Fone, nf.Telefone AS Fax, nf.InscricaoEstadual AS IERG, '' AS Email, 1058 AS CodigoPais, 'BRASIL' AS NomePais
+		FROM (SELECT CASE WHEN LEN(REPLACE(REPLACE(REPLACE(ISNULL(n.CNPJ_CPF, ''), '.', ''), '/', ''), '-', '')) IN (11, 14) THEN CAST(n.CNPJ_CPF AS NVARCHAR(20))
+		                  ELSE ISNULL(c.CPF, CAST(n.CNPJ_CPF AS NVARCHAR(20))) END AS Doc,
+		             CASE WHEN n.CodigoIBGE BETWEEN 1000000 AND 9999999 THEN n.CodigoIBGE ELSE ISNULL(c.CodigoIBGE, n.CodigoIBGE) END AS CodigoIBGE,
+		             n.CodigoCorrentista, n.RazaoSocial, n.Logradouro, n.Numero, n.Bairro, n.Municipio, n.UF, n.CEP, n.Telefone, n.InscricaoEstadual
+		      FROM NotaFiscal n LEFT JOIN cliente c ON c.CODIGO = n.CodigoCorrentista
+		      WHERE n.Enviada <> 0 AND n.Cancelada = 0 AND n.DataEmissao BETWEEN @dataini AND @datafim AND 1 = (CASE WHEN @somenteinventario = 1 THEN 0 ELSE 1 END)) nf
+		GROUP BY nf.CodigoCorrentista, nf.Doc, nf.RazaoSocial, nf.Logradouro, nf.Bairro, nf.Municipio, nf.UF,
+		nf.CodigoIBGE, nf.CEP, nf.Telefone, nf.InscricaoEstadual, nf.Numero
 		) tb
 
 	END
@@ -73,14 +77,18 @@ ELSE
 		INTO vSPEDParticipantes
 		FROM
 		(
-		SELECT NotaFiscal.CNPJ_CPF AS IDParticipante, NotaFiscal.CNPJ_CPF AS CNPJCPF, NotaFiscal.RazaoSocial, NotaFiscal.RazaoSocial AS Fantasia, NotaFiscal.Logradouro AS Endereco, NotaFiscal.Numero, 
-		NotaFiscal.Bairro, NotaFiscal.Municipio AS Cidade, NotaFiscal.UF AS UF, NotaFiscal.CodigoIBGE, NotaFiscal.CEP AS CEP, 
-		NotaFiscal.Telefone AS Fone, NotaFiscal.Telefone AS Fax, NotaFiscal.InscricaoEstadual AS IERG, '' AS Email, 1058 AS CodigoPais, 'BRASIL' AS NomePais
-		FROM NotaFiscal 
-		WHERE Enviada <> 0 AND Cancelada = 0 AND DataEmissao BETWEEN @dataini AND @datafim AND 1 = (CASE WHEN @somenteinventario = 1 THEN 0 ELSE 1 END)
-		GROUP BY NotaFiscal.CodigoCorrentista, NotaFiscal.CNPJ_CPF, NotaFiscal.RazaoSocial, 
-		NotaFiscal.RazaoSocial, NotaFiscal.Logradouro, NotaFiscal.Bairro, NotaFiscal.Municipio, NotaFiscal.UF, 
-		NotaFiscal.CodigoIBGE, NotaFiscal.CEP, NotaFiscal.Telefone, NotaFiscal.InscricaoEstadual, NotaFiscal.Numero
+		--dados gravados na NF-e; CNPJ/CPF e codigo do municipio invalidos na nota (notas antigas) saem do cadastro do cliente
+		SELECT nf.Doc AS IDParticipante, nf.Doc AS CNPJCPF, nf.RazaoSocial, nf.RazaoSocial AS Fantasia, nf.Logradouro AS Endereco, nf.Numero,
+		nf.Bairro, nf.Municipio AS Cidade, nf.UF AS UF, nf.CodigoIBGE, nf.CEP AS CEP,
+		nf.Telefone AS Fone, nf.Telefone AS Fax, nf.InscricaoEstadual AS IERG, '' AS Email, 1058 AS CodigoPais, 'BRASIL' AS NomePais
+		FROM (SELECT CASE WHEN LEN(REPLACE(REPLACE(REPLACE(ISNULL(n.CNPJ_CPF, ''), '.', ''), '/', ''), '-', '')) IN (11, 14) THEN CAST(n.CNPJ_CPF AS NVARCHAR(20))
+		                  ELSE ISNULL(c.CPF, CAST(n.CNPJ_CPF AS NVARCHAR(20))) END AS Doc,
+		             CASE WHEN n.CodigoIBGE BETWEEN 1000000 AND 9999999 THEN n.CodigoIBGE ELSE ISNULL(c.CodigoIBGE, n.CodigoIBGE) END AS CodigoIBGE,
+		             n.CodigoCorrentista, n.RazaoSocial, n.Logradouro, n.Numero, n.Bairro, n.Municipio, n.UF, n.CEP, n.Telefone, n.InscricaoEstadual
+		      FROM NotaFiscal n LEFT JOIN cliente c ON c.CODIGO = n.CodigoCorrentista
+		      WHERE n.Enviada <> 0 AND n.Cancelada = 0 AND n.DataEmissao BETWEEN @dataini AND @datafim AND 1 = (CASE WHEN @somenteinventario = 1 THEN 0 ELSE 1 END)) nf
+		GROUP BY nf.CodigoCorrentista, nf.Doc, nf.RazaoSocial, nf.Logradouro, nf.Bairro, nf.Municipio, nf.UF,
+		nf.CodigoIBGE, nf.CEP, nf.Telefone, nf.InscricaoEstadual, nf.Numero
 		) tb
 
 	END
