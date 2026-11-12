@@ -691,6 +691,7 @@ End Enum
 
 Dim OP As TipoOP2           'usado para o check das parcelas
 Dim var_Contador As Integer 'usado para o check das parcelas
+Dim mAvisoRecusa As String  'o que foi excluído (entrada/contas a pagar) ao recusar uma nota já importada
 
 'Dim i As Integer
 Private Sub MostrarDados()
@@ -1165,12 +1166,14 @@ If Len(TipoEvento) = 0 Then Exit Sub
 If Not ConfirmarEvento(TipoEvento, Justificativa, 1) Then Exit Sub
 
 Screen.MousePointer = vbHourglass
+mAvisoRecusa = ""
 sMotivo = ManifestarNota(vID, TipoEvento, Justificativa)
 Screen.MousePointer = vbDefault
 
 If Len(sMotivo) = 0 Then
    MsgBox Mid$(MON_TextoManifestacao(TipoEvento), 5) & " registrada na SEFAZ." & vbNewLine & vbNewLine & _
-          "Protocolo: " & NFeNumeroProtocolo & vbNewLine & "Data/Hora: " & NFeDataHora, vbInformation, "Manifestação do Destinatário"
+          "Protocolo: " & NFeNumeroProtocolo & vbNewLine & "Data/Hora: " & NFeDataHora & _
+          IIf(Len(mAvisoRecusa) > 0, vbNewLine & vbNewLine & mAvisoRecusa, ""), vbInformation, "Manifestação do Destinatário"
 Else
    MsgBox "Manifestação não enviada: " & sMotivo, vbExclamation, "Manifestação do Destinatário"
 End If
@@ -1179,7 +1182,7 @@ End Sub
 
 Private Sub cmdEnviarManifestacao2_Click()
 Dim i As Long, vID As Long, nSel As Long, nOk As Long, nFalha As Long
-Dim TipoEvento As String, Justificativa As String, sMotivo As String, sLista As String
+Dim TipoEvento As String, Justificativa As String, sMotivo As String, sLista As String, sRecusas As String
 
 For i = 1 To Grid.rows - 1
    Grid.Row = i
@@ -1198,9 +1201,11 @@ For i = 1 To Grid.rows - 1
    Grid.Col = 0
    If Grid.CellPicture = ImgMarcada Then
       vID = Val(Grid.TextMatrix(i, 10))
+      mAvisoRecusa = ""
       sMotivo = ManifestarNota(vID, TipoEvento, Justificativa)
       If Len(sMotivo) = 0 Then
          nOk = nOk + 1
+         If Len(mAvisoRecusa) > 0 And nOk <= 10 Then sRecusas = sRecusas & vbNewLine & "- " & Left$(Grid.TextMatrix(i, 6), 35) & ": " & mAvisoRecusa
       Else
          nFalha = nFalha + 1
          If nFalha <= 15 Then sLista = sLista & vbNewLine & "- " & Left$(Grid.TextMatrix(i, 6), 35) & ": " & sMotivo
@@ -1213,7 +1218,8 @@ Screen.MousePointer = vbDefault
 If nFalha > 15 Then sLista = sLista & vbNewLine & "... e mais " & (nFalha - 15) & " nota(s)."
 MsgBox Mid$(MON_TextoManifestacao(TipoEvento), 5) & ":" & vbNewLine & vbNewLine & _
        nOk & " nota(s) registrada(s) na SEFAZ." & _
-       IIf(nFalha > 0, vbNewLine & nFalha & " nota(s) não enviada(s):" & sLista, ""), _
+       IIf(nFalha > 0, vbNewLine & nFalha & " nota(s) não enviada(s):" & sLista, "") & _
+       IIf(Len(sRecusas) > 0, vbNewLine & vbNewLine & "Lançamentos excluídos:" & sRecusas, ""), _
        IIf(nFalha > 0, vbExclamation, vbInformation), "Manifestação do Destinatário"
 Call cmdAtualizarGrid_Click
 End Sub
@@ -1306,6 +1312,10 @@ Case "3"
    Loop
    Justificativa = Left$(Justificativa, 255)
 End Select
+If TipoEvento = "2" Or TipoEvento = "3" Then
+   sAviso = sAviso & vbNewLine & "Se a nota já foi importada, as contas a pagar dela serão excluídas e, se nenhum produto " & _
+            "foi adicionado ao estoque, a entrada também."
+End If
 
 ConfirmarEvento = (MsgBox(Mid$(MON_TextoManifestacao(TipoEvento), 5) & " é um evento DEFINITIVO: depois de registrado " & _
                           "na SEFAZ não pode ser desfeito." & vbNewLine & vbNewLine & sAviso & vbNewLine & vbNewLine & _
@@ -1362,6 +1372,8 @@ SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET " & _
            "DataHoraProcotolo = '" & MON_Sql(Left$(NFeDataHora, 25)) & "', " & _
            "XMLAutorizado = '" & MON_Sql(NFeXML) & "' " & _
            "WHERE IdNFConsulta = " & vID
+'Nota recusada: exclui as contas a pagar (e a entrada em digitação) lançadas pela importação do XML
+If TipoEvento = "2" Or TipoEvento = "3" Then mAvisoRecusa = MON_ExcluirEntradaRecusada(vChave)
 Exit Function
 
 deuErro:
@@ -1390,6 +1402,10 @@ Case "Sem Manifestar", "Aguardando XML"
     MsgBox "O XML completo desta nota ainda não está disponível." & vbNewLine & _
            "Depois da Ciência da Operação a SEFAZ libera o XML na consulta seguinte (o monitor consulta de hora em hora).", vbInformation, "Aviso do Sistema"
     Exit Sub
+Case "Erro Importação"
+    MsgBox "A importação automática desta nota falhou:" & vbNewLine & _
+           SQLExecutaRetorno("SELECT TOP 1 ImportacaoMotivo AS r FROM TbNotasDestinadasManifestacao WHERE ChaveAcesso = '" & MON_Sql(vChave) & "'", "r", "") & _
+           vbNewLine & vbNewLine & "A nota será importada agora pela tela.", vbInformation, "Aviso do Sistema"
 Case "Cancelada", "Desconhecida", "Não Realizada"
     MsgBox "Esta nota está como """ & vSituacao & """ e não pode ser importada no estoque.", vbExclamation, "Aviso do Sistema"
     Exit Sub
@@ -1434,8 +1450,11 @@ End If
 If Existe(xCaminhoXML) = -1 Then
    Load Entrada_Estoque
    If Entrada_Estoque.ImportarXML(xCaminhoXML) Then
-      Entrada_Estoque.CriarEntradaEstoque Compra
+      Entrada_Estoque.CriarEntradaEstoque Entrada_Estoque.CodigoNotaAtual   'antes passava "Compra", que não existe neste form (ia 0)
    End If
+   lCodNota = MON_EntradaDaChave(vChave)
+   If lCodNota > 0 Then SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET ImportacaoStatus = 1, ImportadoXML = 1, CodigoNotaEntrada = " & _
+                                   lCodNota & ", ImportacaoMotivo = '' WHERE ChaveAcesso = '" & MON_Sql(vChave) & "'"
    Entrada_Estoque.Show 1
    Call cmdAtualizarGrid_Click
 Else

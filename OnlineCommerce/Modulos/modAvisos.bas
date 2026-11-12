@@ -177,6 +177,22 @@ If nDias <= 15 Then
     End If
 End If
 
+'4) monitor de NF-e (/monitornfe): notas importadas sozinhas aguardando conferência, falhas e notas canceladas
+'pelo fornecedor depois de lançadas. Sem as colunas do script 177 as consultas falham e retornam 0.
+Dim nNotas As Long
+nNotas = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) r FROM EntradaEstoque e WHERE e.OrigemLancamento = 'MONITOR' " & _
+         "AND ISNULL(e.Cancelada, 0) = 0 AND EXISTS (SELECT 1 FROM EntradaEstoqueItens i WHERE i.CodigoNota = e.CodigoNota " & _
+         "AND ISNULL(i.Adicionada, 0) = 0)", "r", 0)))
+If nNotas > 0 Then AddAlerta sTextos, sDestinos, nNotas & " nota(s) de compra importada(s) automaticamente~aguardando conferência na Entrada de Estoque.", "ENTRADA_ESTOQUE"
+
+nNotas = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) r FROM TbNotasDestinadasManifestacao d WHERE d.ImportacaoStatus = 2 " & _
+         "AND NOT EXISTS (SELECT 1 FROM EntradaEstoque e WHERE e.ChavedeAcesso = d.ChaveAcesso)", "r", 0)))
+If nNotas > 0 Then AddAlerta sTextos, sDestinos, nNotas & " nota(s) não puderam ser importadas automaticamente~(veja em Notas Destinadas).", "NOTAS_DESTINADAS"
+
+nNotas = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) r FROM TbNotasDestinadasManifestacao d WHERE d.TipoEventoCodigo = '110111' " & _
+         "AND EXISTS (SELECT 1 FROM EntradaEstoque e WHERE e.ChavedeAcesso = d.ChaveAcesso AND ISNULL(e.Cancelada, 0) = 0)", "r", 0)))
+If nNotas > 0 Then AddAlerta sTextos, sDestinos, nNotas & " nota(s) lançada(s) na Entrada de Estoque~foram CANCELADAS pelo fornecedor!", "NOTAS_DESTINADAS"
+
 GerarAlertasGerais = sTextos
 End Function
 

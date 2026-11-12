@@ -172,3 +172,4 @@
 173|CreateTable_ScriptsAplicados.sql|GERAL
 175|AlterTable_TbNotasDestinadasManifestacao_Padroes.sql|GERAL
 176|AlterView_NotasDestinadas_Situacoes.sql|GERAL
+177|AlterTable_NotasDestinadas_ImportacaoAuto.sql|GERAL

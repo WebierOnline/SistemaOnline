@@ -3626,6 +3626,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Private moCombo As cComboHelper
 Public TbEntrada As New ADODB.Recordset
+Public ImportacaoSilenciosa As Boolean   'importação pelo monitor (/monitornfe): sem mensagens nem telas
+Public UltimoErroImportacao As String    'o que a importação silenciosa teria mostrado (gravado pelo monitor)
 Public TbEntradaItens As New ADODB.Recordset
 Public TbProdutos As New ADODB.Recordset
 Public varIDProdVinculo As Long
@@ -4397,12 +4399,12 @@ Dim VarCodEntradaNovo As Long
 Dim rNovoCodEE As ADODB.Recordset
 Set rNovoCodEE = dbData.OpenRecordset("SELECT ISNULL(MAX(Codigo),0) r FROM produtos_entrada")
 If rNovoCodEE Is Nothing Then
-    MsgBox "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
+    AvisoImportacao "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
            "Exclua esta nota e leia o XML novamente.", vbExclamation, vgAtencao
     Exit Sub
 End If
 If rNovoCodEE.EOF Then
-    MsgBox "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
+    AvisoImportacao "Não foi possível obter o próximo código de entrada (falha de conexão com o banco de dados)." & vbCrLf & _
            "Exclua esta nota e leia o XML novamente.", vbExclamation, vgAtencao
     If rNovoCodEE.State <> 0 Then rNovoCodEE.Close
     Set rNovoCodEE = Nothing
@@ -4504,12 +4506,12 @@ sSQL = sSQL & _
 Dim lRegsInsEE As Long
 msgResultado = SQLExecuta(sSQL, lRegsInsEE)
 If Not Vazio(msgResultado) Then
-    MsgBox "Erro ao criar entrada no estoque: " & msgResultado, vbCritical, vgAtencao
+    AvisoImportacao "Erro ao criar entrada no estoque: " & msgResultado, vbCritical, vgAtencao
     Exit Sub
 End If
 
 If lRegsInsEE = 0 Then
-    MsgBox "Não foi possível gravar a entrada no estoque (nenhum registro foi criado)." & vbCrLf & _
+    AvisoImportacao "Não foi possível gravar a entrada no estoque (nenhum registro foi criado)." & vbCrLf & _
            "Isso pode acontecer por uma falha momentânea de conexão com o banco de dados." & vbCrLf & vbCrLf & _
            "Exclua esta nota (botão Excluir) e leia o XML novamente.", vbExclamation, vgAtencao
     Exit Sub
@@ -4519,7 +4521,7 @@ txtCodEntrada.Text = VarCodEntradaNovo
 
 msgResultado = SQLExecuta("UPDATE EntradaEstoque SET Cod_entrada = " & VarCodEntradaNovo & " WHERE CodigoNota = " & lCompra)
 If Not Vazio(msgResultado) Then
-    MsgBox "Erro ao vincular entrada: " & msgResultado, vbCritical, vgAtencao
+    AvisoImportacao "Erro ao vincular entrada: " & msgResultado, vbCritical, vgAtencao
 End If
 End Sub
 
@@ -4932,12 +4934,15 @@ End Sub
 Private Sub cmdExcluir_Click()
 Dim vQuantProdutos As Integer
 Dim bTransExcl As Boolean
+Dim nContasExcl As Long, nPagasExcl As Long
 bTransExcl = False
 
 vQuantProdutos = CLng(SQLExecutaRetorno("SELECT COUNT(*) AS n FROM EntradaEstoqueItens WHERE codigonota = " & txtCodNota.Text & " AND adicionada = 1", "n", "0"))
 
 If vQuantProdutos < 1 Then
-    If ShowMsg("Deseja excluir a entrada da nota: " & txtNumNota.Text & " ?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+    If ShowMsg("Deseja excluir a entrada da nota: " & txtNumNota.Text & " ?" & vbCrLf & vbCrLf & _
+               "As contas a pagar lançadas pela importação do XML (ainda não pagas) também serão excluídas.", _
+               vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
 
     On Error GoTo ErrExcluir
     dbData.Execute "BEGIN TRANSACTION"
@@ -4946,6 +4951,8 @@ If vQuantProdutos < 1 Then
     If txtCodNota.Text <> "" Then
         dbData.Execute "DELETE FROM EntradaEstoqueItens WHERE (codigonota = " & txtCodNota.Text & ");"
         dbData.Execute "DELETE FROM EntradaEstoque WHERE (codigonota = " & txtCodNota.Text & ");"
+        nContasExcl = MON_ExcluirContasEntrada(Val(txtCodNota.Text), nPagasExcl)
+        SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET CodigoNotaEntrada = 0 WHERE CodigoNotaEntrada = " & Val(txtCodNota.Text)
     End If
     If txtCodEntrada.Text <> "" Then
         dbData.Execute "DELETE FROM produtos_entrada WHERE (codigo = " & txtCodEntrada.Text & ");"
@@ -4953,6 +4960,8 @@ If vQuantProdutos < 1 Then
 
     dbData.Execute "COMMIT TRANSACTION"
     bTransExcl = False
+
+    If nPagasExcl > 0 Then MsgBox nPagasExcl & " conta(s) a pagar desta nota já estava(m) paga(s) e não foi(foram) excluída(s).", vbExclamation, "Aviso do Sistema"
 
     Limpa_Tudo Me
     cmdExcluir.Enabled = False
@@ -6325,6 +6334,20 @@ deuErro:
  Err.Clear
 End Sub
 
+'CodigoNota da última nota importada (usado por quem chama ImportarXML para criar a entrada no estoque)
+Public Property Get CodigoNotaAtual() As Long
+CodigoNotaAtual = Compra
+End Property
+
+'Mensagem da importação: na importação silenciosa (monitor) guarda o texto em vez de mostrar
+Private Sub AvisoImportacao(ByVal Texto As String, Optional ByVal Estilo As VbMsgBoxStyle = vbExclamation, Optional ByVal Titulo As String = "Aviso do Sistema")
+If ImportacaoSilenciosa Then
+   UltimoErroImportacao = Trim$(UltimoErroImportacao & " " & Replace(Replace(Texto, vbCr, " "), vbLf, " "))
+Else
+   MsgBox Texto, Estilo, Titulo
+End If
+End Sub
+
 'Abre uma entrada já gravada (usada quando a NF-e importada já existe; chamada também pela tela Notas_Destinadas_Consulta)
 Public Sub AbrirEntradaExistente(ByVal CodigoNota As Long, ByVal arqXML As String)
 If CodigoNota <= 0 Then Exit Sub
@@ -6420,6 +6443,7 @@ Dim str_sql_item As String
 sSQL = "SELECT COUNT(1) r FROM EntradaEstoque WHERE ChavedeAcesso = '" & _
        XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").item(0).Text & "'"
 If SQLExecutaRetorno(sSQL, "r", 0) > 0 Then
+    If ImportacaoSilenciosa Then UltimoErroImportacao = "Nota já lançada na Entrada de Estoque.": ImportarXML = False: Exit Function
     If MsgBox("Essa Nota Fiscal ja foi adicionada anteriormente!" & vbCrLf & "Deseja reabri-la?", _
               vbQuestion + vbYesNo, "Aviso do Sistema") = vbYes Then
         Dim lCodNotaExist As Long
@@ -6538,7 +6562,7 @@ If Fornecedores.RecordCount = 0 Then
         If Fornecedores.RecordCount > 0 Then
             Codigo_fornecedor = Fornecedores!Codigo
         Else
-            ShowMsg "Não foi possível cadastrar o fornecedor automaticamente." & vbCr & _
+            AvisoImportacao "Não foi possível cadastrar o fornecedor automaticamente." & vbCr & _
                "Cadastre o fornecedor manualmente e tente importar a nota novamente.", vbCritical
             ImportarXML = False
             Exit Function
@@ -6633,6 +6657,7 @@ End If
    Compra = SQLExecutaRetorno("SELECT ISNULL(MAX(CodigoNota),0) r FROM EntradaEstoque", "r", 0) + 1
    
    Compras_XML.AddNew
+   Compras_XML!OrigemLancamento = IIf(ImportacaoSilenciosa, "MONITOR", "MANUAL")   'coluna do script 177
    Compras_XML!CodigoNota = Compra
    Compras_XML!ModeloNF = XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/mod").item(0).Text
    Compras_XML!NumeroNota = Format(XMLDOC.getElementsByTagName("nfeProc/NFe/infNFe/ide/nNF").item(0).Text, "000000000")
@@ -8016,7 +8041,7 @@ End If
         "SELECT COUNT(*) r FROM EntradaEstoqueItens " & _
         "WHERE CodigoNota = " & Compra & " AND (CodigoProduto = 0 OR CodigoProduto IS NULL)", "r", 0)
 
-    If qtdNaoIdentificados > 0 Then
+    If qtdNaoIdentificados > 0 And Not ImportacaoSilenciosa Then   'no monitor ficam para vincular na conferência
        If MsgBox(qtdNaoIdentificados & " produto(s) desta nota nao foram identificados no cadastro." & vbCrLf & vbCrLf & _
                  "Deseja vincular agora?", vbQuestion + vbYesNo, "Produtos nao identificados") = vbYes Then
           Dim frmVinc2 As New frmVinculoProdutoXML
@@ -8097,7 +8122,7 @@ End If
 
           msgResultado = SQLExecuta(str_sql)
           If Not Vazio(msgResultado) Then
-             MsgBox "Erro ao lancar duplicata " & sDupNum & " no a_pagar: " & msgResultado, vbCritical
+             AvisoImportacao "Erro ao lancar duplicata " & sDupNum & " no a_pagar: " & msgResultado, vbCritical
              ImportarXML = False: Exit Function
           End If
        Next i
@@ -8105,7 +8130,7 @@ End If
     '------------- FIM DO LANCAMENTO DAS DUPLICATAS ------------------
 
 pulaParcelas:
-   MsgBox "NF-e importada com sucesso!", vbInformation + vbOKOnly, "Importa XML"
+   If Not ImportacaoSilenciosa Then MsgBox "NF-e importada com sucesso!", vbInformation + vbOKOnly, "Importa XML"
 
    str_sql = "SELECT Count(*) r FROM EntradaEstoqueItens WHERE CodigoNota = " & Compra & " AND CodigoProduto = 0"
    If SQLExecutaRetorno(str_sql, "r", 0) > 0 Then
@@ -8115,8 +8140,10 @@ pulaParcelas:
    RsOpen TbEntrada, "SELECT *, " & _
                      "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status " & _
                      "FROM EntradaEstoque WHERE CodigoNota = " & Compra
-   Load_Controls
-   Frm_NF.Tab = 0
+   If Not ImportacaoSilenciosa Then
+      Load_Controls
+      Frm_NF.Tab = 0
+   End If
 
    '-------- ARQUIVA O XML IMPORTADO EM EntradasXML\AAAAMM (mesmo nivel de ExportarXML) --------
    Dim vDirBaseXML As String, vPastaEntradasXML As String, vAnoMesEntrada As String, vNomeArqEntrada As String
@@ -8129,7 +8156,7 @@ pulaParcelas:
    vNomeArqEntrada = Mid(arqXML, InStrRev(arqXML, "\") + 1)
    FileCopy arqXML, vPastaEntradasXML & "\" & vNomeArqEntrada
    If Err.Number <> 0 Then
-      MsgBox "NF-e importada, mas houve falha ao arquivar o XML em " & vPastaEntradasXML & ": " & Err.Description, vbExclamation, "Aviso do Sistema"
+      AvisoImportacao "NF-e importada, mas houve falha ao arquivar o XML em " & vPastaEntradasXML & ": " & Err.Description, vbExclamation, "Aviso do Sistema"
       Err.Clear
    End If
 
@@ -8140,7 +8167,7 @@ pulaParcelas:
       Print #nDiagFile, "=== " & Format(Now, "yyyy-mm-dd hh:nn:ss") & " - " & arqXML & " ==="
       Print #nDiagFile, sDiagXML
       Close #nDiagFile
-      MsgBox "Importação concluída, mas alguns campos fiscais não foram lidos do XML." & vbCrLf & _
+      If Not ImportacaoSilenciosa Then MsgBox "Importação concluída, mas alguns campos fiscais não foram lidos do XML." & vbCrLf & _
              "Detalhe salvo em ImportarXML_diagnostico.log." & vbCrLf & vbCrLf & Left(sDiagXML, 500), _
              vbExclamation, "Diagnóstico da importação"
    End If
@@ -8673,7 +8700,7 @@ cmdNovo.Enabled = True
 cmdUsarUnidMedida.Visible = True
 cmdFracionar.Visible = False
 cmdImportarXML.Enabled = True
-txtCodUsuario.Text = Tela_Principal.txtCodFuncionario.Text
+If Not gModoMonitorNFe Then txtCodUsuario.Text = Tela_Principal.txtCodFuncionario.Text   'no /monitornfe a Tela_Principal não é carregada
 End Sub
 
 Private Sub GridNotas_DblClick()
@@ -9407,24 +9434,27 @@ End Sub
 
 Public Sub FormatarGridNotas(rTabela As ADODB.Recordset)
 Dim i As Integer, j As Integer
+Dim sMonitor As String
+sMonitor = ListaNotasMonitor()
 
 With GridNotas
    .Visible = False
    .Redraw = False
    
    .Clear
-   .Cols = 9
+   .Cols = 10
    .rows = 2
    
    .ColWidth(0) = 0
    .ColWidth(1) = 0
    .ColWidth(2) = 1000
    .ColWidth(3) = 1100
-   .ColWidth(4) = 4700
+   .ColWidth(4) = 3800
    .ColWidth(5) = 1100
    .ColWidth(6) = 1350
    .ColWidth(7) = 1350
    .ColWidth(8) = 1350
+   .ColWidth(9) = 900
    
    'CodigoNota, NumeroNota, DataEmissao, NaturezaOperacao, RazaoSocial, ValorNota
    .TextMatrix(0, 1) = "CÓD"
@@ -9435,6 +9465,7 @@ With GridNotas
    .TextMatrix(0, 6) = "STATUS"
    .TextMatrix(0, 7) = "SITUAÇÃO"
    .TextMatrix(0, 8) = "PENDÊNCIAS"
+   .TextMatrix(0, 9) = "ORIGEM"
    
    'colocar os cabeaalho em negrito
    For i = 0 To .Cols - 1
@@ -9462,6 +9493,7 @@ With GridNotas
    .ColAlignment(6) = 4
    .ColAlignment(7) = 4
    .ColAlignment(8) = 6
+   .ColAlignment(9) = 4
    
    If Not rTabela Is Nothing Then
       Do While Not rTabela.EOF
@@ -9473,6 +9505,7 @@ With GridNotas
          .TextMatrix(.rows - 1, 6) = rTabela("Status")
          .TextMatrix(.rows - 1, 7) = rTabela("SITUACAO")
          .TextMatrix(.rows - 1, 8) = rTabela("VSOMAPENDENCIA")
+         .TextMatrix(.rows - 1, 9) = IIf(InStr(1, sMonitor, "|" & rTabela("CodigoNota") & "|") > 0, "MONITOR", "MANUAL")
          rTabela.MoveNext
          .rows = .rows + 1
          i = i + 1
@@ -9480,6 +9513,16 @@ With GridNotas
    End If
    
    .rows = .rows - 1
+
+   'nota importada sozinha pelo monitor de NF-e: ORIGEM em azul
+   For i = 1 To .rows - 1
+      If .TextMatrix(i, 9) = "MONITOR" Then
+         .Row = i
+         .Col = 9
+         .CellForeColor = &HC00000
+         .CellFontBold = True
+      End If
+   Next
    
    'MUDAR COR DE FONTE DA COLUNA
    For i = 1 To .rows - 1
@@ -9506,6 +9549,23 @@ End With
 
 lblSomaNota.Caption = Format(SomaGrid(GridNotas, 5), ocMONEY)
 End Sub
+
+'Entradas importadas pelo monitor de NF-e (OrigemLancamento = MONITOR), no formato "|12|15|" para a coluna ORIGEM
+Private Function ListaNotasMonitor() As String
+Dim rs As ADODB.Recordset, s As String
+On Error GoTo fim
+Set rs = dbData.OpenRecordset("SELECT CodigoNota FROM EntradaEstoque WHERE OrigemLancamento = 'MONITOR'")
+If Not rs Is Nothing Then
+   Do While Not rs.EOF
+      s = s & rs("CodigoNota") & "|"
+      rs.MoveNext
+   Loop
+   rs.Close
+End If
+fim:
+Set rs = Nothing
+ListaNotasMonitor = "|" & s
+End Function
 
 Private Sub txtValorVP_Click()
 SelectControl txtValorVP

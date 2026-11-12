@@ -1192,6 +1192,25 @@ Begin VB.Form Configuracao_Geral
             Top             =   3360
             Width           =   615
          End
+         Begin VB.CheckBox chkImpXMLAuto
+            Caption         =   "Sim"
+            Height          =   195
+            Left            =   4020
+            TabIndex        =   243
+            ToolTipText     =   "O monitor de NF-e (no servidor) importa sozinho as notas de compra na Entrada de Estoque, em digitação, para conferência."
+            Top             =   3600
+            Width           =   615
+         End
+         Begin VB.Label lblImpXMLAuto
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Importar XML Automático:"
+            Height          =   195
+            Left            =   2190
+            TabIndex        =   244
+            Top             =   3600
+            Width           =   1755
+         End
          Begin VB.CheckBox chkBloqueioAPrazo 
             Caption         =   "Bloqueio"
             Height          =   195
@@ -3470,6 +3489,34 @@ Private Sub Mostrar_SpedMensal()
 On Error Resume Next
 chkEnviarSpedMensal.Value = vbUnchecked
 chkEnviarSpedMensal.Value = IIf(CStr(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'SPED_MENSAL'", "r", "0")) = "1", vbChecked, vbUnchecked)
+End Sub
+
+'Importar_XML: 1 (padrão) = o monitor de NF-e (servidor) importa sozinho as notas de compra na Entrada de Estoque.
+'Ao religar, grava IMPORTAR_XML_DESDE = hoje: só entram as notas emitidas a partir daí (as antigas ficam para a
+'importação manual pela tela Notas Destinadas).
+Private Sub AtualizarImpXMLAuto()
+Dim sAnterior As String, sNovo As String
+
+sAnterior = CStr(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'Importar_XML'", "r", ""))
+sNovo = IIf(chkImpXMLAuto.Value = vbChecked, "1", "0")
+
+'Cria a linha caso o script 177 ainda nao tenha rodado
+dbData.Execute "IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'Importar_XML') INSERT INTO configuracao (config_nome, config_valor) VALUES ('Importar_XML', '1');"
+dbData.Execute "UPDATE configuracao SET config_valor = '" & sNovo & "' WHERE (config_nome = 'Importar_XML');"
+If sNovo = "1" And sAnterior = "0" Then
+   dbData.Execute "IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'IMPORTAR_XML_DESDE') INSERT INTO configuracao (config_nome, config_valor) VALUES ('IMPORTAR_XML_DESDE', '');"
+   dbData.Execute "UPDATE configuracao SET config_valor = '" & Format$(Date, "yyyy-mm-dd") & "' WHERE (config_nome = 'IMPORTAR_XML_DESDE');"
+End If
+
+On Error Resume Next
+sysConfig("Importar_XML").Value = sNovo
+On Error GoTo 0
+End Sub
+
+Private Sub Mostrar_ImpXMLAuto()
+On Error Resume Next
+chkImpXMLAuto.Value = vbChecked
+chkImpXMLAuto.Value = IIf(CStr(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'Importar_XML'", "r", "1")) = "0", vbUnchecked, vbChecked)
 End Sub
 
 Private Sub Mostrar_PixDinamico()
@@ -6046,6 +6093,7 @@ AtualizarMultiplasRef
 AtualizarLimitarCompra
 AtualizarTipoJuros
 AtualizarSpedMensal
+AtualizarImpXMLAuto
 MsgBox "Informações Salvas", vbInformation, "Aviso do Sistema"
 End Sub
 
@@ -6160,6 +6208,7 @@ MostrarTipoLogin
 MostrarLogoffAutomatico
 Mostrar_ExibirTributos
 Mostrar_SpedMensal
+Mostrar_ImpXMLAuto
 Mostrar_PixDinamico
 Mostrar_TipoDesconto
 Mostrar_DescGradual

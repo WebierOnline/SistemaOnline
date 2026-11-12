@@ -173,6 +173,10 @@ Select Case msDestinos(Index)
         PosicionarAoLadoDosPopups Notas_Adesivas
     Case "EMPRESA"
         Empresa_Cadastro.Show
+    Case "ENTRADA_ESTOQUE"
+        Entrada_Estoque.Show
+    Case "NOTAS_DESTINADAS"
+        Notas_Destinadas_Consulta.Show 1
 End Select
 End Sub
 

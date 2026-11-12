@@ -9,11 +9,13 @@ Option Explicit
 '3) Envia a CIÊNCIA DA OPERAÇÃO para toda nota autorizada ainda não manifestada: a SEFAZ libera o XML completo (procNFe)
 '   numa próxima consulta; a DLL grava em nfe\arquivos\DFe e aqui é copiado para nfe\arquivos\ConfRecebto, onde a tela
 '   procura para Importar/DANFe. Ciência recusada fica anotada em TextoCorrecao ("MonitorNFe: ...") e não é repetida.
+'4) Com configuracao Importar_XML = 1 (padrão) importa as notas de compra na Entrada de Estoque (ver MON_ImportarNotas).
 'Desligar numa empresa: configuracao MONITOR_NFE = 0. Log em MonitorNFe_log.txt na pasta do sistema.
 
 Private Const MON_MINUTOS_ESPERA As Long = 60
 Private Const MON_MAX_CONSULTAS As Long = 20     'lotes de até 50 documentos por execução
 Private Const MON_MAX_CIENCIAS As Long = 50      'ciências por execução
+Private Const MON_MAX_IMPORTACOES As Long = 30   'importações automáticas na Entrada de Estoque por execução
 
 Private mDirXML As String
 Private mCNPJ As String
@@ -53,8 +55,9 @@ sistNFe.certificadoAvisaVencimento = False
 
 MON_Consultar sistNFe
 MON_EnviarCiencias sistNFe
-
 Set sistNFe = Nothing
+MON_ImportarNotas
+
 Exit Sub
 
 deuErro:
@@ -297,6 +300,225 @@ Err.Clear
 If nOk > 0 Then MON_Log "Ciência da operação enviada para " & nOk & " nota(s)."
 End Sub
 
+'---------- 4) importação automática na Entrada de Estoque (configuracao Importar_XML = 1) ----------
+'Importa com a mesma rotina da tela (Entrada_Estoque.ImportarXML, carregada sem aparecer, em modo silencioso): cadastra
+'o fornecedor, vincula os produtos, lança as duplicatas no a_pagar e arquiva o XML em EntradasXML. Fica "Em Digitação":
+'o estoque só muda quando o usuário confere e adiciona os itens. Só importa notas de compra emitidas a partir de
+'IMPORTAR_XML_DESDE (gravada na primeira execução / quando a opção é ligada), para não puxar o histórico.
+'ImportacaoStatus: 0 pendente, 1 importada (ou já lançada), 2 erro, 3 não importar (não é compra, outro destinatário...).
+
+Private Sub MON_ImportarNotas()
+Dim rs As ADODB.Recordset, sDesde As String, nOk As Long, nErro As Long, nIgn As Long
+On Error GoTo deuErro
+
+If CStr(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'Importar_XML'", "r", "1")) <> "1" Then Exit Sub
+
+sDesde = MON_Txt(SQLExecutaRetorno("SELECT TOP 1 config_valor AS r FROM configuracao WHERE config_nome = 'IMPORTAR_XML_DESDE'", "r", ""))
+If Not IsDate(sDesde) Then
+   sDesde = Format$(Date, "yyyy-mm-dd")
+   SQLExecuta "IF NOT EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'IMPORTAR_XML_DESDE') " & _
+              "INSERT INTO configuracao (config_nome, config_valor) VALUES ('IMPORTAR_XML_DESDE', '')"
+   SQLExecuta "UPDATE configuracao SET config_valor = '" & sDesde & "' WHERE config_nome = 'IMPORTAR_XML_DESDE'"
+   MON_Log "Importação automática ligada: notas emitidas a partir de " & Format$(Date, "dd/mm/yyyy") & "."
+End If
+
+Set rs = dbData.OpenRecordset("SELECT TOP " & MON_MAX_IMPORTACOES & " IdNFConsulta, ChaveAcesso " & _
+       "FROM TbNotasDestinadasManifestacao " & _
+       "WHERE ImportacaoStatus = 0 AND Enviada = 1 AND SituacaoNota = 1 AND LEN(ChaveAcesso) = 44 " & _
+       "AND ISNULL(TipoEventoCodigo, '') NOT IN ('110111', '210220', '210240') " & _
+       "AND ISNULL(TipoEvento, '') NOT LIKE '[23] - %' " & _
+       "AND DataEmissao >= '" & Format$(CDate(sDesde), "yyyymmdd") & "' " & _
+       "ORDER BY IdNFConsulta")
+If rs Is Nothing Then Exit Sub
+Do While Not rs.EOF
+   Select Case MON_ImportarNota(CLng(rs("IdNFConsulta")), MON_Txt(rs("ChaveAcesso")))
+   Case 1: nOk = nOk + 1
+   Case 2: nErro = nErro + 1
+   Case 3: nIgn = nIgn + 1
+   End Select
+   rs.MoveNext
+Loop
+rs.Close
+Set rs = Nothing
+If nOk + nErro + nIgn > 0 Then MON_Log "Importação automática: " & nOk & " importada(s), " & nErro & " com erro, " & nIgn & " não importada(s) (não é compra)."
+Exit Sub
+
+deuErro:
+MON_Log "Erro na importação automática: " & Err.Description
+Err.Clear
+End Sub
+
+'Importa uma nota. Retorna o status gravado (1, 2 ou 3) ou 0 quando ficou pendente (XML ainda não está na pasta).
+Private Function MON_ImportarNota(ByVal vID As Long, ByVal sChave As String) As Long
+Dim sArq As String, sMotivo As String, sErro As String, lCod As Long, bOk As Boolean
+On Error GoTo deuErro
+
+sArq = MON_ArquivoXML(sChave)
+If Len(sArq) = 0 Then Exit Function
+
+lCod = MON_EntradaDaChave(sChave)
+If lCod > 0 Then
+   MON_MarcarImportacao vID, 1, lCod, "Já lançada na Entrada de Estoque."
+   MON_ImportarNota = 1
+   Exit Function
+End If
+
+sMotivo = MON_MotivoNaoImportar(sArq)
+If Len(sMotivo) > 0 Then
+   MON_MarcarImportacao vID, 3, 0, sMotivo
+   MON_ImportarNota = 3
+   Exit Function
+End If
+
+Load Entrada_Estoque
+Entrada_Estoque.ImportacaoSilenciosa = True
+Entrada_Estoque.UltimoErroImportacao = ""
+bOk = Entrada_Estoque.ImportarXML(sArq)
+If bOk Then Entrada_Estoque.CriarEntradaEstoque Entrada_Estoque.CodigoNotaAtual
+sErro = Entrada_Estoque.UltimoErroImportacao
+Unload Entrada_Estoque
+
+lCod = MON_EntradaDaChave(sChave)
+If lCod > 0 Then
+   MON_MarcarImportacao vID, 1, lCod, sErro
+   MON_Log "Nota " & sChave & " importada na entrada " & lCod & IIf(Len(sErro) > 0, " (aviso: " & sErro & ")", "") & "."
+   MON_ImportarNota = 1
+Else
+   If Len(sErro) = 0 Then sErro = "A importação não gravou a entrada."
+   MON_MarcarImportacao vID, 2, 0, sErro
+   MON_Log "Nota " & sChave & " não importada: " & sErro
+   MON_ImportarNota = 2
+End If
+Exit Function
+
+deuErro:
+sErro = Err.Description
+Err.Clear
+On Error Resume Next
+Unload Entrada_Estoque
+MON_MarcarImportacao vID, 2, 0, sErro
+MON_Log "Nota " & sChave & " não importada: " & sErro
+MON_ImportarNota = 2
+End Function
+
+'XML completo (procNFe) da nota: ConfRecebto (cópia do monitor/tela) ou DFe (onde a DLL grava). "" se ainda não chegou.
+Private Function MON_ArquivoXML(ByVal sChave As String) As String
+Dim s As String
+s = mDirXML & "nfe\arquivos\ConfRecebto\" & sChave & "-procNFe.xml"
+If Existe(s) = 0 Then s = mDirXML & "nfe\arquivos\DFe\" & sChave & "-procNFe.xml"
+If Existe(s) = 0 Then s = ""
+MON_ArquivoXML = s
+End Function
+
+'Só importa nota de compra: emitida como saída pelo fornecedor, finalidade normal, para o CNPJ da empresa e com todos os
+'CFOP de venda (x101-x123, x401-x405, x651-x656). Remessa, comodato, conserto, transferência, devolução etc. ficam
+'para a importação manual. Retorna o motivo de não importar ("" = pode importar).
+Private Function MON_MotivoNaoImportar(ByVal sArq As String) As String
+Dim xml As New MSXML2.DOMDocument30, nl As MSXML2.IXMLDOMNodeList, i As Long, sCfop As String, nCfop As Long
+Dim sDest As String
+
+xml.async = False
+If Not xml.Load(sArq) Then
+   MON_MotivoNaoImportar = "XML inválido."
+   Exit Function
+End If
+If MON_NoTexto(xml, "nfeProc/NFe/infNFe/ide/tpNF") <> "1" Then
+   MON_MotivoNaoImportar = "Não é nota de saída do fornecedor (tpNF " & MON_NoTexto(xml, "nfeProc/NFe/infNFe/ide/tpNF") & ")."
+   Exit Function
+End If
+If MON_NoTexto(xml, "nfeProc/NFe/infNFe/ide/finNFe") <> "1" Then
+   MON_MotivoNaoImportar = "Finalidade da nota não é normal (finNFe " & MON_NoTexto(xml, "nfeProc/NFe/infNFe/ide/finNFe") & ")."
+   Exit Function
+End If
+sDest = MON_SoDigitos(MON_NoTexto(xml, "nfeProc/NFe/infNFe/dest/CNPJ") & MON_NoTexto(xml, "nfeProc/NFe/infNFe/dest/CPF"))
+If sDest <> mCNPJ Then
+   MON_MotivoNaoImportar = "A empresa não é a destinatária da nota (transporte ou autorização de XML)."
+   Exit Function
+End If
+Set nl = xml.selectNodes("nfeProc/NFe/infNFe/det/prod/CFOP")
+If nl.Length = 0 Then
+   MON_MotivoNaoImportar = "Nota sem itens."
+   Exit Function
+End If
+For i = 0 To nl.Length - 1
+   sCfop = Trim$(nl.Item(i).Text)
+   nCfop = Val(Mid$(sCfop, 2))
+   If Len(sCfop) <> 4 Or (Left$(sCfop, 1) <> "5" And Left$(sCfop, 1) <> "6") Or _
+      Not ((nCfop >= 101 And nCfop <= 123) Or (nCfop >= 401 And nCfop <= 405) Or (nCfop >= 651 And nCfop <= 656)) Then
+      MON_MotivoNaoImportar = "CFOP " & sCfop & " não é de compra (importe pela tela, se for o caso)."
+      Exit Function
+   End If
+Next
+End Function
+
+Private Function MON_NoTexto(xml As MSXML2.DOMDocument30, ByVal sCaminho As String) As String
+Dim no As MSXML2.IXMLDOMNode
+Set no = xml.selectSingleNode(sCaminho)
+If Not no Is Nothing Then MON_NoTexto = Trim$(no.Text)
+End Function
+
+Private Sub MON_MarcarImportacao(ByVal vID As Long, ByVal nStatus As Long, ByVal lCodNota As Long, ByVal sMotivo As String)
+SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET ImportacaoStatus = " & nStatus & ", " & _
+           IIf(nStatus = 1, "ImportadoXML = 1, ", "") & _
+           "CodigoNotaEntrada = " & lCodNota & ", ImportacaoData = GETDATE(), " & _
+           "ImportacaoMotivo = '" & MON_Sql(Left$(sMotivo, 250)) & "' WHERE IdNFConsulta = " & vID
+End Sub
+
+Public Function MON_EntradaDaChave(ByVal sChave As String) As Long
+MON_EntradaDaChave = Val(CStr(SQLExecutaRetorno("SELECT TOP 1 CodigoNota AS r FROM EntradaEstoque WHERE ChavedeAcesso = '" & _
+                     MON_Sql(sChave) & "' ORDER BY CodigoNota DESC", "r", 0)))
+End Function
+
+'---------- exclusão / recusa: contas a pagar e entrada lançadas pela importação do XML ----------
+
+'Duplicatas que a importação do XML lançou no a_pagar para a entrada (REF = CodigoNota, descrição "NF-e 000123 - DUP: ...").
+Private Function MON_FiltroContas(ByVal lCodNota As Long) As String
+MON_FiltroContas = "REF = '" & lCodNota & "' AND DESCRICAO LIKE 'NF-e " & Format$(lCodNota, "000000") & " - DUP:%'"
+End Function
+
+'Exclui as contas ainda em aberto; as já pagas ficam (Pagas retorna quantas). Retorna quantas foram excluídas.
+Public Function MON_ExcluirContasEntrada(ByVal lCodNota As Long, Optional ByRef Pagas As Long) As Long
+If lCodNota <= 0 Then Exit Function
+Pagas = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) AS r FROM a_pagar WHERE " & MON_FiltroContas(lCodNota) & _
+        " AND ISNULL(STATUS, '') NOT LIKE '%PAGAR%'", "r", 0)))
+MON_ExcluirContasEntrada = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) AS r FROM a_pagar WHERE " & MON_FiltroContas(lCodNota) & _
+        " AND ISNULL(STATUS, '') LIKE '%PAGAR%'", "r", 0)))
+If MON_ExcluirContasEntrada > 0 Then
+   SQLExecuta "DELETE FROM a_pagar WHERE " & MON_FiltroContas(lCodNota) & " AND ISNULL(STATUS, '') LIKE '%PAGAR%'"
+End If
+End Function
+
+'Nota recusada (Desconhecimento / Operação não Realizada): exclui as contas a pagar em aberto e, se nenhum produto foi
+'adicionado ao estoque, a entrada inteira. Retorna o texto do que foi feito ("" = a nota não estava lançada).
+Public Function MON_ExcluirEntradaRecusada(ByVal sChave As String) As String
+Dim lCod As Long, lCodEntrada As Long, nContas As Long, nPagas As Long, nAdic As Long, s As String
+On Error GoTo deuErro
+
+lCod = MON_EntradaDaChave(sChave)
+If lCod = 0 Then Exit Function
+
+nContas = MON_ExcluirContasEntrada(lCod, nPagas)
+nAdic = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) AS r FROM EntradaEstoqueItens WHERE CodigoNota = " & lCod & " AND Adicionada = 1", "r", 0)))
+If nAdic > 0 Then
+   s = "A entrada " & lCod & " já tem produtos adicionados ao estoque e NÃO foi excluída: faça a nota de devolução ao fornecedor."
+Else
+   lCodEntrada = Val(CStr(SQLExecutaRetorno("SELECT ISNULL(Cod_entrada, 0) AS r FROM EntradaEstoque WHERE CodigoNota = " & lCod, "r", 0)))
+   SQLExecuta "DELETE FROM EntradaEstoqueItens WHERE CodigoNota = " & lCod
+   SQLExecuta "DELETE FROM EntradaEstoque WHERE CodigoNota = " & lCod
+   If lCodEntrada > 0 Then SQLExecuta "DELETE FROM produtos_entrada WHERE CODIGO = " & lCodEntrada
+   SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET CodigoNotaEntrada = 0 WHERE ChaveAcesso = '" & MON_Sql(sChave) & "'"
+   s = "A entrada " & lCod & " (em digitação) foi excluída."
+End If
+s = s & " " & nContas & " conta(s) a pagar excluída(s)."
+If nPagas > 0 Then s = s & " ATENÇÃO: " & nPagas & " conta(s) já paga(s) não foram excluídas."
+MON_ExcluirEntradaRecusada = s
+Exit Function
+
+deuErro:
+MON_ExcluirEntradaRecusada = "Erro ao excluir a entrada/contas da nota recusada: " & Err.Description
+Err.Clear
+End Function
+
 Private Function MON_IdLote(ByVal i As Long) As Long
 MON_IdLote = CLng(Format$(Now, "hhnnss")) * 100 + (i Mod 100)
 End Function
@@ -336,7 +558,7 @@ Private Function MON_DataSQL(ByVal v As Variant) As String
 Dim s As String
 s = MON_Txt(v)
 If Len(s) >= 10 And Mid$(s, 3, 1) = "/" And Mid$(s, 6, 1) = "/" Then
-   MON_DataSQL = "'" & Mid$(s, 7, 4) & "-" & Mid$(s, 4, 2) & "-" & Left$(s, 2) & "'"
+   MON_DataSQL = "'" & Mid$(s, 7, 4) & Mid$(s, 4, 2) & Left$(s, 2) & "'"   'aaaammdd: igual em qualquer idioma do login
 ElseIf IsDate(s) Then
    MON_DataSQL = FdtSQL(CDate(s))
 Else
