@@ -6325,6 +6325,18 @@ deuErro:
  Err.Clear
 End Sub
 
+'Abre uma entrada já gravada (usada quando a NF-e importada já existe; chamada também pela tela Notas_Destinadas_Consulta)
+Public Sub AbrirEntradaExistente(ByVal CodigoNota As Long, ByVal arqXML As String)
+If CodigoNota <= 0 Then Exit Sub
+If TbEntrada.State = 1 Then TbEntrada.Close
+RsOpen TbEntrada, "SELECT *, " & _
+                  "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status " & _
+                  "FROM EntradaEstoque WHERE CodigoNota = " & CodigoNota
+xCaminhoXML = arqXML
+Load_Controls
+Frm_NF.Tab = 0
+End Sub
+
 Public Function ImportarXML(arqXML As String) As Boolean
 Dim cnpj As String, CPF As String, tipoEmp As Integer
 Dim sDiagXML As String   'diagnostico temporario (mod57): campos fiscais que nao vieram do XML
@@ -6414,13 +6426,7 @@ If SQLExecutaRetorno(sSQL, "r", 0) > 0 Then
         lCodNotaExist = SQLExecutaRetorno("SELECT CodigoNota r FROM EntradaEstoque WHERE ChavedeAcesso = '" & _
                         XMLDOC.getElementsByTagName("nfeProc/protNFe/infProt/chNFe").item(0).Text & "'", "r", 0)
         If lCodNotaExist > 0 Then
-            If TbEntrada.State = 1 Then TbEntrada.Close
-            RsOpen TbEntrada, "SELECT *, " & _
-                              "(CASE WHEN Denegada = 1 THEN 'Denegada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 0 THEN 'Enviada' ELSE (CASE WHEN Enviada = 1 AND Cancelada = 1 THEN 'Cancelada' ELSE 'Em Digitaaao' END) END) END) AS Status " & _
-                              "FROM EntradaEstoque WHERE CodigoNota = " & lCodNotaExist
-            xCaminhoXML = arqXML
-            Load_Controls
-            Frm_NF.Tab = 0
+            AbrirEntradaExistente lCodNotaExist, arqXML
         End If
     End If
     ImportarXML = False: Exit Function

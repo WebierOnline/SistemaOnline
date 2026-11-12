@@ -996,7 +996,7 @@ ConsultaNovamente:
                xTipoNota = retornotpNF(i)
                xSituacaoNF = retornocSitNFe(i)
                xSituacaoConfirmacao = "1"   'retornocSitConf(i)
-               vsSQL = "UPDATE TbNotasDestinadasManifestacao SET Enviada = 1, SituacaoConfirmacao = 1, DataHoraProcotolo = '" & Format$(xDataEmissao, ocDATA) & "', 103) & " ' WHERE ChaveAcesso = '" & xChaveNF & "'"
+               vsSQL = "UPDATE TbNotasDestinadasManifestacao SET Enviada = 1, SituacaoConfirmacao = 1, DataHoraProcotolo = '" & Left$(xDataEmissao, 25) & "' WHERE ChaveAcesso = '" & xChaveNF & "'"
                e$ = SQLExecuta(vsSQL)
                If Not Vazio(e$) Then
                   MsgBox e$, vbCritical + vbOKOnly, vgAtencao
@@ -1021,8 +1021,8 @@ ConsultaNovamente:
                xnSeqEvento = retornocSitConf(i)
                xCorrecao = retornoxNome(i)
                xSituacaoNF = retornocSitNFe(i)
-               If Left(xTipoEvento, 2) = 11 Or Left(xTipoEvento, 2) = 21 Then
-                  vsSQL = "UPDATE TbNotasDestinadasManifestacao SET TipoEventoCodigo = '" & xTipoEvento & "', TipoEvento = '" & xCorrecao & "', EventoProtocolo = " & xSituacaoNF & ", EventoDataHora = '" & xDataEmissao & "' WHERE ChaveAcesso = '" & xChaveNF & "'"
+               vsSQL = MON_SqlEvento(xChaveNF, xTipoEvento, xCorrecao, xSituacaoNF, xDataEmissao)   'mesma regra do monitor
+               If Len(vsSQL) > 0 Then
                   e$ = SQLExecuta(vsSQL)
                   If Not Vazio(e$) Then
                      MsgBox e$, vbCritical + vbOKOnly, vgAtencao
@@ -1090,8 +1090,9 @@ For i = 0 To Grid.rows - 1
    End If
 Next
 
-If vSituacao = "Sem Manifestar" Then
-    MsgBox "A Nota precisa ser manifestada primeiramente!", vbInformation, "Aviso do Sistema"
+If vSituacao = "Sem Manifestar" Or vSituacao = "Aguardando XML" Then
+    MsgBox "O XML completo desta nota ainda não está disponível." & vbNewLine & _
+           "Depois da Ciência da Operação a SEFAZ libera o XML na consulta seguinte (o monitor consulta de hora em hora).", vbInformation, "Aviso do Sistema"
     Exit Sub
 End If
 
@@ -1108,6 +1109,7 @@ Dim sistNFe As snfe.Util
   'chaveNFe = Grid.TextMatrix(i, 7)
   
   xCaminhoXML = dirXML & "nfe\arquivos\ConfRecebto\" & vChave & "-procNFe.xml"
+If Existe(xCaminhoXML) = 0 Then xCaminhoXML = dirXML & "nfe\arquivos\DFe\" & vChave & "-procNFe.xml"   'a DLL grava o procNFe em DFe
 
   If Not Existe(xCaminhoXML) Then
      MsgBox "Arquivo XML: " & xCaminhoXML & " não foi localizado!", vbExclamation + vbOKOnly, "ATENÇÃO"
@@ -1128,146 +1130,250 @@ deuErro:
  Set sistNFe = Nothing
 End Sub
 
+'Manifestação do destinatário. A Ciência (que o monitor envia sozinho) não encerra a nota: depois dela ainda cabe um
+'evento definitivo (Confirmação, Desconhecimento ou Operação não Realizada), que é único e não pode ser desfeito.
 Private Sub cmdEnviarManifestacao_Click()
-Dim SQL As String, TipoEvento As String, xTipoEvento As String, Justificativa As String
-Dim DataHora As Variant, i As Long
-Dim vSituacao As String, vEvento As String, vCnpj As String, vChave As String, vID As Integer
+Dim i As Long, vID As Long, vChave As String, vCnpj As String, vAtual As String
+Dim TipoEvento As String, Justificativa As String, sMotivo As String
 
-For i = 0 To Grid.rows - 1
+For i = 1 To Grid.rows - 1
    Grid.Row = i
    Grid.Col = 0
-   
    If Grid.CellPicture = ImgMarcada Then
-      vSituacao = (Grid.TextMatrix(Grid.Row, 2))
-      vEvento = (Grid.TextMatrix(Grid.Row, 3))
-      vCnpj = (Grid.TextMatrix(Grid.Row, 5))
-      vChave = (Grid.TextMatrix(Grid.Row, 7))
-      vID = (Grid.TextMatrix(Grid.Row, 10))
+      vID = Val(Grid.TextMatrix(i, 10))
+      Exit For
    End If
 Next
+If vID = 0 Then Exit Sub
 
-If vSituacao = "Sem Manifestar" And vEvento <> "" Then
-    MsgBox "A Nota espera um retorno da sefaz para mudar sua situação!", vbInformation, "Aviso do Sistema"
-    Exit Sub
-ElseIf vSituacao <> "Sem Manifestar" Then
-    MsgBox "A Nota já foi manifestada anteriormente!", vbInformation, "Aviso do Sistema"
-    Exit Sub
+vAtual = EventoDaNota(vID, vChave, vCnpj)
+Select Case vAtual
+Case "X"
+   MsgBox "Nota não encontrada. Atualize a lista e tente novamente.", vbInformation, "Aviso do Sistema"
+   Exit Sub
+Case "C"
+   MsgBox "Esta nota foi cancelada pelo fornecedor. Não há manifestação a fazer.", vbInformation, "Aviso do Sistema"
+   Exit Sub
+Case "0", "2", "3"
+   MsgBox "Esta nota já tem o evento definitivo """ & Mid$(MON_TextoManifestacao(vAtual), 5) & """." & vbNewLine & _
+          "A SEFAZ não aceita outro evento definitivo para a mesma nota.", vbInformation, "Aviso do Sistema"
+   Exit Sub
+End Select
+
+TipoEvento = PerguntarTipoEvento(vAtual = "1")
+If Len(TipoEvento) = 0 Then Exit Sub
+If Not ConfirmarEvento(TipoEvento, Justificativa, 1) Then Exit Sub
+
+Screen.MousePointer = vbHourglass
+sMotivo = ManifestarNota(vID, TipoEvento, Justificativa)
+Screen.MousePointer = vbDefault
+
+If Len(sMotivo) = 0 Then
+   MsgBox Mid$(MON_TextoManifestacao(TipoEvento), 5) & " registrada na SEFAZ." & vbNewLine & vbNewLine & _
+          "Protocolo: " & NFeNumeroProtocolo & vbNewLine & "Data/Hora: " & NFeDataHora, vbInformation, "Manifestação do Destinatário"
+Else
+   MsgBox "Manifestação não enviada: " & sMotivo, vbExclamation, "Manifestação do Destinatário"
 End If
-
-On Error GoTo deuErro
-
-     TipoEvento = "1"
-tentaNovamente:
-     TipoEvento = InputBox("INFORME O TIPO DA MANIFESTAÇÃO" & vbNewLine & vbNewLine & "0 - Confirmação da Operação" & vbNewLine & "1 - Ciência da Operação" & vbNewLine & "2 - Desconhecimento da Operação" & vbNewLine & "3 - Registro da Operação não Realizada", "MANIFESTAÇÃO DO DESTINATÁRIO", TipoEvento)
-     If Not IsNumeric(TipoEvento) Then GoTo tentaNovamente
-     If Int(TipoEvento) > 4 Then GoTo tentaNovamente
-     DataHora = Format(Date, "yyyy-mm-dd") & "T" & Format(Now, "hh:mm:ss") & UTC
-     iRetorno = TransmitirManDest(vCnpj, vChave, DataHora, TipoEvento, Justificativa)
-     If iRetorno Then
-        Select Case TipoEvento
-           Case "0"
-              xTipoEvento = "0 - Confirmação da Operação"
-           Case "1"
-              xTipoEvento = "1 - Ciência da Operação"
-           Case "2"
-              xTipoEvento = "2 - Desconhecimento da Operação"
-           Case "3"
-              xTipoEvento = "3 - Registro da Operação não Realizada"
-        End Select
-        vsSQL = "UPDATE TbNotasDestinadasManifestacao SET " & _
-                "TipoEvento = '" & xTipoEvento & "', " & _
-                "nSeqEvento = 1, " & _
-                "Justificativa = '" & Justificativa & "', " & _
-                "Data = GETDATE(), " & _
-                "Enviada = " & IIf(Int(TipoEvento) <> 1, 1, 0) & ", " & _
-                "NumeroProtocolo = " & NFeNumeroProtocolo & ", " & _
-                "DataHoraProcotolo = '" & NFeDataHora & "', " & _
-                "Enviar = 0, " & _
-                "XMLAutorizado = '" & NFeXML & "' " & _
-                "WHERE IDNFConsulta = " & vID
-        SQLExecuta vsSQL
-     End If
-     Call cmdAtualizarGrid_Click
-  Exit Sub
-  
-deuErro:
-  Screen.MousePointer = vbDefault
-  MsgBox Err.Description, vbCritical
-  Err.Clear
+Call cmdAtualizarGrid_Click
 End Sub
 
 Private Sub cmdEnviarManifestacao2_Click()
-Dim SQL As String, TipoEvento As String, xTipoEvento As String, Justificativa As String
-Dim DataHora As Variant, i As Long
-Dim vSituacao As String, vEvento As String, vCnpj As String, vChave As String, vID As Integer
+Dim i As Long, vID As Long, nSel As Long, nOk As Long, nFalha As Long
+Dim TipoEvento As String, Justificativa As String, sMotivo As String, sLista As String
 
-    TipoEvento = "1"
-tentaNovamente:
-    TipoEvento = InputBox("INFORME O TIPO DA MANIFESTAÇÃO" & vbNewLine & vbNewLine & "0 - Confirmação da Operação" & vbNewLine & "1 - Ciência da Operação" & vbNewLine & "2 - Desconhecimento da Operação" & vbNewLine & "3 - Registro da Operação não Realizada", "MANIFESTAÇÃO DO DESTINATÁRIO", TipoEvento)
-    If Not IsNumeric(TipoEvento) Then GoTo tentaNovamente
-    If Int(TipoEvento) > 4 Then GoTo tentaNovamente
-    
-    For i = 0 To Grid.rows - 1
-       Grid.Row = i
-       Grid.Col = 0
-       
-       If Grid.CellPicture = ImgMarcada Then
-            vSituacao = (Grid.TextMatrix(Grid.Row, 2))
-            vEvento = (Grid.TextMatrix(Grid.Row, 3))
-            vCnpj = (Grid.TextMatrix(Grid.Row, 5))
-            vChave = (Grid.TextMatrix(Grid.Row, 7))
-            vID = (Grid.TextMatrix(Grid.Row, 10))
-       
-            If vSituacao = "Sem Manifestar" And vEvento <> "" Then
-                MsgBox "Você selecionou nota(s) que espera(m) um retorno da sefaz para mudar sua situação!", vbInformation, "Aviso do Sistema"
-                Exit Sub
-            ElseIf vSituacao <> "Sem Manifestar" Then
-                MsgBox "Você selecionou nota(s) que já foi(foram) manifestada(s) anteriormente!", vbInformation, "Aviso do Sistema"
-                Exit Sub
-            End If
-       
-            On Error GoTo deuErro
-    
-            DataHora = Format(Date, "yyyy-mm-dd") & "T" & Format(Now, "hh:mm:ss") & UTC
-            iRetorno = TransmitirManDest(vCnpj, vChave, DataHora, TipoEvento, Justificativa, True)
-            If iRetorno Then
-                Select Case TipoEvento
-                   Case "0"
-                      xTipoEvento = "0 - Confirmação da Operação"
-                   Case "1"
-                      xTipoEvento = "1 - Ciência da Operação"
-                   Case "2"
-                      xTipoEvento = "2 - Desconhecimento da Operação"
-                   Case "3"
-                      xTipoEvento = "3 - Registro da Operação não Realizada"
-                End Select
-                vsSQL = "UPDATE TbNotasDestinadasManifestacao SET " & _
-                        "TipoEvento = '" & xTipoEvento & "', " & _
-                        "nSeqEvento = 1, " & _
-                        "Justificativa = '" & Justificativa & "', " & _
-                        "Data = GETDATE(), " & _
-                        "Enviada = " & IIf(Int(TipoEvento) <> 1, 1, 0) & ", " & _
-                        "NumeroProtocolo = " & NFeNumeroProtocolo & ", " & _
-                        "DataHoraProcotolo = '" & NFeDataHora & "', " & _
-                        "Enviar = 0, " & _
-                        "XMLAutorizado = '" & NFeXML & "' " & _
-                        "WHERE IDNFConsulta = " & vID
-                SQLExecuta vsSQL
-            End If
-       End If
-    Next
-  Call cmdAtualizarGrid_Click
-  Exit Sub
-  
-deuErro:
-  Screen.MousePointer = vbDefault
-  MsgBox Err.Description, vbCritical
-  Err.Clear
+For i = 1 To Grid.rows - 1
+   Grid.Row = i
+   Grid.Col = 0
+   If Grid.CellPicture = ImgMarcada Then nSel = nSel + 1
+Next
+If nSel = 0 Then Exit Sub
+
+TipoEvento = PerguntarTipoEvento(False)
+If Len(TipoEvento) = 0 Then Exit Sub
+If Not ConfirmarEvento(TipoEvento, Justificativa, nSel) Then Exit Sub
+
+Screen.MousePointer = vbHourglass
+For i = 1 To Grid.rows - 1
+   Grid.Row = i
+   Grid.Col = 0
+   If Grid.CellPicture = ImgMarcada Then
+      vID = Val(Grid.TextMatrix(i, 10))
+      sMotivo = ManifestarNota(vID, TipoEvento, Justificativa)
+      If Len(sMotivo) = 0 Then
+         nOk = nOk + 1
+      Else
+         nFalha = nFalha + 1
+         If nFalha <= 15 Then sLista = sLista & vbNewLine & "- " & Left$(Grid.TextMatrix(i, 6), 35) & ": " & sMotivo
+      End If
+      DoEvents
+   End If
+Next
+Screen.MousePointer = vbDefault
+
+If nFalha > 15 Then sLista = sLista & vbNewLine & "... e mais " & (nFalha - 15) & " nota(s)."
+MsgBox Mid$(MON_TextoManifestacao(TipoEvento), 5) & ":" & vbNewLine & vbNewLine & _
+       nOk & " nota(s) registrada(s) na SEFAZ." & _
+       IIf(nFalha > 0, vbNewLine & nFalha & " nota(s) não enviada(s):" & sLista, ""), _
+       IIf(nFalha > 0, vbExclamation, vbInformation), "Manifestação do Destinatário"
+Call cmdAtualizarGrid_Click
 End Sub
+
+'Manifestação atual da nota, lida do banco: "" nenhuma, "1" ciência, "0"/"2"/"3" definitiva, "C" cancelada, "X" não achada
+Private Function EventoDaNota(ByVal vID As Long, ByRef vChave As String, ByRef vCnpj As String) As String
+Dim rs As ADODB.Recordset, sTexto As String, sCod As String
+
+EventoDaNota = "X"
+Set rs = dbData.OpenRecordset("SELECT ChaveAcesso, CNPJFornecedor, ISNULL(TipoEvento, '') AS TipoEvento, " & _
+                              "ISNULL(TipoEventoCodigo, '') AS TipoEventoCodigo " & _
+                              "FROM TbNotasDestinadasManifestacao WHERE IdNFConsulta = " & vID)
+If Not rs.EOF Then
+   vChave = MON_Txt(rs("ChaveAcesso"))
+   vCnpj = MON_Txt(rs("CNPJFornecedor"))
+   sTexto = MON_Txt(rs("TipoEvento"))
+   sCod = MON_Txt(rs("TipoEventoCodigo"))
+   If sCod = "110111" Then
+      EventoDaNota = "C"
+   ElseIf sCod = "210200" Or sTexto Like "0 - *" Then
+      EventoDaNota = "0"
+   ElseIf sCod = "210220" Or sTexto Like "2 - *" Then
+      EventoDaNota = "2"
+   ElseIf sCod = "210240" Or sTexto Like "3 - *" Then
+      EventoDaNota = "3"
+   ElseIf sCod = "210210" Or sTexto Like "1 - *" Then
+      EventoDaNota = "1"
+   Else
+      EventoDaNota = ""
+   End If
+End If
+If rs.State <> 0 Then rs.Close
+Set rs = Nothing
+End Function
+
+'Pergunta o tipo de manifestação. SoDefinitivos = a nota já tem Ciência (só cabem 0, 2 e 3). "" = cancelou.
+Private Function PerguntarTipoEvento(ByVal SoDefinitivos As Boolean) As String
+Dim sTipo As String, sTexto As String
+
+If SoDefinitivos Then
+   sTexto = "Esta nota já tem a Ciência da Operação." & vbNewLine & "Informe o evento definitivo:" & vbNewLine & vbNewLine & _
+            "0 - Confirmação da Operação (mercadoria recebida)" & vbNewLine & _
+            "2 - Desconhecimento da Operação (compra que não fiz)" & vbNewLine & _
+            "3 - Operação não Realizada (recusada/devolvida, nota errada)"
+   sTipo = "0"
+Else
+   sTexto = "INFORME O TIPO DA MANIFESTAÇÃO" & vbNewLine & vbNewLine & _
+            "0 - Confirmação da Operação (mercadoria recebida)" & vbNewLine & _
+            "1 - Ciência da Operação (libera o XML)" & vbNewLine & _
+            "2 - Desconhecimento da Operação (compra que não fiz)" & vbNewLine & _
+            "3 - Operação não Realizada (recusada/devolvida, nota errada)"
+   sTipo = "1"
+End If
+
+Do
+   sTipo = Trim$(InputBox(sTexto, "MANIFESTAÇÃO DO DESTINATÁRIO", sTipo))
+   If Len(sTipo) = 0 Then Exit Function
+   If sTipo = "0" Or sTipo = "2" Or sTipo = "3" Or (sTipo = "1" And Not SoDefinitivos) Then
+      PerguntarTipoEvento = sTipo
+      Exit Function
+   End If
+   MsgBox "Opção inválida.", vbExclamation, "Aviso do Sistema"
+Loop
+End Function
+
+'Avisa que o evento definitivo não pode ser desfeito e, na Operação não Realizada, pede a justificativa (15 a 255 caracteres)
+Private Function ConfirmarEvento(ByVal TipoEvento As String, ByRef Justificativa As String, ByVal qtNotas As Long) As Boolean
+Dim sAviso As String
+
+Justificativa = ""
+Select Case TipoEvento
+Case "1"
+   ConfirmarEvento = True
+   Exit Function
+Case "0"
+   sAviso = "Use somente se a mercadoria foi recebida e está correta." & vbNewLine & _
+            "Depois da confirmação o fornecedor não consegue mais cancelar a nota."
+Case "2"
+   sAviso = "Use quando a empresa não reconhece a compra (nunca fez esse pedido)." & vbNewLine & _
+            "Não importe esta nota no estoque."
+Case "3"
+   sAviso = "Use quando a compra existe mas não se concretizou: mercadoria recusada ou devolvida na entrega, " & _
+            "nota emitida errada, pedido cancelado." & vbNewLine & "Não importe esta nota no estoque."
+   Do
+      Justificativa = Trim$(InputBox("Informe o motivo (mínimo de 15 caracteres)." & vbNewLine & vbNewLine & _
+                      "Ex.: Mercadoria recusada na entrega por divergência de preço", "OPERAÇÃO NÃO REALIZADA", Justificativa))
+      If Len(Justificativa) = 0 Then Exit Function
+      If Len(Justificativa) >= 15 Then Exit Do
+      MsgBox "A justificativa precisa ter pelo menos 15 caracteres.", vbExclamation, "Aviso do Sistema"
+   Loop
+   Justificativa = Left$(Justificativa, 255)
+End Select
+
+ConfirmarEvento = (MsgBox(Mid$(MON_TextoManifestacao(TipoEvento), 5) & " é um evento DEFINITIVO: depois de registrado " & _
+                          "na SEFAZ não pode ser desfeito." & vbNewLine & vbNewLine & sAviso & vbNewLine & vbNewLine & _
+                          "Confirma o envio para " & qtNotas & " nota(s)?", vbQuestion + vbYesNo + vbDefaultButton2, _
+                          "Manifestação do Destinatário") = vbYes)
+End Function
+
+'Envia a manifestação de uma nota e grava o resultado. Retorna "" se a SEFAZ registrou, ou o motivo de não ter enviado.
+Private Function ManifestarNota(ByVal vID As Long, ByVal TipoEvento As String, ByVal Justificativa As String) As String
+Dim vChave As String, vCnpj As String, vAtual As String, DataHora As String
+
+On Error GoTo deuErro
+
+vAtual = EventoDaNota(vID, vChave, vCnpj)
+Select Case vAtual
+Case "X"
+   ManifestarNota = "nota não encontrada"
+   Exit Function
+Case "C"
+   ManifestarNota = "nota cancelada pelo fornecedor"
+   Exit Function
+Case "0", "2", "3"
+   ManifestarNota = "já tem " & Mid$(MON_TextoManifestacao(vAtual), 5)
+   Exit Function
+Case "1"
+   If TipoEvento = "1" Then
+      ManifestarNota = "já tem a Ciência da Operação"
+      Exit Function
+   End If
+End Select
+If Len(vChave) <> 44 Then
+   ManifestarNota = "chave de acesso inválida"
+   Exit Function
+End If
+
+DataHora = Format(Date, "yyyy-mm-dd") & "T" & Format(Now, "hh:mm:ss") & UTC
+'parênteses: os parâmetros de TransmitirManDest são Variant ByRef (passar String direto não compila)
+If Not TransmitirManDest((vCnpj), (vChave), (DataHora), (TipoEvento), IIf(TipoEvento = "3", Justificativa, ""), True) Then
+   ManifestarNota = "recusada pela SEFAZ (" & cStat2 & " - " & NFeValidate & ")"
+   Exit Function
+End If
+
+'Evento definitivo marca Enviada = 1 (situação deixa de ser "Sem Manifestar"); na Ciência quem marca é a chegada do XML
+SQLExecuta "UPDATE TbNotasDestinadasManifestacao SET " & _
+           "TipoEvento = '" & MON_TextoManifestacao(TipoEvento) & "', " & _
+           "TipoEventoCodigo = CASE WHEN ISNULL(TipoEventoCodigo, '') = '110111' THEN TipoEventoCodigo ELSE '" & _
+               Choose(Val(TipoEvento) + 1, "210200", "210210", "210220", "210240") & "' END, " & _
+           "nSeqEvento = 1, " & _
+           "Justificativa = '" & MON_Sql(Justificativa) & "', " & _
+           "Data = GETDATE(), " & _
+           IIf(TipoEvento <> "1", "Enviada = 1, ", "") & _
+           "Enviar = 0, " & _
+           "NumeroProtocolo = " & MON_Inteiro(NFeNumeroProtocolo) & ", " & _
+           "DataHoraProcotolo = '" & MON_Sql(Left$(NFeDataHora, 25)) & "', " & _
+           "XMLAutorizado = '" & MON_Sql(NFeXML) & "' " & _
+           "WHERE IdNFConsulta = " & vID
+Exit Function
+
+deuErro:
+ManifestarNota = Err.Description
+Err.Clear
+Screen.MousePointer = vbDefault
+End Function
 
 Private Sub cmdImportarNFe_Click()
 Dim i As Long
 Dim vSituacao As String, vChave As String
+Dim rsEnt As ADODB.Recordset, lCodNota As Long, sNumero As String, sStatus As String
 
 For i = 0 To Grid.rows - 1
    Grid.Row = i
@@ -1279,16 +1385,52 @@ For i = 0 To Grid.rows - 1
    End If
 Next
      
-If vSituacao = "Sem Manifestar" Then
-    MsgBox "A Nota precisa ser manifestada primeiramente!", vbInformation, "Aviso do Sistema"
+Select Case vSituacao
+Case "Sem Manifestar", "Aguardando XML"
+    MsgBox "O XML completo desta nota ainda não está disponível." & vbNewLine & _
+           "Depois da Ciência da Operação a SEFAZ libera o XML na consulta seguinte (o monitor consulta de hora em hora).", vbInformation, "Aviso do Sistema"
     Exit Sub
-End If
+Case "Cancelada", "Desconhecida", "Não Realizada"
+    MsgBox "Esta nota está como """ & vSituacao & """ e não pode ser importada no estoque.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End Select
 
 'chaveNFe = Grid.TextMatrix(i, 7)
 If Vazio(vChave) Then Exit Sub
 dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM empresa", "DiretorioXML", "")
 dirXML = IIf(Right(dirXML, 1) = "\", dirXML, dirXML & "\")
 xCaminhoXML = dirXML & "nfe\arquivos\ConfRecebto\" & vChave & "-procNFe.xml"
+If Existe(xCaminhoXML) = 0 Then xCaminhoXML = dirXML & "nfe\arquivos\DFe\" & vChave & "-procNFe.xml"   'a DLL grava o procNFe em DFe
+
+'Nota já lançada na Entrada de Estoque (pela entrada XML ou por aqui): oferece abrir a entrada em vez de importar de novo
+Set rsEnt = dbData.OpenRecordset("SELECT TOP 1 CodigoNota, ISNULL(NumeroNota, 0) AS NumeroNota, " & _
+                                 "CAST(ISNULL(Enviada, 0) AS int) AS Enviada, CAST(ISNULL(Cancelada, 0) AS int) AS Cancelada " & _
+                                 "FROM EntradaEstoque WHERE ChavedeAcesso = '" & MON_Sql(vChave) & "' ORDER BY CodigoNota DESC")
+If Not rsEnt.EOF Then
+   lCodNota = Val(rsEnt("CodigoNota") & "")
+   sNumero = rsEnt("NumeroNota") & ""
+   If Val(rsEnt("Cancelada") & "") = 1 Then
+      sStatus = "Cancelada"
+   ElseIf Val(rsEnt("Enviada") & "") = 1 Then
+      sStatus = "Recebida"
+   Else
+      sStatus = "Em Digitação"
+   End If
+End If
+If rsEnt.State <> 0 Then rsEnt.Close
+Set rsEnt = Nothing
+If lCodNota > 0 Then
+   If MsgBox("Esta nota já foi lançada na Entrada de Estoque." & vbNewLine & vbNewLine & _
+             "Entrada: " & lCodNota & "   NF: " & sNumero & "   Situação: " & sStatus & vbNewLine & vbNewLine & _
+             "Nada será lançado de novo no estoque. Deseja abrir essa entrada?", vbQuestion + vbYesNo, "Aviso do Sistema") = vbYes Then
+      Load Entrada_Estoque
+      Entrada_Estoque.AbrirEntradaExistente lCodNota, IIf(Existe(xCaminhoXML) = -1, xCaminhoXML, "")
+      Entrada_Estoque.Show 1
+      Call cmdAtualizarGrid_Click
+   End If
+   Exit Sub
+End If
+
 If Existe(xCaminhoXML) = -1 Then
    Load Entrada_Estoque
    If Entrada_Estoque.ImportarXML(xCaminhoXML) Then

@@ -65,6 +65,7 @@ Public appEXEName As String       'Armazena o nome do executável do programa
 Public FormParent As String      'Formulário de origem
 Public gModoEnviarXML As Boolean   'True quando iniciado com /enviarxml "arquivo" pelo ExportarXMLServidor.vbs: envia os .rar do mes para o contador e encerra
 Public gArqPedidoXML As String     'arquivo de pedido do /enviarxml (mes, ano e anexos)
+Public gModoMonitorNFe As Boolean  'True quando iniciado com /monitornfe pela tarefa agendada OnlineCommerce_MonitorNFe (so no servidor): notas destinadas + ciencia - ver modMonitorNFe.bas
 Public gModoEnviarSPED As Boolean  'True quando iniciado com /enviarsped "arquivo" pelo ExportarXMLServidor.vbs: gera o SPED Fiscal e envia ao contador num e-mail separado
 Public gArqPedidoSPED As String    'arquivo de pedido do /enviarsped (mes e ano dos XML que estao indo)
 Public gConexaoBD As String        'conexao do sistema (AbrirConexaoBD): repassada ao SpedGerador.exe (SPED Fiscal)
@@ -182,7 +183,8 @@ If gModoEnviarXML Then gArqPedidoXML = Trim$(Replace(Mid$(Command$, nPosXML + Le
 nPosSPED = InStr(1, Command$, "/enviarsped", vbTextCompare)
 gModoEnviarSPED = (nPosSPED > 0)
 If gModoEnviarSPED Then gArqPedidoSPED = Trim$(Replace(Mid$(Command$, nPosSPED + Len("/enviarsped")), Chr(34), ""))
-gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML Or gModoEnviarSPED
+gModoMonitorNFe = (InStr(1, Command$, "/monitornfe", vbTextCompare) > 0)
+gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML Or gModoEnviarSPED Or gModoMonitorNFe
 'Previne a execução de mais de uma vez do sistema
 If App.PrevInstance And Not gModoAutomatico Then
     ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation

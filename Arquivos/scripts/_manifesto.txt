@@ -170,3 +170,5 @@
 171|CreateTable_SPED_CorrecaoCadastro.sql|GERAL
 172|CreateTable_TbConversaoFiscal.sql|GERAL
 173|CreateTable_ScriptsAplicados.sql|GERAL
+175|AlterTable_TbNotasDestinadasManifestacao_Padroes.sql|GERAL
+176|AlterView_NotasDestinadas_Situacoes.sql|GERAL

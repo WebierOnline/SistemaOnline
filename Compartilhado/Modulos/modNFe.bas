@@ -150,7 +150,7 @@ SairVerificacao:
 If nFile <> 0 Then Close #nFile
 End Sub
 
-Public Function ConfiguraDLLNFeNFCe(Modelo As Integer, TipoEmissao As String, ByRef objNFeNFCe As snfe.Util) As Boolean
+Public Function ConfiguraDLLNFeNFCe(Modelo As Integer, TipoEmissao As String, ByRef objNFeNFCe As snfe.Util, Optional ByVal Silencioso As Boolean = False) As Boolean
 Dim ComandoSQL As String
 Dim iRetornoLocal As Long   'NAO usar a global iRetorno aqui - essa funcao e chamada de todo lugar, sujar a global vaza resultado errado pro chamador
    
@@ -215,7 +215,7 @@ Dim iRetornoLocal As Long   'NAO usar a global iRetorno aqui - essa funcao e cha
    Exit Function
                                        
 deuErro:
-   MsgBox Err.Description, vbCritical + vbOKOnly, "ERRO"
+   If Not Silencioso Then MsgBox Err.Description, vbCritical + vbOKOnly, "ERRO"   'Silencioso: modo automatico (/monitornfe), sem tela
    Err.Clear
 End Function
 
@@ -3287,16 +3287,17 @@ Set sistNFe = New snfe.Util
       NFeNumeroProtocolo = sistNFe.retEnvEvento.retEvento.infEvento.nProt
       NFeDataHora = sistNFe.retEnvEvento.retEvento.infEvento.dhRegEvento
    Else
-     cStat2 = 0
-     NFeValidate = ""
+     cStat2 = cStat           'lote rejeitado: o motivo vem no retorno do lote
+     NFeValidate = NFeMotivo
      NFeNumeroProtocolo = ""
      NFeDataHora = ""
    End If
   
-  If cStat = 135 Or cStat2 = 135 Then
+  '135/136 = evento registrado; 573 = o mesmo evento já estava registrado na SEFAZ
+  If cStat = 135 Or cStat2 = 135 Or cStat2 = 136 Or cStat2 = 573 Then
      GoTo continua
   Else
-     MsgBox Str(cStat2) & " - " & NFeValidate & vbNewLine & "CHAVE: " & ChaveAcesso, vbInformation, "ERRO"
+     If Not SemMSG Then MsgBox Str(cStat2) & " - " & NFeValidate & vbNewLine & "CHAVE: " & ChaveAcesso, vbInformation, "ERRO"
      GoTo Caifora
   End If
          

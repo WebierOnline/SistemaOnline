@@ -1316,6 +1316,7 @@ If EhServidorLocal() Then
    RegistrarTarefaBackupNuvem
    RegistrarTarefaExportarXMLServidor
    RegistrarTarefaResumoFiscal
+   RegistrarTarefaMonitorNFe
    VerificarAtualizacaoIBPT
 End If
 
@@ -2282,6 +2283,25 @@ Dim vExe As String
    vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_ResumoFiscal_Logon""", 0, True)
    If vExitCode <> 0 Then
       vComando = "schtasks /Create /TN ""OnlineCommerce_ResumoFiscal_Logon"" /TR " & vExe & " /SC ONLOGON /DELAY 0005:00 /F"
+      vShell.Run vComando, 0, True
+   End If
+End Sub
+
+'Monitor de notas destinadas (modMonitorNFe.bas): roda o proprio sistema com /monitornfe de hora em hora, so no servidor.
+'Consulta a SEFAZ, grava as notas e envia a ciencia da operacao (MONITOR_NFE = 0 na configuracao desliga).
+Private Sub RegistrarTarefaMonitorNFe()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+Dim vExe As String
+
+   Set vShell = CreateObject("WScript.Shell")
+   vExe = """\""" & appPathApp & appEXEName & "\"" /monitornfe"""
+
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_MonitorNFe""", 0, True)
+   If vExitCode <> 0 Then
+      vComando = "schtasks /Create /TN ""OnlineCommerce_MonitorNFe"" /TR " & vExe & " /SC HOURLY /F"
       vShell.Run vComando, 0, True
    End If
 End Sub

@@ -206,6 +206,7 @@ Form=Forms\frmAvisoPopup.frm
 Module=modAvisos; Modulos\modAvisos.bas
 Module=modResumoFiscal; Modulos\modResumoFiscal.bas
 Module=modInventarioAuto; Modulos\modInventarioAuto.bas
+Module=modMonitorNFe; Modulos\modMonitorNFe.bas
 IconForm="Tela_Principal"
 Startup="Sub Main"
 HelpFile=""

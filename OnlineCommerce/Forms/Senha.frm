@@ -562,6 +562,8 @@ If gModoAutomatico Then
       ExecutarEnvioSPEDAuto
    ElseIf gModoEnviarXML Then
       ExecutarEnvioXMLAuto
+   ElseIf gModoMonitorNFe Then
+      ExecutarMonitorNFeAuto
    Else
       ExecutarResumoFiscalAuto
    End If
