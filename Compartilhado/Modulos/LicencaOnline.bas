@@ -1166,7 +1166,7 @@ Public Function AtuVerificarAtualizacao(ByVal Manual As Boolean) As Boolean
            ",""servidor"":" & IIf(servidor, "true", "false") & _
            ",""versaoExe"":" & LicJsonStr(instalada) & _
            ",""versaoPrograma"":" & LicJsonStr(App.Major & "." & App.Minor & "." & App.Revision) & _
-           ",""versaoNfe"":" & LicJsonStr(AtuVersaoArquivo(AtuPasta() & "\NFE\snfe.dll")) & _
+           ",""versaoNfe"":" & LicJsonStr(AtuVersaoNfe()) & _
            ",""versaoBanco"":" & LicJsonStr(banco) & _
            ",""windows"":" & LicJsonStr(AtuWindows()) & "}"
 
@@ -1411,6 +1411,12 @@ Private Function AtuVersaoArquivo(ByVal Arquivo As String) As String
    On Error Resume Next
    If Len(Dir$(Arquivo)) = 0 Then Exit Function
    AtuVersaoArquivo = CreateObject("Scripting.FileSystemObject").GetFileVersion(Arquivo)
+End Function
+
+'Componente da NF-e: nos clientes o snfe.dll fica na própria pasta do sistema; NFE\ só em instalações antigas.
+Private Function AtuVersaoNfe() As String
+   AtuVersaoNfe = AtuVersaoArquivo(AtuPasta() & "\snfe.dll")
+   If Len(AtuVersaoNfe) = 0 Then AtuVersaoNfe = AtuVersaoArquivo(AtuPasta() & "\NFE\snfe.dll")
 End Function
 
 Private Function AtuWindows() As String
