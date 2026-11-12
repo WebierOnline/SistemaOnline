@@ -47,6 +47,7 @@ Public appEXEName As String      'Armazena o nome do executável do programa
 Public oCfg As ConfigItem      'Arquivo ini
 Public oIni As Ini             'Arquivo ini
 Public var_IP As String        'Arquivo ini
+Public gConexaoBD As String     'conexao do sistema: repassada ao Atualizador.exe (atualizacao automatica no servidor)
 
 Public FormParent As String      'Formulário de origem
 Public CloseSystem As Boolean    'O sistema está sendo fechado
@@ -421,6 +422,7 @@ AbrirConexaoBD = False
 
 'Conexão padrão do MySql
 cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=sa;pwd=190106web;DATABASE=cyber_base;Connect Timeout=15;TRUSTED_CONNECTION=NO"
+gConexaoBD = cn1
 'cn1 = "Provider=SQLOLEDB.1;Persist Security Info=False;DRIVER={Sql Server};SERVER=" + var_IP + ";uid=lotesis;pwd=lotesis;DATABASE=cyber_base;TRUSTED_CONNECTION=NO"
 Set dbData = New Database
 

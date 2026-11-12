@@ -169,3 +169,4 @@
 170|AlterTable_Configuracao_SPED.sql|GERAL
 171|CreateTable_SPED_CorrecaoCadastro.sql|GERAL
 172|CreateTable_TbConversaoFiscal.sql|GERAL
+173|CreateTable_ScriptsAplicados.sql|GERAL

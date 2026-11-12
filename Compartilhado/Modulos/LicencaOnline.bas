@@ -77,6 +77,11 @@ Private Declare Function BCryptGenRandom Lib "bcrypt.dll" (ByVal hAlgorithm As L
 Private Declare Sub LicSleep Lib "kernel32" Alias "Sleep" (ByVal dwMilliseconds As Long)
 Private Declare Function LicMultiByteToWideChar Lib "kernel32" Alias "MultiByteToWideChar" (ByVal CodePage As Long, ByVal dwFlags As Long, ByVal lpMultiByteStr As Long, ByVal cbMultiByte As Long, ByVal lpWideCharStr As Long, ByVal cchWideChar As Long) As Long
 
+'Atualização automática: abrir o Atualizador.exe pedindo administrador e informar o processo que ele deve esperar fechar.
+Private Declare Function AtuShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (ByVal hwnd As Long, ByVal lpOperation As String, _
+   ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, ByVal nShowCmd As Long) As Long
+Private Declare Function AtuGetCurrentProcessId Lib "kernel32" Alias "GetCurrentProcessId" () As Long
+
 '=============================================================================
 ' ENTRADA PRINCIPAL - chamar no login. True = pode continuar; False = fechar o sistema.
 '=============================================================================
@@ -97,6 +102,12 @@ Public Function VerificarLicencaOnline(Optional ByVal CodUsuario As Long = 0) As
       Case Else
          VerificarLicencaOnline = LicMostrarTela(False, CodUsuario)
    End Select
+
+   'Atualização automática (só com a licença liberada). True = o atualizador foi aberto (ou a obrigatória foi
+   'recusada): o sistema fecha.
+   If VerificarLicencaOnline Then
+      If AtuVerificarAtualizacao(False) Then VerificarLicencaOnline = False
+   End If
    Exit Function
 
 Falha:
@@ -1114,4 +1125,324 @@ Private Function LicSalvarBmp(ByVal Imagem As String, ByVal Nome As String) As S
    Exit Function
 Falha:
    LicSalvarBmp = ""
+End Function
+
+'=============================================================================
+' ATUALIZAÇÃO AUTOMÁTICA - chamada no login (fim de VerificarLicencaOnline) e pelo menu Sistema > Verificar atualização.
+'
+' Pergunta ao servidor de licenças (POST /atualizacao) se há versão nova para esta empresa. A resposta vem
+' assinada como a licença (mesma chave pública): data do servidor, versão, motivo, estágio e o pacote.
+'   - Servidor (SQL Server neste PC): atualiza primeiro, com backup e scripts no banco; grava VERSAO_SISTEMA e
+'     VERSAO_MINIMA_EXE em configuracao.
+'   - Terminal: atualiza só os arquivos; abaixo da VERSAO_MINIMA_EXE do banco é obrigatório.
+' Estágios (pela data do servidor, não do PC): opcional (Sim/Depois, no máximo 1 vez por dia neste PC),
+' insistente (a cada entrada, com os dias que faltam), obrigatória (só OK).
+' Quem instala é o Atualizador.exe (pede administrador, fecha o sistema, volta tudo se falhar e reabre).
+' "Versão do sistema" = versao_sistema.txt na pasta (gravado pelo atualizador); cada exe tem o seu número próprio.
+' Falha de comunicação nunca impede o uso.
+'=============================================================================
+
+'True = o sistema deve fechar (o atualizador foi aberto, ou a atualização obrigatória não pôde ser feita).
+Public Function AtuVerificarAtualizacao(ByVal Manual As Boolean) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, st As Long, resp As String, msg As String
+   Dim servidor As Boolean, instalada As String, banco As String, minima As String, corpo As String
+   Dim json As String, versao As String, motivo As String, estagio As String, dias As Long, hoje As String
+   Dim texto As String, obrigatoria As Boolean
+
+   AtuMostrarResultado
+   If Not LicGarantirTabelas() Then Exit Function
+   If Not LicConexao(cnpj, chave, base, msg) Then
+      If Manual Then MsgBox msg, vbInformation, "Atualização do sistema"
+      Exit Function
+   End If
+
+   servidor = EhServidorLocal()
+   instalada = AtuVersaoInstalada()
+   banco = AtuConfiguracao("VERSAO_SISTEMA")
+   minima = AtuConfiguracao("VERSAO_MINIMA_EXE")
+   corpo = "{""maquina"":" & LicJsonStr(Environ$("COMPUTERNAME")) & _
+           ",""sistema"":" & LicJsonStr(AtuSistema()) & _
+           ",""servidor"":" & IIf(servidor, "true", "false") & _
+           ",""versaoExe"":" & LicJsonStr(instalada) & _
+           ",""versaoPrograma"":" & LicJsonStr(App.Major & "." & App.Minor & "." & App.Revision) & _
+           ",""versaoNfe"":" & LicJsonStr(AtuVersaoArquivo(AtuPasta() & "\NFE\snfe.dll")) & _
+           ",""versaoBanco"":" & LicJsonStr(banco) & _
+           ",""windows"":" & LicJsonStr(AtuWindows()) & "}"
+
+   If Not LicHttp("POST", base & "/atualizacao", corpo, chave, st, resp) Then st = 0
+   If st <> 200 Then
+      'Sem resposta: o terminal atrasado em relação ao banco só é avisado (não dá para baixar agora).
+      If Not servidor And AtuMenor(instalada, minima) Then
+         MsgBox "O servidor do sistema já está na versão " & minima & " e este computador precisa ser atualizado." & vbCrLf & vbCrLf & _
+                "Não foi possível falar com o servidor de atualizações agora" & IIf(st = 0, " (sem internet?)", " (" & st & ")") & "." & vbCrLf & _
+                "O sistema vai abrir, mas atualize assim que a internet voltar.", vbExclamation, "Atualização do sistema"
+      ElseIf Manual Then
+         MsgBox IIf(st = 0, LicSemConexao(), "O servidor de atualizações não respondeu (" & st & ")."), vbInformation, "Atualização do sistema"
+      End If
+      Exit Function
+   End If
+
+   If Not AtuLerResposta(resp, cnpj, json) Then
+      If Manual Then MsgBox "Resposta inválida do servidor de atualizações.", vbExclamation, "Atualização do sistema"
+      Exit Function
+   End If
+   If LicJsonValor(json, "atualizacao") = "null" Then
+      If Manual Then MsgBox "O sistema já está atualizado" & IIf(Len(instalada) > 0, " (versão " & instalada & ")", "") & ".", vbInformation, "Atualização do sistema"
+      Exit Function
+   End If
+
+   versao = LicJsonTexto(json, "versao")
+   motivo = LicJsonTexto(json, "motivo")
+   estagio = LicJsonTexto(json, "estagio")
+   dias = Val(LicJsonValor(json, "diasRestantes"))
+   hoje = LicJsonTexto(json, "hoje")
+   obrigatoria = (estagio = "obrigatoria")
+
+   texto = "Existe uma nova versão do sistema: " & versao & "." & IIf(Len(motivo) > 0, vbCrLf & vbCrLf & motivo, "")
+   If obrigatoria Then
+      'A atualização desta versão já falhou hoje neste PC: não insiste de novo (o sistema reabriria em ciclo).
+      If AtuFalhouHoje(versao) Then
+         MsgBox texto & vbCrLf & vbCrLf & "A atualização obrigatória não foi concluída hoje neste computador." & vbCrLf & _
+                "O sistema vai abrir na versão atual. Chame o suporte: " & SUPORTE & ".", vbExclamation, "Atualização do sistema"
+         Exit Function
+      End If
+      MsgBox texto & vbCrLf & vbCrLf & "ATUALIZAÇÃO OBRIGATÓRIA." & vbCrLf & _
+             "Clique em OK: o sistema fecha, atualiza e abre de novo sozinho.", vbExclamation, "Atualização do sistema"
+   ElseIf estagio = "insistente" Then
+      If MsgBox(texto & vbCrLf & vbCrLf & "Faltam " & dias & " dia(s) para a atualização ficar obrigatória." & vbCrLf & vbCrLf & _
+                "Atualizar agora? O sistema fecha, atualiza e abre de novo sozinho.", vbQuestion + vbYesNo, "Atualização do sistema") = vbNo Then Exit Function
+   Else
+      'Opcional: no máximo uma vez por dia neste computador (menu manual sempre pergunta).
+      If Not Manual Then
+         If LicConfig(AtuChave("AtuPerguntou")) = hoje Then Exit Function
+         LicGravarConfig AtuChave("AtuPerguntou"), hoje
+      End If
+      If MsgBox(texto & vbCrLf & vbCrLf & "Atualizar agora? O sistema fecha, atualiza e abre de novo sozinho." & vbCrLf & _
+                "(Se escolher Não, o aviso volta amanhã.)", vbQuestion + vbYesNo, "Atualização do sistema") = vbNo Then Exit Function
+   End If
+
+   AtuVerificarAtualizacao = AtuAbrirAtualizador(resp, cnpj, chave, servidor, obrigatoria)
+   Exit Function
+Falha:
+   Debug.Print "AtuVerificarAtualizacao: " & Err.Number & " " & Err.Description
+   If Manual Then MsgBox "Falha ao verificar a atualização: " & Err.Description, vbExclamation, "Atualização do sistema"
+   AtuVerificarAtualizacao = False
+End Function
+
+'Grava o pedido (com a senha do banco no servidor; o atualizador apaga assim que lê) e abre o Atualizador.exe
+'pedindo administrador. True = aberto (o sistema fecha). Na obrigatória, recusar também fecha.
+Private Function AtuAbrirAtualizador(ByVal Token As String, ByVal Cnpj As String, ByVal Chave As String, _
+                                     ByVal Servidor As Boolean, ByVal Obrigatoria As Boolean) As Boolean
+   On Error GoTo Falha
+   Dim exe As String, pasta As String, arq As String, n As Integer, r As Long
+
+   exe = AtuPasta() & "\Atualizador.exe"
+   If Len(Dir$(exe)) = 0 Then
+      MsgBox "Atualizador.exe não encontrado na pasta do sistema (" & AtuPasta() & ")." & vbCrLf & "Chame o suporte: " & SUPORTE & ".", vbExclamation, "Atualização do sistema"
+      Exit Function
+   End If
+   If Servidor And Len(gConexaoBD) = 0 Then
+      MsgBox "Não foi possível obter a conexão do banco para a atualização. Chame o suporte: " & SUPORTE & ".", vbExclamation, "Atualização do sistema"
+      Exit Function
+   End If
+   If Not AtuOutrosFechados(Obrigatoria) Then
+      'Obrigatória e o usuário desistiu: fecha (não pode seguir na versão antiga).
+      If Obrigatoria Then MsgBox "A atualização é obrigatória: o sistema será fechado. Feche os outros programas do sistema e abra de novo.", vbExclamation, "Atualização do sistema"
+      AtuAbrirAtualizador = Obrigatoria
+      Exit Function
+   End If
+
+   pasta = AtuPasta() & "\Atualizacao"
+   If Len(Dir$(pasta, vbDirectory)) = 0 Then MkDir pasta
+   arq = pasta & "\pedido.txt"
+   n = FreeFile
+   Open arq For Output As #n
+   Print #n, "modo=" & IIf(Servidor, "servidor", "terminal")
+   Print #n, "pasta=" & AtuPasta()
+   Print #n, "token=" & Trim$(Token)
+   Print #n, "cnpj=" & Cnpj
+   Print #n, "chave=" & Chave
+   If Servidor Then Print #n, "conexao=" & gConexaoBD
+   Print #n, "reabrir=" & App.EXEName & ".exe"
+   Print #n, "pid=" & AtuGetCurrentProcessId()
+   Close #n
+
+   r = AtuShellExecute(0, "runas", exe, """" & arq & """", AtuPasta(), 1)
+   If r <= 32 Then
+      On Error Resume Next
+      Kill arq
+      On Error GoTo Falha
+      MsgBox "O atualizador não foi aberto" & IIf(r = 5, " (a permissão de administrador foi negada)", " (erro " & r & ")") & "." & vbCrLf & _
+             IIf(Obrigatoria, "A atualização é obrigatória: o sistema será fechado. Abra de novo e confirme a permissão do Windows.", _
+                              "O sistema continua na versão atual."), vbExclamation, "Atualização do sistema"
+      AtuAbrirAtualizador = Obrigatoria
+      Exit Function
+   End If
+   AtuAbrirAtualizador = True
+   Exit Function
+Falha:
+   MsgBox "Falha ao abrir o atualizador: " & Err.Description, vbExclamation, "Atualização do sistema"
+   AtuAbrirAtualizador = False
+End Function
+
+'Os outros programas do sistema abertos neste PC (PDV, OS...) precisam fechar antes: o atualizador troca os exes
+'e não pode derrubar uma venda no meio. True = nenhum aberto.
+Private Function AtuOutrosFechados(ByVal Obrigatoria As Boolean) As Boolean
+   Dim lista As String
+   Do
+      lista = AtuOutrosAbertos()
+      If Len(lista) = 0 Then AtuOutrosFechados = True: Exit Function
+      If MsgBox("Para atualizar, feche antes neste computador:" & vbCrLf & lista & vbCrLf & vbCrLf & _
+                "Depois clique em Repetir." & IIf(Obrigatoria, "", " (Cancelar = atualizar outra hora.)"), _
+                vbExclamation + vbRetryCancel, "Atualização do sistema") = vbCancel Then Exit Function
+   Loop
+End Function
+
+Private Function AtuOutrosAbertos() As String
+   On Error GoTo Falha
+   Dim wmi As Object, ps As Object, p As Object, raiz As String, eu As Long, caminho As String
+   raiz = LCase$(AtuPasta() & "\")
+   eu = AtuGetCurrentProcessId()
+   Set wmi = GetObject("winmgmts:\\.\root\cimv2")
+   Set ps = wmi.ExecQuery("SELECT ProcessId, Name, ExecutablePath FROM Win32_Process")
+   For Each p In ps
+      caminho = LCase$("" & p.ExecutablePath)
+      If p.ProcessId <> eu And Left$(caminho, Len(raiz)) = raiz Then
+         If LCase$("" & p.Name) <> "atualizador.exe" Then AtuOutrosAbertos = AtuOutrosAbertos & "  - " & p.Name & vbCrLf
+      End If
+   Next
+   Exit Function
+Falha:
+   AtuOutrosAbertos = ""   'sem WMI: o atualizador fecha o que restar
+End Function
+
+'Resultado da última atualização deste PC (Atualizador_resultado.txt): mostra uma vez e apaga.
+Private Sub AtuMostrarResultado()
+   On Error GoTo Falha
+   Dim arq As String, n As Integer, linha As String, primeira As String, versao As String
+
+   arq = AtuPasta() & "\Atualizador_resultado.txt"
+   If Len(Dir$(arq)) = 0 Then Exit Sub
+   n = FreeFile
+   Open arq For Input As #n
+   Do While Not EOF(n)
+      Line Input #n, linha
+      If Len(primeira) = 0 Then primeira = linha
+      If Left$(linha, 7) = "versao=" Then versao = Mid$(linha, 8)
+   Loop
+   Close #n
+   Kill arq
+
+   If primeira = "OK" Then
+      MsgBox "Sistema atualizado para a versão " & versao & ".", vbInformation, "Atualização do sistema"
+   ElseIf Left$(primeira, 4) = "ERRO" Then
+      LicGravarConfig AtuChave("AtuFalhou"), versao & "|" & Format$(Date, "yyyymmdd")
+      If Left$(primeira, 8) <> "ERRO 20:" Then
+         MsgBox "A atualização para a versão " & versao & " não foi concluída:" & vbCrLf & vbCrLf & Mid$(primeira, InStr(primeira, ":") + 1) & vbCrLf & vbCrLf & _
+                "O sistema continua na versão anterior. O detalhe fica no arquivo Atualizador_*.log da pasta do sistema.", vbExclamation, "Atualização do sistema"
+      End If
+   End If
+   Exit Sub
+Falha:
+   Close
+End Sub
+
+Private Function AtuFalhouHoje(ByVal Versao As String) As Boolean
+   AtuFalhouHoje = (LicConfig(AtuChave("AtuFalhou")) = Versao & "|" & Format$(Date, "yyyymmdd"))
+End Function
+
+'Chave por computador em od.Configuracoes (varchar 50).
+Private Function AtuChave(ByVal Prefixo As String) As String
+   AtuChave = Left$(Prefixo & "_" & UCase$(Environ$("COMPUTERNAME")), 50)
+End Function
+
+'Confere a assinatura (mesma chave da licença) e se a resposta é desta empresa. Json = corpo conferido.
+Private Function AtuLerResposta(ByVal Token As String, ByVal Cnpj As String, ByRef Json As String) As Boolean
+   On Error GoTo Falha
+   Dim p As Long, corpo() As Byte, assinatura() As Byte
+
+   Token = Trim$(Token)
+   p = InStr(Token, ".")
+   If p < 2 Then Exit Function
+   If InStr(p + 1, Token, ".") > 0 Then Exit Function
+   If Not LicBase64Url(Left$(Token, p - 1), corpo) Then Exit Function
+   If Not LicBase64Url(Mid$(Token, p + 1), assinatura) Then Exit Function
+   If Not LicVerificarAssinatura(corpo, assinatura) Then Exit Function
+   Json = LicUtf8(corpo)
+   AtuLerResposta = (LicSoDigitos(LicJsonTexto(Json, "cnpj")) = Cnpj)
+   Exit Function
+Falha:
+   AtuLerResposta = False
+End Function
+
+Private Function AtuPasta() As String
+   AtuPasta = App.Path
+   If Right$(AtuPasta, 1) = "\" Then AtuPasta = Left$(AtuPasta, Len(AtuPasta) - 1)
+End Function
+
+'COMMERCE, PDV ou OS (para o painel separar as máquinas).
+Private Function AtuSistema() As String
+   Select Case LCase$(App.EXEName)
+      Case "onlinecommerce": AtuSistema = "COMMERCE"
+      Case "pdv", "onlinepdv": AtuSistema = "PDV"
+      Case Else
+         If InStr(LCase$(App.EXEName), "ordem") > 0 Then AtuSistema = "OS" Else AtuSistema = UCase$(Left$(App.EXEName, 20))
+   End Select
+End Function
+
+'Versão do sistema instalada neste PC pelo atualizador (vazio = nunca atualizou por ele).
+Private Function AtuVersaoInstalada() As String
+   On Error GoTo Falha
+   Dim arq As String, n As Integer, linha As String
+   arq = AtuPasta() & "\versao_sistema.txt"
+   If Len(Dir$(arq)) = 0 Then Exit Function
+   n = FreeFile
+   Open arq For Input As #n
+   If Not EOF(n) Then Line Input #n, linha
+   Close #n
+   AtuVersaoInstalada = Trim$(linha)
+   Exit Function
+Falha:
+   Close
+End Function
+
+Private Function AtuVersaoArquivo(ByVal Arquivo As String) As String
+   On Error Resume Next
+   If Len(Dir$(Arquivo)) = 0 Then Exit Function
+   AtuVersaoArquivo = CreateObject("Scripting.FileSystemObject").GetFileVersion(Arquivo)
+End Function
+
+Private Function AtuWindows() As String
+   On Error Resume Next
+   Dim sh As Object, nome As String, build As String
+   Set sh = CreateObject("WScript.Shell")
+   nome = sh.RegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProductName")
+   build = sh.RegRead("HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\CurrentBuild")
+   If Val(build) >= 22000 Then nome = Replace(nome, "Windows 10", "Windows 11")
+   AtuWindows = Trim$(nome & IIf(Len(build) > 0, " (build " & build & ")", ""))
+End Function
+
+Private Function AtuConfiguracao(ByVal Nome As String) As String
+   On Error Resume Next
+   Dim r As ADODB.Recordset
+   Set r = dbData.OpenRecordset("SELECT config_valor FROM configuracao WHERE config_nome = '" & Nome & "';")
+   If Not r.EOF Then AtuConfiguracao = Trim$("" & r("config_valor"))
+   r.Close
+   Set r = Nothing
+End Function
+
+'A < B comparando por partes ("3.10.0" > "3.9.5"). Vazio é mais antigo que tudo; B vazio = nunca.
+Private Function AtuMenor(ByVal A As String, ByVal B As String) As Boolean
+   Dim pa() As String, pb() As String, i As Long, na As Long, nb As Long
+   If Len(Trim$(B)) = 0 Then Exit Function
+   If Len(Trim$(A)) = 0 Then AtuMenor = True: Exit Function
+   pa = Split(Trim$(A), ".")
+   pb = Split(Trim$(B), ".")
+   For i = 0 To 3
+      na = 0: nb = 0
+      If i <= UBound(pa) Then na = Val(pa(i))
+      If i <= UBound(pb) Then nb = Val(pb(i))
+      If na <> nb Then AtuMenor = (na < nb): Exit Function
+   Next
 End Function

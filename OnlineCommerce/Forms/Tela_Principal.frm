@@ -639,6 +639,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_CAD_Empresa 
          Caption         =   "&Licença"
       End
+      Begin VB.Menu Menu_SIS_Atualizacao 
+         Caption         =   "Verificar &atualização"
+      End
       Begin VB.Menu menuseparar1 
          Caption         =   "-"
       End
@@ -1617,6 +1620,11 @@ End Sub
 
 Private Sub Menu_FISCAL_Reforma_IBSAliq_Click()
 frmIBS_Aliquotas.Show 1
+End Sub
+
+'Sistema > Verificar atualização: pergunta ao servidor de licenças; se o atualizador abrir, o sistema fecha.
+Private Sub Menu_SIS_Atualizacao_Click()
+If AtuVerificarAtualizacao(True) Then End
 End Sub
 
 Private Sub Menu_FISCAL_Reforma_AliqNuvem_Click()
