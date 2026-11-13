@@ -299,8 +299,14 @@ sAte = DataSQL(txtAte.Text, True)
 sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroPedido, " & _
        "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf " & _
        "FROM NFSe WHERE (1 = 1)"
-If sDe <> "" Then sSQL = sSQL & " AND (DataCompetencia >= " & sDe & ")"
-If sAte <> "" Then sSQL = sSQL & " AND (DataCompetencia <= " & sAte & ")"
+'Periodo pela data em que a nota foi criada (a competencia e a finalizacao da OS, pode ser de meses atras).
+'Rascunho, rejeitada e pendente aparecem sempre: sao notas que ainda precisam de acao.
+If sDe <> "" Or sAte <> "" Then
+   sSQL = sSQL & " AND ((Situacao IN (0, 2, 4)) OR ((1 = 1)"
+   If sDe <> "" Then sSQL = sSQL & " AND (DataCadastro >= " & sDe & ")"
+   If sAte <> "" Then sSQL = sSQL & " AND (DataCadastro <= " & sAte & ")"
+   sSQL = sSQL & "))"
+End If
 If cboSituacao.ListIndex > 0 Then sSQL = sSQL & " AND (Situacao = " & (cboSituacao.ListIndex - 1) & ")"
 If Trim$(txtCliente.Text) <> "" Then sSQL = sSQL & " AND (TomadorNome LIKE " & NFSe_Q("%" & Trim$(txtCliente.Text) & "%") & ")"
 sSQL = sSQL & " ORDER BY IdNFSe DESC"
