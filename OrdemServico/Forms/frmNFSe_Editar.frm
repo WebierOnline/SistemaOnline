@@ -244,12 +244,12 @@ Option Explicit
 
 'Conferência/edição do rascunho da NFS-e (Situacao 0 ou 2) antes de transmitir. O NFSeEmissor manda ao Sefin
 'exatamente o que estiver gravado na tabela NFSe.
-Private mId As Long
+Private mIdNFSe As Long
 Private mTransmitir As Boolean
 
 'Mostra a nota e devolve True quando o usuário escolheu "Salvar e Transmitir"
 Public Function Editar(ByVal lId As Long) As Boolean
-mId = lId
+mIdNFSe = lId
 mTransmitir = False
 Load Me
 If Not Carregar() Then
@@ -265,7 +265,7 @@ Private Function Carregar() As Boolean
 Dim r As ADODB.Recordset
 Dim sDoc As String, sEnd As String
 
-Set r = dbData.OpenRecordset("SELECT * FROM NFSe WHERE (IdNFSe = " & mId & ");")
+Set r = dbData.OpenRecordset("SELECT * FROM NFSe WHERE (IdNFSe = " & mIdNFSe & ");")
 If r.EOF Then
    r.Close
    MsgBox "NFS-e não encontrada.", vbExclamation, "NFS-e"
@@ -389,7 +389,7 @@ dbData.Execute "UPDATE NFSe SET " & _
    "InfoComplementar = " & IIf(Trim$(txtInfo.Text) = "", "NULL", NFSe_Q(Trim$(txtInfo.Text))) & ", " & _
    "RetencaoISS = " & IIf(chkRetido.Value = vbChecked, "2", "1") & ", " & _
    "AliquotaISS = " & sAliq & " " & _
-   "WHERE (IdNFSe = " & mId & ") AND (Situacao IN (0, 2));", nAfetados
+   "WHERE (IdNFSe = " & mIdNFSe & ") AND (Situacao IN (0, 2));", nAfetados
 If nAfetados = 0 Then
    MsgBox "A NFS-e não pôde ser alterada (já foi transmitida em outro computador?).", vbExclamation, "NFS-e"
    Exit Function
