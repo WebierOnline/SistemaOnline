@@ -117,11 +117,16 @@ End Sub
 Private Sub Carregar()
 Dim r As ADODB.Recordset
 Dim sSQL As String
-Dim n As Long
+Dim n As Long, i As Long
 
+'MSFlexGrid exige pelo menos 1 linha alem do cabecalho: a linha 1 fica em branco quando nao ha OS
 With grdOS
-   .Rows = 1
+   .Rows = 2
    .Cols = 8
+   .FixedRows = 1
+   For i = 0 To .Cols - 1
+      .TextMatrix(1, i) = ""
+   Next
    .TextMatrix(0, C_X) = "X"
    .TextMatrix(0, C_OS) = "OS"
    .TextMatrix(0, C_DATA) = "Finalizada"
@@ -150,8 +155,8 @@ Set r = dbData.OpenRecordset(sSQL)
 With grdOS
    .Redraw = False
    Do While Not r.EOF
-      n = .Rows
-      .Rows = n + 1
+      n = n + 1
+      If n > 1 Then .Rows = n + 1
       .TextMatrix(n, C_OS) = r("COD_OS")
       .TextMatrix(n, C_DATA) = IIf(IsNull(r("DATA_TERMINO")), "", Format$(r("DATA_TERMINO"), "dd/mm/yyyy"))
       .TextMatrix(n, C_CLI) = ValidateNull(r("Cliente"))
@@ -171,6 +176,7 @@ End Sub
 Private Sub Marcar(ByVal nLinha As Long)
 Dim i As Long
 If nLinha < 1 Then Exit Sub
+If grdOS.TextMatrix(nLinha, C_OS) = "" Then Exit Sub
 If grdOS.TextMatrix(nLinha, C_X) = "X" Then
    grdOS.TextMatrix(nLinha, C_X) = ""
 Else

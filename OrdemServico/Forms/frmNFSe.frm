@@ -238,11 +238,16 @@ Pesquisar
 End Sub
 
 Private Sub MontarGrid()
+Dim i As Long
+'MSFlexGrid exige pelo menos 1 linha alem do cabecalho: a linha 1 fica em branco quando nao ha notas
 With grdNotas
-   .Rows = 1
+   .Rows = 2
    .Cols = 11
    .FixedRows = 1
    .FixedCols = 0
+   For i = 0 To .Cols - 1
+      .TextMatrix(1, i) = ""
+   Next
    .TextMatrix(0, C_ID) = "Id"
    .TextMatrix(0, C_NUM) = "Nº NFS-e"
    .TextMatrix(0, C_COMP) = "Competência"
@@ -305,8 +310,8 @@ Set r = dbData.OpenRecordset(sSQL)
 With grdNotas
    .Redraw = False
    Do While Not r.EOF
-      n = .Rows
-      .Rows = n + 1
+      n = n + 1
+      If n > 1 Then .Rows = n + 1
       nSit = Val(ValidateNull(r("Situacao")))
       .TextMatrix(n, C_ID) = r("IdNFSe")
       .TextMatrix(n, C_NUM) = ValidateNull(r("NumeroNFSe"))
@@ -326,6 +331,7 @@ With grdNotas
          Case NFSE_REJEITADA: .CellForeColor = vbRed
          Case NFSE_CANCELADA: .CellForeColor = &H808080
          Case NFSE_PENDENTE: .CellForeColor = &H80FF&
+         Case Else: .CellForeColor = vbBlack
       End Select
       r.MoveNext
    Loop
