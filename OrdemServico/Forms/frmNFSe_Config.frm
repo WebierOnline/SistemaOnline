@@ -353,6 +353,15 @@ Begin VB.Form frmNFSe_Config
       Top             =   6720
       Width           =   4935
    End
+   Begin VB.CommandButton cmdConvenio
+      Caption         =   "Verificar &município no Sefin"
+      Height          =   375
+      Left            =   120
+      TabIndex        =   45
+      ToolTipText     =   "Consulta se o município da empresa tem convênio com a NFS-e Nacional no ambiente escolhido (erro E0037)"
+      Top             =   7380
+      Width           =   2535
+   End
    Begin VB.CommandButton cmdSalvar
       Caption         =   "&Salvar"
       Height          =   375
@@ -556,6 +565,19 @@ dbData.Execute "UPDATE empresa SET " & _
    "NFSeClassTrib = " & IIf(SoDigitos(txtClassTrib.Text) = "", "NULL", NFSe_Q(SoDigitos(txtClassTrib.Text))) & ", " & _
    "NFSeAssinaturaSHA256 = " & IIf(chkSHA256.Value = vbChecked, "1", "0") & ";"
 Unload Me
+End Sub
+
+'Consulta o convenio do municipio da empresa no Sefin (ambiente gravado; salve antes se mudou o ambiente)
+Private Sub cmdConvenio_Click()
+Dim oRes As Object
+Dim sStatus As String
+sStatus = NFSe_Executar("acao=convenio", oRes)
+If Left$(sStatus, 2) <> "OK" Then
+   MsgBox "Não foi possível consultar o município:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"
+   Exit Sub
+End If
+MsgBox Replace(NFSe_Valor(oRes, "mensagem"), " | ", vbCrLf), _
+       IIf(Val(NFSe_Valor(oRes, "situacao")) = 200, vbInformation, vbExclamation), "Convênio do município - NFS-e"
 End Sub
 
 Private Sub cmdVoltar_Click()
