@@ -173,3 +173,4 @@
 175|AlterTable_TbNotasDestinadasManifestacao_Padroes.sql|GERAL
 176|AlterView_NotasDestinadas_Situacoes.sql|GERAL
 177|AlterTable_NotasDestinadas_ImportacaoAuto.sql|GERAL
+178|CreateTables_NFSe.sql|OS

@@ -4590,6 +4590,12 @@ Begin VB.Form OS_Recapadora
          Enabled         =   0   'False
       End
    End
+   Begin VB.Menu Menu_NFSe
+      Caption         =   "&NFS-e"
+      Begin VB.Menu Menu_NFSe_Notas
+         Caption         =   "Notas Fiscais de Serviço (NFS-e)"
+      End
+   End
 End
 Attribute VB_Name = "OS_Recapadora"
 Attribute VB_GlobalNameSpace = False
@@ -10643,7 +10649,7 @@ Private Sub cmdReabrir_Click()
 Dim rR As ADODB.Recordset
 Dim lCodOS As Long, lCodPedido As Long
 Dim curTotal As Currency
-Dim sLoginR As String, sErroR As String
+Dim sLoginR As String, sErroR As String, sNFSeR As String
 Dim bTransR As Boolean
 
 If optFinanceiroFechado.Value = False Then Exit Sub
@@ -10677,6 +10683,13 @@ Set rR = Nothing
 If Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM TbNFCe WHERE (Num_OS_VD_Origem = " & lCodPedido & ") AND (ISNULL(NFCeCancelada, 0) = 0) AND (ISNULL(Inutilizada, 0) = 0);", "qtd", "0")) > 0 Or _
    Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM NotaFiscal WHERE (Cod_Pedido = " & lCodPedido & ") AND (ISNULL(Cancelada, 0) = 0);", "qtd", "0")) > 0 Then
     MsgBox "Essa OS possui NFe/NFCe vinculada que não está cancelada!" & vbCrLf & vbCrLf & "Cancele a nota fiscal antes de reabrir a OS.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+'NFS-e (servicos) da OS que nao foi cancelada (rascunho, autorizada ou pendente)
+sNFSeR = NFSe_DaOS(lCodOS)
+If sNFSeR <> "" Then
+    MsgBox "Essa OS está na NFS-e " & sNFSeR & " (não cancelada)!" & vbCrLf & vbCrLf & "Cancele a NFS-e (ou exclua o rascunho) no menu NFS-e antes de reabrir a OS.", vbExclamation, "Aviso do Sistema"
     Exit Sub
 End If
 
@@ -13420,6 +13433,15 @@ End Sub
 
 Private Sub Menu_Consulta_Oleo_Click()
 frmHistoricoOleo.Show 1
+End Sub
+
+'NFS-e (padrao nacional) das OS finalizadas: tela frmNFSe (modNFSe + NFSe\NFSeEmissor.exe)
+Private Sub Menu_NFSe_Notas_Click()
+If Not NFSe_BancoPronto() Then
+   MsgBox "O banco de dados ainda não tem as tabelas da NFS-e." & vbCrLf & "Rode a atualização do sistema (script 178) e tente de novo.", vbExclamation, "NFS-e"
+   Exit Sub
+End If
+frmNFSe.Show vbModal
 End Sub
 
 Private Sub Menu_Consulta_OS_Click()
