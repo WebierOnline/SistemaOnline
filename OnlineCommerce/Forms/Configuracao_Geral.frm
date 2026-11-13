@@ -1469,9 +1469,9 @@ Begin VB.Form Configuracao_Geral
          Begin VB.CheckBox chkPixDinamico 
             Caption         =   "Sim"
             Height          =   195
-            Left            =   2820
+            Left            =   4800
             TabIndex        =   239
-            Top             =   7020
+            Top             =   6300
             Width           =   615
          End
          Begin VB.CheckBox chkExibirTributos 
@@ -1765,9 +1765,9 @@ Begin VB.Form Configuracao_Geral
             AutoSize        =   -1  'True
             Caption         =   "Pix Dinâmico:"
             Height          =   195
-            Left            =   1740
+            Left            =   3720
             TabIndex        =   240
-            Top             =   7020
+            Top             =   6300
             Width           =   975
          End
          Begin VB.Label Label78 
