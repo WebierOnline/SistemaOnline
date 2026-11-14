@@ -218,8 +218,10 @@ Option Explicit
 
 'Lista das NFS-e (tabela NFSe, script 178). Gerar/transmitir/consultar/cancelar/DANFSe pelo NFSeEmissor.exe (modNFSe).
 'Colunas do grid: 0 Id (oculta), 1 Nº NFS-e, 2 Competência, 3 Cliente, 4 OS, 5 Valor, 6 Situação, 7 Ambiente,
-'8 Mensagem (oculta), 9 código da situação (oculta), 10 PDF (oculta)
-Private Const C_ID = 0, C_NUM = 1, C_COMP = 2, C_CLI = 3, C_OS = 4, C_VALOR = 5, C_SIT = 6, C_AMB = 7, C_MSG = 8, C_SITCOD = 9, C_PDF = 10
+'8 Mensagem (oculta), 9 código da situação (oculta), 10 PDF (oculta), 11 cancelamento pedido à prefeitura (oculta, "1")
+Private Const C_ID = 0, C_NUM = 1, C_COMP = 2, C_CLI = 3, C_OS = 4, C_VALOR = 5, C_SIT = 6, C_AMB = 7, C_MSG = 8, C_SITCOD = 9, C_PDF = 10, C_ANALISE = 11
+
+Private bTemAnaliseFiscal As Boolean   'script 179 aplicado
 
 'Quem abre esta tela confere antes NFSe_BancoPronto (Unload no Form_Load de tela modal da erro 364)
 Private Sub Form_Load()
@@ -232,6 +234,7 @@ cboSituacao.AddItem "REJEITADA"
 cboSituacao.AddItem "CANCELADA"
 cboSituacao.AddItem "PENDENTE"
 cboSituacao.ListIndex = 0
+bTemAnaliseFiscal = NFSe_TemAnaliseFiscal()
 MontarGrid
 MostrarAmbiente
 Pesquisar
@@ -242,7 +245,7 @@ Dim i As Long
 'MSFlexGrid exige pelo menos 1 linha alem do cabecalho: a linha 1 fica em branco quando nao ha notas
 With grdNotas
    .Rows = 2
-   .Cols = 11
+   .Cols = 12
    .FixedRows = 1
    .FixedCols = 0
    For i = 0 To .Cols - 1
@@ -259,14 +262,15 @@ With grdNotas
    .ColWidth(C_ID) = 0
    .ColWidth(C_NUM) = 1100
    .ColWidth(C_COMP) = 1150
-   .ColWidth(C_CLI) = 4300
+   .ColWidth(C_CLI) = 4050
    .ColWidth(C_OS) = 1900
    .ColWidth(C_VALOR) = 1300
-   .ColWidth(C_SIT) = 1350
+   .ColWidth(C_SIT) = 1600
    .ColWidth(C_AMB) = 900
    .ColWidth(C_MSG) = 0
    .ColWidth(C_SITCOD) = 0
    .ColWidth(C_PDF) = 0
+   .ColWidth(C_ANALISE) = 0
    .ColAlignment(C_VALOR) = flexAlignRightCenter
 End With
 End Sub
@@ -297,7 +301,8 @@ Dim n As Long, nSit As Integer
 sDe = DataSQL(txtDe.Text, False)
 sAte = DataSQL(txtAte.Text, True)
 sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroPedido, " & _
-       "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf " & _
+       "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf, " & _
+       IIf(bTemAnaliseFiscal, "CASE WHEN AnaliseFiscalSolicitada IS NULL THEN 0 ELSE 1 END", "0") & " AS Analise " & _
        "FROM NFSe WHERE (1 = 1)"
 'Periodo pela data em que a nota foi criada (a competencia e a finalizacao da OS, pode ser de meses atras).
 'Rascunho, rejeitada e pendente aparecem sempre: sao notas que ainda precisam de acao.
@@ -330,10 +335,18 @@ With grdNotas
       .TextMatrix(n, C_MSG) = ValidateNull(r("Mensagem"))
       .TextMatrix(n, C_SITCOD) = nSit
       .TextMatrix(n, C_PDF) = ValidateNull(r("ArquivoPdf"))
+      .TextMatrix(n, C_ANALISE) = IIf(nSit = NFSE_AUTORIZADA And Val(ValidateNull(r("Analise"))) = 1, "1", "")
       .Row = n
       .Col = C_SIT
       Select Case nSit
-         Case NFSE_AUTORIZADA: .CellForeColor = &H8000&
+         Case NFSE_AUTORIZADA
+            If .TextMatrix(n, C_ANALISE) = "1" Then
+               'cancelamento pedido a prefeitura: a nota continua valida ate o deferimento
+               .TextMatrix(n, C_SIT) = "CANC. SOLICITADO"
+               .CellForeColor = &H80FF&
+            Else
+               .CellForeColor = &H8000&
+            End If
          Case NFSE_REJEITADA: .CellForeColor = vbRed
          Case NFSE_CANCELADA: .CellForeColor = &H808080
          Case NFSE_PENDENTE: .CellForeColor = &H80FF&
@@ -370,6 +383,7 @@ cmdTransmitir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA Or nSit 
 cmdConsultar.Enabled = (nSit = NFSE_PENDENTE Or nSit = NFSE_AUTORIZADA Or nSit = NFSE_REJEITADA)
 cmdImprimir.Enabled = (nSit = NFSE_AUTORIZADA Or nSit = NFSE_CANCELADA)
 cmdCancelarNota.Enabled = (nSit = NFSE_AUTORIZADA)
+If cmdCancelarNota.Enabled Then cmdCancelarNota.Enabled = (grdNotas.TextMatrix(grdNotas.Row, C_ANALISE) <> "1")
 cmdExcluir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA)
 End Sub
 
@@ -500,7 +514,7 @@ End Sub
 
 Private Sub cmdCancelarNota_Click()
 Dim oRes As Object
-Dim sStatus As String
+Dim sStatus As String, sEvento As String
 Dim lId As Long
 lId = IdSelecionado()
 If lId = 0 Then Exit Sub
@@ -512,13 +526,31 @@ If Not frmNFSe_Cancelar.Confirmado Then
    Unload frmNFSe_Cancelar
    Exit Sub
 End If
-sStatus = NFSe_Executar("acao=cancelar" & vbCrLf & "id=" & lId & vbCrLf & "motivo=" & frmNFSe_Cancelar.Motivo & vbCrLf & _
-                        "justificativa=" & Replace(Replace(frmNFSe_Cancelar.Justificativa, vbCr, " "), vbLf, " "), oRes)
+'motivo e justificativa servem tambem para o pedido de analise fiscal, se o municipio nao deixar cancelar direto
+sEvento = "id=" & lId & vbCrLf & "motivo=" & frmNFSe_Cancelar.Motivo & vbCrLf & _
+          "justificativa=" & Replace(Replace(frmNFSe_Cancelar.Justificativa, vbCr, " "), vbLf, " ")
 Unload frmNFSe_Cancelar
+sStatus = NFSe_Executar("acao=cancelar" & vbCrLf & sEvento, oRes)
 If Left$(sStatus, 2) <> "OK" Then
    MsgBox "Não foi possível cancelar:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"
-Else
+ElseIf NFSe_Valor(oRes, "analisefiscal") = "1" Then
+   'E0822 prazo, E0823 valor, E0824 tomador: so a prefeitura pode cancelar (evento 101103)
+   If MsgBox("O município não permite cancelar esta NFS-e direto pelo sistema:" & vbCrLf & vbCrLf & _
+             NFSe_Valor(oRes, "mensagem") & vbCrLf & vbCrLf & _
+             "Enviar um PEDIDO DE CANCELAMENTO para a prefeitura analisar (análise fiscal)?" & vbCrLf & vbCrLf & _
+             "A NFS-e continua válida até a prefeitura deferir. Use Consultar nos próximos dias para acompanhar.", _
+             vbQuestion + vbYesNo + vbDefaultButton1, "NFS-e") = vbYes Then
+      sStatus = NFSe_Executar("acao=analisefiscal" & vbCrLf & sEvento, oRes)
+      If Left$(sStatus, 2) <> "OK" Then
+         MsgBox "Não foi possível enviar o pedido de cancelamento:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"
+      Else
+         MsgBox "Pedido de cancelamento enviado à prefeitura." & vbCrLf & vbCrLf & NFSe_Valor(oRes, "mensagem"), vbInformation, "NFS-e"
+      End If
+   End If
+ElseIf Val(NFSe_Valor(oRes, "situacao")) = NFSE_CANCELADA Then
    MsgBox "NFS-e cancelada." & vbCrLf & vbCrLf & "As OS dessa nota ficam livres para uma nova NFS-e.", vbInformation, "NFS-e"
+Else
+   MsgBox NFSe_Valor(oRes, "mensagem"), vbInformation, "NFS-e"
 End If
 Pesquisar
 SelecionarId lId

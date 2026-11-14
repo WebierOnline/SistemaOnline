@@ -8,6 +8,7 @@ Option Explicit
 'tabelas NFSe/NFSeItens (script 178). A tela so grava o pedido "chave=valor", roda o exe e le o .resultado
 '(mesmo padrao do SpedGerador). O pedido tem a senha do banco: o exe apaga assim que le.
 'Situacao da nota: 0 Em digitacao, 1 Autorizada, 2 Rejeitada, 3 Cancelada, 4 Pendente (envio sem resposta).
+'Autorizada com AnaliseFiscalSolicitada preenchida (script 179) = cancelamento pedido a prefeitura, aguardando resposta.
 
 Public Const NFSE_DIGITACAO = 0
 Public Const NFSE_AUTORIZADA = 1
@@ -90,6 +91,11 @@ End Function
 'Tabelas do script 178 existem? (empresas que ainda nao atualizaram o banco)
 Public Function NFSe_BancoPronto() As Boolean
 NFSe_BancoPronto = (Val(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.NFSe', 'U') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
+End Function
+
+'Script 179: coluna NFSe.AnaliseFiscalSolicitada (pedido de cancelamento a prefeitura ainda sem resposta)
+Public Function NFSe_TemAnaliseFiscal() As Boolean
+NFSe_TemAnaliseFiscal = (Val(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.NFSe', 'AnaliseFiscalSolicitada') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
 End Function
 
 Public Function NFSe_SituacaoTexto(ByVal nSituacao As Integer) As String
