@@ -21,19 +21,19 @@ Begin VB.Form frmNFSe
       BackColor       =   &H80000005&
       ForeColor       =   &H80000008&
       Height          =   795
-      Left            =   3300
+      Left            =   0
       ScaleHeight     =   765
-      ScaleWidth      =   12345
-      TabIndex        =   12
-      Top             =   60
-      Width           =   12375
+      ScaleWidth      =   13785
+      TabIndex        =   4
+      Top             =   0
+      Width           =   13815
       Begin ChamaleonBtn.chameleonButton cmdRecebidas 
          Height          =   315
-         Left            =   8280
-         TabIndex        =   25
+         Left            =   12060
+         TabIndex        =   16
          Top             =   240
-         Width           =   1815
-         _ExtentX        =   3201
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "NFS-e &recebidas"
@@ -67,11 +67,11 @@ Begin VB.Form frmNFSe
       End
       Begin ChamaleonBtn.chameleonButton cmdConfig 
          Height          =   315
-         Left            =   6240
-         TabIndex        =   26
+         Left            =   10380
+         TabIndex        =   17
          Top             =   240
-         Width           =   1995
-         _ExtentX        =   3519
+         Width           =   1635
+         _ExtentX        =   2884
          _ExtentY        =   556
          BTYPE           =   3
          TX              =   "Con&figurar NFS-e"
@@ -116,7 +116,7 @@ Begin VB.Form frmNFSe
          AutoSize        =   -1  'True
          BackColor       =   &H80000005&
          BackStyle       =   0  'Transparent
-         Caption         =   "NFe - Nota Fiscal Eletrônica"
+         Caption         =   "NFSe - Nota Fiscal de Serviço Eletrônica"
          BeginProperty Font 
             Name            =   "Arial"
             Size            =   15.75
@@ -128,10 +128,10 @@ Begin VB.Form frmNFSe
          EndProperty
          ForeColor       =   &H00800000&
          Height          =   360
-         Left            =   1920
-         TabIndex        =   13
+         Left            =   1860
+         TabIndex        =   5
          Top             =   180
-         Width           =   4140
+         Width           =   6060
       End
    End
    Begin VB.Frame fraFiltro 
@@ -145,12 +145,21 @@ Begin VB.Form frmNFSe
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   1335
+      Height          =   1395
       Left            =   60
       TabIndex        =   0
       Top             =   840
-      Width           =   12120
-      Begin VB.Frame frmCriterios 
+      Width           =   13740
+      Begin VB.ComboBox cboSituacao 
+         Appearance      =   0  'Flat
+         Height          =   315
+         Left            =   2220
+         Style           =   2  'Dropdown List
+         TabIndex        =   35
+         Top             =   1030
+         Width           =   2055
+      End
+      Begin VB.Frame frmFiltros 
          Caption         =   "Critérios"
          BeginProperty Font 
             Name            =   "Arial"
@@ -162,16 +171,230 @@ Begin VB.Form frmNFSe
             Strikethrough   =   0   'False
          EndProperty
          ForeColor       =   &H00800000&
-         Height          =   1095
-         Left            =   120
-         TabIndex        =   36
+         Height          =   855
+         Left            =   1260
+         TabIndex        =   23
+         Top             =   180
+         Width           =   7335
+         Begin VB.ComboBox cboCliente 
+            Height          =   315
+            Left            =   60
+            TabIndex        =   33
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   5925
+         End
+         Begin VB.ComboBox cboAno 
+            Height          =   315
+            Left            =   1680
+            Style           =   2  'Dropdown List
+            TabIndex        =   26
+            Top             =   405
+            Width           =   1000
+         End
+         Begin VB.ComboBox cboMes 
+            Height          =   315
+            Left            =   60
+            Style           =   2  'Dropdown List
+            TabIndex        =   25
+            Top             =   405
+            Width           =   1500
+         End
+         Begin ChamaleonBtn.chameleonButton cmdPesquisar 
+            Height          =   315
+            Left            =   6060
+            TabIndex        =   24
+            Top             =   420
+            Width           =   1155
+            _ExtentX        =   2037
+            _ExtentY        =   556
+            BTYPE           =   3
+            TX              =   "&Pesquisar"
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   12632256
+            BCOLO           =   12632256
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "frmNFSe.frx":1105
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin MSMask.MaskEdBox mskDe 
+            Height          =   315
+            Left            =   60
+            TabIndex        =   29
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   1095
+            _ExtentX        =   1931
+            _ExtentY        =   556
+            _Version        =   393216
+            MaxLength       =   8
+            Mask            =   "##/##/##"
+            PromptChar      =   "_"
+         End
+         Begin ChamaleonBtn.chameleonButton calDe 
+            Height          =   315
+            Left            =   1185
+            TabIndex        =   30
+            TabStop         =   0   'False
+            Tag             =   "Calendario"
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   315
+            _ExtentX        =   556
+            _ExtentY        =   556
+            BTYPE           =   8
+            TX              =   ""
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   15790320
+            BCOLO           =   15790320
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "frmNFSe.frx":1121
+            PICN            =   "frmNFSe.frx":113D
+            PICH            =   "frmNFSe.frx":3490
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin MSMask.MaskEdBox mskAte 
+            Height          =   315
+            Left            =   1680
+            TabIndex        =   31
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   1095
+            _ExtentX        =   1931
+            _ExtentY        =   556
+            _Version        =   393216
+            MaxLength       =   8
+            Mask            =   "##/##/##"
+            PromptChar      =   "_"
+         End
+         Begin ChamaleonBtn.chameleonButton calAte 
+            Height          =   315
+            Left            =   2805
+            TabIndex        =   32
+            TabStop         =   0   'False
+            Tag             =   "Calendario"
+            Top             =   420
+            Visible         =   0   'False
+            Width           =   315
+            _ExtentX        =   556
+            _ExtentY        =   556
+            BTYPE           =   8
+            TX              =   ""
+            ENAB            =   -1  'True
+            BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+               Name            =   "MS Sans Serif"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   400
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            COLTYPE         =   1
+            FOCUSR          =   -1  'True
+            BCOL            =   15790320
+            BCOLO           =   15790320
+            FCOL            =   0
+            FCOLO           =   0
+            MCOL            =   12632256
+            MPTR            =   1
+            MICON           =   "frmNFSe.frx":57E3
+            PICN            =   "frmNFSe.frx":57FF
+            PICH            =   "frmNFSe.frx":7B52
+            UMCOL           =   -1  'True
+            SOFT            =   0   'False
+            PICPOS          =   0
+            NGREY           =   0   'False
+            FX              =   0
+            HAND            =   0   'False
+            CHECK           =   0   'False
+            VALUE           =   0   'False
+         End
+         Begin VB.Label lblAno 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Ano:"
+            Height          =   195
+            Left            =   1680
+            TabIndex        =   28
+            Top             =   180
+            Width           =   330
+         End
+         Begin VB.Label lblMes 
+            AutoSize        =   -1  'True
+            BackStyle       =   0  'Transparent
+            Caption         =   "Mês:"
+            Height          =   195
+            Left            =   60
+            TabIndex        =   27
+            Top             =   180
+            Width           =   345
+         End
+      End
+      Begin VB.Frame frmCriterios 
+         Caption         =   "Filtros"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   1155
+         Left            =   60
+         TabIndex        =   18
          Top             =   180
          Width           =   1155
          Begin VB.OptionButton optTodos 
             Caption         =   "Todos"
             Height          =   195
             Left            =   120
-            TabIndex        =   40
+            TabIndex        =   19
             Top             =   240
             Width           =   795
          End
@@ -179,7 +402,7 @@ Begin VB.Form frmNFSe
             Caption         =   "Cliente"
             Height          =   195
             Left            =   120
-            TabIndex        =   39
+            TabIndex        =   20
             Top             =   840
             Width           =   795
          End
@@ -187,7 +410,7 @@ Begin VB.Form frmNFSe
             Caption         =   "Período"
             Height          =   195
             Left            =   120
-            TabIndex        =   38
+            TabIndex        =   21
             Top             =   640
             Width           =   915
          End
@@ -195,235 +418,40 @@ Begin VB.Form frmNFSe
             Caption         =   "Mensal"
             Height          =   195
             Left            =   120
-            TabIndex        =   37
+            TabIndex        =   22
             Top             =   440
             Value           =   -1  'True
             Width           =   915
          End
       End
-      Begin VB.ComboBox cboMes 
-         Height          =   315
-         Left            =   1440
-         Style           =   2  'Dropdown List
-         TabIndex        =   1
-         Top             =   640
-         Width           =   1500
-      End
-      Begin VB.ComboBox cboAno 
-         Height          =   315
-         Left            =   3060
-         Style           =   2  'Dropdown List
-         TabIndex        =   2
-         Top             =   640
-         Width           =   1000
-      End
-      Begin MSMask.MaskEdBox mskDe 
-         Height          =   315
-         Left            =   1440
-         TabIndex        =   3
-         Top             =   640
-         Visible         =   0   'False
-         Width           =   1100
-         _ExtentX        =   1940
-         _ExtentY        =   556
-         _Version        =   393216
-         MaxLength       =   8
-         Mask            =   "##/##/##"
-         PromptChar      =   "_"
-      End
-      Begin ChamaleonBtn.chameleonButton calDe 
-         Height          =   315
-         Left            =   2560
-         TabIndex        =   28
-         TabStop         =   0   'False
-         Tag             =   "Calendario"
-         Top             =   640
-         Visible         =   0   'False
-         Width           =   315
-         _ExtentX        =   556
-         _ExtentY        =   556
-         BTYPE           =   8
-         TX              =   ""
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   15790320
-         BCOLO           =   15790320
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "frmNFSe.frx":1121
-         PICN            =   "frmNFSe.frx":113D
-         PICH            =   "frmNFSe.frx":3490
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin MSMask.MaskEdBox mskAte 
-         Height          =   315
-         Left            =   3060
-         TabIndex        =   4
-         Top             =   640
-         Visible         =   0   'False
-         Width           =   1100
-         _ExtentX        =   1940
-         _ExtentY        =   556
-         _Version        =   393216
-         MaxLength       =   8
-         Mask            =   "##/##/##"
-         PromptChar      =   "_"
-      End
-      Begin ChamaleonBtn.chameleonButton calAte 
-         Height          =   315
-         Left            =   4180
-         TabIndex        =   30
-         TabStop         =   0   'False
-         Tag             =   "Calendario"
-         Top             =   640
-         Visible         =   0   'False
-         Width           =   315
-         _ExtentX        =   556
-         _ExtentY        =   556
-         BTYPE           =   8
-         TX              =   ""
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   15790320
-         BCOLO           =   15790320
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "frmNFSe.frx":57E3
-         PICN            =   "frmNFSe.frx":57FF
-         PICH            =   "frmNFSe.frx":7B52
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin VB.ComboBox cboCliente 
-         Height          =   315
-         Left            =   1440
-         TabIndex        =   7
-         Top             =   640
-         Visible         =   0   'False
-         Width           =   4000
-      End
-      Begin VB.ComboBox cboSituacao 
-         Height          =   315
-         Left            =   5700
-         Style           =   2  'Dropdown List
-         TabIndex        =   6
-         Top             =   640
-         Width           =   2055
-      End
-      Begin ChamaleonBtn.chameleonButton cmdPesquisar 
-         Height          =   315
-         Left            =   7950
-         TabIndex        =   24
-         Top             =   640
-         Width           =   1155
-         _ExtentX        =   2037
-         _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "&Pesquisar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "frmNFSe.frx":1105
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin VB.Label lblMes 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Mês:"
-         Height          =   195
-         Left            =   1440
-         TabIndex        =   8
-         Top             =   420
-         Width           =   345
-      End
-      Begin VB.Label lblAno 
-         AutoSize        =   -1  'True
-         BackStyle       =   0  'Transparent
-         Caption         =   "Ano:"
-         Height          =   195
-         Left            =   3060
-         TabIndex        =   5
-         Top             =   420
-         Width           =   330
-      End
       Begin VB.Label lblSit 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Situação:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
          Height          =   195
-         Left            =   5700
-         TabIndex        =   35
-         Top             =   420
-         Width           =   675
+         Left            =   1320
+         TabIndex        =   34
+         Top             =   1080
+         Width           =   810
       End
    End
    Begin MSFlexGridLib.MSFlexGrid grdNotas 
-      Height          =   3435
+      Height          =   4275
       Left            =   60
-      TabIndex        =   9
-      Top             =   2220
-      Width           =   13320
-      _ExtentX        =   23495
-      _ExtentY        =   6059
+      TabIndex        =   1
+      Top             =   2280
+      Width           =   13740
+      _ExtentX        =   24236
+      _ExtentY        =   7541
       _Version        =   393216
       Cols            =   11
       FixedCols       =   0
@@ -435,8 +463,9 @@ Begin VB.Form frmNFSe
    Begin ChamaleonBtn.chameleonButton cmdCopiarChave 
       Height          =   315
       Left            =   12660
-      TabIndex        =   14
-      Top             =   1560
+      TabIndex        =   6
+      Top             =   7440
+      Visible         =   0   'False
       Width           =   1155
       _ExtentX        =   2037
       _ExtentY        =   556
@@ -472,9 +501,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdFechar 
       Height          =   315
-      Left            =   11700
-      TabIndex        =   15
-      Top             =   7680
+      Left            =   12660
+      TabIndex        =   7
+      Top             =   6600
       Width           =   1155
       _ExtentX        =   2037
       _ExtentY        =   556
@@ -510,9 +539,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdExcluir 
       Height          =   315
-      Left            =   7680
-      TabIndex        =   16
-      Top             =   6780
+      Left            =   7620
+      TabIndex        =   8
+      Top             =   6600
       Width           =   915
       _ExtentX        =   1614
       _ExtentY        =   556
@@ -548,9 +577,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
       Height          =   315
-      Left            =   6360
-      TabIndex        =   17
-      Top             =   6780
+      Left            =   6300
+      TabIndex        =   9
+      Top             =   6600
       Width           =   1275
       _ExtentX        =   2249
       _ExtentY        =   556
@@ -586,9 +615,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdEmail 
       Height          =   315
-      Left            =   5100
-      TabIndex        =   18
-      Top             =   6780
+      Left            =   5040
+      TabIndex        =   10
+      Top             =   6600
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   556
@@ -624,9 +653,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdImprimir 
       Height          =   315
-      Left            =   4200
-      TabIndex        =   19
-      Top             =   6780
+      Left            =   4140
+      TabIndex        =   11
+      Top             =   6600
       Width           =   855
       _ExtentX        =   1508
       _ExtentY        =   556
@@ -662,9 +691,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdConsultar 
       Height          =   315
-      Left            =   3180
-      TabIndex        =   20
-      Top             =   6780
+      Left            =   3120
+      TabIndex        =   12
+      Top             =   6600
       Width           =   975
       _ExtentX        =   1720
       _ExtentY        =   556
@@ -700,9 +729,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdTransmitir 
       Height          =   315
-      Left            =   2220
-      TabIndex        =   21
-      Top             =   6780
+      Left            =   2160
+      TabIndex        =   13
+      Top             =   6600
       Width           =   915
       _ExtentX        =   1614
       _ExtentY        =   556
@@ -738,9 +767,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdEditar 
       Height          =   315
-      Left            =   1320
-      TabIndex        =   22
-      Top             =   6780
+      Left            =   1260
+      TabIndex        =   14
+      Top             =   6600
       Width           =   855
       _ExtentX        =   1508
       _ExtentY        =   556
@@ -776,9 +805,9 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdNova 
       Height          =   315
-      Left            =   120
-      TabIndex        =   23
-      Top             =   6780
+      Left            =   60
+      TabIndex        =   15
+      Top             =   6600
       Width           =   1155
       _ExtentX        =   2037
       _ExtentY        =   556
@@ -824,17 +853,20 @@ Begin VB.Form frmNFSe
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   4200
-      TabIndex        =   11
-      Top             =   7680
+      Left            =   60
+      TabIndex        =   3
+      Top             =   7800
       Width           =   6330
    End
    Begin VB.Label lblMensagem 
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
       BorderStyle     =   1  'Fixed Single
+      ForeColor       =   &H80000008&
       Height          =   795
-      Left            =   120
-      TabIndex        =   10
-      Top             =   5895
+      Left            =   60
+      TabIndex        =   2
+      Top             =   6960
       Width           =   12120
    End
 End
@@ -1203,8 +1235,8 @@ If optMensal.Value Then
    If cboMes.ListIndex = Month(dComp) - 1 And Val(cboAno.Text) = Year(dComp) Then Exit Sub
 Else
    If IsDate(TextoData(mskDe.Text)) Then dDe = CDate(TextoData(mskDe.Text)) Else dDe = DateSerial(1900, 1, 1)
-   If IsDate(TextoData(mskAte.Text)) Then dAte = CDate(TextoData(mskAte.Text)) Else dAte = DateSerial(9999, 12, 31)
-   If dComp >= dDe And dComp <= dAte Then Exit Sub
+   If IsDate(TextoData(mskAte.Text)) Then Date = CDate(TextoData(mskAte.Text)) Else Date = DateSerial(9999, 12, 31)
+   If dComp >= dDe And dComp <= Date Then Exit Sub
 End If
 'ano fora da lista: inclui na posicao certa (lista crescente)
 nAno = Year(dComp)
