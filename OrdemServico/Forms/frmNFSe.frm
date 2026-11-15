@@ -1076,12 +1076,9 @@ sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroP
        IIf(bTemAnaliseFiscal, "CASE WHEN AnaliseFiscalSolicitada IS NULL THEN 0 ELSE 1 END", "0") & " AS Analise " & _
        "FROM NFSe WHERE (1 = 1)"
 'Mensal e Periodo pela competencia (finalizacao da OS = mes de apuracao do ISS/Simples), nao pela data de emissao.
-'Rascunho, rejeitada e pendente aparecem sempre: sao notas que ainda precisam de acao.
 If sDe <> "" Or sAte <> "" Then
-   sSQL = sSQL & " AND ((Situacao IN (0, 2, 4)) OR ((1 = 1)"
    If sDe <> "" Then sSQL = sSQL & " AND (DataCompetencia >= " & sDe & ")"
    If sAte <> "" Then sSQL = sSQL & " AND (DataCompetencia <= " & sAte & ")"
-   sSQL = sSQL & "))"
 End If
 If cboSituacao.ListIndex > 0 Then sSQL = sSQL & " AND (Situacao = " & (cboSituacao.ListIndex - 1) & ")"
 If optCliente.Value And Trim$(cboCliente.Text) <> "" Then
@@ -1184,11 +1181,49 @@ frmNFSe_OS.Show vbModal
 lId = frmNFSe_OS.IdGerado
 Unload frmNFSe_OS
 If lId = 0 Then Exit Sub
+IrParaCompetencia lId
 Pesquisar
 SelecionarId lId
 If frmNFSe_Editar.Editar(lId) Then TransmitirId lId
+IrParaCompetencia lId
 Pesquisar
 SelecionarId lId
+End Sub
+
+'Nota nova (OS finalizada em outro mes) fora do Mensal/Periodo consultado: muda o Mensal para o mes da competencia dela
+Private Sub IrParaCompetencia(ByVal lId As Long)
+Dim sComp As String
+Dim dComp As Date, dDe As Date, dAte As Date
+Dim i As Integer, nAno As Integer
+If Not (optMensal.Value Or optPeriodo.Value) Then Exit Sub
+sComp = SQLExecutaRetorno("SELECT CONVERT(varchar(10), DataCompetencia, 103) AS Comp FROM NFSe WHERE (IdNFSe = " & lId & ")", "Comp", "")
+If Not IsDate(sComp) Then Exit Sub
+dComp = CDate(sComp)
+If optMensal.Value Then
+   If cboMes.ListIndex = Month(dComp) - 1 And Val(cboAno.Text) = Year(dComp) Then Exit Sub
+Else
+   If IsDate(TextoData(mskDe.Text)) Then dDe = CDate(TextoData(mskDe.Text)) Else dDe = DateSerial(1900, 1, 1)
+   If IsDate(TextoData(mskAte.Text)) Then dAte = CDate(TextoData(mskAte.Text)) Else dAte = DateSerial(9999, 12, 31)
+   If dComp >= dDe And dComp <= dAte Then Exit Sub
+End If
+'ano fora da lista: inclui na posicao certa (lista crescente)
+nAno = Year(dComp)
+For i = 0 To cboAno.ListCount - 1
+   If Val(cboAno.List(i)) >= nAno Then Exit For
+Next
+If i >= cboAno.ListCount Then
+   cboAno.AddItem CStr(nAno)
+ElseIf Val(cboAno.List(i)) <> nAno Then
+   cboAno.AddItem CStr(nAno), i
+End If
+bCarregando = True
+optMensal.Value = True
+AjustarCriterio
+cboMes.ListIndex = Month(dComp) - 1
+For i = 0 To cboAno.ListCount - 1
+   If Val(cboAno.List(i)) = nAno Then cboAno.ListIndex = i: Exit For
+Next
+bCarregando = False
 End Sub
 
 Private Sub SelecionarId(ByVal lId As Long)
