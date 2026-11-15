@@ -841,23 +841,6 @@ Begin VB.Form frmNFSe
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.Label lblAmbiente 
-      Alignment       =   2  'Center
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   255
-      Left            =   60
-      TabIndex        =   3
-      Top             =   7800
-      Width           =   6330
-   End
    Begin VB.Label lblMensagem 
       Appearance      =   0  'Flat
       BackColor       =   &H80000005&
@@ -913,7 +896,6 @@ cboSituacao.AddItem "PENDENTE"
 cboSituacao.ListIndex = 0
 bTemAnaliseFiscal = NFSe_TemAnaliseFiscal()
 MontarGrid
-MostrarAmbiente
 optMensal.Value = True
 AjustarCriterio
 bCarregando = False
@@ -950,6 +932,7 @@ mskAte.Visible = bPeriodo
 calAte.Visible = bPeriodo
 cboCliente.Visible = bCliente
 cmdPesquisar.Visible = Not optTodos.Value
+If bCliente Then cmdPesquisar.Left = 6060 Else cmdPesquisar.Left = 3240
 If bCliente Then CarregarClientes
 End Sub
 
@@ -1045,29 +1028,19 @@ With grdNotas
    .TextMatrix(0, C_SIT) = "Situação"
    .TextMatrix(0, C_AMB) = "Ambiente"
    .ColWidth(C_ID) = 0
-   .ColWidth(C_NUM) = 1100
+   .ColWidth(C_NUM) = 1000
    .ColWidth(C_COMP) = 1150
-   .ColWidth(C_CLI) = 4050
-   .ColWidth(C_OS) = 1900
+   .ColWidth(C_CLI) = 6400
+   .ColWidth(C_OS) = 900
    .ColWidth(C_VALOR) = 1300
-   .ColWidth(C_SIT) = 1600
-   .ColWidth(C_AMB) = 900
+   .ColWidth(C_SIT) = 1700
+   .ColWidth(C_AMB) = 950
    .ColWidth(C_MSG) = 0
    .ColWidth(C_SITCOD) = 0
    .ColWidth(C_PDF) = 0
    .ColWidth(C_ANALISE) = 0
    .ColAlignment(C_VALOR) = flexAlignRightCenter
 End With
-End Sub
-
-Private Sub MostrarAmbiente()
-If Val(SQLExecutaRetorno("SELECT NFSeAmbiente FROM empresa", "NFSeAmbiente", "2")) = 1 Then
-   lblAmbiente.Caption = "PRODUÇÃO (notas com valor fiscal)"
-   lblAmbiente.ForeColor = &H8000&
-Else
-   lblAmbiente.Caption = "HOMOLOGAÇÃO (testes, sem valor fiscal) - mude em Configurar"
-   lblAmbiente.ForeColor = vbRed
-End If
 End Sub
 
 Private Function DataSQL(ByVal s As String, ByVal bFim As Boolean) As String
@@ -1521,7 +1494,6 @@ End Sub
 
 Private Sub cmdConfig_Click()
 frmNFSe_Config.Show vbModal
-MostrarAmbiente
 End Sub
 
 Private Sub cmdRecebidas_Click()
