@@ -189,29 +189,46 @@ Begin VB.Form frmNFSe_Config
          Top             =   1050
          Width           =   735
       End
+      Begin VB.ComboBox cboFormaTotTrib
+         Height          =   315
+         Left            =   5520
+         Style           =   2  'Dropdown List
+         TabIndex        =   46
+         ToolTipText     =   "Valor aproximado dos tributos (Lei 12.741) - as mesmas opções do portal nacional (Perfil > Configuração)"
+         Top             =   1050
+         Width           =   3255
+      End
       Begin VB.TextBox txtTotTribSN
          Height          =   315
-         Left            =   5160
+         Left            =   1200
          MaxLength       =   6
          TabIndex        =   26
-         Top             =   1050
-         Width           =   735
+         Top             =   1440
+         Width           =   675
       End
       Begin VB.TextBox txtTotTribFed
          Height          =   315
-         Left            =   7080
+         Left            =   3120
          MaxLength       =   6
          TabIndex        =   28
-         Top             =   1050
-         Width           =   615
+         Top             =   1440
+         Width           =   675
+      End
+      Begin VB.TextBox txtTotTribEst
+         Height          =   315
+         Left            =   5160
+         MaxLength       =   6
+         TabIndex        =   48
+         Top             =   1440
+         Width           =   675
       End
       Begin VB.TextBox txtTotTribMun
          Height          =   315
-         Left            =   8160
+         Left            =   7200
          MaxLength       =   6
          TabIndex        =   30
-         Top             =   1050
-         Width           =   615
+         Top             =   1440
+         Width           =   675
       End
       Begin VB.Label lblRegEsp
          Caption         =   "Regime especial de tributação:"
@@ -237,38 +254,46 @@ Begin VB.Form frmNFSe_Config
          Top             =   1095
          Width           =   2400
       End
-      Begin VB.Label lblTotSN
-         Caption         =   "Tributos SN (%):"
+      Begin VB.Label lblFormaTot
+         Caption         =   "Tributos aproximados:"
          Height          =   255
          Left            =   3840
-         TabIndex        =   25
+         TabIndex        =   31
+         ToolTipText     =   "Lei 12.741 (valor aproximado dos tributos)"
          Top             =   1095
-         Width           =   1335
+         Width           =   1635
       End
-      Begin VB.Label lblTotFed
-         Caption         =   "Fed. (%):"
-         Height          =   255
-         Left            =   6360
-         TabIndex        =   27
-         Top             =   1095
-         Width           =   735
-      End
-      Begin VB.Label lblTotMun
-         Caption         =   "Mun.:"
-         Height          =   255
-         Left            =   7740
-         TabIndex        =   29
-         Top             =   1095
-         Width           =   435
-      End
-      Begin VB.Label lblDicaTrib
-         Caption         =   "Tributos aproximados (Lei 12.741): Simples = % do Simples Nacional; regime normal = % federal e municipal."
-         ForeColor       =   &H00808080&
+      Begin VB.Label lblTotSN
+         Caption         =   "Simples (%):"
          Height          =   255
          Left            =   120
-         TabIndex        =   31
-         Top             =   1470
-         Width           =   8640
+         TabIndex        =   25
+         Top             =   1485
+         Width           =   1035
+      End
+      Begin VB.Label lblTotFed
+         Caption         =   "Federal (%):"
+         Height          =   255
+         Left            =   2100
+         TabIndex        =   27
+         Top             =   1485
+         Width           =   975
+      End
+      Begin VB.Label lblTotEst
+         Caption         =   "Estadual (%):"
+         Height          =   255
+         Left            =   4020
+         TabIndex        =   47
+         Top             =   1485
+         Width           =   1095
+      End
+      Begin VB.Label lblTotMun
+         Caption         =   "Municipal (%):"
+         Height          =   255
+         Left            =   6060
+         TabIndex        =   29
+         Top             =   1485
+         Width           =   1095
       End
    End
    Begin VB.TextBox txtMensagem
@@ -405,6 +430,11 @@ Option Explicit
 'escolha anterior (Anexo VIII), então não dá para escolher, por exemplo, indicador de imóvel para oficina.
 Private mProducaoAntes As Boolean
 Private mCarregando As Boolean
+Private mCrt As Integer               'CRT da empresa: 3 regime normal, 4 MEI, demais Simples (ME/EPP)
+Private mTemFormaTotTrib As Boolean   'script 181 aplicado (NFSeFormaTotTrib / NFSeTotTribEst)
+
+'Forma dos tributos aproximados (Lei 12.741) = opcoes do portal nacional. O NFSeEmissor confere de novo pelo regime.
+Private Const TOT_AUTO = 0, TOT_VALORES = 1, TOT_PERCENTUAIS = 2, TOT_SIMPLES = 3
 
 'Anexo B: serviços (código de tributação nacional)
 Private mSrvCod() As String, mSrvDesc() As String, mSrvQtd As Long
@@ -449,7 +479,8 @@ If r.EOF Then
    MsgBox "Cadastro da empresa não encontrado.", vbExclamation, "NFS-e"
    Exit Sub
 End If
-Select Case Val(ValidateNull(r("CRT")))
+mCrt = Val(ValidateNull(r("CRT")))
+Select Case mCrt
    Case 3: sCrt = "Regime normal (não optante do Simples)"
    Case 4: sCrt = "MEI"
    Case Else: sCrt = "Simples Nacional (ME/EPP)"
@@ -470,6 +501,14 @@ txtAliquotaISS.Text = IIf(IsNull(r("NFSeAliquotaISS")), "", Format$(ValidateNull
 txtTotTribSN.Text = Format$(ValidateNull(r("NFSeTotTribSN")), "0.00")
 txtTotTribFed.Text = Format$(ValidateNull(r("NFSeTotTribFed")), "0.00")
 txtTotTribMun.Text = Format$(ValidateNull(r("NFSeTotTribMun")), "0.00")
+mTemFormaTotTrib = TemCampo(r, "NFSeFormaTotTrib") And TemCampo(r, "NFSeTotTribEst")
+If mTemFormaTotTrib Then
+   txtTotTribEst.Text = Format$(ValidateNull(r("NFSeTotTribEst")), "0.00")
+   PreencherFormaTotTrib Val(ValidateNull(r("NFSeFormaTotTrib")))
+Else
+   txtTotTribEst.Text = "0.00"
+   PreencherFormaTotTrib TOT_AUTO
+End If
 txtMensagem.Text = ValidateNull(r("NFSeMensagem"))
 chkIBSCBS.Value = IIf(CBool(ValidateNull(r("NFSeIBSCBS"))), vbChecked, vbUnchecked)
 chkSHA256.Value = IIf(CBool(ValidateNull(r("NFSeAssinaturaSHA256"))), vbChecked, vbUnchecked)
@@ -748,6 +787,51 @@ For i = 0 To cbo.ListCount - 1
 Next
 End Sub
 
+'---------------------------------------------------------------------------------------------------- tributos aproximados
+Private Function TemCampo(r As ADODB.Recordset, ByVal sCampo As String) As Boolean
+Dim f As ADODB.Field
+For Each f In r.Fields
+   If StrComp(f.Name, sCampo, vbTextCompare) = 0 Then TemCampo = True: Exit Function
+Next
+End Function
+
+'So as formas que o Sefin aceita para o regime: ME/EPP as 3 do portal; regime normal R$ ou %; MEI nao informa
+'(pTotTribSN fora do ME/EPP = E0710/E0713; "nao informar" fora do MEI = E0712/E0713)
+Private Sub PreencherFormaTotTrib(ByVal nForma As Integer)
+cboFormaTotTrib.Clear
+If mCrt = 4 Then
+   cboFormaTotTrib.AddItem "0 - Não informar (MEI)"
+   cboFormaTotTrib.ListIndex = 0
+   cboFormaTotTrib.Enabled = False
+   AjustarTotTrib
+   Exit Sub
+End If
+cboFormaTotTrib.Enabled = True
+cboFormaTotTrib.AddItem TOT_VALORES & " - Valores em R$ (calculados pelos %)"
+cboFormaTotTrib.AddItem TOT_PERCENTUAIS & " - Percentuais federal/estadual/municipal"
+If mCrt <> 3 Then cboFormaTotTrib.AddItem TOT_SIMPLES & " - Alíquota do Simples Nacional"
+If nForma = TOT_AUTO Or (nForma = TOT_SIMPLES And mCrt = 3) Then nForma = IIf(mCrt = 3, TOT_PERCENTUAIS, TOT_SIMPLES)
+SelecionarCodigo cboFormaTotTrib, CStr(nForma)
+AjustarTotTrib
+End Sub
+
+Private Sub AjustarTotTrib()
+Dim nForma As Integer
+nForma = Val(cboFormaTotTrib.Text)
+txtTotTribSN.Enabled = (mCrt <> 4 And nForma = TOT_SIMPLES)
+lblTotSN.Enabled = txtTotTribSN.Enabled
+txtTotTribFed.Enabled = (mCrt <> 4 And (nForma = TOT_VALORES Or nForma = TOT_PERCENTUAIS))
+txtTotTribEst.Enabled = txtTotTribFed.Enabled
+txtTotTribMun.Enabled = txtTotTribFed.Enabled
+lblTotFed.Enabled = txtTotTribFed.Enabled
+lblTotEst.Enabled = txtTotTribFed.Enabled
+lblTotMun.Enabled = txtTotTribFed.Enabled
+End Sub
+
+Private Sub cboFormaTotTrib_Click()
+AjustarTotTrib
+End Sub
+
 Private Sub chkIBSCBS_Click()
 If mCarregando Then Exit Sub
 If chkIBSCBS.Value = vbChecked And CodigoDoCombo(cboNBS) = "" Then
@@ -788,7 +872,8 @@ End Function
 
 Private Sub cmdSalvar_Click()
 Dim sNac As String, sMun As String, sNBS As String, sIndOp As String, sClass As String, sCST As String
-Dim sAliq As String, sSN As String, sFed As String, sMunTrib As String
+Dim sAliq As String, sSN As String, sFed As String, sEst As String, sMunTrib As String
+Dim nForma As Integer
 
 sNac = CodigoDoCombo(cboCodTribNac)
 sMun = SoDigitos(txtCodTribMun.Text)
@@ -823,7 +908,14 @@ End If
 If Not Pct(txtAliquotaISS, "Alíquota do ISS", 5, True, sAliq) Then Exit Sub
 If Not Pct(txtTotTribSN, "Tributos do Simples", 99, False, sSN) Then Exit Sub
 If Not Pct(txtTotTribFed, "Tributos federais", 99, False, sFed) Then Exit Sub
+If Not Pct(txtTotTribEst, "Tributos estaduais", 99, False, sEst) Then Exit Sub
 If Not Pct(txtTotTribMun, "Tributos municipais", 99, False, sMunTrib) Then Exit Sub
+nForma = Val(cboFormaTotTrib.Text)
+If Not mTemFormaTotTrib And mCrt <> 4 And (nForma <> IIf(mCrt = 3, TOT_PERCENTUAIS, TOT_SIMPLES) Or CDbl(txtTotTribEst.Text) <> 0) Then
+   MsgBox "Para escolher a forma dos tributos aproximados e o % estadual, atualize antes o banco de dados " & _
+          "(script 181 - AlterTable_Empresa_NFSeTotTrib.sql).", vbExclamation, "NFS-e"
+   Exit Sub
+End If
 If chkIBSCBS.Value = vbChecked Then
    If sNBS = "" Or Len(sIndOp) <> 6 Or Len(sClass) <> 6 Then
       MsgBox "Para informar IBS/CBS escolha o NBS, o indicador da operação e a classificação (cClassTrib).", vbExclamation, "NFS-e"
@@ -847,6 +939,7 @@ dbData.Execute "UPDATE empresa SET " & _
    "NFSeTotTribSN = " & sSN & ", " & _
    "NFSeTotTribFed = " & sFed & ", " & _
    "NFSeTotTribMun = " & sMunTrib & ", " & _
+   IIf(mTemFormaTotTrib, "NFSeTotTribEst = " & sEst & ", NFSeFormaTotTrib = " & nForma & ", ", "") & _
    "NFSeMensagem = " & IIf(Trim$(txtMensagem.Text) = "", "NULL", NFSe_Q(Trim$(txtMensagem.Text))) & ", " & _
    "NFSeIBSCBS = " & IIf(chkIBSCBS.Value = vbChecked, "1", "0") & ", " & _
    "NFSeIndOp = " & IIf(sIndOp = "", "NULL", NFSe_Q(sIndOp)) & ", " & _

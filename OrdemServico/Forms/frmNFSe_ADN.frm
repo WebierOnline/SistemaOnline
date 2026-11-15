@@ -213,10 +213,10 @@ With grdDocs
    .TextMatrix(0, C_SIT) = "Situação"
    .TextMatrix(0, C_ORIGEM) = "Origem"
    .ColWidth(C_NSU) = 0
-   .ColWidth(C_NUM) = 1000
+   .ColWidth(C_NUM) = 1350
    .ColWidth(C_DATA) = 1100
    .ColWidth(C_EMIT) = 3300
-   .ColWidth(C_TOMA) = 2700
+   .ColWidth(C_TOMA) = 2350
    .ColWidth(C_VALOR) = 1150
    .ColWidth(C_SIT) = 1100
    .ColWidth(C_ORIGEM) = 1700
