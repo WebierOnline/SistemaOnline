@@ -1198,7 +1198,7 @@ End Sub
 'Nota nova (OS finalizada em outro mes) fora do Mensal/Periodo consultado: muda o Mensal para o mes da competencia dela
 Private Sub IrParaCompetencia(ByVal lId As Long)
 Dim sComp As String
-Dim dComp As Date, dDe As Date, dAte As Date
+Dim dComp As Date, dDataDe As Date, dDataAte As Date
 Dim i As Integer, nAno As Integer
 If Not (optMensal.Value Or optPeriodo.Value) Then Exit Sub
 sComp = SQLExecutaRetorno("SELECT CONVERT(varchar(10), DataCompetencia, 103) AS Comp FROM NFSe WHERE (IdNFSe = " & lId & ")", "Comp", "")
@@ -1207,9 +1207,9 @@ dComp = CDate(sComp)
 If optMensal.Value Then
    If cboMes.ListIndex = Month(dComp) - 1 And Val(cboAno.Text) = Year(dComp) Then Exit Sub
 Else
-   If IsDate(TextoData(mskDe.Text)) Then dDe = CDate(TextoData(mskDe.Text)) Else dDe = DateSerial(1900, 1, 1)
-   If IsDate(TextoData(mskAte.Text)) Then Date = CDate(TextoData(mskAte.Text)) Else Date = DateSerial(9999, 12, 31)
-   If dComp >= dDe And dComp <= Date Then Exit Sub
+   If IsDate(TextoData(mskDe.Text)) Then dDataDe = CDate(TextoData(mskDe.Text)) Else dDataDe = DateSerial(1900, 1, 1)
+   If IsDate(TextoData(mskAte.Text)) Then dDataAte = CDate(TextoData(mskAte.Text)) Else dDataAte = DateSerial(9999, 12, 31)
+   If dComp >= dDataDe And dComp <= dDataAte Then Exit Sub
 End If
 'ano fora da lista: inclui na posicao certa (lista crescente)
 nAno = Year(dComp)
