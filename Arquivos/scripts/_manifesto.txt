@@ -175,3 +175,4 @@
 177|AlterTable_NotasDestinadas_ImportacaoAuto.sql|GERAL
 178|CreateTables_NFSe.sql|OS
 179|AlterTable_NFSe_AnaliseFiscal.sql|OS
+180|CreateTable_NFSeADN.sql|OS

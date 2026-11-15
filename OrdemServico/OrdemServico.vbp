@@ -83,6 +83,7 @@ Form=Forms\frmNFSe_OS.frm
 Form=Forms\frmNFSe_Editar.frm
 Form=Forms\frmNFSe_Cancelar.frm
 Form=Forms\frmNFSe_Config.frm
+Form=Forms\frmNFSe_ADN.frm
 Module=modNFSe; Modulos\modNFSe.bas
 Form=..\Compartilhado\Forms\Parcelas_Consulta_Produtos.frm
 Form=..\Compartilhado\Forms\Vendas_Consulta_Geral_Parcelas.frm

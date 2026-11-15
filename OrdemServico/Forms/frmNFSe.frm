@@ -174,6 +174,15 @@ Begin VB.Form frmNFSe
       Top             =   7260
       Width           =   1935
    End
+   Begin VB.CommandButton cmdRecebidas
+      Caption         =   "NFS-e &recebidas"
+      Height          =   375
+      Left            =   2130
+      TabIndex        =   22
+      ToolTipText     =   "NFS-e recebidas (empresa como tomador) e emitidas fora do sistema, baixadas do Ambiente de Dados Nacional"
+      Top             =   7260
+      Width           =   1935
+   End
    Begin VB.CommandButton cmdFechar
       Cancel          =   -1  'True
       Caption         =   "&Fechar"
@@ -195,10 +204,10 @@ Begin VB.Form frmNFSe
          Strikethrough   =   0   'False
       EndProperty
       Height          =   255
-      Left            =   2160
+      Left            =   4140
       TabIndex        =   20
       Top             =   7320
-      Width           =   8295
+      Width           =   6330
    End
    Begin VB.Label lblMensagem
       BorderStyle     =   1  'Fixed Single
@@ -277,10 +286,10 @@ End Sub
 
 Private Sub MostrarAmbiente()
 If Val(SQLExecutaRetorno("SELECT NFSeAmbiente FROM empresa", "NFSeAmbiente", "2")) = 1 Then
-   lblAmbiente.Caption = "Ambiente da NFS-e: PRODU플O (notas com valor fiscal)"
+   lblAmbiente.Caption = "PRODU플O (notas com valor fiscal)"
    lblAmbiente.ForeColor = &H8000&
 Else
-   lblAmbiente.Caption = "Ambiente da NFS-e: HOMOLOGA플O (testes, sem valor fiscal) - mude em Configurar NFS-e"
+   lblAmbiente.Caption = "HOMOLOGA플O (testes, sem valor fiscal) - mude em Configurar"
    lblAmbiente.ForeColor = vbRed
 End If
 End Sub
@@ -570,6 +579,16 @@ End Sub
 Private Sub cmdConfig_Click()
 frmNFSe_Config.Show vbModal
 MostrarAmbiente
+End Sub
+
+Private Sub cmdRecebidas_Click()
+If Not NFSe_TemADN() Then
+   MsgBox "Falta atualizar o banco de dados (script 180 - CreateTable_NFSeADN.sql) para baixar as NFS-e do Ambiente de Dados Nacional.", vbExclamation, "NFS-e"
+   Exit Sub
+End If
+frmNFSe_ADN.Show vbModal
+'a busca no ADN pode ter cancelado notas do sistema (cancelamento no portal / analise fiscal deferida)
+Pesquisar
 End Sub
 
 Private Sub cmdFechar_Click()

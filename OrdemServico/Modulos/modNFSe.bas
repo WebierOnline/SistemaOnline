@@ -98,6 +98,11 @@ Public Function NFSe_TemAnaliseFiscal() As Boolean
 NFSe_TemAnaliseFiscal = (Val(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.NFSe', 'AnaliseFiscalSolicitada') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
 End Function
 
+'Script 180: tabela NFSeADN (NFS-e recebidas/emitidas e eventos baixados do Ambiente de Dados Nacional)
+Public Function NFSe_TemADN() As Boolean
+NFSe_TemADN = (Val(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.NFSeADN', 'U') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
+End Function
+
 Public Function NFSe_SituacaoTexto(ByVal nSituacao As Integer) As String
 Select Case nSituacao
    Case NFSE_DIGITACAO: NFSe_SituacaoTexto = "EM DIGITAÇÃO"
