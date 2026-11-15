@@ -436,18 +436,6 @@ Private mTemFormaTotTrib As Boolean   'script 181 aplicado (NFSeFormaTotTrib / N
 'Forma dos tributos aproximados (Lei 12.741) = opcoes do portal nacional. O NFSeEmissor confere de novo pelo regime.
 Private Const TOT_AUTO = 0, TOT_VALORES = 1, TOT_PERCENTUAIS = 2, TOT_SIMPLES = 3
 
-'Anexo B: serviços (código de tributação nacional)
-Private mSrvCod() As String, mSrvDesc() As String, mSrvQtd As Long
-'Anexo VII: indicadores da operação usados na NFS-e
-Private mIndCod() As String, mIndTxt() As String, mIndImovel() As Boolean, mIndQtd As Long
-'Anexo VIII: item da LC 116 x NBS x indOp x cClassTrib
-Private mCorItem() As String, mCorNBS() As String, mCorNBSDesc() As String, mCorInd() As String
-Private mCorClass() As String, mCorClassDesc() As String, mCorQtd As Long
-Private mTabelasOk As Boolean
-
-Private Const CB_SETDROPPEDWIDTH = &H160
-Private Declare Function NFSeCfg_SendMessage Lib "user32" Alias "SendMessageA" (ByVal hwnd As Long, ByVal wMsg As Long, ByVal wParam As Long, lParam As Any) As Long
-
 Private Sub Form_Load()
 Dim r As ADODB.Recordset
 Dim sCrt As String
@@ -466,11 +454,11 @@ cboRegimeApuracao.AddItem "2 - Federais pelo Simples e ISS por fora (legislação 
 cboRegimeApuracao.AddItem "3 - Federais e municipal por fora do Simples"
 
 'lista aberta mais larga que a caixa (descrições longas), em pixels
-NFSeCfg_SendMessage cboCodTribNac.hwnd, CB_SETDROPPEDWIDTH, 900, ByVal 0&
-NFSeCfg_SendMessage cboNBS.hwnd, CB_SETDROPPEDWIDTH, 760, ByVal 0&
-NFSeCfg_SendMessage cboIndOp.hwnd, CB_SETDROPPEDWIDTH, 820, ByVal 0&
-NFSeCfg_SendMessage cboClassTrib.hwnd, CB_SETDROPPEDWIDTH, 760, ByVal 0&
-CarregarTabelas
+NFSeTab_LarguraLista cboCodTribNac, 900
+NFSeTab_LarguraLista cboNBS, 760
+NFSeTab_LarguraLista cboIndOp, 820
+NFSeTab_LarguraLista cboClassTrib, 760
+NFSeTab_Carregar
 
 Set r = dbData.OpenRecordset("SELECT TOP 1 * FROM empresa;")
 If r.EOF Then
@@ -525,237 +513,39 @@ Set r = Nothing
 mCarregando = False
 chkIBSCBS_Click
 
-If Not mTabelasOk Then
+If Not NFSeTab_Ok() Then
    MsgBox "As tabelas oficiais da NFS-e não foram encontradas em " & appPathApp & "NFSe\ (NFSe_Servicos.txt, NFSe_IndOp.txt e NFSe_Correlacao.txt)." & vbCrLf & vbCrLf & _
           "Atualize o sistema. Até lá só os códigos já gravados aparecem nas listas.", vbExclamation, "NFS-e"
 End If
 End Sub
 
-'---------------------------------------------------------------------------------------------------- tabelas
-
-Private Function LerTabela(ByVal sArquivo As String, ByVal nCampos As Integer, ByRef c As Collection) As Boolean
-Dim nArq As Integer
-Dim sLinha As String, sCaminho As String
-sCaminho = appPathApp & "NFSe\" & sArquivo
-Set c = New Collection
-If Dir$(sCaminho) = "" Then Exit Function
-nArq = FreeFile
-Open sCaminho For Input As #nArq
-Do While Not EOF(nArq)
-   Line Input #nArq, sLinha
-   If UBound(Split(sLinha, ";")) >= nCampos - 1 Then c.Add sLinha
-Loop
-Close #nArq
-LerTabela = (c.Count > 0)
-End Function
-
-Private Sub CarregarTabelas()
-Dim c As Collection
-Dim v As Variant, p() As String
-Dim i As Long
-
-On Error GoTo deuErro
-mTabelasOk = False
-If Not LerTabela("NFSe_Servicos.txt", 2, c) Then Exit Sub
-mSrvQtd = c.Count
-ReDim mSrvCod(1 To mSrvQtd): ReDim mSrvDesc(1 To mSrvQtd)
-i = 0
-For Each v In c
-   i = i + 1
-   p = Split(v, ";")
-   mSrvCod(i) = p(0)
-   mSrvDesc(i) = p(1)
-Next
-
-If Not LerTabela("NFSe_IndOp.txt", 4, c) Then Exit Sub
-mIndQtd = c.Count
-ReDim mIndCod(1 To mIndQtd): ReDim mIndTxt(1 To mIndQtd): ReDim mIndImovel(1 To mIndQtd)
-i = 0
-For Each v In c
-   i = i + 1
-   p = Split(v, ";")
-   mIndCod(i) = p(0)
-   mIndTxt(i) = p(1) & " - " & p(2)
-   mIndImovel(i) = (p(3) = "1")
-Next
-
-If Not LerTabela("NFSe_Correlacao.txt", 6, c) Then Exit Sub
-mCorQtd = c.Count
-ReDim mCorItem(1 To mCorQtd): ReDim mCorNBS(1 To mCorQtd): ReDim mCorNBSDesc(1 To mCorQtd)
-ReDim mCorInd(1 To mCorQtd): ReDim mCorClass(1 To mCorQtd): ReDim mCorClassDesc(1 To mCorQtd)
-i = 0
-For Each v In c
-   i = i + 1
-   p = Split(v, ";")
-   mCorItem(i) = p(0)
-   mCorNBS(i) = p(1)
-   mCorNBSDesc(i) = p(2)
-   mCorInd(i) = p(3)
-   mCorClass(i) = p(4)
-   mCorClassDesc(i) = p(5)
-Next
-mTabelasOk = True
-Exit Sub
-
-deuErro:
-mTabelasOk = False
-mSrvQtd = 0: mIndQtd = 0: mCorQtd = 0
-End Sub
-
-'Código no começo do texto do combo ("140101 - ...", "1.2001.31.10 - ..."); "(...)" = nada escolhido
-Private Function CodigoDoCombo(cbo As ComboBox) As String
-Dim t As String
-If cbo.ListIndex < 0 Then Exit Function
-t = cbo.List(cbo.ListIndex)
-If Left$(t, 1) = "(" Then Exit Function
-If InStr(t, " - ") > 0 Then t = Left$(t, InStr(t, " - ") - 1)
-CodigoDoCombo = SoDigitos(t)
-End Function
-
-Private Sub SelecionarPorCodigo(cbo As ComboBox, ByVal sCodigo As String)
-Dim i As Integer
-For i = 0 To cbo.ListCount - 1
-   If SoDigitos(Split(cbo.List(i) & " - ", " - ")(0)) = sCodigo And sCodigo <> "" Then
-      cbo.ListIndex = i
-      Exit Sub
-   End If
-Next
-End Sub
-
-Private Function Curto(ByVal s As String, ByVal n As Integer) As String
-Curto = IIf(Len(s) > n, Left$(s, n - 3) & "...", s)
-End Function
-
-Private Function NBSFormatado(ByVal s As String) As String
-If Len(s) = 9 Then
-   NBSFormatado = Left$(s, 1) & "." & Mid$(s, 2, 4) & "." & Mid$(s, 6, 2) & "." & Mid$(s, 8, 2)
-Else
-   NBSFormatado = s
-End If
-End Function
-
-'Item do Anexo VIII do serviço: desdobro ("99.03.02") se a tabela tiver, senão subitem ("14.01")
-Private Function ItemDoServico(ByVal sCod As String) As String
-Dim i As Long, sDesd As String
-If Len(sCod) <> 6 Then Exit Function
-sDesd = Left$(sCod, 2) & "." & Mid$(sCod, 3, 2) & "." & Mid$(sCod, 5, 2)
-For i = 1 To mCorQtd
-   If mCorItem(i) = sDesd Then ItemDoServico = sDesd: Exit Function
-Next
-ItemDoServico = Left$(sCod, 2) & "." & Mid$(sCod, 3, 2)
-End Function
-
-Private Function JaNaLista(cbo As ComboBox, ByVal sCodigo As String) As Boolean
-Dim i As Integer
-For i = 0 To cbo.ListCount - 1
-   If SoDigitos(Split(cbo.List(i) & " - ", " - ")(0)) = sCodigo Then JaNaLista = True: Exit Function
-Next
-End Function
-
-Private Function IndiceIndOp(ByVal sCod As String) As Long
-Dim i As Long
-For i = 1 To mIndQtd
-   If mIndCod(i) = sCod Then IndiceIndOp = i: Exit Function
-Next
-End Function
-
 '---------------------------------------------------------------------------------------------------- listas
+'(tabelas oficiais e combos encadeados no modNFSeTabelas, compartilhado com o Editar NFS-e)
+
+Private Function CodigoDoCombo(cbo As ComboBox) As String
+CodigoDoCombo = NFSeTab_CodigoDoCombo(cbo)
+End Function
 
 Private Sub PreencherServicos(ByVal sPreferido As String)
-Dim i As Long
-cboCodTribNac.Clear
-For i = 1 To mSrvQtd
-   cboCodTribNac.AddItem mSrvCod(i) & " - " & Curto(mSrvDesc(i), 160)
-Next
-If sPreferido <> "" And Not JaNaLista(cboCodTribNac, sPreferido) Then
-   cboCodTribNac.AddItem sPreferido & " - (código gravado, fora da lista nacional: escolha outro)", 0
-End If
-SelecionarPorCodigo cboCodTribNac, sPreferido
+NFSeTab_PreencherServicos cboCodTribNac, sPreferido
 End Sub
 
 Private Sub PreencherNBS(ByVal sPreferido As String)
-Dim i As Long, sItem As String, n As Long
-cboNBS.Clear
-cboNBS.AddItem "(sem NBS - não informar)"
-sItem = ItemDoServico(CodigoDoCombo(cboCodTribNac))
-For i = 1 To mCorQtd
-   If mCorItem(i) = sItem Then
-      If Not JaNaLista(cboNBS, mCorNBS(i)) Then
-         cboNBS.AddItem NBSFormatado(mCorNBS(i)) & " - " & Curto(mCorNBSDesc(i), 150)
-         n = n + 1
-      End If
-   End If
-Next
-'sem tabelas (ou NBS gravado fora dela): mantém o gravado para não perder
-If sPreferido <> "" And Not JaNaLista(cboNBS, sPreferido) And (Not mTabelasOk Or n = 0) Then
-   cboNBS.AddItem NBSFormatado(sPreferido) & " - (NBS gravado)"
-End If
-cboNBS.ListIndex = 0
-SelecionarPorCodigo cboNBS, sPreferido
-If cboNBS.ListIndex = 0 And n = 1 Then cboNBS.ListIndex = 1
-If mTabelasOk And sItem <> "" And n = 0 Then
+Dim n As Long
+n = NFSeTab_PreencherNBS(cboCodTribNac, cboNBS, sPreferido)
+If NFSeTab_Ok() And CodigoDoCombo(cboCodTribNac) <> "" And n = 0 Then
    lblDicaCod.Caption = "Este serviço não tem NBS na tabela oficial (Anexo VIII): o grupo IBS/CBS não pode ser informado."
 Else
    lblDicaCod.Caption = "Listas das tabelas oficiais (Anexos B, VII e VIII): ao trocar o serviço, NBS, indicador e classificação se ajustam."
 End If
 End Sub
 
-'indOp do Anexo VIII para serviço+NBS, os do mesmo grupo (050101 -> 050102) e os da regra de operação não onerosa/
-'exterior (100101/100301/100501); os de imóvel ficam de fora (exigem os dados do imóvel, que a OS não tem)
 Private Sub PreencherIndOp(ByVal sPreferido As String)
-Dim i As Long, j As Long, sItem As String, sNBS As String, sPrimeiro As String
-cboIndOp.Clear
-sItem = ItemDoServico(CodigoDoCombo(cboCodTribNac))
-sNBS = CodigoDoCombo(cboNBS)
-If sNBS <> "" Then
-   For i = 1 To mCorQtd
-      If mCorItem(i) = sItem And mCorNBS(i) = sNBS Then
-         If sPrimeiro = "" Then sPrimeiro = mCorInd(i)
-         For j = 1 To mIndQtd
-            If Left$(mIndCod(j), 4) = Left$(mCorInd(i), 4) Then AdicionarIndOp mIndCod(j)
-         Next
-         Select Case mCorInd(i)
-            Case "100101": AdicionarIndOp "100102": AdicionarIndOp "100201"
-            Case "100301": AdicionarIndOp "100302": AdicionarIndOp "100401"
-            Case "100501": AdicionarIndOp "100502": AdicionarIndOp "100601"
-         End Select
-      End If
-   Next
-End If
-If sPreferido <> "" And Not JaNaLista(cboIndOp, sPreferido) And Not mTabelasOk Then
-   cboIndOp.AddItem sPreferido & " - (indicador gravado)"
-End If
-SelecionarPorCodigo cboIndOp, sPreferido
-If cboIndOp.ListIndex < 0 Then SelecionarPorCodigo cboIndOp, sPrimeiro
-If cboIndOp.ListIndex < 0 And cboIndOp.ListCount > 0 Then cboIndOp.ListIndex = 0
-End Sub
-
-Private Sub AdicionarIndOp(ByVal sCod As String)
-Dim k As Long
-k = IndiceIndOp(sCod)
-If k = 0 Then Exit Sub
-If mIndImovel(k) Then Exit Sub
-If JaNaLista(cboIndOp, sCod) Then Exit Sub
-cboIndOp.AddItem sCod & " - " & Curto(mIndTxt(k), 200)
+NFSeTab_PreencherIndOp cboCodTribNac, cboNBS, cboIndOp, sPreferido
 End Sub
 
 Private Sub PreencherClassTrib(ByVal sPreferido As String)
-Dim i As Long, sItem As String, sNBS As String
-cboClassTrib.Clear
-sItem = ItemDoServico(CodigoDoCombo(cboCodTribNac))
-sNBS = CodigoDoCombo(cboNBS)
-If sNBS <> "" Then
-   For i = 1 To mCorQtd
-      If mCorItem(i) = sItem And mCorNBS(i) = sNBS Then
-         If Not JaNaLista(cboClassTrib, mCorClass(i)) Then cboClassTrib.AddItem mCorClass(i) & " - " & Curto(mCorClassDesc(i), 150)
-      End If
-   Next
-End If
-If sPreferido <> "" And Not JaNaLista(cboClassTrib, sPreferido) And Not mTabelasOk Then
-   cboClassTrib.AddItem sPreferido & " - (classificação gravada)"
-End If
-SelecionarPorCodigo cboClassTrib, sPreferido
-If cboClassTrib.ListIndex < 0 And cboClassTrib.ListCount > 0 Then cboClassTrib.ListIndex = 0
+NFSeTab_PreencherClassTrib cboCodTribNac, cboNBS, cboClassTrib, sPreferido
 cboClassTrib_Click
 End Sub
 

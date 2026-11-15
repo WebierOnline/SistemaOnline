@@ -2,7 +2,7 @@ VERSION 5.00
 Begin VB.Form frmNFSe_Editar
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "NFS-e - Conferir antes de transmitir"
-   ClientHeight    =   7695
+   ClientHeight    =   8745
    ClientLeft      =   45
    ClientTop       =   375
    ClientWidth     =   9480
@@ -10,90 +10,172 @@ Begin VB.Form frmNFSe_Editar
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   7695
+   ScaleHeight     =   8745
    ScaleWidth      =   9480
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
    Begin VB.Frame fraServ
-      Caption         =   "Código do serviço (lista nacional da NFS-e)"
-      Height          =   735
+      Caption         =   "Serviço desta nota (tabelas oficiais da NFS-e)"
+      Height          =   2295
       Left            =   120
       TabIndex        =   3
       Top             =   780
       Width           =   9240
-      Begin VB.TextBox txtCodTribNac
+      Begin VB.ComboBox cboCodTribNac
          Height          =   315
-         Left            =   1440
-         MaxLength       =   8
+         Left            =   1080
+         Style           =   2  'Dropdown List
          TabIndex        =   5
          Top             =   270
-         Width           =   1035
+         Width           =   5655
       End
       Begin VB.TextBox txtCodTribMun
          Height          =   315
-         Left            =   3480
+         Left            =   7920
          MaxLength       =   3
          TabIndex        =   7
          Top             =   270
          Width           =   555
       End
-      Begin VB.TextBox txtNBS
+      Begin VB.ComboBox cboNBS
          Height          =   315
-         Left            =   4560
-         MaxLength       =   12
+         Left            =   1080
+         Style           =   2  'Dropdown List
          TabIndex        =   9
-         Top             =   270
-         Width           =   1335
+         Top             =   660
+         Width           =   5655
       End
       Begin VB.TextBox txtCompetencia
          Height          =   315
          Left            =   7920
          MaxLength       =   10
          TabIndex        =   11
-         Top             =   270
+         Top             =   660
          Width           =   1155
       End
+      Begin VB.OptionButton optEmpresa
+         Caption         =   "Na empresa"
+         Height          =   255
+         Left            =   1080
+         TabIndex        =   26
+         Top             =   1080
+         Value           =   -1  'True
+         Width           =   1215
+      End
+      Begin VB.OptionButton optCliente
+         Caption         =   "No local do cliente"
+         Height          =   255
+         Left            =   2340
+         TabIndex        =   27
+         Top             =   1080
+         Width           =   1755
+      End
+      Begin VB.ComboBox cboUFPrest
+         Height          =   315
+         Left            =   5160
+         Style           =   2  'Dropdown List
+         TabIndex        =   29
+         Top             =   1050
+         Width           =   735
+      End
+      Begin VB.ComboBox cboMunPrest
+         Height          =   315
+         Left            =   5940
+         Sorted          =   -1  'True
+         Style           =   2  'Dropdown List
+         TabIndex        =   30
+         Top             =   1050
+         Width           =   3135
+      End
+      Begin VB.ComboBox cboIndOp
+         Height          =   315
+         Left            =   1080
+         Style           =   2  'Dropdown List
+         TabIndex        =   32
+         Top             =   1470
+         Width           =   7995
+      End
+      Begin VB.ComboBox cboClassTrib
+         Height          =   315
+         Left            =   1080
+         Style           =   2  'Dropdown List
+         TabIndex        =   34
+         Top             =   1860
+         Width           =   7995
+      End
       Begin VB.Label lblCodNac
-         Caption         =   "Nacional (6 díg.):"
+         Caption         =   "Serviço:"
          Height          =   255
          Left            =   120
          TabIndex        =   4
          Top             =   315
-         Width           =   1335
+         Width           =   915
       End
       Begin VB.Label lblCodMun
          Caption         =   "Municipal:"
          Height          =   255
-         Left            =   2640
+         Left            =   6840
          TabIndex        =   6
          Top             =   315
-         Width           =   855
+         Width           =   1035
       End
       Begin VB.Label lblNBS
          Caption         =   "NBS:"
          Height          =   255
-         Left            =   4140
+         Left            =   120
          TabIndex        =   8
-         Top             =   315
-         Width           =   435
+         Top             =   705
+         Width           =   915
       End
       Begin VB.Label lblComp
          Caption         =   "Competência:"
          Height          =   255
          Left            =   6840
          TabIndex        =   10
-         Top             =   315
+         Top             =   705
          Width           =   1035
+      End
+      Begin VB.Label lblLocal
+         Caption         =   "Feito:"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   25
+         Top             =   1095
+         Width           =   915
+      End
+      Begin VB.Label lblMunPrest
+         Caption         =   "Município:"
+         Height          =   255
+         Left            =   4200
+         TabIndex        =   28
+         Top             =   1095
+         Width           =   915
+      End
+      Begin VB.Label lblIndOp
+         Caption         =   "Indicador:"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   31
+         Top             =   1515
+         Width           =   915
+      End
+      Begin VB.Label lblClassTrib
+         Caption         =   "cClassTrib:"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   33
+         Top             =   1905
+         Width           =   915
       End
    End
    Begin VB.TextBox txtDescricao
-      Height          =   2295
+      Height          =   1800
       Left            =   120
       MaxLength       =   2000
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   13
-      Top             =   1860
+      Top             =   3405
       Width           =   9240
    End
    Begin VB.TextBox txtInfo
@@ -103,7 +185,7 @@ Begin VB.Form frmNFSe_Editar
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   16
-      Top             =   4560
+      Top             =   5610
       Width           =   9240
    End
    Begin VB.Frame fraISS
@@ -111,7 +193,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   735
       Left            =   120
       TabIndex        =   17
-      Top             =   5640
+      Top             =   6690
       Width           =   9240
       Begin VB.CheckBox chkRetido
          Caption         =   "ISS retido pelo tomador (só quando o cliente reter o imposto)"
@@ -143,7 +225,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   375
       Left            =   3960
       TabIndex        =   22
-      Top             =   7200
+      Top             =   8250
       Width           =   1695
    End
    Begin VB.CommandButton cmdSalvarTransmitir
@@ -151,7 +233,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   375
       Left            =   5760
       TabIndex        =   23
-      Top             =   7200
+      Top             =   8250
       Width           =   1815
    End
    Begin VB.CommandButton cmdVoltar
@@ -160,7 +242,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   375
       Left            =   7665
       TabIndex        =   24
-      Top             =   7200
+      Top             =   8250
       Width           =   1695
    End
    Begin VB.Label lblValores
@@ -176,7 +258,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   495
       Left            =   120
       TabIndex        =   21
-      Top             =   6480
+      Top             =   7530
       Width           =   9240
    End
    Begin VB.Label lblInfoT
@@ -184,7 +266,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   255
       Left            =   120
       TabIndex        =   15
-      Top             =   4320
+      Top             =   5370
       Width           =   6135
    End
    Begin VB.Label lblContDesc
@@ -192,7 +274,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   255
       Left            =   6360
       TabIndex        =   14
-      Top             =   1620
+      Top             =   3165
       Width           =   3000
    End
    Begin VB.Label lblDesc
@@ -200,7 +282,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   255
       Left            =   120
       TabIndex        =   12
-      Top             =   1620
+      Top             =   3165
       Width           =   4335
    End
    Begin VB.Label lblTomador
@@ -231,7 +313,7 @@ Begin VB.Form frmNFSe_Editar
       Height          =   255
       Left            =   120
       TabIndex        =   0
-      Top             =   6960
+      Top             =   8010
       Width           =   9240
    End
 End
@@ -244,8 +326,17 @@ Option Explicit
 
 'Conferência/edição do rascunho da NFS-e (Situacao 0 ou 2) antes de transmitir. O NFSeEmissor manda ao Sefin
 'exatamente o que estiver gravado na tabela NFSe.
+'Serviço, NBS, indicador da operação e cClassTrib vêm das tabelas oficiais (modNFSeTabelas), começando pelos do
+'Configurar NFS-e. Local da prestação: "Na empresa" (município da empresa, indicador final 01, ex.: 050101) ou
+'"No local do cliente" (serviço feito fora do estabelecimento: município escolhido, indicador final 02, ex.: 050102).
+'O indicador depende de ONDE o serviço foi feito, não da cidade do cliente.
 Private mIdNFSe As Long
 Private mTransmitir As Boolean
+Private mCarregando As Boolean
+Private mTem182 As Boolean        'script 182: IndOp, ClassTrib e PrestacaoNoCliente na nota
+Private mIbsCbs As Boolean        'grupo IBS/CBS ligado no Configurar
+Private mMunEmpresa As Long
+Private mMunCliente As Long
 
 'Mostra a nota e devolve True quando o usuário escolheu "Salvar e Transmitir"
 Public Function Editar(ByVal lId As Long) As Boolean
@@ -261,9 +352,35 @@ Editar = mTransmitir
 Unload Me
 End Function
 
+Private Function TemCampo(r As ADODB.Recordset, ByVal sCampo As String) As Boolean
+Dim f As ADODB.Field
+For Each f In r.Fields
+   If StrComp(f.Name, sCampo, vbTextCompare) = 0 Then TemCampo = True: Exit Function
+Next
+End Function
+
 Private Function Carregar() As Boolean
 Dim r As ADODB.Recordset
 Dim sDoc As String, sEnd As String
+Dim sIndOpEmp As String, sClassEmp As String, sIndOp As String, sClass As String
+Dim bNoCliente As Boolean
+Dim lMunPrest As Long
+
+mCarregando = True
+NFSeTab_Carregar
+NFSeTab_LarguraLista cboCodTribNac, 900
+NFSeTab_LarguraLista cboNBS, 760
+NFSeTab_LarguraLista cboIndOp, 820
+NFSeTab_LarguraLista cboClassTrib, 760
+
+Set r = dbData.OpenRecordset("SELECT CodigoIBGE, NFSeIBSCBS, NFSeIndOp, NFSeClassTrib FROM empresa;")
+If Not r.EOF Then
+   mMunEmpresa = Val(ValidateNull(r("CodigoIBGE")))
+   mIbsCbs = CBool(ValidateNull(r("NFSeIBSCBS")))
+   sIndOpEmp = SoDigitos(ValidateNull(r("NFSeIndOp")))
+   sClassEmp = SoDigitos(ValidateNull(r("NFSeClassTrib")))
+End If
+r.Close
 
 Set r = dbData.OpenRecordset("SELECT * FROM NFSe WHERE (IdNFSe = " & mIdNFSe & ");")
 If r.EOF Then
@@ -276,6 +393,7 @@ If Val(ValidateNull(r("Situacao"))) <> NFSE_DIGITACAO And Val(ValidateNull(r("Si
    MsgBox "Só é possível alterar uma NFS-e em digitação ou rejeitada.", vbExclamation, "NFS-e"
    Exit Function
 End If
+mTem182 = TemCampo(r, "IndOp") And TemCampo(r, "ClassTrib") And TemCampo(r, "PrestacaoNoCliente")
 
 sDoc = ValidateNull(r("TomadorCpfCnpj"))
 If Len(sDoc) = 14 Then
@@ -290,10 +408,28 @@ sEnd = Trim$(ValidateNull(r("TomadorLogradouro")))
 If sEnd <> "" Then sEnd = sEnd & ", " & ValidateNull(r("TomadorNumero")) & " - " & ValidateNull(r("TomadorBairro")) & " - IBGE " & ValidateNull(r("TomadorCodMunicipio")) & " - CEP " & ValidateNull(r("TomadorCEP"))
 If sEnd = "" Then sEnd = "Endereço do cliente incompleto (sem logradouro ou código IBGE): a nota vai sem o endereço do tomador."
 lblTomadorEnd.Caption = sEnd & "   (dados copiados do cadastro do cliente quando a nota foi gerada)"
+mMunCliente = Val(ValidateNull(r("TomadorCodMunicipio")))
 
-txtCodTribNac.Text = ValidateNull(r("CodTribNac"))
+'serviço -> NBS -> indicador -> cClassTrib: os da nota; sem eles (nota antiga / sem script 182), os do Configurar
+sIndOp = sIndOpEmp
+sClass = sClassEmp
+If mTem182 Then
+   If SoDigitos(ValidateNull(r("IndOp"))) <> "" Then sIndOp = SoDigitos(ValidateNull(r("IndOp")))
+   If SoDigitos(ValidateNull(r("ClassTrib"))) <> "" Then sClass = SoDigitos(ValidateNull(r("ClassTrib")))
+End If
+NFSeTab_PreencherServicos cboCodTribNac, SoDigitos(ValidateNull(r("CodTribNac")))
+NFSeTab_PreencherNBS cboCodTribNac, cboNBS, SoDigitos(ValidateNull(r("CodNBS")))
+NFSeTab_PreencherIndOp cboCodTribNac, cboNBS, cboIndOp, sIndOp
+NFSeTab_PreencherClassTrib cboCodTribNac, cboNBS, cboClassTrib, sClass
+
+lMunPrest = Val(ValidateNull(r("CodMunicipioPrestacao")))
+If mTem182 Then
+   bNoCliente = CBool(ValidateNull(r("PrestacaoNoCliente")))
+Else
+   bNoCliente = (lMunPrest <> 0 And lMunPrest <> mMunEmpresa)
+End If
+
 txtCodTribMun.Text = ValidateNull(r("CodTribMun"))
-txtNBS.Text = ValidateNull(r("CodNBS"))
 txtCompetencia.Text = Format$(r("DataCompetencia"), "dd/mm/yyyy")
 txtDescricao.Text = ValidateNull(r("Descricao"))
 txtInfo.Text = ValidateNull(r("InfoComplementar"))
@@ -306,11 +442,141 @@ lblValores.Caption = "Serviços: R$ " & Format$(ValidateNull(r("ValorServicos")),
 lblMensagem.Caption = IIf(Val(ValidateNull(r("Situacao"))) = NFSE_REJEITADA, "Rejeição: " & ValidateNull(r("Mensagem")), "")
 r.Close
 Set r = Nothing
+
+CarregarUFs
+If bNoCliente Then optCliente.Value = True Else optEmpresa.Value = True
+SelecionarMunicipio IIf(bNoCliente, lMunPrest, mMunEmpresa)
+AjustarLocal False
+
 If txtAliquota.Text = "" Then txtAliquota.Text = Format$(SQLExecutaRetorno("SELECT NFSeAliquotaISS FROM empresa", "NFSeAliquotaISS", ""), "0.00")
 chkRetido_Click
 txtDescricao_Change
+
+'indicador e classificação só vão na nota com o IBS/CBS ligado no Configurar
+cboIndOp.Enabled = mIbsCbs And mTem182
+cboClassTrib.Enabled = cboIndOp.Enabled
+lblIndOp.Enabled = cboIndOp.Enabled
+lblClassTrib.Enabled = cboIndOp.Enabled
+If Not mTem182 Then
+   fraServ.Caption = "Serviço desta nota  (para escolher local e indicador por nota, atualize o banco: script 182)"
+ElseIf Not mIbsCbs Then
+   fraServ.Caption = "Serviço desta nota  (indicador e cClassTrib só vão na nota com IBS/CBS ligado no Configurar NFS-e)"
+End If
+If Not NFSeTab_Ok() Then
+   lblMensagem.Caption = "Tabelas oficiais da NFS-e não encontradas na pasta NFSe: atualize o sistema."
+End If
+mCarregando = False
 Carregar = True
 End Function
+
+'---------------------------------------------------------------------------------------------------- serviço
+
+Private Sub cboCodTribNac_Click()
+If mCarregando Then Exit Sub
+NFSeTab_PreencherNBS cboCodTribNac, cboNBS, NFSeTab_CodigoDoCombo(cboNBS)
+cboNBS_Click
+End Sub
+
+Private Sub cboNBS_Click()
+If mCarregando Then Exit Sub
+NFSeTab_PreencherIndOp cboCodTribNac, cboNBS, cboIndOp, NFSeTab_CodigoDoCombo(cboIndOp)
+NFSeTab_PreencherClassTrib cboCodTribNac, cboNBS, cboClassTrib, NFSeTab_CodigoDoCombo(cboClassTrib)
+NFSeTab_IndOpPorLocal cboIndOp, optCliente.Value
+End Sub
+
+'---------------------------------------------------------------------------------------------------- local da prestação
+
+Private Sub CarregarUFs()
+Dim r As ADODB.Recordset
+cboUFPrest.Clear
+On Error GoTo semTabela
+Set r = dbData.OpenRecordset("SELECT DISTINCT UF FROM Cidade WHERE (ISNULL(UF, '') <> '') ORDER BY UF;")
+Do While Not r.EOF
+   cboUFPrest.AddItem Trim$(r("UF"))
+   r.MoveNext
+Loop
+r.Close
+Set r = Nothing
+Exit Sub
+semTabela:
+End Sub
+
+Private Sub CarregarMunicipios(ByVal sUF As String)
+Dim r As ADODB.Recordset
+cboMunPrest.Clear
+On Error GoTo semTabela
+Set r = dbData.OpenRecordset("SELECT Nome, CodigoMunicipio FROM Cidade WHERE (UF = " & NFSe_Q(sUF) & ") ORDER BY Nome;")
+Do While Not r.EOF
+   If Val(ValidateNull(r("CodigoMunicipio"))) > 0 Then
+      cboMunPrest.AddItem Trim$(r("Nome"))
+      cboMunPrest.ItemData(cboMunPrest.NewIndex) = Val(ValidateNull(r("CodigoMunicipio")))
+   End If
+   r.MoveNext
+Loop
+r.Close
+Set r = Nothing
+Exit Sub
+semTabela:
+End Sub
+
+'UF e município pelo código IBGE (tabela Cidade). Fora da tabela: mostra só o código.
+Private Sub SelecionarMunicipio(ByVal lCodigo As Long)
+Dim sUF As String
+Dim i As Integer
+If lCodigo = 0 Then Exit Sub
+On Error Resume Next
+sUF = Trim$(SQLExecutaRetorno("SELECT TOP 1 UF FROM Cidade WHERE (CodigoMunicipio = '" & lCodigo & "')", "UF", ""))
+On Error GoTo 0
+If sUF <> "" Then
+   For i = 0 To cboUFPrest.ListCount - 1
+      If cboUFPrest.List(i) = sUF Then cboUFPrest.ListIndex = i: Exit For
+   Next
+   If cboUFPrest.Text <> sUF Then CarregarMunicipios sUF
+End If
+For i = 0 To cboMunPrest.ListCount - 1
+   If cboMunPrest.ItemData(i) = lCodigo Then cboMunPrest.ListIndex = i: Exit Sub
+Next
+cboMunPrest.AddItem "IBGE " & lCodigo
+cboMunPrest.ItemData(cboMunPrest.NewIndex) = lCodigo
+cboMunPrest.ListIndex = cboMunPrest.NewIndex
+End Sub
+
+Private Sub cboUFPrest_Click()
+CarregarMunicipios cboUFPrest.Text
+End Sub
+
+Private Function MunicipioEscolhido() As Long
+If cboMunPrest.ListIndex < 0 Then Exit Function
+MunicipioEscolhido = cboMunPrest.ItemData(cboMunPrest.ListIndex)
+End Function
+
+'Na empresa: município da empresa e indicador final 01. No local do cliente: município (começa pelo do cliente) e final 02.
+Private Sub AjustarLocal(ByVal bTrocou As Boolean)
+cboUFPrest.Enabled = optCliente.Value
+cboMunPrest.Enabled = optCliente.Value
+lblMunPrest.Enabled = optCliente.Value
+optEmpresa.Enabled = mTem182
+optCliente.Enabled = mTem182
+If Not bTrocou Then Exit Sub
+If optEmpresa.Value Then
+   SelecionarMunicipio mMunEmpresa
+ElseIf mMunCliente <> 0 Then
+   SelecionarMunicipio mMunCliente
+End If
+NFSeTab_IndOpPorLocal cboIndOp, optCliente.Value
+End Sub
+
+Private Sub optEmpresa_Click()
+If mCarregando Then Exit Sub
+AjustarLocal True
+End Sub
+
+Private Sub optCliente_Click()
+If mCarregando Then Exit Sub
+AjustarLocal True
+End Sub
+
+'---------------------------------------------------------------------------------------------------- tela
 
 Private Sub chkRetido_Click()
 txtAliquota.Enabled = (chkRetido.Value = vbChecked)
@@ -329,15 +595,18 @@ Next
 End Function
 
 Private Function Salvar() As Boolean
-Dim sNac As String, sMun As String, sNBS As String, sAliq As String
+Dim sNac As String, sMun As String, sNBS As String, sAliq As String, sIndOp As String, sClass As String
+Dim lMunPrest As Long
 Dim nAfetados As Long
 
-sNac = SoDigitos(txtCodTribNac.Text)
+sNac = NFSeTab_CodigoDoCombo(cboCodTribNac)
 sMun = SoDigitos(txtCodTribMun.Text)
-sNBS = SoDigitos(txtNBS.Text)
+sNBS = NFSeTab_CodigoDoCombo(cboNBS)
+sIndOp = NFSeTab_CodigoDoCombo(cboIndOp)
+sClass = NFSeTab_CodigoDoCombo(cboClassTrib)
 If Len(sNac) <> 6 Then
-   MsgBox "Informe o código de tributação nacional com 6 dígitos (item, subitem e desdobro da lista nacional, ex.: 140101).", vbExclamation, "NFS-e"
-   txtCodTribNac.SetFocus
+   MsgBox "Escolha o serviço (código de tributação nacional) na lista.", vbExclamation, "NFS-e"
+   cboCodTribNac.SetFocus
    Exit Function
 End If
 If sMun <> "" And Len(sMun) <> 3 Then
@@ -345,10 +614,23 @@ If sMun <> "" And Len(sMun) <> 3 Then
    txtCodTribMun.SetFocus
    Exit Function
 End If
-If sNBS <> "" And Len(sNBS) <> 9 Then
-   MsgBox "O código NBS tem 9 dígitos (deixe em branco se não usar).", vbExclamation, "NFS-e"
-   txtNBS.SetFocus
-   Exit Function
+If mIbsCbs And mTem182 Then
+   If sNBS = "" Or Len(sIndOp) <> 6 Or Len(sClass) <> 6 Then
+      MsgBox "Com IBS/CBS ligado no Configurar NFS-e, escolha o NBS, o indicador da operação e a classificação (cClassTrib)." & vbCrLf & _
+             "Se o serviço não tem NBS na lista, ele não pode ir com IBS/CBS.", vbExclamation, "NFS-e"
+      cboNBS.SetFocus
+      Exit Function
+   End If
+End If
+If optCliente.Value Then
+   lMunPrest = MunicipioEscolhido()
+   If lMunPrest = 0 Then
+      MsgBox "Escolha a UF e o município onde o serviço foi feito.", vbExclamation, "NFS-e"
+      cboMunPrest.SetFocus
+      Exit Function
+   End If
+Else
+   lMunPrest = mMunEmpresa
 End If
 If Not IsDate(txtCompetencia.Text) Then
    MsgBox "Data de competência inválida.", vbExclamation, "NFS-e"
@@ -384,6 +666,10 @@ dbData.Execute "UPDATE NFSe SET " & _
    "CodTribNac = " & NFSe_Q(sNac) & ", " & _
    "CodTribMun = " & IIf(sMun = "", "NULL", NFSe_Q(sMun)) & ", " & _
    "CodNBS = " & IIf(sNBS = "", "NULL", NFSe_Q(sNBS)) & ", " & _
+   "CodMunicipioPrestacao = " & lMunPrest & ", " & _
+   IIf(mTem182, "IndOp = " & IIf(sIndOp = "", "NULL", NFSe_Q(sIndOp)) & ", " & _
+                "ClassTrib = " & IIf(sClass = "", "NULL", NFSe_Q(sClass)) & ", " & _
+                "PrestacaoNoCliente = " & IIf(optCliente.Value, "1", "0") & ", ", "") & _
    "DataCompetencia = '" & Format$(CDate(txtCompetencia.Text), "yyyymmdd") & "', " & _
    "Descricao = " & NFSe_Q(Trim$(txtDescricao.Text)) & ", " & _
    "InfoComplementar = " & IIf(Trim$(txtInfo.Text) = "", "NULL", NFSe_Q(Trim$(txtInfo.Text))) & ", " & _
