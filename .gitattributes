@@ -3,3 +3,4 @@
 *.dll binary
 *.exe binary
 *.pdf binary
+OrdemServico/NFSe/NFSe_*.txt -text

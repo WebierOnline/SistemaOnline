@@ -1,0 +1,28 @@
+010101;Bem Móvel Material;Estabelecimento do fornecedor como o local da entrega ou disponibilização do bem ao destinatário;0
+010102;Bem Móvel Material;Local da realização da operação e sua retirada;0
+010103;Bem Móvel Material;Endereço do destinatário fornecido para entrega ou disponibilização (assim considerado o destino final indicado pelo adquirente);0
+010106;Bem Móvel Material;Local do domicílio principal do adquirente (estabelecimento matriz);0
+020101;Operação com bem imóvel, bem móvel imaterial, inclusive direito, relacionada a bem imóvel;Localidade do imóvel;1
+020102;Operação com bem imóvel, bem móvel imaterial, inclusive direito, relacionada a Bem Imóvel de Características Especiais (BICE);Localidade do imóvel (BICE);1
+020201;Serviço prestado fisicamente sobre bem imóvel;Localidade do imóvel;1
+020202;Serviço prestado fisicamente sobre bem imóvel;Localidade do imóvel (BICE);1
+020301;Serviço de administração e intermediação de bem imóvel;Localidade do imóvel;1
+020401;Serviços de locação, sublocação, arrendamento, direito de passagem ou permissão de uso, compartilhado ou não, de ferrovia, rodovia, postes, cabos, dutos e condutos de qualquer natureza (quando caracterize operação tributável pelo ISSQN);Localidade do imóvel (BICE);1
+030101;Serviço prestado fisicamente sobre a pessoa ou fruído presencialmente por pessoa física;Estabelecimento do fornecedor como local da prestação;0
+030102;Serviço prestado fisicamente sobre a pessoa ou fruído presencialmente por pessoa física;Local da prestação do serviço diverso do estabelecimento do fornecedor;0
+040101;Serviço de planejamento, organização e administração de feiras, exposições, congressos, espetáculos, exibições e congêneres;Local do evento a que se refere o serviço;0
+050101;Serviço prestado fisicamente sobre bem móvel material;Estabelecimento do fornecedor como local da prestação;0
+050102;Serviço prestado fisicamente sobre bem móvel material;Local da prestação do serviço diverso do estabelecimento do fornecedor;0
+050201;Serviços portuários;Local do porto como local da prestação;0
+060101;Serviço de transporte de passageiros;Local de início do transporte;0
+070101;Serviço de transporte de carga;Endereço fornecido para entrega do bem;0
+070102;Serviço de transporte de carga;Local da retirada do bem;0
+100101;Cessão de espaço para prestação de serviços publicitários, em operações onerosas;Local do domicílio principal do adquirente residente ou domiciliado no País. Nas aquisições indicadas no art. 11, §4º, II, considera-se domicílio principal do adquirente o estabelecimento matriz;0
+100102;Cessão de espaço para prestação de serviços publicitários, em operações onerosas;Local do domicílio principal do destinatário residente ou domiciliado no País, caso o adquirente não seja residente ou domiciliado no País;0
+100201;Cessão de espaço para prestação de serviços publicitários, em operações não onerosas;local do domicílio principal do destinatário residente ou domiciliado no País;0
+100301;Demais serviços, em operações onerosas;Local do domicílio principal do adquirente residente ou domiciliado no País. Nas aquisições indicadas no art. 11, §4º, II, considera-se domicílio principal do adquirente o estabelecimento matriz;0
+100302;Demais serviços, em operações onerosas;Local do domicílio principal do destinatário residente ou domiciliado no País, caso o adquirente não seja residente ou domiciliado no País;0
+100401;Demais serviços, em operações não onerosas;local do domicílio principal do destinatário residente ou domiciliado no País;0
+100501;Demais bens, em operações onerosas;Local do domicílio principal do adquirente residente ou domiciliado no País. Nas aquisições indicadas no art. 11, §4º, II, considera-se domicílio principal do adquirente o estabelecimento matriz;0
+100502;Demais bens, em operações onerosas;Local do domicílio principal do destinatário residente ou domiciliado no País, caso o adquirente não seja residente ou domiciliado no País;0
+100601;Demais bens, em operações não onerosas;local do domicílio principal do destinatário residente ou domiciliado no País;0
