@@ -203,104 +203,42 @@ Begin VB.Form frmNFSe
       End
       Begin VB.ComboBox cboMes 
          Height          =   315
-         Left            =   2700
-         TabIndex        =   33
-         Top             =   960
-         Visible         =   0   'False
-         Width           =   1335
+         Left            =   1440
+         Style           =   2  'Dropdown List
+         TabIndex        =   1
+         Top             =   640
+         Width           =   1500
       End
       Begin VB.ComboBox cboAno 
          Height          =   315
-         Left            =   4080
-         Sorted          =   -1  'True
-         TabIndex        =   32
-         Top             =   960
-         Visible         =   0   'False
-         Width           =   1155
-      End
-      Begin VB.ComboBox cboCliente 
-         Height          =   315
-         Left            =   7860
-         TabIndex        =   31
-         Top             =   780
-         Width           =   3435
-      End
-      Begin VB.TextBox txtDe 
-         Height          =   315
-         Left            =   4980
-         MaxLength       =   10
-         TabIndex        =   2
-         Top             =   825
-         Width           =   1095
-      End
-      Begin VB.TextBox txtAte 
-         Height          =   315
-         Left            =   6600
-         MaxLength       =   10
-         TabIndex        =   4
-         Top             =   825
-         Width           =   1095
-      End
-      Begin VB.ComboBox cboSituacao 
-         Height          =   315
-         Left            =   4080
+         Left            =   3060
          Style           =   2  'Dropdown List
-         TabIndex        =   6
-         Top             =   285
-         Width           =   2055
+         TabIndex        =   2
+         Top             =   640
+         Width           =   1000
       End
-      Begin VB.TextBox txtCliente 
+      Begin MSMask.MaskEdBox mskDe 
          Height          =   315
-         Left            =   6960
-         TabIndex        =   8
-         Top             =   285
-         Width           =   3135
-      End
-      Begin ChamaleonBtn.chameleonButton cmdPesquisar 
-         Height          =   315
-         Left            =   10140
-         TabIndex        =   24
-         Top             =   300
-         Width           =   1155
-         _ExtentX        =   2037
+         Left            =   1440
+         TabIndex        =   3
+         Top             =   640
+         Visible         =   0   'False
+         Width           =   1100
+         _ExtentX        =   1940
          _ExtentY        =   556
-         BTYPE           =   3
-         TX              =   "&Pesquisar"
-         ENAB            =   -1  'True
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   12632256
-         BCOLO           =   12632256
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "frmNFSe.frx":1105
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
+         _Version        =   393216
+         MaxLength       =   8
+         Mask            =   "##/##/##"
+         PromptChar      =   "_"
       End
       Begin ChamaleonBtn.chameleonButton calDe 
          Height          =   315
-         Left            =   5880
-         TabIndex        =   27
+         Left            =   2560
+         TabIndex        =   28
          TabStop         =   0   'False
          Tag             =   "Calendario"
-         Top             =   540
+         Top             =   640
+         Visible         =   0   'False
          Width           =   315
          _ExtentX        =   556
          _ExtentY        =   556
@@ -336,24 +274,28 @@ Begin VB.Form frmNFSe
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin MSMask.MaskEdBox mskDe 
+      Begin MSMask.MaskEdBox mskAte 
          Height          =   315
-         Left            =   4620
-         TabIndex        =   28
-         Top             =   540
-         Width           =   1275
-         _ExtentX        =   2249
+         Left            =   3060
+         TabIndex        =   4
+         Top             =   640
+         Visible         =   0   'False
+         Width           =   1100
+         _ExtentX        =   1940
          _ExtentY        =   556
          _Version        =   393216
+         MaxLength       =   8
+         Mask            =   "##/##/##"
          PromptChar      =   "_"
       End
       Begin ChamaleonBtn.chameleonButton calAte 
          Height          =   315
-         Left            =   7440
-         TabIndex        =   29
+         Left            =   4180
+         TabIndex        =   30
          TabStop         =   0   'False
          Tag             =   "Calendario"
-         Top             =   540
+         Top             =   640
+         Visible         =   0   'False
          Width           =   315
          _ExtentX        =   556
          _ExtentY        =   556
@@ -389,26 +331,68 @@ Begin VB.Form frmNFSe
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin MSMask.MaskEdBox mskAte 
+      Begin VB.ComboBox cboCliente 
          Height          =   315
-         Left            =   6240
-         TabIndex        =   30
-         Top             =   480
-         Width           =   1275
-         _ExtentX        =   2249
+         Left            =   1440
+         TabIndex        =   7
+         Top             =   640
+         Visible         =   0   'False
+         Width           =   4000
+      End
+      Begin VB.ComboBox cboSituacao 
+         Height          =   315
+         Left            =   5700
+         Style           =   2  'Dropdown List
+         TabIndex        =   6
+         Top             =   640
+         Width           =   2055
+      End
+      Begin ChamaleonBtn.chameleonButton cmdPesquisar 
+         Height          =   315
+         Left            =   7950
+         TabIndex        =   24
+         Top             =   640
+         Width           =   1155
+         _ExtentX        =   2037
          _ExtentY        =   556
-         _Version        =   393216
-         PromptChar      =   "_"
+         BTYPE           =   3
+         TX              =   "&Pesquisar"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "frmNFSe.frx":1105
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
       End
       Begin VB.Label lblMes 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
          Caption         =   "Mês:"
          Height          =   195
-         Left            =   2700
-         TabIndex        =   35
-         Top             =   720
-         Visible         =   0   'False
+         Left            =   1440
+         TabIndex        =   8
+         Top             =   420
          Width           =   345
       End
       Begin VB.Label lblAno 
@@ -416,43 +400,20 @@ Begin VB.Form frmNFSe
          BackStyle       =   0  'Transparent
          Caption         =   "Ano:"
          Height          =   195
-         Left            =   4080
-         TabIndex        =   34
-         Top             =   720
-         Visible         =   0   'False
+         Left            =   3060
+         TabIndex        =   5
+         Top             =   420
          Width           =   330
       End
-      Begin VB.Label lblDe 
-         Caption         =   "De:"
-         Height          =   255
-         Left            =   4620
-         TabIndex        =   1
-         Top             =   870
-         Width           =   375
-      End
-      Begin VB.Label lblAte 
-         Caption         =   "Até:"
-         Height          =   255
-         Left            =   6180
-         TabIndex        =   3
-         Top             =   870
-         Width           =   375
-      End
       Begin VB.Label lblSit 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
          Caption         =   "Situação:"
-         Height          =   255
-         Left            =   3360
-         TabIndex        =   5
-         Top             =   330
-         Width           =   735
-      End
-      Begin VB.Label lblCli 
-         Caption         =   "Cliente:"
-         Height          =   255
-         Left            =   6330
-         TabIndex        =   7
-         Top             =   330
-         Width           =   615
+         Height          =   195
+         Left            =   5700
+         TabIndex        =   35
+         Top             =   420
+         Width           =   675
       End
    End
    Begin MSFlexGridLib.MSFlexGrid grdNotas 
@@ -890,16 +851,27 @@ Option Explicit
 Private Const C_ID = 0, C_NUM = 1, C_COMP = 2, C_CLI = 3, C_OS = 4, C_VALOR = 5, C_SIT = 6, C_AMB = 7, C_MSG = 8, C_SITCOD = 9, C_PDF = 10, C_ANALISE = 11
 
 Private bTemAnaliseFiscal As Boolean   'script 179 aplicado
-
-Private Sub cboSituacao_Change()
-
-End Sub
-
+Private bClientesCarregados As Boolean
+Private bCarregando As Boolean
+Private moCombo As cComboHelper        'auto preenchimento do cboCliente
 
 'Quem abre esta tela confere antes NFSe_BancoPronto (Unload no Form_Load de tela modal da erro 364)
 Private Sub Form_Load()
-txtDe.Text = Format$(DateSerial(Year(Date), Month(Date), 1), "dd/mm/yyyy")
-txtAte.Text = Format$(Date, "dd/mm/yyyy")
+Dim i As Integer
+Dim vMeses As Variant
+bCarregando = True
+Set moCombo = New cComboHelper
+vMeses = Split("Janeiro|Fevereiro|Março|Abril|Maio|Junho|Julho|Agosto|Setembro|Outubro|Novembro|Dezembro", "|")
+For i = 0 To 11
+   cboMes.AddItem vMeses(i)
+Next
+cboMes.ListIndex = Month(Date) - 1
+For i = Year(Date) - 5 To Year(Date) + 1
+   cboAno.AddItem CStr(i)
+   If i = Year(Date) Then cboAno.ListIndex = cboAno.NewIndex
+Next
+mskDe.Text = Format$(DateSerial(Year(Date), Month(Date), 1), "dd/mm/yy")
+mskAte.Text = Format$(Date, "dd/mm/yy")
 cboSituacao.AddItem "TODAS"
 cboSituacao.AddItem "EM DIGITAÇÃO"
 cboSituacao.AddItem "AUTORIZADA"
@@ -910,8 +882,116 @@ cboSituacao.ListIndex = 0
 bTemAnaliseFiscal = NFSe_TemAnaliseFiscal()
 MontarGrid
 MostrarAmbiente
+optMensal.Value = True
+AjustarCriterio
+bCarregando = False
 Pesquisar
 End Sub
+
+Private Sub Form_Unload(Cancel As Integer)
+Set moCombo = Nothing
+End Sub
+
+'Mostra so os campos do criterio marcado. lblMes/lblAno servem aos tres criterios (mudam o texto).
+Private Sub AjustarCriterio()
+Dim bMensal As Boolean, bPeriodo As Boolean, bCliente As Boolean
+bMensal = optMensal.Value
+bPeriodo = optPeriodo.Value
+bCliente = optCliente.Value
+
+lblMes.Visible = bMensal Or bPeriodo Or bCliente
+lblAno.Visible = bMensal Or bPeriodo
+If bMensal Then
+   lblMes.Caption = "Mês:"
+   lblAno.Caption = "Ano:"
+ElseIf bPeriodo Then
+   lblMes.Caption = "De:"
+   lblAno.Caption = "Até:"
+ElseIf bCliente Then
+   lblMes.Caption = "Cliente:"
+End If
+cboMes.Visible = bMensal
+cboAno.Visible = bMensal
+mskDe.Visible = bPeriodo
+calDe.Visible = bPeriodo
+mskAte.Visible = bPeriodo
+calAte.Visible = bPeriodo
+cboCliente.Visible = bCliente
+cmdPesquisar.Visible = Not optTodos.Value
+If bCliente Then CarregarClientes
+End Sub
+
+Private Sub CarregarClientes()
+Dim r As ADODB.Recordset
+If bClientesCarregados Then Exit Sub
+cboCliente.Clear
+Set r = dbData.OpenRecordset("SELECT codigo, nome FROM cliente WHERE (ISNULL(nome, '') <> '') ORDER BY nome")
+Do While Not r.EOF
+   cboCliente.AddItem Trim$(r("nome"))
+   cboCliente.ItemData(cboCliente.NewIndex) = r("codigo")
+   r.MoveNext
+Loop
+r.Close
+Set r = Nothing
+bClientesCarregados = True
+moCombo.AttachTo cboCliente
+End Sub
+
+Private Sub optMensal_Click()
+AjustarCriterio
+If Not bCarregando Then cboMes.SetFocus
+End Sub
+
+Private Sub optPeriodo_Click()
+AjustarCriterio
+If Not bCarregando Then mskDe.SetFocus
+End Sub
+
+Private Sub optCliente_Click()
+AjustarCriterio
+If Not bCarregando Then cboCliente.SetFocus
+End Sub
+
+'Todos: sem botao Pesquisar, ja exibe tudo
+Private Sub optTodos_Click()
+AjustarCriterio
+If Not bCarregando Then Pesquisar
+End Sub
+
+Private Sub cboSituacao_Click()
+'no criterio Todos nao ha botao Pesquisar: a situacao filtra na hora
+If Not bCarregando And optTodos.Value Then Pesquisar
+End Sub
+
+Private Function EscolherData() As Variant
+Dim fCal As Calendario
+Set fCal = New Calendario
+fCal.Show vbModal
+EscolherData = fCal.DateSelected
+Unload fCal
+Set fCal = Nothing
+End Function
+
+Private Sub calDe_Click()
+Dim varData As Variant
+varData = EscolherData()
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+mskDe.Text = Format$(varData, "dd/mm/yy")
+End Sub
+
+Private Sub calAte_Click()
+Dim varData As Variant
+varData = EscolherData()
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+mskAte.Text = Format$(varData, "dd/mm/yy")
+End Sub
+
+'MaskEdBox vazio fica "__/__/__"
+Private Function TextoData(ByVal s As String) As String
+If InStr(s, "_") > 0 Then TextoData = "" Else TextoData = s
+End Function
 
 Private Sub MontarGrid()
 Dim i As Long
@@ -970,9 +1050,27 @@ Private Sub Pesquisar()
 Dim r As ADODB.Recordset
 Dim sSQL As String, sDe As String, sAte As String
 Dim n As Long, nSit As Integer
+Dim dIni As Date
 
-sDe = DataSQL(txtDe.Text, False)
-sAte = DataSQL(txtAte.Text, True)
+If optMensal.Value Then
+   If cboMes.ListIndex < 0 Or cboAno.ListIndex < 0 Then Exit Sub
+   dIni = DateSerial(Val(cboAno.Text), cboMes.ListIndex + 1, 1)
+   sDe = DataSQL(Format$(dIni, "dd/mm/yyyy"), False)
+   sAte = DataSQL(Format$(DateAdd("m", 1, dIni) - 1, "dd/mm/yyyy"), True)
+ElseIf optPeriodo.Value Then
+   If TextoData(mskDe.Text) <> "" And Not IsDate(TextoData(mskDe.Text)) Then
+      MsgBox "Data inicial inválida.", vbExclamation, "NFS-e"
+      mskDe.SetFocus
+      Exit Sub
+   End If
+   If TextoData(mskAte.Text) <> "" And Not IsDate(TextoData(mskAte.Text)) Then
+      MsgBox "Data final inválida.", vbExclamation, "NFS-e"
+      mskAte.SetFocus
+      Exit Sub
+   End If
+   sDe = DataSQL(TextoData(mskDe.Text), False)
+   sAte = DataSQL(TextoData(mskAte.Text), True)
+End If
 sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroPedido, " & _
        "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf, " & _
        IIf(bTemAnaliseFiscal, "CASE WHEN AnaliseFiscalSolicitada IS NULL THEN 0 ELSE 1 END", "0") & " AS Analise " & _
@@ -986,7 +1084,14 @@ If sDe <> "" Or sAte <> "" Then
    sSQL = sSQL & "))"
 End If
 If cboSituacao.ListIndex > 0 Then sSQL = sSQL & " AND (Situacao = " & (cboSituacao.ListIndex - 1) & ")"
-If Trim$(txtCliente.Text) <> "" Then sSQL = sSQL & " AND (TomadorNome LIKE " & NFSe_Q("%" & Trim$(txtCliente.Text) & "%") & ")"
+If optCliente.Value And Trim$(cboCliente.Text) <> "" Then
+   'cliente escolhido da lista: pelo codigo; texto que nao esta na lista: parte do nome do tomador
+   If cboCliente.ListIndex >= 0 Then
+      sSQL = sSQL & " AND (CodCliente = " & cboCliente.ItemData(cboCliente.ListIndex) & ")"
+   Else
+      sSQL = sSQL & " AND (TomadorNome LIKE " & NFSe_Q("%" & Trim$(cboCliente.Text) & "%") & ")"
+   End If
+End If
 sSQL = sSQL & " ORDER BY IdNFSe DESC"
 
 MontarGrid
@@ -1366,10 +1471,22 @@ Private Sub cmdFechar_Click()
 Unload Me
 End Sub
 
-Private Sub txtDe_KeyPress(KeyAscii As Integer)
+Private Sub mskDe_KeyPress(KeyAscii As Integer)
+If KeyAscii = vbKeyReturn Then KeyAscii = 0: mskAte.SetFocus
+End Sub
+
+Private Sub mskAte_KeyPress(KeyAscii As Integer)
 If KeyAscii = vbKeyReturn Then KeyAscii = 0: Pesquisar
 End Sub
 
-Private Sub txtAte_KeyPress(KeyAscii As Integer)
+Private Sub cboCliente_KeyPress(KeyAscii As Integer)
 If KeyAscii = vbKeyReturn Then KeyAscii = 0: Pesquisar
+End Sub
+
+Private Sub mskDe_GotFocus()
+SelectControl mskDe
+End Sub
+
+Private Sub mskAte_GotFocus()
+SelectControl mskAte
 End Sub
