@@ -1075,12 +1075,12 @@ sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroP
        "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf, " & _
        IIf(bTemAnaliseFiscal, "CASE WHEN AnaliseFiscalSolicitada IS NULL THEN 0 ELSE 1 END", "0") & " AS Analise " & _
        "FROM NFSe WHERE (1 = 1)"
-'Periodo pela data em que a nota foi criada (a competencia e a finalizacao da OS, pode ser de meses atras).
+'Mensal e Periodo pela competencia (finalizacao da OS = mes de apuracao do ISS/Simples), nao pela data de emissao.
 'Rascunho, rejeitada e pendente aparecem sempre: sao notas que ainda precisam de acao.
 If sDe <> "" Or sAte <> "" Then
    sSQL = sSQL & " AND ((Situacao IN (0, 2, 4)) OR ((1 = 1)"
-   If sDe <> "" Then sSQL = sSQL & " AND (DataCadastro >= " & sDe & ")"
-   If sAte <> "" Then sSQL = sSQL & " AND (DataCadastro <= " & sAte & ")"
+   If sDe <> "" Then sSQL = sSQL & " AND (DataCompetencia >= " & sDe & ")"
+   If sAte <> "" Then sSQL = sSQL & " AND (DataCompetencia <= " & sAte & ")"
    sSQL = sSQL & "))"
 End If
 If cboSituacao.ListIndex > 0 Then sSQL = sSQL & " AND (Situacao = " & (cboSituacao.ListIndex - 1) & ")"
