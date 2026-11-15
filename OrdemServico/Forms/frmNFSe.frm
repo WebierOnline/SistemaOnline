@@ -1092,7 +1092,7 @@ If optCliente.Value And Trim$(cboCliente.Text) <> "" Then
       sSQL = sSQL & " AND (TomadorNome LIKE " & NFSe_Q("%" & Trim$(cboCliente.Text) & "%") & ")"
    End If
 End If
-sSQL = sSQL & " ORDER BY IdNFSe DESC"
+sSQL = sSQL & " ORDER BY DataCompetencia DESC, IdNFSe DESC"
 
 MontarGrid
 Set r = dbData.OpenRecordset(sSQL)
