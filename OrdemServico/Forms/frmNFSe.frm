@@ -1108,7 +1108,7 @@ With grdNotas
       .TextMatrix(n, C_NUM) = ValidateNull(r("NumeroNFSe"))
       .TextMatrix(n, C_COMP) = Format$(r("DataCompetencia"), "dd/mm/yyyy")
       .TextMatrix(n, C_CLI) = ValidateNull(r("TomadorNome"))
-      .TextMatrix(n, C_OS) = ValidateNull(r("NumeroPedido"))
+      .TextMatrix(n, C_OS) = NumerosOS(ValidateNull(r("NumeroPedido")))
       .TextMatrix(n, C_VALOR) = Format$(ValidateNull(r("Valor")), ocMONEY)
       .TextMatrix(n, C_SIT) = NFSe_SituacaoTexto(nSit)
       .TextMatrix(n, C_AMB) = IIf(Val(ValidateNull(r("Ambiente"))) = 1, "Produção", "Teste")
@@ -1141,6 +1141,19 @@ r.Close
 Set r = Nothing
 grdNotas_RowColChange
 End Sub
+
+'NumeroPedido da nota ("OS 10" ou "OS 9, 12") -> so os numeros com 5 digitos ("00010", "00009, 00012")
+Private Function NumerosOS(ByVal s As String) As String
+Dim v As Variant, i As Integer, t As String
+s = Trim$(s)
+If UCase$(Left$(s, 3)) = "OS " Then s = Mid$(s, 4)
+v = Split(s, ",")
+For i = 0 To UBound(v)
+   t = Trim$(v(i))
+   If t Like "#*" And IsNumeric(t) Then t = Format$(Val(t), "00000")
+   NumerosOS = NumerosOS & IIf(i > 0, ", ", "") & t
+Next
+End Function
 
 Private Function IdSelecionado() As Long
 If grdNotas.Rows < 2 Or grdNotas.Row < 1 Then Exit Function
