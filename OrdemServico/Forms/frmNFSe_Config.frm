@@ -149,7 +149,7 @@ Begin VB.Form frmNFSe_Config
          Width           =   8640
       End
       Begin VB.Label lblDicaCod
-         Caption         =   "As listas seguem as tabelas oficiais (Anexos B, VII e VIII): ao trocar o serviço, o NBS, o indicador e a classificação se ajustam."
+         Caption         =   "Listas das tabelas oficiais (Anexos B, VII e VIII): ao trocar o serviço, NBS, indicador e classificação se ajustam."
          ForeColor       =   &H00808080&
          Height          =   255
          Left            =   120
@@ -239,7 +239,7 @@ Begin VB.Form frmNFSe_Config
          Width           =   2295
       End
       Begin VB.Label lblRegApur
-         Caption         =   "Apuração no Simples (ME/EPP):"
+         Caption         =   "Apuração no Simples:"
          Height          =   255
          Left            =   120
          TabIndex        =   21
@@ -696,7 +696,7 @@ If cboNBS.ListIndex = 0 And n = 1 Then cboNBS.ListIndex = 1
 If mTabelasOk And sItem <> "" And n = 0 Then
    lblDicaCod.Caption = "Este serviço não tem NBS na tabela oficial (Anexo VIII): o grupo IBS/CBS não pode ser informado."
 Else
-   lblDicaCod.Caption = "As listas seguem as tabelas oficiais (Anexos B, VII e VIII): ao trocar o serviço, o NBS, o indicador e a classificação se ajustam."
+   lblDicaCod.Caption = "Listas das tabelas oficiais (Anexos B, VII e VIII): ao trocar o serviço, NBS, indicador e classificação se ajustam."
 End If
 End Sub
 

@@ -116,55 +116,64 @@ Begin VB.Form frmNFSe
       Left            =   120
       TabIndex        =   12
       Top             =   6780
-      Width           =   1935
+      Width           =   1700
    End
    Begin VB.CommandButton cmdEditar
       Caption         =   "&Editar"
       Height          =   375
-      Left            =   2130
+      Left            =   1895
       TabIndex        =   13
       Top             =   6780
-      Width           =   1335
+      Width           =   1100
    End
    Begin VB.CommandButton cmdTransmitir
       Caption         =   "&Transmitir"
       Height          =   375
-      Left            =   3540
+      Left            =   3070
       TabIndex        =   14
       Top             =   6780
-      Width           =   1455
+      Width           =   1200
    End
    Begin VB.CommandButton cmdConsultar
       Caption         =   "C&onsultar"
       Height          =   375
-      Left            =   5070
+      Left            =   4345
       TabIndex        =   15
       Top             =   6780
-      Width           =   1335
+      Width           =   1150
    End
    Begin VB.CommandButton cmdImprimir
       Caption         =   "&Imprimir / PDF"
       Height          =   375
-      Left            =   6480
+      Left            =   5570
       TabIndex        =   16
       Top             =   6780
-      Width           =   1575
+      Width           =   1450
+   End
+   Begin VB.CommandButton cmdEmail
+      Caption         =   "Enviar e-&mail"
+      Height          =   375
+      Left            =   7095
+      TabIndex        =   23
+      ToolTipText     =   "Envia o PDF (DANFSe) e o XML da NFS-e num único e-mail para o cliente"
+      Top             =   6780
+      Width           =   1350
    End
    Begin VB.CommandButton cmdCancelarNota
       Caption         =   "Cancelar NFS-e"
       Height          =   375
-      Left            =   8130
+      Left            =   8520
       TabIndex        =   17
       Top             =   6780
-      Width           =   1575
+      Width           =   1450
    End
    Begin VB.CommandButton cmdExcluir
       Caption         =   "E&xcluir rascunho"
       Height          =   375
-      Left            =   9780
+      Left            =   10045
       TabIndex        =   18
       Top             =   6780
-      Width           =   1695
+      Width           =   1550
    End
    Begin VB.CommandButton cmdConfig
       Caption         =   "Con&figurar NFS-e"
@@ -391,6 +400,7 @@ cmdEditar.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA)
 cmdTransmitir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA Or nSit = NFSE_PENDENTE)
 cmdConsultar.Enabled = (nSit = NFSE_PENDENTE Or nSit = NFSE_AUTORIZADA Or nSit = NFSE_REJEITADA)
 cmdImprimir.Enabled = (nSit = NFSE_AUTORIZADA Or nSit = NFSE_CANCELADA)
+cmdEmail.Enabled = cmdImprimir.Enabled
 cmdCancelarNota.Enabled = (nSit = NFSE_AUTORIZADA)
 If cmdCancelarNota.Enabled Then cmdCancelarNota.Enabled = (grdNotas.TextMatrix(grdNotas.Row, C_ANALISE) <> "1")
 cmdExcluir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA)
@@ -519,6 +529,112 @@ If sPdf = "" Then
    sPdf = NFSe_Valor(oRes, "pdf")
 End If
 NFSe_AbrirArquivo sPdf
+End Sub
+
+Private Function ArquivoExiste(ByVal sArquivo As String) As Boolean
+On Error Resume Next
+If sArquivo <> "" Then ArquivoExiste = (Dir$(sArquivo) <> "")
+End Function
+
+'PDF (DANFSe) e XML da NFS-e num e-mail so, pela DLL da NF-e (mesma configuracao de e-mail da NF-e / OS de oleo vencido)
+Private Sub cmdEmail_Click()
+Dim r As ADODB.Recordset
+Dim oRes As Object
+Dim sistNFe As snfe.Util
+Dim pathAnexo() As String, emailCC() As String
+Dim sStatus As String, sXml As String, sPdf As String, sEmail As String, sNumero As String, sChave As String
+Dim sTomador As String, sValor As String, sRazao As String, sFantasia As String, sCorpo As String, sAssunto As String
+Dim bCancelada As Boolean
+Dim lId As Long, lCli As Long
+Dim vRet As Variant
+
+lId = IdSelecionado()
+If lId = 0 Then Exit Sub
+Set r = dbData.OpenRecordset("SELECT NumeroNFSe, ChaveAcesso, Situacao, TomadorNome, TomadorEmail, CodCliente, ArquivoXml, ArquivoPdf, " & _
+                             "ValorServicos - DescontoIncondicionado AS Valor FROM NFSe WHERE (IdNFSe = " & lId & ")")
+If r.EOF Then
+   r.Close
+   Exit Sub
+End If
+sNumero = ValidateNull(r("NumeroNFSe"))
+sChave = ValidateNull(r("ChaveAcesso"))
+bCancelada = (Val(ValidateNull(r("Situacao"))) = NFSE_CANCELADA)
+sTomador = ValidateNull(r("TomadorNome"))
+sEmail = Trim$(ValidateNull(r("TomadorEmail")))
+lCli = Val(ValidateNull(r("CodCliente")))
+sXml = ValidateNull(r("ArquivoXml"))
+sPdf = ValidateNull(r("ArquivoPdf"))
+sValor = Format$(ValidateNull(r("Valor")), ocMONEY)
+r.Close
+Set r = Nothing
+
+'e-mail da nota (copiado do cliente ao gerar) ou o do cadastro atual do cliente
+If sEmail = "" And lCli > 0 Then sEmail = Trim$(SQLExecutaRetorno("SELECT Correio_eletronico FROM cliente WHERE (codigo = " & lCli & ")", "Correio_eletronico", ""))
+
+'arquivos apagados ou de outro computador: o NFSeEmissor gera de novo o XML e a DANFSe a partir do XML gravado no banco
+If Not ArquivoExiste(sXml) Or Not ArquivoExiste(sPdf) Then
+   sStatus = NFSe_Executar("acao=pdf" & vbCrLf & "id=" & lId, oRes)
+   If Left$(sStatus, 2) <> "OK" Then
+      MsgBox "Não foi possível gerar os arquivos da NFS-e:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"
+      Exit Sub
+   End If
+   sXml = NFSe_Valor(oRes, "xml")
+   sPdf = NFSe_Valor(oRes, "pdf")
+End If
+If Not ArquivoExiste(sXml) Or Not ArquivoExiste(sPdf) Then
+   MsgBox "Arquivos da NFS-e não encontrados:" & vbCrLf & sXml & vbCrLf & sPdf, vbExclamation, "NFS-e"
+   Exit Sub
+End If
+
+sEmail = Trim$(InputBox("E-mail para enviar a NFS-e nº " & sNumero & " de " & sTomador & vbCrLf & "(PDF e XML no mesmo e-mail):", _
+                        "Enviar NFS-e por e-mail", sEmail))
+If sEmail = "" Then Exit Sub
+If InStr(1, sEmail, "@") = 0 Or InStr(1, sEmail, ".") = 0 Then
+   MsgBox "E-mail inválido: " & sEmail, vbExclamation, "NFS-e"
+   Exit Sub
+End If
+
+sRazao = Trim$(SQLExecutaRetorno("SELECT RAZAO FROM empresa", "RAZAO", ""))
+sFantasia = Trim$(SQLExecutaRetorno("SELECT Fantasia FROM empresa", "Fantasia", ""))
+If sFantasia = "" Then sFantasia = sRazao
+sAssunto = "NFS-e nº " & sNumero & " - " & sFantasia & IIf(bCancelada, " (CANCELADA)", "")
+sCorpo = "Olá" & IIf(sTomador <> "", ", " & sTomador, "") & ".<br><br>" & _
+         "Segue em anexo a Nota Fiscal de Serviço eletrônica (NFS-e) nº <b>" & sNumero & "</b>, no valor de R$ " & sValor & _
+         ": o PDF (DANFSe) e o arquivo XML.<br><br>" & _
+         IIf(bCancelada, "<b>ATENÇÃO: esta NFS-e foi CANCELADA.</b><br><br>", "") & _
+         "Chave de acesso: " & sChave & "<br>" & _
+         "A autenticidade pode ser conferida no portal nacional da NFS-e (www.nfse.gov.br) ou pelo QR Code do PDF.<br><br>" & _
+         "Atenciosamente,<br><br>" & sRazao
+
+On Error GoTo deuErro
+Set sistNFe = New snfe.Util
+Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+ReDim pathAnexo(1)
+pathAnexo(0) = sPdf
+pathAnexo(1) = sXml
+ReDim emailCC(0)
+emailCC(0) = sEmail
+
+Screen.MousePointer = vbHourglass
+vRet = sistNFe.EmailEnviar(sEmail, sAssunto, sCorpo, pathAnexo, emailCC)
+Screen.MousePointer = vbDefault
+Set sistNFe = Nothing
+
+If vRet Then
+   MsgBox "E-mail enviado para " & sEmail & " com o PDF e o XML da NFS-e nº " & sNumero & ".", vbInformation, "NFS-e"
+   'guarda o e-mail na nota quando ela ainda nao tinha (proximo envio ja vem preenchido)
+   If Trim$(sEmail) <> "" Then dbData.Execute "UPDATE NFSe SET TomadorEmail = " & NFSe_Q(Left$(sEmail, 80)) & _
+                                              " WHERE (IdNFSe = " & lId & ") AND ((TomadorEmail IS NULL) OR (TomadorEmail = ''))"
+Else
+   MsgBox "Falha ao enviar o e-mail. Verifique a configuração de envio de e-mail (a mesma da NF-e).", vbExclamation, "NFS-e"
+End If
+Exit Sub
+
+deuErro:
+Screen.MousePointer = vbDefault
+MsgBox "Erro ao enviar o e-mail:" & vbCrLf & Err.Description, vbCritical, "NFS-e"
+Err.Clear
+Set sistNFe = Nothing
 End Sub
 
 Private Sub cmdCancelarNota_Click()
