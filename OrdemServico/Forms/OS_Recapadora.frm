@@ -4568,7 +4568,15 @@ Begin VB.Form OS_Recapadora
          Width           =   225
       End
    End
-   Begin VB.Menu menu_Cadastrk 
+   Begin VB.Image ImgMarcada
+      Height          =   195
+      Left            =   0
+      Picture         =   "OS_Recapadora.frx":36870
+      Top             =   0
+      Visible         =   0   'False
+      Width           =   195
+   End
+   Begin VB.Menu menu_Cadastrk
       Caption         =   "&Cadastro"
       Begin VB.Menu menu_Cadastro_Cliente 
          Caption         =   "Cli&ente"
@@ -13298,10 +13306,38 @@ Else
     StatusBar1.Panels(3).Text = 0
 End If
 End Sub
+'OS com NFS-e autorizada: "|12|15|" (para marcar a coluna NFSe do Grid_OS)
+Private Function OSComNFSe() As String
+Dim rNF As ADODB.Recordset
+Dim s As String
+s = "|"
+If NFSe_BancoPronto() Then
+   Set rNF = dbData.OpenRecordset("SELECT DISTINCT i.CodOS FROM NFSeItens i INNER JOIN NFSe n ON (n.IdNFSe = i.IdNFSe) WHERE (n.Situacao = 1);")
+   Do While Not rNF.EOF
+      s = s & rNF("CodOS") & "|"
+      rNF.MoveNext
+   Loop
+   rNF.Close
+   Set rNF = Nothing
+End If
+OSComNFSe = s
+End Function
+
 Private Sub FormatarGrid_OS_Situacao(rTabela As ADODB.Recordset)
 Dim i As Integer
 Dim aCor As ColorConstants
 Dim totalRegistros As Long
+'OS terminadas (filtro Financeiro Fechado): colunas NFSe, NFCe e NFe no fim do grid (depois do PEDIDO, que tem
+'largura 0, entao aparecem logo depois da ENTRADA) com o "check" (ImgMarcada, igual ao Estorno do PDV)
+Dim bNotas As Boolean
+Dim sNotas As String
+Dim sOSNFSe As String
+Dim nColNF As Integer
+bNotas = optFinanceiroFechado.Value
+If bNotas Then
+   sNotas = "|^NFSe|^NFCe|^NFe"
+   sOSNFSe = OSComNFSe()
+End If
 
 'o grid vai ser recarregado: nenhuma OS fica selecionada, entao os botoes que dependem da linha voltam a desabilitar
 '(so um novo clique em Grid_OS_Click reabilita). Vale para qualquer chamador, nao so para os filtros opt*_Click.
@@ -13316,7 +13352,7 @@ With Grid_OS
    
    'Abaixo o cabeçalho é criado
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
-   .FormatString = "^CÓD.|^TIPO|^SITUAÇÃO|^PGTO|^CLIENTE|^VEICULO|^ENTRADA|^PEDIDO"
+   .FormatString = "^CÓD.|^TIPO|^SITUAÇÃO|^PGTO|^CLIENTE|^VEICULO|^ENTRADA|^PEDIDO" & sNotas
     .ColWidth(0) = 630
     .ColWidth(1) = 1000
     .ColWidth(2) = 1200
@@ -13358,7 +13394,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" 
       Loop
    End If
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
-   .FormatString = "^CÓD.|^TECNICO|^FINANCEIRO|^CLIENTE|^EQUIPAMENTO|^ENTRADA|^PEDIDO"
+   .FormatString = "^CÓD.|^TECNICO|^FINANCEIRO|^CLIENTE|^EQUIPAMENTO|^ENTRADA|^PEDIDO" & sNotas
    .ColWidth(0) = 650
    .ColWidth(1) = 1500
    .ColWidth(2) = 1200
@@ -13398,7 +13434,7 @@ ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização
       Loop
    End If
 ElseIf vTipoOS = "Comunicação Visual" Then
-   .FormatString = "^CÓD.|^TECNICO|^FINANCEIRO|^CLIENTE|^ENTRADA|^PEDIDO|^PEDIDO"
+   .FormatString = "^CÓD.|^TECNICO|^FINANCEIRO|^CLIENTE|^ENTRADA|^PEDIDO|^PEDIDO" & sNotas
    .ColWidth(0) = 650
    .ColWidth(1) = 1500
    .ColWidth(2) = 1200
@@ -13462,7 +13498,34 @@ End If
       .Row = i
       .CellForeColor = aCor
    Next
-   
+
+   'colunas das notas: estreita cliente/veiculo/equipamento para caber na largura do grid
+   If bNotas And .Cols >= 3 Then
+      nColNF = .Cols - 3
+      If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
+         .ColWidth(4) = 3200
+         .ColWidth(5) = 2300
+      ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
+         .ColWidth(3) = 3200
+         .ColWidth(4) = 2600
+      ElseIf vTipoOS = "Comunicação Visual" Then
+         .ColWidth(3) = 5400
+      End If
+      For i = nColNF To nColNF + 2
+         .ColWidth(i) = 540
+         .ColAlignment(i) = flexAlignCenterCenter
+      Next
+      'NFSe: OS com NFS-e autorizada (NFCe e NFe: so as colunas por enquanto)
+      For i = 1 To .Rows - 1
+         If InStr(1, sOSNFSe, "|" & Val(.TextMatrix(i, 0)) & "|") > 0 Then
+            .Row = i
+            .Col = nColNF
+            Set .CellPicture = ImgMarcada.Picture
+            .CellPictureAlignment = flexAlignCenterCenter
+         End If
+      Next
+   End If
+
    .Redraw = True
 End With
 End Sub
@@ -13686,6 +13749,21 @@ End Sub
 
 Private Sub Menu_Consulta_Oleo_Click()
 frmHistoricoOleo.Show 1
+End Sub
+
+'Botao NFSe: gera a NFS-e da OS terminada selecionada no grid e abre o Editar (se a OS ja tem nota, abre a nota)
+Private Sub cmdEmitirNFSe_Click()
+Dim lCodOS As Long
+If Grid_OS.Row < 1 Then Exit Sub
+lCodOS = Val(Grid_OS.TextMatrix(Grid_OS.Row, 0))
+If lCodOS = 0 Then Exit Sub
+If Not NFSe_BancoPronto() Then
+   MsgBox "O banco de dados ainda não tem as tabelas da NFS-e." & vbCrLf & "Rode a atualização do sistema (script 178) e tente de novo.", vbExclamation, "NFS-e"
+   Exit Sub
+End If
+frmNFSe.NovaDaOS lCodOS
+'recarrega o grid (mesmo caminho do filtro) para o check da coluna NFSe aparecer
+If optFinanceiroFechado.Value Then optFinanceiroFechado_Click
 End Sub
 
 'NFS-e (padrao nacional) das OS finalizadas: tela frmNFSe (modNFSe + NFSe\NFSeEmissor.exe)

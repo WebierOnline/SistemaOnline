@@ -868,6 +868,7 @@ Private Const C_ID = 0, C_NUM = 1, C_COMP = 2, C_CLI = 3, C_OS = 4, C_VALOR = 5,
 Private bTemAnaliseFiscal As Boolean   'script 179 aplicado
 Private bClientesCarregados As Boolean
 Private bCarregando As Boolean
+Private mOSNova As Long                'NovaDaOS: OS a gerar quando a tela aparecer (Form_Activate)
 Private moCombo As cComboHelper        'auto preenchimento do cboCliente
 
 'Quem abre esta tela confere antes NFSe_BancoPronto (Unload no Form_Load de tela modal da erro 364)
@@ -1203,13 +1204,73 @@ frmNFSe_OS.Show vbModal
 lId = frmNFSe_OS.IdGerado
 Unload frmNFSe_OS
 If lId = 0 Then Exit Sub
+AbrirNota lId, True
+End Sub
+
+'Mostra a nota na grade (indo para o mês da competência) e, se pedido, abre o Editar (e transmite se escolhido)
+Private Sub AbrirNota(ByVal lId As Long, ByVal bEditar As Boolean)
 IrParaCompetencia lId
 Pesquisar
 SelecionarId lId
+If Not bEditar Then Exit Sub
 If frmNFSe_Editar.Editar(lId) Then TransmitirId lId
 IrParaCompetencia lId
 Pesquisar
 SelecionarId lId
+End Sub
+
+'Botão NFSe da tela da OS: abre esta tela já gerando a nota da OS selecionada
+Public Sub NovaDaOS(ByVal lCodOS As Long)
+mOSNova = lCodOS
+Me.Show vbModal
+End Sub
+
+Private Sub Form_Activate()
+Dim lCodOS As Long
+If mOSNova = 0 Then Exit Sub
+lCodOS = mOSNova
+mOSNova = 0
+GerarDaOS lCodOS
+End Sub
+
+'Nota da OS: se já existe (em digitação/rejeitada abre o Editar; autorizada/pendente só mostra); senão gera
+Private Sub GerarDaOS(ByVal lCodOS As Long)
+Dim r As ADODB.Recordset
+Dim oRes As Object
+Dim sStatus As String
+Dim lId As Long
+Dim nSit As Integer
+
+Set r = dbData.OpenRecordset("SELECT TOP 1 n.IdNFSe, n.Situacao FROM NFSeItens i INNER JOIN NFSe n ON (n.IdNFSe = i.IdNFSe) " & _
+                             "WHERE (i.CodOS = " & lCodOS & ") AND (n.Situacao IN (0, 1, 2, 4)) ORDER BY n.IdNFSe DESC;")
+If Not r.EOF Then
+   lId = Val(ValidateNull(r("IdNFSe")))
+   nSit = Val(ValidateNull(r("Situacao")))
+   r.Close
+   If nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA Then
+      MsgBox "A OS " & lCodOS & " já tem uma NFS-e " & LCase$(NFSe_SituacaoTexto(nSit)) & ": ela será aberta para conferir.", vbInformation, "NFS-e"
+      AbrirNota lId, True
+   Else
+      AbrirNota lId, False
+      MsgBox "A OS " & lCodOS & " já tem uma NFS-e " & NFSe_SituacaoTexto(nSit) & " (selecionada na lista).", vbInformation, "NFS-e"
+   End If
+   Exit Sub
+End If
+r.Close
+
+If Val(SQLExecutaRetorno("SELECT COUNT(*) AS n FROM NFSe_OSDisponiveis WHERE (COD_OS = " & lCodOS & ")", "n", "0")) = 0 Then
+   MsgBox "A OS " & lCodOS & " não pode ter NFS-e: ela precisa estar finalizada e ter serviços lançados." & vbCrLf & _
+          "(peças e produtos vão em NF-e/NFC-e)", vbExclamation, "NFS-e"
+   Exit Sub
+End If
+
+sStatus = NFSe_Executar("acao=gerar" & vbCrLf & "os=" & lCodOS, oRes)
+If Left$(sStatus, 2) <> "OK" Then
+   MsgBox "Não foi possível gerar a NFS-e:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"
+   Exit Sub
+End If
+lId = Val(NFSe_Valor(oRes, "idnfse"))
+If lId > 0 Then AbrirNota lId, True
 End Sub
 
 'Nota nova (OS finalizada em outro mes) fora do Mensal/Periodo consultado: muda o Mensal para o mes da competencia dela
