@@ -334,6 +334,7 @@ If oCfg.Value = "NOME" Then
         Unload Me
         If Not VerificarBloqueioOS() Then End
         
+        NFSe_RegistrarTarefaADN      'so no servidor, so com NFS-e em uso: busca hora a hora as NFS-e recebidas
         Load OS_Recapadora
         vCodFunc = codUsuario
         OS_Recapadora.txtCodFuncionario.Text = codUsuario
@@ -367,6 +368,7 @@ Else
                 Unload Me
                 If Not VerificarBloqueioOS() Then End
                 
+                NFSe_RegistrarTarefaADN      'so no servidor, so com NFS-e em uso: busca hora a hora as NFS-e recebidas
                 Load OS_Recapadora
                 vCodFunc = codUsuario
                 OS_Recapadora.txtCodFuncionario.Text = codUsuario
@@ -565,6 +567,11 @@ End If
 End Sub
 
 Private Sub Form_Load()
+'Execucao agendada (/buscarnfse, so no servidor): busca as NFS-e no ADN e encerra, sem mostrar a tela
+If gModoBuscarNFSe Then
+   NFSe_BuscarADNAuto
+   End
+End If
 'CenterForm Me, Width, Height
 'Set moCombo = New cComboHelper
 'pListarUsuarios

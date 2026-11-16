@@ -17,6 +17,8 @@ Option Explicit
 '       Entradas     - XMLs de notas de fornecedor importadas via cmdImportarXML
 '                      (Entrada_Estoque.frm), ja organizados por mes em
 '                      EntradasXML\AAAAMM no momento da importacao
+'       NFSe         - NFS-e do OrdemServico (Emitidas, Canceladas e Recebidas),
+'                      XML tirados do banco - ver ExportarNFSe (so quem usa NFS-e)
 '  3) A partir do dia 2 de cada mes, se ainda nao enviado, junta todos os
 '     .rar do mes (SERVIDOR + terminais que ja copiaram o deles) e manda um
 '     unico email com todos em anexo para o contador.
@@ -174,8 +176,11 @@ Else
       fso.CopyFolder vDiretorioEntradas, vPastaTemp & "\Entradas", True
    End If
 
+   ' NFS-e do OrdemServico (Emitidas/Canceladas/Recebidas), direto do banco - ver ExportarNFSe
+   ExportarNFSe conn, vMesAlvo, vAnoAlvo, vPastaTemp
+
    If fso.GetFolder(vPastaTemp).SubFolders.Count = 0 Then
-      RegistrarLog "Nada para compactar neste periodo (nenhum Enviado/Cancelado/Inutilizado/Entrada encontrado)."
+      RegistrarLog "Nada para compactar neste periodo (nenhum Enviado/Cancelado/Inutilizado/Entrada/NFS-e encontrado)."
       fso.DeleteFolder vPastaTemp, True
    Else
       If CompactarPasta(vPastaTemp, vCaminhoRar) Then
@@ -598,3 +603,116 @@ Function EnviarEmailContador(anexos, totalAnexos, vMesNum, vAnoNum)
    EnviarEmailContador = (vTexto = "OK")
    If Not EnviarEmailContador Then RegistrarLog "Envio do email: " & vTexto
 End Function
+
+' ----------------------------------------------------------------------------
+' NFS-e (OrdemServico): pasta NFSe com Emitidas, Canceladas e Recebidas, com os
+' XML tirados do banco (tabelas NFSe e NFSeADN). Emitidas do sistema pela
+' COMPETENCIA (mes do imposto); emitidas fora do sistema (portal) e recebidas
+' pela emissao; so producao. Empresa sem OS (configuracao OS <> 1) ou sem
+' NFS-e (sem as tabelas ou sem notas no mes) nao ganha a pasta. As recebidas chegam ao banco pela busca de hora em
+' hora do OrdemServico (tarefa OrdemServico_BuscarNFSe).
+' O mesmo SELECT esta no modResumoFiscal.bas (XML_SqlNFSe): mudou aqui, mude la.
+' ----------------------------------------------------------------------------
+Function TabelaExiste(conexao, tabela)
+   Dim r
+   TabelaExiste = False
+   Set r = conexao.Execute("SELECT CASE WHEN OBJECT_ID('dbo." & tabela & "', 'U') IS NULL THEN 0 ELSE 1 END AS ok")
+   If Err.Number = 0 Then
+      If Not r.EOF Then TabelaExiste = (CInt(r("ok").Value) = 1)
+      r.Close
+   End If
+   Err.Clear
+End Function
+
+' configuracao OS = 1: a empresa usa o Ordem de Servico
+Function UsaOS(conexao)
+   Dim r
+   UsaOS = False
+   Set r = conexao.Execute("SELECT config_valor FROM configuracao WHERE (config_nome = 'OS')")
+   If Err.Number = 0 Then
+      If Not r.EOF Then UsaOS = (Trim(r("config_valor").Value & "") = "1")
+      r.Close
+   End If
+   Err.Clear
+End Function
+
+Function SqlNFSe(conexao, vMesAlvo, vAnoAlvo)
+   Dim bNFSe, bADN, sIni, sFim, sSQL
+   SqlNFSe = ""
+   If Not UsaOS(conexao) Then Exit Function   ' empresa que nao usa o Ordem de Servico (configuracao OS <> 1)
+   bNFSe = TabelaExiste(conexao, "NFSe")
+   bADN = TabelaExiste(conexao, "NFSeADN")
+   sIni = "'" & vAnoAlvo & Right("0" & vMesAlvo, 2) & "01'"
+   sFim = "'" & Year(DateSerial(vAnoAlvo, vMesAlvo + 1, 1)) & Right("0" & Month(DateSerial(vAnoAlvo, vMesAlvo + 1, 1)), 2) & "01'"
+   sSQL = ""
+   If bNFSe Then
+      sSQL = "SELECT 'Emitidas' AS Pasta, ChaveAcesso + '-nfse.xml' AS Arquivo, XmlNFSe AS Xml FROM NFSe " & _
+             "WHERE (Ambiente = 1) AND (Situacao IN (1, 3)) AND (ChaveAcesso IS NOT NULL) AND (XmlNFSe IS NOT NULL) " & _
+             "AND (DataCompetencia >= " & sIni & ") AND (DataCompetencia < " & sFim & ") " & _
+             "UNION ALL SELECT 'Canceladas', ChaveAcesso + '-canc.xml', XmlCancelamento FROM NFSe " & _
+             "WHERE (Ambiente = 1) AND (Situacao = 3) AND (ChaveAcesso IS NOT NULL) AND (XmlCancelamento IS NOT NULL) " & _
+             "AND (DataCompetencia >= " & sIni & ") AND (DataCompetencia < " & sFim & ")"
+   End If
+   If bADN Then
+      If sSQL <> "" Then sSQL = sSQL & " UNION ALL "
+      sSQL = sSQL & "SELECT 'Emitidas', a.ChaveAcesso + '-nfse.xml', a.Xml FROM NFSeADN a " & _
+             "WHERE (a.Ambiente = 1) AND (a.TipoDocumento = 'NFSE') AND (a.Papel = 1) AND (a.ChaveAcesso IS NOT NULL) AND (a.Xml IS NOT NULL) " & _
+             "AND (a.DataEmissao >= " & sIni & ") AND (a.DataEmissao < " & sFim & ")" & _
+             IIf2(bNFSe, " AND NOT EXISTS (SELECT 1 FROM NFSe s WHERE s.ChaveAcesso = a.ChaveAcesso)", "") & _
+             " UNION ALL SELECT 'Canceladas', e.ChaveAcesso + '-evento' + ISNULL(e.TipoEvento, '') + '-' + CONVERT(varchar(20), e.NSU) + '.xml', e.Xml " & _
+             "FROM NFSeADN e INNER JOIN NFSeADN a ON (a.Ambiente = e.Ambiente) AND (a.ChaveAcesso = e.ChaveAcesso) AND (a.TipoDocumento = 'NFSE') AND (a.Papel = 1) " & _
+             "WHERE (e.Ambiente = 1) AND (e.TipoDocumento <> 'NFSE') AND (e.TipoEvento IN ('101101', '105102', '105104')) AND (e.Xml IS NOT NULL) " & _
+             "AND (a.DataEmissao >= " & sIni & ") AND (a.DataEmissao < " & sFim & ")" & _
+             IIf2(bNFSe, " AND NOT EXISTS (SELECT 1 FROM NFSe s WHERE s.ChaveAcesso = e.ChaveAcesso AND s.XmlCancelamento IS NOT NULL)", "") & _
+             " UNION ALL SELECT 'Recebidas', ChaveAcesso + '-nfse.xml', Xml FROM NFSeADN " & _
+             "WHERE (Ambiente = 1) AND (TipoDocumento = 'NFSE') AND (Papel IN (2, 3)) AND (Situacao = 1) AND (ChaveAcesso IS NOT NULL) AND (Xml IS NOT NULL) " & _
+             "AND (DataEmissao >= " & sIni & ") AND (DataEmissao < " & sFim & ")"
+   End If
+   SqlNFSe = sSQL
+End Function
+
+Sub ExportarNFSe(conexao, vMesAlvo, vAnoAlvo, pastaDestino)
+   Dim sSQL, r, vDir, vTotal
+   sSQL = SqlNFSe(conexao, vMesAlvo, vAnoAlvo)
+   If sSQL = "" Then Exit Sub
+   Set r = conexao.Execute(sSQL)
+   If Err.Number <> 0 Then
+      RegistrarLog "NFS-e: falha ao consultar os XML: " & Err.Description
+      Err.Clear
+      Exit Sub
+   End If
+   vTotal = 0
+   Do While Not r.EOF
+      vDir = pastaDestino & "\NFSe\" & r("Pasta").Value
+      If Not fso.FolderExists(pastaDestino & "\NFSe") Then fso.CreateFolder pastaDestino & "\NFSe"
+      If Not fso.FolderExists(vDir) Then fso.CreateFolder vDir
+      GravarUtf8 vDir & "\" & r("Arquivo").Value, r("Xml").Value
+      If Err.Number <> 0 Then
+         RegistrarLog "NFS-e: falha ao gravar " & r("Arquivo").Value & ": " & Err.Description
+         Err.Clear
+      Else
+         vTotal = vTotal + 1
+      End If
+      r.MoveNext
+   Loop
+   r.Close
+   If vTotal > 0 Then RegistrarLog "NFS-e: " & vTotal & " XML(s) gravado(s) na pasta NFSe."
+End Sub
+
+' UTF-8 sem BOM
+Sub GravarUtf8(caminho, texto)
+   Dim oTxt, oBin
+   Set oTxt = CreateObject("ADODB.Stream")
+   oTxt.Type = 2
+   oTxt.Charset = "utf-8"
+   oTxt.Open
+   oTxt.WriteText texto
+   oTxt.Position = 3
+   Set oBin = CreateObject("ADODB.Stream")
+   oBin.Type = 1
+   oBin.Open
+   oTxt.CopyTo oBin
+   oBin.SaveToFile caminho, 2
+   oBin.Close
+   oTxt.Close
+End Sub

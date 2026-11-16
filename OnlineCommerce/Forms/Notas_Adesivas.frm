@@ -3,7 +3,7 @@ Begin VB.Form Notas_Adesivas
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "RESUMO FISCAL"
-   ClientHeight    =   7740
+   ClientHeight    =   8490
    ClientLeft      =   45
    ClientTop       =   315
    ClientWidth     =   4605
@@ -11,7 +11,7 @@ Begin VB.Form Notas_Adesivas
    MaxButton       =   0   'False
    MDIChild        =   -1  'True
    MinButton       =   0   'False
-   ScaleHeight     =   7740
+   ScaleHeight     =   8490
    ScaleWidth      =   4605
    ShowInTaskbar   =   0   'False
    Begin VB.Label lblVoltar 
@@ -736,6 +736,108 @@ Begin VB.Form Notas_Adesivas
       Width           =   1485
       BackStyle       =   0  'Transparent
    End
+   Begin VB.Label lblTitOS 
+      Alignment       =   0
+      Caption         =   "ORDEM DE SERVIÇO"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   10
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   250
+      Left            =   120
+      TabIndex        =   47
+      Top             =   5700
+      Width           =   4365
+      BackStyle       =   0  'Transparent
+   End
+   Begin VB.Label lblTxtOS 
+      Alignment       =   0
+      Caption         =   "OS terminadas:"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   120
+      TabIndex        =   48
+      ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
+      Top             =   5975
+      Width           =   2900
+      BackStyle       =   0  'Transparent
+   End
+   Begin VB.Label lblOS 
+      Alignment       =   1
+      Caption         =   "0,00"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   3000
+      TabIndex        =   49
+      ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
+      Top             =   5975
+      Width           =   1485
+      BackStyle       =   0  'Transparent
+   End
+   Begin VB.Label lblTxtNFSe 
+      Alignment       =   0
+      Caption         =   "NFS-e emitidas (serviços):"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   120
+      TabIndex        =   50
+      Top             =   6200
+      Width           =   2900
+      BackStyle       =   0  'Transparent
+   End
+   Begin VB.Label lblNFSe 
+      Alignment       =   1
+      Caption         =   "0,00"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   3000
+      TabIndex        =   51
+      Top             =   6200
+      Width           =   1485
+      BackStyle       =   0  'Transparent
+   End
    Begin VB.Label Label14 
       Alignment       =   0
       Caption         =   "METAS DO PERÍODO"
@@ -752,7 +854,7 @@ Begin VB.Form Notas_Adesivas
       Height          =   250
       Left            =   120
       TabIndex        =   35
-      Top             =   5700
+      Top             =   6450
       Width           =   4365
       BackStyle       =   0  'Transparent
    End
@@ -780,7 +882,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   36
       ToolTipText     =   "O que você comprou + 25%. É o mínimo que os contadores pedem para emitir"
-      Top             =   5975
+      Top             =   6725
       Width           =   2900
       BackStyle       =   0  'Transparent
    End
@@ -801,7 +903,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   3000
       TabIndex        =   37
       ToolTipText     =   "O que você comprou + 25%. É o mínimo que os contadores pedem para emitir"
-      Top             =   5975
+      Top             =   6725
       Width           =   1485
       BackStyle       =   0  'Transparent
    End
@@ -822,7 +924,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   38
       ToolTipText     =   "O maior valor entre o mínimo recomendado e o que você recebeu"
-      Top             =   6200
+      Top             =   6950
       Width           =   2900
       BackStyle       =   0  'Transparent
    End
@@ -843,7 +945,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   3000
       TabIndex        =   39
       ToolTipText     =   "O maior valor entre o mínimo recomendado e o que você recebeu"
-      Top             =   6200
+      Top             =   6950
       Width           =   1485
       BackStyle       =   0  'Transparent
    End
@@ -863,7 +965,7 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   120
       TabIndex        =   40
-      Top             =   6425
+      Top             =   7175
       Width           =   2900
       BackStyle       =   0  'Transparent
    End
@@ -883,7 +985,7 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   3000
       TabIndex        =   41
-      Top             =   6425
+      Top             =   7175
       Width           =   1485
       BackStyle       =   0  'Transparent
    End
@@ -903,7 +1005,7 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   120
       TabIndex        =   42
-      Top             =   6650
+      Top             =   7400
       Width           =   2900
       BackStyle       =   0  'Transparent
    End
@@ -923,7 +1025,7 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   3000
       TabIndex        =   43
-      Top             =   6650
+      Top             =   7400
       Width           =   1485
       BackStyle       =   0  'Transparent
    End
@@ -944,7 +1046,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   44
       ToolTipText     =   "Clique para ver a explicação"
-      Top             =   6930
+      Top             =   7680
       Width           =   4365
       BackStyle       =   0  'Transparent
    End
@@ -963,7 +1065,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   45
       ToolTipText     =   "Gera o relatório do resumo (na Impressora PDF para salvar em PDF)"
-      Top             =   7230
+      Top             =   7980
       Width           =   2130
    End
    Begin VB.CommandButton cmdEnviarContab 
@@ -981,7 +1083,7 @@ Begin VB.Form Notas_Adesivas
       Left            =   2355
       TabIndex        =   46
       ToolTipText     =   "Gera o PDF e envia por e-mail para a contabilidade"
-      Top             =   7230
+      Top             =   7980
       Width           =   2130
    End
 End
@@ -1013,10 +1115,30 @@ cboAno.Text = CStr(Year(Date))
 vAnoCalc = Year(Date)
 
 lblBarra.ZOrder 0   'preenchimento da barra por cima do fundo
+AjustarSecaoOS
 
 bCarregando = False
 AjustarModo
 AtualizarResumo
+End Sub
+
+'Secao ORDEM DE SERVICO (OS terminadas e NFS-e emitidas): so para quem usa o OS (configuracao OS = 1).
+'Sem OS, some e o que esta abaixo sobe, com a tela mais baixa.
+Private Sub AjustarSecaoOS()
+Const ALTURA_OS As Long = 750
+Dim c As Control
+If RF_UsaOS() Then Exit Sub
+lblTitOS.Visible = False
+lblTxtOS.Visible = False
+lblOS.Visible = False
+lblTxtNFSe.Visible = False
+lblNFSe.Visible = False
+On Error Resume Next   'controle sem Top
+For Each c In Me.Controls
+   If c.Top >= lblTitOS.Top + ALTURA_OS Then c.Top = c.Top - ALTURA_OS
+Next
+On Error GoTo 0
+Me.Height = Me.Height - ALTURA_OS
 End Sub
 
 'Mostra os controles do modo escolhido (Mensal = navegacao por mes; Anual = combo de ano)
@@ -1055,6 +1177,9 @@ lblMeta1.Caption = Format(rfAtual.vMeta1, ocMONEY)          'META 1
 lblMeta.Caption = Format(rfAtual.vMeta3, ocMONEY)           'META 3
 lblVlrRestante.Caption = Format(rfAtual.vRestante1, ocMONEY)
 lblVlrRestante2.Caption = Format(rfAtual.vRestante2, ocMONEY)
+lblTxtOS.Caption = "OS terminadas (" & rfAtual.nOS & "):"
+lblOS.Caption = Format(rfAtual.vOS, ocMONEY)
+lblNFSe.Caption = Format(rfAtual.vNFSe, ocMONEY)
 
 MostrarSituacao rfAtual
 End Sub

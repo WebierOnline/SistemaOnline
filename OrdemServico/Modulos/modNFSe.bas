@@ -147,6 +147,7 @@ End Sub
 
 Private Function NFSe_Usuario() As String
 On Error Resume Next
+If gModoAutomatico Then NFSe_Usuario = "AUTOMATICO": Exit Function
 NFSe_Usuario = SQLExecutaRetorno("SELECT nome FROM funcionario WHERE (codigo = " & vCodFunc & ");", "nome", "")
 If NFSe_Usuario = "" Then NFSe_Usuario = CStr(vCodFunc)
 End Function
@@ -159,3 +160,73 @@ s = "IF OBJECT_ID('dbo.NFSe', 'U') IS NULL SELECT '' AS r ELSE " & _
     "FROM NFSeItens i INNER JOIN NFSe n ON n.IdNFSe = i.IdNFSe WHERE (i.CodOS = " & lCodOS & ") AND (n.Situacao IN (0, 1, 2, 4))"
 NFSe_DaOS = CStr(SQLExecutaRetorno(s, "r", ""))
 End Function
+
+'---------------------------------------------------------------------------
+' Busca automatica das NFS-e no ADN (so no servidor), igual ao monitor de NF-e destinadas do OnlineCommerce:
+' tarefa agendada "OrdemServico_BuscarNFSe" (de hora em hora) roda "Ordem de Servico.exe /buscarnfse", que chama
+' o NFSeEmissor (acao=distribuir) e encerra. Assim as recebidas ja estao no banco quando o .rar do mes vai para o
+' contador. So e registrada onde a NFS-e esta em uso (empresas sem NFS-e nao ganham a tarefa).
+' Desligar numa empresa: configuracao MONITOR_NFSE = 0. Log em BuscarNFSe_log.txt na pasta do sistema.
+'---------------------------------------------------------------------------
+Private Sub NFSe_LogBusca(ByVal sMsg As String)
+Dim nLog As Integer
+On Error Resume Next
+nLog = FreeFile
+Open appPathApp & "BuscarNFSe_log.txt" For Append As #nLog
+Print #nLog, Format$(Now, "dd/mm/yyyy hh:nn:ss") & " - " & sMsg
+Close #nLog
+End Sub
+
+'NFS-e em uso: configuracao OS = 1 e nota ja autorizada/cancelada pelo sistema ou documento ja baixado do ADN
+Public Function NFSe_EmUso() As Boolean
+On Error Resume Next
+If Trim$(CStr(SQLExecutaRetorno("SELECT config_valor FROM configuracao WHERE (config_nome = 'OS')", "config_valor", "1"))) <> "1" Then Exit Function
+If Not NFSe_TemADN() Then Exit Function
+NFSe_EmUso = (Val(SQLExecutaRetorno("SELECT CASE WHEN EXISTS (SELECT 1 FROM NFSe WHERE Situacao IN (1, 3)) " & _
+                                    "OR EXISTS (SELECT 1 FROM NFSeADN) THEN 1 ELSE 0 END AS ok", "ok", "0")) = 1)
+End Function
+
+Private Function NFSe_BuscaLigada() As Boolean
+NFSe_BuscaLigada = (Trim$(CStr(SQLExecutaRetorno("SELECT config_valor FROM configuracao WHERE (config_nome = 'MONITOR_NFSE')", "config_valor", "1"))) <> "0")
+End Function
+
+'Chamado pelo Senha_OS.Form_Load quando o sistema e iniciado com /buscarnfse
+Public Sub NFSe_BuscarADNAuto()
+Dim oRes As Object
+Dim sStatus As String
+On Error GoTo deuErro
+If Not NFSe_BuscaLigada() Then
+   NFSe_LogBusca "Busca desligada (configuracao MONITOR_NFSE = 0)."
+   Exit Sub
+End If
+If Not NFSe_EmUso() Then
+   NFSe_LogBusca "NFS-e nao esta em uso nesta empresa (sem script 180 ou sem notas): nada a fazer."
+   Exit Sub
+End If
+sStatus = NFSe_Executar("acao=distribuir", oRes)
+If Left$(sStatus, 2) = "OK" Then
+   NFSe_LogBusca "OK: " & NFSe_Valor(oRes, "mensagem")
+Else
+   NFSe_LogBusca sStatus
+End If
+Exit Sub
+deuErro:
+NFSe_LogBusca "Erro na busca automatica: " & Err.Description
+Err.Clear
+End Sub
+
+'Chamado no login (Senha_OS): cria a tarefa de hora em hora, so no servidor e so com a NFS-e em uso
+Public Sub NFSe_RegistrarTarefaADN()
+Dim oShell As Object
+Dim sExe As String
+On Error Resume Next
+If Not EhServidorLocal() Then Exit Sub
+If Not NFSe_EmUso() Then Exit Sub
+If Not NFSe_BuscaLigada() Then Exit Sub
+Set oShell = CreateObject("WScript.Shell")
+If oShell.Run("schtasks /Query /TN ""OrdemServico_BuscarNFSe""", 0, True) <> 0 Then
+   sExe = """\""" & appPathApp & appEXEName & "\"" /buscarnfse"""
+   oShell.Run "schtasks /Create /TN ""OrdemServico_BuscarNFSe"" /TR " & sExe & " /SC HOURLY /F", 0, True
+End If
+Set oShell = Nothing
+End Sub

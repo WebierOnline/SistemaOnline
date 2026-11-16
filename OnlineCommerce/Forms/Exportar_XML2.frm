@@ -559,6 +559,9 @@ If chkIncluirEntradas.Value = 1 Then
       Next vArqEnt
    End If
    
+   'NFS-e do OrdemServico (emitidas, canceladas e recebidas), direto do banco: empresa sem NFS-e nao ganha a pasta
+   XML_ExportarNFSe vPastaTemp, CInt(vMesNum), CInt(vAno)
+
    PathToCompress = Transforma(vPastaTemp)
    
 'Chama o compressor que se encontra instalado para o efeito.
@@ -718,7 +721,7 @@ ReDim pathAnexo(0)
 pathAnexo(0) = Anexo1
 
 NomeRemetente = SQLExecutaRetorno("SELECT Fantasia FROM empresa", "Fantasia", r!Fantasia)
-corpoEmail = "Segue em anexo os arquivos XML de NFe e NFCe emitidos no período. " & _
+corpoEmail = "Segue em anexo os arquivos XML de " & IIf(XML_TemNFSe(CInt(vMesNum), CInt(vAno)), "NFe, NFCe e NFS-e", "NFe e NFCe") & " do período. " & _
              "<br><br>" & _
              "Atenciosamente, " & _
              "<br><br>" & _

@@ -27,6 +27,10 @@ Public Type TResumoFiscal
    vMeta3 As Currency
    vRestante1 As Currency
    vRestante2 As Currency
+   bUsaOS As Boolean           'configuracao OS = 1: a empresa usa o Ordem de Servico
+   nOS As Long                 'OS terminadas no periodo
+   vOS As Currency             'valor (TOTAL, ja com desconto) dessas OS
+   vNFSe As Currency           'NFS-e autorizadas (producao) pela competencia, valor liquido do desconto
 End Type
 
 Private colTexto As Collection
@@ -77,6 +81,12 @@ Private Function Maior(ByVal a As Currency, ByVal b As Currency) As Currency
 If a > b Then Maior = a Else Maior = b
 End Function
 
+'A empresa usa o Ordem de Servico? (configuracao OS = 1)
+Public Function RF_UsaOS() As Boolean
+On Error Resume Next
+RF_UsaOS = (Trim$(CStr(SQLExecutaRetorno("SELECT config_valor FROM configuracao WHERE (config_nome = 'OS')", "config_valor", "0"))) = "1")
+End Function
+
 'Calcula todo o resumo do periodo (bMensal = mes nMes/nAno; senao o ano nAno inteiro)
 Public Function RF_Calcular(ByVal bMensal As Boolean, ByVal nMes As Integer, ByVal nAno As Integer) As TResumoFiscal
 Dim r As TResumoFiscal
@@ -113,6 +123,18 @@ r.vMeta3 = Maior(r.vTotalRec, r.vMeta1)
 'quanto falta emitir para alcancar a meta 1 e a meta 2 (nunca negativo)
 r.vRestante1 = Maior(r.vMeta1 - r.vTotalSaidas, 0)
 r.vRestante2 = Maior(r.vTotalRec - r.vTotalSaidas, 0)
+
+'ORDEM DE SERVICO (so quem usa o OS): OS terminadas e NFS-e emitidas. So informativo: nao entra nas metas
+'(as metas comparam compras de mercadoria com nota de venda; as pecas da OS vao em NF-e/NFC-e).
+r.bUsaOS = RF_UsaOS()
+If r.bUsaOS Then
+   r.nOS = CLng(SomaSQL("SELECT COUNT(*) FROM OS WHERE (STATUS_OS = 1) AND " & CondPeriodo("DATA_TERMINO", bMensal, nMes, nAno)))
+   r.vOS = SomaSQL("SELECT SUM(TOTAL) FROM OS WHERE (STATUS_OS = 1) AND " & CondPeriodo("DATA_TERMINO", bMensal, nMes, nAno))
+   If XML_TabelaExiste("NFSe") Then
+      r.vNFSe = SomaSQL("SELECT SUM(ValorServicos - DescontoIncondicionado) FROM NFSe WHERE (Ambiente = 1) AND (Situacao = 1) AND " & _
+                        CondPeriodo("DataCompetencia", bMensal, nMes, nAno))
+   End If
+End If
 
 RF_Calcular = r
 End Function
@@ -226,6 +248,12 @@ LinhaRel "Notas NF-e", Format(r.vNFe, ocMONEY)
 LinhaRel "Notas NFC-e", Format(r.vNFCe, ocMONEY)
 LinhaRel "Total emitido", Format(r.vTotalSaidas, ocMONEY), True
 
+If r.bUsaOS Then
+   TituloRel "ORDEM DE SERVIÇO"
+   LinhaRel "OS terminadas (" & r.nOS & ")", Format(r.vOS, ocMONEY)
+   LinhaRel "NFS-e emitidas (serviços)", Format(r.vNFSe, ocMONEY), True
+End If
+
 TituloRel "METAS DO PERÍODO"
 LinhaRel "Mínimo recomendado (compras + " & sPct & ")", Format(r.vMeta1, ocMONEY)
 LinhaRel "Meta do mês (a maior entre o mínimo e o recebido)", Format(r.vMeta3, ocMONEY)
@@ -235,6 +263,7 @@ LinhaRel "Falta emitir para igualar o que recebi", Format(r.vRestante2, ocMONEY)
 RF_LinhaAdd " ", "", False, 6
 RF_LinhaAdd "NF-e: somente notas de saída enviadas (sem canceladas, devoluções, ajustes e entradas próprias).", "", False, 7
 RF_LinhaAdd "NFC-e: somente notas enviadas (sem canceladas e inutilizadas).", "", False, 7
+If r.bUsaOS Then RF_LinhaAdd "OS: terminadas no período. NFS-e: autorizadas, pela competência (não entram nas metas).", "", False, 7
 End Sub
 
 '---------------------------------------------------------------------------
@@ -1113,7 +1142,7 @@ Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
 
 MontarCopiasEmail sEmail, emailCC     'copia para o e-mail da empresa
 sRazao = Trim(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
-sCorpo = "Segue em anexo os arquivos XML/RAR de NFe e NFCe emitidos no periodo. <br><br>Atenciosamente, <br><br>" & sRazao
+sCorpo = "Segue em anexo os arquivos XML/RAR de " & IIf(XML_TemNFSe(nMes, nAno), "NFe, NFCe e NFS-e", "NFe e NFCe") & " do periodo. <br><br>Atenciosamente, <br><br>" & sRazao
 
 vRet = sistNFe.EmailEnviar(sEmail, "Arquivos XML ref. Mês " & Format(nMes, "00") & "/" & nAno, sCorpo, sAnexos, emailCC)
 If Not vRet Then
@@ -1149,4 +1178,110 @@ deuErro:
 sResultado = "ERRO: " & Err.Description
 Err.Clear
 Resume fim
+End Sub
+
+'---------------------------------------------------------------------------
+' NFS-e (OrdemServico) no .rar do contador - pasta NFSe com Emitidas, Canceladas e Recebidas
+'---------------------------------------------------------------------------
+'Os XML saem do banco (tabelas NFSe e NFSeADN), nao de pastas: nao depende de alguem ter aberto a DANFSe.
+'Emitidas: notas do sistema pela COMPETENCIA (mes do imposto) + emitidas fora do sistema (portal) pela emissao.
+'Canceladas: evento de cancelamento dessas notas. Recebidas: NFS-e de servicos tomados (ADN), nao canceladas.
+'So producao. Empresa sem OS (configuracao OS <> 1) ou sem NFS-e (sem as tabelas ou sem notas no mes): nada muda.
+'O mesmo SELECT esta no ExportarXMLServidor.vbs (envio automatico): mudou aqui, mude la.
+Private Function XML_TabelaExiste(ByVal sTabela As String) As Boolean
+XML_TabelaExiste = (Val(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo." & sTabela & "', 'U') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
+End Function
+
+'SELECT Pasta, Arquivo, Xml das NFS-e do mes ("" quando a empresa nao tem as tabelas)
+Public Function XML_SqlNFSe(ByVal nMes As Integer, ByVal nAno As Integer) As String
+Dim sIni As String, sFim As String, sSQL As String
+Dim bNFSe As Boolean, bADN As Boolean
+
+On Error Resume Next
+If Not RF_UsaOS() Then Exit Function     'empresa que nao usa o Ordem de Servico
+bNFSe = XML_TabelaExiste("NFSe")
+bADN = XML_TabelaExiste("NFSeADN")
+On Error GoTo 0
+sIni = "'" & Format$(DateSerial(nAno, nMes, 1), "yyyymmdd") & "'"
+sFim = "'" & Format$(DateSerial(nAno, nMes + 1, 1), "yyyymmdd") & "'"
+
+If bNFSe Then
+   sSQL = "SELECT 'Emitidas' AS Pasta, ChaveAcesso + '-nfse.xml' AS Arquivo, XmlNFSe AS Xml FROM NFSe " & _
+          "WHERE (Ambiente = 1) AND (Situacao IN (1, 3)) AND (ChaveAcesso IS NOT NULL) AND (XmlNFSe IS NOT NULL) " & _
+          "AND (DataCompetencia >= " & sIni & ") AND (DataCompetencia < " & sFim & ") " & _
+          "UNION ALL SELECT 'Canceladas', ChaveAcesso + '-canc.xml', XmlCancelamento FROM NFSe " & _
+          "WHERE (Ambiente = 1) AND (Situacao = 3) AND (ChaveAcesso IS NOT NULL) AND (XmlCancelamento IS NOT NULL) " & _
+          "AND (DataCompetencia >= " & sIni & ") AND (DataCompetencia < " & sFim & ")"
+End If
+If bADN Then
+   If sSQL <> "" Then sSQL = sSQL & " UNION ALL "
+   sSQL = sSQL & "SELECT 'Emitidas', a.ChaveAcesso + '-nfse.xml', a.Xml FROM NFSeADN a " & _
+          "WHERE (a.Ambiente = 1) AND (a.TipoDocumento = 'NFSE') AND (a.Papel = 1) AND (a.ChaveAcesso IS NOT NULL) AND (a.Xml IS NOT NULL) " & _
+          "AND (a.DataEmissao >= " & sIni & ") AND (a.DataEmissao < " & sFim & ")" & _
+          IIf(bNFSe, " AND NOT EXISTS (SELECT 1 FROM NFSe s WHERE s.ChaveAcesso = a.ChaveAcesso)", "") & _
+          " UNION ALL SELECT 'Canceladas', e.ChaveAcesso + '-evento' + ISNULL(e.TipoEvento, '') + '-' + CONVERT(varchar(20), e.NSU) + '.xml', e.Xml " & _
+          "FROM NFSeADN e INNER JOIN NFSeADN a ON (a.Ambiente = e.Ambiente) AND (a.ChaveAcesso = e.ChaveAcesso) AND (a.TipoDocumento = 'NFSE') AND (a.Papel = 1) " & _
+          "WHERE (e.Ambiente = 1) AND (e.TipoDocumento <> 'NFSE') AND (e.TipoEvento IN ('101101', '105102', '105104')) AND (e.Xml IS NOT NULL) " & _
+          "AND (a.DataEmissao >= " & sIni & ") AND (a.DataEmissao < " & sFim & ")" & _
+          IIf(bNFSe, " AND NOT EXISTS (SELECT 1 FROM NFSe s WHERE s.ChaveAcesso = e.ChaveAcesso AND s.XmlCancelamento IS NOT NULL)", "") & _
+          " UNION ALL SELECT 'Recebidas', ChaveAcesso + '-nfse.xml', Xml FROM NFSeADN " & _
+          "WHERE (Ambiente = 1) AND (TipoDocumento = 'NFSE') AND (Papel IN (2, 3)) AND (Situacao = 1) AND (ChaveAcesso IS NOT NULL) AND (Xml IS NOT NULL) " & _
+          "AND (DataEmissao >= " & sIni & ") AND (DataEmissao < " & sFim & ")"
+End If
+XML_SqlNFSe = sSQL
+End Function
+
+'Tem NFS-e no mes? (para o texto do e-mail)
+Public Function XML_TemNFSe(ByVal nMes As Integer, ByVal nAno As Integer) As Boolean
+Dim sSQL As String
+On Error Resume Next
+sSQL = XML_SqlNFSe(nMes, nAno)
+If sSQL = "" Then Exit Function
+XML_TemNFSe = (Val(SQLExecutaRetorno("SELECT COUNT(*) AS qtd FROM (" & sSQL & ") t", "qtd", "0")) > 0)
+End Function
+
+'Grava os XML em sPasta\NFSe\Emitidas|Canceladas|Recebidas (UTF-8 sem BOM). Devolve quantos arquivos gravou.
+Public Function XML_ExportarNFSe(ByVal sPasta As String, ByVal nMes As Integer, ByVal nAno As Integer) As Long
+Dim r As ADODB.Recordset
+Dim fso As Object
+Dim sSQL As String, sDir As String, sArq As String, sXml As String
+
+On Error GoTo deuErro
+sSQL = XML_SqlNFSe(nMes, nAno)
+If sSQL = "" Then Exit Function
+Set fso = CreateObject("Scripting.FileSystemObject")
+If Right$(sPasta, 1) = "\" Then sPasta = Left$(sPasta, Len(sPasta) - 1)
+Set r = dbData.OpenRecordset(sSQL)
+Do While Not r.EOF
+   sDir = sPasta & "\NFSe\" & r("Pasta")
+   sArq = r("Arquivo")
+   sXml = r("Xml")
+   If Not fso.FolderExists(sPasta & "\NFSe") Then fso.CreateFolder sPasta & "\NFSe"
+   If Not fso.FolderExists(sDir) Then fso.CreateFolder sDir
+   XML_GravarUtf8 sDir & "\" & sArq, sXml
+   XML_ExportarNFSe = XML_ExportarNFSe + 1
+   r.MoveNext
+Loop
+r.Close
+Set r = Nothing
+Exit Function
+deuErro:
+Err.Clear
+End Function
+
+Private Sub XML_GravarUtf8(ByVal sArquivo As String, ByVal sTexto As String)
+Dim oTxt As Object, oBin As Object
+Set oTxt = CreateObject("ADODB.Stream")
+oTxt.Type = 2   'texto
+oTxt.Charset = "utf-8"
+oTxt.Open
+oTxt.WriteText sTexto
+oTxt.Position = 3   'pula o BOM
+Set oBin = CreateObject("ADODB.Stream")
+oBin.Type = 1   'binario
+oBin.Open
+oTxt.CopyTo oBin
+oBin.SaveToFile sArquivo, 2
+oBin.Close
+oTxt.Close
 End Sub
