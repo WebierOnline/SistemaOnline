@@ -1077,6 +1077,8 @@ ElseIf optPeriodo.Value Then
    sAte = DataSQL(TextoData(mskAte.Text), True)
 End If
 sSQL = "SELECT TOP 500 IdNFSe, NumeroNFSe, DataCompetencia, TomadorNome, NumeroPedido, " & _
+       "CAST(STUFF((SELECT DISTINCT ', ' + RIGHT('00000' + CAST(i.CodOS AS varchar(10)), 5) FROM NFSeItens i " & _
+       "WHERE i.IdNFSe = NFSe.IdNFSe FOR XML PATH('')), 1, 2, '') AS varchar(200)) AS NumerosOS, " & _
        "ValorServicos - DescontoIncondicionado AS Valor, Situacao, Ambiente, Mensagem, ArquivoPdf, " & _
        IIf(bTemAnaliseFiscal, "CASE WHEN AnaliseFiscalSolicitada IS NULL THEN 0 ELSE 1 END", "0") & " AS Analise " & _
        "FROM NFSe WHERE (1 = 1)"
@@ -1108,7 +1110,9 @@ With grdNotas
       .TextMatrix(n, C_NUM) = ValidateNull(r("NumeroNFSe"))
       .TextMatrix(n, C_COMP) = Format$(r("DataCompetencia"), "dd/mm/yyyy")
       .TextMatrix(n, C_CLI) = ValidateNull(r("TomadorNome"))
-      .TextMatrix(n, C_OS) = NumerosOS(ValidateNull(r("NumeroPedido")))
+      'OS pelos itens da nota (NumeroPedido pode ter a ordem de compra do cliente); nota antiga sem itens: pelo NumeroPedido
+      .TextMatrix(n, C_OS) = ValidateNull(r("NumerosOS"))
+      If .TextMatrix(n, C_OS) = "" Then .TextMatrix(n, C_OS) = NumerosOS(ValidateNull(r("NumeroPedido")))
       .TextMatrix(n, C_VALOR) = Format$(ValidateNull(r("Valor")), ocMONEY)
       .TextMatrix(n, C_SIT) = NFSe_SituacaoTexto(nSit)
       .TextMatrix(n, C_AMB) = IIf(Val(ValidateNull(r("Ambiente"))) = 1, "Produção", "Teste")

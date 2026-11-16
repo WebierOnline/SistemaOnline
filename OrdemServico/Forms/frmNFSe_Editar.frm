@@ -57,7 +57,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "Na empresa"
          Height          =   255
          Left            =   1080
-         TabIndex        =   26
+         TabIndex        =   28
          Top             =   1080
          Value           =   -1  'True
          Width           =   1215
@@ -66,7 +66,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "No local do cliente"
          Height          =   255
          Left            =   2340
-         TabIndex        =   27
+         TabIndex        =   29
          Top             =   1080
          Width           =   1755
       End
@@ -74,7 +74,7 @@ Begin VB.Form frmNFSe_Editar
          Height          =   315
          Left            =   5160
          Style           =   2  'Dropdown List
-         TabIndex        =   29
+         TabIndex        =   31
          Top             =   1050
          Width           =   735
       End
@@ -83,7 +83,7 @@ Begin VB.Form frmNFSe_Editar
          Left            =   5940
          Sorted          =   -1  'True
          Style           =   2  'Dropdown List
-         TabIndex        =   30
+         TabIndex        =   32
          Top             =   1050
          Width           =   3135
       End
@@ -91,7 +91,7 @@ Begin VB.Form frmNFSe_Editar
          Height          =   315
          Left            =   1080
          Style           =   2  'Dropdown List
-         TabIndex        =   32
+         TabIndex        =   34
          Top             =   1470
          Width           =   7995
       End
@@ -99,7 +99,7 @@ Begin VB.Form frmNFSe_Editar
          Height          =   315
          Left            =   1080
          Style           =   2  'Dropdown List
-         TabIndex        =   34
+         TabIndex        =   36
          Top             =   1860
          Width           =   7995
       End
@@ -139,7 +139,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "Feito:"
          Height          =   255
          Left            =   120
-         TabIndex        =   25
+         TabIndex        =   27
          Top             =   1095
          Width           =   915
       End
@@ -147,7 +147,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "Município:"
          Height          =   255
          Left            =   4200
-         TabIndex        =   28
+         TabIndex        =   30
          Top             =   1095
          Width           =   915
       End
@@ -155,7 +155,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "Indicador:"
          Height          =   255
          Left            =   120
-         TabIndex        =   31
+         TabIndex        =   33
          Top             =   1515
          Width           =   915
       End
@@ -163,7 +163,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "cClassTrib:"
          Height          =   255
          Left            =   120
-         TabIndex        =   33
+         TabIndex        =   35
          Top             =   1905
          Width           =   915
       End
@@ -178,13 +178,21 @@ Begin VB.Form frmNFSe_Editar
       Top             =   3405
       Width           =   9240
    End
+   Begin VB.TextBox txtPedido
+      Height          =   315
+      Left            =   6600
+      MaxLength       =   60
+      TabIndex        =   16
+      Top             =   5250
+      Width           =   2760
+   End
    Begin VB.TextBox txtInfo
       Height          =   975
       Left            =   120
       MaxLength       =   2000
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
-      TabIndex        =   16
+      TabIndex        =   18
       Top             =   5610
       Width           =   9240
    End
@@ -192,14 +200,14 @@ Begin VB.Form frmNFSe_Editar
       Caption         =   "ISS"
       Height          =   735
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   19
       Top             =   6690
       Width           =   9240
       Begin VB.CheckBox chkRetido
          Caption         =   "ISS retido pelo tomador (só quando o cliente reter o imposto)"
          Height          =   255
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   20
          Top             =   315
          Width           =   4935
       End
@@ -207,7 +215,7 @@ Begin VB.Form frmNFSe_Editar
          Height          =   315
          Left            =   6720
          MaxLength       =   6
-         TabIndex        =   20
+         TabIndex        =   22
          Top             =   270
          Width           =   795
       End
@@ -215,7 +223,7 @@ Begin VB.Form frmNFSe_Editar
          Caption         =   "Alíquota do ISS (%):"
          Height          =   255
          Left            =   5160
-         TabIndex        =   19
+         TabIndex        =   21
          Top             =   315
          Width           =   1575
       End
@@ -224,7 +232,7 @@ Begin VB.Form frmNFSe_Editar
       Caption         =   "&Salvar"
       Height          =   375
       Left            =   3960
-      TabIndex        =   22
+      TabIndex        =   24
       Top             =   8250
       Width           =   1695
    End
@@ -232,7 +240,7 @@ Begin VB.Form frmNFSe_Editar
       Caption         =   "Salvar e &Transmitir"
       Height          =   375
       Left            =   5760
-      TabIndex        =   23
+      TabIndex        =   25
       Top             =   8250
       Width           =   1815
    End
@@ -241,7 +249,7 @@ Begin VB.Form frmNFSe_Editar
       Caption         =   "&Voltar"
       Height          =   375
       Left            =   7665
-      TabIndex        =   24
+      TabIndex        =   26
       Top             =   8250
       Width           =   1695
    End
@@ -257,17 +265,26 @@ Begin VB.Form frmNFSe_Editar
       EndProperty
       Height          =   495
       Left            =   120
-      TabIndex        =   21
+      TabIndex        =   23
       Top             =   7530
       Width           =   9240
    End
    Begin VB.Label lblInfoT
-      Caption         =   "Informações complementares (veículo/equipamento, observações):"
+      Caption         =   "Informações complementares (veículo, observações):"
       Height          =   255
       Left            =   120
-      TabIndex        =   15
+      TabIndex        =   17
       Top             =   5370
-      Width           =   6135
+      Width           =   4455
+   End
+   Begin VB.Label lblPedido
+      Alignment       =   1  'Right Justify
+      Caption         =   "Pedido/OC do cliente:"
+      Height          =   255
+      Left            =   4680
+      TabIndex        =   15
+      Top             =   5295
+      Width           =   1845
    End
    Begin VB.Label lblContDesc
       Alignment       =   1  'Right Justify
@@ -403,7 +420,7 @@ ElseIf Len(sDoc) = 11 Then
 Else
    sDoc = "SEM CPF/CNPJ (a nota sai sem tomador identificado)"
 End If
-lblTomador.Caption = "Tomador: " & ValidateNull(r("TomadorNome")) & "  -  " & sDoc & "      " & ValidateNull(r("NumeroPedido"))
+lblTomador.Caption = "Tomador: " & ValidateNull(r("TomadorNome")) & "  -  " & sDoc
 sEnd = Trim$(ValidateNull(r("TomadorLogradouro")))
 If sEnd <> "" Then sEnd = sEnd & ", " & ValidateNull(r("TomadorNumero")) & " - " & ValidateNull(r("TomadorBairro")) & " - IBGE " & ValidateNull(r("TomadorCodMunicipio")) & " - CEP " & ValidateNull(r("TomadorCEP"))
 If sEnd = "" Then sEnd = "Endereço do cliente incompleto (sem logradouro ou código IBGE): a nota vai sem o endereço do tomador."
@@ -433,6 +450,7 @@ txtCodTribMun.Text = ValidateNull(r("CodTribMun"))
 txtCompetencia.Text = Format$(r("DataCompetencia"), "dd/mm/yyyy")
 txtDescricao.Text = ValidateNull(r("Descricao"))
 txtInfo.Text = ValidateNull(r("InfoComplementar"))
+txtPedido.Text = ValidateNull(r("NumeroPedido"))
 chkRetido.Value = IIf(Val(ValidateNull(r("RetencaoISS"))) = 2, vbChecked, vbUnchecked)
 txtAliquota.Text = IIf(IsNull(r("AliquotaISS")), "", Format$(ValidateNull(r("AliquotaISS")), "0.00"))
 lblValores.Caption = "Serviços: R$ " & Format$(ValidateNull(r("ValorServicos")), ocMONEY) & _
@@ -587,6 +605,52 @@ Private Sub txtDescricao_Change()
 lblContDesc.Caption = Len(txtDescricao.Text) & " de 2000 caracteres"
 End Sub
 
+'Pedido/OC: a nota é gerada com "OS 10" (número da OS da oficina). Quando a empresa cliente manda a ordem de
+'pedido/compra dela, o número vai no xPed da nota e também nas informações complementares, logo depois dos
+'dados do veículo: "Ref. Ordem de Serviços Nº 10, Veículo: ..., Placa AAA1234 / Ordem de Pedido/Compra: 4587".
+Private Sub txtPedido_Change()
+If mCarregando Then Exit Sub
+txtInfo.Text = InfoComPedido(txtInfo.Text, txtPedido.Text)
+End Sub
+
+Private Function PedidoDoCliente(ByVal sPed As String) As String
+sPed = Trim$(sPed)
+If UCase$(Left$(sPed, 3)) = "OS " Then sPed = ""    'o padrão "OS 10" não é pedido do cliente
+PedidoDoCliente = sPed
+End Function
+
+Private Function InfoComPedido(ByVal sInfo As String, ByVal sPed As String) As String
+Const ROTULO As String = "Ordem de Pedido/Compra:"
+Dim p As Long, pIni As Long, pFim As Long
+
+'tira o pedido que já estiver no texto (até o próximo " | " ou o fim)
+p = InStr(1, sInfo, ROTULO, vbTextCompare)
+If p > 0 Then
+   pIni = p
+   If p > 3 Then
+      If Mid$(sInfo, p - 3, 3) = " / " Then pIni = p - 3
+   End If
+   pFim = InStr(p, sInfo, " | ")
+   If pFim = 0 Then pFim = Len(sInfo) + 1
+   sInfo = Left$(sInfo, pIni - 1) & Mid$(sInfo, pFim)
+End If
+
+sPed = PedidoDoCliente(sPed)
+If sPed <> "" Then
+   'depois dos dados do veículo da 1ª OS (antes do " | " da próxima OS ou da mensagem da empresa)
+   p = InStr(1, sInfo, " | ")
+   If Trim$(sInfo) = "" Then
+      sInfo = ROTULO & " " & sPed
+   ElseIf p = 0 Then
+      sInfo = sInfo & " / " & ROTULO & " " & sPed
+   Else
+      sInfo = Left$(sInfo, p - 1) & " / " & ROTULO & " " & sPed & Mid$(sInfo, p)
+   End If
+End If
+If Len(sInfo) > 2000 Then sInfo = Left$(sInfo, 2000)
+InfoComPedido = sInfo
+End Function
+
 Private Function SoDigitos(ByVal s As String) As String
 Dim i As Integer
 For i = 1 To Len(s)
@@ -673,6 +737,7 @@ dbData.Execute "UPDATE NFSe SET " & _
    "DataCompetencia = '" & Format$(CDate(txtCompetencia.Text), "yyyymmdd") & "', " & _
    "Descricao = " & NFSe_Q(Trim$(txtDescricao.Text)) & ", " & _
    "InfoComplementar = " & IIf(Trim$(txtInfo.Text) = "", "NULL", NFSe_Q(Trim$(txtInfo.Text))) & ", " & _
+   "NumeroPedido = " & IIf(Trim$(txtPedido.Text) = "", "NULL", NFSe_Q(Trim$(txtPedido.Text))) & ", " & _
    "RetencaoISS = " & IIf(chkRetido.Value = vbChecked, "2", "1") & ", " & _
    "AliquotaISS = " & sAliq & " " & _
    "WHERE (IdNFSe = " & mIdNFSe & ") AND (Situacao IN (0, 2));", nAfetados
