@@ -595,7 +595,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "21:41"
+            TextSave        =   "08:47"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -714,17 +714,17 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_Entrada_Estoque 
          Caption         =   "&Entrada de Estoque XML"
       End
-      Begin VB.Menu Menu_Prod_VinculosXML 
-         Caption         =   "Vinculos de Produtos (XML)"
-      End
       Begin VB.Menu Menu_Prod_EANCaixa 
          Caption         =   "EAN Caixa / Embalagem"
       End
-      Begin VB.Menu Menu_Prod_Divisao2 
-         Caption         =   "-"
+      Begin VB.Menu Menu_Prod_VinculosXML 
+         Caption         =   "Vinculos de Produtos (XML)"
       End
       Begin VB.Menu Menu_Prod_NotasManifestadas 
-         Caption         =   "Notas Manifestadas"
+         Caption         =   "Monitor de NFe"
+      End
+      Begin VB.Menu Menu_Prod_Divisao2 
+         Caption         =   "-"
       End
       Begin VB.Menu Menu_Prod_Cashback 
          Caption         =   "Cashback"
@@ -1580,7 +1580,7 @@ Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
    ' frmImportarIBPT nunca aparece: o andamento vai todo pra frmIBPTProgresso (barra).
    If MsgBox("Baixar a tabela IBPT mais recente da nuvem e atualizar agora?", vbQuestion + vbYesNo, "Tabela IBPT") <> vbYes Then Exit Sub
 
-   Dim sPastaDL As String, sArq As String, bOK As Boolean
+   Dim sPastaDL As String, sArq As String, bOk As Boolean
    sPastaDL = appPathApp & "IBPT_Auto"
    On Error Resume Next
    MkDir sPastaDL
@@ -1602,7 +1602,7 @@ Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
 
    frmIBPTProgresso.DefinirMensagem "Importando a tabela IBPT..." & vbCrLf & _
       "Aguarde, n" & Chr(227) & "o feche o sistema."
-   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
+   bOk = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
    Unload frmImportarIBPT
    Unload frmIBPTProgresso
    Me.MousePointer = 0
@@ -1611,7 +1611,7 @@ Private Sub Menu_FISCAL_Reforma_IBPTNuvem_Click()
    Kill sPastaDL & "\" & sArq
    On Error GoTo 0
 
-   If bOK Then
+   If bOk Then
       MsgBox "Tabela IBPT atualizada com sucesso!", vbInformation, "Tabela IBPT"
    Else
       MsgBox "Falha ao importar a tabela IBPT." & _
@@ -1955,7 +1955,7 @@ If Not existe(xCaminhoBK) Then Exit Sub
 'nome padronizado com a rotina automatica do fechamento de caixa (sempre
 'cnpj.bak/cnpj.rar - o historico com data vem da rotacao abaixo, nao mais
 'do proprio nome do arquivo ativo)
-nomeArquivoBK = Retira(rEmpresa!cnpj, ".-/ ", UM_A_UM) & ".bak"
+nomeArquivoBK = Retira(rEmpresa!Cnpj, ".-/ ", UM_A_UM) & ".bak"
 DoEvents
 
 'preserva o backup .rar da execucao anterior com um nome datado (historico
@@ -2203,7 +2203,7 @@ Dim IniciouProcesso As Boolean
         
    xCaminhoBK = dirXML & "backup"
       
-   nomeArquivoBK = Retira(r!cnpj, ".-/ ", UM_A_UM) & ".rar"
+   nomeArquivoBK = Retira(r!Cnpj, ".-/ ", UM_A_UM) & ".rar"
         
    DataHora = Now
         
@@ -2341,13 +2341,13 @@ Private Sub VerificarAtualizacaoIBPT()
    frmIBPTProgresso.DefinirMensagem "Importando a tabela IBPT..." & vbCrLf & _
       "Aguarde, n" & Chr(227) & "o feche o sistema."
 
-   Dim bOK As Boolean
-   bOK = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
+   Dim bOk As Boolean
+   bOk = frmImportarIBPT.ImportarIBPTdeArquivo(sPastaDL & "\" & sArq, True, frmIBPTProgresso)
    Unload frmImportarIBPT
    Unload frmIBPTProgresso
    Me.MousePointer = 0
 
-   If bOK Then
+   If bOk Then
       SQLExecuta "UPDATE empresa SET IBPTUltimaImportacao = '" & sMesAtual & "'"
    End If
 

@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Begin VB.Form Notas_Adesivas 
    BackColor       =   &H00C0FFFF&
    BorderStyle     =   4  'Fixed ToolWindow
@@ -14,90 +15,6 @@ Begin VB.Form Notas_Adesivas
    ScaleHeight     =   8490
    ScaleWidth      =   4605
    ShowInTaskbar   =   0   'False
-   Begin VB.Label lblVoltar 
-      Alignment       =   2
-      BorderStyle     =   1  'Fixed Single
-      Caption         =   "<"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   16
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00800000&
-      Height          =   420
-      Left            =   120
-      TabIndex        =   0
-      ToolTipText     =   "Mês anterior"
-      Top             =   90
-      Width           =   480
-      BackColor       =   &H00FFFFFF&
-   End
-   Begin VB.Label lblMesRef 
-      Alignment       =   2
-      Caption         =   "000"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   14
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00800000&
-      Height          =   330
-      Left            =   660
-      TabIndex        =   1
-      Top             =   150
-      Width           =   3285
-      BackStyle       =   0  'Transparent
-   End
-   Begin VB.Label lblAvancar 
-      Alignment       =   2
-      BorderStyle     =   1  'Fixed Single
-      Caption         =   ">"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   16
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00800000&
-      Height          =   420
-      Left            =   4005
-      TabIndex        =   2
-      ToolTipText     =   "Próximo mês"
-      Top             =   90
-      Width           =   480
-      BackColor       =   &H00FFFFFF&
-   End
-   Begin VB.Label lblAno 
-      Alignment       =   0
-      Caption         =   "Ano:"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   14
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H00800000&
-      Height          =   330
-      Left            =   1200
-      TabIndex        =   3
-      Top             =   150
-      Width           =   600
-      BackStyle       =   0  'Transparent
-   End
    Begin VB.ComboBox cboAno 
       BeginProperty Font 
          Name            =   "Arial"
@@ -134,12 +51,174 @@ Begin VB.Form Notas_Adesivas
       Value           =   -1  'True
       Width           =   1700
    End
+   Begin ChamaleonBtn.chameleonButton cmdEnviarContab 
+      Height          =   315
+      Left            =   2340
+      TabIndex        =   50
+      Top             =   8100
+      Visible         =   0   'False
+      Width           =   2175
+      _ExtentX        =   3836
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "Enviar à contabilidade"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   -2147483633
+      BCOLO           =   -2147483633
+      FCOL            =   255
+      FCOLO           =   255
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Notas_Adesivas.frx":0000
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdImprimir 
+      Height          =   315
+      Left            =   60
+      TabIndex        =   51
+      Top             =   8100
+      Visible         =   0   'False
+      Width           =   2175
+      _ExtentX        =   3836
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "Imprimir / PDF"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   -2147483633
+      BCOLO           =   -2147483633
+      FCOL            =   255
+      FCOLO           =   255
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "Notas_Adesivas.frx":001C
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin VB.Label lblVoltar 
+      Alignment       =   2  'Center
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   "<"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   420
+      Left            =   120
+      TabIndex        =   0
+      ToolTipText     =   "Mês anterior"
+      Top             =   90
+      Width           =   480
+   End
+   Begin VB.Label lblMesRef 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      Caption         =   "000"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   330
+      Left            =   660
+      TabIndex        =   1
+      Top             =   150
+      Width           =   3285
+   End
+   Begin VB.Label lblAvancar 
+      Alignment       =   2  'Center
+      BackColor       =   &H00FFFFFF&
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   ">"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   15.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   420
+      Left            =   4005
+      TabIndex        =   2
+      ToolTipText     =   "Próximo mês"
+      Top             =   90
+      Width           =   480
+   End
+   Begin VB.Label lblAno 
+      BackStyle       =   0  'Transparent
+      Caption         =   "Ano:"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   14.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800000&
+      Height          =   330
+      Left            =   1200
+      TabIndex        =   3
+      Top             =   150
+      Width           =   600
+   End
    Begin VB.Label lblTitulo 
-      Alignment       =   2
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Falta emitir de nota fiscal:"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -152,14 +231,14 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   7
       Top             =   870
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblFalta 
-      Alignment       =   2
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "R$ 0,00"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   22
+         Size            =   21.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -172,11 +251,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   8
       Top             =   1100
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblSituacao 
-      Alignment       =   2
-      Caption         =   ""
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9
@@ -192,12 +270,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   9
       Top             =   1520
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblBarraFundo 
-      Alignment       =   0
+      BackColor       =   &H00FFFFFF&
       BorderStyle     =   1  'Fixed Single
-      Caption         =   ""
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9
@@ -213,11 +289,9 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   10
       Top             =   1800
       Width           =   4365
-      BackColor       =   &H00FFFFFF&
    End
    Begin VB.Label lblBarra 
-      Alignment       =   0
-      Caption         =   ""
+      BackColor       =   &H00808080&
       BeginProperty Font 
          Name            =   "Arial"
          Size            =   9
@@ -233,14 +307,13 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   11
       Top             =   1815
       Width           =   15
-      BackColor       =   &H00808080&
    End
    Begin VB.Label Label1 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "O QUE COMPREI"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -253,7 +326,6 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   12
       Top             =   2180
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line Line101 
       BorderColor     =   &H00808080&
@@ -263,7 +335,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   2435
    End
    Begin VB.Label Label2 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Total das notas de compra (XML):"
       BeginProperty Font 
          Name            =   "Arial"
@@ -281,10 +353,10 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "Soma das notas fiscais de compra importadas por XML no período"
       Top             =   2455
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblVlrEntrada 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -302,14 +374,13 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "Soma das notas fiscais de compra importadas por XML no período"
       Top             =   2455
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label3 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "O QUE RECEBI DOS CLIENTES"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -322,7 +393,6 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   15
       Top             =   2780
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line Line103 
       BorderColor     =   &H00808080&
@@ -332,7 +402,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   3035
    End
    Begin VB.Label Label4 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Pix:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -349,10 +419,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   16
       Top             =   3055
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblRecPix 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -369,10 +439,9 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   17
       Top             =   3055
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label5 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Cartão de débito:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -389,10 +458,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   18
       Top             =   3280
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblRecDebito 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -409,10 +478,9 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   19
       Top             =   3280
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label6 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Cartão de crédito:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -429,10 +497,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   20
       Top             =   3505
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblRecCredito 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -449,10 +517,9 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   21
       Top             =   3505
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label7 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Transferência:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -469,10 +536,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   22
       Top             =   3730
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblRecTransf 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -489,10 +556,9 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   23
       Top             =   3730
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label8 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Depósito:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -509,10 +575,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   24
       Top             =   3955
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblRecDepos 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -529,7 +595,6 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   25
       Top             =   3955
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line LineRec 
       BorderColor     =   &H00808080&
@@ -539,7 +604,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   4210
    End
    Begin VB.Label Label9 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Total recebido:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -556,10 +621,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   26
       Top             =   4250
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblTotalRecebido 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -576,14 +641,13 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   27
       Top             =   4250
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label10 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "O QUE EMITI DE NOTA (vendas)"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -596,7 +660,6 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   28
       Top             =   4580
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line Line110 
       BorderColor     =   &H00808080&
@@ -606,7 +669,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   4835
    End
    Begin VB.Label Label11 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Notas NF-e:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -624,10 +687,10 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
       Top             =   4855
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblNFe 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -645,10 +708,9 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
       Top             =   4855
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label12 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Notas NFC-e:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -666,10 +728,10 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "NFC-e enviadas, sem canceladas e inutilizadas"
       Top             =   5080
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblNFCe 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -687,7 +749,6 @@ Begin VB.Form Notas_Adesivas
       ToolTipText     =   "NFC-e enviadas, sem canceladas e inutilizadas"
       Top             =   5080
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line LineEmi 
       BorderColor     =   &H00808080&
@@ -697,7 +758,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   5335
    End
    Begin VB.Label Label13 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Total emitido:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -714,10 +775,10 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   33
       Top             =   5375
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblVlrSaida 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -734,14 +795,13 @@ Begin VB.Form Notas_Adesivas
       TabIndex        =   34
       Top             =   5375
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblTitOS 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "ORDEM DE SERVIÇO"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -751,13 +811,12 @@ Begin VB.Form Notas_Adesivas
       ForeColor       =   &H00800000&
       Height          =   250
       Left            =   120
-      TabIndex        =   47
+      TabIndex        =   45
       Top             =   5700
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblTxtOS 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "OS terminadas:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -771,14 +830,54 @@ Begin VB.Form Notas_Adesivas
       ForeColor       =   &H80000008&
       Height          =   225
       Left            =   120
-      TabIndex        =   48
+      TabIndex        =   46
       ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
       Top             =   5975
       Width           =   2900
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblOS 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
+      Caption         =   "0,00"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   3000
+      TabIndex        =   47
+      ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
+      Top             =   5975
+      Width           =   1485
+   End
+   Begin VB.Label lblTxtNFSe 
+      BackStyle       =   0  'Transparent
+      Caption         =   "NFS-e emitidas (serviços):"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   9
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H80000008&
+      Height          =   225
+      Left            =   120
+      TabIndex        =   48
+      Top             =   6200
+      Width           =   2900
+   End
+   Begin VB.Label lblNFSe 
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -793,57 +892,15 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   3000
       TabIndex        =   49
-      ToolTipText     =   "NF-e de saída enviadas, sem canceladas, devoluções e ajustes"
-      Top             =   5975
-      Width           =   1485
-      BackStyle       =   0  'Transparent
-   End
-   Begin VB.Label lblTxtNFSe 
-      Alignment       =   0
-      Caption         =   "NFS-e emitidas (serviços):"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   225
-      Left            =   120
-      TabIndex        =   50
-      Top             =   6200
-      Width           =   2900
-      BackStyle       =   0  'Transparent
-   End
-   Begin VB.Label lblNFSe 
-      Alignment       =   1
-      Caption         =   "0,00"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      ForeColor       =   &H80000008&
-      Height          =   225
-      Left            =   3000
-      TabIndex        =   51
       Top             =   6200
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label14 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "METAS DO PERÍODO"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   10
+         Size            =   9.75
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -851,12 +908,11 @@ Begin VB.Form Notas_Adesivas
          Strikethrough   =   0   'False
       EndProperty
       ForeColor       =   &H00800000&
-      Height          =   250
+      Height          =   255
       Left            =   120
       TabIndex        =   35
-      Top             =   6450
+      Top             =   6570
       Width           =   4365
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Line Line114 
       BorderColor     =   &H00808080&
@@ -866,7 +922,7 @@ Begin VB.Form Notas_Adesivas
       Y2              =   5955
    End
    Begin VB.Label lblTxtMinimo 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Mínimo recomendado (+ 25%):"
       BeginProperty Font 
          Name            =   "Arial"
@@ -882,12 +938,12 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   36
       ToolTipText     =   "O que você comprou + 25%. É o mínimo que os contadores pedem para emitir"
-      Top             =   6725
-      Width           =   2900
-      BackStyle       =   0  'Transparent
+      Top             =   6840
+      Width           =   2895
    End
    Begin VB.Label lblMeta1 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -903,12 +959,11 @@ Begin VB.Form Notas_Adesivas
       Left            =   3000
       TabIndex        =   37
       ToolTipText     =   "O que você comprou + 25%. É o mínimo que os contadores pedem para emitir"
-      Top             =   6725
+      Top             =   6840
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label15 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Meta do mês (a maior):"
       BeginProperty Font 
          Name            =   "Arial"
@@ -924,12 +979,12 @@ Begin VB.Form Notas_Adesivas
       Left            =   120
       TabIndex        =   38
       ToolTipText     =   "O maior valor entre o mínimo recomendado e o que você recebeu"
-      Top             =   6950
-      Width           =   2900
-      BackStyle       =   0  'Transparent
+      Top             =   7065
+      Width           =   2895
    End
    Begin VB.Label lblMeta 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -945,12 +1000,11 @@ Begin VB.Form Notas_Adesivas
       Left            =   3000
       TabIndex        =   39
       ToolTipText     =   "O maior valor entre o mínimo recomendado e o que você recebeu"
-      Top             =   6950
+      Top             =   7065
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label16 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Falta emitir para o mínimo:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -965,12 +1019,12 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   120
       TabIndex        =   40
-      Top             =   7175
-      Width           =   2900
-      BackStyle       =   0  'Transparent
+      Top             =   7290
+      Width           =   2895
    End
    Begin VB.Label lblVlrRestante 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -985,12 +1039,11 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   3000
       TabIndex        =   41
-      Top             =   7175
+      Top             =   7290
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label Label17 
-      Alignment       =   0
+      BackStyle       =   0  'Transparent
       Caption         =   "Falta para igualar o que recebi:"
       BeginProperty Font 
          Name            =   "Arial"
@@ -1005,12 +1058,12 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   120
       TabIndex        =   42
-      Top             =   7400
-      Width           =   2900
-      BackStyle       =   0  'Transparent
+      Top             =   7515
+      Width           =   2895
    End
    Begin VB.Label lblVlrRestante2 
-      Alignment       =   1
+      Alignment       =   1  'Right Justify
+      BackStyle       =   0  'Transparent
       Caption         =   "0,00"
       BeginProperty Font 
          Name            =   "Arial"
@@ -1025,16 +1078,16 @@ Begin VB.Form Notas_Adesivas
       Height          =   225
       Left            =   3000
       TabIndex        =   43
-      Top             =   7400
+      Top             =   7515
       Width           =   1485
-      BackStyle       =   0  'Transparent
    End
    Begin VB.Label lblAjuda 
-      Alignment       =   2
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
       Caption         =   "Como funciona esta tela? (clique aqui)"
       BeginProperty Font 
          Name            =   "Arial"
-         Size            =   9
+         Size            =   8.25
          Charset         =   0
          Weight          =   700
          Underline       =   0   'False
@@ -1043,48 +1096,11 @@ Begin VB.Form Notas_Adesivas
       EndProperty
       ForeColor       =   &H00C00000&
       Height          =   240
-      Left            =   120
+      Left            =   60
       TabIndex        =   44
       ToolTipText     =   "Clique para ver a explicação"
-      Top             =   7680
-      Width           =   4365
-      BackStyle       =   0  'Transparent
-   End
-   Begin VB.CommandButton cmdImprimir 
-      Caption         =   "Imprimir / PDF"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   420
-      Left            =   120
-      TabIndex        =   45
-      ToolTipText     =   "Gera o relatório do resumo (na Impressora PDF para salvar em PDF)"
-      Top             =   7980
-      Width           =   2130
-   End
-   Begin VB.CommandButton cmdEnviarContab 
-      Caption         =   "Enviar à contabilidade"
-      BeginProperty Font 
-         Name            =   "Arial"
-         Size            =   9
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   420
-      Left            =   2355
-      TabIndex        =   46
-      ToolTipText     =   "Gera o PDF e envia por e-mail para a contabilidade"
-      Top             =   7980
-      Width           =   2130
+      Top             =   7860
+      Width           =   4485
    End
 End
 Attribute VB_Name = "Notas_Adesivas"
@@ -1098,6 +1114,11 @@ Dim vDataHoje As Date           'mes de referencia (modo Mensal)
 Dim bCarregando As Boolean      'bloqueia recalculo enquanto o form monta os controles
 Dim vAnoCalc As Integer         'ultimo ano (modo Anual) usado no calculo
 Dim rfAtual As TResumoFiscal    'ultimo resumo calculado (usado no relatorio e no envio) - ver modResumoFiscal.bas
+
+Private Sub chameleonButton1_Click()
+
+End Sub
+
 
 Private Sub Form_Load()
 Dim i As Integer
