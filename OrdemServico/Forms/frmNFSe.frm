@@ -1248,7 +1248,6 @@ If Not r.EOF Then
    nSit = Val(ValidateNull(r("Situacao")))
    r.Close
    If nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA Then
-      MsgBox "A OS " & lCodOS & " já tem uma NFS-e " & LCase$(NFSe_SituacaoTexto(nSit)) & ": ela será aberta para conferir.", vbInformation, "NFS-e"
       AbrirNota lId, True
    Else
       AbrirNota lId, False
