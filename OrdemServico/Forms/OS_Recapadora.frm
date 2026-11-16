@@ -9,14 +9,14 @@ Begin VB.Form OS_Recapadora
    ClientHeight    =   9900
    ClientLeft      =   120
    ClientTop       =   690
-   ClientWidth     =   16665
+   ClientWidth     =   12825
    ForeColor       =   &H00008000&
    Icon            =   "OS_Recapadora.frx":0000
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    ScaleHeight     =   9900
-   ScaleWidth      =   16665
+   ScaleWidth      =   12825
    StartUpPosition =   2  'CenterScreen
    Begin VB.PictureBox Picture5 
       Appearance      =   0  'Flat
@@ -106,15 +106,15 @@ Begin VB.Form OS_Recapadora
       Left            =   0
       TabIndex        =   108
       Top             =   9630
-      Width           =   16665
-      _ExtentX        =   29395
+      Width           =   12825
+      _ExtentX        =   22622
       _ExtentY        =   476
       _Version        =   393216
       BeginProperty Panels {8E3867A5-8586-11D1-B16A-00C0F0283628} 
          NumPanels       =   6
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
-            Object.Width           =   18494
+            Object.Width           =   11721
             Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
             TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
@@ -143,7 +143,7 @@ Begin VB.Form OS_Recapadora
             Alignment       =   1
             Object.Width           =   1764
             MinWidth        =   1764
-            TextSave        =   "10:10"
+            TextSave        =   "16:09"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -161,8 +161,8 @@ Begin VB.Form OS_Recapadora
       Left            =   120
       TabIndex        =   109
       Top             =   720
-      Width           =   14970
-      _ExtentX        =   26405
+      Width           =   12630
+      _ExtentX        =   22278
       _ExtentY        =   15637
       _Version        =   393216
       Tabs            =   5
@@ -229,45 +229,45 @@ Begin VB.Form OS_Recapadora
       Tab(0).Control(22).Enabled=   0   'False
       Tab(0).Control(23)=   "Text1"
       Tab(0).Control(23).Enabled=   0   'False
-      Tab(0).ControlCount=   26
+      Tab(0).ControlCount=   24
       TabCaption(1)   =   "CADASTRO"
       TabPicture(1)   =   "OS_Recapadora.frx":245D
       Tab(1).ControlEnabled=   0   'False
-      Tab(1).Control(0)=   "lblDataAberturaCaixa"
+      Tab(1).Control(0)=   "frmParecer"
       Tab(1).Control(0).Enabled=   0   'False
-      Tab(1).Control(1)=   "cmdImpPedido2"
+      Tab(1).Control(1)=   "txtCodPedido"
       Tab(1).Control(1).Enabled=   0   'False
-      Tab(1).Control(2)=   "cmdImpOrcamento2"
+      Tab(1).Control(2)=   "frmSecundario"
       Tab(1).Control(2).Enabled=   0   'False
-      Tab(1).Control(3)=   "cmdImpEntrada2"
+      Tab(1).Control(3)=   "frmPrincipal"
       Tab(1).Control(3).Enabled=   0   'False
-      Tab(1).Control(4)=   "cmdNovo"
+      Tab(1).Control(4)=   "cmdCancelarEntrada"
       Tab(1).Control(4).Enabled=   0   'False
-      Tab(1).Control(5)=   "cmdGerarEntrada"
+      Tab(1).Control(5)=   "cmdAlterar"
       Tab(1).Control(5).Enabled=   0   'False
       Tab(1).Control(6)=   "cmdApagar"
       Tab(1).Control(6).Enabled=   0   'False
-      Tab(1).Control(7)=   "cmdAlterar"
+      Tab(1).Control(7)=   "cmdGerarEntrada"
       Tab(1).Control(7).Enabled=   0   'False
-      Tab(1).Control(8)=   "cmdCancelarEntrada"
+      Tab(1).Control(8)=   "cmdNovo"
       Tab(1).Control(8).Enabled=   0   'False
-      Tab(1).Control(9)=   "frmPrincipal"
+      Tab(1).Control(9)=   "cmdImpEntrada2"
       Tab(1).Control(9).Enabled=   0   'False
-      Tab(1).Control(10)=   "frmSecundario"
+      Tab(1).Control(10)=   "cmdImpOrcamento2"
       Tab(1).Control(10).Enabled=   0   'False
-      Tab(1).Control(11)=   "txtCodPedido"
+      Tab(1).Control(11)=   "cmdImpPedido2"
       Tab(1).Control(11).Enabled=   0   'False
-      Tab(1).Control(12)=   "frmParecer"
+      Tab(1).Control(12)=   "lblDataAberturaCaixa"
       Tab(1).Control(12).Enabled=   0   'False
       Tab(1).ControlCount=   13
       TabCaption(2)   =   "FINANCEIRO"
       TabPicture(2)   =   "OS_Recapadora.frx":2479
       Tab(2).ControlEnabled=   0   'False
-      Tab(2).Control(0)=   "cmdFinalizarAP"
+      Tab(2).Control(0)=   "frmVendaFechamento"
       Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "cmdFinalizarAV"
       Tab(2).Control(1).Enabled=   0   'False
-      Tab(2).Control(2)=   "frmVendaFechamento"
+      Tab(2).Control(2)=   "cmdFinalizarAP"
       Tab(2).Control(2).Enabled=   0   'False
       Tab(2).ControlCount=   3
       TabCaption(3)   =   " "
@@ -4060,7 +4060,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpPedido1 
          Height          =   375
-         Left            =   6960
+         Left            =   5520
          TabIndex        =   7
          Top             =   5100
          Width           =   1275
@@ -4137,7 +4137,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdImpGarantia1 
          Height          =   375
-         Left            =   9540
+         Left            =   6840
          TabIndex        =   9
          Top             =   5100
          Width           =   855
@@ -4202,7 +4202,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":367E4
+         MICON           =   "OS_Recapadora.frx":367AC
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4241,7 +4241,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":36800
+         MICON           =   "OS_Recapadora.frx":367C8
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4253,7 +4253,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   375
-         Left            =   10440
+         Left            =   7740
          TabIndex        =   214
          Top             =   5100
          Width           =   855
@@ -4261,6 +4261,82 @@ Begin VB.Form OS_Recapadora
          _ExtentY        =   661
          BTYPE           =   3
          TX              =   "Excluir"
+         ENAB            =   0   'False
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":367E4
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdReabrir 
+         Height          =   375
+         Left            =   8640
+         TabIndex        =   241
+         Top             =   5100
+         Width           =   855
+         _ExtentX        =   1508
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "Reabrir"
+         ENAB            =   0   'False
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   13160660
+         BCOLO           =   13160660
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         MICON           =   "OS_Recapadora.frx":36800
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
+      Begin ChamaleonBtn.chameleonButton cmdEmitirNFSe 
+         Height          =   375
+         Left            =   9540
+         TabIndex        =   247
+         Top             =   5100
+         Width           =   855
+         _ExtentX        =   1508
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "NFSe"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -4289,16 +4365,16 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdReabrir 
+      Begin ChamaleonBtn.chameleonButton cmdEmitirNFCe 
          Height          =   375
-         Left            =   11340
-         TabIndex        =   241
+         Left            =   10440
+         TabIndex        =   6
          Top             =   5100
          Width           =   855
          _ExtentX        =   1508
          _ExtentY        =   661
          BTYPE           =   3
-         TX              =   "Reabrir"
+         TX              =   "NFCe"
          ENAB            =   0   'False
          BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
             Name            =   "MS Sans Serif"
@@ -4327,86 +4403,10 @@ Begin VB.Form OS_Recapadora
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
-      Begin ChamaleonBtn.chameleonButton cmdEmitirNFSe 
-         Height          =   375
-         Left            =   12240
-         TabIndex        =   247
-         Top             =   5100
-         Width           =   855
-         _ExtentX        =   1508
-         _ExtentY        =   661
-         BTYPE           =   3
-         TX              =   "NFSe"
-         ENAB            =   0   'False
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   13160660
-         BCOLO           =   13160660
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":36854
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
-      Begin ChamaleonBtn.chameleonButton cmdEmitirNFCe 
-         Height          =   375
-         Left            =   13140
-         TabIndex        =   248
-         Top             =   5100
-         Width           =   855
-         _ExtentX        =   1508
-         _ExtentY        =   661
-         BTYPE           =   3
-         TX              =   "NFCe"
-         ENAB            =   0   'False
-         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-            Name            =   "MS Sans Serif"
-            Size            =   8.25
-            Charset         =   0
-            Weight          =   400
-            Underline       =   0   'False
-            Italic          =   0   'False
-            Strikethrough   =   0   'False
-         EndProperty
-         COLTYPE         =   1
-         FOCUSR          =   -1  'True
-         BCOL            =   13160660
-         BCOLO           =   13160660
-         FCOL            =   0
-         FCOLO           =   0
-         MCOL            =   12632256
-         MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":36870
-         UMCOL           =   -1  'True
-         SOFT            =   0   'False
-         PICPOS          =   0
-         NGREY           =   0   'False
-         FX              =   0
-         HAND            =   0   'False
-         CHECK           =   0   'False
-         VALUE           =   0   'False
-      End
       Begin ChamaleonBtn.chameleonButton cmdEmitirNFe 
          Height          =   375
-         Left            =   14040
-         TabIndex        =   249
+         Left            =   11340
+         TabIndex        =   8
          Top             =   5100
          Width           =   855
          _ExtentX        =   1508
@@ -4431,7 +4431,7 @@ Begin VB.Form OS_Recapadora
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
-         MICON           =   "OS_Recapadora.frx":3688C
+         MICON           =   "OS_Recapadora.frx":36854
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -4654,6 +4654,7 @@ Private vOutros1 As Boolean            'OUTROS marcado: 1a forma (cboFormaPgtoEn
 Private vOutros2 As Boolean
 Private vOutros3 As Boolean
 Private sPDFImpressoraEmail As String   'impressora PDF silenciosa do envio por e-mail (vazio = "Impressora PDF" com Salvar Como)
+Private bSemPrevia As Boolean   'True = nao abre a visualizacao do relatorio (envio por e-mail)
 Dim r_Itens As ADODB.Recordset
 Dim sSQL_Itens As String
 Dim vTabelaServicos As String
@@ -4987,7 +4988,7 @@ cboFabricante.Text = ""
 cboModelo.Text = ""
 txtAno.Text = ""
 txtPlaca.Text = ""
-txtKm.Text = ""
+txtKM.Text = ""
 txtChassi.Text = ""
 cboCor.Text = ""
 cboTanque.Text = ""
@@ -5019,7 +5020,7 @@ cboFabricante.Visible = True
 cboModelo.Visible = True
 txtAno.Visible = True
 txtPlaca.Visible = True
-txtKm.Visible = True
+txtKM.Visible = True
 txtChassi.Visible = True
 cboCor.Visible = True
 cboTanque.Visible = True
@@ -5028,7 +5029,7 @@ cboFabricante.Left = 60
 cboModelo.Left = 1962
 txtAno.Left = 3564
 txtPlaca.Left = 4386
-txtKm.Left = 5328
+txtKM.Left = 5328
 txtChassi.Left = 6150
 cboCor.Left = 7932
 cboTanque.Left = 9180
@@ -5064,7 +5065,7 @@ cboFabricante.Visible = True
 cboModelo.Visible = True
 txtAno.Visible = False
 txtPlaca.Visible = False
-txtKm.Visible = False
+txtKM.Visible = False
 txtChassi.Visible = False
 cboCor.Visible = False
 cboTanque.Visible = True
@@ -5398,7 +5399,7 @@ txtValorRest.Text = Format(Valor - Entrada - TERCEIRA, "##,##0.00")
 End Sub
 
 Private Sub LimparObjetos_Avista()
-   txtSubTotal.Text = "0,00"
+   txtSubtotal.Text = "0,00"
    optDescPorc.Value = True
    'optAVdinheiro.Value = True
    'optDebito.Value = True
@@ -5511,7 +5512,7 @@ Dim s As String
 
 s = txtCodCliente.Text & "|" & txtCodFuncionario.Text & "|" & cboTipoOS.Text & "|" & txtObs.Text & "|"
 s = s & SemMascara(mskDataEntrada.Text) & "|" & SemMascara(mskHoraEntrada.Text) & "|" & SemMascara(mskDataSaida.Text) & "|" & SemMascara(mskHoraSaida.Text) & "|"
-s = s & cboFabricante.Text & "|" & cboModelo.Text & "|" & txtPlaca.Text & "|" & txtAno.Text & "|" & txtKm.Text & "|"
+s = s & cboFabricante.Text & "|" & cboModelo.Text & "|" & txtPlaca.Text & "|" & txtAno.Text & "|" & txtKM.Text & "|"
 s = s & txtChassi.Text & "|" & cboCor.Text & "|" & cboTanque.Text & "|" & txtPareceCliente.Text
 If cboStatus.Text = "TERMINADO" Then s = s & "|" & cboStatus.Text & "|" & txtCodMecanico.Text
 AssinaturaOS = s
@@ -5873,7 +5874,7 @@ If Not r.BOF Then
    cboModelo.Text = ValidateNull(r("MODELO"))
    txtPlaca.Text = ValidateNull(r("PLACA"))
    txtAno.Text = ValidateNull(r("ANO"))
-   txtKm.Text = ValidateNull(r("KM"))
+   txtKM.Text = ValidateNull(r("KM"))
    txtChassi.Text = ValidateNull(r("CHASSI"))
    cboCor.Text = ValidateNull(r("COR"))
    cboTanque.Text = ValidateNull(r("TANQUE"))
@@ -6030,11 +6031,11 @@ If rEquipGar.State <> 0 Then rEquipGar.Close
 
 REL_OS_Garantia.ReportMain1.NumeroRegistros = REL_OS_Garantia.ContagemParagrafos
 REL_OS_Garantia.ReportMain1.NomeImpressora = var_ImpNormal
-REL_OS_Garantia.ReportMain1.Visualizar = (sPDFImpressoraEmail = "")
+REL_OS_Garantia.ReportMain1.Visualizar = Not bSemPrevia
 REL_OS_Garantia.ReportMain1.Ativar
 Unload REL_OS_Garantia
 
-Me.Show 1
+If bSemPrevia Then Me.Show Else Me.Show 1
 End Sub
 
 Private Sub Grid_Servicos_DblClick()
@@ -6782,7 +6783,7 @@ With frmBuscarPlaca
       cboModelo.Text = .sModeloSel
       txtAno.Text = .sAnoSel
       txtPlaca.Text = .sPlacaSel
-      txtKm.Text = .sKmSel
+      txtKM.Text = .sKmSel
       cboCor.Text = .sCorSel
       txtChassi.Text = .sChassiSel
    End If
@@ -7906,7 +7907,7 @@ ElseIf vTipoDesc = "2" Then
     End If
 ElseIf vTipoDesc = "3" Then
     Dim vSubtotal As Currency
-    vSubtotal = txtSubTotal.Text
+    vSubtotal = txtSubtotal.Text
 
 If vSubtotal <= vMargemDescGradual1 Then
     vEtapa = 1
@@ -8185,7 +8186,7 @@ Private Sub VerificarOleoVencido(ByVal bPorKM As Boolean)
     If txtCodOS.Text = "" Or txtCodPedido.Text = "" Then Exit Sub
 
     If bPorKM Then
-        If Trim(txtKm.Text) = "" Or Not IsNumeric(txtKm.Text) Then Exit Sub
+        If Trim(txtKM.Text) = "" Or Not IsNumeric(txtKM.Text) Then Exit Sub
     Else
         If Not IsDate(mskDataEntrada.Text) Then Exit Sub
     End If
@@ -8230,7 +8231,7 @@ Private Sub VerificarOleoVencido(ByVal bPorKM As Boolean)
                     If Val(ValidateNull(rProd("LIMITE_KM"))) > 0 Then
                         lUltimoKm = Val(ValidateNull(rUlt("km")))
                         lKmProxima = lUltimoKm + Val(rProd("LIMITE_KM"))
-                        If lKmProxima <= Val(txtKm.Text) Then bVencido = True
+                        If lKmProxima <= Val(txtKM.Text) Then bVencido = True
                     End If
                 Else
                     If Val(ValidateNull(rProd("LIMITE_PRAZO"))) > 0 Then
@@ -8572,9 +8573,9 @@ End If
 dbData.Execute "UPDATE pedidos SET cod_cliente = " & txtCodCliente.Text & " WHERE (cod_pedido = " & txtCodPedido.Text & ");"
 
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
-    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKm.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
+    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Recapadora" Then
-    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKm.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
+    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "', CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
@@ -8788,7 +8789,7 @@ SSTab1.Tab = 1  'forca troca real de aba - evita frmVendaFechamento fantasma
 SSTab1.Tab = 0
 cmdFinalizarAV.Enabled = True
 cmdFinalizarAP.Enabled = True
-txtTotalPecasServicos.Text = Format(txtSubTotal.Text, ocMONEY)
+txtTotalPecasServicos.Text = Format(txtSubtotal.Text, ocMONEY)
 End Sub
 
 Private Sub cmdCancelarParecer_Click()
@@ -9091,7 +9092,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -9105,7 +9106,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -9123,7 +9124,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -9131,7 +9132,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -9144,7 +9145,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -9158,7 +9159,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -9245,7 +9246,7 @@ Else
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -9259,7 +9260,7 @@ Else
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -9277,7 +9278,7 @@ Else
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -9285,7 +9286,7 @@ Else
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -9298,7 +9299,7 @@ Else
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -9312,7 +9313,7 @@ Else
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -9780,7 +9781,7 @@ ElseIf optDescPorc.Value = True Then
     If txtDesc.Text = "0,00" Then
         varValorRealDesc = Format(0, ocPESO)
     Else
-        varValorRealDesc = Format(((txtSubTotal.Text * txtDesc.Text) / 100), ocPESO)
+        varValorRealDesc = Format(((txtSubtotal.Text * txtDesc.Text) / 100), ocPESO)
     End If
 End If
 
@@ -9795,7 +9796,7 @@ ElseIf optAscrescPorc.Value = True Then
     If txtAcresc.Text = "0,00" Then
         varValorRealAcresc = Format(0, ocMONEY)
     Else
-        varValorRealAcresc = Format(((CCur(txtSubTotal.Text) * CCur(txtAcresc.Text)) / 100), ocMONEY)
+        varValorRealAcresc = Format(((CCur(txtSubtotal.Text) * CCur(txtAcresc.Text)) / 100), ocMONEY)
     End If
 End If
 
@@ -9877,7 +9878,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
         dbData.Execute "BEGIN TRANSACTION"
         bTrans = True
         'ATUALIZAR A TABELA OS
-        dbData.Execute "UPDATE os SET status_os = 1, DATA_TERMINO = CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), HORA_TERMINO = '" & Format(Now, ocHORA) & "', tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = " & Replace(CCur(txtEntrada.Text), ",", ".") & " WHERE (cod_os = " & vCodOS & ");"
+        dbData.Execute "UPDATE os SET status_os = 1, DATA_TERMINO = CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), HORA_TERMINO = '" & Format(Now, ocHORA) & "', tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = " & Replace(CCur(txtEntrada.Text), ",", ".") & " WHERE (cod_os = " & vCodOS & ");"
 
            
            'ATUALIZANDO A TABELA PEDIDOS
@@ -9893,7 +9894,7 @@ If cboTipoPgto.Text = "À PRAZO" Then
                  "TIPO_ACRESCIMO = '" & IIf(optAscrescRS.Value = True, "R", "P") & "', " & _
                  "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
                  "entrada = " & Replace(CCur(txtEntrada.Text), ",", ".") & ", " & _
-                 "subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", " & _
+                 "subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", " & _
                  "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
                  "tipo_pagamento = 'À Prazo', pagamento = '" & var_PAGAMENTO & "', tipo_cartao = " & varTipoCartao & ", " & _
                  "cod_funcionario = " & txtCodFuncAP.Text & ", " & _
@@ -10076,7 +10077,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
             dbData.Execute "BEGIN TRANSACTION"
             bTrans = True
             'ATUALIZAR A TABELA OS
-            dbData.Execute "UPDATE os SET status_os = 1, DATA_TERMINO = CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), HORA_TERMINO = '" & Format(Now, ocHORA) & "', tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = 0 WHERE (cod_os = " & vCodOS & ");"
+            dbData.Execute "UPDATE os SET status_os = 1, DATA_TERMINO = CONVERT(DATETIME, '" & Format(Date, ocDATA) & "', 103), HORA_TERMINO = '" & Format(Now, ocHORA) & "', tipo_desc = '" & IIf(optDescRS.Value = True, "R", "P") & "', valor_desc = " & Replace(CCur(txtDesc.Text), ",", ".") & ", subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', ValorDescReal = " & Replace(CCur(varValorRealDesc), ",", ".") & ", entrada = 0 WHERE (cod_os = " & vCodOS & ");"
 
           
            'ATUALIZANDO A TABELA PEDIDOS
@@ -10092,7 +10093,7 @@ ElseIf cboTipoPgto.Text = "À VISTA" Then
               "TIPO_ACRESCIMO = '" & IIf(optAscrescRS.Value = True, "R", "P") & "', " & _
               "VALOR_ACRESCIMO = " & Replace(CCur(txtAcresc.Text), ",", ".") & ", " & _
               "entrada = 0, " & _
-              "subtotal = " & Replace(CCur(txtSubTotal.Text), ",", ".") & ", " & _
+              "subtotal = " & Replace(CCur(txtSubtotal.Text), ",", ".") & ", " & _
               "total = " & Replace(CCur(txtTotalDesc.Text), ",", ".") & ", " & _
               "tipo_pagamento = 'À Vista', pagamento = '" & varDivisaoPgto & "', tipo_cartao = " & varTipoCartao & ", " & _
               "cod_funcionario = " & txtCodFuncAP.Text & ",  " & _
@@ -10388,7 +10389,7 @@ vFormaRapida2Ant = False
 vOutros1 = False: vOutros2 = False: vOutros3 = False
 If vCodFunc <> 0 Then txtCodFuncAP.Text = vCodFunc   'funcionario do pagamento = usuario logado (pode trocar)
 LimparObjetos_Prazo
-txtSubTotal.Text = txtSubtotalGeral.Text
+txtSubtotal.Text = txtSubtotalGeral.Text
 optDescRS.Value = True
 txtDesc.Text = txtDescGeral.Text
 txtAcresc.Text = FormatNumber(0, 2)
@@ -10552,7 +10553,7 @@ vFormaRapida2Ant = False
 vOutros1 = False: vOutros2 = False: vOutros3 = False
 If vCodFunc <> 0 Then txtCodFuncAP.Text = vCodFunc   'funcionario do pagamento = usuario logado (pode trocar)
 LimparObjetos_Prazo
-txtSubTotal.Text = txtSubtotalGeral.Text
+txtSubtotal.Text = txtSubtotalGeral.Text
 txtAcresc.Text = FormatNumber(0, 2)
 
 'If lblEstornar.Caption = "ESTORNO" Then
@@ -10852,9 +10853,9 @@ dbData.Execute "UPDATE pedidos SET cod_cliente = " & txtCodCliente.Text & ", cod
 
 'Equipamento
 If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
-    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKm.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
+    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Recapadora" Then
-    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKm.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
+    dbData.Execute "UPDATE OS_Equipamento_Auto SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', placa = '" & txtPlaca.Text & "', ano = '" & txtAno.Text & "', km = '" & txtKM.Text & "',  CHASSI = '" & txtChassi.Text & "', COR = '" & cboCor.Text & "', TANQUE = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
     dbData.Execute "UPDATE OS_Equipamento SET fabricante = '" & cboFabricante.Text & "', modelo = '" & cboModelo.Text & "', equipamento = '" & cboTanque.Text & "', PARECER_CLIENTE = '" & txtPareceCliente.Text & "' WHERE (cod_os = " & txtCodOS.Text & ");"
 ElseIf vTipoOS = "Comunicação Visual" Then
@@ -11040,7 +11041,9 @@ End If
 
 Screen.MousePointer = vbHourglass
 sPDFImpressoraEmail = sImp
+bSemPrevia = True
 ImprimirDocumentoPDF nTipo
+bSemPrevia = False
 sPDFImpressoraEmail = ""
 varImpPDF = False
 bPronto = PDFEmail_Aguardar(sArq, 40)
@@ -11239,7 +11242,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -11253,7 +11256,7 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = IIf(IsNull(rEquip!CHASSI) = True, "", rEquip!CHASSI)
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -11271,7 +11274,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -11279,7 +11282,7 @@ Me.Hide
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -11292,7 +11295,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -11306,7 +11309,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -11317,7 +11320,7 @@ Me.Hide
             REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
-        REL_OS_Completo.ReportMain1.Visualizar = True
+        REL_OS_Completo.ReportMain1.Visualizar = Not bSemPrevia
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 'Else
@@ -11501,7 +11504,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -11515,7 +11518,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -11533,7 +11536,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -11541,7 +11544,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -11554,7 +11557,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -11568,7 +11571,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -11660,7 +11663,7 @@ Else
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -11674,7 +11677,7 @@ Else
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -11692,7 +11695,7 @@ Else
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -11700,7 +11703,7 @@ Else
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -11713,7 +11716,7 @@ Else
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -11727,7 +11730,7 @@ Else
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -11738,7 +11741,7 @@ Else
             REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
-        REL_OS_Completo.ReportMain1.Visualizar = True
+        REL_OS_Completo.ReportMain1.Visualizar = Not bSemPrevia
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 
@@ -12091,7 +12094,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -12105,7 +12108,7 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = IIf(IsNull(rEquip!CHASSI) = True, "", rEquip!CHASSI)
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -12123,7 +12126,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -12131,7 +12134,7 @@ Me.Hide
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -12144,7 +12147,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -12158,7 +12161,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -12169,7 +12172,7 @@ Me.Hide
             REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
-        REL_OS_Completo.ReportMain1.Visualizar = False
+        REL_OS_Completo.ReportMain1.Visualizar = Not bSemPrevia
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 'Else
@@ -12357,7 +12360,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -12371,7 +12374,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -12389,7 +12392,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -12397,7 +12400,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -12410,7 +12413,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -12424,7 +12427,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -12435,7 +12438,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
             REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
-        REL_OS_Completo.ReportMain1.Visualizar = False
+        REL_OS_Completo.ReportMain1.Visualizar = Not bSemPrevia
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 
@@ -12511,7 +12514,7 @@ Else
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -12525,7 +12528,7 @@ Else
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -12543,7 +12546,7 @@ Else
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -12551,7 +12554,7 @@ Else
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -12564,7 +12567,7 @@ Else
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -12578,7 +12581,7 @@ Else
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -12589,7 +12592,7 @@ Else
             REL_OS_Completo.ReportField24.Caption = ""
         End If
         REL_OS_Completo.ReportMain1.NomeImpressora = var_ImpNormal
-        REL_OS_Completo.ReportMain1.Visualizar = False
+        REL_OS_Completo.ReportMain1.Visualizar = Not bSemPrevia
         REL_OS_Completo.ReportMain1.Ativar
         Unload REL_OS_Completo
 
@@ -13779,7 +13782,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
         .txtCor.Caption = " " & UCase(cboCor.Text)
         .txtPlaca1.Caption = " " & UCase(txtPlaca.Text)
         .txtChassi.Caption = " " & UCase(txtChassi.Text)
-        .txtKm.Caption = " " & UCase(txtKm.Text)
+        .txtKM.Caption = " " & UCase(txtKM.Text)
         .txtTanque.Caption = " " & UCase(cboTanque.Text)
         .txtDescricao.Caption = " " & UCase(txtPareceCliente.Text)
         '.txtEquipamento.Caption = " " & UCase(cboFabricante.Text) & " - " & UCase(cboModelo.Text) & " - " & UCase(txtAno.Text) & " - " & UCase(txtPlaca.Text)
@@ -13787,6 +13790,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Automoveis
@@ -13802,7 +13806,7 @@ ElseIf vTipoOS = "Recapadora" Then
         .txtAno.Caption = " " & UCase(txtAno.Text)
         .txtCor.Caption = " " & UCase(cboCor.Text)
         .txtPlaca1.Caption = " " & UCase(txtPlaca.Text)
-        .txtKm.Caption = " " & UCase(txtKm.Text)
+        .txtKM.Caption = " " & UCase(txtKM.Text)
         .txtTanque.Caption = " " & UCase(cboTanque.Text)
         .txtDescricao.Caption = " " & UCase(txtPareceCliente.Text)
         '.txtEquipamento.Caption = " " & UCase(cboFabricante.Text) & " - " & UCase(cboModelo.Text) & " - " & UCase(txtAno.Text) & " - " & UCase(txtPlaca.Text)
@@ -13810,6 +13814,7 @@ ElseIf vTipoOS = "Recapadora" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Automoveis
@@ -13834,6 +13839,7 @@ ElseIf vTipoOS = "Informática" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Informatica
@@ -13858,6 +13864,7 @@ ElseIf vTipoOS = "Celular" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Celular
@@ -13877,6 +13884,7 @@ ElseIf vTipoOS = "Climatização" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Informatica
@@ -13901,11 +13909,12 @@ ElseIf vTipoOS = "Comunicação Visual" Then
         .Preencher_Situacao txtCodOS.Text
         .Relatorio.NumeroRegistros = 1
         .Relatorio.NomeImpressora = var_ImpNormal
+        .Relatorio.Visualizar = Not bSemPrevia
         .Relatorio.Ativar
     End With
     Unload REL_OS_Entrada_Informatica
 End If
-Me.Show 1
+If bSemPrevia Then Me.Show Else Me.Show 1
 End Sub
 
 Private Sub menu_Impressao_Garantia_Click()
@@ -14093,7 +14102,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = True
             REL_OS_Completo.txtPlaca.Visible = True
             REL_OS_Completo.txtCor.Visible = True
-            REL_OS_Completo.txtKm.Visible = True
+            REL_OS_Completo.txtKM.Visible = True
             REL_OS_Completo.txtChassi.Visible = True
             REL_OS_Completo.ReportField12.Visible = True
             REL_OS_Completo.ReportField14.Visible = True
@@ -14107,7 +14116,7 @@ Me.Hide
             REL_OS_Completo.txtPlaca.Caption = IIf(IsNull(rEquip!Placa) = True, "", rEquip!Placa)
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!ANO) = True, "", rEquip!ANO)
             REL_OS_Completo.txtCor.Caption = IIf(IsNull(rEquip!Cor) = True, "", rEquip!Cor)
-            REL_OS_Completo.txtKm.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
+            REL_OS_Completo.txtKM.Caption = IIf(IsNull(rEquip!KM) = True, "", rEquip!KM)
             REL_OS_Completo.txtChassi.Caption = ""
         ElseIf vTipoOS = "Informática" Or vTipoOS = "Celular" Or vTipoOS = "Climatização" Then
             REL_OS_Completo.frTitParc.Caption = "EQUIPAMENTO:"
@@ -14125,7 +14134,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = IIf(IsNull(rEquip!Modelo) = True, "", rEquip!Modelo)
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField16.Visible = False
             REL_OS_Completo.ReportField17.Visible = False
@@ -14133,7 +14142,7 @@ Me.Hide
             REL_OS_Completo.ReportField24.Visible = False
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField16.Caption = ""
             REL_OS_Completo.ReportField17.Caption = ""
@@ -14146,7 +14155,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Visible = False
             REL_OS_Completo.txtPlaca.Visible = False
             REL_OS_Completo.txtCor.Visible = False
-            REL_OS_Completo.txtKm.Visible = False
+            REL_OS_Completo.txtKM.Visible = False
             REL_OS_Completo.txtChassi.Visible = False
             REL_OS_Completo.ReportField12.Visible = False
             REL_OS_Completo.ReportField14.Visible = False
@@ -14160,7 +14169,7 @@ Me.Hide
             REL_OS_Completo.txtAno.Caption = ""
             REL_OS_Completo.txtPlaca.Caption = ""
             REL_OS_Completo.txtCor.Caption = ""
-            REL_OS_Completo.txtKm.Caption = ""
+            REL_OS_Completo.txtKM.Caption = ""
             REL_OS_Completo.txtChassi.Caption = ""
             REL_OS_Completo.ReportField12.Caption = ""
             REL_OS_Completo.ReportField14.Caption = ""
@@ -14400,7 +14409,7 @@ End Sub
 Private Sub txtAcresc_Change()
    'On Error GoTo Erro
    
-   If txtAcresc.Text = "" Or txtSubTotal.Text = "" Then
+   If txtAcresc.Text = "" Or txtSubtotal.Text = "" Then
       txtAcresc.Text = FormatNumber(0, 2)
       SelectControl txtAcresc
       Exit Sub
@@ -14436,7 +14445,7 @@ Dim ValueTotal As Double
 Dim ValueDiscount As Double
 Dim Percent As Double
 
-ValueTotal = txtSubTotal.Text
+ValueTotal = txtSubtotal.Text
 
 If txtAcrescDinheiro.Text = "" Then
     ValueDiscount = 0
@@ -14469,7 +14478,7 @@ End Sub
 Private Sub txtAcresc_LostFocus()
 On Error GoTo erro
    
-If txtAcresc.Text = "" Or txtSubTotal.Text = "" Then
+If txtAcresc.Text = "" Or txtSubtotal.Text = "" Then
    txtAcresc.Text = FormatNumber(0, 2)
    SelectControl txtAcresc
    Exit Sub
@@ -14701,7 +14710,7 @@ End Sub
 Private Sub txtDesc_Change()
 On Error GoTo erro
    
-If txtDesc.Text = "" Or txtSubTotal.Text = "" Then
+If txtDesc.Text = "" Or txtSubtotal.Text = "" Then
    txtDesc.Text = FormatNumber(0, 2)
    SelectControl txtDesc
    Exit Sub
@@ -14738,7 +14747,7 @@ Dim ValueTotal As Double
 Dim ValueDiscount As Double
 Dim Percent As Double
 
-ValueTotal = txtSubTotal.Text
+ValueTotal = txtSubtotal.Text
 
 If txtDescDinheiro.Text = "" Then
     ValueDiscount = 0
@@ -14770,7 +14779,7 @@ Private Sub txtDesc_LostFocus()
 'On Error GoTo erro
 Dim vDesc As Double
    
-If txtDesc.Text = "" Or txtSubTotal.Text = "" Then
+If txtDesc.Text = "" Or txtSubtotal.Text = "" Then
     txtDesc.Text = FormatNumber(0, 2)
     vDesc = 0
 Else
@@ -15144,26 +15153,26 @@ End Sub
 
 
 Private Sub Calcular_DescontoAP()
-   If txtSubTotal.Text = "" Or txtSubTotal.Text = "0,00" Then Exit Sub
+   If txtSubtotal.Text = "" Or txtSubtotal.Text = "0,00" Then Exit Sub
    If txtDesc.Text = "" Then txtDesc.Text = FormatNumber(0, 2)
    If txtAcresc.Text = "" Then txtAcresc.Text = FormatNumber(0, 2)
    
    If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then
       If optDescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) - CCur(txtDesc.Text), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - CCur(txtDesc.Text), 2)
       ElseIf optDescPorc.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) - ((CCur(txtSubTotal.Text) * CCur(txtDesc.Text)) / 100), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) - ((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2)
       End If
       
    ElseIf txtAcresc.Text <> "0,00" And txtDesc.Text = "0,00" Then
       If optAscrescRS.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) + CCur(txtAcresc.Text), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + CCur(txtAcresc.Text), 2)
       ElseIf optAscrescPorc.Value = True Then
-         txtTotalDesc.Text = FormatNumber(CCur(txtSubTotal.Text) + ((CCur(txtSubTotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
+         txtTotalDesc.Text = FormatNumber(CCur(txtSubtotal.Text) + ((CCur(txtSubtotal.Text) * CCur(txtAcresc.Text)) / 100), 2)
       End If
       
    Else
-      txtTotalDesc.Text = FormatNumber(txtSubTotal.Text, 2)
+      txtTotalDesc.Text = FormatNumber(txtSubtotal.Text, 2)
       'optDescRS.Value = True
       'optAscrescRS.Value = True
    End If
@@ -15219,7 +15228,7 @@ End Sub
 
 Private Sub Calcular_Desconto()
 'CALCULAR O VALOR DAS PARCELAS
-If txtSubTotal.Text = "" Or txtSubTotal.Text = "0,00" Then Exit Sub
+If txtSubtotal.Text = "" Or txtSubtotal.Text = "0,00" Then Exit Sub
 If txtDesc.Text = "" Then txtDesc.Text = FormatNumber(0, 2)
 If txtAcresc.Text = "" Then txtAcresc.Text = FormatNumber(0, 2)
 
@@ -15228,28 +15237,28 @@ Dim varValorSubTotalCredito As Currency
 Dim varSubTotalBruto As Currency
 Dim varSubTotalLiquido As Currency
 
-varSubTotalBruto = txtSubTotal.Text
+varSubTotalBruto = txtSubtotal.Text
 
     
    If txtDesc.Text <> "0,00" And txtAcresc.Text = "0,00" Then     'com desconto sem acrescimo
       
       If optDescRS.Value = True Then
-         txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) - CCur(txtDesc.Text), ocMONEY)
+         txtTotalDesc.Text = Format(CCur(txtSubtotal.Text) - CCur(txtDesc.Text), ocMONEY)
       ElseIf optDescPorc.Value = True Then
          'txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) - ((CCur(txtSubTotal.Text) * CDbl(txtDesc.Text)) / 100), ocMONEY)
-         txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) - Round(((CCur(txtSubTotal.Text) * CCur(txtDesc.Text)) / 100), 2), ocMONEY)
+         txtTotalDesc.Text = Format(CCur(txtSubtotal.Text) - Round(((CCur(txtSubtotal.Text) * CCur(txtDesc.Text)) / 100), 2), ocMONEY)
       End If
      
    
    ElseIf txtAcresc.Text <> "0,00" And txtDesc.Text = "0,00" Then    'sem desconto com acrescim0
       If optAscrescRS.Value = True Then
-         txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) + CCur(txtAcresc.Text), ocMONEY)
+         txtTotalDesc.Text = Format(CCur(txtSubtotal.Text) + CCur(txtAcresc.Text), ocMONEY)
       ElseIf optAscrescPorc.Value = True Then
-         txtTotalDesc.Text = Format(CCur(txtSubTotal.Text) + ((CCur(txtSubTotal.Text) * CDbl(txtAcresc.Text)) / 100), ocMONEY)
+         txtTotalDesc.Text = Format(CCur(txtSubtotal.Text) + ((CCur(txtSubtotal.Text) * CDbl(txtAcresc.Text)) / 100), ocMONEY)
       End If
       
    Else
-      txtTotalDesc.Text = Format(txtSubTotal.Text, ocMONEY)
+      txtTotalDesc.Text = Format(txtSubtotal.Text, ocMONEY)
    End If
 'End If
    
@@ -15267,13 +15276,13 @@ Private Sub MostrarDescItem()
 Dim varValorDescProc As Double
 
 If txtTotalDesc.Text = "" Then Exit Sub
-If txtSubTotal.Text = "" Then Exit Sub
+If txtSubtotal.Text = "" Then Exit Sub
 
 Dim A As Currency
 Dim b As Currency
 
 b = txtTotalDesc.Text
-A = txtSubTotal.Text
+A = txtSubtotal.Text
 
 varValorDescProc = ((b - A) / A) * 100
 txtDescItens.Text = Abs(FormatNumber(varValorDescProc, 6))
@@ -15281,11 +15290,11 @@ End Sub
 
 
 Private Sub txtSubTotal_GotFocus()
-   SelectControl txtSubTotal
+   SelectControl txtSubtotal
 End Sub
 
 Private Sub txtSubTotal_LostFocus()
-txtSubTotal.Text = Format(txtSubTotal, ocMONEY)
+txtSubtotal.Text = Format(txtSubtotal, ocMONEY)
 End Sub
 
 Function ChecarLimite() As Boolean
