@@ -8282,8 +8282,6 @@ If Not NFSe_TemADN() Then
    Exit Sub
 End If
 frmNFSe_ADN.Show vbModal
-'a busca no ADN pode ter cancelado notas do sistema (cancelamento no portal / analise fiscal deferida)
-Pesquisar
 End Sub
 
 Private Sub txtPlaca_LostFocus()
