@@ -1286,6 +1286,7 @@ End Sub
 Private Sub TransmitirId(ByVal lId As Long)
 Dim oRes As Object
 Dim sStatus As String
+If Not NFSe_ConfirmarSemTomador(lId) Then Exit Sub
 sStatus = NFSe_Executar("acao=transmitir" & vbCrLf & "id=" & lId, oRes)
 If Left$(sStatus, 2) <> "OK" Then
    MsgBox "Não foi possível transmitir:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"

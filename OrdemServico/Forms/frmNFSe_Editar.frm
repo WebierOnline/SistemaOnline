@@ -354,6 +354,8 @@ Private mTem182 As Boolean        'script 182: IndOp, ClassTrib e PrestacaoNoCli
 Private mIbsCbs As Boolean        'grupo IBS/CBS ligado no Configurar
 Private mMunEmpresa As Long
 Private mMunCliente As Long
+Private mSemTomador As String     'NFSe_SemTomador: "" / "PF" / "PJ" (aviso em vermelho; a confirmação é no TransmitirId)
+Private mMei As Boolean          'empresa MEI (CRT 4): ISS fixo no DAS, nunca retido
 
 'Mostra a nota e devolve True quando o usuário escolheu "Salvar e Transmitir"
 Public Function Editar(ByVal lId As Long) As Boolean
@@ -390,9 +392,10 @@ NFSeTab_LarguraLista cboNBS, 760
 NFSeTab_LarguraLista cboIndOp, 820
 NFSeTab_LarguraLista cboClassTrib, 760
 
-Set r = dbData.OpenRecordset("SELECT CodigoIBGE, NFSeIBSCBS, NFSeIndOp, NFSeClassTrib FROM empresa;")
+Set r = dbData.OpenRecordset("SELECT CodigoIBGE, CRT, NFSeIBSCBS, NFSeIndOp, NFSeClassTrib FROM empresa;")
 If Not r.EOF Then
    mMunEmpresa = Val(ValidateNull(r("CodigoIBGE")))
+   mMei = (Val(ValidateNull(r("CRT"))) = 4)
    mIbsCbs = CBool(ValidateNull(r("NFSeIBSCBS")))
    sIndOpEmp = SoDigitos(ValidateNull(r("NFSeIndOp")))
    sClassEmp = SoDigitos(ValidateNull(r("NFSeClassTrib")))
@@ -420,6 +423,9 @@ ElseIf Len(sDoc) = 11 Then
 Else
    sDoc = "SEM CPF/CNPJ (a nota sai sem tomador identificado)"
 End If
+mSemTomador = NFSe_SemTomador(mIdNFSe)
+If mSemTomador = "PJ" Then sDoc = "EMPRESA SEM CNPJ NO CADASTRO (a nota sai sem tomador)"
+lblTomador.ForeColor = IIf(mSemTomador = "", vbButtonText, &HC0&)
 lblTomador.Caption = "Tomador: " & ValidateNull(r("TomadorNome")) & "  -  " & sDoc
 sEnd = Trim$(ValidateNull(r("TomadorLogradouro")))
 If sEnd <> "" Then sEnd = sEnd & ", " & ValidateNull(r("TomadorNumero")) & " - " & ValidateNull(r("TomadorBairro")) & " - IBGE " & ValidateNull(r("TomadorCodMunicipio")) & " - CEP " & ValidateNull(r("TomadorCEP"))
@@ -452,12 +458,24 @@ txtDescricao.Text = ValidateNull(r("Descricao"))
 txtInfo.Text = ValidateNull(r("InfoComplementar"))
 txtPedido.Text = ValidateNull(r("NumeroPedido"))
 chkRetido.Value = IIf(Val(ValidateNull(r("RetencaoISS"))) = 2, vbChecked, vbUnchecked)
+If mMei Then
+   chkRetido.Value = vbUnchecked
+   chkRetido.Enabled = False
+   chkRetido.Caption = "MEI: o ISS é recolhido no DAS e nunca é retido pelo tomador"
+End If
 txtAliquota.Text = IIf(IsNull(r("AliquotaISS")), "", Format$(ValidateNull(r("AliquotaISS")), "0.00"))
 lblValores.Caption = "Serviços: R$ " & Format$(ValidateNull(r("ValorServicos")), ocMONEY) & _
                      "     Desconto: R$ " & Format$(ValidateNull(r("DescontoIncondicionado")), ocMONEY) & _
                      "     Líquido: R$ " & Format$(CDbl(ValidateNull(r("ValorServicos"))) - CDbl(ValidateNull(r("DescontoIncondicionado"))), ocMONEY) & vbCrLf & _
                      "(valores vindos das OS; para mudar, ajuste a OS, exclua este rascunho e gere de novo)"
 lblMensagem.Caption = IIf(Val(ValidateNull(r("Situacao"))) = NFSE_REJEITADA, "Rejeição: " & ValidateNull(r("Mensagem")), "")
+If lblMensagem.Caption = "" Then
+   If mSemTomador = "PJ" Then
+      lblMensagem.Caption = "Cliente EMPRESA sem CNPJ: corrija o cadastro, exclua este rascunho e gere a nota de novo."
+   ElseIf mSemTomador = "PF" Then
+      lblMensagem.Caption = "Sem CPF: só vale para pessoa física que não pediu o CPF na nota."
+   End If
+End If
 r.Close
 Set r = Nothing
 

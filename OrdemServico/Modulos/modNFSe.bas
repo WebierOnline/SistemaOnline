@@ -103,6 +103,43 @@ Public Function NFSe_TemADN() As Boolean
 NFSe_TemADN = (Val(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.NFSeADN', 'U') IS NULL THEN 0 ELSE 1 END AS ok", "ok", "0")) = 1)
 End Function
 
+'Nota sem tomador identificado (cliente sem CPF/CNPJ válido no cadastro quando a nota foi gerada):
+'"" = tem CPF/CNPJ; "PJ" = sem documento e o cliente é pessoa JURÍDICA; "PF" = sem documento (pessoa física)
+Public Function NFSe_SemTomador(ByVal lId As Long) As String
+Dim r As ADODB.Recordset
+Dim sDoc As String, sTipo As String
+Set r = dbData.OpenRecordset("SELECT NFSe.TomadorCpfCnpj, cliente.Tipo FROM NFSe LEFT JOIN cliente ON (cliente.CODIGO = NFSe.CodCliente) " & _
+                             "WHERE (NFSe.IdNFSe = " & lId & ");")
+If Not r.EOF Then
+   sDoc = Trim$(ValidateNull(r("TomadorCpfCnpj")))
+   sTipo = UCase$(Trim$(ValidateNull(r("Tipo"))))
+   If Len(sDoc) <> 11 And Len(sDoc) <> 14 Then
+      If Left$(sTipo, 3) = "JUR" Then NFSe_SemTomador = "PJ" Else NFSe_SemTomador = "PF"
+   End If
+End If
+r.Close
+End Function
+
+'Antes de transmitir: nota sem tomador só para pessoa física que não pediu o CPF na nota.
+'Empresa (CNPJ) é obrigada a ser identificada: avisa forte e o padrão é NÃO transmitir.
+Public Function NFSe_ConfirmarSemTomador(ByVal lId As Long) As Boolean
+Select Case NFSe_SemTomador(lId)
+   Case ""
+      NFSe_ConfirmarSemTomador = True
+   Case "PJ"
+      NFSe_ConfirmarSemTomador = (MsgBox("ATENÇÃO: o cliente desta nota está cadastrado como EMPRESA (pessoa jurídica) e está SEM CNPJ." & vbCrLf & vbCrLf & _
+         "A NFS-e vai sair SEM TOMADOR IDENTIFICADO. Empresa é obrigada a ser identificada na nota (é com ela que a empresa " & _
+         "lança a despesa na contabilidade) e a nota autorizada não pode ser corrigida depois." & vbCrLf & vbCrLf & _
+         "O certo: corrija o CNPJ no cadastro do cliente, exclua este rascunho e gere a NFS-e de novo." & vbCrLf & vbCrLf & _
+         "Transmitir assim mesmo, sem o tomador?", vbExclamation + vbYesNo + vbDefaultButton2, "NFS-e") = vbYes)
+   Case Else
+      NFSe_ConfirmarSemTomador = (MsgBox("A NFS-e vai sair SEM TOMADOR IDENTIFICADO: o cliente está sem CPF no cadastro." & vbCrLf & vbCrLf & _
+         "Isso só vale para pessoa física que não pediu o CPF na nota. Se o cliente quer a nota no nome dele, " & _
+         "informe o CPF no cadastro, exclua este rascunho e gere a NFS-e de novo." & vbCrLf & vbCrLf & _
+         "Transmitir sem o tomador?", vbQuestion + vbYesNo + vbDefaultButton1, "NFS-e") = vbYes)
+End Select
+End Function
+
 Public Function NFSe_SituacaoTexto(ByVal nSituacao As Integer) As String
 Select Case nSituacao
    Case NFSE_DIGITACAO: NFSe_SituacaoTexto = "EM DIGITAÇÃO"
