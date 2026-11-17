@@ -11827,7 +11827,7 @@ End If
 AtualizarLabelConexaoInternet   'estado inicial do lblConexaoInternet, sem esperar o primeiro tick do TimerInternet
 
 AplicarAliquotasReforma   'aplica as aliquotas CBS/IBS vigentes hoje (virada de vigencia, mesmo sem emitir nota)
-If TemConexaoInternet() Then AtualizarAliquotasDaNuvem   'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso)
+'as aliquotas CBS/IBS da nuvem sao baixadas so pelo Online Commerce do servidor (ficam no banco); o PDV so aplica as vigentes
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
@@ -12011,6 +12011,14 @@ End Sub
 
 Private Sub TimerInternet_Timer()
 Dim vTinhaInternet As Boolean
+
+'primeiro tick (abertura do PDV, inclusive durante o Form_Load): so registra o estado da internet. NFC-e pendente
+'nao e reenviada no login - so quando a internet cai e volta com o PDV aberto.
+If StatusBar1.Panels(7).Text <> "CONECTADO" And StatusBar1.Panels(7).Text <> "DESCONECTADO" Then
+    AtualizarLabelConexaoInternet
+    Exit Sub
+End If
+
 vTinhaInternet = (StatusBar1.Panels(7).Text = "CONECTADO")
 
 AtualizarLabelConexaoInternet

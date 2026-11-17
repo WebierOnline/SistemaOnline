@@ -1420,6 +1420,13 @@ End Sub
 '(empresa.AliquotasReformaChecagem) e so aplica se a VERSAO for maior que empresa.AliquotasReformaVersao.
 'Regras mais especificas (UF, municipio) sao aplicadas depois das gerais (TODOS) e, no mesmo inicio, as substituem.
 'Retorna "" quando nao ha nada a informar; senao um texto com o resultado (usado pelo menu manual).
+'Marca a checagem do dia mesmo quando a nuvem falha (sem arquivo, arquivo invalido, erro): uma tentativa por dia
+'para a loja toda (a data fica no banco). O botao de atualizar manualmente (bForcar) continua tentando quando quiser.
+Private Sub AliqNuvem_ChecagemFeita(ByVal sHoje As String)
+On Error Resume Next
+vgDb.Execute "UPDATE Empresa SET AliquotasReformaChecagem='" & sHoje & "'"
+End Sub
+
 Private Sub AliqNuvem_Log(ByVal sMsg As String)
 Dim nLog As Integer
 
@@ -1525,6 +1532,7 @@ mensagemErro = ""
 sArq = Trim$(AliqNuvem_Baixar(sPasta))
 If sArq = "" Then
    AliqNuvem_Log "Nao foi possivel baixar o arquivo de aliquotas: " & mensagemErro
+   AliqNuvem_ChecagemFeita sHoje   'falhou: tenta de novo so amanha (o login nao fica esperando o Google de novo)
    AtualizarAliquotasDaNuvem = IIf(bForcar, "Nao foi possivel baixar o arquivo da nuvem." & vbCrLf & mensagemErro, "")
    Exit Function
 End If
@@ -1574,6 +1582,7 @@ If sErro = "" Then
 End If
 If sErro <> "" Then
    AliqNuvem_Log "Arquivo " & sArq & " ignorado: " & sErro
+   AliqNuvem_ChecagemFeita sHoje
    AtualizarAliquotasDaNuvem = IIf(bForcar, "O arquivo da nuvem e invalido (" & sErro & "). Nada foi alterado.", "")
    GoTo limpa
 End If
@@ -1623,6 +1632,7 @@ On Error Resume Next
 If bAbriu Then Close #nArq
 If bTrans Then vgDb.RollbackTrans
 AliqNuvem_Log "ERRO: " & sErro
+AliqNuvem_ChecagemFeita sHoje
 AtualizarAliquotasDaNuvem = IIf(bForcar, "Erro ao atualizar as aliquotas: " & sErro, "")
 End Function
 

@@ -1325,10 +1325,10 @@ If EhServidorLocal() Then
    RegistrarTarefaResumoFiscal
    RegistrarTarefaMonitorNFe
    VerificarAtualizacaoIBPT
+   AtualizarAliquotasDaNuvem       'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso): so o servidor baixa; ficam no banco para todos
 End If
 
 AplicarAliquotasReforma            'aplica as aliquotas CBS/IBS vigentes hoje (virada de vigencia, mesmo sem emitir nota)
-AtualizarAliquotasDaNuvem          'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso)
 
 End Sub
 
