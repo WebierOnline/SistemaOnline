@@ -68,6 +68,7 @@ Dim sTipoPgto As String, sNum As String
 Dim curPecas As Currency, curNF As Currency, curParc As Currency, curDif As Currency
 Dim bTrans As Boolean, bContingencia As Boolean
 Dim sErro As String
+Dim iResp As VbMsgBoxResult
 
 On Error GoTo deuErro
 
@@ -110,11 +111,17 @@ If Not r.EOF Then
       Exit Function
    End If
    r.Close
-   If MsgBox("A NFC-e nº " & sNum & " da OS " & lCodOS & " foi criada mas ainda não foi autorizada pela SEFAZ." & vbCrLf & vbCrLf & _
-             "Transmitir agora?", vbQuestion + vbYesNo, "NFC-e") <> vbYes Then Exit Function
+   iResp = MsgBox("A NFC-e nº " & sNum & " da OS " & lCodOS & " foi criada mas ainda não foi autorizada pela SEFAZ." & vbCrLf & vbCrLf & _
+             "Sim = transmitir agora" & vbCrLf & _
+             "Não = abrir a Consulta de NFC-e (ver o motivo, corrigir os produtos, transmitir ou inutilizar)", vbQuestion + vbYesNoCancel, "NFC-e")
+   If iResp = vbNo Then
+      NFCeOS_AbrirConsulta lPed
+      Exit Function
+   End If
+   If iResp <> vbYes Then Exit Function
    If Not NFCeOS_MaquinaPronta() Then Exit Function
    bContingencia = NFCeOS_Contingencia()
-   NFCeOS_Gerar = NFCeOS_Transmitir(lId, lCodOS, bContingencia)
+   NFCeOS_Gerar = NFCeOS_Transmitir(lId, lCodOS, lPed, bContingencia)
    Exit Function
 End If
 r.Close
@@ -203,7 +210,7 @@ Set rItens = Nothing
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
 
-NFCeOS_Gerar = NFCeOS_Transmitir(lId, lCodOS, bContingencia)
+NFCeOS_Gerar = NFCeOS_Transmitir(lId, lCodOS, lPed, bContingencia)
 Exit Function
 
 deuErro:
@@ -250,13 +257,16 @@ End If
 End Function
 
 'Transmite e imprime (DANFC-e na impressora da NFC-e), como no PDV
-Private Function NFCeOS_Transmitir(ByVal lId As Long, ByVal lCodOS As Long, ByVal bContingencia As Boolean) As Boolean
+Private Function NFCeOS_Transmitir(ByVal lId As Long, ByVal lCodOS As Long, ByVal lPed As Long, ByVal bContingencia As Boolean) As Boolean
 Dim bOk As Boolean
 Dim sistNFe As snfe.Util
 
 DoEvents
-bOk = TransmitirNFCe(lId, "1", Not bContingencia, "65", True)
-If Not bOk And Not bContingencia Then NFCeOS_SugerirContingencia
+'sem o modo silencioso: o TransmitirNFCe mostra o motivo (rejeição, validação do XML, CSC, certificado), igual à Consulta de NFC-e
+NFeMotivo = ""
+bOk = TransmitirNFCe(lId, "1", Not bContingencia, "65", False)
+Screen.MousePointer = vbDefault
+If Not bOk And Not bContingencia And Trim$(NFeMotivo) = "" Then NFCeOS_SugerirContingencia
 
 If bOk Then
    Set sistNFe = New snfe.Util
@@ -269,10 +279,19 @@ If bOk Then
    Set sistNFe = Nothing
    NFCeOS_Transmitir = True
 Else
-   MsgBox "A NFC-e da OS " & lCodOS & " foi criada mas não foi autorizada pela SEFAZ." & vbCrLf & _
-          "Clique em NFCe de novo para tentar transmitir.", vbExclamation, "NFC-e"
+   If MsgBox("A NFC-e da OS " & lCodOS & " foi criada mas não foi autorizada pela SEFAZ." & vbCrLf & vbCrLf & _
+             "Abrir a Consulta de NFC-e (já filtrada nessa OS) para ver o motivo, corrigir e transmitir de novo?", _
+             vbExclamation + vbYesNo, "NFC-e") = vbYes Then NFCeOS_AbrirConsulta lPed
 End If
 End Function
+
+'Consulta de NFC-e do PDV (Compartilhado\Forms\Consultar_NFCe.frm) filtrada no pedido da OS: transmitir, ver o motivo,
+'corrigir os produtos (NFCe_Consultar_Produtos), inutilizar, imprimir
+Public Sub NFCeOS_AbrirConsulta(ByVal lPed As Long)
+Load NFCe_Consultar
+NFCe_Consultar.AbrirDoPedido lPed
+NFCe_Consultar.Show vbModal
+End Sub
 
 'Transmissão falhou com internet: certificado ou SEFAZ fora do ar (mesmas mensagens do PDV)
 Private Sub NFCeOS_SugerirContingencia()

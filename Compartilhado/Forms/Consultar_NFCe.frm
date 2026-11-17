@@ -3110,6 +3110,18 @@ cboStatus.Text = "NÃO ENVIADAS"
 mbAbrirNaoEnviadas = True
 End Sub
 
+Public Sub AbrirDoPedido(ByVal lPed As Long)
+'Chamado externamente (botão NFCe da OS, modNFCeOS) ANTES do .Show 1, como o AbrirNaoEnviadas:
+'critério CÓD. PEDIDO = pedido da OS, todas as situações; o Mostrar_NFCe roda no Form_Activate.
+cboCriterios.Text = "CÓD. PEDIDO"
+cboCriterios_LostFocus
+optDig.Value = True
+txtCodPedido.Text = CStr(lPed)
+txtCodPedidoCerto.Text = CStr(lPed)
+cboStatus.Text = "TODAS"
+mbAbrirNaoEnviadas = True
+End Sub
+
 Private Sub Form_Activate()
 If mbAbrirNaoEnviadas Then
     mbAbrirNaoEnviadas = False
