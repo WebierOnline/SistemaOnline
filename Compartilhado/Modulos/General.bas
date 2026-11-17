@@ -189,6 +189,8 @@ gModoBuscarNFSe = (InStr(1, Command$, "/buscarnfse", vbTextCompare) > 0)
 gModoAutomatico = (InStr(1, Command$, "/resumofiscal", vbTextCompare) > 0) Or gModoEnviarXML Or gModoEnviarSPED Or gModoMonitorNFe Or gModoBuscarNFSe
 'Previne a execução de mais de uma vez do sistema
 If App.PrevInstance And Not gModoAutomatico Then
+    'OnlineCommerce.exe /nfeos (botão NFe da OS): o sistema já aberto pega o pedido do NFe_OS.txt (tmrNFeOS da Tela_Principal)
+    If InStr(1, Command$, "/nfeos", vbTextCompare) > 0 Then End
     ShowMsg "O sistema já encontra-se em execução nesta máquina!", vbInformation
     End
 End If

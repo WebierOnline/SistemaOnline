@@ -4266,6 +4266,9 @@ Private bNFAgrupada As Boolean
 Public TbNotas As New ADODB.Recordset
 Public TbConsulta As New ADODB.Recordset
 Public TbNotaPedido As New ADODB.Recordset
+'Botão NFe da OS (Tela_Principal.tmrNFeOS): pedido da OS para converter quando a tela abrir (Form_Activate)
+Public PedidoOS As Long
+Public OSdoPedido As Long
 Dim Tb As New ADODB.Recordset
 Dim Titulo, Book As Variant, NomeTabela
 Dim TbProduto As New ADODB.Recordset
@@ -12061,8 +12064,59 @@ End Sub
 
 
 Private Sub Form_Activate()
+Dim lPedOS As Long
 Exibir_Cliente
 Exibir_Itens
+If PedidoOS > 0 Then
+   lPedOS = PedidoOS
+   PedidoOS = 0
+   CarregarPedidoOS lPedOS, OSdoPedido
+End If
+End Sub
+
+'Botao NFe da OS (OrdemServico -> Tela_Principal.tmrNFeOS): mostra o pedido da OS na aba PEDIDOS, marcado,
+'e converte em NF-e pelo mesmo caminho do botao Converter (cmdConverterNFe_Click). So os itens do pedido
+'(pecas) entram na nota; os servicos da OS vao na NFS-e.
+Public Sub CarregarPedidoOS(ByVal lPed As Long, Optional ByVal lCodOS As Long = 0)
+Dim sNota As String
+Dim sOS As String
+If lPed <= 0 Then Exit Sub
+If lCodOS > 0 Then sOS = " da OS " & lCodOS
+If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then
+   MsgBox "Existe uma NFe em aberto: salve ou cancele antes de trazer o pedido " & lPed & sOS & ".", vbExclamation, "Online Commerce"
+   Frm_NF.Tab = 0
+   Exit Sub
+End If
+
+Frm_NF.Tab = 2
+cboIndicePedidos.Text = "PEDIDO"
+cboIndicePedidos_Click
+cboClientePedidos.Text = CStr(lPed)
+cmdExibirPedidos_Click
+If GridPedidos.rows < 2 Or Val(GridPedidos.TextMatrix(1, 1)) <> lPed Then
+   MsgBox "O pedido " & lPed & sOS & " n" & Chr(227) & "o foi encontrado (o cliente do pedido precisa estar cadastrado).", vbExclamation, "Online Commerce"
+   Exit Sub
+End If
+
+'pedido ja convertido: avisa qual nota tem as pecas
+If GridPedidos.TextMatrix(1, 2) = "SIM" Then
+   sNota = CStr(SQLExecutaRetorno("SELECT TOP 1 CAST(n.NumeroNota AS varchar(20)) + ' (' + " & _
+           "(CASE WHEN ISNULL(n.Cancelada, 0) = 1 THEN 'cancelada' WHEN ISNULL(n.Denegada, 0) = 1 THEN 'denegada' WHEN ISNULL(n.Inutilizada, 0) = 1 THEN 'inutilizada' " & _
+           "WHEN ISNULL(n.Enviada, 0) = 1 THEN 'enviada' ELSE 'em digita" & Chr(231) & Chr(227) & "o' END) + ')' AS v " & _
+           "FROM NotaFiscal n WHERE EXISTS (SELECT 1 FROM NotaFiscalItens i WHERE (i.CodigoNota = n.CodigoNota) AND (i.Cod_Pedido = " & lPed & ")) " & _
+           "ORDER BY n.CodigoNota DESC", "v", ""))
+   MsgBox "O pedido " & lPed & sOS & " j" & Chr(225) & " foi convertido na NF-e n" & Chr(186) & " " & sNota & "." & vbCrLf & vbCrLf & _
+          "Ela est" & Chr(225) & " na aba NOTAS FISCAIS (se foi cancelada, use o Duplicar para fazer outra).", vbInformation, "Online Commerce"
+   Frm_NF.Tab = 1
+   Exit Sub
+End If
+
+GridPedidos.RowData(1) = 1
+GridPedidos.Row = 1
+GridPedidos.Col = 0
+Set GridPedidos.CellPicture = ImgMarcada.Picture
+GridPedidos.CellPictureAlignment = 4
+cmdConverterNFe_Click
 End Sub
 
 

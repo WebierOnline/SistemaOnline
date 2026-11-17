@@ -613,6 +613,11 @@ Begin VB.MDIForm Tela_Principal
          Strikethrough   =   0   'False
       EndProperty
    End
+   Begin VB.Timer tmrNFeOS 
+      Interval        =   2000
+      Left            =   0
+      Top             =   0
+   End
    Begin VB.Menu menusistema 
       Caption         =   "&Sistema"
       Begin VB.Menu Menu_SIS 
@@ -992,6 +997,8 @@ Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim vCodUsuario As Long
 Dim vTipoOS As String
+'traz a Tela_Principal para a frente quando a OS pede a NF-e (tmrNFeOS)
+Private Declare Function SetForegroundWindow Lib "user32" (ByVal hwnd As Long) As Long
 
 Private Sub Conf_TipoEmpresa()
 Dim varTipoEmpresa As String
@@ -1323,6 +1330,66 @@ End If
 AplicarAliquotasReforma            'aplica as aliquotas CBS/IBS vigentes hoje (virada de vigencia, mesmo sem emitir nota)
 AtualizarAliquotasDaNuvem          'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso)
 
+End Sub
+
+'Botao NFe da OS (OrdemServico, modNFeOS): o pedido da OS chega pelo NFe_OS.txt da pasta do sistema
+'(gravado pela OS antes de abrir o OnlineCommerce.exe /nfeos) e a NF-e abre com o pedido convertido.
+Private Sub tmrNFeOS_Timer()
+Static bAbrindo As Boolean
+Dim sArq As String, sLinha As String, sHora As String
+Dim lPed As Long, lOS As Long
+Dim f As Integer
+Dim bNFeAberta As Boolean
+
+sArq = appPathApp & "NFe_OS.txt"
+If Dir$(sArq) = "" Then Exit Sub
+
+'com outra tela modal aberta (Tela_Principal desabilitada) espera ela fechar; se a aberta e a propria NF-e, usa ela
+bNFeAberta = Not (FormExists("NFe_Completa") Is Nothing)
+If bNFeAberta Then
+   If Not NFe_Completa.Enabled Then Exit Sub
+ElseIf bAbrindo Or Not Me.Enabled Then
+   Exit Sub
+End If
+
+On Error GoTo deuErro
+f = FreeFile
+Open sArq For Input As #f
+Do While Not EOF(f)
+   Line Input #f, sLinha
+   sLinha = Trim$(sLinha)
+   If LCase$(Left$(sLinha, 7)) = "pedido=" Then lPed = Val(Mid$(sLinha, 8))
+   If LCase$(Left$(sLinha, 3)) = "os=" Then lOS = Val(Mid$(sLinha, 4))
+   If LCase$(Left$(sLinha, 5)) = "hora=" Then sHora = Mid$(sLinha, 6)
+Loop
+Close #f
+f = 0
+Kill sArq
+
+'pedido esquecido (o sistema ficou sem login muito tempo depois do clique na OS): ignora
+If IsDate(sHora) Then
+   If Abs(DateDiff("n", CDate(sHora), Now)) > 30 Then lPed = 0
+End If
+If lPed <= 0 Then Exit Sub
+
+SetForegroundWindow Me.hwnd
+If bNFeAberta Then
+   SetForegroundWindow NFe_Completa.hwnd
+   NFe_Completa.CarregarPedidoOS lPed, lOS
+Else
+   bAbrindo = True
+   Load NFe_Completa
+   NFe_Completa.PedidoOS = lPed
+   NFe_Completa.OSdoPedido = lOS
+   NFe_Completa.Show 1
+   bAbrindo = False
+End If
+Exit Sub
+
+deuErro:
+If f <> 0 Then Close #f
+bAbrindo = False
+MsgBox "Erro ao abrir a NF-e da OS: " & Err.Description, vbExclamation, "Online Commerce"
 End Sub
 
 Private Sub MDIForm_Unload(Cancel As Integer)

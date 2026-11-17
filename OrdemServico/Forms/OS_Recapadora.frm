@@ -13332,11 +13332,15 @@ Dim totalRegistros As Long
 Dim bNotas As Boolean
 Dim sNotas As String
 Dim sOSNFSe As String
+Dim sOSNFCe As String
+Dim sOSNFe As String
 Dim nColNF As Integer
 bNotas = optFinanceiroFechado.Value
 If bNotas Then
    sNotas = "|^NFSe|^NFCe|^NFe"
    sOSNFSe = OSComNFSe()
+   sOSNFCe = NFCeOS_ComNFCe()
+   sOSNFe = NFeOS_ComNFe()
 End If
 
 'o grid vai ser recarregado: nenhuma OS fica selecionada, entao os botoes que dependem da linha voltam a desabilitar
@@ -13515,11 +13519,23 @@ End If
          .ColWidth(i) = 540
          .ColAlignment(i) = flexAlignCenterCenter
       Next
-      'NFSe: OS com NFS-e autorizada (NFCe e NFe: so as colunas por enquanto)
+      'NFSe: OS com NFS-e autorizada; NFCe e NFe: pedido da OS com NFC-e / NF-e autorizada
       For i = 1 To .Rows - 1
          If InStr(1, sOSNFSe, "|" & Val(.TextMatrix(i, 0)) & "|") > 0 Then
             .Row = i
             .Col = nColNF
+            Set .CellPicture = ImgMarcada.Picture
+            .CellPictureAlignment = flexAlignCenterCenter
+         End If
+         If InStr(1, sOSNFCe, "|" & Val(.TextMatrix(i, 0)) & "|") > 0 Then
+            .Row = i
+            .Col = nColNF + 1
+            Set .CellPicture = ImgMarcada.Picture
+            .CellPictureAlignment = flexAlignCenterCenter
+         End If
+         If InStr(1, sOSNFe, "|" & Val(.TextMatrix(i, 0)) & "|") > 0 Then
+            .Row = i
+            .Col = nColNF + 2
             Set .CellPicture = ImgMarcada.Picture
             .CellPictureAlignment = flexAlignCenterCenter
          End If
@@ -13752,6 +13768,27 @@ frmHistoricoOleo.Show 1
 End Sub
 
 'Botao NFSe: gera a NFS-e da OS terminada selecionada no grid e abre o Editar (se a OS ja tem nota, abre a nota)
+'Botao NFCe: NFC-e das pecas da OS terminada selecionada (modNFCeOS; servicos vao na NFS-e)
+Private Sub cmdEmitirNFCe_Click()
+Dim lCodOS As Long
+If Grid_OS.Row < 1 Then Exit Sub
+lCodOS = Val(Grid_OS.TextMatrix(Grid_OS.Row, 0))
+If lCodOS = 0 Then Exit Sub
+NFCeOS_Gerar lCodOS
+Screen.MousePointer = vbDefault
+'recarrega o grid (mesmo caminho do filtro) para o check da coluna NFCe aparecer
+If optFinanceiroFechado.Value Then optFinanceiroFechado_Click
+End Sub
+
+'Botao NFe: leva o pedido da OS terminada selecionada para a NF-e do Online Commerce (modNFeOS)
+Private Sub cmdEmitirNFe_Click()
+Dim lCodOS As Long
+If Grid_OS.Row < 1 Then Exit Sub
+lCodOS = Val(Grid_OS.TextMatrix(Grid_OS.Row, 0))
+If lCodOS = 0 Then Exit Sub
+NFeOS_Abrir lCodOS
+End Sub
+
 Private Sub cmdEmitirNFSe_Click()
 Dim lCodOS As Long
 If Grid_OS.Row < 1 Then Exit Sub
