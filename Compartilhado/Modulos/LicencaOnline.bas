@@ -61,6 +61,10 @@ Private mDados As LicDados
 Private mTemDados As Boolean
 Private mEmInstalacao As Boolean
 Private mTabelasOk As Boolean
+'Login (VerificarLicencaOnline): espera menor e, se o servidor de licenças não respondeu na sincronização, a checagem de
+'atualização não tenta de novo (com a VPS fora do ar o login esperava ~1 minuto: 2 chamadas x 30 s + repetição).
+Private mLimiteEspera As Long          '0 = 30 s (telas do Pix etc.)
+Private mServidorSemResposta As Boolean
 Private mErrosCodigo As Long
 Private mErrosAte As Date
 
@@ -90,9 +94,12 @@ Public Function VerificarLicencaOnline(Optional ByVal CodUsuario As Long = 0) As
    Dim msg As String
 
    VerificarLicencaOnline = True
-   If Not LicGarantirTabelas() Then Exit Function
+   mServidorSemResposta = False
+   mLimiteEspera = 10           'no login o servidor responde em menos de 1 s; 10 s já é folga
+   If Not LicGarantirTabelas() Then mLimiteEspera = 0: Exit Function
 
    LicSincronizar msg
+   mLimiteEspera = 0            'telas de aviso/bloqueio/Pix: espera normal
    Select Case LicAvaliar()
       Case licLiberada
          'Dia do vencimento: pergunta se quer pagar já (só nesse dia).
@@ -106,11 +113,14 @@ Public Function VerificarLicencaOnline(Optional ByVal CodUsuario As Long = 0) As
    'Atualização automática (só com a licença liberada). True = o atualizador foi aberto (ou a obrigatória foi
    'recusada): o sistema fecha.
    If VerificarLicencaOnline Then
+      mLimiteEspera = 10
       If AtuVerificarAtualizacao(False) Then VerificarLicencaOnline = False
    End If
+   mLimiteEspera = 0
    Exit Function
 
 Falha:
+   mLimiteEspera = 0
    'Erro inesperado aqui nunca trava o cliente.
    Debug.Print "VerificarLicencaOnline: " & Err.Number & " " & Err.Description
    VerificarLicencaOnline = True
@@ -482,6 +492,7 @@ Private Function LicHttp(ByVal Metodo As String, ByVal Url As String, ByVal Corp
    If Not LicHttp And Not porTempo Then
       LicHttp = LicHttpEnviar(Metodo, Url, Corpo, Chave, False, Status, Resposta, porTempo)
    End If
+   mServidorSemResposta = Not LicHttp
 End Function
 
 Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVal Corpo As String, ByVal Chave As String, _
@@ -515,10 +526,10 @@ Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVa
          decorrido = Timer - inicio
          If decorrido < 0 Then decorrido = decorrido + 86400   'passou da meia-noite
          LicSegundosEspera = Int(decorrido)
-         If decorrido > 30 Then
+         If decorrido > IIf(mLimiteEspera > 0, mLimiteEspera, 30) Then
             x.abort
             PorTempo = True
-            LicErroHttp = "o servidor não respondeu em 30 segundos"
+            LicErroHttp = "o servidor não respondeu em " & IIf(mLimiteEspera > 0, mLimiteEspera, 30) & " segundos"
             LicSegundosEspera = 0
             Exit Function
          End If
@@ -532,6 +543,10 @@ Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVa
    Exit Function
 Falha:
    LicErroHttp = IIf(Assincrono, "assíncrono", "simples") & "/" & etapa & ": " & Err.Number & " " & Err.Description
+   'sem conexão com o servidor (não conecta, tempo esgotado, nome não resolvido): repetir do jeito simples só esperaria de novo
+   Select Case Err.Number
+      Case &H80072EFD, &H80072EE2, &H80072EE7, &H80072EFE: PorTempo = True
+   End Select
    Debug.Print "LicHttp " & LicErroHttp
    LicSegundosEspera = 0
    LicHttpEnviar = False
@@ -1170,7 +1185,11 @@ Public Function AtuVerificarAtualizacao(ByVal Manual As Boolean) As Boolean
            ",""versaoBanco"":" & LicJsonStr(banco) & _
            ",""windows"":" & LicJsonStr(AtuWindows()) & "}"
 
-   If Not LicHttp("POST", base & "/atualizacao", corpo, chave, st, resp) Then st = 0
+   If mServidorSemResposta And Not Manual Then
+      st = 0   'a sincronização do login já não teve resposta: não espera de novo
+   ElseIf Not LicHttp("POST", base & "/atualizacao", corpo, chave, st, resp) Then
+      st = 0
+   End If
    If st <> 200 Then
       'Sem resposta: o terminal atrasado em relação ao banco só é avisado (não dá para baixar agora).
       If Not servidor And AtuMenor(instalada, minima) Then
