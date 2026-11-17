@@ -4247,7 +4247,10 @@ End Sub
 
 
 Private Sub Form_Unload(Cancel As Integer)
+'HabilitaObjetosVenda e rotina do PDV (General.bas do PDV); na OS (botao NFCe) o nome e uma variavel do General compartilhado
+#If PDV_MODULE Then
 HabilitaObjetosVenda False
+#End If
 Set moCombo = Nothing
 End Sub
 
