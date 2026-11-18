@@ -178,3 +178,4 @@
 180|CreateTable_NFSeADN.sql|OS
 181|AlterTable_Empresa_NFSeTotTrib.sql|OS
 182|AlterTable_NFSe_ServicoPorNota.sql|OS
+183|Fix_OS_Subtotal_ComDesconto.sql|OS
