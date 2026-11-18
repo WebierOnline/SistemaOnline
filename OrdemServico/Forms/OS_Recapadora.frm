@@ -4253,6 +4253,7 @@ Begin VB.Form OS_Recapadora
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   375
+         Enabled         =   0   'False
          Left            =   7740
          TabIndex        =   214
          Top             =   5100
@@ -13690,7 +13691,7 @@ If (Trim(Grid_OS.TextMatrix(posit, iColStatus))) = ("À COMEÇAR") Then
       cmdImpEntrada1.Enabled = True
       cmdImpOrcamento1.Enabled = True
    End If
-If optFinanceiroAberto.Value = True Then cmdExcluir.Enabled = True
+cmdExcluir.Enabled = (optFinanceiroAberto.Value = True And posit > 0 And Val(Grid_OS.TextMatrix(posit, 0)) > 0)
 
 'reabrir o financeiro: so com o filtro Financeiro Fechado e uma OS realmente selecionada no grid
 cmdReabrir.Enabled = (optFinanceiroFechado.Value = True And posit > 0 And Val(Grid_OS.TextMatrix(posit, 0)) > 0)
@@ -14475,7 +14476,6 @@ Private Sub optFinanceiroAberto_Click()
 MostrarGrid_OS_Situacao
 LimparGrid_Situacao
 DesabilitarBotoesOS
-If optFinanceiroAberto.Value = True Then cmdExcluir.Enabled = True
 End Sub
 Private Sub optFinanceiroFechado_Click()
 MostrarGrid_OS_Situacao
