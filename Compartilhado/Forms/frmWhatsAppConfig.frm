@@ -85,10 +85,10 @@ Begin VB.Form frmWhatsAppConfig
    End
    Begin VB.Label lblInstrucoes
       Height          =   2895
-      Left            =   4320
+      Left            =   4560
       TabIndex        =   8
       Top             =   2280
-      Width           =   4215
+      Width           =   3975
    End
    Begin VB.Label lblNumero
       Height          =   495
