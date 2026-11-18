@@ -39,8 +39,7 @@ Begin VB.Form frmSaidaDocumento
       Top             =   120
       Width           =   3735
       Begin VB.OptionButton optWhatsapp
-         Caption         =   "Enviar por whatsapp"
-         Enabled         =   0   'False
+         Caption         =   "Enviar por WhatsApp"
          Height          =   315
          Left            =   360
          TabIndex        =   3
@@ -81,7 +80,7 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 'Tela modal de escolha da saida do documento.
-'Escolha: 0 = cancelou, 1 = imprimir, 2 = gerar PDF, 3 = enviar por e-mail, 4 = whatsapp (desabilitado)
+'Escolha: 0 = cancelou, 1 = imprimir, 2 = gerar PDF, 3 = enviar por e-mail, 4 = WhatsApp
 Public Escolha As Integer
 
 Private Sub Form_Load()

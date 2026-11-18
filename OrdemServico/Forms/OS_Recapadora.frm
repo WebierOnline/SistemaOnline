@@ -10949,6 +10949,8 @@ Select Case nEscolha
         GerarPDFDocumento nTipo
     Case 3  'Enviar por e-mail
         EnviarDocumentoPorEmail nTipo
+    Case 4  'Enviar por WhatsApp
+        EnviarDocumentoPorWhatsApp nTipo
 End Select
 End Sub
 
@@ -11132,6 +11134,111 @@ If PDFEmail_Enviar(sEmail, sArq, sAssunto, sTexto) Then
 Else
     Screen.MousePointer = vbDefault
     MsgBox "Não foi possível enviar o e-mail." & vbCrLf & PDFEmail_UltimoErro, vbExclamation, "Enviar por e-mail"
+End If
+End Sub
+
+'Gera o PDF do documento em silencio (impressora do e-mail no config.ini) e envia pelo WhatsApp da empresa
+'(conectado no Online Commerce > Sistema > WhatsApp) para o celular do cliente.
+Private Sub EnviarDocumentoPorWhatsApp(ByVal nTipo As Integer)
+Const TITULO As String = "Enviar por WhatsApp"
+Dim sImp As String, sArq As String, sMsg As String
+Dim sCel As String, sCelCad As String
+Dim sSit As String, sNum As String, sNomeZap As String
+Dim sDoc As String, sNomeArq As String, sEnvio As String, sTexto As String, sNome As String, sEmpresa As String
+Dim lCli As Long, lOS As Long
+
+lOS = Val(Grid_OS.TextMatrix(Grid_OS.Row, 0))
+lCli = CodClienteDaLinhaOS()
+sImp = PDFEmail_Impressora()
+sArq = PDFEmail_Arquivo()
+
+If sImp = "" Then
+    Call PDFEmail_Preparar(sImp, sArq, sMsg)   'monta a mensagem de configuracao ausente
+    MsgBox sMsg, vbExclamation, TITULO
+    Exit Sub
+End If
+
+'WhatsApp conectado? (antes de gerar o PDF)
+Screen.MousePointer = vbHourglass
+sSit = ZapOnlineSituacao(sNum, sNomeZap, sMsg)
+Screen.MousePointer = vbDefault
+If sSit = "" Then
+    MsgBox sMsg, vbExclamation, TITULO
+    Exit Sub
+ElseIf sSit <> "conectado" Then
+    MsgBox "O WhatsApp da empresa não está conectado." & vbCrLf & vbCrLf & _
+           "Conecte no Online Commerce, em Sistema > WhatsApp, lendo o QR code com o celular da empresa.", vbExclamation, TITULO
+    Exit Sub
+End If
+
+sCelCad = PDFZap_CelularCliente(lCli)
+sCel = PDFZap_PedirCelular(sCelCad)
+If sCel = "" Then Exit Sub
+
+If Not PDFEmail_Preparar(sImp, sArq, sMsg) Then
+    MsgBox sMsg, vbExclamation, TITULO
+    Exit Sub
+End If
+
+If Not ImpressoraInstalada(sImp) Then
+    MsgBox "A impressora """ & sImp & """ não foi encontrada neste computador.", vbExclamation, TITULO
+    Exit Sub
+End If
+
+Screen.MousePointer = vbHourglass
+sPDFImpressoraEmail = sImp
+bSemPrevia = True
+ImprimirDocumentoPDF nTipo
+bSemPrevia = False
+sPDFImpressoraEmail = ""
+varImpPDF = False
+If Not PDFEmail_Aguardar(sArq, 40) Then
+    Screen.MousePointer = vbDefault
+    MsgBox "O PDF não foi gerado. Verifique a impressora """ & sImp & """ e tente novamente.", vbExclamation, TITULO
+    Exit Sub
+End If
+
+Select Case nTipo
+    Case 1: sDoc = "o orçamento": sNomeArq = "Orcamento"
+    Case 2: sDoc = "o pedido": sNomeArq = "Pedido"
+    Case 3: sDoc = "a entrada": sNomeArq = "Entrada"
+    Case Else: sDoc = "o termo de garantia": sNomeArq = "Garantia"
+End Select
+
+'O nome do arquivo aparece para o cliente no WhatsApp
+sEnvio = Environ$("TEMP") & "\" & sNomeArq & "_OS_" & lOS & ".pdf"
+On Error Resume Next
+Kill sEnvio
+Err.Clear
+FileCopy sArq, sEnvio
+If Err.Number <> 0 Then sEnvio = sArq
+Err.Clear
+On Error GoTo 0
+
+sNome = PDFZap_PrimeiroNome(lCli)
+sEmpresa = PDFZap_NomeEmpresa()
+sTexto = "Olá" & IIf(sNome <> "", ", " & sNome, "") & "! Segue " & sDoc & " da ordem de serviço nº " & lOS & "." & _
+         IIf(sEmpresa <> "", vbLf & vbLf & sEmpresa, "")
+
+If ZapOnlineEnviar(sCel, sTexto, sEnvio, sMsg) Then
+    Screen.MousePointer = vbDefault
+    If Not PDFZap_MesmoNumero(sCel, sCelCad) Then
+        If PDFZap_AtualizarCliente(lCli, sCel) Then
+            MsgBox "PDF enviado pelo WhatsApp para " & sCel & "." & vbCrLf & "O celular do cliente foi atualizado no cadastro.", vbInformation, TITULO
+        Else
+            MsgBox "PDF enviado pelo WhatsApp para " & sCel & ".", vbInformation, TITULO
+        End If
+    Else
+        MsgBox "PDF enviado pelo WhatsApp para " & sCel & ".", vbInformation, TITULO
+    End If
+Else
+    Screen.MousePointer = vbDefault
+    MsgBox "Não foi possível enviar pelo WhatsApp." & vbCrLf & vbCrLf & sMsg, vbExclamation, TITULO
+End If
+If sEnvio <> sArq Then
+    On Error Resume Next
+    Kill sEnvio
+    On Error GoTo 0
 End If
 End Sub
 
