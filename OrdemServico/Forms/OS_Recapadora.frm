@@ -5577,6 +5577,11 @@ End Sub
 
 Private Function Atualizar_Dados_OS() As Boolean
 Dim sSQL As String
+Dim cSubtotal As Currency
+
+'Subtotal = soma dos itens antes dos descontos (OS.TOTAL e o valor ja com desconto)
+cSubtotal = SomaSubtotalItens(Val(txtCodOS.Text), Val(txtCodPedido.Text))
+If cSubtotal <= 0 Then cSubtotal = CCur(txtTotalPecasServicos.Text)
 
 'Comando de atualização
 sSQL = "UPDATE os SET " & _
@@ -5586,7 +5591,7 @@ sSQL = "UPDATE os SET " & _
    "cod_funcionario = " & txtCodFuncionario.Text & ", " & _
    "status = '" & cboStatus.Text & "', " & _
    "status_os = 0, " & _
-   "SUBTOTAL = " & Replace(CCur(txtTotalPecasServicos.Text), ",", ".") & ", " & _
+   "SUBTOTAL = " & Replace(cSubtotal, ",", ".") & ", " & _
    "TIPO_DESC = 'P', " & _
    "OBS = '" & txtObs.Text & "', " & _
    "VALOR_DESC = " & Replace(CCur(0), ",", ".") & ", " & _
@@ -9060,7 +9065,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         'REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -9215,7 +9220,7 @@ Else
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         'REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -10967,6 +10972,40 @@ Select Case nTipo
 End Select
 End Sub
 
+'Tabela de servicos da OS conforme o tipo de OS
+Private Function TabelaServicosDoTipo() As String
+If vTipoOS = "Recapadora" Then
+    TabelaServicosDoTipo = "OS_Servicos_recapadora"
+ElseIf vTipoOS = "Comunicação Visual" Then
+    TabelaServicosDoTipo = "OS_Servicos_Comunicacao"
+Else
+    TabelaServicosDoTipo = "OS_Servicos_Auto"
+End If
+End Function
+
+'Soma dos subtotais dos itens da OS (servicos + pecas do pedido), antes dos descontos. 0 se nao conseguir somar.
+Private Function SomaSubtotalItens(ByVal lCodOS As Long, ByVal lCodPedido As Long) As Currency
+Dim sSQL As String
+
+On Error GoTo semSoma
+sSQL = "SELECT (SELECT ISNULL(SUM(subtotal), 0) FROM " & TabelaServicosDoTipo() & " WHERE (cod_os = " & lCodOS & ")) + " & _
+       "(SELECT ISNULL(SUM(subtotal), 0) FROM pedidos_itens WHERE (cod_pedido = " & lCodPedido & ")) AS soma"
+SomaSubtotalItens = CCur(SQLExecutaRetorno(sSQL, "soma", "0"))
+semSoma:
+Err.Clear
+End Function
+
+'Subtotal do documento = soma dos subtotais dos itens da OS selecionada (antes dos descontos), igual ao Subtotal da tela.
+'vFallback = OS.SUBTOTAL, usado se nao for possivel somar os itens (OS antigas gravaram o subtotal ja com desconto).
+Private Function SubtotalItensDocumento(ByVal vFallback As Variant) As Currency
+Dim cSoma As Currency
+
+If IsNull(vFallback) Then vFallback = 0
+SubtotalItensDocumento = CCur(vFallback)
+cSoma = SomaSubtotalItens(Val(Grid_OS.TextMatrix(Grid_OS.Row, 0)), Val(codPedido))
+If cSoma > 0 Then SubtotalItensDocumento = cSoma
+End Function
+
 Private Function ImpressoraInstalada(ByVal sNome As String) As Boolean
 Dim Prt As Printer
 
@@ -11205,7 +11244,7 @@ Me.Hide
         
         REL_OS_Completo.txtDHead.Caption = "ORÇAMENTO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -11469,7 +11508,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         
         REL_OS_Completo.txtDHead.Caption = "ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         
@@ -11627,7 +11666,7 @@ Else
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         'REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -12063,7 +12102,7 @@ Me.Hide
         
         REL_OS_Completo.txtDHead.Caption = "ORÇAMENTO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -12330,7 +12369,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -12484,7 +12523,7 @@ Else
         
         REL_OS_Completo.txtDHead.Caption = "RELATÓRIO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas CLng(codPedido)
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
@@ -14176,7 +14215,7 @@ Me.Hide
         
         REL_OS_Completo.txtDHead.Caption = "ORÇAMENTO DA ORDEM DE SERVIÇO Nº " & vCodOS
         REL_OS_Completo.Mostrar_Parcelas txtCodPedido.Text
-        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(rOS("SUBTOTAL"), 2)
+        REL_OS_Completo.rfSubTotal.Caption = FormatNumber(SubtotalItensDocumento(rOS("SUBTOTAL")), 2)
         REL_OS_Completo.txtDescontoRS.Caption = FormatNumber(rOS("ValorDescReal"), 2)
         REL_OS_Completo.rfTotal.Caption = FormatNumber(rOS("TOTAL"), 2)
         'REL_OS_Completo.rfDesc.Caption = FormatNumber(rOS("VALOR_DESC"), 2)
