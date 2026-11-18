@@ -11,6 +11,15 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+-- A view NFSe_OSDisponiveis usa OS.TIPO_OS: clientes cuja tabela OS e antiga (criada antes dessas colunas)
+-- nao as tem. Idempotente: so adiciona se a tabela OS existir e a coluna faltar.
+IF OBJECT_ID('dbo.OS', 'U') IS NOT NULL AND COL_LENGTH('dbo.OS', 'TIPO_OS') IS NULL
+    ALTER TABLE dbo.OS ADD TIPO_OS NVARCHAR(20) NULL
+GO
+IF OBJECT_ID('dbo.OS', 'U') IS NOT NULL AND COL_LENGTH('dbo.OS', 'COD_RESPONSAVEL') IS NULL
+    ALTER TABLE dbo.OS ADD COD_RESPONSAVEL INT NULL
+GO
+
 
 -- ---------------------------------------------------------------- empresa
 IF COL_LENGTH('dbo.empresa', 'NFSeAmbiente') IS NULL
