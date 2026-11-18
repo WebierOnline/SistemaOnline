@@ -4269,6 +4269,7 @@ Public TbNotaPedido As New ADODB.Recordset
 'Botão NFe da OS (Tela_Principal.tmrNFeOS): pedido da OS para converter quando a tela abrir (Form_Activate)
 Public PedidoOS As Long
 Public OSdoPedido As Long
+Private mbDaOS As Boolean   'CarregarPedidoOS em andamento: tela congelada (LockWindowUpdate) e sem a pergunta de converter
 Dim Tb As New ADODB.Recordset
 Dim Titulo, Book As Variant, NomeTabela
 Dim TbProduto As New ADODB.Recordset
@@ -10505,19 +10506,27 @@ For i = 1 To GridPedidos.rows - 1
     If GridPedidos.RowData(i) = 1 And GridPedidos.TextMatrix(i, 2) <> "SIM" Then
         lCliVer = Val(SQLExecutaRetorno("SELECT TOP 1 cod_cliente AS c FROM pedidos WHERE cod_pedido = " & Val(GridPedidos.TextMatrix(i, 1)), "c", 0))
         If lCliVer > 0 And Not ClienteCompletoParaNFe(lCliVer) Then
-            If MsgBox("Os dados do cliente est" & Chr(227) & "o incompletos/errados para concluir o processo." & vbNewLine & _
+            'mostra o que falta; depois do cadastro confere de novo e, completo, segue a conversao sozinho
+            LockWindowUpdate 0
+            If MsgBox("Os dados do cliente do pedido " & GridPedidos.TextMatrix(i, 1) & " est" & Chr(227) & "o incompletos/errados para a NF-e. Falta:" & vbNewLine & vbNewLine & _
+                      ClienteCamposFaltando(lCliVer) & vbNewLine & vbNewLine & _
                       "Deseja ajustar os dados desse cliente para prosseguir com o processo?", _
-                      vbQuestion + vbYesNo, "Online Commerce") = vbYes Then
-                Load Clientes_Cadastro
-                Clientes_Cadastro.bForcarCadastroNFe = True
-                Clientes_Cadastro.SSTab1.Tab = 0
-                Clientes_Cadastro.cmdNovo.Enabled = False
-                Clientes_Cadastro.cmdSalvar.Enabled = False
-                Clientes_Cadastro.cmdCancelar.Enabled = False
-                Clientes_Cadastro.txtCodigo.Text = CStr(lCliVer)
-                Clientes_Cadastro.Show 1
+                      vbQuestion + vbYesNo, "Online Commerce") = vbNo Then Exit Sub
+            Load Clientes_Cadastro
+            Clientes_Cadastro.bForcarCadastroNFe = True
+            Clientes_Cadastro.SSTab1.Tab = 0
+            Clientes_Cadastro.cmdNovo.Enabled = False
+            Clientes_Cadastro.cmdSalvar.Enabled = False
+            Clientes_Cadastro.cmdCancelar.Enabled = False
+            Clientes_Cadastro.txtCodigo.Text = CStr(lCliVer)
+            Clientes_Cadastro.Show 1
+            If Not ClienteCompletoParaNFe(lCliVer) Then
+                MsgBox "O cadastro do cliente ainda est" & Chr(225) & " incompleto. Falta:" & vbNewLine & vbNewLine & _
+                       ClienteCamposFaltando(lCliVer) & vbNewLine & vbNewLine & _
+                       "O pedido n" & Chr(227) & "o foi convertido.", vbExclamation, "Online Commerce"
+                Exit Sub
             End If
-            Exit Sub
+            If mbDaOS Then LockWindowUpdate Me.hwnd
         End If
     End If
 Next i
@@ -10526,7 +10535,9 @@ Dim bUnirEmUmaNota As Boolean
 bUnirEmUmaNota = False
 
 If nMarcados = 1 Then
-    If ShowMsg("Deseja converter 1 pedido em Nota Fiscal?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+    If Not mbDaOS Then
+        If ShowMsg("Deseja converter 1 pedido em Nota Fiscal?", vbYesNo + vbQuestion + vbDefaultButton2) = vbNo Then Exit Sub
+    End If
 Else
     Dim fOpc As New frmOpcaoConversao
     fOpc.lblPergunta.Caption = "Converter " & nMarcados & " pedido(s) selecionado(s):"
@@ -12088,12 +12099,18 @@ If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then
    Exit Sub
 End If
 
+'tela congelada enquanto filtra, marca e converte: aparece so a NF-e pronta na aba CADASTRO
+On Error GoTo deuErro
+mbDaOS = True
+LockWindowUpdate Me.hwnd
+
 Frm_NF.Tab = 2
 cboIndicePedidos.Text = "PEDIDO"
 cboIndicePedidos_Click
 cboClientePedidos.Text = CStr(lPed)
 cmdExibirPedidos_Click
 If GridPedidos.rows < 2 Or Val(GridPedidos.TextMatrix(1, 1)) <> lPed Then
+   CarregarPedidoOS_Fim
    MsgBox "O pedido " & lPed & sOS & " n" & Chr(227) & "o foi encontrado (o cliente do pedido precisa estar cadastrado).", vbExclamation, "Online Commerce"
    Exit Sub
 End If
@@ -12105,9 +12122,10 @@ If GridPedidos.TextMatrix(1, 2) = "SIM" Then
            "WHEN ISNULL(n.Enviada, 0) = 1 THEN 'enviada' ELSE 'em digita" & Chr(231) & Chr(227) & "o' END) + ')' AS v " & _
            "FROM NotaFiscal n WHERE EXISTS (SELECT 1 FROM NotaFiscalItens i WHERE (i.CodigoNota = n.CodigoNota) AND (i.Cod_Pedido = " & lPed & ")) " & _
            "ORDER BY n.CodigoNota DESC", "v", ""))
+   Frm_NF.Tab = 1
+   CarregarPedidoOS_Fim
    MsgBox "O pedido " & lPed & sOS & " j" & Chr(225) & " foi convertido na NF-e n" & Chr(186) & " " & sNota & "." & vbCrLf & vbCrLf & _
           "Ela est" & Chr(225) & " na aba NOTAS FISCAIS (se foi cancelada, use o Duplicar para fazer outra).", vbInformation, "Online Commerce"
-   Frm_NF.Tab = 1
    Exit Sub
 End If
 
@@ -12117,6 +12135,18 @@ GridPedidos.Col = 0
 Set GridPedidos.CellPicture = ImgMarcada.Picture
 GridPedidos.CellPictureAlignment = 4
 cmdConverterNFe_Click
+CarregarPedidoOS_Fim
+Exit Sub
+
+deuErro:
+CarregarPedidoOS_Fim
+MsgBox "Erro ao trazer o pedido " & lPed & sOS & " para a NF-e: " & Err.Description, vbExclamation, "Online Commerce"
+End Sub
+
+'Fim do CarregarPedidoOS: libera a pintura da tela (o Windows redesenha ja no estado final) e volta a perguntar no Converter
+Private Sub CarregarPedidoOS_Fim()
+mbDaOS = False
+LockWindowUpdate 0
 End Sub
 
 

@@ -1263,6 +1263,9 @@ If Val(SQLExecutaRetorno("SELECT COUNT(*) AS n FROM NFSe_OSDisponiveis WHERE (CO
    Exit Sub
 End If
 
+'cadastro do cliente: avisa o que falta (CPF/CNPJ, endereço) antes de gerar; o rascunho copia os dados do cliente
+If Not NFSe_ConferirCliente(lCodOS) Then Exit Sub
+
 sStatus = NFSe_Executar("acao=gerar" & vbCrLf & "os=" & lCodOS, oRes)
 If Left$(sStatus, 2) <> "OK" Then
    MsgBox "Não foi possível gerar a NFS-e:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, "NFS-e"

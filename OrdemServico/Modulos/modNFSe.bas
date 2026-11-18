@@ -140,6 +140,77 @@ Select Case NFSe_SemTomador(lId)
 End Select
 End Function
 
+'O que falta no cadastro do cliente para a NFS-e sair completa ("" = nada). Diferente da NF-e, nada disso impede
+'a NFS-e: sem CPF/CNPJ a nota sai sem tomador identificado; sem endereço/CEP/IBGE, o tomador sai sem endereço
+'(regras do NFSeEmissor: TomadorCliente.Ler + Servico, endereço só com município IBGE, logradouro e CEP de 8 dígitos)
+Public Function NFSe_ClienteFaltando(ByVal lCod As Long) As String
+Dim r As ADODB.Recordset
+Dim sDoc As String, sTipo As String, sFalta As String
+Dim bJur As Boolean, bSemEnd As Boolean
+NFSe_ClienteFaltando = ""
+If lCod <= 0 Then Exit Function
+Set r = dbData.OpenRecordset("SELECT * FROM cliente WHERE (CODIGO = " & lCod & ");")
+If r.EOF Then
+   r.Close
+   Exit Function
+End If
+sDoc = RemoverFormato(ValidateNull(r("CPF")) & "")
+sTipo = UCase$(Trim$(ValidateNull(r("Tipo")) & ""))
+bJur = (Left$(sTipo, 3) = "JUR")
+
+If Vazio(r("Nome")) Then sFalta = sFalta & vbCrLf & "  - Nome"
+If bJur Then
+   If Len(sDoc) <> 14 Then
+      sFalta = sFalta & vbCrLf & "  - CNPJ (empresa precisa ser identificada na nota)"
+   ElseIf Not Validar_CNPJ(sDoc) Then
+      sFalta = sFalta & vbCrLf & "  - CNPJ inválido"
+   End If
+Else
+   If Len(sDoc) <> 11 Then
+      sFalta = sFalta & vbCrLf & "  - CPF (sem ele a nota sai sem tomador identificado)"
+   ElseIf Not Validar_CPF(sDoc) Then
+      sFalta = sFalta & vbCrLf & "  - CPF inválido"
+   End If
+End If
+
+If Vazio(r("Endereco")) Then sFalta = sFalta & vbCrLf & "  - Endereço": bSemEnd = True
+If Len(RemoverFormato(ValidateNull(r("CEP")) & "")) <> 8 Then sFalta = sFalta & vbCrLf & "  - CEP": bSemEnd = True
+If Len(RemoverFormato(ValidateNull(r("CodigoIBGE")) & "")) <> 7 Then sFalta = sFalta & vbCrLf & "  - Código IBGE da cidade": bSemEnd = True
+If bSemEnd Then sFalta = sFalta & vbCrLf & "    (sem endereço, CEP e código IBGE o tomador sai sem endereço na nota)"
+
+r.Close
+Set r = Nothing
+If Len(sFalta) > 0 Then NFSe_ClienteFaltando = Mid$(sFalta, Len(vbCrLf) + 1)
+End Function
+
+'Antes de gerar a NFS-e da OS (botão NFSe): avisa o que falta no cadastro do cliente.
+'Sim = abre o Cadastro de Clientes e confere de novo; Não = gera assim mesmo; Cancelar = não gera.
+Public Function NFSe_ConferirCliente(ByVal lCodOS As Long) As Boolean
+Dim lCli As Long
+Dim sFalta As String
+Dim iResp As VbMsgBoxResult
+NFSe_ConferirCliente = True
+lCli = Val(SQLExecutaRetorno("SELECT TOP 1 COD_CLIENTE AS c FROM OS WHERE (COD_OS = " & lCodOS & ")", "c", "0"))
+Do
+   sFalta = NFSe_ClienteFaltando(lCli)
+   If sFalta = "" Then Exit Function
+   iResp = MsgBox("O cadastro do cliente da OS " & lCodOS & " está incompleto para a NFS-e. Falta:" & vbCrLf & vbCrLf & sFalta & vbCrLf & vbCrLf & _
+                  "Depois de autorizada, a NFS-e não pode ser corrigida." & vbCrLf & vbCrLf & _
+                  "Sim = abrir o cadastro do cliente para completar" & vbCrLf & _
+                  "Não = gerar a NFS-e assim mesmo" & vbCrLf & _
+                  "Cancelar = não gerar agora", vbExclamation + vbYesNoCancel, "NFS-e")
+   Select Case iResp
+      Case vbYes
+         NFeOS_AbrirCadastroCliente lCli
+      Case vbNo
+         Exit Function
+      Case Else
+         NFSe_ConferirCliente = False
+         Exit Function
+   End Select
+Loop
+End Function
+
 Public Function NFSe_SituacaoTexto(ByVal nSituacao As Integer) As String
 Select Case nSituacao
    Case NFSE_DIGITACAO: NFSe_SituacaoTexto = "EM DIGITAÇÃO"
