@@ -1471,3 +1471,138 @@ Private Function AtuMenor(ByVal A As String, ByVal B As String) As Boolean
       If na <> nb Then AtuMenor = (na < nb): Exit Function
    Next
 End Function
+
+'=============================================================================
+' WHATSAPP - pelo servidor de licenças (Evolution API na VPS), uma conexão por CNPJ.
+' O Online Commerce conecta o celular da empresa pelo QR code (frmWhatsAppConfig); depois OnlineCommerce e
+' Ordem de Serviço enviam texto, PDF ou imagem por esse celular. A chave da Evolution fica só no servidor.
+' Situação: "conectado", "conectando", "desconectado"; "" = sem resposta (Msg diz o motivo).
+'=============================================================================
+
+Public Function ZapOnlineSituacao(ByRef Numero As String, ByRef Nome As String, ByRef Msg As String) As String
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String
+
+   Numero = "": Nome = ""
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   If Not ZapOnlineChamar("GET", base & "/whatsapp", "", chave, resp, Msg) Then Exit Function
+   Numero = LicJsonTexto(resp, "numero")
+   Nome = LicJsonTexto(resp, "nome")
+   ZapOnlineSituacao = LicJsonTexto(resp, "situacao")
+   Exit Function
+Falha:
+   Msg = "Falha ao consultar o WhatsApp: " & Err.Description
+End Function
+
+'Pede o QR code (cria a conexão no servidor se ainda não existe). Chamar de novo a cada poucos segundos até "conectado":
+'o QR muda sozinho. ArquivoQr = BMP na pasta temporária ("" se o QR ainda não ficou pronto).
+Public Function ZapOnlineConectar(ByRef ArquivoQr As String, ByRef Numero As String, ByRef Nome As String, _
+                                  ByRef Msg As String) As String
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String
+
+   ArquivoQr = "": Numero = "": Nome = ""
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   If Not ZapOnlineChamar("POST", base & "/whatsapp/conectar?formato=bmp", "", chave, resp, Msg) Then Exit Function
+   ZapOnlineConectar = LicJsonTexto(resp, "situacao")
+   Numero = LicJsonTexto(resp, "numero")
+   Nome = LicJsonTexto(resp, "nome")
+   If ZapOnlineConectar = "conectando" Then ArquivoQr = LicSalvarBmp(LicJsonTexto(resp, "imagem"), "whatsapp_qr.bmp")
+   Exit Function
+Falha:
+   Msg = "Falha ao gerar o QR code: " & Err.Description
+End Function
+
+Public Function ZapOnlineDesconectar(ByRef Msg As String) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String
+
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   ZapOnlineDesconectar = ZapOnlineChamar("POST", base & "/whatsapp/desconectar", "", chave, resp, Msg)
+   Exit Function
+Falha:
+   Msg = "Falha ao desconectar o WhatsApp: " & Err.Description
+End Function
+
+'Envia Texto para o celular (com DDD). Com Arquivo (PDF, JPG, PNG...), envia o arquivo com o Texto como legenda.
+Public Function ZapOnlineEnviar(ByVal Numero As String, ByVal Texto As String, ByVal Arquivo As String, _
+                                ByRef Msg As String) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String, corpo As String, b64 As String
+
+   If Len(LicSoDigitos(Numero)) < 10 Then
+      Msg = "Informe o celular com DDD."
+      Exit Function
+   End If
+   corpo = "{""numero"":" & LicJsonStr(Numero) & ",""texto"":" & LicJsonStr(Texto)
+   If Len(Arquivo) > 0 Then
+      If Dir$(Arquivo) = "" Then
+         Msg = "Arquivo não encontrado: " & Arquivo
+         Exit Function
+      End If
+      If FileLen(Arquivo) > 15& * 1024& * 1024& Then
+         Msg = "Arquivo muito grande para o WhatsApp (máximo 15 MB)."
+         Exit Function
+      End If
+      b64 = ZapOnlineBase64Arquivo(Arquivo)
+      If Len(b64) = 0 Then
+         Msg = "Não foi possível ler o arquivo: " & Arquivo
+         Exit Function
+      End If
+      corpo = corpo & ",""arquivo"":""" & b64 & """,""nomeArquivo"":" & LicJsonStr(Mid$(Arquivo, InStrRev(Arquivo, "\") + 1))
+   End If
+   corpo = corpo & "}"
+
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   ZapOnlineEnviar = ZapOnlineChamar("POST", base & "/whatsapp/enviar", corpo, chave, resp, Msg)
+   Exit Function
+Falha:
+   Msg = "Falha ao enviar pelo WhatsApp: " & Err.Description
+End Function
+
+'200 = True. Senão Msg com o motivo (a "mensagem" do servidor quando vier).
+Private Function ZapOnlineChamar(ByVal Metodo As String, ByVal Url As String, ByVal Corpo As String, ByVal Chave As String, _
+                                 ByRef Resposta As String, ByRef Msg As String) As Boolean
+   Dim st As Long
+
+   If Not LicHttp(Metodo, Url, Corpo, Chave, st, Resposta) Then
+      Msg = LicSemConexao()
+      Exit Function
+   End If
+   Select Case st
+      Case 200
+         ZapOnlineChamar = True
+      Case 401
+         Msg = "Esta instalação não está liberada no servidor de licenças. Fale com o suporte: " & SUPORTE & "."
+      Case 413
+         Msg = "Arquivo muito grande para o WhatsApp (máximo 15 MB)."
+      Case 429
+         Msg = "Muitas tentativas. Aguarde um minuto e tente de novo."
+      Case Else
+         Msg = LicJsonTexto(Resposta, "mensagem")
+         If Len(Msg) = 0 Then Msg = "O servidor do WhatsApp não respondeu como esperado (" & st & "). Tente de novo."
+   End Select
+End Function
+
+'Conteúdo do arquivo em base64 (uma linha só). "" se não conseguir ler.
+Private Function ZapOnlineBase64Arquivo(ByVal Arquivo As String) As String
+   On Error GoTo Falha
+   Dim f As Integer, bytes() As Byte, doc As Object, el As Object, s As String
+
+   If FileLen(Arquivo) = 0 Then Exit Function
+   f = FreeFile
+   Open Arquivo For Binary Access Read As #f
+   ReDim bytes(0 To LOF(f) - 1)
+   Get #f, , bytes
+   Close #f
+   Set doc = CreateObject("MSXML2.DOMDocument")
+   Set el = doc.createElement("b64")
+   el.DataType = "bin.base64"
+   el.nodeTypedValue = bytes
+   s = el.Text
+   ZapOnlineBase64Arquivo = Replace(Replace(s, vbLf, ""), vbCr, "")
+   Exit Function
+Falha:
+   If f > 0 Then Close #f
+   ZapOnlineBase64Arquivo = ""
+End Function

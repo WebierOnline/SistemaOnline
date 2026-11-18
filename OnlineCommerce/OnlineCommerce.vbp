@@ -130,6 +130,7 @@ Form=..\Compartilhado\Forms\REL_Recibo_Avulso.frm
 Form=..\Compartilhado\Forms\REL_Produtos.frm
 Module=JSON; ..\Compartilhado\Modulos\JSON.bas
 Form=..\Compartilhado\Forms\frmQRCode.frm
+Form=..\Compartilhado\Forms\frmWhatsAppConfig.frm
 Form=Forms\VendasServicos_Consulta.frm
 Form=Forms\VendasAluguel_Consulta.frm
 Form=Forms\VendasServicos_ConsultaAgrupada.frm

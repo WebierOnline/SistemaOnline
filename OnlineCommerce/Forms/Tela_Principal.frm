@@ -632,6 +632,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_SIS_Config 
          Caption         =   "&Configurações"
       End
+      Begin VB.Menu Menu_SIS_WhatsApp 
+         Caption         =   "&WhatsApp"
+      End
       Begin VB.Menu Menu_SIS_Contadores 
          Caption         =   "Contabilidade"
          Begin VB.Menu Menu_SIS_Contador 
@@ -1940,6 +1943,10 @@ Private Sub Menu_SIS_Config_Click()
    Configuracao_Geral.Show 1
 End Sub
 
+Private Sub Menu_SIS_WhatsApp_Click()
+   frmWhatsAppConfig.Show 1
+End Sub
+
 
 Private Sub Menu_SIS_Contador_Click()
 Contador_Cadastro.Show 1
@@ -2453,6 +2460,7 @@ If vCodUsuario = False Then
     Menu_PROD_Contagem.Enabled = False
     Menu_CAD_Empresa.Enabled = False
     Menu_SIS_Config.Enabled = False
+    Menu_SIS_WhatsApp.Enabled = False
     Menu_Fin_APagar.Enabled = False
     Menu_Sistema_LimparTabelas.Enabled = False
 Else
@@ -2501,8 +2509,10 @@ Else
     End If
     If LerPermissoesUsuario(vCodUsuario, 11) = True Then
          Menu_SIS_Config.Enabled = True
+         Menu_SIS_WhatsApp.Enabled = True
      Else
          Menu_SIS_Config.Enabled = False
+         Menu_SIS_WhatsApp.Enabled = False
     End If
     If LerPermissoesUsuario(vCodUsuario, 12) = True Then
          Menu_Fin_APagar.Enabled = True
