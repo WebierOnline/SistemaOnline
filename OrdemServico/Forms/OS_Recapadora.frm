@@ -11217,8 +11217,7 @@ On Error GoTo 0
 
 sNome = PDFZap_PrimeiroNome(lCli)
 sEmpresa = PDFZap_NomeEmpresa()
-sTexto = "Olá" & IIf(sNome <> "", ", " & sNome, "") & "! Segue " & sDoc & " da ordem de serviço nº " & lOS & "." & _
-         IIf(sEmpresa <> "", vbLf & vbLf & sEmpresa, "")
+sTexto = PDFZap_Mensagem(nTipo, lOS, sNome, sEmpresa, vTipoOS)
 
 If ZapOnlineEnviar(sCel, sTexto, sEnvio, sMsg) Then
     Screen.MousePointer = vbDefault

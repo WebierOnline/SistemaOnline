@@ -1,4 +1,5 @@
 VERSION 5.00
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Begin VB.Form frmWhatsAppConfig
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Configurar WhatsApp"
@@ -6,6 +7,7 @@ Begin VB.Form frmWhatsAppConfig
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   8775
+   KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
@@ -19,14 +21,42 @@ Begin VB.Form frmWhatsAppConfig
       Left            =   120
       Top             =   6600
    End
-   Begin VB.CommandButton cmdFechar
-      Cancel          =   -1  'True
-      Caption         =   "&Fechar"
+   Begin ChamaleonBtn.chameleonButton cmdFechar 
       Height          =   495
       Left            =   7080
       TabIndex        =   6
       Top             =   6480
       Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   873
+      BTYPE           =   3
+      TX              =   "&Fechar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin VB.Frame fraTeste
       Caption         =   " Enviar mensagem de teste "
@@ -35,13 +65,42 @@ Begin VB.Form frmWhatsAppConfig
       TabIndex        =   9
       Top             =   5160
       Width           =   8295
-      Begin VB.CommandButton cmdTeste
-         Caption         =   "Enviar &teste"
+      Begin ChamaleonBtn.chameleonButton cmdTeste 
          Height          =   435
          Left            =   6360
          TabIndex        =   5
          Top             =   420
          Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   767
+         BTYPE           =   3
+         TX              =   "Enviar &teste"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
       End
       Begin VB.TextBox txtNumeroTeste
          Height          =   375
@@ -60,22 +119,79 @@ Begin VB.Form frmWhatsAppConfig
          Width           =   1575
       End
    End
-   Begin VB.CommandButton cmdDesconectar
-      Caption         =   "&Desconectar"
+   Begin ChamaleonBtn.chameleonButton cmdDesconectar 
       Height          =   495
       Left            =   6480
       TabIndex        =   3
       Top             =   1560
       Width           =   2055
+      _ExtentX        =   3625
+      _ExtentY        =   873
+      BTYPE           =   3
+      TX              =   "&Desconectar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.CommandButton cmdConectar
-      Caption         =   "&Conectar"
-      Default         =   -1  'True
+   Begin ChamaleonBtn.chameleonButton cmdConectar 
       Height          =   495
       Left            =   6480
       TabIndex        =   2
       Top             =   960
       Width           =   2055
+      _ExtentX        =   3625
+      _ExtentY        =   873
+      BTYPE           =   3
+      TX              =   "&Conectar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
    Begin VB.Image imgQR
       Height          =   3855
@@ -296,6 +412,10 @@ End Sub
 
 Private Sub cmdFechar_Click()
 Unload Me
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+If KeyCode = vbKeyEscape Then Unload Me
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)

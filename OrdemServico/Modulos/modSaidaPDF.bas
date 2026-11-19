@@ -411,3 +411,82 @@ For i = 1 To Len(s)
     If ch Like "#" Then PDFZap_Digitos = PDFZap_Digitos & ch
 Next
 End Function
+
+'Mensagem do WhatsApp para o documento da OS (modelos aprovados pelo usuário em 2026-11-18).
+'nTipo: 1 = Orçamento, 2 = Pedido (serviço concluído), 3 = Entrada, 4 = Garantia. sTipoOS = vTipoOS da tela.
+'*texto* = negrito no WhatsApp. Emojis montados por PDFZap_Emoji (o .bas é Windows-1252).
+Public Function PDFZap_Mensagem(ByVal nTipo As Integer, ByVal lOS As Long, ByVal sNome As String, _
+                                ByVal sEmpresa As String, ByVal sTipoOS As String) As String
+Dim L As String, sOla As String, sEmp As String, sAssin As String, sOS As String
+Dim sEntrada As String, sFimEntrada As String, sVeic As String
+
+L = vbLf
+sOla = "Olá" & IIf(sNome <> "", ", *" & sNome & "*", "") & "!"
+sEmp = IIf(sEmpresa <> "", "*" & sEmpresa & "*", "")
+sOS = "*Ordem de Serviço nº " & lOS & "*"
+
+Select Case sTipoOS
+    Case "Automóveis"
+        sVeic = PDFZap_Emoji(&H1F697)                                   'carro
+        sEntrada = "Confirmamos a entrada do seu veículo em nossa oficina!"
+        sFimEntrada = "Qualquer novidade sobre o diagnóstico ou andamento, avisaremos você por aqui. Conte com a gente! "
+    Case "Motocicletas"
+        sVeic = PDFZap_Emoji(&H1F3CD) & ChrW$(&HFE0F)                   'moto
+        sEntrada = "Confirmamos a entrada da sua moto em nossa oficina!"
+        sFimEntrada = "Qualquer novidade sobre o diagnóstico ou andamento, avisaremos você por aqui. Conte com a gente! "
+    Case "Informática", "Celular", "Climatização"
+        sEntrada = "Confirmamos a entrada do seu equipamento!"
+        sFimEntrada = "Qualquer novidade sobre o diagnóstico ou andamento, avisaremos você por aqui. Conte com a gente! "
+    Case Else
+        sEntrada = "Confirmamos a abertura do seu atendimento!"
+        sFimEntrada = "Qualquer novidade sobre o andamento, avisaremos você por aqui. Conte com a gente! "
+End Select
+sAssin = sEmp
+If sAssin <> "" And sVeic <> "" Then sAssin = sAssin & " " & PDFZap_Emoji(&H1F527) & sVeic       'chave inglesa + veículo
+
+Select Case nTipo
+    Case 1  'Orçamento: foco em aprovação
+        PDFZap_Mensagem = sOla & " Tudo bem? " & PDFZap_Emoji(&H1F44B) & L & L & _
+            "Segue em anexo o orçamento detalhado referente à sua " & sOS & ". " & PDFZap_Emoji(&H1F4C4) & L & L & _
+            "Dê uma olhada nos itens e valores. Caso tenha qualquer dúvida ou já queira autorizar o serviço para agilizar, é só me responder por aqui!" & _
+            IIf(sAssin <> "", L & L & "Atenciosamente," & L & sAssin, "")
+    Case 3  'Entrada: foco em transparência e segurança
+        PDFZap_Mensagem = sOla & IIf(sEmp <> "", " Seja bem-vindo(a) à " & sEmp & ".", "") & " " & PDFZap_Emoji(&H1F44B) & L & L & _
+            sEntrada & " Segue em anexo o comprovante de abertura da " & sOS & " com os detalhes iniciais. " & PDFZap_Emoji(&H1F4CB) & L & L & _
+            sFimEntrada & IIf(sVeic <> "", sVeic, "") & ChrW$(&H2728)
+    Case 2  'Pedido / serviço concluído: foco em pós-venda
+        PDFZap_Mensagem = sOla & " Tudo certo? " & PDFZap_Emoji(&H1F60A) & L & L & _
+            "Muito obrigado pela confiança em nosso trabalho! Segue em anexo o resumo da sua " & sOS & " para o seu controle. " & _
+            PDFZap_Emoji(&H1F4C4) & ChrW$(&H2705) & L & L & _
+            "Se precisar de qualquer suporte ou revisão futura, estamos sempre à disposição. Até a próxima!" & _
+            IIf(sAssin <> "", L & L & sAssin, "")
+    Case Else  'Garantia
+        PDFZap_Mensagem = sOla & " Tudo certo? " & PDFZap_Emoji(&H1F60A) & L & L & _
+            "Segue em anexo o *termo de garantia* da sua " & sOS & ". Guarde para a sua segurança. " & _
+            PDFZap_Emoji(&H1F6E1) & ChrW$(&HFE0F) & L & L & _
+            "Se precisar de qualquer suporte dentro da garantia, é só chamar por aqui. Estamos à disposição!" & _
+            IIf(sAssin <> "", L & L & sAssin, "")
+End Select
+End Function
+
+'Emoji (code point acima de FFFF) como par UTF-16 para strings do VB6.
+Private Function PDFZap_Emoji(ByVal lCodigo As Long) As String
+Dim v As Long
+
+v = lCodigo - &H10000
+PDFZap_Emoji = ChrW$(&HD800& + (v \ &H400&)) & ChrW$(&HDC00& + (v And &H3FF&))
+End Function
+
+'Mensagem do WhatsApp da NFS-e (tela frmNFSe), no estilo dos modelos da OS.
+Public Function PDFZap_MensagemNFSe(ByVal sNome As String, ByVal sNumero As String, ByVal sValor As String, _
+                                    ByVal bCancelada As Boolean, ByVal sEmpresa As String) As String
+Dim L As String
+
+L = vbLf
+PDFZap_MensagemNFSe = "Olá" & IIf(sNome <> "", ", *" & sNome & "*", "") & "! Tudo bem? " & PDFZap_Emoji(&H1F44B) & L & L & _
+    "Segue em anexo a *Nota Fiscal de Serviço eletrônica (NFS-e) nº " & sNumero & "*, no valor de *R$ " & sValor & "*. " & _
+    PDFZap_Emoji(&H1F4C4) & L & L & _
+    IIf(bCancelada, ChrW$(&H26A0) & ChrW$(&HFE0F) & " *Atenção: esta NFS-e foi CANCELADA.*" & L & L, "") & _
+    "A autenticidade pode ser conferida pelo QR Code do PDF ou no portal nacional da NFS-e (www.nfse.gov.br)." & _
+    IIf(sEmpresa <> "", L & L & "Atenciosamente," & L & "*" & sEmpresa & "*", "")
+End Function

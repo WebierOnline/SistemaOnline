@@ -539,7 +539,7 @@ Begin VB.Form frmNFSe
    End
    Begin ChamaleonBtn.chameleonButton cmdExcluir 
       Height          =   315
-      Left            =   7620
+      Left            =   9060
       TabIndex        =   8
       Top             =   6600
       Width           =   915
@@ -575,9 +575,46 @@ Begin VB.Form frmNFSe
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
+   Begin ChamaleonBtn.chameleonButton cmdWhatsApp 
       Height          =   315
       Left            =   6300
+      TabIndex        =   36
+      Top             =   6600
+      Width           =   1395
+      _ExtentX        =   2461
+      _ExtentY        =   556
+      BTYPE           =   3
+      TX              =   "Enviar &WhatsApp"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851}
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdCancelarNota 
+      Height          =   315
+      Left            =   7740
       TabIndex        =   9
       Top             =   6600
       Width           =   1275
@@ -1181,6 +1218,7 @@ cmdTransmitir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA Or nSit 
 cmdConsultar.Enabled = (nSit = NFSE_PENDENTE Or nSit = NFSE_AUTORIZADA Or nSit = NFSE_REJEITADA)
 cmdImprimir.Enabled = (nSit = NFSE_AUTORIZADA Or nSit = NFSE_CANCELADA)
 cmdEmail.Enabled = cmdImprimir.Enabled
+cmdWhatsApp.Enabled = cmdImprimir.Enabled
 cmdCancelarNota.Enabled = (nSit = NFSE_AUTORIZADA)
 If cmdCancelarNota.Enabled Then cmdCancelarNota.Enabled = (grdNotas.TextMatrix(grdNotas.Row, C_ANALISE) <> "1")
 cmdExcluir.Enabled = (nSit = NFSE_DIGITACAO Or nSit = NFSE_REJEITADA)
@@ -1517,6 +1555,124 @@ MsgBox "Erro ao enviar o e-mail:" & vbCrLf & Err.Description, vbCritical, "NFS-e
 Err.Clear
 Set sistNFe = Nothing
 End Sub
+
+'PDF (DANFSe) da NFS-e pelo WhatsApp da empresa (conectado no Online Commerce > Sistema > WhatsApp)
+Private Sub cmdWhatsApp_Click()
+Const TITULO As String = "Enviar NFS-e pelo WhatsApp"
+Dim r As ADODB.Recordset
+Dim oRes As Object
+Dim sStatus As String, sPdf As String, sNumero As String, sTomador As String, sDoc As String, sValor As String
+Dim sFone As String, sCel As String, sCelCad As String, sMsg As String, sSit As String, sNum As String, sNomeZap As String
+Dim sNome As String, sTexto As String, sEnvio As String
+Dim bCancelada As Boolean
+Dim lId As Long, lCli As Long
+
+lId = IdSelecionado()
+If lId = 0 Then Exit Sub
+Set r = dbData.OpenRecordset("SELECT NumeroNFSe, Situacao, TomadorNome, TomadorCpfCnpj, TomadorFone, CodCliente, ArquivoPdf, " & _
+                             "ValorServicos - DescontoIncondicionado AS Valor FROM NFSe WHERE (IdNFSe = " & lId & ")")
+If r.EOF Then
+   r.Close
+   Exit Sub
+End If
+sNumero = ValidateNull(r("NumeroNFSe"))
+bCancelada = (Val(ValidateNull(r("Situacao"))) = NFSE_CANCELADA)
+sTomador = Trim$(ValidateNull(r("TomadorNome")))
+sDoc = Trim$(ValidateNull(r("TomadorCpfCnpj")))
+sFone = Trim$(ValidateNull(r("TomadorFone")))
+lCli = Val(ValidateNull(r("CodCliente")))
+sPdf = ValidateNull(r("ArquivoPdf"))
+sValor = Format$(ValidateNull(r("Valor")), ocMONEY)
+r.Close
+Set r = Nothing
+
+'WhatsApp conectado? (antes de gerar arquivo ou perguntar o celular)
+Screen.MousePointer = vbHourglass
+sSit = ZapOnlineSituacao(sNum, sNomeZap, sMsg)
+Screen.MousePointer = vbDefault
+If sSit = "" Then
+   MsgBox sMsg, vbExclamation, TITULO
+   Exit Sub
+ElseIf sSit <> "conectado" Then
+   MsgBox "O WhatsApp da empresa não está conectado." & vbCrLf & vbCrLf & _
+          "Conecte no Online Commerce, em Sistema > WhatsApp, lendo o QR code com o celular da empresa.", vbExclamation, TITULO
+   Exit Sub
+End If
+
+'PDF apagado ou de outro computador: o NFSeEmissor gera de novo a partir do XML gravado no banco
+If Not ArquivoExiste(sPdf) Then
+   Screen.MousePointer = vbHourglass
+   sStatus = NFSe_Executar("acao=pdf" & vbCrLf & "id=" & lId, oRes)
+   Screen.MousePointer = vbDefault
+   If Left$(sStatus, 2) <> "OK" Then
+      MsgBox "Não foi possível gerar o PDF da NFS-e:" & vbCrLf & vbCrLf & Mid$(sStatus, 7), vbExclamation, TITULO
+      Exit Sub
+   End If
+   sPdf = NFSe_Valor(oRes, "pdf")
+End If
+If Not ArquivoExiste(sPdf) Then
+   MsgBox "PDF da NFS-e não encontrado:" & vbCrLf & sPdf, vbExclamation, TITULO
+   Exit Sub
+End If
+
+'celular do cadastro do cliente; sem ele, o telefone da nota quando tem cara de celular (11 digitos)
+sCelCad = PDFZap_CelularCliente(lCli)
+If sCelCad = "" And Len(SoDigitosZap(sFone)) = 11 Then sCelCad = sFone
+sCel = PDFZap_PedirCelular(sCelCad)
+If sCel = "" Then Exit Sub
+
+'pessoa fisica: primeiro nome; empresa: o nome inteiro
+If Len(SoDigitosZap(sDoc)) = 14 Then
+   sNome = sTomador
+ElseIf lCli > 0 Then
+   sNome = PDFZap_PrimeiroNome(lCli)
+Else
+   sNome = sTomador
+   If InStr(sNome, " ") > 0 Then sNome = Left$(sNome, InStr(sNome, " ") - 1)
+   sNome = StrConv(sNome, vbProperCase)
+End If
+sTexto = PDFZap_MensagemNFSe(sNome, sNumero, sValor, bCancelada, PDFZap_NomeEmpresa())
+
+'o nome do arquivo aparece para o cliente no WhatsApp
+sEnvio = Environ$("TEMP") & "\NFSe_" & sNumero & ".pdf"
+On Error Resume Next
+Kill sEnvio
+Err.Clear
+FileCopy sPdf, sEnvio
+If Err.Number <> 0 Then sEnvio = sPdf
+Err.Clear
+On Error GoTo 0
+
+Screen.MousePointer = vbHourglass
+If ZapOnlineEnviar(sCel, sTexto, sEnvio, sMsg) Then
+   Screen.MousePointer = vbDefault
+   If lCli > 0 And Not PDFZap_MesmoNumero(sCel, PDFZap_CelularCliente(lCli)) Then
+      If PDFZap_AtualizarCliente(lCli, sCel) Then
+         MsgBox "NFS-e nº " & sNumero & " enviada pelo WhatsApp para " & sCel & "." & vbCrLf & _
+                "O celular do cliente foi atualizado no cadastro.", vbInformation, TITULO
+      Else
+         MsgBox "NFS-e nº " & sNumero & " enviada pelo WhatsApp para " & sCel & ".", vbInformation, TITULO
+      End If
+   Else
+      MsgBox "NFS-e nº " & sNumero & " enviada pelo WhatsApp para " & sCel & ".", vbInformation, TITULO
+   End If
+Else
+   Screen.MousePointer = vbDefault
+   MsgBox "Não foi possível enviar pelo WhatsApp." & vbCrLf & vbCrLf & sMsg, vbExclamation, TITULO
+End If
+If sEnvio <> sPdf Then
+   On Error Resume Next
+   Kill sEnvio
+   On Error GoTo 0
+End If
+End Sub
+
+Private Function SoDigitosZap(ByVal s As String) As String
+Dim i As Long
+For i = 1 To Len(s)
+   If Mid$(s, i, 1) Like "#" Then SoDigitosZap = SoDigitosZap & Mid$(s, i, 1)
+Next
+End Function
 
 Private Sub cmdCancelarNota_Click()
 Dim oRes As Object
