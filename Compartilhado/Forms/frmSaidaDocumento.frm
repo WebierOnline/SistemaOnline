@@ -107,8 +107,12 @@ Me.Hide
 End Sub
 
 'Pergunta a saida do documento. Retorna 0 se cancelou.
-Public Function Perguntar() As Integer
+'bSoEnvio = so as opcoes de envio (e-mail e WhatsApp), ex.: Enviar XML da NF-e.
+Public Function Perguntar(Optional ByVal bSoEnvio As Boolean = False) As Integer
 Escolha = 0
+optImprimir.Enabled = Not bSoEnvio
+optPDF.Enabled = Not bSoEnvio
+If bSoEnvio Then optEmail.Value = True Else optImprimir.Value = True
 Me.Show vbModal
 Perguntar = Escolha
 End Function

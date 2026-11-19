@@ -320,97 +320,8 @@ End Function
 
 '---------------------------------------------------------------------------
 ' WhatsApp: o PDF sai pela mesma impressora do e-mail ([IMPRESSORA_PDF_EMAIL]) e vai pelo WhatsApp da
-' empresa, conectado no Online Commerce (Sistema > WhatsApp). Envio: ZapOnlineEnviar (LicencaOnline.bas).
+' empresa. Celular, nome e emoji ficam em modZapEnvio.bas (Compartilhado).
 '---------------------------------------------------------------------------
-
-'Celular do cliente no cadastro; sem celular, o telefone1 quando tem cara de celular (11 dígitos). "" se não tiver.
-Public Function PDFZap_CelularCliente(ByVal lCodCliente As Long) As String
-Dim s As String
-
-If lCodCliente <= 0 Then Exit Function
-s = Trim$(CStr(SQLExecutaRetorno("SELECT celular FROM cliente WHERE codigo = " & lCodCliente, "celular", "")))
-If Len(PDFZap_Digitos(s)) < 10 Then
-    s = Trim$(CStr(SQLExecutaRetorno("SELECT telefone1 FROM cliente WHERE codigo = " & lCodCliente, "telefone1", "")))
-    If Len(PDFZap_Digitos(s)) <> 11 Then s = ""
-End If
-PDFZap_CelularCliente = s
-End Function
-
-'Pergunta o celular (já preenchido com o do cadastro). "" = cancelou.
-Public Function PDFZap_PedirCelular(ByVal sSugestao As String) As String
-Dim s As String, d As String
-
-Do
-    s = Trim$(InputBox("Informe o celular (com DDD) para enviar o PDF pelo WhatsApp:", "Enviar por WhatsApp", sSugestao))
-    If s = "" Then Exit Function
-    d = PDFZap_Digitos(s)
-    If Len(d) >= 12 And Left$(d, 2) = "55" Then d = Mid$(d, 3)
-    If Len(d) = 10 Or Len(d) = 11 Then
-        PDFZap_PedirCelular = s
-        Exit Function
-    End If
-    MsgBox "Celular inválido. Digite com o DDD, ex.: (89) 9 9999-9999.", vbExclamation, "Enviar por WhatsApp"
-    sSugestao = s
-Loop
-End Function
-
-'Mesmo número (só os dígitos, sem o 55)?
-Public Function PDFZap_MesmoNumero(ByVal a As String, ByVal b As String) As Boolean
-a = PDFZap_Digitos(a): b = PDFZap_Digitos(b)
-If Len(a) >= 12 And Left$(a, 2) = "55" Then a = Mid$(a, 3)
-If Len(b) >= 12 And Left$(b, 2) = "55" Then b = Mid$(b, 3)
-PDFZap_MesmoNumero = (a = b)
-End Function
-
-'Grava o celular no cadastro do cliente no formato da tela, "(89) 99999-9999". True se atualizou.
-Public Function PDFZap_AtualizarCliente(ByVal lCodCliente As Long, ByVal sCelular As String) As Boolean
-Dim d As String, s As String
-
-If lCodCliente <= 0 Then Exit Function
-d = PDFZap_Digitos(sCelular)
-If Len(d) >= 12 And Left$(d, 2) = "55" Then d = Mid$(d, 3)
-If Len(d) = 11 Then
-    s = "(" & Left$(d, 2) & ") " & Mid$(d, 3, 5) & "-" & Mid$(d, 8)
-ElseIf Len(d) = 10 Then
-    s = "(" & Left$(d, 2) & ") " & Mid$(d, 3, 4) & "-" & Mid$(d, 7)
-Else
-    Exit Function
-End If
-On Error GoTo deuErro
-dbData.Execute "UPDATE cliente SET celular = '" & s & "' WHERE codigo = " & lCodCliente
-PDFZap_AtualizarCliente = True
-Exit Function
-deuErro:
-Err.Clear
-End Function
-
-'Primeiro nome do cliente, só com a inicial maiúscula ("JOAO DA SILVA" -> "Joao"). "" se não tiver.
-Public Function PDFZap_PrimeiroNome(ByVal lCodCliente As Long) As String
-Dim s As String
-
-If lCodCliente <= 0 Then Exit Function
-s = Trim$(CStr(SQLExecutaRetorno("SELECT nome FROM cliente WHERE codigo = " & lCodCliente, "nome", "")))
-If InStr(s, " ") > 0 Then s = Left$(s, InStr(s, " ") - 1)
-PDFZap_PrimeiroNome = StrConv(s, vbProperCase)
-End Function
-
-'Nome da empresa para assinar a mensagem (fantasia; sem fantasia, a razão social)
-Public Function PDFZap_NomeEmpresa() As String
-Dim s As String
-
-s = Trim$(CStr(SQLExecutaRetorno("SELECT TOP 1 FANTASIA FROM empresa", "FANTASIA", "")))
-If s = "" Then s = Trim$(CStr(SQLExecutaRetorno("SELECT TOP 1 RAZAO FROM empresa", "RAZAO", "")))
-PDFZap_NomeEmpresa = s
-End Function
-
-Private Function PDFZap_Digitos(ByVal s As String) As String
-Dim i As Long, ch As String
-
-For i = 1 To Len(s)
-    ch = Mid$(s, i, 1)
-    If ch Like "#" Then PDFZap_Digitos = PDFZap_Digitos & ch
-Next
-End Function
 
 'Mensagem do WhatsApp para o documento da OS (modelos aprovados pelo usuário em 2026-11-18).
 'nTipo: 1 = Orçamento, 2 = Pedido (serviço concluído), 3 = Entrada, 4 = Garantia. sTipoOS = vTipoOS da tela.
@@ -467,14 +378,6 @@ Select Case nTipo
             "Se precisar de qualquer suporte dentro da garantia, é só chamar por aqui. Estamos à disposição!" & _
             IIf(sAssin <> "", L & L & sAssin, "")
 End Select
-End Function
-
-'Emoji (code point acima de FFFF) como par UTF-16 para strings do VB6.
-Private Function PDFZap_Emoji(ByVal lCodigo As Long) As String
-Dim v As Long
-
-v = lCodigo - &H10000
-PDFZap_Emoji = ChrW$(&HD800& + (v \ &H400&)) & ChrW$(&HDC00& + (v And &H3FF&))
 End Function
 
 'Mensagem do WhatsApp da NFS-e (tela frmNFSe), no estilo dos modelos da OS.

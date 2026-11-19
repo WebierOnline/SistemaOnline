@@ -4270,6 +4270,9 @@ Public TbNotaPedido As New ADODB.Recordset
 Public PedidoOS As Long
 Public OSdoPedido As Long
 Private mbDaOS As Boolean   'CarregarPedidoOS em andamento: tela congelada (LockWindowUpdate) e sem a pergunta de converter
+'Saida dos documentos (NFeGuardarLinha): nota selecionada quando o usuario escolheu imprimir/PDF/e-mail/WhatsApp
+Private mSaidaCodNota As Long, mSaidaNumNota As String, mSaidaCancelada As Boolean
+Private mSaidaCodDest As Long, mSaidaFornecedor As Boolean
 Dim Tb As New ADODB.Recordset
 Dim Titulo, Book As Variant, NomeTabela
 Dim TbProduto As New ADODB.Recordset
@@ -10091,6 +10094,7 @@ Dim ComandoSQL As String, SeqEvento As Integer, textoCorrecao As String
 Dim idCartaCorrecao As Long
 Dim vChave As String
 Dim vDataProt As Date
+Dim nEscolha As Integer
 vChave = GridNotas.TextMatrix(GridNotas.Row, 8)
 vDataProt = GridNotas.TextMatrix(GridNotas.Row, 11)
 
@@ -10111,23 +10115,267 @@ Dim objNFe As New snfe.Util
    
    SeqEvento = Grid_Correcao.TextMatrix(i, 4)
 
+   'Imprimir / Gerar PDF / e-mail / WhatsApp (tela compartilhada com a OS)
+   NFeGuardarLinha
+   nEscolha = frmSaidaDocumento.Perguntar()
+   Unload frmSaidaDocumento
+   If nEscolha = 0 Then Set objNFe = Nothing: Exit Sub
+
    dirXML = SQLExecutaRetorno("SELECT DiretorioXML FROM empresa", "DiretorioXML", App.path)
    xCaminhoXML = dirXML & "\nfe\arquivos\procNFe\" & Format(vDataProt, "yyyymm") & "\" & vChave & "-procNFe.xml"
    xCaminhoXMLAuxiliar = dirXML & "\nfe\arquivos\procEventoNFe\110110" & vChave & LPad(SeqEvento, 2, "0") & "-procEventoNFe.xml"
    xCaminhoPDF = dirXML & "\nfe\arquivos\PDF\CCe" & vChave & "_" & LPad(SeqEvento, 2, "0") & ".pdf"
-   
+
    iRetorno = ConfiguraDLLNFeNFCe(55, "1", objNFe)
 
-   Call objNFe.EventoImprimir(xCaminhoXML, xCaminhoXMLAuxiliar, False, "", True, xCaminhoPDF, False, "", True)
-   
+   If nEscolha = 1 Then
+      Call objNFe.EventoImprimir(xCaminhoXML, xCaminhoXMLAuxiliar, False, "", True, xCaminhoPDF, False, "", True)
+   Else
+      'so o PDF, sem a previa (somentePDF = True)
+      Screen.MousePointer = vbHourglass
+      Call objNFe.EventoImprimir(xCaminhoXML, xCaminhoXMLAuxiliar, False, "", True, xCaminhoPDF, True, "", True)
+      Screen.MousePointer = vbDefault
+   End If
+
    Set objNFe = Nothing
-   
+
+   If nEscolha > 1 Then
+      On Error GoTo 0
+      NFeSaidaDocumento nEscolha, 3, xCaminhoPDF, xCaminhoXMLAuxiliar, CStr(SeqEvento)
+   End If
    Exit Sub
 
 deuErro:
+   Screen.MousePointer = vbDefault
    MsgBox Err.Description, vbCritical + vbOKOnly, "ERRO"
    Err.Clear
    Set objNFe = Nothing
+End Sub
+
+'---------------------------------------------------------------------------
+' Saida dos documentos da NF-e pela tela frmSaidaDocumento (Compartilhado), igual a OS:
+' 1 = imprimir (previa da DLL), 2 = gerar PDF (abre a pasta com o arquivo), 3 = e-mail, 4 = WhatsApp.
+' nTipoDoc: 1 = NF-e (DANFE + XML), 2 = espelho (so o PDF), 3 = Carta de Correcao (PDF + XML do evento).
+'---------------------------------------------------------------------------
+
+'Dados da nota selecionada, guardados antes de qualquer processamento (o espelho recarrega o grid)
+Private Sub NFeGuardarLinha()
+mSaidaCodNota = Val(GridNotas.TextMatrix(GridNotas.Row, 1))
+mSaidaNumNota = Trim$(GridNotas.TextMatrix(GridNotas.Row, 2))
+mSaidaCancelada = (GridNotas.TextMatrix(GridNotas.Row, 7) = "Cancelada")
+mSaidaCodDest = Val(GridNotas.TextMatrix(GridNotas.Row, 12))
+mSaidaFornecedor = (UCase$(Trim$(GridNotas.TextMatrix(GridNotas.Row, 13))) = "FORNECEDOR")
+End Sub
+
+'Gera o DANFE em PDF sem previa (somentePDF = True). Tenta de novo se a DLL der "Exception", como no imprimir.
+Private Function NFeGerarPDF(ByVal sXML As String, ByVal sPDF As String, ByVal bCancelada As Boolean, ByRef sErro As String) As Boolean
+Dim sistNFe As snfe.Util
+Dim nTentativa As Integer
+Dim nErro As Long
+
+sErro = ""
+Screen.MousePointer = vbHourglass
+On Error Resume Next
+For nTentativa = 1 To 2
+    Err.Clear
+    Set sistNFe = New snfe.Util
+    Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+    Call sistNFe.DANFeImprimir(sXML, False, "", True, sPDF, 4, bCancelada, True, "", True, False, False, False, True)
+    nErro = Err.Number
+    sErro = Err.Description
+    Set sistNFe = Nothing
+    If nErro = 0 Then sErro = "": Exit For
+    If InStr(1, sErro, "Exception") = 0 Then Exit For
+Next
+Err.Clear
+On Error GoTo 0
+Screen.MousePointer = vbDefault
+
+If sErro = "" And Not existe(sPDF) Then sErro = "O arquivo PDF não foi gerado."
+NFeGerarPDF = (sErro = "")
+End Function
+
+'Saida 2, 3 ou 4 de um documento ja gerado. Sem PDF, vai so o XML (quando houver).
+Private Sub NFeSaidaDocumento(ByVal nEscolha As Integer, ByVal nTipoDoc As Integer, ByVal sPDF As String, _
+                              ByVal sXML As String, Optional ByVal sSeqCCe As String = "")
+If Not existe(sPDF) Then sPDF = ""
+If nTipoDoc = 2 Then sXML = ""
+If sXML <> "" Then If Not existe(sXML) Then sXML = ""
+
+If sPDF = "" And (nEscolha = 2 Or sXML = "") Then
+    MsgBox "Não foi possível gerar o PDF do documento.", vbExclamation, "Aviso do Sistema"
+    Exit Sub
+End If
+
+Select Case nEscolha
+    Case 2: Shell "explorer.exe /select,""" & sPDF & """", vbNormalFocus
+    Case 3: NFeEnviarPorEmail nTipoDoc, sPDF, sXML, sSeqCCe
+    Case 4: NFeEnviarPorWhatsApp nTipoDoc, sPDF, sXML, sSeqCCe
+End Select
+End Sub
+
+'E-mail do destinatario no cadastro (cliente ou fornecedor). "" se nao tiver.
+Private Function NFeEmailDestinatario() As String
+If mSaidaCodDest <= 0 Then Exit Function
+On Error Resume Next
+NFeEmailDestinatario = Trim$(CStr(SQLExecutaRetorno("SELECT Correio_eletronico FROM " & IIf(mSaidaFornecedor, "fornecedor", "cliente") & _
+                                                    " WHERE codigo = " & mSaidaCodDest, "Correio_eletronico", "")))
+Err.Clear
+End Function
+
+Private Sub NFeEnviarPorEmail(ByVal nTipoDoc As Integer, ByVal sPDF As String, ByVal sXML As String, ByVal sSeqCCe As String)
+Dim sEmail As String, sAssunto As String, sCorpo As String
+Dim pathAnexo() As String, emailCC() As String
+Dim sistNFe As snfe.Util
+Dim vRet As Variant
+
+sEmail = Trim$(InputBox("Informe o e-mail do destinatário", "Envio de Email", NFeEmailDestinatario()))
+If Vazio(sEmail) Then Exit Sub
+If InStr(1, sEmail, "@") = 0 Then
+    MsgBox "E-mail inválido! O endereço não contém '@'.", vbExclamation, "Aviso"
+    Exit Sub
+End If
+
+Select Case nTipoDoc
+    Case 2
+        sAssunto = "Espelho da NFe nº " & mSaidaNumNota
+        sCorpo = "Segue em anexo o espelho da NFe nº " & mSaidaNumNota & " para conferência. Este documento não tem valor fiscal. "
+    Case 3
+        sAssunto = "Carta de Correção referente a NFe nº " & mSaidaNumNota
+        sCorpo = IIf(sXML <> "" And sPDF <> "", "Seguem em anexo os arquivos XML e PDF", "Segue em anexo o arquivo " & IIf(sPDF <> "", "PDF", "XML")) & _
+                 " da Carta de Correção" & IIf(sSeqCCe <> "", " nº " & sSeqCCe, "") & " referente a NFe nº " & mSaidaNumNota & ". "
+    Case Else
+        If sXML <> "" And sPDF <> "" Then
+            sAssunto = "Arquivo XML e PDF referente a NFe emitida "
+            sCorpo = "Seguem em anexo os arquivos XML e PDF da NFe emitida. "
+        Else
+            sAssunto = "Arquivo " & IIf(sPDF <> "", "PDF", "XML") & " referente a NFe emitida "
+            sCorpo = "Segue em anexo o arquivo " & IIf(sPDF <> "", "PDF", "XML") & " da NFe emitida. "
+        End If
+End Select
+sCorpo = sCorpo & "<br><br>Atenciosamente, <br><br>" & SQLExecutaRetorno("SELECT RAZAO FROM empresa", "RAZAO")
+
+If sXML <> "" And sPDF <> "" Then
+    ReDim pathAnexo(1)
+    pathAnexo(0) = sXML
+    pathAnexo(1) = sPDF
+Else
+    ReDim pathAnexo(0)
+    pathAnexo(0) = IIf(sPDF <> "", sPDF, sXML)
+End If
+ReDim emailCC(0)
+emailCC(0) = sEmail
+
+On Error GoTo deuErro
+Set sistNFe = New snfe.Util
+Call ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+Screen.MousePointer = vbHourglass
+vRet = sistNFe.EmailEnviar(sEmail, sAssunto, sCorpo, pathAnexo, emailCC)
+Screen.MousePointer = vbDefault
+Set sistNFe = Nothing
+If vRet Then MsgBox "Email enviado com sucesso!", vbInformation + vbOKOnly, "EMAIL OK!"
+Exit Sub
+
+deuErro:
+    Screen.MousePointer = vbDefault
+    MsgBox Err.Description, vbCritical + vbOKOnly, "ERRO: Envio Email"
+    Err.Clear
+    Set sistNFe = Nothing
+End Sub
+
+'Envia pelo WhatsApp da empresa: o PDF com a mensagem e, logo depois, o XML (NF-e e CC-e)
+Private Sub NFeEnviarPorWhatsApp(ByVal nTipoDoc As Integer, ByVal sPDF As String, ByVal sXML As String, ByVal sSeqCCe As String)
+Const TITULO As String = "Enviar por WhatsApp"
+Dim sSit As String, sNumZap As String, sNomeZap As String, sMsg As String, sMsgXML As String
+Dim sCel As String, sCelCad As String, sNome As String, sTexto As String, sValor As String
+Dim sEnvio As String, sNomeArq As String, sPrimeiro As String, sAtualizou As String
+Dim bOk As Boolean, bOkXML As Boolean
+
+Screen.MousePointer = vbHourglass
+sSit = ZapOnlineSituacao(sNumZap, sNomeZap, sMsg)
+Screen.MousePointer = vbDefault
+If sSit = "" Then
+    MsgBox sMsg, vbExclamation, TITULO
+    Exit Sub
+ElseIf sSit <> "conectado" Then
+    MsgBox "O WhatsApp da empresa não está conectado." & vbCrLf & vbCrLf & _
+           "Conecte em Sistema > WhatsApp, lendo o QR code com o celular da empresa.", vbExclamation, TITULO
+    Exit Sub
+End If
+
+'Celular e nome do destinatario (pessoa fisica: primeiro nome; empresa: nome completo)
+On Error Resume Next
+If mSaidaFornecedor Then
+    sCelCad = PDFZap_CelularFornecedor(mSaidaCodDest)
+    sNome = Trim$(CStr(SQLExecutaRetorno("SELECT ISNULL(NULLIF(LTRIM(FANTASIA), ''), RAZAO) n FROM fornecedor WHERE codigo = " & mSaidaCodDest, "n", "")))
+Else
+    sCelCad = PDFZap_CelularCliente(mSaidaCodDest)
+    If Len(PDFZap_Digitos(CStr(SQLExecutaRetorno("SELECT CPF FROM cliente WHERE codigo = " & mSaidaCodDest, "CPF", "")))) = 14 Then
+        sNome = Trim$(CStr(SQLExecutaRetorno("SELECT nome FROM cliente WHERE codigo = " & mSaidaCodDest, "nome", "")))
+    Else
+        sNome = PDFZap_PrimeiroNome(mSaidaCodDest)
+    End If
+End If
+sValor = Format(CDbl(SQLExecutaRetorno("SELECT ISNULL(ValorNota, 0) v FROM NotaFiscal WHERE CodigoNota = " & mSaidaCodNota, "v", 0)), "#,##0.00")
+If Err.Number <> 0 Then sValor = ""
+Err.Clear
+On Error GoTo 0
+
+sCel = PDFZap_PedirCelular(sCelCad)
+If sCel = "" Then Exit Sub
+
+'O nome do arquivo aparece para o cliente no WhatsApp
+If sPDF <> "" Then
+    Select Case nTipoDoc
+        Case 2: sNomeArq = "Espelho_NFe_" & mSaidaNumNota & ".pdf"
+        Case 3: sNomeArq = "CCe_" & sSeqCCe & "_NFe_" & mSaidaNumNota & ".pdf"
+        Case Else: sNomeArq = "NFe_" & mSaidaNumNota & ".pdf"
+    End Select
+    sEnvio = Environ$("TEMP") & "\" & sNomeArq
+    On Error Resume Next
+    Kill sEnvio
+    Err.Clear
+    FileCopy sPDF, sEnvio
+    If Err.Number <> 0 Then sEnvio = sPDF
+    Err.Clear
+    On Error GoTo 0
+End If
+
+sTexto = PDFZap_MensagemNFe(nTipoDoc, sNome, mSaidaNumNota, sValor, mSaidaCancelada, PDFZap_NomeEmpresa(), sSeqCCe)
+
+Screen.MousePointer = vbHourglass
+If sEnvio <> "" Then
+    bOk = ZapOnlineEnviar(sCel, sTexto, sEnvio, sMsg)
+    bOkXML = True
+    If bOk And sXML <> "" Then bOkXML = ZapOnlineEnviar(sCel, "", sXML, sMsgXML)
+Else
+    bOk = ZapOnlineEnviar(sCel, sTexto, sXML, sMsg)
+    bOkXML = True
+End If
+Screen.MousePointer = vbDefault
+
+If sEnvio <> "" And sEnvio <> sPDF Then
+    On Error Resume Next
+    Kill sEnvio
+    Err.Clear
+    On Error GoTo 0
+End If
+
+If Not bOk Then
+    MsgBox "Não foi possível enviar pelo WhatsApp." & vbCrLf & vbCrLf & sMsg, vbExclamation, TITULO
+    Exit Sub
+End If
+
+If Not mSaidaFornecedor And Not PDFZap_MesmoNumero(sCel, sCelCad) Then
+    If PDFZap_AtualizarCliente(mSaidaCodDest, sCel) Then sAtualizou = vbCrLf & "O celular do cliente foi atualizado no cadastro."
+End If
+
+If sEnvio <> "" And sXML <> "" Then sPrimeiro = "PDF e XML" Else sPrimeiro = IIf(sEnvio <> "", "PDF", "XML")
+If Not bOkXML Then
+    MsgBox "O PDF foi enviado pelo WhatsApp para " & sCel & ", mas o XML não foi." & vbCrLf & vbCrLf & sMsgXML & sAtualizou, vbExclamation, TITULO
+Else
+    MsgBox sPrimeiro & " enviado" & IIf(sPrimeiro = "PDF e XML", "s", "") & " pelo WhatsApp para " & sCel & "." & sAtualizou, vbInformation, TITULO
+End If
 End Sub
 
 
@@ -10862,36 +11110,24 @@ If Not existe(xCaminhoXML) Then
     Exit Sub
 End If
 
-If Not existe(xCaminhoPDF) Then
-    iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-    Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, True, "", True, False, False, False, True)
-End If
-
 On Error GoTo 0
 Set sistNFe = Nothing
 
-emailDestino = InputBox("Informe o e-mail do destinatário", "Envio de Email", "")
-If Vazio(emailDestino) Then Exit Sub
-If InStr(1, emailDestino, "@") = 0 Then
-    MsgBox "E-mail inválido! O endereço não contém '@'.", vbExclamation, "Aviso"
-    Exit Sub
-End If
+'So as opcoes de envio: e-mail ou WhatsApp (sempre o XML + o PDF do DANFE)
+Dim nEscolha As Integer, sErroPDF As String
+NFeGuardarLinha
+nEscolha = frmSaidaDocumento.Perguntar(True)
+Unload frmSaidaDocumento
+If nEscolha = 0 Then Exit Sub
 
-If existe(xCaminhoPDF) Then
-    Call EnviaEmailXMLPDF(emailDestino, xCaminhoXML, xCaminhoPDF)
-Else
-    Call EnviaEmail(emailDestino, xCaminhoXML)
-End If
+'Gera o PDF de novo (pega a marca de cancelada); se falhar, usa o que ja existe
+Call NFeGerarPDF(xCaminhoXML, xCaminhoPDF, vNotaCancelada, sErroPDF)
+NFeSaidaDocumento nEscolha, 1, xCaminhoPDF, xCaminhoXML
 DoEvents
 Exit Sub
 
 deuErro:
-    If InStr(1, Err.Description, "Exception") > 0 Then
-       iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-       Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, True, "", True, False, False, False, True)
-    Else
-       MsgBox Err.Description, vbInformation
-    End If
+    MsgBox Err.Description, vbInformation
     Err.Clear
     Set sistNFe = Nothing
 End Sub
@@ -11045,6 +11281,13 @@ vPossuiErro = False
 If GridNotas.Row = 0 Then MsgBox "Selecione uma nota fiscal na lista!", vbInformation, "Aviso do Sistema": Exit Sub
 If vTipoEdicaoNFe = "Novo" Or vTipoEdicaoNFe = "Edicao" Then MsgBox "Existem um NFe em aberto, Salve-a ou Cancele-a!", vbExclamation, "Online Commerce": Frm_NF.Tab = 0: Exit Sub
 
+'Imprimir / Gerar PDF / e-mail / WhatsApp (o espelho vai so em PDF: nao tem valor fiscal)
+Dim nEscolha As Integer, sErroPDF As String
+NFeGuardarLinha
+nEscolha = frmSaidaDocumento.Perguntar()
+Unload frmSaidaDocumento
+If nEscolha = 0 Then Exit Sub
+
 'verificar erros
 If vPossuiErro = False Then VerificarDestinatarioEnviar Else Exit Sub
 If vPossuiErro = False Then VerificarProdutosEnviar Else Exit Sub
@@ -11078,8 +11321,18 @@ If vPossuiErro = False Then
            Exit Sub
         End If
         
-        iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
-        Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, False, False, "", True, False, False, False, True)
+        If nEscolha = 1 Then
+            iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
+            Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, False, False, "", True, False, False, False, True)
+        Else
+            Set sistNFe = Nothing
+            picAguarde.Visible = False
+            If NFeGerarPDF(xCaminhoXML, xCaminhoPDF, False, sErroPDF) Then
+                NFeSaidaDocumento nEscolha, 2, xCaminhoPDF, ""
+            Else
+                MsgBox "Não foi possível gerar o PDF do espelho." & vbCrLf & vbCrLf & sErroPDF, vbExclamation, "Aviso do Sistema"
+            End If
+        End If
     End If
     picAguarde.Visible = False
     Call cmdExibirConNotas_Click
@@ -11838,10 +12091,27 @@ vNotaCancelada = (GridNotas.TextMatrix(GridNotas.Row, 7) = "Cancelada")
          End If
          Exit Sub
      End If
-     
+
+     'Imprimir / Gerar PDF / e-mail / WhatsApp (tela compartilhada com a OS)
+     Dim nEscolha As Integer, sErroPDF As String
+     NFeGuardarLinha
+     nEscolha = frmSaidaDocumento.Perguntar()
+     Unload frmSaidaDocumento
+     If nEscolha = 0 Then Set sistNFe = Nothing: Exit Sub
+     If nEscolha > 1 Then
+         Set sistNFe = Nothing
+         On Error GoTo 0
+         If NFeGerarPDF(xCaminhoXML, xCaminhoPDF, vNotaCancelada, sErroPDF) Or nEscolha > 2 Then
+             NFeSaidaDocumento nEscolha, 1, xCaminhoPDF, xCaminhoXML
+         Else
+             MsgBox "Não foi possível gerar o PDF do DANFE." & vbCrLf & vbCrLf & sErroPDF, vbExclamation, "Aviso do Sistema"
+         End If
+         Exit Sub
+     End If
+
      iRetorno = ConfiguraDLLNFeNFCe(55, "1", sistNFe)
      Call sistNFe.DANFeImprimir(xCaminhoXML, False, "", True, xCaminhoPDF, 4, vNotaCancelada, False, "", True, False, False, False, True)
-     
+
      Exit Sub
 deuErro:
     If InStr(1, Err.Description, "Exception") > 0 Then
