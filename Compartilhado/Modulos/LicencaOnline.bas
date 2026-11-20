@@ -45,6 +45,7 @@ Private Type LicDados
    Abertas As String          'ex.: "09/2026, 10/2026"
    Parcelas As String         'uma linha "• **Competência:** ..." por mensalidade (tela de bloqueio)
    ValorAberto As Currency
+   Itens As String            'projetos + recursos do plano e adicionais, ex.: "|COMMERCE|PDV|WHATSAPP|" ("" = licença sem lista)
 End Type
 
 'Resultado da última avaliação (usado pela tela Licenca_Bloqueio e pela barra de status).
@@ -67,6 +68,7 @@ Private mLimiteEspera As Long          '0 = 30 s (telas do Pix etc.)
 Private mServidorSemResposta As Boolean
 Private mErrosCodigo As Long
 Private mErrosAte As Date
+Private mZapForaDoPlano As Boolean   'última chamada do WhatsApp voltou 403 (recurso fora do plano)
 
 Private Declare Function BCryptOpenAlgorithmProvider Lib "bcrypt.dll" (ByRef phAlgorithm As Long, ByVal pszAlgId As Long, ByVal pszImplementation As Long, ByVal dwFlags As Long) As Long
 Private Declare Function BCryptCloseAlgorithmProvider Lib "bcrypt.dll" (ByVal hAlgorithm As Long, ByVal dwFlags As Long) As Long
@@ -710,6 +712,8 @@ Private Function LicLerToken(ByVal Token As String, ByRef D As LicDados) As Bool
    D.Vencimento = LicJsonData(json, "vencimento")
    D.DataBloqueio = LicJsonData(json, "dataBloqueio")
    D.ChaveOffline = LicJsonTexto(json, "chaveOffline")
+   D.Itens = LicJsonLista(json, "projetos") & LicJsonLista(json, "recursos")
+   If Len(D.Itens) > 0 Then D.Itens = "|" & Replace(D.Itens, "||", "|")
    LicLerAbertas json, D
    LicLerToken = (Len(D.Cnpj) > 0 And Len(D.ChaveOffline) > 0 And D.DataBloqueio > 0)
    Exit Function
@@ -967,6 +971,24 @@ Private Function LicJsonValor(ByVal Json As String, ByVal Nome As String) As Str
       If ch = "," Or ch = "}" Or ch = "]" Then Exit For
    Next
    LicJsonValor = Trim$(Mid$(Json, p, i - p))
+End Function
+
+'"nome":["A","B"] -> "A|B|" (só códigos simples: letras, números e _). "" se não tiver a lista ou ela estiver vazia.
+Private Function LicJsonLista(ByVal Json As String, ByVal Nome As String) As String
+   Dim p As Long, fim As Long, s As String
+
+   p = InStr(Json, """" & Nome & """:")
+   If p = 0 Then Exit Function
+   p = p + Len(Nome) + 3
+   Do While Mid$(Json, p, 1) = " "
+      p = p + 1
+   Loop
+   If Mid$(Json, p, 1) <> "[" Then Exit Function    'null ou outro tipo
+   fim = InStr(p + 1, Json, "]")
+   If fim = 0 Then Exit Function
+   s = Replace(Replace(Mid$(Json, p + 1, fim - p - 1), """", ""), " ", "")
+   If Len(s) = 0 Then Exit Function
+   LicJsonLista = UCase$(Replace(s, ",", "|")) & "|"
 End Function
 
 '"aaaa-mm-dd" (ou "aaaa-mm-ddThh:mm:ss") -> Date. 0 se vazio/inválido.
@@ -1479,6 +1501,41 @@ End Function
 ' Situação: "conectado", "conectando", "desconectado"; "" = sem resposta (Msg diz o motivo).
 '=============================================================================
 
+'=============================================================================
+' PLANO: projetos e recursos liberados (plano + adicionais do cliente no painel de licenças)
+'=============================================================================
+
+'O plano desta empresa tem o projeto/recurso (código do painel: "MDFE", "WHATSAPP", "OS"...)?
+'Licença sem a lista (avaliação, licença antiga) ou não lida = liberado: quem bloqueia a falta de licença é a tela de bloqueio.
+'Para recursos que passam pelo servidor (WhatsApp), quem decide é o servidor, sempre com o plano atual.
+Public Function LicTemRecurso(ByVal Codigo As String) As Boolean
+   On Error GoTo Falha
+   Dim r As ADODB.Recordset, d As LicDados
+
+   LicTemRecurso = True
+   Set r = dbData.OpenRecordset("SELECT Token FROM od.Licenca WHERE Id = 1;")
+   If r.EOF Then Exit Function
+   If Not LicLerToken("" & r("Token"), d) Then Exit Function
+   r.Close
+   If Len(d.Itens) = 0 Then Exit Function
+   LicTemRecurso = (InStr(d.Itens, "|" & UCase$(Trim$(Codigo)) & "|") > 0)
+   Exit Function
+Falha:
+   Err.Clear
+   LicTemRecurso = True
+End Function
+
+'Aviso padrão de recurso fora do plano (ex.: LicMsgForaDoPlano("A emissão de MDF-e"))
+Public Function LicMsgForaDoPlano(ByVal Recurso As String) As String
+   LicMsgForaDoPlano = Recurso & " não faz parte do plano desta empresa." & vbCrLf & vbCrLf & _
+                       "Para incluir, fale com o suporte: " & SUPORTE & "."
+End Function
+
+'A última chamada do WhatsApp foi recusada porque o recurso não está no plano (403 do servidor)
+Public Function ZapOnlineForaDoPlano() As Boolean
+   ZapOnlineForaDoPlano = mZapForaDoPlano
+End Function
+
 Public Function ZapOnlineSituacao(ByRef Numero As String, ByRef Nome As String, ByRef Msg As String) As String
    On Error GoTo Falha
    Dim cnpj As String, chave As String, base As String, resp As String
@@ -1565,6 +1622,7 @@ Private Function ZapOnlineChamar(ByVal Metodo As String, ByVal Url As String, By
                                  ByRef Resposta As String, ByRef Msg As String) As Boolean
    Dim st As Long
 
+   mZapForaDoPlano = False
    If Not LicHttp(Metodo, Url, Corpo, Chave, st, Resposta) Then
       Msg = LicSemConexao()
       Exit Function
@@ -1574,6 +1632,11 @@ Private Function ZapOnlineChamar(ByVal Metodo As String, ByVal Url As String, By
          ZapOnlineChamar = True
       Case 401
          Msg = "Esta instalação não está liberada no servidor de licenças. Fale com o suporte: " & SUPORTE & "."
+      Case 403
+         mZapForaDoPlano = True
+         Msg = LicJsonTexto(Resposta, "mensagem")
+         If Len(Msg) = 0 Then Msg = "O envio por WhatsApp não faz parte do plano desta empresa."
+         Msg = Msg & vbCrLf & vbCrLf & "Para incluir, fale com o suporte: " & SUPORTE & "."
       Case 413
          Msg = "Arquivo muito grande para o WhatsApp (máximo 15 MB)."
       Case 429

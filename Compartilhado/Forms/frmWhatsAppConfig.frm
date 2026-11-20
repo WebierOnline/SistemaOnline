@@ -286,6 +286,7 @@ sit = ZapOnlineSituacao(numero, nome, msg)
 Me.MousePointer = vbDefault
 mOcupado = False
 MostrarSituacao sit, numero, nome, msg
+If ZapOnlineForaDoPlano() Then MsgBox msg, vbExclamation, "WhatsApp"
 End Sub
 
 Private Sub MostrarSituacao(ByVal Sit As String, ByVal Numero As String, ByVal Nome As String, ByVal Msg As String)
@@ -314,6 +315,18 @@ Select Case Sit
         cmdDesconectar.Enabled = False
         fraTeste.Enabled = False
     Case Else
+        If ZapOnlineForaDoPlano() Then
+            'Recurso fora do plano (servidor recusou): nada de QR code
+            tmrQR.Enabled = False
+            Set imgQR.Picture = Nothing
+            lblSituacao.Caption = "WhatsApp não incluído no plano"
+            lblSituacao.ForeColor = &HC0&
+            lblNumero.Caption = Replace(Msg, vbCrLf & vbCrLf, " ")
+            cmdConectar.Enabled = False
+            cmdDesconectar.Enabled = False
+            fraTeste.Enabled = False
+            Exit Sub
+        End If
         lblSituacao.Caption = "Não foi possível consultar o WhatsApp"
         lblSituacao.ForeColor = &HC0&
         lblNumero.Caption = Msg
