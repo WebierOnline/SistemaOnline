@@ -1016,7 +1016,7 @@ Dim varTipoEmpresa As String
    
    'Tipos 1..8 (todos varejo em Configuracao_Geral) mostram produtos. Os ElseIf de "6"/"7"/"8"
    'abaixo viraram codigo morto (nao ha opcao Escola/Curso no sistema) - mantidos so por historico.
-   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 14 Then
+   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 16 Then
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
       
       Menu_CAD_Clientes.Caption = "Clientes"

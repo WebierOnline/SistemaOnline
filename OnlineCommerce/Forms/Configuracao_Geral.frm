@@ -4355,6 +4355,10 @@ Private Sub Mostrar_Tipo_Empresa()
       cboTipoEmpresa.Text = "Eletrônicos"
    ElseIf txtTipoCadastroProduto.Text = 14 Then
       cboTipoEmpresa.Text = "Pneus"
+   ElseIf txtTipoCadastroProduto.Text = 15 Then
+      cboTipoEmpresa.Text = "Papelaria e Armarinhos"
+   ElseIf txtTipoCadastroProduto.Text = 16 Then
+      cboTipoEmpresa.Text = "Agropecuária e Agroveterinária"
    Else
       Exit Sub
    End If
@@ -5496,6 +5500,8 @@ var_Texto = cboTipoEmpresa.Text
    cboTipoEmpresa.AddItem "Informática"
    cboTipoEmpresa.AddItem "Eletrônicos"
    cboTipoEmpresa.AddItem "Pneus"
+   cboTipoEmpresa.AddItem "Papelaria e Armarinhos"
+   cboTipoEmpresa.AddItem "Agropecuária e Agroveterinária"
 cboTipoEmpresa.Text = var_Texto
 End Sub
 
@@ -5529,6 +5535,10 @@ ElseIf cboTipoEmpresa.Text = "Eletrônicos" Then
    txtTipoCadastroProduto.Text = "13"
 ElseIf cboTipoEmpresa.Text = "Pneus" Then
    txtTipoCadastroProduto.Text = "14"
+ElseIf cboTipoEmpresa.Text = "Papelaria e Armarinhos" Then
+   txtTipoCadastroProduto.Text = "15"
+ElseIf cboTipoEmpresa.Text = "Agropecuária e Agroveterinária" Then
+   txtTipoCadastroProduto.Text = "16"
 Else
    txtTipoCadastroProduto.Text = "1"
 End If
