@@ -1,0 +1,847 @@
+VERSION 5.00
+Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
+Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
+Begin VB.Form frmCobrancaEnvio 
+   BorderStyle     =   1  'Fixed Single
+   Caption         =   "Cobrança por WhatsApp"
+   ClientHeight    =   8700
+   ClientLeft      =   45
+   ClientTop       =   375
+   ClientWidth     =   13500
+   KeyPreview      =   -1  'True
+   LinkTopic       =   "Form1"
+   MaxButton       =   0   'False
+   MinButton       =   0   'False
+   ScaleHeight     =   8700
+   ScaleWidth      =   13500
+   StartUpPosition =   2  'CenterScreen
+   Begin MSFlexGridLib.MSFlexGrid grdEnvio 
+      Height          =   3900
+      Left            =   120
+      TabIndex        =   0
+      Top             =   840
+      Width           =   9600
+      _ExtentX        =   16933
+      _ExtentY        =   6879
+      _Version        =   393216
+      Cols            =   8
+      FixedCols       =   0
+      AllowBigSelection=   0   'False
+      SelectionMode   =   1
+      AllowUserResizing=   1
+      Appearance      =   0
+   End
+   Begin VB.TextBox txtPrevia 
+      Height          =   3645
+      Left            =   9840
+      Locked          =   -1  'True
+      MultiLine       =   -1  'True
+      ScrollBars      =   2  'Vertical
+      TabIndex        =   1
+      Top             =   1095
+      Width           =   3540
+   End
+   Begin ChamaleonBtn.chameleonButton cmdMarcarTodos 
+      Height          =   375
+      Left            =   120
+      TabIndex        =   2
+      Top             =   4860
+      Width           =   1335
+      _ExtentX        =   2355
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Marcar todos"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
+      Height          =   375
+      Left            =   1560
+      TabIndex        =   3
+      Top             =   4860
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Desmarcar todos"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdNaoCobrar 
+      Height          =   375
+      Left            =   3120
+      TabIndex        =   4
+      Top             =   4860
+      Width           =   2415
+      _ExtentX        =   4260
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Não cobrar este cliente"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdEnviar 
+      Height          =   375
+      Left            =   7200
+      TabIndex        =   5
+      Top             =   4860
+      Width           =   1935
+      _ExtentX        =   3413
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Enviar marcados"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdParar 
+      Height          =   375
+      Left            =   9240
+      TabIndex        =   6
+      Top             =   4860
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Parar"
+      ENAB            =   0   'False
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin VB.ComboBox cboPeriodo 
+      Height          =   315
+      Left            =   3240
+      Style           =   2  'Dropdown List
+      TabIndex        =   7
+      Top             =   5640
+      Width           =   2055
+   End
+   Begin MSFlexGridLib.MSFlexGrid grdHist 
+      Height          =   2040
+      Left            =   120
+      TabIndex        =   8
+      Top             =   6060
+      Width           =   13260
+      _ExtentX        =   23389
+      _ExtentY        =   3598
+      _Version        =   393216
+      Cols            =   8
+      FixedCols       =   0
+      AllowBigSelection=   0   'False
+      SelectionMode   =   1
+      AllowUserResizing=   1
+      Appearance      =   0
+   End
+   Begin ChamaleonBtn.chameleonButton cmdAtualizar 
+      Height          =   375
+      Left            =   9480
+      TabIndex        =   9
+      Top             =   120
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Atualizar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdRegua 
+      Height          =   375
+      Left            =   10800
+      TabIndex        =   10
+      Top             =   120
+      Width           =   2580
+      _ExtentX        =   4551
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Régua de cobrança..."
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdFechar 
+      Height          =   375
+      Left            =   12165
+      TabIndex        =   11
+      Top             =   8220
+      Width           =   1215
+      _ExtentX        =   2143
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Fechar"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin VB.Label lblTitulo 
+      Caption         =   "Cobranças para enviar hoje"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   9.75
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   300
+      Left            =   120
+      TabIndex        =   12
+      Top             =   120
+      Width           =   9000
+   End
+   Begin VB.Label lblResumo 
+      Caption         =   ""
+      Height          =   255
+      Left            =   120
+      TabIndex        =   13
+      Top             =   480
+      Width           =   9240
+   End
+   Begin VB.Label lblPrevia 
+      Caption         =   "Mensagem (prévia):"
+      Height          =   255
+      Left            =   9840
+      TabIndex        =   14
+      Top             =   840
+      Width           =   3540
+   End
+   Begin VB.Label lblProgresso 
+      Caption         =   ""
+      ForeColor       =   &H00800000&
+      Height          =   255
+      Left            =   120
+      TabIndex        =   15
+      Top             =   5340
+      Width           =   13260
+   End
+   Begin VB.Label lblHist 
+      Caption         =   "Histórico de envios"
+      BeginProperty Font 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   255
+      Left            =   120
+      TabIndex        =   16
+      Top             =   5700
+      Width           =   3000
+   End
+End
+Attribute VB_Name = "frmCobrancaEnvio"
+Attribute VB_GlobalNameSpace = False
+Attribute VB_Creatable = False
+Attribute VB_PredeclaredId = True
+Attribute VB_Exposed = False
+Option Explicit
+'Cobrança por WhatsApp: quem recebe hoje pela régua (modCobranca.Cob_Pendentes), envio manual dos marcados
+'(com o intervalo e o limite da configuração) e histórico. A régua e a configuração ficam em frmCobrancaRegua.
+
+Private Const C_MARCA As Integer = 0
+Private Const C_CLIENTE As Integer = 1
+Private Const C_CELULAR As Integer = 2
+Private Const C_REGRA As Integer = 3
+Private Const C_PARC As Integer = 4
+Private Const C_TOTAL As Integer = 5
+Private Const C_ATRASO As Integer = 6
+Private Const C_SITUACAO As Integer = 7
+
+Private mItens() As CobItem
+Private mQtd As Long
+Private mCfg As CobConfig
+Private mEnviando As Boolean
+Private mIniciou As Boolean
+
+Private Sub Form_Load()
+mIniciou = False
+mEnviando = False
+cboPeriodo.AddItem "Hoje"
+cboPeriodo.AddItem "Últimos 7 dias"
+cboPeriodo.AddItem "Últimos 30 dias"
+cboPeriodo.ListIndex = 0
+lblProgresso.Caption = ""
+txtPrevia.Text = ""
+End Sub
+
+Private Sub Form_Activate()
+If mIniciou Then Exit Sub
+mIniciou = True
+If Not Cob_BancoPronto() Then
+    MsgBox "O banco de dados ainda não tem as tabelas da cobrança por WhatsApp (script 184)." & vbCrLf & vbCrLf & _
+           "Atualize o sistema e tente de novo.", vbExclamation, "Cobrança por WhatsApp"
+    Unload Me
+    Exit Sub
+End If
+Cob_GarantirRegrasPadrao
+Carregar
+CarregarHistorico
+VerificarWhatsApp
+End Sub
+
+'Avisa logo ao abrir se o WhatsApp não está no plano ou não está conectado (quem decide é o servidor)
+Private Sub VerificarWhatsApp()
+Dim sSit As String, sNum As String, sNome As String, sMsg As String
+
+Me.MousePointer = vbHourglass
+sSit = ZapOnlineSituacao(sNum, sNome, sMsg)
+Me.MousePointer = vbDefault
+If ZapOnlineForaDoPlano() Then
+    MsgBox sMsg, vbExclamation, ZapOnlineTitulo("Cobrança por WhatsApp")
+    lblProgresso.Caption = "O envio por WhatsApp não faz parte do plano desta empresa."
+    cmdEnviar.Enabled = False
+ElseIf sSit <> "" And sSit <> "conectado" Then
+    lblProgresso.Caption = "Atenção: o WhatsApp da empresa não está conectado (Sistema > WhatsApp)."
+End If
+End Sub
+
+Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
+If KeyCode = vbKeyEscape And Not mEnviando Then Unload Me
+End Sub
+
+Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+If mEnviando Then
+    MsgBox "Aguarde terminar o envio ou clique em Parar.", vbInformation, "Cobrança por WhatsApp"
+    Cancel = 1
+End If
+End Sub
+
+'Monta a lista de hoje
+Private Sub Carregar()
+Dim i As Long, nProntos As Long
+
+Me.MousePointer = vbHourglass
+Cob_LerConfig mCfg
+mQtd = Cob_Pendentes(Date, mItens)
+
+With grdEnvio
+    .Redraw = False
+    .Rows = 1
+    .Cols = 8
+    .TextMatrix(0, C_MARCA) = "Env."
+    .TextMatrix(0, C_CLIENTE) = "Cliente"
+    .TextMatrix(0, C_CELULAR) = "Celular"
+    .TextMatrix(0, C_REGRA) = "Regra"
+    .TextMatrix(0, C_PARC) = "Parc."
+    .TextMatrix(0, C_TOTAL) = "Total"
+    .TextMatrix(0, C_ATRASO) = "Atraso"
+    .TextMatrix(0, C_SITUACAO) = "Situação"
+    .ColWidth(C_MARCA) = 450: .ColWidth(C_CLIENTE) = 2300: .ColWidth(C_CELULAR) = 1350: .ColWidth(C_REGRA) = 1900
+    .ColWidth(C_PARC) = 450: .ColWidth(C_TOTAL) = 950: .ColWidth(C_ATRASO) = 600: .ColWidth(C_SITUACAO) = 1900
+    .ColAlignment(C_MARCA) = flexAlignCenterCenter
+    .ColAlignment(C_PARC) = flexAlignCenterCenter
+    .ColAlignment(C_TOTAL) = flexAlignRightCenter
+    .ColAlignment(C_ATRASO) = flexAlignCenterCenter
+    For i = 1 To mQtd
+        .Rows = .Rows + 1
+        .RowData(.Rows - 1) = i
+        .TextMatrix(.Rows - 1, C_MARCA) = IIf(Len(mItens(i).Motivo) = 0, "X", "")
+        .TextMatrix(.Rows - 1, C_CLIENTE) = mItens(i).Nome
+        .TextMatrix(.Rows - 1, C_CELULAR) = mItens(i).Celular
+        .TextMatrix(.Rows - 1, C_REGRA) = mItens(i).Regra
+        .TextMatrix(.Rows - 1, C_PARC) = mItens(i).QtdParcelas
+        .TextMatrix(.Rows - 1, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
+        .TextMatrix(.Rows - 1, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
+        If Len(mItens(i).Motivo) = 0 Then
+            .TextMatrix(.Rows - 1, C_SITUACAO) = "Pronto para enviar"
+            nProntos = nProntos + 1
+        Else
+            .TextMatrix(.Rows - 1, C_SITUACAO) = mItens(i).Motivo
+            PintarLinha .Rows - 1, &H808080
+        End If
+    Next
+    If .Rows > 1 Then .Row = 1: .Col = C_CLIENTE
+    .Redraw = True
+End With
+
+lblResumo.Caption = mQtd & " cliente(s) na régua de hoje, " & nProntos & " pronto(s) para enviar.   " & _
+                    "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia)."
+MostrarPrevia
+Me.MousePointer = vbDefault
+End Sub
+
+Private Sub PintarLinha(ByVal nLinha As Long, ByVal nCor As Long)
+Dim c As Integer, r As Long, cc As Integer
+
+With grdEnvio
+    r = .Row: cc = .Col
+    .Row = nLinha
+    For c = 0 To .Cols - 1
+        .Col = c
+        .CellForeColor = nCor
+    Next
+    If r > 0 And r < .Rows Then .Row = r
+    .Col = cc
+End With
+End Sub
+
+Private Function ItemDaLinha() As Long
+If grdEnvio.Row < 1 Or grdEnvio.Row >= grdEnvio.Rows Then Exit Function
+ItemDaLinha = grdEnvio.RowData(grdEnvio.Row)
+End Function
+
+Private Sub MostrarPrevia()
+Dim i As Long
+
+i = ItemDaLinha()
+If i < 1 Or i > mQtd Then
+    txtPrevia.Text = ""
+    Exit Sub
+End If
+txtPrevia.Text = "Para: " & IIf(Len(mItens(i).Celular) > 0, mItens(i).Celular, "(sem celular)") & vbCrLf & _
+                 "Regra: " & mItens(i).Regra & vbCrLf & String$(30, "-") & vbCrLf & Cob_Texto(mItens(i), mCfg, True)
+End Sub
+
+Private Sub grdEnvio_Click()
+Dim i As Long
+
+If mEnviando Then Exit Sub
+i = ItemDaLinha()
+If i >= 1 And grdEnvio.MouseCol = C_MARCA Then
+    If Len(mItens(i).Motivo) = 0 Then
+        grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = IIf(grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = "X", "", "X")
+    End If
+End If
+MostrarPrevia
+End Sub
+
+Private Sub grdEnvio_KeyPress(KeyAscii As Integer)
+Dim i As Long
+
+If KeyAscii <> 32 Or mEnviando Then Exit Sub   'espaço marca/desmarca
+i = ItemDaLinha()
+If i >= 1 Then
+    If Len(mItens(i).Motivo) = 0 Then
+        grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = IIf(grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = "X", "", "X")
+    End If
+End If
+KeyAscii = 0
+End Sub
+
+Private Sub grdEnvio_RowColChange()
+If Not mEnviando Then MostrarPrevia
+End Sub
+
+Private Sub cmdMarcarTodos_Click()
+Marcar True
+End Sub
+
+Private Sub cmdDesmarcar_Click()
+Marcar False
+End Sub
+
+Private Sub Marcar(ByVal bMarcar As Boolean)
+Dim r As Long, i As Long
+
+For r = 1 To grdEnvio.Rows - 1
+    i = grdEnvio.RowData(r)
+    If i >= 1 And i <= mQtd Then
+        If Len(mItens(i).Motivo) = 0 Then grdEnvio.TextMatrix(r, C_MARCA) = IIf(bMarcar, "X", "")
+    End If
+Next
+End Sub
+
+Private Sub cmdNaoCobrar_Click()
+Dim i As Long, bJaMarcado As Boolean
+
+i = ItemDaLinha()
+If i < 1 Then Exit Sub
+bJaMarcado = (Val(CStr(SQLExecutaRetorno("SELECT ISNULL(NaoCobrarWhatsApp, 0) AS n FROM cliente WHERE CODIGO = " & mItens(i).CodCliente, "n", 0))) <> 0)
+If bJaMarcado Then
+    If MsgBox("O cliente " & mItens(i).Nome & " está marcado para NÃO receber cobrança pelo WhatsApp." & vbCrLf & vbCrLf & _
+              "Voltar a cobrar este cliente?", vbQuestion + vbYesNo, "Cobrança por WhatsApp") <> vbYes Then Exit Sub
+Else
+    If MsgBox("Marcar o cliente " & mItens(i).Nome & " para NÃO receber cobrança pelo WhatsApp?" & vbCrLf & vbCrLf & _
+              "Ele sai da régua até você desmarcar aqui.", vbQuestion + vbYesNo + vbDefaultButton2, "Cobrança por WhatsApp") <> vbYes Then Exit Sub
+End If
+If Not Cob_NaoCobrar(mItens(i).CodCliente, Not bJaMarcado) Then
+    MsgBox "Não foi possível gravar no cadastro do cliente.", vbExclamation, "Cobrança por WhatsApp"
+    Exit Sub
+End If
+Carregar
+End Sub
+
+Private Sub cmdAtualizar_Click()
+Carregar
+CarregarHistorico
+End Sub
+
+Private Sub cmdRegua_Click()
+frmCobrancaRegua.Show vbModal
+Carregar
+End Sub
+
+Private Sub cmdFechar_Click()
+Unload Me
+End Sub
+
+Private Sub cmdParar_Click()
+Cob_Parar = True
+cmdParar.Enabled = False
+lblProgresso.Caption = "Parando depois da mensagem atual..."
+End Sub
+
+Private Sub cboPeriodo_Click()
+If mIniciou Then CarregarHistorico
+End Sub
+
+'---------------------------------------------------------------------------
+' Envio dos marcados
+'---------------------------------------------------------------------------
+Private Sub cmdEnviar_Click()
+Const TITULO As String = "Cobrança por WhatsApp"
+Dim r As Long, i As Long, n As Long, nOk As Long, nErro As Long, nFeitos As Long
+Dim nRestam As Long, nSeg As Long, sMsg As String, sNum As String, sNome As String, sSit As String
+Dim marcados() As Long, bForaHorario As Boolean, sHora As String
+
+'Marcados
+ReDim marcados(0)
+For r = 1 To grdEnvio.Rows - 1
+    If grdEnvio.TextMatrix(r, C_MARCA) = "X" Then
+        n = n + 1
+        ReDim Preserve marcados(n)
+        marcados(n) = r
+    End If
+Next
+If n = 0 Then
+    MsgBox "Marque os clientes que vão receber a cobrança (coluna Env.).", vbInformation, TITULO
+    Exit Sub
+End If
+
+'Limite por dia
+Cob_LerConfig mCfg
+nRestam = mCfg.LimiteDia - Cob_EnviadosHoje()
+If nRestam <= 0 Then
+    MsgBox "O limite de " & mCfg.LimiteDia & " mensagens por dia já foi atingido." & vbCrLf & vbCrLf & _
+           "O limite protege o número da empresa de bloqueio pelo WhatsApp. Ele pode ser alterado na Régua de cobrança.", vbExclamation, TITULO
+    Exit Sub
+End If
+If n > nRestam Then
+    If MsgBox("Faltam só " & nRestam & " mensagens para o limite de hoje (" & mCfg.LimiteDia & ")." & vbCrLf & vbCrLf & _
+              "Enviar para os " & nRestam & " primeiros marcados?", vbQuestion + vbYesNo, TITULO) <> vbYes Then Exit Sub
+    n = nRestam
+End If
+
+'Horário e dia da semana
+sHora = Format$(Now, "hh:mm")
+bForaHorario = (sHora < Cob_Hora(mCfg.HoraInicio) Or sHora > Cob_Hora(mCfg.HoraFim))
+If Weekday(Date) = vbSaturday And Not mCfg.EnviarSabado Then bForaHorario = True
+If Weekday(Date) = vbSunday And Not mCfg.EnviarDomingo Then bForaHorario = True
+If bForaHorario Then
+    If MsgBox("Agora está fora do horário/dia de envio configurado (" & mCfg.HoraInicio & " às " & mCfg.HoraFim & ")." & vbCrLf & vbCrLf & _
+              "Enviar mesmo assim?", vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
+End If
+
+'WhatsApp conectado?
+Me.MousePointer = vbHourglass
+sSit = ZapOnlineSituacao(sNum, sNome, sMsg)
+Me.MousePointer = vbDefault
+If sSit = "" Then
+    MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
+    Exit Sub
+ElseIf sSit <> "conectado" Then
+    MsgBox "O WhatsApp da empresa não está conectado." & vbCrLf & vbCrLf & _
+           "Conecte em Sistema > WhatsApp, lendo o QR code com o celular da empresa.", vbExclamation, TITULO
+    Exit Sub
+End If
+
+If MsgBox("Enviar a cobrança para " & n & " cliente(s)?" & vbCrLf & vbCrLf & _
+          "Entre uma mensagem e outra o sistema espera de " & mCfg.IntervaloMin & " a " & mCfg.IntervaloMax & " segundos " & _
+          "(cerca de " & Int((n - 1) * (mCfg.IntervaloMin + mCfg.IntervaloMax) / 2 / 60 + 1) & " minuto(s) no total). " & _
+          "Você pode clicar em Parar a qualquer momento.", vbQuestion + vbYesNo, TITULO) <> vbYes Then Exit Sub
+
+'Envia
+mEnviando = True
+Cob_Parar = False
+HabilitarTela False
+For r = 1 To n
+    i = grdEnvio.RowData(marcados(r))
+    grdEnvio.Row = marcados(r)
+    grdEnvio.TopRow = IIf(marcados(r) > 3, marcados(r) - 3, 1)
+    lblProgresso.Caption = "Enviando " & r & " de " & n & ": " & mItens(i).Nome & "..."
+    grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Enviando..."
+    DoEvents
+
+    If Cob_Enviar(mItens(i), mCfg, True, sMsg) Then
+        nOk = nOk + 1
+        grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Enviada " & Format$(Now, "hh:mm")
+        PintarLinha marcados(r), &H8000&
+    Else
+        nErro = nErro + 1
+        grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Erro: " & Replace(sMsg, vbCrLf, " ")
+        PintarLinha marcados(r), &HC0&
+        If ZapOnlineForaDoPlano() Then
+            MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
+            Exit For
+        End If
+    End If
+    grdEnvio.TextMatrix(marcados(r), C_MARCA) = ""
+    mItens(i).Motivo = "Já recebeu cobrança hoje"
+    nFeitos = r
+
+    If r < n Then
+        nSeg = Cob_Intervalo(mCfg)
+        lblProgresso.Caption = "Enviadas " & nOk & " de " & n & IIf(nErro > 0, " (" & nErro & " com erro)", "") & _
+                               ". Próxima em " & nSeg & " segundos..."
+        If Not Cob_Esperar(nSeg) Then Exit For
+    End If
+Next
+mEnviando = False
+HabilitarTela True
+lblProgresso.Caption = "Concluído: " & nOk & " enviada(s)" & IIf(nErro > 0, ", " & nErro & " com erro", "") & _
+                       IIf(nFeitos < n, " (interrompido: " & n - nFeitos & " não enviada(s))", "") & "."
+CarregarHistorico
+lblResumo.Caption = "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia). Clique em Atualizar para recarregar a lista."
+End Sub
+
+Private Sub HabilitarTela(ByVal bHabilitar As Boolean)
+cmdEnviar.Enabled = bHabilitar
+cmdMarcarTodos.Enabled = bHabilitar
+cmdDesmarcar.Enabled = bHabilitar
+cmdNaoCobrar.Enabled = bHabilitar
+cmdAtualizar.Enabled = bHabilitar
+cmdRegua.Enabled = bHabilitar
+cmdFechar.Enabled = bHabilitar
+cboPeriodo.Enabled = bHabilitar
+cmdParar.Enabled = Not bHabilitar
+End Sub
+
+'---------------------------------------------------------------------------
+' Histórico
+'---------------------------------------------------------------------------
+Private Sub CarregarHistorico()
+Dim rs As ADODB.Recordset, dIni As Date
+
+Select Case cboPeriodo.ListIndex
+    Case 1: dIni = Date - 6
+    Case 2: dIni = Date - 29
+    Case Else: dIni = Date
+End Select
+
+With grdHist
+    .Redraw = False
+    .Rows = 1
+    .Cols = 8
+    .TextMatrix(0, 0) = "Data/hora": .ColWidth(0) = 1500
+    .TextMatrix(0, 1) = "Cliente": .ColWidth(1) = 2900
+    .TextMatrix(0, 2) = "Celular": .ColWidth(2) = 1350
+    .TextMatrix(0, 3) = "Regra": .ColWidth(3) = 2500
+    .TextMatrix(0, 4) = "Total": .ColWidth(4) = 950
+    .TextMatrix(0, 5) = "Situação": .ColWidth(5) = 900
+    .TextMatrix(0, 6) = "Origem": .ColWidth(6) = 1100
+    .TextMatrix(0, 7) = "Detalhe": .ColWidth(7) = 1800
+    .ColAlignment(4) = flexAlignRightCenter
+    On Error GoTo Fim
+    Set rs = dbData.OpenRecordset("SELECT e.DataHora, c.NOME, e.Celular, r.Descricao, e.ValorTotal, e.Situacao, e.Erro, e.Manual, e.Usuario " & _
+        "FROM CobrancaEnvio e LEFT JOIN cliente c ON c.CODIGO = e.CodCliente LEFT JOIN CobrancaRegra r ON r.Id = e.CodRegra " & _
+        "WHERE e.DataHora >= '" & Format$(dIni, "yyyymmdd") & "' ORDER BY e.DataHora DESC")
+    Do While Not rs.EOF
+        .Rows = .Rows + 1
+        .TextMatrix(.Rows - 1, 0) = Format$(rs("DataHora"), "dd/mm/yyyy hh:mm")
+        .TextMatrix(.Rows - 1, 1) = "" & rs("NOME")
+        .TextMatrix(.Rows - 1, 2) = "" & rs("Celular")
+        .TextMatrix(.Rows - 1, 3) = IIf(IsNull(rs("Descricao")), "(regra excluída)", "" & rs("Descricao"))
+        .TextMatrix(.Rows - 1, 4) = Format$(rs("ValorTotal"), "#,##0.00")
+        .TextMatrix(.Rows - 1, 5) = IIf(rs("Situacao") = 1, "Enviada", "Erro")
+        .TextMatrix(.Rows - 1, 6) = IIf(CBool(rs("Manual")), "Manual" & IIf(Len("" & rs("Usuario")) > 0, " (" & rs("Usuario") & ")", ""), "Automático")
+        .TextMatrix(.Rows - 1, 7) = Replace("" & rs("Erro"), vbCrLf, " ")
+        rs.MoveNext
+    Loop
+    rs.Close
+Fim:
+    .Redraw = True
+End With
+Err.Clear
+End Sub
