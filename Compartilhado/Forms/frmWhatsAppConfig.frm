@@ -286,7 +286,7 @@ sit = ZapOnlineSituacao(numero, nome, msg)
 Me.MousePointer = vbDefault
 mOcupado = False
 MostrarSituacao sit, numero, nome, msg
-If ZapOnlineForaDoPlano() Then MsgBox msg, vbExclamation, "WhatsApp"
+If ZapOnlineForaDoPlano() Then MsgBox msg, vbExclamation, ZapOnlineTitulo("WhatsApp")
 End Sub
 
 Private Sub MostrarSituacao(ByVal Sit As String, ByVal Numero As String, ByVal Nome As String, ByVal Msg As String)
@@ -369,7 +369,7 @@ MostrarSituacao sit, numero, nome, msg
 If sit = "conectado" Then
     MsgBox "WhatsApp conectado com sucesso!" & vbCrLf & vbCrLf & lblNumero.Caption, vbInformation, "WhatsApp"
 ElseIf sit = "" Then
-    MsgBox msg, vbExclamation, "WhatsApp"
+    MsgBox msg, vbExclamation, ZapOnlineTitulo("WhatsApp")
 End If
 End Sub
 
@@ -396,7 +396,7 @@ tmrQR.Enabled = False
 Me.MousePointer = vbHourglass
 If Not ZapOnlineDesconectar(msg) Then
     Me.MousePointer = vbDefault
-    MsgBox msg, vbExclamation, "WhatsApp"
+    MsgBox msg, vbExclamation, ZapOnlineTitulo("WhatsApp")
     Exit Sub
 End If
 Me.MousePointer = vbDefault
@@ -418,7 +418,7 @@ If ZapOnlineEnviar(txtNumeroTeste.Text, "Mensagem de teste do Online Commerce: o
     MsgBox "Mensagem enviada.", vbInformation, "WhatsApp"
 Else
     Me.MousePointer = vbDefault
-    MsgBox msg, vbExclamation, "WhatsApp"
+    MsgBox msg, vbExclamation, ZapOnlineTitulo("WhatsApp")
 End If
 cmdTeste.Enabled = True
 End Sub

@@ -21,6 +21,7 @@ Private Const DIAS_AVISO As Long = 3
 Private Const DIAS_INSTALACAO As Long = 3
 Private Const MAX_ERROS_CODIGO As Long = 5
 Private Const SUPORTE As String = "(89) 9 9427-5280"
+Public Const LIC_TITULO_RECURSO As String = "Recurso adicional"   'título do aviso de recurso fora do plano
 
 'Chave pública do servidor de licenças (X e Y da curva P-256, em hexadecimal).
 Private Const CHAVE_PUBLICA_XY As String = "0B4DB14F451429ACA533D32E7F39A874F838A810AB270A94E6950A494219F0AB" & _
@@ -1525,10 +1526,15 @@ Falha:
    LicTemRecurso = True
 End Function
 
-'Aviso padrão de recurso fora do plano (ex.: LicMsgForaDoPlano("A emissão de MDF-e"))
+'Aviso padrão de recurso fora do plano (ex.: LicMsgForaDoPlano("A emissão de MDF-e")), com o título LIC_TITULO_RECURSO
 Public Function LicMsgForaDoPlano(ByVal Recurso As String) As String
-   LicMsgForaDoPlano = Recurso & " não faz parte do plano desta empresa." & vbCrLf & vbCrLf & _
-                       "Para incluir, fale com o suporte: " & SUPORTE & "."
+   LicMsgForaDoPlano = Recurso & " não faz parte do seu plano atual." & vbCrLf & vbCrLf & _
+                       "Quer liberar essa facilidade? Entre em contato com nossa equipe pelo " & SUPORTE & "."
+End Function
+
+'Título da janela do aviso: a mensagem do WhatsApp fora do plano usa este; os outros erros, o título da tela
+Public Function ZapOnlineTitulo(ByVal Padrao As String) As String
+   If mZapForaDoPlano Then ZapOnlineTitulo = LIC_TITULO_RECURSO Else ZapOnlineTitulo = Padrao
 End Function
 
 'A última chamada do WhatsApp foi recusada porque o recurso não está no plano (403 do servidor)
@@ -1634,9 +1640,7 @@ Private Function ZapOnlineChamar(ByVal Metodo As String, ByVal Url As String, By
          Msg = "Esta instalação não está liberada no servidor de licenças. Fale com o suporte: " & SUPORTE & "."
       Case 403
          mZapForaDoPlano = True
-         Msg = LicJsonTexto(Resposta, "mensagem")
-         If Len(Msg) = 0 Then Msg = "O envio por WhatsApp não faz parte do plano desta empresa."
-         Msg = Msg & vbCrLf & vbCrLf & "Para incluir, fale com o suporte: " & SUPORTE & "."
+         Msg = LicMsgForaDoPlano("O envio por WhatsApp")
       Case 413
          Msg = "Arquivo muito grande para o WhatsApp (máximo 15 MB)."
       Case 429

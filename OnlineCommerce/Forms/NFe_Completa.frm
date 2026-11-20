@@ -10295,7 +10295,7 @@ Screen.MousePointer = vbHourglass
 sSit = ZapOnlineSituacao(sNumZap, sNomeZap, sMsg)
 Screen.MousePointer = vbDefault
 If sSit = "" Then
-    MsgBox sMsg, vbExclamation, TITULO
+    MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
     Exit Sub
 ElseIf sSit <> "conectado" Then
     MsgBox "O WhatsApp da empresa não está conectado." & vbCrLf & vbCrLf & _
@@ -10362,7 +10362,7 @@ If sEnvio <> "" And sEnvio <> sPDF Then
 End If
 
 If Not bOk Then
-    MsgBox "Não foi possível enviar pelo WhatsApp." & vbCrLf & vbCrLf & sMsg, vbExclamation, TITULO
+    MsgBox "Não foi possível enviar pelo WhatsApp." & vbCrLf & vbCrLf & sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
     Exit Sub
 End If
 
