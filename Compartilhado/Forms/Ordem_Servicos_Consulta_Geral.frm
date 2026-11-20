@@ -994,6 +994,9 @@ Private Sub cmdSair_Click()
 End Sub
 
 Private Sub Form_Load()
+   'profissional: Mecânico so para Automóveis/Motocicletas; nos demais tipos e Técnico
+   lblMecanico.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "Mecânico:", "Técnico:")
+   optMecanico.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "&Mecânico", "&Técnico")
    
    'FORMATAR O GRID
    With Grid

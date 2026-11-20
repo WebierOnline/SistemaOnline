@@ -6194,7 +6194,7 @@ If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Informática"
        .TextMatrix(0, 9) = "ITEM"
        .TextMatrix(0, 10) = "PROD"
        .TextMatrix(0, 11) = "MEC"
-       .TextMatrix(0, 12) = "MECÂNICO"
+       .TextMatrix(0, 12) = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO", "TÉCNICO")
        .TextMatrix(0, 13) = "CODSERV"
     
        .Redraw = False
@@ -9082,6 +9082,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         REL_OS_Completo.rfForma.Caption = "VENDA À PRAZO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -9236,6 +9237,7 @@ Else
         REL_OS_Completo.rfForma.Caption = "VENDA À VISTA"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then
@@ -11368,6 +11370,7 @@ Me.Hide
         REL_OS_Completo.rfForma.Caption = "ORÇAMENTO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         REL_OS_Completo.txtParecerTitulo.Visible = True
         REL_OS_Completo.txtParecer.Visible = True
         REL_OS_Completo.txtParecer.Caption = rOS("OBS")
@@ -11630,6 +11633,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         REL_OS_Completo.rfForma.Caption = "VENDA À PRAZO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         REL_OS_Completo.txtParecerTitulo.Visible = False
         REL_OS_Completo.txtParecerTitulo.Caption = ""
         REL_OS_Completo.txtParecer.Visible = False
@@ -11789,6 +11793,7 @@ Else
         REL_OS_Completo.rfForma.Caption = "VENDA À VISTA"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         REL_OS_Completo.txtParecerTitulo.Visible = False
         REL_OS_Completo.txtParecerTitulo.Caption = ""
         REL_OS_Completo.txtParecer.Visible = False
@@ -12220,6 +12225,7 @@ Me.Hide
         REL_OS_Completo.rfForma.Caption = "ORÇAMENTO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
             REL_OS_Completo.txtParecerTitulo.Visible = True
         REL_OS_Completo.txtParecer.Visible = True
         REL_OS_Completo.txtParecer.Caption = rOS("OBS")
@@ -12486,6 +12492,7 @@ If r("TIPO_PAGAMENTO") = "À Prazo" Then
         REL_OS_Completo.rfForma.Caption = "VENDA À PRAZO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         REL_OS_Completo.txtParecerTitulo.Visible = False
         REL_OS_Completo.txtParecerTitulo.Caption = ""
         REL_OS_Completo.txtParecer.Visible = False
@@ -12640,6 +12647,7 @@ Else
         REL_OS_Completo.rfForma.Caption = "VENDA À VISTA"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         REL_OS_Completo.txtParecerTitulo.Visible = False
         REL_OS_Completo.txtParecerTitulo.Caption = ""
         REL_OS_Completo.txtParecer.Visible = False
@@ -14338,6 +14346,7 @@ Me.Hide
         REL_OS_Completo.rfForma.Caption = "ORÇAMENTO"
         REL_OS_Completo.rfFunc.Caption = rFunc("nome")
         REL_OS_Completo.rfTecnico.Caption = rTecnico("nome")
+        REL_OS_Completo.Label5.Caption = IIf((vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas"), "MECÂNICO:", "TÉCNICO:")
         
         'DADOS DO VEICULO
         If vTipoOS = "Automóveis" Or vTipoOS = "Motocicletas" Or vTipoOS = "Recapadora" Then

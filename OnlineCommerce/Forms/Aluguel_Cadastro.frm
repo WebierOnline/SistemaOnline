@@ -552,7 +552,194 @@ Begin VB.Form Aluguel_Cadastro
          TabIndex        =   45
          Top             =   420
          Width           =   12675
+         Begin VB.Frame frmDevolucao 
+            BackColor       =   &H00E0E0E0&
+            Caption         =   "Devolução"
+            BeginProperty Font 
+               Name            =   "Arial"
+               Size            =   8.25
+               Charset         =   0
+               Weight          =   700
+               Underline       =   0   'False
+               Italic          =   0   'False
+               Strikethrough   =   0   'False
+            EndProperty
+            ForeColor       =   &H00004080&
+            Height          =   855
+            Left            =   6420
+            TabIndex        =   99
+            Top             =   6960
+            Visible         =   0   'False
+            Width           =   6195
+            Begin VB.TextBox txtQuantDev 
+               Alignment       =   1  'Right Justify
+               Height          =   315
+               Left            =   3840
+               TabIndex        =   36
+               Top             =   480
+               Width           =   1035
+            End
+            Begin ChamaleonBtn.chameleonButton chameleonButton3 
+               Height          =   315
+               Left            =   2760
+               TabIndex        =   34
+               TabStop         =   0   'False
+               Tag             =   "Calendario"
+               Top             =   480
+               Width           =   315
+               _ExtentX        =   556
+               _ExtentY        =   556
+               BTYPE           =   8
+               TX              =   ""
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   15790320
+               BCOLO           =   15790320
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Aluguel_Cadastro.frx":C5AA
+               PICN            =   "Aluguel_Cadastro.frx":C5C6
+               PICH            =   "Aluguel_Cadastro.frx":E919
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin MSMask.MaskEdBox mskDevolver 
+               Height          =   315
+               Left            =   1860
+               TabIndex        =   33
+               Top             =   480
+               Width           =   1215
+               _ExtentX        =   2143
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin ChamaleonBtn.chameleonButton cmdDevolverItem 
+               Height          =   315
+               Left            =   4980
+               TabIndex        =   37
+               ToolTipText     =   "Remove"
+               Top             =   480
+               Width           =   1035
+               _ExtentX        =   1826
+               _ExtentY        =   556
+               BTYPE           =   3
+               TX              =   "Devolver"
+               ENAB            =   -1  'True
+               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+                  Name            =   "MS Sans Serif"
+                  Size            =   8.25
+                  Charset         =   0
+                  Weight          =   400
+                  Underline       =   0   'False
+                  Italic          =   0   'False
+                  Strikethrough   =   0   'False
+               EndProperty
+               COLTYPE         =   1
+               FOCUSR          =   -1  'True
+               BCOL            =   12632256
+               BCOLO           =   12632256
+               FCOL            =   0
+               FCOLO           =   0
+               MCOL            =   12632256
+               MPTR            =   1
+               MICON           =   "Aluguel_Cadastro.frx":10C6C
+               UMCOL           =   -1  'True
+               SOFT            =   0   'False
+               PICPOS          =   0
+               NGREY           =   0   'False
+               FX              =   0
+               HAND            =   0   'False
+               CHECK           =   0   'False
+               VALUE           =   0   'False
+            End
+            Begin MSMask.MaskEdBox mskDataFinalLocacao 
+               Height          =   315
+               Left            =   120
+               TabIndex        =   31
+               TabStop         =   0   'False
+               Top             =   480
+               Width           =   975
+               _ExtentX        =   1720
+               _ExtentY        =   556
+               _Version        =   393216
+               Enabled         =   0   'False
+               PromptChar      =   "_"
+            End
+            Begin MSMask.MaskEdBox mskDevolverHora 
+               Height          =   315
+               Left            =   3120
+               TabIndex        =   35
+               Top             =   480
+               Width           =   675
+               _ExtentX        =   1191
+               _ExtentY        =   556
+               _Version        =   393216
+               PromptChar      =   "_"
+            End
+            Begin MSMask.MaskEdBox mskDataFinalLocacaoHora 
+               Height          =   315
+               Left            =   1140
+               TabIndex        =   32
+               Top             =   480
+               Width           =   675
+               _ExtentX        =   1191
+               _ExtentY        =   556
+               _Version        =   393216
+               Enabled         =   0   'False
+               PromptChar      =   "_"
+            End
+            Begin VB.Label Label27 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Data Final"
+               Height          =   195
+               Left            =   120
+               TabIndex        =   108
+               Top             =   240
+               Width           =   720
+            End
+            Begin VB.Label Label3 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Devolução"
+               Height          =   195
+               Left            =   1860
+               TabIndex        =   107
+               Top             =   240
+               Width           =   780
+            End
+            Begin VB.Label Label22 
+               AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
+               Caption         =   "Quant. Devol."
+               Height          =   195
+               Left            =   3840
+               TabIndex        =   100
+               Top             =   240
+               Width           =   990
+            End
+         End
          Begin VB.Frame frmProrrogacao 
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Prorrogação"
             Height          =   1815
             Left            =   6420
@@ -560,6 +747,7 @@ Begin VB.Form Aluguel_Cadastro
             Top             =   5940
             Width           =   6195
             Begin VB.TextBox txtQuantItem 
+               Appearance      =   0  'Flat
                Height          =   285
                Left            =   2100
                TabIndex        =   141
@@ -615,6 +803,7 @@ Begin VB.Form Aluguel_Cadastro
             End
             Begin VB.TextBox txtValorRealDescProrro 
                Alignment       =   1  'Right Justify
+               Appearance      =   0  'Flat
                Height          =   315
                Left            =   3840
                MaxLength       =   40
@@ -674,9 +863,9 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":C5AA
-               PICN            =   "Aluguel_Cadastro.frx":C5C6
-               PICH            =   "Aluguel_Cadastro.frx":E919
+               MICON           =   "Aluguel_Cadastro.frx":10C88
+               PICN            =   "Aluguel_Cadastro.frx":10CA4
+               PICH            =   "Aluguel_Cadastro.frx":12FF7
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -741,6 +930,7 @@ Begin VB.Form Aluguel_Cadastro
                _ExtentX        =   1720
                _ExtentY        =   556
                _Version        =   393216
+               Appearance      =   0
                PromptChar      =   "_"
             End
             Begin ChamaleonBtn.chameleonButton cmdProrrogacao 
@@ -773,7 +963,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":10C6C
+               MICON           =   "Aluguel_Cadastro.frx":1534A
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -813,7 +1003,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":10C88
+               MICON           =   "Aluguel_Cadastro.frx":15366
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -967,6 +1157,7 @@ Begin VB.Form Aluguel_Cadastro
             End
          End
          Begin VB.Frame frmPagamento 
+            BackColor       =   &H00E0E0E0&
             Caption         =   "Pagamento"
             BeginProperty Font 
                Name            =   "Arial Narrow"
@@ -981,7 +1172,7 @@ Begin VB.Form Aluguel_Cadastro
             Height          =   1035
             Left            =   6420
             TabIndex        =   145
-            Top             =   6780
+            Top             =   5940
             Visible         =   0   'False
             Width           =   6195
             Begin VB.TextBox txtDesc 
@@ -995,6 +1186,7 @@ Begin VB.Form Aluguel_Cadastro
                Width           =   915
             End
             Begin VB.OptionButton opt2forma 
+               BackColor       =   &H00E0E0E0&
                Caption         =   "2"
                BeginProperty Font 
                   Name            =   "Arial"
@@ -1013,6 +1205,7 @@ Begin VB.Form Aluguel_Cadastro
                Width           =   495
             End
             Begin VB.OptionButton opt1forma 
+               BackColor       =   &H00E0E0E0&
                Caption         =   "1 "
                BeginProperty Font 
                   Name            =   "Arial"
@@ -1032,6 +1225,7 @@ Begin VB.Form Aluguel_Cadastro
                Width           =   495
             End
             Begin VB.CheckBox chkPgtoAuto 
+               BackColor       =   &H00E0E0E0&
                Caption         =   "Pgto Automático"
                BeginProperty Font 
                   Name            =   "Arial Narrow"
@@ -1097,6 +1291,7 @@ Begin VB.Form Aluguel_Cadastro
             End
             Begin VB.Label Label16 
                AutoSize        =   -1  'True
+               BackColor       =   &H00E0E0E0&
                Caption         =   "Qtde. Formas:"
                BeginProperty Font 
                   Name            =   "Arial Narrow"
@@ -1418,9 +1613,9 @@ Begin VB.Form Aluguel_Cadastro
                   FCOLO           =   0
                   MCOL            =   12632256
                   MPTR            =   1
-                  MICON           =   "Aluguel_Cadastro.frx":10CA4
-                  PICN            =   "Aluguel_Cadastro.frx":10CC0
-                  PICH            =   "Aluguel_Cadastro.frx":13013
+                  MICON           =   "Aluguel_Cadastro.frx":15382
+                  PICN            =   "Aluguel_Cadastro.frx":1539E
+                  PICH            =   "Aluguel_Cadastro.frx":176F1
                   UMCOL           =   -1  'True
                   SOFT            =   0   'False
                   PICPOS          =   0
@@ -1471,9 +1666,9 @@ Begin VB.Form Aluguel_Cadastro
                   FCOLO           =   0
                   MCOL            =   12632256
                   MPTR            =   1
-                  MICON           =   "Aluguel_Cadastro.frx":15366
-                  PICN            =   "Aluguel_Cadastro.frx":15382
-                  PICH            =   "Aluguel_Cadastro.frx":176D5
+                  MICON           =   "Aluguel_Cadastro.frx":19A44
+                  PICN            =   "Aluguel_Cadastro.frx":19A60
+                  PICH            =   "Aluguel_Cadastro.frx":1BDB3
                   UMCOL           =   -1  'True
                   SOFT            =   0   'False
                   PICPOS          =   0
@@ -1788,8 +1983,8 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   16384
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":19A28
-               PICN            =   "Aluguel_Cadastro.frx":19A44
+               MICON           =   "Aluguel_Cadastro.frx":1E106
+               PICN            =   "Aluguel_Cadastro.frx":1E122
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1828,8 +2023,8 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":19DDE
-               PICN            =   "Aluguel_Cadastro.frx":19DFA
+               MICON           =   "Aluguel_Cadastro.frx":1E4BC
+               PICN            =   "Aluguel_Cadastro.frx":1E4D8
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1869,7 +2064,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1A194
+               MICON           =   "Aluguel_Cadastro.frx":1E872
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1909,7 +2104,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1A1B0
+               MICON           =   "Aluguel_Cadastro.frx":1E88E
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1949,7 +2144,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1A1CC
+               MICON           =   "Aluguel_Cadastro.frx":1E8AA
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -1989,7 +2184,7 @@ Begin VB.Form Aluguel_Cadastro
                FCOLO           =   0
                MCOL            =   12632256
                MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1A1E8
+               MICON           =   "Aluguel_Cadastro.frx":1E8C6
                UMCOL           =   -1  'True
                SOFT            =   0   'False
                PICPOS          =   0
@@ -2034,192 +2229,6 @@ Begin VB.Form Aluguel_Cadastro
             BackColor       =   12648447
             SelectionMode   =   1
             Appearance      =   0
-         End
-         Begin VB.Frame frmDevolucao 
-            BackColor       =   &H00E0E0E0&
-            Caption         =   "Devolução"
-            BeginProperty Font 
-               Name            =   "Arial"
-               Size            =   8.25
-               Charset         =   0
-               Weight          =   700
-               Underline       =   0   'False
-               Italic          =   0   'False
-               Strikethrough   =   0   'False
-            EndProperty
-            ForeColor       =   &H00004080&
-            Height          =   855
-            Left            =   6420
-            TabIndex        =   99
-            Top             =   6660
-            Visible         =   0   'False
-            Width           =   6195
-            Begin VB.TextBox txtQuantDev 
-               Alignment       =   1  'Right Justify
-               Height          =   315
-               Left            =   3840
-               TabIndex        =   36
-               Top             =   480
-               Width           =   1035
-            End
-            Begin ChamaleonBtn.chameleonButton chameleonButton3 
-               Height          =   315
-               Left            =   2760
-               TabIndex        =   34
-               TabStop         =   0   'False
-               Tag             =   "Calendario"
-               Top             =   480
-               Width           =   315
-               _ExtentX        =   556
-               _ExtentY        =   556
-               BTYPE           =   8
-               TX              =   ""
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   15790320
-               BCOLO           =   15790320
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1A204
-               PICN            =   "Aluguel_Cadastro.frx":1A220
-               PICH            =   "Aluguel_Cadastro.frx":1C573
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin MSMask.MaskEdBox mskDevolver 
-               Height          =   315
-               Left            =   1860
-               TabIndex        =   33
-               Top             =   480
-               Width           =   1215
-               _ExtentX        =   2143
-               _ExtentY        =   556
-               _Version        =   393216
-               PromptChar      =   "_"
-            End
-            Begin ChamaleonBtn.chameleonButton cmdDevolverItem 
-               Height          =   315
-               Left            =   4980
-               TabIndex        =   37
-               ToolTipText     =   "Remove"
-               Top             =   480
-               Width           =   1035
-               _ExtentX        =   1826
-               _ExtentY        =   556
-               BTYPE           =   3
-               TX              =   "Devolver"
-               ENAB            =   -1  'True
-               BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
-                  Name            =   "MS Sans Serif"
-                  Size            =   8.25
-                  Charset         =   0
-                  Weight          =   400
-                  Underline       =   0   'False
-                  Italic          =   0   'False
-                  Strikethrough   =   0   'False
-               EndProperty
-               COLTYPE         =   1
-               FOCUSR          =   -1  'True
-               BCOL            =   12632256
-               BCOLO           =   12632256
-               FCOL            =   0
-               FCOLO           =   0
-               MCOL            =   12632256
-               MPTR            =   1
-               MICON           =   "Aluguel_Cadastro.frx":1E8C6
-               UMCOL           =   -1  'True
-               SOFT            =   0   'False
-               PICPOS          =   0
-               NGREY           =   0   'False
-               FX              =   0
-               HAND            =   0   'False
-               CHECK           =   0   'False
-               VALUE           =   0   'False
-            End
-            Begin MSMask.MaskEdBox mskDataFinalLocacao 
-               Height          =   315
-               Left            =   120
-               TabIndex        =   31
-               TabStop         =   0   'False
-               Top             =   480
-               Width           =   975
-               _ExtentX        =   1720
-               _ExtentY        =   556
-               _Version        =   393216
-               Enabled         =   0   'False
-               PromptChar      =   "_"
-            End
-            Begin MSMask.MaskEdBox mskDevolverHora 
-               Height          =   315
-               Left            =   3120
-               TabIndex        =   35
-               Top             =   480
-               Width           =   675
-               _ExtentX        =   1191
-               _ExtentY        =   556
-               _Version        =   393216
-               PromptChar      =   "_"
-            End
-            Begin MSMask.MaskEdBox mskDataFinalLocacaoHora 
-               Height          =   315
-               Left            =   1140
-               TabIndex        =   32
-               Top             =   480
-               Width           =   675
-               _ExtentX        =   1191
-               _ExtentY        =   556
-               _Version        =   393216
-               Enabled         =   0   'False
-               PromptChar      =   "_"
-            End
-            Begin VB.Label Label27 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Data Final"
-               Height          =   195
-               Left            =   120
-               TabIndex        =   108
-               Top             =   240
-               Width           =   720
-            End
-            Begin VB.Label Label3 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Devolução"
-               Height          =   195
-               Left            =   1860
-               TabIndex        =   107
-               Top             =   240
-               Width           =   780
-            End
-            Begin VB.Label Label22 
-               AutoSize        =   -1  'True
-               BackColor       =   &H00E0E0E0&
-               Caption         =   "Quant. Devol."
-               Height          =   195
-               Left            =   3840
-               TabIndex        =   100
-               Top             =   240
-               Width           =   990
-            End
          End
       End
       Begin ChamaleonBtn.chameleonButton cmdCadastrarCliente 
@@ -2645,7 +2654,7 @@ Begin VB.Form Aluguel_Cadastro
             Alignment       =   1
             Object.Width           =   1587
             MinWidth        =   1587
-            TextSave        =   "06:02"
+            TextSave        =   "13:12"
          EndProperty
       EndProperty
       BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -4680,6 +4689,8 @@ Next
 
 If vQuantAtivo = 0 Then
     dbData.Execute "UPDATE aluguel_cadastro SET STATUS = 1 WHERE (CODIGO = " & lblCodigo.Caption & ");"
+    'atualiza o grid da consulta para o aluguel fechado nao continuar aparecendo como ABERTO
+    If cboFiltro.Text <> "" Then cmdExibirConsulta_Click
 End If
 
 LimparGrid_Parcelas
@@ -4842,11 +4853,11 @@ End Sub
 Private Sub cmdImprimirConsulta_Click()
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
-Dim oIni As Ini
+Dim oIni As ini
 Dim r As ADODB.Recordset
 
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 var_Impressora = oIni.LerTexto("DADOS_IMPRESSORA", "impressora")
 Set oIni = Nothing
 
@@ -5295,9 +5306,9 @@ Dim var_Caixa As String
 Dim var_Maquina As String
 
 'abre o ini
-Dim oIni As Ini
-Set oIni = New Ini
-oIni.Arquivo = appPathApp & "config.ini"
+Dim oIni As ini
+Set oIni = New ini
+oIni.arquivo = appPathApp & "config.ini"
 
 'nome da caixa
 var_Caixa = oIni.LerTexto("DADOS_CAIXA", "caixa")

@@ -1363,7 +1363,7 @@ For Each Prt In Printers
    End If
 Next
 
-Me.Hide
+'Me.Hide   'removido: com o form oculto a visualizacao do relatorio nao abria
 
 Set r = dbData.OpenRecordset(printSQL)
 
@@ -1381,7 +1381,9 @@ If varTipoConsulta = "PRAZO" Then
     REL_Caixa_Prazo.rfCodCaixa.Caption = varFluxoCodCaixa
     REL_Caixa_Prazo.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
-    REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal   'removido: com NomeImpressora o ReportX imprime direto e ignora Visualizar
+    REL_Caixa_Prazo.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Prazo.Relatorio.Visualizar = True
     REL_Caixa_Prazo.Relatorio.Ativar
     Unload REL_Caixa_Prazo
 ElseIf varTipoConsulta = "CARTAO" Then
@@ -1400,6 +1402,8 @@ ElseIf varTipoConsulta = "CARTAO" Then
     REL_Caixa_Venda.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Venda.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Venda.Relatorio.Visualizar = True
     REL_Caixa_Venda.Relatorio.Ativar
     Unload REL_Caixa_Venda
 
@@ -1416,6 +1420,8 @@ ElseIf varTipoConsulta = "OUTROS" Then
     REL_Caixa_Venda.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Venda.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Venda.Relatorio.Visualizar = True
     REL_Caixa_Venda.Relatorio.Ativar
     Unload REL_Caixa_Venda
 ElseIf varTipoConsulta = "VENDAS" Then
@@ -1430,6 +1436,8 @@ ElseIf varTipoConsulta = "VENDAS" Then
     REL_Caixa_Venda.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Venda.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Venda.Relatorio.Visualizar = True
     REL_Caixa_Venda.Relatorio.Ativar
     Unload REL_Caixa_Venda
 ElseIf varTipoConsulta = "PARCELAS" Then
@@ -1444,6 +1452,8 @@ ElseIf varTipoConsulta = "PARCELAS" Then
     REL_Caixa_Venda.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Venda.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Venda.Relatorio.Visualizar = True
     REL_Caixa_Venda.Relatorio.Ativar
     Unload REL_Caixa_Venda
 ElseIf varTipoConsulta = "HAVERES" Then
@@ -1458,6 +1468,8 @@ ElseIf varTipoConsulta = "HAVERES" Then
     REL_Caixa_Venda.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Venda.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Venda.Relatorio.Visualizar = True
     REL_Caixa_Venda.Relatorio.Ativar
     Unload REL_Caixa_Venda
 ElseIf varTipoConsulta = "SUPRIMENTOS" Then
@@ -1472,6 +1484,8 @@ ElseIf varTipoConsulta = "SUPRIMENTOS" Then
     REL_Caixa_SupriSangria.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_SupriSangria.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_SupriSangria.Relatorio.Visualizar = True
     REL_Caixa_SupriSangria.Relatorio.Ativar
     Unload REL_Caixa_SupriSangria
     
@@ -1487,6 +1501,8 @@ ElseIf varTipoConsulta = "SANGRIAS" Then
     REL_Caixa_SupriSangria.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_SupriSangria.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_SupriSangria.Relatorio.Visualizar = True
     REL_Caixa_SupriSangria.Relatorio.Ativar
     Unload REL_Caixa_SupriSangria
 ElseIf varTipoConsulta = "RETIRADAS" Then
@@ -1501,6 +1517,8 @@ ElseIf varTipoConsulta = "RETIRADAS" Then
     REL_Caixa_Retiradas.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
     'REL_Caixa_Prazo.Relatorio.NomeImpressora = vImpressoraNormal
+    REL_Caixa_Retiradas.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Retiradas.Relatorio.Visualizar = True
     REL_Caixa_Retiradas.Relatorio.Ativar
     Unload REL_Caixa_Retiradas
 ElseIf varTipoConsulta = "ALUGUEL" Then
@@ -1515,7 +1533,9 @@ ElseIf varTipoConsulta = "ALUGUEL" Then
     REL_Caixa_Aluguel.rfCodCaixa.Caption = varFluxoCodCaixa
     REL_Caixa_Aluguel.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
-    REL_Caixa_Aluguel.Relatorio.NomeImpressora = vImpressoraNormal
+    'REL_Caixa_Aluguel.Relatorio.NomeImpressora = vImpressoraNormal   'removido: com NomeImpressora o ReportX imprime direto e ignora Visualizar
+    REL_Caixa_Aluguel.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_Aluguel.Relatorio.Visualizar = True
     REL_Caixa_Aluguel.Relatorio.Ativar
     Unload REL_Caixa_Aluguel
 ElseIf varTipoConsulta = "SERVICOS" Then
@@ -1530,12 +1550,14 @@ ElseIf varTipoConsulta = "SERVICOS" Then
     REL_Caixa_OS.rfCodCaixa.Caption = varFluxoCodCaixa
     REL_Caixa_OS.rfNomeCaixa.Caption = varFluxoNomeCaixa
     
-    REL_Caixa_OS.Relatorio.NomeImpressora = vImpressoraNormal
+    'REL_Caixa_OS.Relatorio.NomeImpressora = vImpressoraNormal   'removido: com NomeImpressora o ReportX imprime direto e ignora Visualizar
+    REL_Caixa_OS.Relatorio.NomeImpressora = ""   'o .frm do relatorio traz IMPRESSORA1 fixo; vazio = visualizacao
+    REL_Caixa_OS.Relatorio.Visualizar = True
     REL_Caixa_OS.Relatorio.Ativar
     Unload REL_Caixa_OS
 End If
 
-Me.Show
+'Me.Show   'removido: com o form oculto a visualizacao do relatorio nao abria
 End Sub
 
 

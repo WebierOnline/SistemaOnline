@@ -4435,7 +4435,7 @@ sSQLusuario = "SELECT DATA_ABERTURA, HORA_ABERTURA, COD_FUNC_ABERTURA, DATA_FECH
        "WHERE (caixa = '" & StatusBar1.Panels(2).Text & "') and (CODCAIXA = " & StatusBar1.Panels(3).Text & ");"
 Set r_usuario = dbData.OpenRecordset(sSQLusuario)
 
-Me.Hide
+'Me.Hide   'removido: com o form oculto a visualizacao do relatorio nao abria
 
 Set r = dbData.OpenRecordset(printSQL)
 
@@ -4523,6 +4523,7 @@ If vAluguelAtiva = False And vOSAtiva = False Then
     REL_Caixa_Fech_Imp.rfCodCaixa.Caption = Format(StatusBar1.Panels(3).Text, "0000")
     
     REL_Caixa_Fech_Imp.ReportMain1.NomeImpressora = var_ImpNormal
+REL_Caixa_Fech_Imp.ReportMain1.Visualizar = True
     REL_Caixa_Fech_Imp.ReportMain1.Ativar
     Unload REL_Caixa_Fech_Imp
 
@@ -4605,6 +4606,7 @@ ElseIf vAluguelAtiva = True And vOSAtiva = False Then
     REL_Caixa_Fech_Imp_Aluguel.rfCodCaixa.Caption = Format(StatusBar1.Panels(3).Text, "0000")
     
     REL_Caixa_Fech_Imp_Aluguel.ReportMain1.NomeImpressora = var_ImpNormal
+    REL_Caixa_Fech_Imp_Aluguel.ReportMain1.Visualizar = True
     REL_Caixa_Fech_Imp_Aluguel.ReportMain1.Ativar
     Unload REL_Caixa_Fech_Imp_Aluguel
 ElseIf vAluguelAtiva = False And vOSAtiva = True Then
@@ -4686,10 +4688,11 @@ ElseIf vAluguelAtiva = False And vOSAtiva = True Then
     REL_Caixa_Fech_Imp_OS.rfCodCaixa.Caption = Format(StatusBar1.Panels(3).Text, "0000")
     
     REL_Caixa_Fech_Imp_OS.ReportMain1.NomeImpressora = var_ImpNormal
+    REL_Caixa_Fech_Imp_OS.ReportMain1.Visualizar = True
     REL_Caixa_Fech_Imp_OS.ReportMain1.Ativar
     Unload REL_Caixa_Fech_Imp_OS
 End If
-Me.Show
+'Me.Show   'removido: com o form oculto a visualizacao do relatorio nao abria
 End Sub
 
 Private Sub cmdImprimirResumido_Click()
@@ -5074,7 +5077,9 @@ sql = "SELECT HORA as vSHora, SUBDESCRICAO + '/' + DESCRICAO as vSDescricao, COD
 Set r = dbData.OpenRecordset(sql)
 
 
-Me.Hide
+'Me.Hide   'removido: com o form oculto a visualizacao do relatorio nao abria
+'sem saidas no caixa a lista fica vazia e o ReportX nao abre a visualizacao: usa 1 linha em branco
+If r.EOF Then Set r = dbData.OpenRecordset("SELECT '' AS vSHora, '' AS vSDescricao, '' AS vSFunc, 0 AS vSValor")
 Set REL_Caixa_Fech_Resumido.ReportMain1.Recordset = r
 
 Dim vStrCaixa As String
@@ -5291,9 +5296,10 @@ REL_Caixa_Fech_Resumido.rfCaixa.Caption = StatusBar1.Panels(2).Text
 REL_Caixa_Fech_Resumido.rfCodCaixa.Caption = Format(StatusBar1.Panels(3).Text, "0000")
 
 REL_Caixa_Fech_Resumido.ReportMain1.NomeImpressora = var_ImpNormal
+REL_Caixa_Fech_Resumido.ReportMain1.Visualizar = True
 REL_Caixa_Fech_Resumido.ReportMain1.Ativar
 'Unload REL_Caixa_Fech_Resumido
-Me.Show
+'Me.Show   'removido: com o form oculto a visualizacao do relatorio nao abria
 End Sub
 
 Private Sub cmdMaqOK_Click()
