@@ -534,6 +534,16 @@ Begin VB.Form frmCobrancaEnvio
       Visible         =   0   'False
       Width           =   195
    End
+   Begin VB.CheckBox chkJuros 
+      Caption         =   "Cobrar juros e multa"
+      Height          =   255
+      Left            =   7320
+      TabIndex        =   21
+      ToolTipText     =   "Marcado: o valor cobrado inclui multa e juros do atraso (Configuração Geral). A mensagem não fala em juros, só mostra o valor."
+      Top             =   4920
+      Value           =   1  'Checked
+      Width           =   3375
+   End
    Begin VB.Label lblPrevia 
       Caption         =   "Mensagem (prévia):"
       Height          =   255
@@ -593,6 +603,24 @@ cboPeriodo.ListIndex = 0
 lblProgresso.Caption = ""
 lblResumo.Caption = ""
 txtPrevia.Text = ""
+LegendaJuros
+End Sub
+
+'Mostra a multa e o juros ao dia da Configuração Geral no próprio checkbox
+Private Sub LegendaJuros()
+Dim cJurosDia As Currency, nTipo As Integer, cMulta As Currency
+
+Cob_JurosConfig cJurosDia, nTipo, cMulta
+If cJurosDia > 0 Or cMulta > 0 Then
+    chkJuros.Caption = "Cobrar juros e multa (multa " & Format$(cMulta, "0.00") & "% + " & Format$(cJurosDia, "0.00##") & "% ao dia, " & _
+                       IIf(nTipo = 1, "sobre a parcela", "sobre o saldo") & ")"
+Else
+    chkJuros.Caption = "Cobrar juros e multa (sem multa e juros na Configuração Geral)"
+End If
+End Sub
+
+Private Sub chkJuros_Click()
+If mIniciou And Not mEnviando Then Recarregar
 End Sub
 
 Private Sub Form_Activate()
@@ -648,7 +676,7 @@ Dim i As Long, r As Long, nProntos As Long, nSel As Long
 Me.MousePointer = vbHourglass
 Aguarde True
 Cob_LerConfig mCfg
-mQtd = Cob_Pendentes(Date, mItens)
+mQtd = Cob_Pendentes(Date, mItens, (chkJuros.Value = vbChecked))
 ReDim mMarca(0 To mQtd)
 
 mSemEvento = True
@@ -1134,6 +1162,7 @@ cmdAtualizar.Enabled = bHabilitar
 cmdRegua.Enabled = bHabilitar
 cmdFechar.Enabled = bHabilitar
 cboPeriodo.Enabled = bHabilitar
+chkJuros.Enabled = bHabilitar
 cmdParar.Enabled = Not bHabilitar
 End Sub
 

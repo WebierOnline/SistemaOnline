@@ -45,6 +45,7 @@ Form=Forms\REL_Pedido_Avista.frm
 Form=Forms\PDV_PixVenda.frm
 Module=NFe_DLL; ..\Compartilhado\Modulos\modNFe.bas
 Module=LicencaOnline; ..\Compartilhado\Modulos\LicencaOnline.bas
+Module=modCelular; ..\Compartilhado\Modulos\modCelular.bas
 Form=..\Compartilhado\Forms\REL_Pedido_Mod05.frm
 Form=..\Compartilhado\Forms\REL_Pedido_Mod06.frm
 Form=..\Compartilhado\Forms\Caixa_Controle.frm

@@ -957,10 +957,10 @@ If Not mCarregando Then AtualizarPrevia
 End Sub
 
 Private Sub cmdTeste_Click()
-Dim it As CobItem, cfg As CobConfig, sMsg As String
+Dim it As CobItem, cfg As CobConfig, sMsg As String, sMotivo As String
 
-If Len(PDFZap_Digitos(txtTeste.Text)) < 10 Then
-    MsgBox "Informe o celular com DDD para o teste.", vbExclamation, "Régua de cobrança"
+If Not CelularValido(txtTeste.Text, sMotivo) Then
+    MsgBox "Celular inválido para o teste: " & sMotivo & "." & vbCrLf & vbCrLf & "Digite com o DDD, ex.: (89) 9 9999-9999.", vbExclamation, "Régua de cobrança"
     txtTeste.SetFocus
     Exit Sub
 End If

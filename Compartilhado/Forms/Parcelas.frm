@@ -3537,6 +3537,29 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
    lblTotal.Caption = Format(SomaGrid(grid_Parcelas, 11), ocMONEY)
 End Sub
 
+'Multa (%) da Configuração Geral (MULTA) na parcela vencida, cobrada uma vez, em R$ no txtMulta.
+'Base conforme "Cobrar juros sobre" (TIPO_JUROS): 1 = valor da parcela, 0 = saldo restante (valor - haveres).
+Private Sub Preencher_Multa()
+Dim cPerc As Currency, nTipo As Integer, cBase As Currency
+
+On Error Resume Next
+txtMulta.Text = FormatNumber(0, 2)
+If Val(txtDias.Text) <= 0 Then Exit Sub
+cPerc = CCur(sysConfig("MULTA").Value)
+If Err.Number <> 0 Or cPerc <= 0 Then
+    Err.Clear
+    Exit Sub
+End If
+nTipo = Val(CStr(sysConfig("TIPO_JUROS").Value))
+cBase = CCur(txtValor.Text)
+If nTipo = 0 And txtTotalHaver.Text <> "" Then cBase = cBase - CCur(txtTotalHaver.Text)
+If cBase <= 0 Then Exit Sub
+txtMulta.Text = FormatNumber(Round(cBase * cPerc / 100, 2), 2)
+If chkMulta.Value <> Checked Then chkMulta.Value = Checked
+Calcular_Valores
+Err.Clear
+End Sub
+
 Private Sub Calcular_Dias()
 If DateDiff("d", mskData.Text, mskPagamento.Text) < 0 Then
    txtDias.Text = "0"
@@ -4734,6 +4757,7 @@ For f = 0 To grid_Parcelas.Rows - 1
       chkJuros.Value = Checked
       Calcular_Dias
       MostrarGrid_Haver
+      Preencher_Multa
    End If
 Next
 
@@ -6955,7 +6979,7 @@ End Sub
 
 Private Sub txtJuros_LostFocus()
    MostrarGrid_Haver
-   If txtJuros.Text = "" Then txtJuros.Text = FormatNumber(0, 2) Else txtJuros.Text = FormatNumber(txtJuros.Text, 2)
+   If txtJuros.Text = "" Then txtJuros.Text = FormatNumber(0, 2) Else txtJuros.Text = FormatNumber(txtJuros.Text, 4)
 End Sub
 
 Private Sub txtMulta_Change()

@@ -20,18 +20,16 @@ End Function
 
 'Pergunta o celular (já preenchido com o do cadastro). "" = cancelou.
 Public Function PDFZap_PedirCelular(ByVal sSugestao As String) As String
-Dim s As String, d As String
+Dim s As String, sMotivo As String
 
 Do
     s = Trim$(InputBox("Informe o celular (com DDD) para enviar o PDF pelo WhatsApp:", "Enviar por WhatsApp", sSugestao))
     If s = "" Then Exit Function
-    d = PDFZap_Digitos(s)
-    If Len(d) >= 12 And Left$(d, 2) = "55" Then d = Mid$(d, 3)
-    If Len(d) = 10 Or Len(d) = 11 Then
+    If CelularValido(s, sMotivo) Then
         PDFZap_PedirCelular = s
         Exit Function
     End If
-    MsgBox "Celular inválido. Digite com o DDD, ex.: (89) 9 9999-9999.", vbExclamation, "Enviar por WhatsApp"
+    MsgBox "Celular inválido: " & sMotivo & "." & vbCrLf & vbCrLf & "Digite com o DDD, ex.: (89) 9 9999-9999.", vbExclamation, "Enviar por WhatsApp"
     sSugestao = s
 Loop
 End Function

@@ -182,3 +182,5 @@
 184|CreateTables_CobrancaWhatsApp.sql|GERAL
 185|Categoria - Preencher 15 e 16.sql|GERAL
 186|Update_CobrancaConfig_Intervalo30.sql|GERAL
+187|Fix_Cliente_Celular_NonoDigito.sql|GERAL
+188|Update_Configuracao_JurosMulta.sql|GERAL

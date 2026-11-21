@@ -70,6 +70,7 @@ Form=..\Compartilhado\Forms\REL_Pedido_Orcamento_Grande.frm
 Form=..\Compartilhado\Forms\REL_OS_Entrada_Informatica.frm
 Module=Util; Modulos\Util.bas
 Module=LicencaOnline; ..\Compartilhado\Modulos\LicencaOnline.bas
+Module=modCelular; ..\Compartilhado\Modulos\modCelular.bas
 Form=Forms\REL_OS_Entrada_Automoveis.frm
 Form=Forms\REL_OS_Completo.frm
 Form=Forms\REL_OS_Garantia.frm

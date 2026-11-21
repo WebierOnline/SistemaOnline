@@ -2365,6 +2365,8 @@ Private Sub cmdAlterar_Click()
 Dim sSQL As String
 Dim r As ADODB.Recordset
 
+If Not CelularCadastroOK() Then Exit Sub
+
 'Cliente CONSUMIDOR não permite alteração
 If txtNome.Text = "CONSUMIDOR" Then Exit Sub
 
@@ -3187,7 +3189,21 @@ Loop Until Not bRepete
 
 TirarEspaco = Value
 End Function
+Private Function CelularCadastroOK() As Boolean
+Dim sMotivo As String
+
+If CelularValido(mskCelular.Text, sMotivo) Or sMotivo = "sem número" Then
+    CelularCadastroOK = True
+    Exit Function
+End If
+MsgBox "Celular inválido: " & sMotivo & "." & vbCrLf & vbCrLf & "Digite com o DDD, ex.: (89) 99999-9999.", vbExclamation, "Online Commerce"
+On Error Resume Next
+SSTab1.Tab = 0
+mskCelular.SetFocus
+End Function
+
 Private Sub cmdSalvar_Click()
+If Not CelularCadastroOK() Then Exit Sub
 If cboTipoCliente.Text = "PRÉ-CADASTRO" Then
     If txtNome.Text = "" Then MsgBox "Campo NOME obrigatório!", vbCritical, "Online Commerce": txtNome.SetFocus: Exit Sub
     If mskCelular.Text = "" Then MsgBox "Campo CELULAR obrigatório!", vbCritical, "Online Commerce": mskCelular.SetFocus: Exit Sub

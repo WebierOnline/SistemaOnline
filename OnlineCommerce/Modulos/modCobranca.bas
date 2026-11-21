@@ -162,8 +162,9 @@ End Function
 
 '---------------------------------------------------------------------------
 ' Quem recebe cobrança em dHoje. Devolve a quantidade (Itens(1..n)); inclui os que não podem receber, com o Motivo.
+' bJuros = soma multa + juros do atraso (Configuração Geral: MULTA, JUROS_DIA e TIPO_JUROS) no valor de cada parcela vencida.
 '---------------------------------------------------------------------------
-Public Function Cob_Pendentes(ByVal dHoje As Date, ByRef Itens() As CobItem) As Long
+Public Function Cob_Pendentes(ByVal dHoje As Date, ByRef Itens() As CobItem, Optional ByVal bJuros As Boolean = False) As Long
 Dim rs As ADODB.Recordset
 Dim nR As Long, i As Long, n As Long
 Dim rId() As Long, rDesc() As String, rSit() As Integer, rDias() As Long, rRep() As Long, rMax() As Long, rMsg() As String
@@ -174,11 +175,13 @@ Dim cliAtual As Long, cli As Long
 Dim dias As Long, ir As Long, melhor As Long, pesoMelhor As Long, peso As Long
 Dim dVenc As Date, saldo As Currency, codParc As Long, bDispara As Boolean
 Dim linhas As Long, extras As Long
-Dim it As CobItem, naoCobrar As Boolean
+Dim it As CobItem, naoCobrar As Boolean, sMotivoCel As String
+Dim cJurosDia As Currency, nTipoJuros As Integer, cValor As Currency, cMulta As Currency, cBase As Currency
 
 dHoje = DateValue(dHoje)
 sHoje = Format$(dHoje, "yyyymmdd")
 ReDim Itens(0)
+If bJuros Then Cob_JurosConfig cJurosDia, nTipoJuros, cMulta
 On Error GoTo Falha
 
 'Regras ativas
@@ -218,7 +221,7 @@ rs.Close
 'Parcelas em aberto até o maior "dias antes" das regras
 Set rs = dbData.OpenRecordset("SELECT p.CODIGO, p.COD_PEDIDO, ISNULL(p.COD_OS, 0) AS COD_OS, ISNULL(p.NUMERO, 0) AS NUMERO, p.DATA, " & _
     "(SELECT COUNT(*) FROM parcelas x WHERE x.COD_PEDIDO = p.COD_PEDIDO) AS QTD, " & _
-    "p.VALOR - ISNULL((SELECT SUM(h.valor_haver) FROM parcelas_haver h WHERE h.cod_parcela = p.CODIGO), 0) AS SALDO, " & _
+    "p.VALOR AS VALOR_PARC, p.VALOR - ISNULL((SELECT SUM(h.valor_haver) FROM parcelas_haver h WHERE h.cod_parcela = p.CODIGO), 0) AS SALDO, " & _
     "c.CODIGO AS COD_CLIENTE, c.NOME, ISNULL(c.NaoCobrarWhatsApp, 0) AS NAO_COBRAR " & _
     "FROM parcelas p INNER JOIN pedidos pe ON pe.COD_PEDIDO = p.COD_PEDIDO INNER JOIN cliente c ON c.CODIGO = pe.COD_CLIENTE " & _
     "WHERE p.STATUS = 0 AND p.DATA < '" & Format$(dHoje + maxAntes + 1, "yyyymmdd") & "' " & _
@@ -291,13 +294,20 @@ Do While Not rs.EOF
         End If
 
         'Na lista: tudo o que já venceu (ou vence hoje) e as parcelas que dispararam o aviso antes do vencimento
+        'Valor cobrado: saldo + multa (uma vez) + juros ao dia, sobre o saldo ou sobre o valor da parcela (conforme a configuração)
+        cValor = saldo
+        If bJuros And dias > 0 And (cJurosDia > 0 Or cMulta > 0) Then
+            If nTipoJuros = 1 Then cBase = CCur(rs("VALOR_PARC")) Else cBase = saldo
+            cValor = saldo + Round(cBase * (cMulta + cJurosDia * dias) / 100, 2)
+        End If
+
         If dias >= 0 Or bDispara Then
             it.QtdParcelas = it.QtdParcelas + 1
-            it.Total = it.Total + saldo
+            it.Total = it.Total + cValor
             If dias > it.DiasAtraso Then it.DiasAtraso = dias
             If it.Vencimento = 0 Or dVenc < it.Vencimento Then it.Vencimento = dVenc
             If linhas < COB_MAX_LINHAS Then
-                it.Lista = it.Lista & IIf(Len(it.Lista) > 0, vbLf, "") & Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, saldo, dias)
+                it.Lista = it.Lista & IIf(Len(it.Lista) > 0, vbLf, "") & Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, cValor, dias)
                 linhas = linhas + 1
             Else
                 extras = extras + 1
@@ -324,6 +334,8 @@ Fechar:
             it.Motivo = "Já recebeu cobrança hoje"
         ElseIf Len(it.Celular) = 0 Then
             it.Motivo = "Sem celular no cadastro"
+        ElseIf Not CelularValido(it.Celular, sMotivoCel) Then
+            it.Motivo = "Celular inválido (" & sMotivoCel & ")"
         End If
         n = n + 1
         ReDim Preserve Itens(n)
@@ -336,6 +348,25 @@ MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.D
 Err.Clear
 Cob_Pendentes = n
 End Function
+
+'Juros ao dia (%), tipo (0 = sobre o saldo restante, 1 = sobre o valor da parcela) e multa (%) da Configuração Geral
+Public Sub Cob_JurosConfig(ByRef cJurosDia As Currency, ByRef nTipo As Integer, Optional ByRef cMulta As Currency)
+Dim oCfg As ConfigItem
+
+cJurosDia = 0: nTipo = 0: cMulta = 0
+On Error Resume Next
+Set oCfg = sysConfig("JUROS_DIA")
+cJurosDia = CCur(oCfg.Value)
+Set oCfg = sysConfig("TIPO_JUROS")
+nTipo = Val(CStr(oCfg.Value))
+Set oCfg = Nothing
+Set oCfg = sysConfig("MULTA")
+If Not oCfg Is Nothing Then cMulta = CCur(oCfg.Value)
+Set oCfg = Nothing
+If cJurosDia < 0 Then cJurosDia = 0
+If cMulta < 0 Then cMulta = 0
+Err.Clear
+End Sub
 
 Private Function Cob_Existe(ByVal c As Collection, ByVal chave As String) As Boolean
 Dim v As Variant

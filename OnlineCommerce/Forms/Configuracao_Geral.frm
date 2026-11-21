@@ -410,7 +410,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin VB.Frame Frame9 
          Caption         =   "Juros"
-         Height          =   1335
+         Height          =   1695
          Left            =   120
          TabIndex        =   178
          Top             =   5280
@@ -445,6 +445,24 @@ Begin VB.Form Configuracao_Geral
             TabIndex        =   179
             Top             =   600
             Width           =   1455
+         End
+         Begin VB.TextBox txtMulta 
+            Height          =   315
+            Left            =   1620
+            TabIndex        =   245
+            ToolTipText     =   "Multa (%) cobrada uma vez sobre a parcela vencida, além do juros ao dia"
+            Top             =   1320
+            Width           =   1455
+         End
+         Begin VB.Label lblMulta 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Multa (%):"
+            Height          =   195
+            Left            =   780
+            TabIndex        =   246
+            Top             =   1380
+            Width           =   735
          End
          Begin VB.Label Label65 
             Alignment       =   1  'Right Justify
@@ -1045,7 +1063,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   1515
          Left            =   120
          TabIndex        =   106
-         Top             =   6660
+         Top             =   7020
          Width           =   8655
          Begin VB.Frame Frame11 
             Caption         =   "Balança/Pesagem"
@@ -2269,7 +2287,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin VB.Frame FrameBackup 
          Caption         =   "Configuração de Backup"
-         Height          =   1335
+         Height          =   1695
          Left            =   3780
          TabIndex        =   10
          Top             =   5280
@@ -2386,7 +2404,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   615
          Left            =   6600
          TabIndex        =   77
-         Top             =   8220
+         Top             =   8580
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
@@ -3794,6 +3812,23 @@ Dim sSQL As String
    
    'Atualiza a configuração carregada na memória
    sysConfig("JUROS_DIA").Value = txtJuroDia.Text
+
+   'Multa (%) por atraso (linha criada pelo script 188; cria aqui se faltar)
+   If txtMulta.Text = "" Then txtMulta.Text = Format(0, "##,##0.00")
+   dbData.Execute "IF EXISTS (SELECT 1 FROM configuracao WHERE config_nome = 'MULTA') " & _
+      "UPDATE configuracao SET config_valor = '" & txtMulta.Text & "' WHERE config_nome = 'MULTA' " & _
+      "ELSE INSERT INTO configuracao (config_nome, config_valor) VALUES ('MULTA', '" & txtMulta.Text & "')"
+   On Error Resume Next
+   sysConfig("MULTA").Value = txtMulta.Text
+   If Err.Number <> 0 Then
+      Err.Clear
+      Dim oMulta As ConfigItem
+      Set oMulta = New ConfigItem
+      oMulta.SetValues "MULTA", txtMulta.Text
+      sysConfig.Add oMulta, "MULTA"
+      Set oMulta = Nothing
+   End If
+   On Error GoTo 0
 End Sub
 
 Private Sub AtualizarORCConfImpressao()
@@ -6338,8 +6373,13 @@ Private Sub Mostrar_Dados_Juros()
 Set oCfg = sysConfig("JUROS_MES")
 txtJurosMes.Text = Format(oCfg.Value, "##,##0.00")
 Set oCfg = sysConfig("JUROS_DIA")
-txtJuroDia.Text = Format(oCfg.Value, "##,##0.00")
+txtJuroDia.Text = Format(oCfg.Value, "##,##0.0000")
 Set oCfg = Nothing
+txtMulta.Text = Format(0, "##,##0.00")
+On Error Resume Next
+txtMulta.Text = Format(sysConfig("MULTA").Value, "##,##0.00")
+Err.Clear
+On Error GoTo 0
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
@@ -6507,6 +6547,16 @@ Private Sub txtJuroDia_GotFocus()
    SelectControl txtJuroDia
 End Sub
 
+Private Sub txtMulta_GotFocus()
+   SelectControl txtMulta
+End Sub
+
+Private Sub txtMulta_LostFocus()
+   If txtMulta.Text = "" Then Exit Sub
+   If Not IsNumeric(txtMulta.Text) Then txtMulta.Text = "0"
+   txtMulta.Text = Format(txtMulta, "##,##0.00")
+End Sub
+
 Private Sub txtJurosMes_GotFocus()
    SelectControl txtJurosMes
 End Sub
@@ -6514,7 +6564,7 @@ End Sub
 Private Sub txtJurosMes_LostFocus()
    If txtJurosMes.Text = "" Then Exit Sub
    txtJurosMes.Text = Format(txtJurosMes, "##,##0.00")
-   txtJuroDia.Text = Format((txtJurosMes / 30), "##,##0.00")
+   txtJuroDia.Text = Format((txtJurosMes / 30), "##,##0.0000")
 End Sub
 
 Private Sub txtNumCopia_GotFocus()
