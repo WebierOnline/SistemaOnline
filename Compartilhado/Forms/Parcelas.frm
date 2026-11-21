@@ -2671,6 +2671,7 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
+Private mMultaAutomatica As Boolean   'chkMulta marcado por código (Preencher_Multa): chkMulta_Click não dá SetFocus
 Dim sSQL As String
 Dim r As ADODB.Recordset
 Dim rEmpresa As ADODB.Recordset
@@ -3555,7 +3556,9 @@ cBase = CCur(txtValor.Text)
 If nTipo = 0 And txtTotalHaver.Text <> "" Then cBase = cBase - CCur(txtTotalHaver.Text)
 If cBase <= 0 Then Exit Sub
 txtMulta.Text = FormatNumber(Round(cBase * cPerc / 100, 2), 2)
+mMultaAutomatica = True
 If chkMulta.Value <> Checked Then chkMulta.Value = Checked
+mMultaAutomatica = False
 Calcular_Valores
 Err.Clear
 End Sub
@@ -4334,7 +4337,10 @@ End Sub
 Private Sub chkMulta_Click()
    If chkMulta.Value = 1 Then
       txtMulta.Enabled = True
-      txtMulta.SetFocus
+      'marcado pelo Preencher_Multa (quitar parcela vencida): o quadro pode ainda não estar visível - não põe o foco
+      If Not mMultaAutomatica Then
+         If txtMulta.Visible Then txtMulta.SetFocus
+      End If
       MostrarGrid_Haver
    Else
       txtMulta.Enabled = False
