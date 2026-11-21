@@ -19,6 +19,8 @@ Private Const COB_MAX_LINHAS As Long = 10
 
 'Envio em andamento: a tela liga para interromper a fila entre uma mensagem e outra
 Public Cob_Parar As Boolean
+'Intervalo mínimo entre mensagens (segundos): abaixo disso o WhatsApp tende a bloquear o número
+Public Const COB_INTERVALO_MIN As Long = 30
 
 Public Type CobItem
     CodCliente As Long
@@ -64,7 +66,7 @@ Public Sub Cob_LerConfig(ByRef c As CobConfig)
 Dim r As ADODB.Recordset
 
 c.HoraInicio = "08:00": c.HoraFim = "18:00"
-c.LimiteDia = 50: c.IntervaloMin = 20: c.IntervaloMax = 60
+c.LimiteDia = 50: c.IntervaloMin = 30: c.IntervaloMax = 60
 c.EnviarSabado = False: c.EnviarDomingo = False
 c.ChavePix = "": c.Automatico = False
 On Error GoTo Fim
@@ -80,6 +82,8 @@ If Not r.EOF Then
     c.ChavePix = Trim$("" & r("ChavePix"))
     c.Automatico = CBool(r("Automatico"))
 End If
+If c.IntervaloMin < COB_INTERVALO_MIN Then c.IntervaloMin = COB_INTERVALO_MIN
+If c.IntervaloMax < c.IntervaloMin Then c.IntervaloMax = c.IntervaloMin
 r.Close
 Fim:
 Err.Clear
@@ -494,7 +498,7 @@ fim = DateAdd("s", nSegundos, Now)
 Do
     If Cob_Parar Then Exit Function
     DoEvents
-    Sleep 200
+    Sleep 50
 Loop While Now < fim
 Cob_Esperar = Not Cob_Parar
 End Function
@@ -504,7 +508,7 @@ Public Function Cob_Intervalo(ByRef cfg As CobConfig) As Long
 Dim a As Long, b As Long
 
 a = cfg.IntervaloMin: b = cfg.IntervaloMax
-If a < 5 Then a = 5
+If a < COB_INTERVALO_MIN Then a = COB_INTERVALO_MIN
 If b < a Then b = a
 Randomize
 Cob_Intervalo = a + Int(Rnd * (b - a + 1))

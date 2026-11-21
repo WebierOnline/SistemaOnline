@@ -181,3 +181,4 @@
 183|Fix_OS_Subtotal_ComDesconto.sql|OS
 184|CreateTables_CobrancaWhatsApp.sql|GERAL
 185|Categoria - Preencher 15 e 16.sql|GERAL
+186|Update_CobrancaConfig_Intervalo30.sql|GERAL

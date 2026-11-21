@@ -547,8 +547,8 @@ Begin VB.Form frmCobrancaEnvio
       Height          =   255
       Left            =   120
       TabIndex        =   9
-      Top             =   5340
-      Width           =   13260
+      Top             =   9450
+      Width           =   13200
    End
 End
 Attribute VB_Name = "frmCobrancaEnvio"
@@ -559,6 +559,9 @@ Attribute VB_Exposed = False
 Option Explicit
 'Cobrança por WhatsApp: quem recebe hoje pela régua (modCobranca.Cob_Pendentes), envio manual dos marcados
 '(com o intervalo e o limite da configuração) e histórico. A régua e a configuração ficam em frmCobrancaRegua.
+'O GIF "aguarde" vem embutido no executável (OnlineCommerce.res, recurso "GIF" 101) e é mostrado no WebBrowser1.
+
+Private Const TITULO As String = "Cobrança por WhatsApp"
 
 Private Const C_MARCA As Integer = 0
 Private Const C_CLIENTE As Integer = 1
@@ -570,19 +573,25 @@ Private Const C_ATRASO As Integer = 6
 Private Const C_SITUACAO As Integer = 7
 
 Private mItens() As CobItem
+Private mMarca() As Boolean       'por item (índice de mItens)
 Private mQtd As Long
 Private mCfg As CobConfig
 Private mEnviando As Boolean
 Private mIniciou As Boolean
+Private mSemEvento As Boolean     'mudando Row/Col por código: não atualiza a prévia
+Private mAguardeHtml As String
+Private mAguardeCarregado As Boolean
 
 Private Sub Form_Load()
 mIniciou = False
 mEnviando = False
+WebBrowser1.Visible = False
 cboPeriodo.AddItem "Hoje"
 cboPeriodo.AddItem "Últimos 7 dias"
 cboPeriodo.AddItem "Últimos 30 dias"
 cboPeriodo.ListIndex = 0
 lblProgresso.Caption = ""
+lblResumo.Caption = ""
 txtPrevia.Text = ""
 End Sub
 
@@ -591,7 +600,7 @@ If mIniciou Then Exit Sub
 mIniciou = True
 If Not Cob_BancoPronto() Then
     MsgBox "O banco de dados ainda não tem as tabelas da cobrança por WhatsApp (script 184)." & vbCrLf & vbCrLf & _
-           "Atualize o sistema e tente de novo.", vbExclamation, "Cobrança por WhatsApp"
+           "Atualize o sistema e tente de novo.", vbExclamation, TITULO
     Unload Me
     Exit Sub
 End If
@@ -609,7 +618,7 @@ Me.MousePointer = vbHourglass
 sSit = ZapOnlineSituacao(sNum, sNome, sMsg)
 Me.MousePointer = vbDefault
 If ZapOnlineForaDoPlano() Then
-    MsgBox sMsg, vbExclamation, ZapOnlineTitulo("Cobrança por WhatsApp")
+    MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
     lblProgresso.Caption = "O envio por WhatsApp não faz parte do plano desta empresa."
     cmdEnviar.Enabled = False
 ElseIf sSit <> "" And sSit <> "conectado" Then
@@ -623,19 +632,26 @@ End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
 If mEnviando Then
-    MsgBox "Aguarde terminar o envio ou clique em Parar.", vbInformation, "Cobrança por WhatsApp"
+    MsgBox "Aguarde terminar o envio ou clique em Parar.", vbInformation, TITULO
     Cancel = 1
 End If
 End Sub
 
-'Monta a lista de hoje
-Private Sub Carregar()
-Dim i As Long, nProntos As Long
+'---------------------------------------------------------------------------
+' Lista de hoje
+'---------------------------------------------------------------------------
+'sDesmarcados = "|cod|cod|" dos clientes que o usuário tinha desmarcado (continuam desmarcados);
+'lSelCliente = cliente que volta selecionado
+Private Sub Carregar(Optional ByVal sDesmarcados As String = "", Optional ByVal lSelCliente As Long = 0)
+Dim i As Long, r As Long, nProntos As Long, nSel As Long
 
 Me.MousePointer = vbHourglass
+Aguarde True
 Cob_LerConfig mCfg
 mQtd = Cob_Pendentes(Date, mItens)
+ReDim mMarca(0 To mQtd)
 
+mSemEvento = True
 With grdEnvio
     .Redraw = False
     .rows = 1
@@ -648,43 +664,80 @@ With grdEnvio
     .TextMatrix(0, C_TOTAL) = "Total"
     .TextMatrix(0, C_ATRASO) = "Atraso"
     .TextMatrix(0, C_SITUACAO) = "Situação"
-    .ColWidth(C_MARCA) = 450: .ColWidth(C_CLIENTE) = 2300: .ColWidth(C_CELULAR) = 1350: .ColWidth(C_REGRA) = 1900
-    .ColWidth(C_PARC) = 450: .ColWidth(C_TOTAL) = 950: .ColWidth(C_ATRASO) = 600: .ColWidth(C_SITUACAO) = 1900
     .ColAlignment(C_MARCA) = flexAlignCenterCenter
+    .ColAlignment(C_CLIENTE) = flexAlignLeftCenter
+    .ColAlignment(C_CELULAR) = flexAlignLeftCenter
+    .ColAlignment(C_REGRA) = flexAlignLeftCenter
     .ColAlignment(C_PARC) = flexAlignCenterCenter
     .ColAlignment(C_TOTAL) = flexAlignRightCenter
     .ColAlignment(C_ATRASO) = flexAlignCenterCenter
+    .ColAlignment(C_SITUACAO) = flexAlignLeftCenter
     For i = 1 To mQtd
         .rows = .rows + 1
-        .RowData(.rows - 1) = i
-        .TextMatrix(.rows - 1, C_MARCA) = IIf(Len(mItens(i).Motivo) = 0, "X", "")
-        .TextMatrix(.rows - 1, C_CLIENTE) = mItens(i).Nome
-        .TextMatrix(.rows - 1, C_CELULAR) = mItens(i).Celular
-        .TextMatrix(.rows - 1, C_REGRA) = mItens(i).Regra
-        .TextMatrix(.rows - 1, C_PARC) = mItens(i).QtdParcelas
-        .TextMatrix(.rows - 1, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
-        .TextMatrix(.rows - 1, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
+        r = .rows - 1
+        .RowData(r) = i
+        .TextMatrix(r, C_MARCA) = ""
+        .TextMatrix(r, C_CLIENTE) = mItens(i).Nome
+        .TextMatrix(r, C_CELULAR) = mItens(i).Celular
+        .TextMatrix(r, C_REGRA) = mItens(i).Regra
+        .TextMatrix(r, C_PARC) = mItens(i).QtdParcelas
+        .TextMatrix(r, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
+        .TextMatrix(r, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
         If Len(mItens(i).Motivo) = 0 Then
-            .TextMatrix(.rows - 1, C_SITUACAO) = "Pronto para enviar"
+            .TextMatrix(r, C_SITUACAO) = "Pronto para enviar"
             nProntos = nProntos + 1
         Else
-            .TextMatrix(.rows - 1, C_SITUACAO) = mItens(i).Motivo
-            PintarLinha .rows - 1, &H808080
+            .TextMatrix(r, C_SITUACAO) = mItens(i).Motivo
+            PintarLinha r, &H808080
         End If
+        MarcarLinha r, (InStr(sDesmarcados, "|" & mItens(i).CodCliente & "|") = 0)
+        If lSelCliente <> 0 And mItens(i).CodCliente = lSelCliente And nSel = 0 Then nSel = r
     Next
-    If .rows > 1 Then .Row = 1: .Col = C_CLIENTE
+    AjustarColunas grdEnvio, ",1,3,7,", C_MARCA
+    If .rows > 1 Then
+        If nSel = 0 Then nSel = 1
+        .Row = nSel
+        .Col = C_CLIENTE
+        If nSel > 3 Then .TopRow = nSel - 3 Else .TopRow = 1
+    End If
     .Redraw = True
 End With
+mSemEvento = False
 
-lblResumo.Caption = mQtd & " cliente(s) na régua de hoje, " & nProntos & " pronto(s) para enviar.   " & _
+lblResumo.Caption = "Resumo: " & mQtd & " cliente(s) na régua de hoje, " & nProntos & " pronto(s) para enviar.   " & _
                     "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia)."
 MostrarPrevia
+Aguarde False
 Me.MousePointer = vbDefault
 End Sub
 
-Private Sub PintarLinha(ByVal nLinha As Long, ByVal nCor As Long)
-Dim c As Integer, r As Long, cc As Integer
+'Recarrega a lista mantendo os desmarcados e a linha selecionada
+Private Sub Recarregar()
+Dim i As Long, lSel As Long
 
+i = ItemDaLinha()
+If i >= 1 Then lSel = mItens(i).CodCliente
+Carregar DesmarcadosAtuais(), lSel
+End Sub
+
+Private Function DesmarcadosAtuais() As String
+Dim r As Long, i As Long, s As String
+
+s = "|"
+For r = 1 To grdEnvio.rows - 1
+    i = grdEnvio.RowData(r)
+    If i >= 1 And i <= mQtd Then
+        If Not mMarca(i) Then s = s & mItens(i).CodCliente & "|"
+    End If
+Next
+DesmarcadosAtuais = s
+End Function
+
+Private Sub PintarLinha(ByVal nLinha As Long, ByVal nCor As Long)
+Dim c As Integer, r As Long, cc As Integer, bAnt As Boolean
+
+bAnt = mSemEvento
+mSemEvento = True
 With grdEnvio
     r = .Row: cc = .Col
     .Row = nLinha
@@ -695,6 +748,83 @@ With grdEnvio
     If r > 0 And r < .rows Then .Row = r
     .Col = cc
 End With
+mSemEvento = bAnt
+End Sub
+
+'Marca/desmarca a linha (imagem ImgMarcada/imgDesmarcada na coluna Env.). Quem não pode receber fica sem imagem.
+Private Sub MarcarLinha(ByVal nLinha As Long, ByVal bMarcar As Boolean)
+Dim i As Long, r As Long, cc As Integer, bAnt As Boolean
+
+If nLinha < 1 Or nLinha >= grdEnvio.rows Then Exit Sub
+i = grdEnvio.RowData(nLinha)
+If i < 1 Or i > mQtd Then Exit Sub
+If Len(mItens(i).Motivo) > 0 Then bMarcar = False
+mMarca(i) = bMarcar
+
+bAnt = mSemEvento
+mSemEvento = True
+With grdEnvio
+    r = .Row: cc = .Col
+    .Row = nLinha
+    .Col = C_MARCA
+    If Len(mItens(i).Motivo) > 0 Then
+        Set .CellPicture = LoadPicture()
+    ElseIf bMarcar Then
+        Set .CellPicture = ImgMarcada.Picture
+    Else
+        Set .CellPicture = imgDesmarcada.Picture
+    End If
+    .CellPictureAlignment = flexAlignCenterCenter
+    If r > 0 And r < .rows Then .Row = r
+    .Col = cc
+End With
+mSemEvento = bAnt
+End Sub
+
+Private Function Marcada(ByVal nLinha As Long) As Boolean
+Dim i As Long
+
+If nLinha < 1 Or nLinha >= grdEnvio.rows Then Exit Function
+i = grdEnvio.RowData(nLinha)
+If i >= 1 And i <= mQtd Then Marcada = mMarca(i)
+End Function
+
+'Larguras pelo conteúdo: as colunas de sElasticas (",1,3,") encolhem ou crescem para o grid caber sem rolagem horizontal
+Private Sub AjustarColunas(grd As MSFlexGrid, ByVal sElasticas As String, ByVal nColImagem As Integer)
+Dim c As Long, r As Long, w() As Long, wt As Long, nTotal As Long, nDisp As Long, nElast As Long, nDif As Long
+
+Me.FontName = grd.Font.Name
+Me.FontSize = grd.Font.Size
+Me.FontBold = False
+ReDim w(0 To grd.Cols - 1)
+For c = 0 To grd.Cols - 1
+    If c = nColImagem Then
+        w(c) = 450
+    Else
+        For r = 0 To grd.rows - 1
+            wt = Me.TextWidth(grd.TextMatrix(r, c))
+            If wt > w(c) Then w(c) = wt
+        Next
+        w(c) = w(c) + 180
+    End If
+    nTotal = nTotal + w(c)
+    If InStr(sElasticas, "," & c & ",") > 0 Then nElast = nElast + w(c)
+Next
+
+nDisp = grd.Width - 90
+If grd.rows * grd.RowHeight(0) > grd.Height - 60 Then nDisp = nDisp - 270   'barra de rolagem vertical
+If nElast > 0 And nTotal <> nDisp Then
+    nDif = nDisp - nTotal    'positivo = sobra espaço; negativo = falta
+    For c = 0 To grd.Cols - 1
+        If InStr(sElasticas, "," & c & ",") > 0 Then
+            w(c) = w(c) + CLng(CDbl(nDif) * w(c) / nElast)
+            If w(c) < 600 Then w(c) = 600
+        End If
+    Next
+End If
+For c = 0 To grd.Cols - 1
+    grd.ColWidth(c) = w(c)
+Next
 End Sub
 
 Private Function ItemDaLinha() As Long
@@ -715,33 +845,22 @@ txtPrevia.Text = "Para: " & IIf(Len(mItens(i).Celular) > 0, mItens(i).Celular, "
 End Sub
 
 Private Sub grdEnvio_Click()
-Dim i As Long
-
 If mEnviando Then Exit Sub
-i = ItemDaLinha()
-If i >= 1 And grdEnvio.MouseCol = C_MARCA Then
-    If Len(mItens(i).Motivo) = 0 Then
-        grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = IIf(grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = "X", "", "X")
-    End If
+If grdEnvio.MouseCol = C_MARCA And grdEnvio.MouseRow = grdEnvio.Row Then
+    MarcarLinha grdEnvio.Row, Not Marcada(grdEnvio.Row)
 End If
 MostrarPrevia
 End Sub
 
 Private Sub grdEnvio_KeyPress(KeyAscii As Integer)
-Dim i As Long
-
 If KeyAscii <> 32 Or mEnviando Then Exit Sub   'espaço marca/desmarca
-i = ItemDaLinha()
-If i >= 1 Then
-    If Len(mItens(i).Motivo) = 0 Then
-        grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = IIf(grdEnvio.TextMatrix(grdEnvio.Row, C_MARCA) = "X", "", "X")
-    End If
-End If
+MarcarLinha grdEnvio.Row, Not Marcada(grdEnvio.Row)
 KeyAscii = 0
 End Sub
 
 Private Sub grdEnvio_RowColChange()
-If Not mEnviando Then MostrarPrevia
+If mSemEvento Or mEnviando Then Exit Sub
+MostrarPrevia
 End Sub
 
 Private Sub cmdMarcarTodos_Click()
@@ -753,44 +872,64 @@ Marcar False
 End Sub
 
 Private Sub Marcar(ByVal bMarcar As Boolean)
-Dim r As Long, i As Long
+Dim r As Long
 
+grdEnvio.Redraw = False
 For r = 1 To grdEnvio.rows - 1
-    i = grdEnvio.RowData(r)
-    If i >= 1 And i <= mQtd Then
-        If Len(mItens(i).Motivo) = 0 Then grdEnvio.TextMatrix(r, C_MARCA) = IIf(bMarcar, "X", "")
-    End If
+    MarcarLinha r, bMarcar
 Next
+grdEnvio.Redraw = True
 End Sub
 
 Private Sub cmdNaoCobrar_Click()
 Dim i As Long, bJaMarcado As Boolean
 
 i = ItemDaLinha()
-If i < 1 Then Exit Sub
+If i < 1 Then
+    MsgBox "Clique na linha do cliente.", vbInformation, TITULO
+    Exit Sub
+End If
 bJaMarcado = (Val(CStr(SQLExecutaRetorno("SELECT ISNULL(NaoCobrarWhatsApp, 0) AS n FROM cliente WHERE CODIGO = " & mItens(i).CodCliente, "n", 0))) <> 0)
 If bJaMarcado Then
     If MsgBox("O cliente " & mItens(i).Nome & " está marcado para NÃO receber cobrança pelo WhatsApp." & vbCrLf & vbCrLf & _
-              "Voltar a cobrar este cliente?", vbQuestion + vbYesNo, "Cobrança por WhatsApp") <> vbYes Then Exit Sub
+              "Voltar a cobrar este cliente?", vbQuestion + vbYesNo, TITULO) <> vbYes Then Exit Sub
 Else
     If MsgBox("Marcar o cliente " & mItens(i).Nome & " para NÃO receber cobrança pelo WhatsApp?" & vbCrLf & vbCrLf & _
-              "Ele sai da régua até você desmarcar aqui.", vbQuestion + vbYesNo + vbDefaultButton2, "Cobrança por WhatsApp") <> vbYes Then Exit Sub
+              "Ele sai da régua até você desmarcar aqui.", vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
 End If
 If Not Cob_NaoCobrar(mItens(i).CodCliente, Not bJaMarcado) Then
-    MsgBox "Não foi possível gravar no cadastro do cliente.", vbExclamation, "Cobrança por WhatsApp"
+    MsgBox "Não foi possível gravar no cadastro do cliente.", vbExclamation, TITULO
     Exit Sub
 End If
-Carregar
+Recarregar
+End Sub
+
+'Abre o cadastro do cliente da linha; ao voltar, a lista é recarregada com os dados novos (celular, nome...)
+Private Sub cmdAtualizarCliente_Click()
+Dim i As Long
+
+If mEnviando Then Exit Sub
+i = ItemDaLinha()
+If i < 1 Then
+    MsgBox "Clique na linha do cliente que deseja atualizar.", vbInformation, TITULO
+    Exit Sub
+End If
+Load Clientes_Cadastro
+Clientes_Cadastro.EditarCliente mItens(i).CodCliente
+Clientes_Cadastro.Show vbModal, Me
+Unload Clientes_Cadastro
+Recarregar
+CarregarHistorico
 End Sub
 
 Private Sub cmdAtualizar_Click()
-Carregar
+Recarregar
 CarregarHistorico
 End Sub
 
 Private Sub cmdRegua_Click()
 frmCobrancaRegua.Show vbModal
-Carregar
+Recarregar
 End Sub
 
 Private Sub cmdFechar_Click()
@@ -808,10 +947,76 @@ If mIniciou Then CarregarHistorico
 End Sub
 
 '---------------------------------------------------------------------------
+' Aguarde (GIF animado embutido no executável)
+'---------------------------------------------------------------------------
+'Grava o GIF do recurso na pasta temporária e monta a página que o WebBrowser mostra
+Private Function AguardePreparar() As Boolean
+Dim b() As Byte, sPasta As String, sGif As String, f As Integer
+Dim nW As Long, nH As Long, nPx As Long
+
+On Error GoTo Falha
+sPasta = Environ$("TEMP")
+If Len(sPasta) = 0 Then sPasta = App.Path
+If Right$(sPasta, 1) <> "\" Then sPasta = sPasta & "\"
+sGif = sPasta & "oc_aguarde.gif"
+
+b = LoadResData(101, "GIF")
+On Error Resume Next
+If Len(Dir$(sGif)) > 0 Then
+    If FileLen(sGif) <> UBound(b) - LBound(b) + 1 Then Kill sGif
+End If
+On Error GoTo Falha
+If Len(Dir$(sGif)) = 0 Then
+    f = FreeFile
+    Open sGif For Binary Access Write As #f
+    Put #f, , b
+    Close #f
+End If
+
+nW = WebBrowser1.Width \ Screen.TwipsPerPixelX
+nH = WebBrowser1.Height \ Screen.TwipsPerPixelY
+nPx = IIf(nW < nH, nW, nH) - 8
+If nPx < 32 Then nPx = 32
+mAguardeHtml = sPasta & "oc_aguarde.htm"
+f = FreeFile
+Open mAguardeHtml For Output As #f
+Print #f, "<html><head><meta http-equiv=""X-UA-Compatible"" content=""IE=edge""></head>"
+Print #f, "<body scroll=""no"" style=""margin:0;padding:0;border:0;overflow:hidden;background:#FFFFFF;text-align:center"">"
+Print #f, "<img src=""oc_aguarde.gif"" width=""" & nPx & """ height=""" & nPx & """ style=""margin-top:" & (nH - nPx) \ 2 & "px"">"
+Print #f, "</body></html>"
+Close #f
+AguardePreparar = True
+Exit Function
+Falha:
+mAguardeHtml = ""
+Err.Clear
+End Function
+
+Private Sub Aguarde(ByVal bMostrar As Boolean)
+On Error Resume Next
+If bMostrar Then
+    If Len(mAguardeHtml) = 0 Then
+        If Not AguardePreparar() Then Exit Sub
+    End If
+    If Not mAguardeCarregado Then
+        WebBrowser1.Navigate mAguardeHtml
+        mAguardeCarregado = True
+    End If
+    If Not WebBrowser1.Visible Then
+        WebBrowser1.ZOrder 0
+        WebBrowser1.Visible = True
+        DoEvents
+    End If
+Else
+    WebBrowser1.Visible = False
+End If
+Err.Clear
+End Sub
+
+'---------------------------------------------------------------------------
 ' Envio dos marcados
 '---------------------------------------------------------------------------
 Private Sub cmdEnviar_Click()
-Const TITULO As String = "Cobrança por WhatsApp"
 Dim r As Long, i As Long, n As Long, nOk As Long, nErro As Long, nFeitos As Long
 Dim nRestam As Long, nSeg As Long, sMsg As String, sNum As String, sNome As String, sSit As String
 Dim marcados() As Long, bForaHorario As Boolean, sHora As String
@@ -819,7 +1024,7 @@ Dim marcados() As Long, bForaHorario As Boolean, sHora As String
 'Marcados
 ReDim marcados(0)
 For r = 1 To grdEnvio.rows - 1
-    If grdEnvio.TextMatrix(r, C_MARCA) = "X" Then
+    If Marcada(r) Then
         n = n + 1
         ReDim Preserve marcados(n)
         marcados(n) = r
@@ -876,6 +1081,7 @@ If MsgBox("Enviar a cobrança para " & n & " cliente(s)?" & vbCrLf & vbCrLf & _
 mEnviando = True
 Cob_Parar = False
 HabilitarTela False
+Aguarde True
 For r = 1 To n
     i = grdEnvio.RowData(marcados(r))
     grdEnvio.Row = marcados(r)
@@ -893,12 +1099,13 @@ For r = 1 To n
         grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Erro: " & Replace(sMsg, vbCrLf, " ")
         PintarLinha marcados(r), &HC0&
         If ZapOnlineForaDoPlano() Then
+            Aguarde False
             MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
             Exit For
         End If
     End If
-    grdEnvio.TextMatrix(marcados(r), C_MARCA) = ""
     mItens(i).Motivo = "Já recebeu cobrança hoje"
+    MarcarLinha marcados(r), False
     nFeitos = r
 
     If r < n Then
@@ -908,12 +1115,13 @@ For r = 1 To n
         If Not Cob_Esperar(nSeg) Then Exit For
     End If
 Next
+Aguarde False
 mEnviando = False
 HabilitarTela True
 lblProgresso.Caption = "Concluído: " & nOk & " enviada(s)" & IIf(nErro > 0, ", " & nErro & " com erro", "") & _
                        IIf(nFeitos < n, " (interrompido: " & n - nFeitos & " não enviada(s))", "") & "."
 CarregarHistorico
-lblResumo.Caption = "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia). Clique em Atualizar para recarregar a lista."
+lblResumo.Caption = "Resumo: enviadas hoje " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia). Clique em Atualizar para recarregar a lista."
 End Sub
 
 Private Sub HabilitarTela(ByVal bHabilitar As Boolean)
@@ -921,6 +1129,7 @@ cmdEnviar.Enabled = bHabilitar
 cmdMarcarTodos.Enabled = bHabilitar
 cmdDesmarcar.Enabled = bHabilitar
 cmdNaoCobrar.Enabled = bHabilitar
+cmdAtualizarCliente.Enabled = bHabilitar
 cmdAtualizar.Enabled = bHabilitar
 cmdRegua.Enabled = bHabilitar
 cmdFechar.Enabled = bHabilitar
@@ -932,7 +1141,7 @@ End Sub
 ' Histórico
 '---------------------------------------------------------------------------
 Private Sub CarregarHistorico()
-Dim rs As ADODB.Recordset, dIni As Date
+Dim rs As ADODB.Recordset, dIni As Date, c As Integer
 
 Select Case cboPeriodo.ListIndex
     Case 1: dIni = Date - 6
@@ -944,34 +1153,44 @@ With grdHist
     .Redraw = False
     .rows = 1
     .Cols = 8
-    .TextMatrix(0, 0) = "Data/hora": .ColWidth(0) = 1500
-    .TextMatrix(0, 1) = "Cliente": .ColWidth(1) = 2900
-    .TextMatrix(0, 2) = "Celular": .ColWidth(2) = 1350
-    .TextMatrix(0, 3) = "Regra": .ColWidth(3) = 2500
-    .TextMatrix(0, 4) = "Total": .ColWidth(4) = 950
-    .TextMatrix(0, 5) = "Situação": .ColWidth(5) = 900
-    .TextMatrix(0, 6) = "Origem": .ColWidth(6) = 1100
-    .TextMatrix(0, 7) = "Detalhe": .ColWidth(7) = 1800
+    .TextMatrix(0, 0) = "Data/hora"
+    .TextMatrix(0, 1) = "Cliente"
+    .TextMatrix(0, 2) = "Celular"
+    .TextMatrix(0, 3) = "Regra"
+    .TextMatrix(0, 4) = "Total"
+    .TextMatrix(0, 5) = "Situação"
+    .TextMatrix(0, 6) = "Origem"
+    .TextMatrix(0, 7) = "Detalhe"
+    For c = 0 To 7
+        .ColAlignment(c) = flexAlignLeftCenter
+    Next
     .ColAlignment(4) = flexAlignRightCenter
-    On Error GoTo fim
-    Set rs = dbData.OpenRecordset("SELECT e.DataHora, c.NOME, e.Celular, r.Descricao, e.ValorTotal, e.Situacao, e.Erro, e.Manual, e.Usuario " & _
-        "FROM CobrancaEnvio e LEFT JOIN cliente c ON c.CODIGO = e.CodCliente LEFT JOIN CobrancaRegra r ON r.Id = e.CodRegra " & _
-        "WHERE e.DataHora >= '" & Format$(dIni, "yyyymmdd") & "' ORDER BY e.DataHora DESC")
-    Do While Not rs.EOF
-        .rows = .rows + 1
-        .TextMatrix(.rows - 1, 0) = Format$(rs("DataHora"), "dd/mm/yyyy hh:mm")
-        .TextMatrix(.rows - 1, 1) = "" & rs("NOME")
-        .TextMatrix(.rows - 1, 2) = "" & rs("Celular")
-        .TextMatrix(.rows - 1, 3) = IIf(IsNull(rs("Descricao")), "(regra excluída)", "" & rs("Descricao"))
-        .TextMatrix(.rows - 1, 4) = Format$(rs("ValorTotal"), "#,##0.00")
-        .TextMatrix(.rows - 1, 5) = IIf(rs("Situacao") = 1, "Enviada", "Erro")
-        .TextMatrix(.rows - 1, 6) = IIf(CBool(rs("Manual")), "Manual" & IIf(Len("" & rs("Usuario")) > 0, " (" & rs("Usuario") & ")", ""), "Automático")
-        .TextMatrix(.rows - 1, 7) = Replace("" & rs("Erro"), vbCrLf, " ")
-        rs.MoveNext
-    Loop
-    rs.Close
-fim:
-    .Redraw = True
 End With
+
+On Error GoTo Falha
+Set rs = dbData.OpenRecordset("SELECT e.DataHora, c.NOME, e.Celular, r.Descricao, e.ValorTotal, e.Situacao, e.Erro, e.Manual, e.Usuario " & _
+    "FROM CobrancaEnvio e LEFT JOIN cliente c ON c.CODIGO = e.CodCliente LEFT JOIN CobrancaRegra r ON r.Id = e.CodRegra " & _
+    "WHERE e.DataHora >= '" & Format$(dIni, "yyyymmdd") & "' ORDER BY e.DataHora DESC")
+Do While Not rs.EOF
+    grdHist.rows = grdHist.rows + 1
+    grdHist.TextMatrix(grdHist.rows - 1, 0) = Format$(rs("DataHora"), "dd/mm/yyyy hh:mm")
+    grdHist.TextMatrix(grdHist.rows - 1, 1) = "" & rs("NOME")
+    grdHist.TextMatrix(grdHist.rows - 1, 2) = "" & rs("Celular")
+    grdHist.TextMatrix(grdHist.rows - 1, 3) = IIf(IsNull(rs("Descricao")), "(regra excluída)", "" & rs("Descricao"))
+    grdHist.TextMatrix(grdHist.rows - 1, 4) = Format$(rs("ValorTotal"), "#,##0.00")
+    grdHist.TextMatrix(grdHist.rows - 1, 5) = IIf(rs("Situacao") = 1, "Enviada", "Erro")
+    grdHist.TextMatrix(grdHist.rows - 1, 6) = IIf(CBool(rs("Manual")), "Manual" & IIf(Len("" & rs("Usuario")) > 0, " (" & rs("Usuario") & ")", ""), "Automático")
+    grdHist.TextMatrix(grdHist.rows - 1, 7) = Replace("" & rs("Erro"), vbCrLf, " ")
+    rs.MoveNext
+Loop
+rs.Close
+
+Continua:
+On Error Resume Next
+AjustarColunas grdHist, ",1,3,7,", -1
+grdHist.Redraw = True
 Err.Clear
+Exit Sub
+Falha:
+Resume Continua
 End Sub

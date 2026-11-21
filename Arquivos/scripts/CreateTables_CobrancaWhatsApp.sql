@@ -19,7 +19,7 @@ BEGIN
         HoraInicio     varchar(5)     NOT NULL CONSTRAINT DF_CobrancaConfig_HoraInicio DEFAULT ('08:00'),
         HoraFim        varchar(5)     NOT NULL CONSTRAINT DF_CobrancaConfig_HoraFim DEFAULT ('18:00'),
         LimiteDia      int            NOT NULL CONSTRAINT DF_CobrancaConfig_LimiteDia DEFAULT (50),
-        IntervaloMin   int            NOT NULL CONSTRAINT DF_CobrancaConfig_IntervaloMin DEFAULT (20),
+        IntervaloMin   int            NOT NULL CONSTRAINT DF_CobrancaConfig_IntervaloMin DEFAULT (30),
         IntervaloMax   int            NOT NULL CONSTRAINT DF_CobrancaConfig_IntervaloMax DEFAULT (60),
         EnviarSabado   bit            NOT NULL CONSTRAINT DF_CobrancaConfig_EnviarSabado DEFAULT (0),
         EnviarDomingo  bit            NOT NULL CONSTRAINT DF_CobrancaConfig_EnviarDomingo DEFAULT (0),

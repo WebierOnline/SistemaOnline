@@ -999,8 +999,8 @@ If c.LimiteDia < 1 Then
 End If
 c.IntervaloMin = Val(txtIntMin.Text)
 c.IntervaloMax = Val(txtIntMax.Text)
-If c.IntervaloMin < 5 Then
-    MsgBox "O intervalo mínimo entre mensagens é de 5 segundos (recomendado: 20 ou mais).", vbExclamation, "Régua de cobrança"
+If c.IntervaloMin < COB_INTERVALO_MIN Then
+    MsgBox "O intervalo mínimo entre mensagens é de " & COB_INTERVALO_MIN & " segundos (abaixo disso o WhatsApp pode bloquear o número).", vbExclamation, "Régua de cobrança"
     txtIntMin.SetFocus
     Exit Sub
 End If

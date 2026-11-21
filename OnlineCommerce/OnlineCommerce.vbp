@@ -213,6 +213,7 @@ Module=modAvisos; Modulos\modAvisos.bas
 Module=modResumoFiscal; Modulos\modResumoFiscal.bas
 Module=modInventarioAuto; Modulos\modInventarioAuto.bas
 Module=modMonitorNFe; Modulos\modMonitorNFe.bas
+ResFile32="OnlineCommerce.res"
 IconForm="Tela_Principal"
 Startup="Sub Main"
 HelpFile=""
