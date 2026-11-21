@@ -695,6 +695,26 @@ Begin VB.Form REL_Pedido_Completo
          EndProperty
          AlturaLivre     =   -1  'True
       End
+      Begin VB.Label Label5 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "*Após o vencimento cobrar 0,15% de juros ao dia."
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   6
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   150
+         Left            =   2460
+         TabIndex        =   54
+         Top             =   60
+         Width           =   5370
+         WordWrap        =   -1  'True
+      End
       Begin VB.Shape Shape6 
          BorderWidth     =   2
          Height          =   1215

@@ -98,13 +98,14 @@ Begin VB.Form Parcelas_Consulta
       Top             =   6960
       Width           =   2655
       Begin VB.CheckBox chkJuros 
+         BackColor       =   &H80000005&
          Caption         =   "Mostrar Juros/Multa"
          Height          =   195
-         Left            =   1200
+         Left            =   840
          TabIndex        =   34
          Top             =   1800
          Value           =   1  'Checked
-         Width           =   1395
+         Width           =   1755
       End
       Begin VB.Label Label13 
          AutoSize        =   -1  'True
@@ -413,6 +414,28 @@ Begin VB.Form Parcelas_Consulta
       TabIndex        =   16
       Top             =   60
       Width           =   15135
+      Begin VB.Label lblJuros 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         Caption         =   "00"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   210
+         Left            =   14850
+         TabIndex        =   66
+         Top             =   360
+         Width           =   180
+      End
       Begin VB.Image Image1 
          Height          =   900
          Left            =   240
@@ -1199,7 +1222,7 @@ Begin VB.Form Parcelas_Consulta
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "10:39"
+            TextSave        =   "07:58"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1258,7 +1281,7 @@ Private Type TParcelaDetalhe
     Tipo As String
     Forma As String
     VencData As Date         'data crua (ver impressao hierarquica - Mont
-    Venc As String
+    venc As String
     ValorNum As Currency     'valor cru (ver mesmo motivo)
     Valor As String
     MultaNum As Currency
@@ -2270,7 +2293,7 @@ If Not rTabela Is Nothing Then
       mParcelas(mQtdParcelas).Tipo = ValidateNull(rTabela("tipo_pagamento"))
       mParcelas(mQtdParcelas).Forma = ValidateNull(rTabela("var_FormaPgto"))
       mParcelas(mQtdParcelas).VencData = rTabela("data")
-      mParcelas(mQtdParcelas).Venc = Format(rTabela("data"), "dd/mm/yy")
+      mParcelas(mQtdParcelas).venc = Format(rTabela("data"), "dd/mm/yy")
       mParcelas(mQtdParcelas).ValorNum = rTabela("varValorParc")
       mParcelas(mQtdParcelas).Valor = Format(rTabela("varValorParc"), ocMONEY)
       mParcelas(mQtdParcelas).MultaNum = rTabela("varValorMulta")
@@ -2335,7 +2358,7 @@ With Grid
    'STATUS/PGTO, ou linhas inteiras acima da expandida, dependendo do
    'caso) - resetar .Row/.RowSel/.Col/.ColSel depois nao bastava porque o
    'estrago ja tinha acontecido durante as insercoes
-   .Highlight = 0
+   .HighLight = 0
 
    .ColWidth(0) = 350
    .ColWidth(1) = 650
@@ -2490,7 +2513,7 @@ For i = 0 To mQtdParcelas - 1
       Grid.TextMatrix(k, 2) = mParcelas(i).Origem
       Grid.TextMatrix(k, 4) = mParcelas(i).Tipo
       Grid.TextMatrix(k, 5) = mParcelas(i).Forma
-      Grid.TextMatrix(k, 6) = mParcelas(i).Venc
+      Grid.TextMatrix(k, 6) = mParcelas(i).venc
       Grid.TextMatrix(k, 7) = mParcelas(i).Valor
       Grid.TextMatrix(k, 8) = mParcelas(i).MULTA
       Grid.TextMatrix(k, 9) = mParcelas(i).dias
@@ -2508,9 +2531,9 @@ For i = 0 To mQtdParcelas - 1
       'monetario) com "PAGO" em vez da coluna Status, entao a cor azul
       'de parcela paga nunca aparecia)
       If mParcelas(i).Status <> "PAGO" Then
-         If CDate(mParcelas(i).Venc) < Date Then
+         If CDate(mParcelas(i).venc) < Date Then
             lCor = vbRed
-         ElseIf CDate(mParcelas(i).Venc) = Date Then
+         ElseIf CDate(mParcelas(i).venc) = Date Then
             lCor = &H8000&
          Else
             lCor = vbBlack
