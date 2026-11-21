@@ -98,11 +98,11 @@ Begin VB.Form Parcelas_Consulta
       Top             =   6960
       Width           =   2655
       Begin VB.CheckBox chkJuros 
-         Caption         =   "Mostrar Juros"
+         Caption         =   "Mostrar Juros/Multa"
          Height          =   195
          Left            =   1200
          TabIndex        =   34
-         Top             =   1740
+         Top             =   1800
          Value           =   1  'Checked
          Width           =   1395
       End
@@ -162,7 +162,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   195
          Left            =   60
          TabIndex        =   30
-         Top             =   840
+         Top             =   1080
          Width           =   900
       End
       Begin VB.Label lblTotalLiquido 
@@ -183,7 +183,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   225
          Left            =   1020
          TabIndex        =   29
-         Top             =   1320
+         Top             =   1560
          Width           =   1500
       End
       Begin VB.Label lblTotalBruto 
@@ -204,7 +204,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   225
          Left            =   1020
          TabIndex        =   28
-         Top             =   840
+         Top             =   1080
          Width           =   1500
       End
       Begin VB.Label Label1 
@@ -223,7 +223,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   195
          Left            =   480
          TabIndex        =   27
-         Top             =   1320
+         Top             =   1560
          Width           =   510
       End
       Begin VB.Label lblTotalJuros 
@@ -247,6 +247,27 @@ Begin VB.Form Parcelas_Consulta
          Top             =   600
          Width           =   1500
       End
+      Begin VB.Label lblTotalMulta 
+         Alignment       =   1  'Right Justify
+         Appearance      =   0  'Flat
+         BackColor       =   &H80000005&
+         BorderStyle     =   1  'Fixed Single
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   225
+         Left            =   1020
+         TabIndex        =   64
+         Top             =   840
+         Width           =   1500
+      End
       Begin VB.Label Label5 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -266,6 +287,25 @@ Begin VB.Form Parcelas_Consulta
          Top             =   600
          Width           =   525
       End
+      Begin VB.Label Label7Multa 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "Multa:"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   420
+         TabIndex        =   65
+         Top             =   840
+         Width           =   540
+      End
       Begin VB.Label lblTotalHaver 
          Alignment       =   1  'Right Justify
          Appearance      =   0  'Flat
@@ -284,7 +324,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   225
          Left            =   1020
          TabIndex        =   24
-         Top             =   1080
+         Top             =   1320
          Width           =   1500
       End
       Begin VB.Label Label6 
@@ -303,7 +343,7 @@ Begin VB.Form Parcelas_Consulta
          Height          =   195
          Left            =   180
          TabIndex        =   23
-         Top             =   1080
+         Top             =   1320
          Width           =   780
       End
       Begin VB.Label lblQuant 
@@ -1204,6 +1244,7 @@ Private Type TClienteParcelas
     Celular As String
     Qtde As Integer
     SomaValor As Currency
+    SomaMulta As Currency
     SomaJuros As Currency
     SomaSubtotal As Currency
     SomaHaver As Currency
@@ -1220,6 +1261,8 @@ Private Type TParcelaDetalhe
     Venc As String
     ValorNum As Currency     'valor cru (ver mesmo motivo)
     Valor As String
+    MultaNum As Currency
+    MULTA As String
     dias As String
     JurosNum As Currency
     JUROS As String
@@ -1918,6 +1961,8 @@ Private Sub cmdExibir_Click()
    
    Dim var_tipojuros As Integer
    Dim vValorCobrarJuros As String
+   Dim var_Multa As Double
+   Dim sMulta As String
    
    If cboCriterios.Text = "" Then Exit Sub
    If cboCriterios.Text = "TODOS" Then
@@ -1959,6 +2004,17 @@ Private Sub cmdExibir_Click()
    ElseIf var_tipojuros = 1 Then          'Juros sobre o valor da parcela
       vValorCobrarJuros = "parcelas.valor"
    End If
+
+   'Multa (%) da Configuração Geral: uma vez na parcela vencida em aberto (mesma base do juros); paga = a gravada na quitação
+   var_Multa = 0
+   Set oCfg = Nothing
+   On Error Resume Next
+   Set oCfg = sysConfig("MULTA")
+   If Not oCfg Is Nothing Then var_Multa = CCur(oCfg.Value)
+   Set oCfg = Nothing
+   Err.Clear
+   On Error GoTo 0
+   sMulta = "CASE parcelas.status WHEN 0 THEN (CASE WHEN DATEDIFF(day, parcelas.data, GETDATE()) > 0 THEN ((" & vValorCobrarJuros & " * " & Replace(CStr(var_Multa), ",", ".") & ") / 100) ELSE 0 END) ELSE ISNULL(parcelas.multa, 0) END"
       
    If chkJuros.Value = Checked Then
         sSQL = "SELECT pedidos.tipo_pedido AS var_tipo, parcelas.cod_pedido as var_codigo, cliente.codigo AS var_codcliente, cliente.nome, CASE WHEN cliente.telefone1 IS NULL THEN cliente.celular WHEN cliente.telefone1 = '' THEN cliente.celular ELSE cliente.telefone1 END AS celular, pedidos.tipo_pagamento, ISNULL(parcelas.FORMA_PGTO, '') AS var_FormaPgto, parcelas.status,  parcelas.data, parcelas.pagamento AS var_DataPgto, parcelas.valor_final, " & _
@@ -1966,10 +2022,11 @@ Private Sub cmdExibir_Click()
            "(SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo)) AS var_haver, " & _
            "CASE parcelas.status WHEN 0 THEN (CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END) ELSE (parcelas.dias_atrazo) END AS varDiasJuros, " & _
            "CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS varValorJuros, " & _
+           "(" & sMulta & ") AS varValorMulta, " & _
            "CASE parcelas.status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varSituacaoPGTO, " & _
-           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
-           "(CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + parcelas.valor as varParcComJuros,  " & _
-           "(((CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + parcelas.valor) - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo))) AS varTotalLiquido " & _
+           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END + (" & sMulta & ") AS var_Total, " & _
+           "(CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + (" & sMulta & ") + parcelas.valor as varParcComJuros,  " & _
+           "(((CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END) + (" & sMulta & ") + parcelas.valor) - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo))) AS varTotalLiquido " & _
            "FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
            "INNER JOIN cliente ON cliente.codigo = pedidos.cod_cliente " & _
            "WHERE " & var_TipoPedido & " AND "
@@ -1979,8 +2036,9 @@ Private Sub cmdExibir_Click()
            "(SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo)) AS var_haver, " & _
            "'0' AS varDiasJuros, " & _
            "'0' AS varValorJuros, " & _
+           "'0' AS varValorMulta, " & _
            "CASE parcelas.status WHEN 0 THEN 'Á PAGAR' ELSE 'PAGO' END AS varSituacaoPGTO, " & _
-           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END AS var_Total, " & _
+           "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (cod_parcela = parcelas.codigo))) + CASE parcelas.status WHEN 0 THEN ((((" & vValorCobrarJuros & " * " & Replace(var_JurosDia, ",", ".") & ") / 100) * CASE WHEN parcelas.data <= GETDATE() THEN DATEDIFF(day, parcelas.data, GETDATE()) ELSE 0 END)) ELSE (parcelas.juros) END + (" & sMulta & ") AS var_Total, " & _
            "parcelas.valor as varParcComJuros,  " & _
            "(parcelas.valor - (SELECT ISNULL(SUM(valor_haver), 0) FROM parcelas_haver WHERE (parcelas_haver.cod_parcela = parcelas.codigo))) AS varTotalLiquido " & _
            "FROM parcelas INNER JOIN pedidos ON parcelas.cod_pedido = pedidos.cod_pedido " & _
@@ -2158,7 +2216,7 @@ Dim lCod As Long
 Dim bAchou As Boolean
 Dim tmp As TClienteParcelas
 Dim dTotalValor As Currency, dTotalJuros As Currency, dTotalSubtotal As Currency
-Dim dTotalHaver As Currency, dTotalDeve As Currency
+Dim dTotalHaver As Currency, dTotalDeve As Currency, dTotalMulta As Currency
 
 picAguarde.Visible = True
 DoEvents
@@ -2199,6 +2257,7 @@ If Not rTabela Is Nothing Then
 
       mClientes(idxCli).Qtde = mClientes(idxCli).Qtde + 1
       mClientes(idxCli).SomaValor = mClientes(idxCli).SomaValor + CCur(rTabela("varValorParc"))
+      mClientes(idxCli).SomaMulta = mClientes(idxCli).SomaMulta + CCur(rTabela("varValorMulta"))
       mClientes(idxCli).SomaJuros = mClientes(idxCli).SomaJuros + CCur(rTabela("varValorJuros"))
       mClientes(idxCli).SomaSubtotal = mClientes(idxCli).SomaSubtotal + CCur(rTabela("varParcComJuros"))
       mClientes(idxCli).SomaHaver = mClientes(idxCli).SomaHaver + CCur(rTabela("var_haver"))
@@ -2214,6 +2273,8 @@ If Not rTabela Is Nothing Then
       mParcelas(mQtdParcelas).Venc = Format(rTabela("data"), "dd/mm/yy")
       mParcelas(mQtdParcelas).ValorNum = rTabela("varValorParc")
       mParcelas(mQtdParcelas).Valor = Format(rTabela("varValorParc"), ocMONEY)
+      mParcelas(mQtdParcelas).MultaNum = rTabela("varValorMulta")
+      mParcelas(mQtdParcelas).MULTA = Format(rTabela("varValorMulta"), ocMONEY)
       mParcelas(mQtdParcelas).dias = ValidateNull(rTabela("varDiasJuros"))
       mParcelas(mQtdParcelas).JurosNum = rTabela("varValorJuros")
       mParcelas(mQtdParcelas).JUROS = Format(rTabela("varValorJuros"), ocMONEY)
@@ -2264,7 +2325,7 @@ End If
 With Grid
    .Visible = False
    .Clear
-   .Cols = 17
+   .Cols = 18
    .rows = 2
    .ToolTipText = "Clique no + para ver as parcelas do cliente"
    '0 = flexHighlightNever - desliga o highlight visual de selecao do
@@ -2279,27 +2340,28 @@ With Grid
    .ColWidth(0) = 350
    .ColWidth(1) = 650
    .ColWidth(2) = 750
-   .ColWidth(3) = 4200
+   .ColWidth(3) = 3550
    .ColWidth(4) = 750
    .ColWidth(5) = 1250
    .ColWidth(6) = 750
    .ColWidth(7) = 670
-   .ColWidth(8) = 450
-   .ColWidth(9) = 700
-   .ColWidth(10) = 810
-   .ColWidth(11) = 670
-   .ColWidth(12) = 700
-   .ColWidth(13) = 756
+   .ColWidth(8) = 650
+   .ColWidth(9) = 450
+   .ColWidth(10) = 700
+   .ColWidth(11) = 810
+   .ColWidth(12) = 670
+   .ColWidth(13) = 700
+   .ColWidth(14) = 756
    'PGTO so faz sentido numa consulta de parcelas PAGAS - some em VENCIDAS/
    'A PAGAR/TODAS, senao a coluna fica sempre vazia (nao ha data de
    'pagamento pra parcela que ainda nao foi paga)
    If cboSituacao.Text = "PAGAS" Then
-      .ColWidth(14) = 750
+      .ColWidth(15) = 750
    Else
-      .ColWidth(14) = 0
+      .ColWidth(15) = 0
    End If
-   .ColWidth(15) = 0
    .ColWidth(16) = 0
+   .ColWidth(17) = 0
 
    .TextMatrix(0, 0) = ""
    .TextMatrix(0, 1) = "QTDE"
@@ -2309,13 +2371,14 @@ With Grid
    .TextMatrix(0, 5) = "FORMA"
    .TextMatrix(0, 6) = "VENC"
    .TextMatrix(0, 7) = "VALOR"
-   .TextMatrix(0, 8) = "DIAS"
-   .TextMatrix(0, 9) = "JUROS"
-   .TextMatrix(0, 10) = "SUBTOTAL"
-   .TextMatrix(0, 11) = "HAVER"
-   .TextMatrix(0, 12) = "DEVE"
-   .TextMatrix(0, 13) = "STATUS"
-   .TextMatrix(0, 14) = "PGTO"
+   .TextMatrix(0, 8) = "MULTA"
+   .TextMatrix(0, 9) = "DIAS"
+   .TextMatrix(0, 10) = "JUROS"
+   .TextMatrix(0, 11) = "SUBTOTAL"
+   .TextMatrix(0, 12) = "HAVER"
+   .TextMatrix(0, 13) = "DEVE"
+   .TextMatrix(0, 14) = "STATUS"
+   .TextMatrix(0, 15) = "PGTO"
 
    For i = 0 To .Cols - 1
       .Col = i
@@ -2326,18 +2389,19 @@ With Grid
 
    .Redraw = False
 
-   dTotalValor = 0: dTotalJuros = 0: dTotalSubtotal = 0: dTotalHaver = 0: dTotalDeve = 0
+   dTotalValor = 0: dTotalJuros = 0: dTotalMulta = 0: dTotalSubtotal = 0: dTotalHaver = 0: dTotalDeve = 0
 
    For idxCli = 0 To mQtdClientes - 1
       .TextMatrix(.rows - 1, 0) = "+"
       .TextMatrix(.rows - 1, 1) = mClientes(idxCli).Qtde
       .TextMatrix(.rows - 1, 3) = mClientes(idxCli).Nome
-      .TextMatrix(.rows - 1, 9) = Format(mClientes(idxCli).SomaJuros, ocMONEY)
-      .TextMatrix(.rows - 1, 10) = Format(mClientes(idxCli).SomaSubtotal, ocMONEY)
-      .TextMatrix(.rows - 1, 11) = Format(mClientes(idxCli).SomaHaver, ocMONEY)
-      .TextMatrix(.rows - 1, 12) = Format(mClientes(idxCli).SomaDeve, ocMONEY)
-      .TextMatrix(.rows - 1, 15) = "P"
-      .TextMatrix(.rows - 1, 16) = CStr(idxCli)
+      .TextMatrix(.rows - 1, 8) = Format(mClientes(idxCli).SomaMulta, ocMONEY)
+      .TextMatrix(.rows - 1, 10) = Format(mClientes(idxCli).SomaJuros, ocMONEY)
+      .TextMatrix(.rows - 1, 11) = Format(mClientes(idxCli).SomaSubtotal, ocMONEY)
+      .TextMatrix(.rows - 1, 12) = Format(mClientes(idxCli).SomaHaver, ocMONEY)
+      .TextMatrix(.rows - 1, 13) = Format(mClientes(idxCli).SomaDeve, ocMONEY)
+      .TextMatrix(.rows - 1, 16) = "P"
+      .TextMatrix(.rows - 1, 17) = CStr(idxCli)
 
       .Row = .rows - 1
       .Col = 3
@@ -2345,6 +2409,7 @@ With Grid
 
       dTotalValor = dTotalValor + mClientes(idxCli).SomaValor
       dTotalJuros = dTotalJuros + mClientes(idxCli).SomaJuros
+      dTotalMulta = dTotalMulta + mClientes(idxCli).SomaMulta
       dTotalSubtotal = dTotalSubtotal + mClientes(idxCli).SomaSubtotal
       dTotalHaver = dTotalHaver + mClientes(idxCli).SomaHaver
       dTotalDeve = dTotalDeve + mClientes(idxCli).SomaDeve
@@ -2377,6 +2442,7 @@ With Grid
    lblTotalBruto.Caption = Format(dTotalSubtotal, ocMONEY)
    lblTotalHaver.Caption = Format(dTotalHaver, ocMONEY)
    lblTotalJuros.Caption = Format(dTotalJuros, ocMONEY)
+   lblTotalMulta.Caption = Format(dTotalMulta, ocMONEY)
    lblTotalLiquido.Caption = Format(CCur(lblTotalBruto.Caption) - CCur(lblTotalHaver.Caption), ocMONEY)
 End With
 
@@ -2393,7 +2459,7 @@ Dim lRow As Long
 lRow = Grid.MouseRow
 If lRow < 1 Then Exit Sub
 If Grid.MouseCol <> 0 Then Exit Sub
-If Grid.TextMatrix(lRow, 15) <> "P" Then Exit Sub
+If Grid.TextMatrix(lRow, 16) <> "P" Then Exit Sub
 
 If Grid.TextMatrix(lRow, 0) = "-" Then
     RecolherLinha lRow
@@ -2412,7 +2478,7 @@ Dim idxCli As Integer
 Dim i As Long, k As Long, j As Integer
 Dim lCor As OLE_COLOR
 
-idxCli = CInt(Grid.TextMatrix(lRow, 16))
+idxCli = CInt(Grid.TextMatrix(lRow, 17))
 
 Grid.Redraw = False
 k = lRow
@@ -2426,15 +2492,16 @@ For i = 0 To mQtdParcelas - 1
       Grid.TextMatrix(k, 5) = mParcelas(i).Forma
       Grid.TextMatrix(k, 6) = mParcelas(i).Venc
       Grid.TextMatrix(k, 7) = mParcelas(i).Valor
-      Grid.TextMatrix(k, 8) = mParcelas(i).dias
-      Grid.TextMatrix(k, 9) = mParcelas(i).JUROS
-      Grid.TextMatrix(k, 10) = mParcelas(i).SUBTOTAL
-      Grid.TextMatrix(k, 11) = mParcelas(i).HAVER
-      Grid.TextMatrix(k, 12) = mParcelas(i).Deve
-      Grid.TextMatrix(k, 13) = mParcelas(i).Status
-      Grid.TextMatrix(k, 14) = mParcelas(i).Pgto
-      Grid.TextMatrix(k, 15) = "F"
-      Grid.TextMatrix(k, 16) = CStr(idxCli)
+      Grid.TextMatrix(k, 8) = mParcelas(i).MULTA
+      Grid.TextMatrix(k, 9) = mParcelas(i).dias
+      Grid.TextMatrix(k, 10) = mParcelas(i).JUROS
+      Grid.TextMatrix(k, 11) = mParcelas(i).SUBTOTAL
+      Grid.TextMatrix(k, 12) = mParcelas(i).HAVER
+      Grid.TextMatrix(k, 13) = mParcelas(i).Deve
+      Grid.TextMatrix(k, 14) = mParcelas(i).Status
+      Grid.TextMatrix(k, 15) = mParcelas(i).Pgto
+      Grid.TextMatrix(k, 16) = "F"
+      Grid.TextMatrix(k, 17) = CStr(idxCli)
 
       'cor conforme status/vencimento (mesma logica original, so com o
       'bug corrigido - antes comparava a coluna errada (Deve, um valor
@@ -2452,7 +2519,7 @@ For i = 0 To mQtdParcelas - 1
          lCor = vbBlue
       End If
 
-      For j = 1 To 14
+      For j = 1 To 15
          Grid.Row = k
          Grid.Col = j
          Grid.CellForeColor = lCor
@@ -2462,7 +2529,7 @@ For i = 0 To mQtdParcelas - 1
       Grid.Row = k
       Grid.Col = 1
       Grid.CellFontBold = True
-      Grid.Col = 13
+      Grid.Col = 14
       Grid.CellFontBold = True
    End If
 Next
@@ -2483,7 +2550,7 @@ End Sub
 Private Sub RecolherLinha(ByVal lRow As Long)
 Grid.Redraw = False
 Do While lRow + 1 <= Grid.rows - 1
-    If Grid.TextMatrix(lRow + 1, 15) = "F" Then
+    If Grid.TextMatrix(lRow + 1, 16) = "F" Then
         Grid.RemoveItem lRow + 1
     Else
         Exit Do
@@ -2555,6 +2622,7 @@ rImp.Fields.Append "CELULAR", adVarChar, 100
 rImp.Fields.Append "DATA", adDate
 rImp.Fields.Append "var_DataPgto", adDate
 rImp.Fields.Append "varValorParc", adCurrency
+rImp.Fields.Append "varValorMulta", adCurrency
 rImp.Fields.Append "varDiasJuros", adVarChar, 20
 rImp.Fields.Append "varValorJuros", adCurrency
 rImp.Fields.Append "varParcComJuros", adCurrency
@@ -2574,6 +2642,7 @@ For idxCli = 0 To mQtdClientes - 1
    rImp("varDiasJuros") = ""
    rImp("varSituacaoPGTO") = ""
    rImp("varValorParc") = mClientes(idxCli).SomaValor
+   rImp("varValorMulta") = mClientes(idxCli).SomaMulta
    rImp("varValorJuros") = mClientes(idxCli).SomaJuros
    rImp("varParcComJuros") = mClientes(idxCli).SomaSubtotal
    rImp("var_haver") = mClientes(idxCli).SomaHaver
@@ -2589,6 +2658,7 @@ For idxCli = 0 To mQtdClientes - 1
          rImp("DATA") = mParcelas(i).VencData
          If mParcelas(i).PgtoData <> 0 Then rImp("var_DataPgto") = mParcelas(i).PgtoData
          rImp("varValorParc") = mParcelas(i).ValorNum
+         rImp("varValorMulta") = mParcelas(i).MultaNum
          rImp("varDiasJuros") = mParcelas(i).dias
          rImp("varValorJuros") = mParcelas(i).JurosNum
          rImp("varParcComJuros") = mParcelas(i).SubtotalNum
@@ -2641,6 +2711,7 @@ If cboTipoImpressao.Text = "RELATÓRIO NORMAL" Then
         REL_Parcelas_Cons.rfParcelas.Caption = Format(lblTotalParcelas.Caption, "##,##0.00")
         REL_Parcelas_Cons.rfSubTotal.Caption = Format(lblTotalBruto.Caption, "##,##0.00")
         REL_Parcelas_Cons.rfJuros.Caption = Format(lblTotalJuros.Caption, "##,##0.00")
+        REL_Parcelas_Cons.rfMulta.Caption = Format(lblTotalMulta.Caption, "##,##0.00")
         REL_Parcelas_Cons.rfHaveres.Caption = Format(lblTotalHaver.Caption, "##,##0.00")
         REL_Parcelas_Cons.rfTotal.Caption = Format(lblTotalLiquido.Caption, "##,##0.00")
         
@@ -2723,6 +2794,7 @@ ElseIf cboTipoImpressao.Text = "RELATÓRIO UNIFICADO" Then
     REL_Parcelas_PorClientes.rfParcelas.Caption = Format(lblTotalParcelas.Caption, "##,##0.00")
     REL_Parcelas_PorClientes.rfSubTotal.Caption = Format(lblTotalBruto.Caption, "##,##0.00")
     REL_Parcelas_PorClientes.rfJuros.Caption = Format(lblTotalJuros.Caption, "##,##0.00")
+    REL_Parcelas_PorClientes.rfMulta.Caption = Format(lblTotalMulta.Caption, "##,##0.00")
     REL_Parcelas_PorClientes.rfHaveres.Caption = Format(lblTotalHaver.Caption, "##,##0.00")
     REL_Parcelas_PorClientes.rfTotal.Caption = Format(lblTotalLiquido.Caption, "##,##0.00")
     
@@ -2765,6 +2837,7 @@ REL_Parcelas_Cons.rfQuant.Caption = lblQuant.Caption
 REL_Parcelas_Cons.rfParcelas.Caption = Format(lblTotalParcelas.Caption, "##,##0.00")
 REL_Parcelas_Cons.rfSubTotal.Caption = Format(lblTotalBruto.Caption, "##,##0.00")
 REL_Parcelas_Cons.rfJuros.Caption = Format(lblTotalJuros.Caption, "##,##0.00")
+REL_Parcelas_Cons.rfMulta.Caption = Format(lblTotalMulta.Caption, "##,##0.00")
 REL_Parcelas_Cons.rfHaveres.Caption = Format(lblTotalHaver.Caption, "##,##0.00")
 REL_Parcelas_Cons.rfTotal.Caption = Format(lblTotalLiquido.Caption, "##,##0.00")
 

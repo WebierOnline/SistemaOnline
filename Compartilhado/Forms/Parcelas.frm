@@ -3538,6 +3538,16 @@ Private Sub FormatarGrid_Parcelas(rTabela As ADODB.Recordset)
    lblTotal.Caption = Format(SomaGrid(grid_Parcelas, 11), ocMONEY)
 End Sub
 
+'Multa em R$ que vai para parcelas.MULTA na quitação (0 se o checkbox Multa estiver desmarcado) - formato SQL
+Private Function MultaParaGravar() As String
+Dim c As Currency
+
+On Error Resume Next
+If chkMulta.Value = 1 Then c = CCur(txtMulta.Text)
+Err.Clear
+MultaParaGravar = Replace(CStr(c), ",", ".")
+End Function
+
 'Multa (%) da Configuração Geral (MULTA) na parcela vencida, cobrada uma vez, em R$ no txtMulta.
 'Base conforme "Cobrar juros sobre" (TIPO_JUROS): 1 = valor da parcela, 0 = saldo restante (valor - haveres).
 Private Sub Preencher_Multa()
@@ -6017,15 +6027,15 @@ If txtDias.Visible = True Then
 
     If txtItem.Text = "0" Then
         If chkJuros.Value = 1 Then
-           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = " & Replace(CCur(txtTJuros.Text), ",", ".") & ", dias_atrazo = " & txtDias.Text & ", forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ");"
+           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", multa = " & MultaParaGravar() & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = " & Replace(CCur(txtTJuros.Text), ",", ".") & ", dias_atrazo = " & txtDias.Text & ", forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ");"
         Else
-           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = 0, dias_atrazo = 0, forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ");"
+           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", multa = " & MultaParaGravar() & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = 0, dias_atrazo = 0, forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ");"
         End If
     Else
         If chkJuros.Value = 1 Then
-           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = " & Replace(CCur(txtTJuros.Text), ",", ".") & ", dias_atrazo = " & txtDias.Text & ", forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ") AND (OS_ITEM = " & txtItem.Text & ");"
+           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", multa = " & MultaParaGravar() & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = " & Replace(CCur(txtTJuros.Text), ",", ".") & ", dias_atrazo = " & txtDias.Text & ", forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO =" & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ") AND (OS_ITEM = " & txtItem.Text & ");"
         Else
-           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = 0, dias_atrazo = 0, forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO = " & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ") AND (OS_ITEM = " & txtItem.Text & ");"
+           dbData.Execute "UPDATE parcelas SET status = 1, valor_final = " & Replace(CCur(txtTotal.Text), ",", ".") & ", DESCONTO = " & Replace(CCur(txtDesconto.Text), ",", ".") & ", multa = " & MultaParaGravar() & ", pagamento = CONVERT(DATETIME, '" & Format(mskPagamento.Text, ocDATA) & "', 103), hora = '" & Format(lblHora.Caption, ocHRMN) & "', juros = 0, dias_atrazo = 0, forma_pgto = '" & var_PAGAMENTO & "', tipo = '" & vOrigem & "', tipo_cartao = " & varTipoCartao & ", caixa = '" & StatusBar1.Panels(2).Text & "', CODCAIXA = " & varCodCaixa & ", COD_FUNCIONARIO = " & txtCodFuncionario & " WHERE (cod_pedido = " & txtCodPedido.Text & ") AND (numero = " & txtNumParcela.Text & ") AND (OS_ITEM = " & txtItem.Text & ");"
         End If
     End If
     

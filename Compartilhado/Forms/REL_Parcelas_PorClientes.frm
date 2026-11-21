@@ -42,8 +42,8 @@ Begin VB.Form REL_Parcelas_PorClientes
          Left            =   120
          TabIndex        =   8
          Top             =   0
-         Width           =   4215
-         _ExtentX        =   7435
+         Width           =   3615
+         _ExtentX        =   6376
          _ExtentY        =   344
          Campo           =   "nome"
          BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
@@ -58,7 +58,7 @@ Begin VB.Form REL_Parcelas_PorClientes
       End
       Begin ReportX.ReportField ReportField2 
          Height          =   195
-         Left            =   5220
+         Left            =   4620
          TabIndex        =   9
          Top             =   0
          Width           =   735
@@ -80,7 +80,7 @@ Begin VB.Form REL_Parcelas_PorClientes
       End
       Begin ReportX.ReportField ReportField3 
          Height          =   195
-         Left            =   4380
+         Left            =   3780
          TabIndex        =   10
          Top             =   0
          Width           =   795
@@ -212,6 +212,28 @@ Begin VB.Form REL_Parcelas_PorClientes
          _ExtentX        =   1085
          _ExtentY        =   344
          Campo           =   "varValorJuros"
+         Formato         =   "##,##0.00"
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+      End
+      Begin ReportX.ReportField ReportField16 
+         Height          =   195
+         Left            =   5400
+         TabIndex        =   59
+         Top             =   0
+         Width           =   555
+         _ExtentX        =   979
+         _ExtentY        =   344
+         Campo           =   "varValorMulta"
          Formato         =   "##,##0.00"
          Caption         =   ""
          Alignment       =   1
@@ -710,6 +732,25 @@ Begin VB.Form REL_Parcelas_PorClientes
          Top             =   3840
          Width           =   630
       End
+      Begin VB.Label lblMulta 
+         AutoSize        =   -1  'True
+         BackStyle       =   0  'Transparent
+         Caption         =   "MULTA"
+         BeginProperty Font 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   -1  'True
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   195
+         Left            =   5370
+         TabIndex        =   60
+         Top             =   3840
+         Width           =   600
+      End
       Begin VB.Label Label1 
          AutoSize        =   -1  'True
          BackStyle       =   0  'Transparent
@@ -815,7 +856,7 @@ Begin VB.Form REL_Parcelas_PorClientes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   5340
+         Left            =   4740
          TabIndex        =   4
          Top             =   3840
          Width           =   630
@@ -834,7 +875,7 @@ Begin VB.Form REL_Parcelas_PorClientes
             Strikethrough   =   0   'False
          EndProperty
          Height          =   195
-         Left            =   4440
+         Left            =   3840
          TabIndex        =   3
          Top             =   3840
          Width           =   570
@@ -908,18 +949,18 @@ Begin VB.Form REL_Parcelas_PorClientes
    End
    Begin ReportX.ReportSection ReportSection3 
       Align           =   1  'Align Top
-      Height          =   1995
+      Height          =   2295
       Left            =   0
       Top             =   4245
       Width           =   12165
       _ExtentX        =   21458
-      _ExtentY        =   3519
+      _ExtentY        =   4048
       Tipo            =   7
       Begin ReportX.ReportField rftotal 
          Height          =   270
          Left            =   9780
          TabIndex        =   24
-         Top             =   1560
+         Top             =   1860
          Width           =   1695
          _ExtentX        =   2990
          _ExtentY        =   476
@@ -940,6 +981,27 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   270
          Left            =   9780
          TabIndex        =   25
+         Top             =   960
+         Width           =   1695
+         _ExtentX        =   2990
+         _ExtentY        =   476
+         Caption         =   ""
+         Alignment       =   1
+         BeginProperty Font {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "Arial"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Borda           =   15
+      End
+      Begin ReportX.ReportField rfMulta 
+         Height          =   270
+         Left            =   9780
+         TabIndex        =   61
          Top             =   660
          Width           =   1695
          _ExtentX        =   2990
@@ -982,7 +1044,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   270
          Left            =   9780
          TabIndex        =   30
-         Top             =   1260
+         Top             =   1560
          Width           =   1695
          _ExtentX        =   2990
          _ExtentY        =   476
@@ -1104,7 +1166,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   270
          Left            =   9780
          TabIndex        =   40
-         Top             =   960
+         Top             =   1260
          Width           =   1695
          _ExtentX        =   2990
          _ExtentY        =   476
@@ -1125,7 +1187,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   225
          Left            =   4020
          TabIndex        =   57
-         Top             =   1680
+         Top             =   1980
          Width           =   3255
          _ExtentX        =   5741
          _ExtentY        =   397
@@ -1159,7 +1221,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   240
          Left            =   8655
          TabIndex        =   41
-         Top             =   960
+         Top             =   1260
          Width           =   1065
       End
       Begin VB.Label Label14 
@@ -1203,7 +1265,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   240
          Left            =   8595
          TabIndex        =   31
-         Top             =   1260
+         Top             =   1560
          Width           =   1125
       End
       Begin VB.Label Label4 
@@ -1225,7 +1287,7 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   240
          Left            =   9060
          TabIndex        =   29
-         Top             =   1560
+         Top             =   1860
          Width           =   660
       End
       Begin VB.Label Label11 
@@ -1247,8 +1309,30 @@ Begin VB.Form REL_Parcelas_PorClientes
          Height          =   240
          Left            =   8895
          TabIndex        =   28
-         Top             =   660
+         Top             =   960
          Width           =   825
+      End
+      Begin VB.Label Label18 
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "MULTA(S):"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   9.75
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H80000008&
+         Height          =   240
+         Left            =   8715
+         TabIndex        =   62
+         Top             =   660
+         Width           =   1005
       End
       Begin VB.Label Label12 
          Appearance      =   0  'Flat
