@@ -676,9 +676,12 @@ With grdRegras
     .Redraw = False
     .rows = 1
     .Cols = 3
-    .TextMatrix(0, 0) = "Descrição": .ColWidth(0) = 2750
-    .TextMatrix(0, 1) = "Quando": .ColWidth(1) = 1950
-    .TextMatrix(0, 2) = "Ativa": .ColWidth(2) = 600
+    .TextMatrix(0, 0) = "Descrição"
+    .TextMatrix(0, 1) = "Quando"
+    .TextMatrix(0, 2) = "Ativa"
+    'texto sempre à esquerda (o grid alinha à direita o que começa com número, ex.: "3 dias após...")
+    .ColAlignment(0) = flexAlignLeftCenter
+    .ColAlignment(1) = flexAlignLeftCenter
     .ColAlignment(2) = flexAlignCenterCenter
     On Error GoTo fim
     Set rs = dbData.OpenRecordset("SELECT Id, Descricao, Situacao, Dias, Ativa FROM CobrancaRegra ORDER BY Situacao, Dias, Id")
@@ -694,6 +697,7 @@ With grdRegras
     Loop
     rs.Close
 fim:
+    AjustarColunas grdRegras, ",0,1,"
     If rSel = 0 And .rows > 1 Then rSel = 1
     If rSel > 0 Then .Row = rSel: .Col = 0: .ColSel = .Cols - 1
     .Redraw = True
@@ -701,6 +705,42 @@ End With
 Err.Clear
 mCarregando = False
 If rSel > 0 Then MostrarRegra grdRegras.RowData(rSel) Else NovaRegra
+End Sub
+
+'Larguras pelo conteúdo: as colunas de sElasticas (",0,1,") encolhem ou crescem para o grid caber sem rolagem horizontal
+Private Sub AjustarColunas(grd As MSFlexGrid, ByVal sElasticas As String)
+Dim c As Long, r As Long, w() As Long, wt As Long, nTotal As Long, nDisp As Long, nElast As Long, nDif As Long
+
+On Error Resume Next
+Me.FontName = grd.Font.Name
+Me.FontSize = grd.Font.Size
+Me.FontBold = False
+ReDim w(0 To grd.Cols - 1)
+For c = 0 To grd.Cols - 1
+    For r = 0 To grd.rows - 1
+        wt = Me.TextWidth(grd.TextMatrix(r, c))
+        If wt > w(c) Then w(c) = wt
+    Next
+    w(c) = w(c) + 180
+    nTotal = nTotal + w(c)
+    If InStr(sElasticas, "," & c & ",") > 0 Then nElast = nElast + w(c)
+Next
+
+nDisp = grd.Width - 90
+If grd.rows * grd.RowHeight(0) > grd.Height - 60 Then nDisp = nDisp - 270   'barra de rolagem vertical
+If nElast > 0 And nTotal <> nDisp Then
+    nDif = nDisp - nTotal    'positivo = sobra espaço; negativo = falta
+    For c = 0 To grd.Cols - 1
+        If InStr(sElasticas, "," & c & ",") > 0 Then
+            w(c) = w(c) + CLng(CDbl(nDif) * w(c) / nElast)
+            If w(c) < 600 Then w(c) = 600
+        End If
+    Next
+End If
+For c = 0 To grd.Cols - 1
+    grd.ColWidth(c) = w(c)
+Next
+Err.Clear
 End Sub
 
 Private Sub grdRegras_Click()
