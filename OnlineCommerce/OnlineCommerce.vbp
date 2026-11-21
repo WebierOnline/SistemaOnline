@@ -194,6 +194,7 @@ Form=..\Compartilhado\Forms\Caixa_Controle_Resumo.frm
 Module=NFe_DLL; ..\Compartilhado\Modulos\modNFe.bas
 Module=LicencaOnline; ..\Compartilhado\Modulos\LicencaOnline.bas
 Module=modCelular; ..\Compartilhado\Modulos\modCelular.bas
+Module=modJurosMulta; ..\Compartilhado\Modulos\modJurosMulta.bas
 Module=modZapEnvio; ..\Compartilhado\Modulos\modZapEnvio.bas
 Module=modCobranca; Modulos\modCobranca.bas
 Form=Forms\frmDIFAL_Cadastro.frm

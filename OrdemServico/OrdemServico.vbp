@@ -71,6 +71,7 @@ Form=..\Compartilhado\Forms\REL_OS_Entrada_Informatica.frm
 Module=Util; Modulos\Util.bas
 Module=LicencaOnline; ..\Compartilhado\Modulos\LicencaOnline.bas
 Module=modCelular; ..\Compartilhado\Modulos\modCelular.bas
+Module=modJurosMulta; ..\Compartilhado\Modulos\modJurosMulta.bas
 Form=Forms\REL_OS_Entrada_Automoveis.frm
 Form=Forms\REL_OS_Completo.frm
 Form=Forms\REL_OS_Garantia.frm

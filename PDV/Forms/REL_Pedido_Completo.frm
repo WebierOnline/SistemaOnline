@@ -1230,6 +1230,10 @@ Attribute VB_Exposed = False
 Option Explicit
 Dim rPc As ADODB.Recordset
 Public Sub Mostrar_Parcelas(Pedido As Long)
+'Aviso de multa/juros (Configuração Geral) só na venda a prazo - venda à vista também pode ter parcela, então vale o tipo de pagamento
+Label5.Caption = JM_TextoAviso()
+Label5.Visible = (Len(Label5.Caption) > 0) And (InStr(1, CStr(SQLExecutaRetorno("SELECT tipo_pagamento AS r FROM pedidos WHERE cod_pedido = " & Pedido, "r", "")), "Prazo", vbTextCompare) > 0)
+
 Set rPc = dbData.OpenRecordset("SELECT * FROM parcelas WHERE (cod_pedido = " & Pedido & ") ORDER BY numero;")
 
 If rPc.RecordCount < 1 Then

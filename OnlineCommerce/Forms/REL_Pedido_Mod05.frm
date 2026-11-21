@@ -3581,6 +3581,9 @@ End Sub
 
 Private Sub Form_Load()
    On Error GoTo TrataErro
+'Aviso de multa/juros com os valores da Configuração Geral (modJurosMulta)
+Label1.Caption = JM_TextoAviso()
+Label1.Visible = (Len(Label1.Caption) > 0)
    Dim sSQL As String
    Dim r As ADODB.Recordset
    

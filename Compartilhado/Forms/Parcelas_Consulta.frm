@@ -2887,6 +2887,11 @@ Me.Show 1
 End Sub
 
 Private Sub Form_Load()
+'Multa e juros da Configuração Geral (modJurosMulta)
+Dim nDirJuros As Single
+nDirJuros = lblJuros.Left + lblJuros.Width    'AutoSize cresce para a direita: mantém a borda direita onde está no form
+lblJuros.Caption = JM_TextoConfig()
+lblJuros.Left = nDirJuros - lblJuros.Width
 Preencher_Parcelas
 Preencher_TipoCartao
 Preencher_SubCriterios
