@@ -1,27 +1,162 @@
 VERSION 5.00
+Object = "{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}#1.1#0"; "ieframe.dll"
 Object = "{61159A24-3E03-4E76-9CA9-2396C6822B8F}#1.0#0"; "chamaleonbtn.ocx"
 Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form frmCobrancaEnvio 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Cobrança por WhatsApp"
-   ClientHeight    =   8700
+   ClientHeight    =   9795
    ClientLeft      =   45
    ClientTop       =   375
-   ClientWidth     =   13500
+   ClientWidth     =   16815
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8700
-   ScaleWidth      =   13500
+   ScaleHeight     =   9795
+   ScaleWidth      =   16815
    StartUpPosition =   2  'CenterScreen
+   Begin SHDocVwCtl.WebBrowser WebBrowser1 
+      Height          =   2115
+      Left            =   3420
+      TabIndex        =   20
+      Top             =   1980
+      Width           =   2955
+      ExtentX         =   5212
+      ExtentY         =   3731
+      ViewMode        =   0
+      Offline         =   0
+      Silent          =   0
+      RegisterAsBrowser=   0
+      RegisterAsDropTarget=   1
+      AutoArrange     =   0   'False
+      NoClientEdge    =   0   'False
+      AlignLeft       =   0   'False
+      NoWebView       =   0   'False
+      HideFileNames   =   0   'False
+      SingleClick     =   0   'False
+      SingleSelection =   0   'False
+      NoFolders       =   0   'False
+      Transparent     =   0   'False
+      ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
+      Location        =   ""
+   End
+   Begin VB.Frame Frame1 
+      Caption         =   "Histórico de envios"
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   3915
+      Left            =   120
+      TabIndex        =   13
+      Top             =   5340
+      Width           =   16635
+      Begin VB.ComboBox cboPeriodo 
+         Height          =   315
+         Left            =   1080
+         Style           =   2  'Dropdown List
+         TabIndex        =   14
+         Top             =   240
+         Width           =   2055
+      End
+      Begin MSFlexGridLib.MSFlexGrid grdHist 
+         Height          =   3225
+         Left            =   60
+         TabIndex        =   15
+         Top             =   600
+         Width           =   16500
+         _ExtentX        =   29104
+         _ExtentY        =   5689
+         _Version        =   393216
+         Cols            =   8
+         FixedCols       =   0
+         AllowBigSelection=   0   'False
+         SelectionMode   =   1
+         AllowUserResizing=   1
+         Appearance      =   0
+      End
+      Begin VB.Label Label1 
+         AutoSize        =   -1  'True
+         Caption         =   "Filtrar por:"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         Height          =   210
+         Left            =   180
+         TabIndex        =   16
+         Top             =   300
+         Width           =   855
+      End
+   End
+   Begin VB.PictureBox Picture5 
+      Appearance      =   0  'Flat
+      BackColor       =   &H80000005&
+      ForeColor       =   &H80000008&
+      Height          =   795
+      Left            =   0
+      ScaleHeight     =   765
+      ScaleWidth      =   16725
+      TabIndex        =   10
+      Top             =   0
+      Width           =   16755
+      Begin VB.Label lblResumo 
+         Alignment       =   1  'Right Justify
+         Height          =   255
+         Left            =   7380
+         TabIndex        =   12
+         Top             =   240
+         Width           =   9240
+      End
+      Begin VB.Label Label39 
+         Alignment       =   2  'Center
+         Appearance      =   0  'Flat
+         AutoSize        =   -1  'True
+         BackColor       =   &H80000005&
+         BackStyle       =   0  'Transparent
+         Caption         =   "Cobrança por WhatsApp"
+         BeginProperty Font 
+            Name            =   "Arial"
+            Size            =   15.75
+            Charset         =   0
+            Weight          =   700
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         ForeColor       =   &H00800000&
+         Height          =   360
+         Left            =   1620
+         TabIndex        =   11
+         Top             =   240
+         Width           =   3750
+      End
+      Begin VB.Image Image1 
+         Height          =   675
+         Left            =   540
+         Picture         =   "frmCobrancaEnvio.frx":0000
+         Top             =   60
+         Width           =   675
+      End
+   End
    Begin MSFlexGridLib.MSFlexGrid grdEnvio 
       Height          =   3900
-      Left            =   120
+      Left            =   60
       TabIndex        =   0
       Top             =   840
-      Width           =   9600
-      _ExtentX        =   16933
+      Width           =   12060
+      _ExtentX        =   21273
       _ExtentY        =   6879
       _Version        =   393216
       Cols            =   8
@@ -33,17 +168,17 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin VB.TextBox txtPrevia 
       Height          =   3645
-      Left            =   9840
+      Left            =   12180
       Locked          =   -1  'True
       MultiLine       =   -1  'True
       ScrollBars      =   2  'Vertical
       TabIndex        =   1
-      Top             =   1095
-      Width           =   3540
+      Top             =   1080
+      Width           =   4560
    End
    Begin ChamaleonBtn.chameleonButton cmdMarcarTodos 
       Height          =   375
-      Left            =   120
+      Left            =   60
       TabIndex        =   2
       Top             =   4860
       Width           =   1335
@@ -69,6 +204,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0C70
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -80,7 +216,7 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
       Height          =   375
-      Left            =   1560
+      Left            =   1440
       TabIndex        =   3
       Top             =   4860
       Width           =   1455
@@ -106,6 +242,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0C8C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -117,7 +254,7 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdNaoCobrar 
       Height          =   375
-      Left            =   3120
+      Left            =   2940
       TabIndex        =   4
       Top             =   4860
       Width           =   2415
@@ -143,6 +280,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0CA8
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -154,9 +292,9 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdEnviar 
       Height          =   375
-      Left            =   7200
+      Left            =   12300
       TabIndex        =   5
-      Top             =   4860
+      Top             =   4800
       Width           =   1935
       _ExtentX        =   3413
       _ExtentY        =   661
@@ -180,6 +318,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0CC4
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -191,9 +330,9 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdParar 
       Height          =   375
-      Left            =   9240
+      Left            =   14280
       TabIndex        =   6
-      Top             =   4860
+      Top             =   4800
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   661
@@ -217,6 +356,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0CE0
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -226,35 +366,11 @@ Begin VB.Form frmCobrancaEnvio
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.ComboBox cboPeriodo 
-      Height          =   315
-      Left            =   3240
-      Style           =   2  'Dropdown List
-      TabIndex        =   7
-      Top             =   5640
-      Width           =   2055
-   End
-   Begin MSFlexGridLib.MSFlexGrid grdHist 
-      Height          =   2040
-      Left            =   120
-      TabIndex        =   8
-      Top             =   6060
-      Width           =   13260
-      _ExtentX        =   23389
-      _ExtentY        =   3598
-      _Version        =   393216
-      Cols            =   8
-      FixedCols       =   0
-      AllowBigSelection=   0   'False
-      SelectionMode   =   1
-      AllowUserResizing=   1
-      Appearance      =   0
-   End
    Begin ChamaleonBtn.chameleonButton cmdAtualizar 
       Height          =   375
-      Left            =   9480
-      TabIndex        =   9
-      Top             =   120
+      Left            =   15540
+      TabIndex        =   7
+      Top             =   4800
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   661
@@ -278,6 +394,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0CFC
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -289,11 +406,11 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdRegua 
       Height          =   375
-      Left            =   10800
-      TabIndex        =   10
-      Top             =   120
-      Width           =   2580
-      _ExtentX        =   4551
+      Left            =   13500
+      TabIndex        =   17
+      Top             =   9360
+      Width           =   1860
+      _ExtentX        =   3281
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "&Régua de cobrança..."
@@ -315,6 +432,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0D18
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -326,9 +444,9 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdFechar 
       Height          =   375
-      Left            =   12165
-      TabIndex        =   11
-      Top             =   8220
+      Left            =   15540
+      TabIndex        =   18
+      Top             =   9360
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   661
@@ -352,6 +470,7 @@ Begin VB.Form frmCobrancaEnvio
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0D34
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -361,64 +480,75 @@ Begin VB.Form frmCobrancaEnvio
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.Label lblTitulo 
-      Caption         =   "Cobranças para enviar hoje"
-      BeginProperty Font 
+   Begin ChamaleonBtn.chameleonButton cmdAtualizarCliente 
+      Height          =   375
+      Left            =   5400
+      TabIndex        =   19
+      Top             =   4860
+      Width           =   1755
+      _ExtentX        =   3096
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "Atualizar Cliente"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
          Name            =   "MS Sans Serif"
-         Size            =   9.75
+         Size            =   8.25
          Charset         =   0
-         Weight          =   700
+         Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   300
-      Left            =   120
-      TabIndex        =   12
-      Top             =   120
-      Width           =   9000
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      MICON           =   "frmCobrancaEnvio.frx":0D50
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
    End
-   Begin VB.Label lblResumo 
-      Caption         =   ""
-      Height          =   255
-      Left            =   120
-      TabIndex        =   13
-      Top             =   480
-      Width           =   9240
+   Begin VB.Image ImgMarcada 
+      Height          =   195
+      Left            =   7320
+      Picture         =   "frmCobrancaEnvio.frx":0D6C
+      Top             =   4800
+      Visible         =   0   'False
+      Width           =   195
+   End
+   Begin VB.Image imgDesmarcada 
+      Height          =   195
+      Left            =   7620
+      Picture         =   "frmCobrancaEnvio.frx":316B
+      Top             =   4800
+      Visible         =   0   'False
+      Width           =   195
    End
    Begin VB.Label lblPrevia 
       Caption         =   "Mensagem (prévia):"
       Height          =   255
-      Left            =   9840
-      TabIndex        =   14
+      Left            =   12180
+      TabIndex        =   8
       Top             =   840
       Width           =   3540
    End
    Begin VB.Label lblProgresso 
-      Caption         =   ""
       ForeColor       =   &H00800000&
       Height          =   255
       Left            =   120
-      TabIndex        =   15
+      TabIndex        =   9
       Top             =   5340
       Width           =   13260
-   End
-   Begin VB.Label lblHist 
-      Caption         =   "Histórico de envios"
-      BeginProperty Font 
-         Name            =   "MS Sans Serif"
-         Size            =   8.25
-         Charset         =   0
-         Weight          =   700
-         Underline       =   0   'False
-         Italic          =   0   'False
-         Strikethrough   =   0   'False
-      EndProperty
-      Height          =   255
-      Left            =   120
-      TabIndex        =   16
-      Top             =   5700
-      Width           =   3000
    End
 End
 Attribute VB_Name = "frmCobrancaEnvio"
@@ -508,7 +638,7 @@ mQtd = Cob_Pendentes(Date, mItens)
 
 With grdEnvio
     .Redraw = False
-    .Rows = 1
+    .rows = 1
     .Cols = 8
     .TextMatrix(0, C_MARCA) = "Env."
     .TextMatrix(0, C_CLIENTE) = "Cliente"
@@ -525,24 +655,24 @@ With grdEnvio
     .ColAlignment(C_TOTAL) = flexAlignRightCenter
     .ColAlignment(C_ATRASO) = flexAlignCenterCenter
     For i = 1 To mQtd
-        .Rows = .Rows + 1
-        .RowData(.Rows - 1) = i
-        .TextMatrix(.Rows - 1, C_MARCA) = IIf(Len(mItens(i).Motivo) = 0, "X", "")
-        .TextMatrix(.Rows - 1, C_CLIENTE) = mItens(i).Nome
-        .TextMatrix(.Rows - 1, C_CELULAR) = mItens(i).Celular
-        .TextMatrix(.Rows - 1, C_REGRA) = mItens(i).Regra
-        .TextMatrix(.Rows - 1, C_PARC) = mItens(i).QtdParcelas
-        .TextMatrix(.Rows - 1, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
-        .TextMatrix(.Rows - 1, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
+        .rows = .rows + 1
+        .RowData(.rows - 1) = i
+        .TextMatrix(.rows - 1, C_MARCA) = IIf(Len(mItens(i).Motivo) = 0, "X", "")
+        .TextMatrix(.rows - 1, C_CLIENTE) = mItens(i).Nome
+        .TextMatrix(.rows - 1, C_CELULAR) = mItens(i).Celular
+        .TextMatrix(.rows - 1, C_REGRA) = mItens(i).Regra
+        .TextMatrix(.rows - 1, C_PARC) = mItens(i).QtdParcelas
+        .TextMatrix(.rows - 1, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
+        .TextMatrix(.rows - 1, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
         If Len(mItens(i).Motivo) = 0 Then
-            .TextMatrix(.Rows - 1, C_SITUACAO) = "Pronto para enviar"
+            .TextMatrix(.rows - 1, C_SITUACAO) = "Pronto para enviar"
             nProntos = nProntos + 1
         Else
-            .TextMatrix(.Rows - 1, C_SITUACAO) = mItens(i).Motivo
-            PintarLinha .Rows - 1, &H808080
+            .TextMatrix(.rows - 1, C_SITUACAO) = mItens(i).Motivo
+            PintarLinha .rows - 1, &H808080
         End If
     Next
-    If .Rows > 1 Then .Row = 1: .Col = C_CLIENTE
+    If .rows > 1 Then .Row = 1: .Col = C_CLIENTE
     .Redraw = True
 End With
 
@@ -562,13 +692,13 @@ With grdEnvio
         .Col = c
         .CellForeColor = nCor
     Next
-    If r > 0 And r < .Rows Then .Row = r
+    If r > 0 And r < .rows Then .Row = r
     .Col = cc
 End With
 End Sub
 
 Private Function ItemDaLinha() As Long
-If grdEnvio.Row < 1 Or grdEnvio.Row >= grdEnvio.Rows Then Exit Function
+If grdEnvio.Row < 1 Or grdEnvio.Row >= grdEnvio.rows Then Exit Function
 ItemDaLinha = grdEnvio.RowData(grdEnvio.Row)
 End Function
 
@@ -625,7 +755,7 @@ End Sub
 Private Sub Marcar(ByVal bMarcar As Boolean)
 Dim r As Long, i As Long
 
-For r = 1 To grdEnvio.Rows - 1
+For r = 1 To grdEnvio.rows - 1
     i = grdEnvio.RowData(r)
     If i >= 1 And i <= mQtd Then
         If Len(mItens(i).Motivo) = 0 Then grdEnvio.TextMatrix(r, C_MARCA) = IIf(bMarcar, "X", "")
@@ -688,7 +818,7 @@ Dim marcados() As Long, bForaHorario As Boolean, sHora As String
 
 'Marcados
 ReDim marcados(0)
-For r = 1 To grdEnvio.Rows - 1
+For r = 1 To grdEnvio.rows - 1
     If grdEnvio.TextMatrix(r, C_MARCA) = "X" Then
         n = n + 1
         ReDim Preserve marcados(n)
@@ -812,7 +942,7 @@ End Select
 
 With grdHist
     .Redraw = False
-    .Rows = 1
+    .rows = 1
     .Cols = 8
     .TextMatrix(0, 0) = "Data/hora": .ColWidth(0) = 1500
     .TextMatrix(0, 1) = "Cliente": .ColWidth(1) = 2900
@@ -823,24 +953,24 @@ With grdHist
     .TextMatrix(0, 6) = "Origem": .ColWidth(6) = 1100
     .TextMatrix(0, 7) = "Detalhe": .ColWidth(7) = 1800
     .ColAlignment(4) = flexAlignRightCenter
-    On Error GoTo Fim
+    On Error GoTo fim
     Set rs = dbData.OpenRecordset("SELECT e.DataHora, c.NOME, e.Celular, r.Descricao, e.ValorTotal, e.Situacao, e.Erro, e.Manual, e.Usuario " & _
         "FROM CobrancaEnvio e LEFT JOIN cliente c ON c.CODIGO = e.CodCliente LEFT JOIN CobrancaRegra r ON r.Id = e.CodRegra " & _
         "WHERE e.DataHora >= '" & Format$(dIni, "yyyymmdd") & "' ORDER BY e.DataHora DESC")
     Do While Not rs.EOF
-        .Rows = .Rows + 1
-        .TextMatrix(.Rows - 1, 0) = Format$(rs("DataHora"), "dd/mm/yyyy hh:mm")
-        .TextMatrix(.Rows - 1, 1) = "" & rs("NOME")
-        .TextMatrix(.Rows - 1, 2) = "" & rs("Celular")
-        .TextMatrix(.Rows - 1, 3) = IIf(IsNull(rs("Descricao")), "(regra excluída)", "" & rs("Descricao"))
-        .TextMatrix(.Rows - 1, 4) = Format$(rs("ValorTotal"), "#,##0.00")
-        .TextMatrix(.Rows - 1, 5) = IIf(rs("Situacao") = 1, "Enviada", "Erro")
-        .TextMatrix(.Rows - 1, 6) = IIf(CBool(rs("Manual")), "Manual" & IIf(Len("" & rs("Usuario")) > 0, " (" & rs("Usuario") & ")", ""), "Automático")
-        .TextMatrix(.Rows - 1, 7) = Replace("" & rs("Erro"), vbCrLf, " ")
+        .rows = .rows + 1
+        .TextMatrix(.rows - 1, 0) = Format$(rs("DataHora"), "dd/mm/yyyy hh:mm")
+        .TextMatrix(.rows - 1, 1) = "" & rs("NOME")
+        .TextMatrix(.rows - 1, 2) = "" & rs("Celular")
+        .TextMatrix(.rows - 1, 3) = IIf(IsNull(rs("Descricao")), "(regra excluída)", "" & rs("Descricao"))
+        .TextMatrix(.rows - 1, 4) = Format$(rs("ValorTotal"), "#,##0.00")
+        .TextMatrix(.rows - 1, 5) = IIf(rs("Situacao") = 1, "Enviada", "Erro")
+        .TextMatrix(.rows - 1, 6) = IIf(CBool(rs("Manual")), "Manual" & IIf(Len("" & rs("Usuario")) > 0, " (" & rs("Usuario") & ")", ""), "Automático")
+        .TextMatrix(.rows - 1, 7) = Replace("" & rs("Erro"), vbCrLf, " ")
         rs.MoveNext
     Loop
     rs.Close
-Fim:
+fim:
     .Redraw = True
 End With
 Err.Clear
