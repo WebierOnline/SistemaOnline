@@ -1041,10 +1041,12 @@ Private Sub LimparGrid()
       .TextMatrix(0, 2) = "CÓD.PROD"
       .TextMatrix(0, 3) = "CÓD.BARRA"
       .TextMatrix(0, 4) = "DESCRIÇÃO"
+      .ColAlignment(4) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 5) = "QUANT."
       .TextMatrix(0, 6) = "MIN."
       .TextMatrix(0, 7) = "VENDA"
       .TextMatrix(0, 8) = "CATEGORIA"
+      .ColAlignment(8) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       
       'colocar os cabeçalho em negrito
       For i = 0 To .Cols - 1
@@ -1487,9 +1489,13 @@ Private Sub Formatar_Grid(rTabela As ADODB.Recordset)
       .TextMatrix(0, 2) = "CÓD.PROD"
       .TextMatrix(0, 3) = "CÓD.BARRA"
       .TextMatrix(0, 4) = "DESCRIÇÃO"
+      .ColAlignment(4) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 5) = "FABRICANTE"
+      .ColAlignment(5) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 6) = "CATEGORIA"
+      .ColAlignment(6) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 7) = "TAGS"
+      .ColAlignment(7) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 8) = "NCM."
       .TextMatrix(0, 9) = "CFOP."
       .TextMatrix(0, 10) = "ICMS."

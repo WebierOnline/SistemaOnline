@@ -4831,7 +4831,9 @@ Dim x As Integer
       .TextMatrix(0, 1) = "COD"
       .TextMatrix(0, 2) = "CÓD. BARRA"
       .TextMatrix(0, 3) = "PRODUTO / REF"
+      .ColAlignment(3) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 4) = "FABRICANTE"
+      .ColAlignment(4) = flexAlignLeftCenter   'texto à esquerda (começando com número o grid alinharia à direita)
       .TextMatrix(0, 5) = "UN"
       .TextMatrix(0, 6) = "LOC"
       .TextMatrix(0, 7) = "QTDE"
