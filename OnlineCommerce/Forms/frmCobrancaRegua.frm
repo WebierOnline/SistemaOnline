@@ -4,32 +4,24 @@ Object = "{5E9E78A0-531B-11CF-91F6-C2863C385E30}#1.0#0"; "msflxgrd.ocx"
 Begin VB.Form frmCobrancaRegua 
    BorderStyle     =   1  'Fixed Single
    Caption         =   "Régua de cobrança por WhatsApp"
-   ClientHeight    =   8700
+   ClientHeight    =   8535
    ClientLeft      =   45
    ClientTop       =   375
-   ClientWidth     =   13200
+   ClientWidth     =   14985
    KeyPreview      =   -1  'True
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   8700
-   ScaleWidth      =   13200
+   ScaleHeight     =   8535
+   ScaleWidth      =   14985
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Label lblRegras 
-      Caption         =   "Regras (vale a regra da parcela mais atrasada do cliente)"
-      Height          =   255
-      Left            =   120
-      TabIndex        =   0
-      Top             =   120
-      Width           =   5400
-   End
    Begin MSFlexGridLib.MSFlexGrid grdRegras 
       Height          =   3255
-      Left            =   120
+      Left            =   60
       TabIndex        =   1
       Top             =   420
-      Width           =   5400
-      _ExtentX        =   9525
+      Width           =   7380
+      _ExtentX        =   13018
       _ExtentY        =   5741
       _Version        =   393216
       Cols            =   3
@@ -67,6 +59,7 @@ Begin VB.Form frmCobrancaRegua
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaRegua.frx":0000
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -104,6 +97,7 @@ Begin VB.Form frmCobrancaRegua
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaRegua.frx":001C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -119,15 +113,7 @@ Begin VB.Form frmCobrancaRegua
       Left            =   120
       TabIndex        =   4
       Top             =   4320
-      Width           =   5400
-      Begin VB.Label lblHora 
-         Caption         =   "Horário de envio:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   5
-         Top             =   360
-         Width           =   1500
-      End
+      Width           =   7320
       Begin VB.TextBox txtHoraIni 
          Height          =   315
          Left            =   1800
@@ -135,14 +121,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   6
          Top             =   330
          Width           =   735
-      End
-      Begin VB.Label lblAs 
-         Caption         =   "às"
-         Height          =   255
-         Left            =   2620
-         TabIndex        =   7
-         Top             =   360
-         Width           =   300
       End
       Begin VB.TextBox txtHoraFim 
          Height          =   315
@@ -152,14 +130,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   330
          Width           =   735
       End
-      Begin VB.Label lblLimite 
-         Caption         =   "Limite por dia:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   9
-         Top             =   780
-         Width           =   1500
-      End
       Begin VB.TextBox txtLimite 
          Height          =   315
          Left            =   1800
@@ -167,22 +137,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   10
          Top             =   750
          Width           =   735
-      End
-      Begin VB.Label lblLimite2 
-         Caption         =   "mensagens"
-         Height          =   255
-         Left            =   2620
-         TabIndex        =   11
-         Top             =   780
-         Width           =   1500
-      End
-      Begin VB.Label lblIntervalo 
-         Caption         =   "Intervalo entre mensagens:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   12
-         Top             =   1200
-         Width           =   2055
       End
       Begin VB.TextBox txtIntMin 
          Height          =   315
@@ -192,14 +146,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   1170
          Width           =   615
       End
-      Begin VB.Label lblA 
-         Caption         =   "a"
-         Height          =   255
-         Left            =   3020
-         TabIndex        =   14
-         Top             =   1200
-         Width           =   200
-      End
       Begin VB.TextBox txtIntMax 
          Height          =   315
          Left            =   3240
@@ -207,14 +153,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   15
          Top             =   1170
          Width           =   615
-      End
-      Begin VB.Label lblSeg 
-         Caption         =   "segundos"
-         Height          =   255
-         Left            =   3920
-         TabIndex        =   16
-         Top             =   1200
-         Width           =   900
       End
       Begin VB.CheckBox chkSabado 
          Caption         =   "Enviar aos sábados"
@@ -232,14 +170,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   1620
          Width           =   2400
       End
-      Begin VB.Label lblPix 
-         Caption         =   "Chave Pix da empresa (tag {CHAVE_PIX}):"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   19
-         Top             =   2040
-         Width           =   4935
-      End
       Begin VB.TextBox txtPix 
          Height          =   315
          Left            =   240
@@ -247,15 +177,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   20
          Top             =   2280
          Width           =   4935
-      End
-      Begin VB.Label lblAvisoZap 
-         Caption         =   "O limite e o intervalo protegem o número da empresa: muitas mensagens seguidas podem fazer o WhatsApp bloquear o número."
-         ForeColor       =   &H00808080&
-         Height          =   855
-         Left            =   240
-         TabIndex        =   21
-         Top             =   2700
-         Width           =   3615
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvarConfig 
          Height          =   375
@@ -285,6 +206,7 @@ Begin VB.Form frmCobrancaRegua
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
+         MICON           =   "frmCobrancaRegua.frx":0038
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -294,22 +216,87 @@ Begin VB.Form frmCobrancaRegua
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin VB.Label lblHora 
+         Caption         =   "Horário de envio:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   5
+         Top             =   360
+         Width           =   1500
+      End
+      Begin VB.Label lblAs 
+         Caption         =   "às"
+         Height          =   255
+         Left            =   2620
+         TabIndex        =   7
+         Top             =   360
+         Width           =   300
+      End
+      Begin VB.Label lblLimite 
+         Caption         =   "Limite por dia:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   9
+         Top             =   780
+         Width           =   1500
+      End
+      Begin VB.Label lblLimite2 
+         Caption         =   "mensagens"
+         Height          =   255
+         Left            =   2620
+         TabIndex        =   11
+         Top             =   780
+         Width           =   1500
+      End
+      Begin VB.Label lblIntervalo 
+         Caption         =   "Intervalo entre mensagens:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   12
+         Top             =   1200
+         Width           =   2055
+      End
+      Begin VB.Label lblA 
+         Caption         =   "a"
+         Height          =   255
+         Left            =   3020
+         TabIndex        =   14
+         Top             =   1200
+         Width           =   200
+      End
+      Begin VB.Label lblSeg 
+         Caption         =   "segundos"
+         Height          =   255
+         Left            =   3920
+         TabIndex        =   16
+         Top             =   1200
+         Width           =   900
+      End
+      Begin VB.Label lblPix 
+         Caption         =   "Chave Pix da empresa (tag {CHAVE_PIX}):"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   19
+         Top             =   2040
+         Width           =   4935
+      End
+      Begin VB.Label lblAvisoZap 
+         Caption         =   "O limite e o intervalo protegem o número da empresa: muitas mensagens seguidas podem fazer o WhatsApp bloquear o número."
+         ForeColor       =   &H00000080&
+         Height          =   855
+         Left            =   240
+         TabIndex        =   21
+         Top             =   2700
+         Width           =   3615
+      End
    End
    Begin VB.Frame fraRegra 
       Caption         =   "Regra"
-      Height          =   7935
-      Left            =   5640
+      Height          =   7995
+      Left            =   7500
       TabIndex        =   23
-      Top             =   120
+      Top             =   60
       Width           =   7440
-      Begin VB.Label lblDescricao 
-         Caption         =   "Descrição:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   24
-         Top             =   360
-         Width           =   1000
-      End
       Begin VB.TextBox txtDescricao 
          Height          =   315
          Left            =   1320
@@ -326,14 +313,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   360
          Width           =   1455
       End
-      Begin VB.Label lblQuando 
-         Caption         =   "Quando:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   27
-         Top             =   780
-         Width           =   1000
-      End
       Begin VB.ComboBox cboSituacao 
          Height          =   315
          Left            =   1320
@@ -341,14 +320,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   28
          Top             =   750
          Width           =   2535
-      End
-      Begin VB.Label lblDias 
-         Caption         =   "Dias:"
-         Height          =   255
-         Left            =   4000
-         TabIndex        =   29
-         Top             =   780
-         Width           =   500
       End
       Begin VB.TextBox txtDias 
          Height          =   315
@@ -358,14 +329,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   750
          Width           =   615
       End
-      Begin VB.Label lblRepetir 
-         Caption         =   "Repetir a cada"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   31
-         Top             =   1200
-         Width           =   1100
-      End
       Begin VB.TextBox txtRepetir 
          Height          =   315
          Left            =   1320
@@ -374,14 +337,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   1170
          Width           =   615
       End
-      Begin VB.Label lblRepetir2 
-         Caption         =   "dia(s) (0 = não repete)     Máximo de envios por parcela:"
-         Height          =   255
-         Left            =   2000
-         TabIndex        =   33
-         Top             =   1200
-         Width           =   3735
-      End
       Begin VB.TextBox txtMax 
          Height          =   315
          Left            =   5820
@@ -389,14 +344,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   34
          Top             =   1170
          Width           =   615
-      End
-      Begin VB.Label lblMensagem 
-         Caption         =   "Mensagem:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   35
-         Top             =   1620
-         Width           =   1000
       End
       Begin VB.ComboBox cboTag 
          Height          =   315
@@ -434,6 +381,7 @@ Begin VB.Form frmCobrancaRegua
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
+         MICON           =   "frmCobrancaRegua.frx":0054
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -453,14 +401,6 @@ Begin VB.Form frmCobrancaRegua
          Top             =   2040
          Width           =   6975
       End
-      Begin VB.Label lblPrevia 
-         Caption         =   "Prévia com dados de exemplo (os emojis aparecem como [nome]; no celular saem como emoji):"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   39
-         Top             =   4800
-         Width           =   6975
-      End
       Begin VB.TextBox txtPrevia 
          Height          =   2055
          Left            =   240
@@ -470,14 +410,6 @@ Begin VB.Form frmCobrancaRegua
          TabIndex        =   40
          Top             =   5040
          Width           =   6975
-      End
-      Begin VB.Label lblTeste 
-         Caption         =   "Testar no celular:"
-         Height          =   255
-         Left            =   240
-         TabIndex        =   41
-         Top             =   7260
-         Width           =   1400
       End
       Begin VB.TextBox txtTeste 
          Height          =   315
@@ -515,6 +447,7 @@ Begin VB.Form frmCobrancaRegua
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
+         MICON           =   "frmCobrancaRegua.frx":0070
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -552,6 +485,7 @@ Begin VB.Form frmCobrancaRegua
          FCOLO           =   0
          MCOL            =   12632256
          MPTR            =   1
+         MICON           =   "frmCobrancaRegua.frx":008C
          UMCOL           =   -1  'True
          SOFT            =   0   'False
          PICPOS          =   0
@@ -561,12 +495,76 @@ Begin VB.Form frmCobrancaRegua
          CHECK           =   0   'False
          VALUE           =   0   'False
       End
+      Begin VB.Label lblDescricao 
+         Caption         =   "Descrição:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   24
+         Top             =   360
+         Width           =   1000
+      End
+      Begin VB.Label lblQuando 
+         Caption         =   "Quando:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   27
+         Top             =   780
+         Width           =   1000
+      End
+      Begin VB.Label lblDias 
+         Caption         =   "Dias:"
+         Height          =   255
+         Left            =   4000
+         TabIndex        =   29
+         Top             =   780
+         Width           =   500
+      End
+      Begin VB.Label lblRepetir 
+         Caption         =   "Repetir a cada"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   31
+         Top             =   1200
+         Width           =   1100
+      End
+      Begin VB.Label lblRepetir2 
+         Caption         =   "dia(s) (0 = não repete)     Máximo de envios por parcela:"
+         Height          =   255
+         Left            =   2000
+         TabIndex        =   33
+         Top             =   1200
+         Width           =   3735
+      End
+      Begin VB.Label lblMensagem 
+         Caption         =   "Mensagem:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   35
+         Top             =   1620
+         Width           =   1000
+      End
+      Begin VB.Label lblPrevia 
+         Caption         =   "Prévia com dados de exemplo (os emojis aparecem como [nome]; no celular saem como emoji):"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   39
+         Top             =   4800
+         Width           =   6975
+      End
+      Begin VB.Label lblTeste 
+         Caption         =   "Testar no celular:"
+         Height          =   255
+         Left            =   240
+         TabIndex        =   41
+         Top             =   7260
+         Width           =   1400
+      End
    End
    Begin ChamaleonBtn.chameleonButton cmdFechar 
       Height          =   375
-      Left            =   11880
+      Left            =   13680
       TabIndex        =   45
-      Top             =   8220
+      Top             =   8100
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   661
@@ -590,6 +588,7 @@ Begin VB.Form frmCobrancaRegua
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCobrancaRegua.frx":00A8
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -598,6 +597,14 @@ Begin VB.Form frmCobrancaRegua
       HAND            =   0   'False
       CHECK           =   0   'False
       VALUE           =   0   'False
+   End
+   Begin VB.Label lblRegras 
+      Caption         =   "Regras (vale a regra da parcela mais atrasada do cliente)"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   0
+      Top             =   120
+      Width           =   7320
    End
 End
 Attribute VB_Name = "frmCobrancaRegua"
@@ -667,17 +674,17 @@ Dim rs As ADODB.Recordset, r As Long, rSel As Long
 mCarregando = True
 With grdRegras
     .Redraw = False
-    .Rows = 1
+    .rows = 1
     .Cols = 3
     .TextMatrix(0, 0) = "Descrição": .ColWidth(0) = 2750
     .TextMatrix(0, 1) = "Quando": .ColWidth(1) = 1950
     .TextMatrix(0, 2) = "Ativa": .ColWidth(2) = 600
     .ColAlignment(2) = flexAlignCenterCenter
-    On Error GoTo Fim
+    On Error GoTo fim
     Set rs = dbData.OpenRecordset("SELECT Id, Descricao, Situacao, Dias, Ativa FROM CobrancaRegra ORDER BY Situacao, Dias, Id")
     Do While Not rs.EOF
-        .Rows = .Rows + 1
-        r = .Rows - 1
+        .rows = .rows + 1
+        r = .rows - 1
         .RowData(r) = rs("Id")
         .TextMatrix(r, 0) = "" & rs("Descricao")
         .TextMatrix(r, 1) = Cob_SituacaoTexto(rs("Situacao"), Val("" & rs("Dias")))
@@ -686,8 +693,8 @@ With grdRegras
         rs.MoveNext
     Loop
     rs.Close
-Fim:
-    If rSel = 0 And .Rows > 1 Then rSel = 1
+fim:
+    If rSel = 0 And .rows > 1 Then rSel = 1
     If rSel > 0 Then .Row = rSel: .Col = 0: .ColSel = .Cols - 1
     .Redraw = True
 End With
@@ -934,7 +941,7 @@ Dim it As CobItem
 
 it.Nome = "MARIA DA SILVA"
 it.Mensagem = txtMensagem.Text
-it.Lista = "• *Venda nº 1234* (parcela 2/3) – venc. " & Format$(Date - 5, "dd/mm/yyyy") & " – R$ 150,00 – 5 dia(s) em atraso" & vbLf & _
+it.LISTA = "• *Venda nº 1234* (parcela 2/3) – venc. " & Format$(Date - 5, "dd/mm/yyyy") & " – R$ 150,00 – 5 dia(s) em atraso" & vbLf & _
            "• *OS nº 567* – venc. " & Format$(Date, "dd/mm/yyyy") & " – R$ 200,00"
 it.QtdParcelas = 2
 it.Total = 350
