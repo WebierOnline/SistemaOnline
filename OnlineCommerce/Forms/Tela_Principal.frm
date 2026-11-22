@@ -870,6 +870,9 @@ Begin VB.MDIForm Tela_Principal
       Begin VB.Menu Menu_Fin_Cobranca 
          Caption         =   "Cobrança por &WhatsApp"
       End
+      Begin VB.Menu Menu_Fin_Promocao 
+         Caption         =   "Promoções por WhatsApp"
+      End
    End
    Begin VB.Menu Menu_FAT 
       Caption         =   "Fatura&mento"
@@ -1621,6 +1624,10 @@ End Sub
 
 Private Sub Menu_Fin_Cobranca_Click()
 frmCobrancaEnvio.Show 1
+End Sub
+
+Private Sub Menu_Fin_Promocao_Click()
+frmCampanhaZap.Show 1
 End Sub
 
 Public Sub Menu_Fin_Caixa_Click()
@@ -2560,10 +2567,12 @@ Else
     If LerPermissoesUsuario(vCodUsuario, 13) = True Then
          Menu_Fin_Parcelas.Enabled = True
          Menu_Fin_Cobranca.Enabled = True
+         Menu_Fin_Promocao.Enabled = True
          'cmdContasApagar.Enabled = True
      Else
          Menu_Fin_Parcelas.Enabled = False
          Menu_Fin_Cobranca.Enabled = False
+         Menu_Fin_Promocao.Enabled = False
          'cmdContasApagar.Enabled = False
 
     End If

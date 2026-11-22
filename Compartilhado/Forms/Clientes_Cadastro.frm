@@ -492,6 +492,15 @@ Begin VB.Form Clientes_Cadastro
             Top             =   1020
             Width           =   660
          End
+         Begin VB.CheckBox chkNaoPromoZap 
+            Caption         =   "Não enviar promoções pelo WhatsApp"
+            Height          =   195
+            Left            =   3480
+            TabIndex        =   115
+            ToolTipText     =   "Marcado: o cliente não entra nas campanhas de promoção (Financeiro > Promoções por WhatsApp). A cobrança continua."
+            Top             =   4260
+            Width           =   3315
+         End
          Begin VB.CheckBox chkNaoCobrarZap 
             Caption         =   "Não enviar cobrança pelo WhatsApp"
             Height          =   195
@@ -1863,6 +1872,7 @@ ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As Strin
 ByVal nShowCmd As Long) As Long
 Private Const conSwNormal = 1
 Private mColNaoCobrar As Integer   '0 = não verificado, 1 = cliente.NaoCobrarWhatsApp existe (script 184), 2 = não existe
+Private mColNaoPromo As Integer    '0 = não verificado, 1 = cliente.NaoReceberPromocao existe (script 191), 2 = não existe
 
 Private Sub AutoNumeracao()
 Dim sSQL As String
@@ -1883,6 +1893,7 @@ txtEndereco.Text = ""
 txtNum.Text = ""
 chkSN.Value = 0
 chkNaoCobrarZap.Value = vbUnchecked
+chkNaoPromoZap.Value = vbUnchecked
 txtReferencia.Text = ""
 mskTelefone1.Mask = ""
 mskTelefone1.Text = ""
@@ -3299,8 +3310,27 @@ End If
 TemNaoCobrar = (mColNaoCobrar = 1)
 End Function
 
+'Promoções por WhatsApp: cliente.NaoReceberPromocao (script 191)
+Private Function TemNaoPromo() As Boolean
+If mColNaoPromo = 0 Then
+    On Error Resume Next
+    mColNaoPromo = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.cliente', 'NaoReceberPromocao') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then mColNaoPromo = 1
+    Err.Clear
+    On Error GoTo 0
+End If
+TemNaoPromo = (mColNaoPromo = 1)
+End Function
+
 Private Sub LerNaoCobrar(ByVal lCodigo As Long)
 chkNaoCobrarZap.Value = vbUnchecked
+chkNaoPromoZap.Value = vbUnchecked
+If lCodigo <> 0 And TemNaoPromo() Then
+    On Error Resume Next
+    If Val(CStr(SQLExecutaRetorno("SELECT ISNULL(NaoReceberPromocao, 0) AS n FROM cliente WHERE codigo = " & lCodigo, "n", 0))) <> 0 Then chkNaoPromoZap.Value = vbChecked
+    Err.Clear
+    On Error GoTo 0
+End If
 If lCodigo = 0 Or Not TemNaoCobrar() Then Exit Sub
 On Error Resume Next
 If Val(CStr(SQLExecutaRetorno("SELECT ISNULL(NaoCobrarWhatsApp, 0) AS n FROM cliente WHERE codigo = " & lCodigo, "n", 0))) <> 0 Then chkNaoCobrarZap.Value = vbChecked
@@ -3308,6 +3338,12 @@ Err.Clear
 End Sub
 
 Private Sub GravarNaoCobrar(ByVal lCodigo As Long)
+If lCodigo <> 0 And TemNaoPromo() Then
+    On Error Resume Next
+    dbData.Execute "UPDATE cliente SET NaoReceberPromocao = " & IIf(chkNaoPromoZap.Value = vbChecked, 1, 0) & " WHERE codigo = " & lCodigo
+    Err.Clear
+    On Error GoTo 0
+End If
 If lCodigo = 0 Or Not TemNaoCobrar() Then Exit Sub
 On Error Resume Next
 dbData.Execute "UPDATE cliente SET NaoCobrarWhatsApp = " & IIf(chkNaoCobrarZap.Value = vbChecked, 1, 0) & " WHERE codigo = " & lCodigo
@@ -3317,6 +3353,7 @@ End Sub
 Private Sub Form_Load()
 SSTab1.Tab = 0
 chkNaoCobrarZap.Visible = TemNaoCobrar()
+chkNaoPromoZap.Visible = TemNaoPromo()
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 txtCadastro.Text = Format(Date, ocDATA)
 

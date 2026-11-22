@@ -186,3 +186,4 @@
 188|Update_Configuracao_JurosMulta.sql|GERAL
 189|Alter_CobrancaRegra_ListarAVencer.sql|GERAL
 190|Alter_CobrancaConfig_Automatico.sql|GERAL
+191|CreateTables_CampanhaWhatsApp.sql|GERAL

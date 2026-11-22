@@ -548,6 +548,7 @@ End Function
 
 '---------------------------------------------------------------------------
 ' Etapa 2: envio automático (sem tela). OnlineCommerce.exe /cobrancazap pela tarefa agendada
+' Depois das cobranças, a mesma execução envia as promoções na fila (modCampanha.Camp_ProcessarFila).
 ' "OnlineCommerce_CobrancaZap" (a cada 30 minutos), criada SÓ no servidor pelo Tela_Principal.
 ' Só envia com "Envio automático" ligado na Régua, dentro do horário/dias, até o limite do dia e com o
 ' mesmo intervalo aleatório da tela. A lista é a de hoje (COB_FILTRO_HOJE): uma mensagem por cliente por dia.
@@ -555,17 +556,31 @@ End Function
 ' Log em CobrancaZap_log.txt na pasta do sistema.
 '---------------------------------------------------------------------------
 Public Sub ExecutarCobrancaZapAuto()
-Dim cfg As CobConfig, itens() As CobItem, n As Long, i As Long, nProntos As Long
-Dim nOk As Long, nErro As Long, nSeguidos As Long, nRestam As Long, nPulados As Long
-Dim sSit As String, sNum As String, sNome As String, sMsg As String, sErro As String, sFalha As String, sParou As String
+Dim cfg As CobConfig, bPromo As Boolean
 
 On Error GoTo Falha
 If Not EhServidorLocal() Then Exit Sub
 If Not LicTemRecurso("WHATSAPP") Then Exit Sub   'licença sem WhatsApp: sai sem consultar nada
 If Not Cob_BancoPronto() Then Exit Sub
 Cob_LerConfig cfg
-If Not cfg.Automatico Then Exit Sub
 If Not Cob_DentroDoHorario(cfg) Then Exit Sub
+bPromo = Camp_TemPendente()                       'promoções na fila (modCampanha)
+If Not cfg.Automatico And Not bPromo Then Exit Sub
+
+If cfg.Automatico Then Cob_AutoCobrar cfg         'cobranças primeiro (prioridade no horário e no WhatsApp)
+If bPromo Then Camp_ProcessarFila cfg
+Exit Sub
+Falha:
+Cob_Log "Erro: " & Err.Description
+Err.Clear
+End Sub
+
+Private Sub Cob_AutoCobrar(ByRef cfg As CobConfig)
+Dim itens() As CobItem, n As Long, i As Long, nProntos As Long
+Dim nOk As Long, nErro As Long, nSeguidos As Long, nRestam As Long, nPulados As Long
+Dim sSit As String, sNum As String, sNome As String, sMsg As String, sErro As String, sFalha As String, sParou As String
+
+On Error GoTo Falha
 
 nRestam = cfg.LimiteDia - Cob_EnviadosHoje()
 If nRestam <= 0 Then
@@ -654,7 +669,7 @@ dbData.Execute "UPDATE CobrancaConfig SET AutoUltimaExecucao = GETDATE(), AutoUl
 Err.Clear
 End Sub
 
-Private Sub Cob_Log(ByVal sMsg As String)
+Public Sub Cob_Log(ByVal sMsg As String)
 Dim nLog As Integer
 On Error Resume Next
 nLog = FreeFile
@@ -849,7 +864,7 @@ Next
 End Sub
 
 '"1F44B" / "26A0+FE0F" -> caracteres (acima de FFFF vira par UTF-16, pelo PDFZap_Emoji)
-Private Function Cob_Emoji(ByVal sCodigos As String) As String
+Public Function Cob_Emoji(ByVal sCodigos As String) As String
 Dim p() As String, i As Long, n As Long
 
 p = Split(sCodigos, "+")
@@ -863,7 +878,7 @@ For i = 0 To UBound(p)
 Next
 End Function
 
-Private Function Cob_PrimeiroNome(ByVal s As String) As String
+Public Function Cob_PrimeiroNome(ByVal s As String) As String
 s = Trim$(s)
 If InStr(s, " ") > 0 Then s = Left$(s, InStr(s, " ") - 1)
 Cob_PrimeiroNome = StrConv(s, vbProperCase)
