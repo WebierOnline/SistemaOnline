@@ -871,6 +871,13 @@ If Not LicTemRecurso("WHATSAPP") Then
     Unload Me
     Exit Sub
 End If
+If Not EhServidorLocal() Then
+    MsgBox "As campanhas de promoção são criadas só no computador servidor (onde fica o banco de dados)." & vbCrLf & vbCrLf & _
+           "O arquivo da campanha (imagem, vídeo ou PDF) fica na pasta Campanhas do sistema, no servidor, " & _
+           "e é apagado ao cancelar ou excluir a campanha.", vbExclamation, TITULO
+    Unload Me
+    Exit Sub
+End If
 Me.MousePointer = vbHourglass
 CarregarCombos
 txtLimite.Text = Camp_LimiteDia()

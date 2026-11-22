@@ -188,3 +188,4 @@
 190|Alter_CobrancaConfig_Automatico.sql|GERAL
 191|CreateTables_CampanhaWhatsApp.sql|GERAL
 192|Alter_Campanha_RodapeSair.sql|GERAL
+193|Alter_Campanha_SemArquivo.sql|GERAL

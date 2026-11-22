@@ -7,7 +7,8 @@ Option Explicit
 '   limite próprio por dia (CobrancaConfig.PromoLimiteDia, padrão 40), depois das cobranças (prioridade),
 '   no horário/dias da Régua de cobrança, intervalo aleatório, uma promoção por cliente por dia e nunca no
 '   mesmo dia de uma cobrança. Texto com variações {Olá|Oi} e rodapé de opt-out opcional (Campanha.RodapeSair, script 192).
-'   Arquivo (imagem, vídeo ou PDF) fica no banco (Campanha.Arquivo) para o servidor ler de qualquer máquina.
+'   Só no servidor: o arquivo (imagem, vídeo ou PDF) é copiado para <pasta do sistema>\Campanhas\<nome da campanha>\
+'   (Campanha.ArquivoNome guarda esse caminho relativo) e a pasta é apagada ao cancelar ou excluir a campanha.
 '   cliente.NaoReceberPromocao: quem não quer promoções (a cobrança continua).
 '---------------------------------------------------------------------------
 
@@ -314,6 +315,7 @@ Public Function Camp_Salvar(ByVal sNome As String, ByVal sMsg As String, ByVal n
                             ByVal vAgendada As Variant, ByVal sPublico As String, ByRef Cods() As Long, ByRef Cels() As String, _
                             ByVal nQtd As Long, ByRef sErro As String, Optional ByVal bRodape As Boolean = False) As Long
 Dim r As ADODB.Recordset, lId As Long, i As Long, s As String, nLote As Long, bTrans As Boolean, sUsuario As String, sAgenda As String
+Dim sPastaCriada As String
 
 On Error Resume Next
 sUsuario = Trim$(Tela_Principal.txtCodFuncionario.Text)
@@ -324,7 +326,7 @@ dbData.Execute "BEGIN TRANSACTION"
 bTrans = True
 Set r = dbData.OpenRecordset("INSERT INTO Campanha (Nome, Mensagem, TipoMidia, ArquivoNome, Publico, AgendadaPara, Situacao, Usuario) " & _
     "OUTPUT INSERTED.Id VALUES (" & Cob_Q(Left$(sNome, 100)) & ", " & Cob_Q(Left$(sMsg, 2000)) & ", " & nTipo & ", " & _
-    IIf(Len(sArquivo) > 0, Cob_Q(Left$(Mid$(sArquivo, InStrRev(sArquivo, "\") + 1), 200)), "NULL") & ", " & _
+    "NULL, " & _
     Cob_Q(Left$(sPublico, 1000)) & ", " & sAgenda & ", " & _
     CAMP_NA_FILA & ", " & Cob_Q(Left$(sUsuario, 50)) & ")")
 If Not r.EOF Then lId = r(0)
@@ -333,7 +335,9 @@ If lId = 0 Then Err.Raise vbObjectError + 1, , "O banco não devolveu o número da
 
 If bRodape And Camp_TemRodape() Then dbData.Execute "UPDATE Campanha SET RodapeSair = 1 WHERE Id = " & lId
 If Len(sArquivo) > 0 Then
-    dbData.Execute "UPDATE Campanha SET Arquivo = 0x" & Camp_HexArquivo(sArquivo) & " WHERE Id = " & lId
+    s = Camp_CopiarArquivo(sArquivo, sNome, sPastaCriada)
+    dbData.Execute "UPDATE Campanha SET ArquivoNome = " & Cob_Q(s) & " WHERE Id = " & lId
+    s = ""
 End If
 
 'Destinatários em lotes de 500 linhas por INSERT
@@ -353,51 +357,146 @@ sErro = Err.Description
 Err.Clear
 On Error Resume Next
 If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
+If Len(sPastaCriada) > 0 Then Camp_ApagarPasta sPastaCriada
 Err.Clear
 End Function
 
-'Arquivo em hexadecimal (para 0x... no SQL), pelo MSXML (rápido mesmo com 15 MB)
-Private Function Camp_HexArquivo(ByVal sArquivo As String) As String
-Dim b() As Byte, f As Integer, x As Object, e As Object
-
-f = FreeFile
-Open sArquivo For Binary Access Read As #f
-ReDim b(0 To LOF(f) - 1)
-Get #f, , b
-Close #f
-Set x = CreateObject("MSXML2.DOMDocument")
-Set e = x.createElement("h")
-e.dataType = "bin.hex"
-e.nodeTypedValue = b
-Camp_HexArquivo = e.Text
+'---------------------------------------------------------------------------
+' Arquivo da campanha: <pasta do sistema>\Campanhas\<nome da campanha>\<arquivo> (só no servidor)
+'---------------------------------------------------------------------------
+Private Function Camp_PastaSistema() As String
+Camp_PastaSistema = appPathApp
+If Right$(Camp_PastaSistema, 1) <> "\" Then Camp_PastaSistema = Camp_PastaSistema & "\"
 End Function
 
-'Grava o arquivo da campanha na pasta temporária (o envio precisa de um arquivo). "" se não tiver.
-Public Function Camp_ArquivoTemp(ByVal lCampanha As Long) As String
-Dim r As ADODB.Recordset, b() As Byte, sPasta As String, sArq As String, f As Integer
+'Nome da campanha sem os caracteres que o Windows não aceita em nome de pasta
+Private Function Camp_NomePasta(ByVal sNome As String) As String
+Dim i As Long, c As String, s As String
 
-On Error GoTo Falha
-Set r = dbData.OpenRecordset("SELECT ArquivoNome, Arquivo FROM Campanha WHERE Id = " & lCampanha)
-If r.EOF Then r.Close: Exit Function
-'ArquivoNome antes do Arquivo (campo grande por último, como no SELECT)
-sArq = "" & r("ArquivoNome")
-If Len(sArq) = 0 Or IsNull(r("Arquivo")) Then r.Close: Exit Function
-b = r("Arquivo").Value
+For i = 1 To Len(sNome)
+    c = Mid$(sNome, i, 1)
+    If InStr("\/:*?""<>|", c) > 0 Or Asc(c) < 32 Then c = " "
+    s = s & c
+Next
+s = Trim$(s)
+Do While InStr(s, "  ") > 0
+    s = Replace(s, "  ", " ")
+Loop
+If Len(s) > 60 Then s = Trim$(Left$(s, 60))
+Do While Right$(s, 1) = "."      'o Windows não aceita pasta terminada em ponto
+    s = Trim$(Left$(s, Len(s) - 1))
+Loop
+Select Case UCase$(s)
+    Case "CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "LPT1", "LPT2", "LPT3": s = s & "_"
+End Select
+If Len(s) = 0 Then s = "Campanha"
+Camp_NomePasta = s
+End Function
+
+'Copia o arquivo para Campanhas\<nome da campanha>\ (outra campanha com o mesmo nome: "<nome> (2)").
+'Devolve o caminho relativo à pasta do sistema (vai para Campanha.ArquivoNome). Erro sobe para Camp_Salvar.
+Private Function Camp_CopiarArquivo(ByVal sArquivo As String, ByVal sNomeCampanha As String, ByRef sPastaCriada As String) As String
+Dim sRaiz As String, sPasta As String, sBase As String, sArq As String, n As Long
+
+sRaiz = Camp_PastaSistema()
+If Len(Dir$(sRaiz & "Campanhas", vbDirectory)) = 0 Then MkDir sRaiz & "Campanhas"
+sBase = "Campanhas\" & Camp_NomePasta(sNomeCampanha)
+sPasta = sBase
+n = 1
+Do While Len(Dir$(sRaiz & sPasta, vbDirectory)) > 0
+    n = n + 1
+    sPasta = sBase & " (" & n & ")"
+Loop
+MkDir sRaiz & sPasta
+sPastaCriada = sRaiz & sPasta
+sArq = Mid$(sArquivo, InStrRev(sArquivo, "\") + 1)
+If Len(sPasta) + 1 + Len(sArq) > 200 And InStrRev(sArq, ".") > 0 Then sArq = "arquivo" & Mid$(sArq, InStrRev(sArq, "."))
+FileCopy sArquivo, sRaiz & sPasta & "\" & sArq
+SetAttr sRaiz & sPasta & "\" & sArq, vbNormal      'cópia de arquivo somente leitura não impediria apagar depois
+Camp_CopiarArquivo = sPasta & "\" & sArq
+End Function
+
+'Caminho completo do arquivo da campanha no servidor ("" se não tiver ou se não estiver mais na pasta)
+Public Function Camp_CaminhoArquivo(ByVal lCampanha As Long) As String
+Dim s As String
+
+s = Camp_ArquivoRelativo(lCampanha)
+If Not Camp_RelativoValido(s) Then Exit Function
+s = Camp_PastaSistema() & s
+On Error Resume Next
+If Len(Dir$(s)) > 0 Then Camp_CaminhoArquivo = s
+Err.Clear
+End Function
+
+Private Function Camp_ArquivoRelativo(ByVal lCampanha As Long) As String
+Dim r As ADODB.Recordset
+
+On Error Resume Next
+Set r = dbData.OpenRecordset("SELECT ArquivoNome FROM Campanha WHERE Id = " & lCampanha)
+If Not r.EOF Then Camp_ArquivoRelativo = "" & r("ArquivoNome")
 r.Close
-sPasta = Environ$("TEMP")
-If Len(sPasta) = 0 Then sPasta = appPathApp
-If Right$(sPasta, 1) <> "\" Then sPasta = sPasta & "\"
-sPasta = sPasta & "oc_campanha_" & lCampanha & "\"
-If Len(Dir$(sPasta, vbDirectory)) = 0 Then MkDir sPasta
-sArq = sPasta & sArq
-If Len(Dir$(sArq)) > 0 Then Kill sArq
-f = FreeFile
-Open sArq For Binary Access Write As #f
-Put #f, , b
-Close #f
-Camp_ArquivoTemp = sArq
+Err.Clear
+End Function
+
+'Só Campanhas\<pasta>\<arquivo> (nunca apaga nada fora da pasta Campanhas)
+Private Function Camp_RelativoValido(ByVal s As String) As Boolean
+If InStr(1, s, "Campanhas\", vbTextCompare) <> 1 Then Exit Function
+If InStr(s, "..") > 0 Or InStr(s, ":") > 0 Then Exit Function
+Camp_RelativoValido = (UBound(Split(s, "\")) = 2)
+End Function
+
+'Apaga a pasta da campanha (ao cancelar ou excluir). Arquivo em uso no momento: fica e não dá erro.
+Public Sub Camp_ApagarArquivo(ByVal lCampanha As Long)
+Dim s As String
+
+s = Camp_ArquivoRelativo(lCampanha)
+If Not Camp_RelativoValido(s) Then Exit Sub
+Camp_ApagarPasta Camp_PastaSistema() & Left$(s, InStrRev(s, "\") - 1)
+End Sub
+
+Private Sub Camp_ApagarPasta(ByVal sPasta As String)
+Dim sArq As String, Nomes() As String, n As Long, i As Long
+
+On Error Resume Next
+If InStr(1, sPasta, Camp_PastaSistema() & "Campanhas\", vbTextCompare) <> 1 Then Exit Sub
+If Len(Dir$(sPasta, vbDirectory)) = 0 Then Exit Sub
+ReDim Nomes(0)
+sArq = Dir$(sPasta & "\*.*", vbNormal + vbHidden + vbReadOnly + vbSystem)
+Do While Len(sArq) > 0
+    n = n + 1
+    ReDim Preserve Nomes(n)
+    Nomes(n) = sArq
+    sArq = ""
+    sArq = Dir$
+Loop
+For i = 1 To n
+    SetAttr sPasta & "\" & Nomes(i), vbNormal
+    Kill sPasta & "\" & Nomes(i)
+Next
+RmDir sPasta
+Err.Clear
+End Sub
+
+'Exclui a campanha (histórico dos clientes junto) e apaga a pasta do arquivo
+Public Function Camp_Excluir(ByVal lCampanha As Long, ByRef sErro As String) As Boolean
+Dim s As String, bTrans As Boolean
+
+s = Camp_ArquivoRelativo(lCampanha)
+On Error GoTo Falha
+dbData.Execute "BEGIN TRANSACTION"
+bTrans = True
+dbData.Execute "DELETE FROM CampanhaDestinatario WHERE CodCampanha = " & lCampanha
+dbData.Execute "DELETE FROM Campanha WHERE Id = " & lCampanha
+dbData.Execute "COMMIT TRANSACTION"
+bTrans = False
+If Camp_RelativoValido(s) Then Camp_ApagarPasta Camp_PastaSistema() & Left$(s, InStrRev(s, "\") - 1)
+Camp_Excluir = True
 Exit Function
 Falha:
+sErro = Err.Description
+Err.Clear
+On Error Resume Next
+If bTrans Then dbData.Execute "ROLLBACK TRANSACTION"
 Err.Clear
 End Function
 
@@ -453,6 +552,7 @@ dbData.Execute "UPDATE Campanha SET Situacao = " & nSituacao & IIf(nSituacao = C
 If nSituacao = CAMP_CANCELADA Then
     dbData.Execute "UPDATE CampanhaDestinatario SET Situacao = " & CAMP_DEST_PULADA & ", Erro = N'Campanha cancelada' " & _
         "WHERE CodCampanha = " & lCampanha & " AND Situacao = " & CAMP_DEST_AGUARDANDO
+    Camp_ApagarArquivo lCampanha
 End If
 Camp_MudarSituacao = True
 Exit Function
@@ -519,11 +619,11 @@ Do While nOk + nErro < nRestam
         nPuladas = nPuladas + 1
     Else
         If nTipo <> CAMP_SO_TEXTO And lCamp <> lCampArq Then
-            sArq = Camp_ArquivoTemp(lCamp)
+            sArq = Camp_CaminhoArquivo(lCamp)
             lCampArq = lCamp
         End If
         If nTipo <> CAMP_SO_TEXTO And Len(sArq) = 0 Then
-            Camp_MarcarDestinatario lDest, CAMP_DEST_ERRO, "Arquivo da campanha não encontrado no banco"
+            Camp_MarcarDestinatario lDest, CAMP_DEST_ERRO, "Arquivo da campanha não encontrado na pasta Campanhas do servidor"
             nErro = nErro + 1
         Else
             'intervalo antes de toda promoção (inclusive a primeira: as cobranças podem ter acabado de sair)

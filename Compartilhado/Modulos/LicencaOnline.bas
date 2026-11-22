@@ -508,7 +508,11 @@ Private Function LicHttpEnviar(ByVal Metodo As String, ByVal Url As String, ByVa
    etapa = "criar"
    Set x = LicCriarHttp()
    If x Is Nothing Then LicErroHttp = "MSXML2.ServerXMLHTTP indisponível": Exit Function
-   x.setTimeouts 3000, 4000, 8000, 15000
+   If mLimiteEspera > 30 Then
+      x.setTimeouts 3000, 4000, mLimiteEspera * 1000&, mLimiteEspera * 1000&   'envio com arquivo grande (ZapOnlineEnviar)
+   Else
+      x.setTimeouts 3000, 4000, 8000, 15000
+   End If
    etapa = "abrir"
    'Assíncrono: enquanto espera, a tela continua respondendo (não parece travada).
    x.Open Metodo, Url, Assincrono
@@ -1591,7 +1595,7 @@ End Function
 Public Function ZapOnlineEnviar(ByVal Numero As String, ByVal Texto As String, ByVal Arquivo As String, _
                                 ByRef Msg As String) As Boolean
    On Error GoTo Falha
-   Dim cnpj As String, chave As String, base As String, resp As String, corpo As String, b64 As String
+   Dim cnpj As String, chave As String, base As String, resp As String, corpo As String, b64 As String, nEsperaAnt As Long
 
    If Len(LicSoDigitos(Numero)) < 10 Then
       Msg = "Informe o celular com DDD."
@@ -1617,10 +1621,18 @@ Public Function ZapOnlineEnviar(ByVal Numero As String, ByVal Texto As String, B
    corpo = corpo & "}"
 
    If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   'Com arquivo (vídeo de até 15 MB = ~20 MB em base64) o upload demora: espera 30 s + 10 s por MB (máx. 5 min)
+   nEsperaAnt = mLimiteEspera
+   If Len(Arquivo) > 0 Then
+      mLimiteEspera = 30 + (FileLen(Arquivo) \ 1048576) * 10
+      If mLimiteEspera > 300 Then mLimiteEspera = 300
+   End If
    ZapOnlineEnviar = ZapOnlineChamar("POST", base & "/whatsapp/enviar", corpo, chave, resp, Msg)
+   mLimiteEspera = nEsperaAnt
    Exit Function
 Falha:
    Msg = "Falha ao enviar pelo WhatsApp: " & Err.Description
+   mLimiteEspera = nEsperaAnt
 End Function
 
 '200 = True. Senão Msg com o motivo (a "mensagem" do servidor quando vier).

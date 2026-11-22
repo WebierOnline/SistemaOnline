@@ -188,6 +188,43 @@ Begin VB.Form frmCampanhaLista
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
+   Begin ChamaleonBtn.chameleonButton cmdExcluir 
+      Height          =   375
+      Left            =   5640
+      TabIndex        =   9
+      Top             =   4110
+      Width           =   1695
+      _ExtentX        =   2990
+      _ExtentY        =   661
+      BTYPE           =   3
+      TX              =   "&Excluir campanha"
+      ENAB            =   -1  'True
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
    Begin VB.Label lblDest 
       Caption         =   "Clientes da campanha:"
       Height          =   255
@@ -257,7 +294,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 'Acompanhamento das campanhas de promoção (modCampanha): andamento de cada campanha, clientes e erros,
-'pausar / retomar / cancelar (o servidor obedece antes da próxima mensagem).
+'pausar / retomar / cancelar (o servidor obedece antes da próxima mensagem) e excluir.
+'Cancelar ou excluir apaga a pasta do arquivo (<pasta do sistema>\Campanhas\<nome da campanha>).
 
 Private Const TITULO As String = "Promoções por WhatsApp"
 Private mSemEvento As Boolean
@@ -417,6 +455,7 @@ If CampanhaAtual() > 0 Then s = grdCamp.TextMatrix(grdCamp.Row, 5)
 cmdPausar.Enabled = (s = Camp_SituacaoTexto(CAMP_NA_FILA))
 cmdRetomar.Enabled = (s = Camp_SituacaoTexto(CAMP_PAUSADA))
 cmdCancelar.Enabled = (s = Camp_SituacaoTexto(CAMP_NA_FILA) Or s = Camp_SituacaoTexto(CAMP_PAUSADA))
+cmdExcluir.Enabled = (Len(s) > 0)
 End Sub
 
 Private Sub grdCamp_RowColChange()
@@ -433,7 +472,28 @@ End Sub
 
 Private Sub cmdCancelar_Click()
 Mudar CAMP_CANCELADA, "Cancelar a campanha nº " & CampanhaAtual() & "?" & vbCrLf & vbCrLf & _
-                      "Quem ainda não recebeu não vai receber. Não dá para desfazer."
+                      "Quem ainda não recebeu não vai receber e o arquivo da campanha é apagado da pasta Campanhas. Não dá para desfazer."
+End Sub
+
+Private Sub cmdExcluir_Click()
+Dim lId As Long, s As String, sErro As String
+
+lId = CampanhaAtual()
+If lId = 0 Then Exit Sub
+s = grdCamp.TextMatrix(grdCamp.Row, 5)
+If s = Camp_SituacaoTexto(CAMP_NA_FILA) Or s = Camp_SituacaoTexto(CAMP_PAUSADA) Then
+    s = "A campanha ainda não terminou: quem não recebeu não vai receber." & vbCrLf & vbCrLf
+Else
+    s = ""
+End If
+If MsgBox("Excluir a campanha nº " & lId & " (" & grdCamp.TextMatrix(grdCamp.Row, 1) & ")?" & vbCrLf & vbCrLf & s & _
+          "Apaga a campanha, a lista de clientes com o histórico de envio e o arquivo da pasta Campanhas. " & _
+          "Não dá para desfazer.", vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
+If Not Camp_Excluir(lId, sErro) Then
+    MsgBox "Não foi possível excluir a campanha." & vbCrLf & vbCrLf & sErro, vbExclamation, TITULO
+    Exit Sub
+End If
+Carregar 0
 End Sub
 
 Private Sub Mudar(ByVal nSit As Integer, ByVal sConfirma As String)
