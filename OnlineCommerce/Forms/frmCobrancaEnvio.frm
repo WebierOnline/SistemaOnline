@@ -1140,7 +1140,7 @@ End Sub
 Private Sub cmdEnviar_Click()
 Dim r As Long, i As Long, n As Long, nOk As Long, nErro As Long, nFeitos As Long
 Dim nRestam As Long, nSeg As Long, sMsg As String, sNum As String, sNome As String, sSit As String
-Dim marcados() As Long, bForaHorario As Boolean, sHora As String
+Dim marcados() As Long, bForaHorario As Boolean
 
 'Marcados
 ReDim marcados(0)
@@ -1171,10 +1171,7 @@ If n > nRestam Then
 End If
 
 'Horário e dia da semana
-sHora = Format$(Now, "hh:mm")
-bForaHorario = (sHora < Cob_Hora(mCfg.HoraInicio) Or sHora > Cob_Hora(mCfg.HoraFim))
-If Weekday(Date) = vbSaturday And Not mCfg.EnviarSabado Then bForaHorario = True
-If Weekday(Date) = vbSunday And Not mCfg.EnviarDomingo Then bForaHorario = True
+bForaHorario = Not Cob_DentroDoHorario(mCfg)
 If bForaHorario Then
     If MsgBox("Agora está fora do horário/dia de envio configurado (" & mCfg.HoraInicio & " às " & mCfg.HoraFim & ")." & vbCrLf & vbCrLf & _
               "Enviar mesmo assim?", vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
@@ -1211,8 +1208,13 @@ For r = 1 To n
     grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Enviando..."
     DoEvents
 
-    If Cob_Enviar(mItens(i), mCfg, True, sMsg) Then
+    If Not Cob_Atualizar(mItens(i), (chkJuros.Value = vbChecked)) Then
+        'pagou, ou o automático (servidor) cobrou, depois que a lista foi montada: não envia
+        grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = mItens(i).Motivo
+        PintarLinha marcados(r), &H808080
+    ElseIf Cob_Enviar(mItens(i), mCfg, True, sMsg) Then
         nOk = nOk + 1
+        grdEnvio.TextMatrix(marcados(r), C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")   'valor enviado (recalculado na hora)
         grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Enviada " & Format$(Now, "hh:mm")
         PintarLinha marcados(r), &H8000&
     Else

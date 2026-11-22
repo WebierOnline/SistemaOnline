@@ -1333,6 +1333,7 @@ If EhServidorLocal() Then
    RegistrarTarefaExportarXMLServidor
    RegistrarTarefaResumoFiscal
    RegistrarTarefaMonitorNFe
+   RegistrarTarefaCobrancaZap
    VerificarAtualizacaoIBPT
    AtualizarAliquotasDaNuvem       'aliquotas CBS/IBS publicadas na nuvem (1 checagem por dia, silencioso): so o servidor baixa; ficam no banco para todos
 End If
@@ -2387,6 +2388,31 @@ Dim vExe As String
    If vExitCode <> 0 Then
       vComando = "schtasks /Create /TN ""OnlineCommerce_MonitorNFe"" /TR " & vExe & " /SC HOURLY /F"
       vShell.Run vComando, 0, True
+   End If
+End Sub
+
+'Cobranca automatica por WhatsApp (modCobranca.ExecutarCobrancaZapAuto): roda o proprio sistema com /cobrancazap a cada
+'30 minutos, so no servidor. So envia com "Envio automatico" ligado na Regua, dentro do horario e dos dias configurados.
+'Sem o recurso WHATSAPP na licenca a tarefa nem e criada (e e removida se existir).
+Private Sub RegistrarTarefaCobrancaZap()
+On Error Resume Next
+Dim vShell As Object
+Dim vExitCode As Long
+Dim vComando As String
+Dim vExe As String
+
+   Set vShell = CreateObject("WScript.Shell")
+   vExe = """\""" & appPathApp & appEXEName & "\"" /cobrancazap"""
+
+   vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_CobrancaZap""", 0, True)
+   If LicTemRecurso("WHATSAPP") Then
+      If vExitCode <> 0 Then
+         vComando = "schtasks /Create /TN ""OnlineCommerce_CobrancaZap"" /TR " & vExe & " /SC MINUTE /MO 30 /F"
+         vShell.Run vComando, 0, True
+      End If
+   ElseIf vExitCode = 0 Then
+      'sem o WhatsApp no plano/adicionais da licença: não deixa a tarefa rodando à toa
+      vShell.Run "schtasks /Delete /TN ""OnlineCommerce_CobrancaZap"" /F", 0, True
    End If
 End Sub
 

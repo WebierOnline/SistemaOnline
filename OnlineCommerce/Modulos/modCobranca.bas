@@ -61,6 +61,8 @@ Public Type CobConfig
     EnviarDomingo As Boolean
     ChavePix As String
     Automatico As Boolean
+    AutoJuros As Boolean         'automático cobra multa + juros (script 190)
+    AutoResumoCelular As String  'celular que recebe o resumo de cada execução automática ("" = não envia)
 End Type
 
 'Tabelas do script 184 existem?
@@ -82,6 +84,7 @@ c.HoraInicio = "08:00": c.HoraFim = "18:00"
 c.LimiteDia = 50: c.IntervaloMin = 30: c.IntervaloMax = 60
 c.EnviarSabado = False: c.EnviarDomingo = False
 c.ChavePix = "": c.Automatico = False
+c.AutoJuros = True: c.AutoResumoCelular = ""
 On Error GoTo Fim
 Set r = dbData.OpenRecordset("SELECT * FROM CobrancaConfig WHERE Id = 1")
 If Not r.EOF Then
@@ -94,6 +97,10 @@ If Not r.EOF Then
     c.EnviarDomingo = CBool(r("EnviarDomingo"))
     c.ChavePix = Trim$("" & r("ChavePix"))
     c.Automatico = CBool(r("Automatico"))
+    If Cob_TemColunasAuto() Then
+        c.AutoJuros = CBool(r("AutoJuros"))
+        c.AutoResumoCelular = Trim$("" & r("AutoResumoCelular"))
+    End If
 End If
 If c.IntervaloMin < COB_INTERVALO_MIN Then c.IntervaloMin = COB_INTERVALO_MIN
 If c.IntervaloMax < c.IntervaloMin Then c.IntervaloMax = c.IntervaloMin
@@ -107,7 +114,9 @@ On Error GoTo Falha
 dbData.Execute "UPDATE CobrancaConfig SET HoraInicio = '" & Cob_Hora(c.HoraInicio) & "', HoraFim = '" & Cob_Hora(c.HoraFim) & "', " & _
     "LimiteDia = " & c.LimiteDia & ", IntervaloMin = " & c.IntervaloMin & ", IntervaloMax = " & c.IntervaloMax & ", " & _
     "EnviarSabado = " & IIf(c.EnviarSabado, 1, 0) & ", EnviarDomingo = " & IIf(c.EnviarDomingo, 1, 0) & ", " & _
-    "ChavePix = " & IIf(Len(c.ChavePix) = 0, "NULL", Cob_Q(c.ChavePix)) & " WHERE Id = 1"
+    "ChavePix = " & IIf(Len(c.ChavePix) = 0, "NULL", Cob_Q(c.ChavePix)) & ", Automatico = " & IIf(c.Automatico, 1, 0) & _
+    IIf(Cob_TemColunasAuto(), ", AutoJuros = " & IIf(c.AutoJuros, 1, 0) & ", AutoResumoCelular = " & _
+        IIf(Len(c.AutoResumoCelular) = 0, "NULL", Cob_Q(Left$(c.AutoResumoCelular, 20))), "") & " WHERE Id = 1"
 Cob_SalvarConfig = True
 Exit Function
 Falha:
@@ -177,10 +186,11 @@ End Function
 ' Quem recebe cobrança em dHoje. Devolve a quantidade (Itens(1..n)); inclui os que não podem receber, com o Motivo.
 ' nFiltro: COB_FILTRO_HOJE (só quem recebe hoje) ou A_VENCER / VENCENDO / VENCIDO (o cliente entra pela parcela mais
 ' atrasada dele; quem não tem envio hoje vem com CodRegra = 0, a regra prevista e o Motivo "Sem envio hoje (próximo em ...)").
+' lSoCliente: só esse cliente (Cob_Atualizar, logo antes de enviar).
 ' bJuros = soma multa + juros do atraso (Configuração Geral: MULTA, JUROS_DIA e TIPO_JUROS) no valor de cada parcela vencida.
 '---------------------------------------------------------------------------
 Public Function Cob_Pendentes(ByVal dHoje As Date, ByRef Itens() As CobItem, Optional ByVal bJuros As Boolean = False, _
-                              Optional ByVal nFiltro As Integer = COB_FILTRO_HOJE) As Long
+                              Optional ByVal nFiltro As Integer = COB_FILTRO_HOJE, Optional ByVal lSoCliente As Long = 0) As Long
 Dim rs As ADODB.Recordset
 Dim nR As Long, i As Long, n As Long
 Dim rId() As Long, rDesc() As String, rSit() As Integer, rDias() As Long, rRep() As Long, rMax() As Long, rMsg() As String
@@ -249,7 +259,7 @@ Set rs = dbData.OpenRecordset("SELECT p.CODIGO, p.COD_PEDIDO, ISNULL(p.COD_OS, 0
     "p.VALOR AS VALOR_PARC, p.VALOR - ISNULL((SELECT SUM(h.valor_haver) FROM parcelas_haver h WHERE h.cod_parcela = p.CODIGO), 0) AS SALDO, " & _
     "c.CODIGO AS COD_CLIENTE, c.NOME, ISNULL(c.NaoCobrarWhatsApp, 0) AS NAO_COBRAR " & _
     "FROM parcelas p INNER JOIN pedidos pe ON pe.COD_PEDIDO = p.COD_PEDIDO INNER JOIN cliente c ON c.CODIGO = pe.COD_CLIENTE " & _
-    "WHERE p.STATUS = 0 " & _
+    "WHERE p.STATUS = 0 " & IIf(lSoCliente > 0, "AND c.CODIGO = " & lSoCliente & " ", "") & _
     "ORDER BY c.CODIGO, p.DATA, p.CODIGO")
 
 cliAtual = -1
@@ -476,9 +486,203 @@ Fechar:
     Return
 
 Falha:
-MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Cobrança por WhatsApp"
+If gModoAutomatico Then
+    Cob_Log "Erro ao montar a lista: " & Err.Description   'sem tela: MsgBox travaria a tarefa agendada
+Else
+    MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Cobrança por WhatsApp"
+End If
 Err.Clear
 Cob_Pendentes = n
+End Function
+
+'Cliente já recebeu cobrança hoje? (rechecado antes de cada envio: a tela e o automático podem estar enviando juntos)
+Public Function Cob_RecebeuHoje(ByVal lCodCliente As Long) As Boolean
+On Error Resume Next
+Cob_RecebeuHoje = (Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) AS n FROM CobrancaEnvio WHERE Situacao = 1 AND CodCliente = " & lCodCliente & _
+    " AND DataHora >= '" & Format$(Date, "yyyymmdd") & "'", "n", 0))) > 0)
+Err.Clear
+End Function
+
+'Logo antes de enviar: refaz a cobrança do cliente com os dados de AGORA (pagamento ou baixa parcial feitos depois
+'que a lista foi montada, envio pela outra tela/automático). Devolve False (com o Motivo) se não há mais o que enviar;
+'senão atualiza valor, parcelas e mensagem do item.
+Public Function Cob_Atualizar(ByRef it As CobItem, ByVal bJuros As Boolean) As Boolean
+Dim novo() As CobItem, n As Long
+
+n = Cob_Pendentes(Date, novo, bJuros, COB_FILTRO_HOJE, it.CodCliente)
+If n < 1 Then
+    it.Motivo = "Sem cobrança para hoje agora (parcela paga?)"
+    Exit Function
+End If
+If Len(novo(1).Motivo) > 0 Then
+    it.Motivo = novo(1).Motivo
+    Exit Function
+End If
+it = novo(1)
+Cob_Atualizar = True
+End Function
+
+'Agora está dentro do horário e dos dias de envio da configuração?
+Public Function Cob_DentroDoHorario(ByRef cfg As CobConfig) As Boolean
+Dim sHora As String
+
+sHora = Format$(Now, "hh:mm")
+If sHora < Cob_Hora(cfg.HoraInicio) Or sHora > Cob_Hora(cfg.HoraFim) Then Exit Function
+If Weekday(Date) = vbSaturday And Not cfg.EnviarSabado Then Exit Function
+If Weekday(Date) = vbSunday And Not cfg.EnviarDomingo Then Exit Function
+Cob_DentroDoHorario = True
+End Function
+
+'Colunas do script 190 (opções e situação do envio automático) existem?
+Public Function Cob_TemColunasAuto() As Boolean
+Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+
+If nTem = 0 Then
+    On Error Resume Next
+    nTem = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.CobrancaConfig', 'AutoUltimoErro') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then nTem = 1
+    Err.Clear
+End If
+Cob_TemColunasAuto = (nTem = 1)
+End Function
+
+'---------------------------------------------------------------------------
+' Etapa 2: envio automático (sem tela). OnlineCommerce.exe /cobrancazap pela tarefa agendada
+' "OnlineCommerce_CobrancaZap" (a cada 30 minutos), criada SÓ no servidor pelo Tela_Principal.
+' Só envia com "Envio automático" ligado na Régua, dentro do horário/dias, até o limite do dia e com o
+' mesmo intervalo aleatório da tela. A lista é a de hoje (COB_FILTRO_HOJE): uma mensagem por cliente por dia.
+' WhatsApp desconectado / fora do plano / 3 erros seguidos: para e grava o motivo (alerta no popup de avisos).
+' Log em CobrancaZap_log.txt na pasta do sistema.
+'---------------------------------------------------------------------------
+Public Sub ExecutarCobrancaZapAuto()
+Dim cfg As CobConfig, itens() As CobItem, n As Long, i As Long, nProntos As Long
+Dim nOk As Long, nErro As Long, nSeguidos As Long, nRestam As Long, nPulados As Long
+Dim sSit As String, sNum As String, sNome As String, sMsg As String, sErro As String, sFalha As String, sParou As String
+
+On Error GoTo Falha
+If Not EhServidorLocal() Then Exit Sub
+If Not LicTemRecurso("WHATSAPP") Then Exit Sub   'licença sem WhatsApp: sai sem consultar nada
+If Not Cob_BancoPronto() Then Exit Sub
+Cob_LerConfig cfg
+If Not cfg.Automatico Then Exit Sub
+If Not Cob_DentroDoHorario(cfg) Then Exit Sub
+
+nRestam = cfg.LimiteDia - Cob_EnviadosHoje()
+If nRestam <= 0 Then
+    Cob_AutoSituacao "Limite de " & cfg.LimiteDia & " mensagens do dia já atingido.", ""
+    Exit Sub
+End If
+
+Cob_GarantirRegrasPadrao
+n = Cob_Pendentes(Date, itens, cfg.AutoJuros, COB_FILTRO_HOJE)
+For i = 1 To n
+    If Len(itens(i).Motivo) = 0 Then nProntos = nProntos + 1
+Next
+If nProntos = 0 Then
+    Cob_AutoSituacao "Nenhuma cobrança para enviar agora.", ""
+    Exit Sub
+End If
+
+'WhatsApp da empresa (no plano e conectado)?
+sSit = ZapOnlineSituacao(sNum, sNome, sMsg)
+If sSit <> "conectado" Then
+    If sSit = "" Then sFalha = sMsg Else sFalha = "O WhatsApp da empresa não está conectado (Sistema > WhatsApp)."
+    sFalha = Replace(sFalha, vbCrLf, " ")
+    Cob_Log nProntos & " cobrança(s) não enviada(s): " & sFalha
+    Cob_AutoSituacao nProntos & " cobrança(s) aguardando envio.", sFalha
+    Exit Sub
+End If
+
+Cob_Log "Início: " & nProntos & " cobrança(s) para enviar (limite restante hoje: " & nRestam & ")."
+For i = 1 To n
+    If Len(itens(i).Motivo) = 0 Then
+        If nOk + nErro >= nRestam Then sParou = "limite do dia atingido": Exit For
+        If Not Cob_DentroDoHorario(cfg) Then sParou = "fim do horário de envio": Exit For
+        If nOk + nErro > 0 Then Cob_Esperar Cob_Intervalo(cfg)
+        If Not Cob_Atualizar(itens(i), cfg.AutoJuros) Then
+            nPulados = nPulados + 1          'pagou, ou foi cobrado pela tela, depois que a lista foi montada
+            Cob_Log "Pulado: " & itens(i).Nome & " - " & itens(i).Motivo
+        ElseIf Cob_Enviar(itens(i), cfg, False, sErro) Then
+            nOk = nOk + 1
+            nSeguidos = 0
+            Cob_Log "Enviada: " & itens(i).Nome & " (" & itens(i).Celular & ") - " & itens(i).Regra & " - R$ " & Format$(itens(i).Total, "#,##0.00")
+        Else
+            nErro = nErro + 1
+            nSeguidos = nSeguidos + 1
+            sErro = Replace(sErro, vbCrLf, " ")
+            Cob_Log "Erro: " & itens(i).Nome & " (" & itens(i).Celular & "): " & sErro
+            If ZapOnlineForaDoPlano() Then sFalha = sErro: Exit For
+            If nSeguidos >= 3 Then sFalha = "3 erros seguidos (último: " & sErro & ")": Exit For
+        End If
+    End If
+Next
+
+sMsg = nOk & " enviada(s)" & IIf(nErro > 0, ", " & nErro & " com erro", "") & IIf(nPulados > 0, ", " & nPulados & " pulada(s) (pagou ou já foi cobrado)", "") & _
+       IIf(Len(sParou) > 0, " (parou: " & sParou & ")", "") & "."
+Cob_Log "Fim: " & sMsg & IIf(Len(sFalha) > 0, " Interrompido: " & sFalha, "")
+Cob_AutoSituacao sMsg, sFalha
+If nOk + nErro > 0 Then Cob_EnviarResumo cfg, nOk, nErro, sFalha
+Exit Sub
+
+Falha:
+sFalha = Err.Description
+Err.Clear
+Cob_Log "Erro: " & sFalha
+Cob_AutoSituacao "Execução interrompida por erro.", sFalha
+End Sub
+
+'Resumo da execução para o celular configurado (o dono). Não conta no limite do dia (não é cobrança).
+Private Sub Cob_EnviarResumo(ByRef cfg As CobConfig, ByVal nOk As Long, ByVal nErro As Long, ByVal sFalha As String)
+Dim s As String, sErro As String
+
+If Len(cfg.AutoResumoCelular) = 0 Then Exit Sub
+On Error Resume Next
+s = "*Cobrança automática* - " & Format$(Now, "dd/mm/yyyy hh:mm") & vbLf & _
+    "Enviadas: " & nOk & IIf(nErro > 0, vbLf & "Com erro: " & nErro, "") & _
+    IIf(Len(sFalha) > 0, vbLf & "Interrompida: " & sFalha, "") & vbLf & _
+    "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & cfg.LimiteDia & "."
+If Not ZapOnlineEnviar(cfg.AutoResumoCelular, s, "", sErro) Then Cob_Log "Resumo não enviado para " & cfg.AutoResumoCelular & ": " & Replace(sErro, vbCrLf, " ")
+Err.Clear
+End Sub
+
+'Última execução do automático (tela da Régua e alerta do popup). sErro = "" limpa o alerta.
+Private Sub Cob_AutoSituacao(ByVal sResumo As String, ByVal sErro As String)
+If Not Cob_TemColunasAuto() Then Exit Sub
+On Error Resume Next
+dbData.Execute "UPDATE CobrancaConfig SET AutoUltimaExecucao = GETDATE(), AutoUltimoResumo = " & Cob_Q(Left$(sResumo, 300)) & _
+    ", AutoUltimoErro = " & IIf(Len(sErro) = 0, "NULL", Cob_Q(Left$(sErro, 300))) & " WHERE Id = 1"
+Err.Clear
+End Sub
+
+Private Sub Cob_Log(ByVal sMsg As String)
+Dim nLog As Integer
+On Error Resume Next
+nLog = FreeFile
+Open appPathApp & "CobrancaZap_log.txt" For Append As #nLog
+Print #nLog, Format$(Now, "dd/mm/yyyy hh:nn:ss") & "  " & sMsg
+Close #nLog
+End Sub
+
+'"Última execução" para a tela da Régua ("" se nunca rodou ou sem o script 190)
+Public Function Cob_AutoTextoSituacao(ByRef bErro As Boolean) As String
+Dim r As ADODB.Recordset
+
+bErro = False
+If Not Cob_TemColunasAuto() Then Exit Function
+On Error GoTo Fim
+Set r = dbData.OpenRecordset("SELECT AutoUltimaExecucao, AutoUltimoResumo, AutoUltimoErro FROM CobrancaConfig WHERE Id = 1")
+If Not r.EOF Then
+    If Not IsNull(r("AutoUltimaExecucao")) Then
+        Cob_AutoTextoSituacao = "Última execução: " & Format$(r("AutoUltimaExecucao"), "dd/mm/yyyy hh:nn") & " - " & r("AutoUltimoResumo")
+        If Not IsNull(r("AutoUltimoErro")) Then
+            Cob_AutoTextoSituacao = Cob_AutoTextoSituacao & vbCrLf & "Problema: " & r("AutoUltimoErro")
+            bErro = True
+        End If
+    End If
+End If
+r.Close
+Fim:
+Err.Clear
 End Function
 
 'Nome do option da tela para a situação
@@ -680,7 +884,7 @@ Dim r As ADODB.Recordset, lId As Long, p() As String, i As Long, sUsuario As Str
 On Error GoTo Fim
 sUsuario = ""
 On Error Resume Next
-sUsuario = Trim$(Tela_Principal.txtCodFuncionario.Text)
+If bManual Then sUsuario = Trim$(Tela_Principal.txtCodFuncionario.Text)   'no automático não há tela (referenciar carregaria o form)
 On Error GoTo Fim
 Set r = dbData.OpenRecordset("INSERT INTO CobrancaEnvio (CodCliente, CodRegra, Celular, ValorTotal, Situacao, Erro, Manual, Usuario) " & _
     "OUTPUT INSERTED.Id VALUES (" & it.CodCliente & ", " & it.CodRegra & ", '" & Replace(Left$(it.Celular, 20), "'", "") & "', " & _

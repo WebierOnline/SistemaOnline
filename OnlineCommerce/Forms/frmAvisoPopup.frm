@@ -177,6 +177,8 @@ Select Case msDestinos(Index)
         Entrada_Estoque.Show
     Case "NOTAS_DESTINADAS"
         Notas_Destinadas_Consulta.Show 1
+    Case "COBRANCA_WHATSAPP"
+        frmCobrancaRegua.Show 1
 End Select
 End Sub
 

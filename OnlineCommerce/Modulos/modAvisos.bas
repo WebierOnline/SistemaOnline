@@ -193,6 +193,12 @@ nNotas = Val(CStr(SQLExecutaRetorno("SELECT COUNT(*) r FROM TbNotasDestinadasMan
          "AND EXISTS (SELECT 1 FROM EntradaEstoque e WHERE e.ChavedeAcesso = d.ChaveAcesso AND ISNULL(e.Cancelada, 0) = 0)", "r", 0)))
 If nNotas > 0 Then AddAlerta sTextos, sDestinos, nNotas & " nota(s) lançada(s) na Entrada de Estoque~foram CANCELADAS pelo fornecedor!", "NOTAS_DESTINADAS"
 
+'5) cobrança automática por WhatsApp (/cobrancazap): a última execução (até 2 dias) não conseguiu enviar. Sem o script 190 a consulta falha e retorna "".
+Dim sErroCob As String
+sErroCob = CStr(SQLExecutaRetorno("SELECT TOP 1 ISNULL(AutoUltimoErro, '') AS r FROM CobrancaConfig WHERE Id = 1 AND Automatico = 1 " & _
+           "AND AutoUltimaExecucao >= DATEADD(day, -2, GETDATE())", "r", ""))
+If Len(sErroCob) > 0 Then AddAlerta sTextos, sDestinos, "Cobrança automática por WhatsApp não enviou:~" & Left$(sErroCob, 120), "COBRANCA_WHATSAPP"
+
 GerarAlertasGerais = sTextos
 End Function
 

@@ -289,6 +289,50 @@ Begin VB.Form frmCobrancaRegua
          Top             =   2700
          Width           =   3615
       End
+      Begin VB.CheckBox chkAutomatico
+         Caption         =   "Envio automático"
+         Height          =   255
+         Left            =   5280
+         TabIndex        =   47
+         ToolTipText     =   "A máquina servidor envia sozinha, a cada 30 minutos, dentro do horário e dos dias acima (mesma lista da tela de cobrança)."
+         Top             =   330
+         Width           =   1935
+      End
+      Begin VB.CheckBox chkAutoJuros
+         Caption         =   "Cobrar juros e multa"
+         Height          =   255
+         Left            =   5280
+         TabIndex        =   48
+         ToolTipText     =   "No envio automático, o valor cobrado inclui multa e juros do atraso (Configuração Geral)."
+         Top             =   630
+         Value           =   1  'Checked
+         Width           =   1935
+      End
+      Begin VB.TextBox txtResumoCel
+         Height          =   315
+         Left            =   5280
+         MaxLength       =   20
+         TabIndex        =   50
+         ToolTipText     =   "Celular (com DDD) que recebe um resumo de cada envio automático. Vazio = não envia resumo."
+         Top             =   1230
+         Width           =   1815
+      End
+      Begin VB.Label lblResumoCel
+         Caption         =   "Resumo para o celular:"
+         Height          =   255
+         Left            =   5280
+         TabIndex        =   49
+         Top             =   990
+         Width           =   1935
+      End
+      Begin VB.Label lblAutoSituacao
+         ForeColor       =   &H00800000&
+         Height          =   1455
+         Left            =   5280
+         TabIndex        =   51
+         Top             =   1650
+         Width           =   1935
+      End
    End
    Begin VB.Frame fraRegra 
       Caption         =   "Regra"
@@ -658,6 +702,23 @@ txtIntMax.Text = mCfg.IntervaloMax
 chkSabado.Value = IIf(mCfg.EnviarSabado, vbChecked, vbUnchecked)
 chkDomingo.Value = IIf(mCfg.EnviarDomingo, vbChecked, vbUnchecked)
 txtPix.Text = mCfg.ChavePix
+chkAutomatico.Value = IIf(mCfg.Automatico, vbChecked, vbUnchecked)
+chkAutoJuros.Value = IIf(mCfg.AutoJuros, vbChecked, vbUnchecked)
+txtResumoCel.Text = mCfg.AutoResumoCelular
+If Not Cob_TemColunasAuto() Then
+    'sem o script 190: só liga/desliga
+    chkAutoJuros.Enabled = False
+    txtResumoCel.Enabled = False
+    lblResumoCel.Enabled = False
+End If
+If Not LicTemRecurso("WHATSAPP") Then
+    chkAutomatico.Value = vbUnchecked
+    chkAutomatico.Enabled = False
+    chkAutoJuros.Enabled = False
+    txtResumoCel.Enabled = False
+    lblResumoCel.Enabled = False
+End If
+MostrarSituacaoAuto
 mCarregando = False
 
 CarregarRegras 0
@@ -1055,8 +1116,19 @@ End Sub
 '---------------------------------------------------------------------------
 ' Configuração geral
 '---------------------------------------------------------------------------
+'Situação da última execução do envio automático (script 190)
+Private Sub MostrarSituacaoAuto()
+Dim bErro As Boolean, s As String
+
+s = Cob_AutoTextoSituacao(bErro)
+If Not LicTemRecurso("WHATSAPP") Then s = "O envio por WhatsApp não faz parte do plano desta empresa: o envio automático fica desligado.": bErro = True
+If Len(s) = 0 And chkAutomatico.Value = vbChecked Then s = "Ainda não executou (roda a cada 30 minutos na máquina servidor)."
+lblAutoSituacao.Caption = s
+lblAutoSituacao.ForeColor = IIf(bErro, &HC0&, &H800000)
+End Sub
+
 Private Sub cmdSalvarConfig_Click()
-Dim c As CobConfig
+Dim c As CobConfig, sMotivo As String
 
 c = mCfg
 c.HoraInicio = Cob_Hora(txtHoraIni.Text)
@@ -1083,6 +1155,23 @@ If c.IntervaloMax < c.IntervaloMin Then c.IntervaloMax = c.IntervaloMin
 c.EnviarSabado = (chkSabado.Value = vbChecked)
 c.EnviarDomingo = (chkDomingo.Value = vbChecked)
 c.ChavePix = Trim$(txtPix.Text)
+c.Automatico = (chkAutomatico.Value = vbChecked)
+c.AutoJuros = (chkAutoJuros.Value = vbChecked)
+c.AutoResumoCelular = Trim$(txtResumoCel.Text)
+If Len(c.AutoResumoCelular) > 0 Then
+    If Not CelularValido(c.AutoResumoCelular, sMotivo) Then
+        MsgBox "Celular do resumo inválido: " & sMotivo & "." & vbCrLf & vbCrLf & "Digite com o DDD, ex.: (89) 9 9999-9999, ou deixe em branco.", vbExclamation, "Régua de cobrança"
+        txtResumoCel.SetFocus
+        Exit Sub
+    End If
+End If
+If c.Automatico And Not mCfg.Automatico Then
+    If MsgBox("Ligar o envio automático?" & vbCrLf & vbCrLf & _
+              "A máquina SERVIDOR passa a enviar sozinha, a cada 30 minutos, as cobranças de hoje (as mesmas que aparecem " & _
+              "prontas na tela de cobrança), de " & c.HoraInicio & " às " & c.HoraFim & ", até " & c.LimiteDia & " por dia." & vbCrLf & vbCrLf & _
+              "O servidor precisa estar ligado e com o sistema instalado. Para parar, desmarque ""Envio automático"".", _
+              vbQuestion + vbYesNo + vbDefaultButton2, "Régua de cobrança") <> vbYes Then Exit Sub
+End If
 If Not Cob_SalvarConfig(c) Then
     MsgBox "Não foi possível salvar a configuração.", vbExclamation, "Régua de cobrança"
     Exit Sub
@@ -1091,5 +1180,6 @@ mCfg = c
 txtHoraIni.Text = c.HoraInicio
 txtHoraFim.Text = c.HoraFim
 txtIntMax.Text = c.IntervaloMax
+MostrarSituacaoAuto
 MsgBox "Configuração salva.", vbInformation, "Régua de cobrança"
 End Sub
