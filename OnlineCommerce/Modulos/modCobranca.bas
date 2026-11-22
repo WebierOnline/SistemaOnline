@@ -16,6 +16,8 @@ Public Const COB_ANTES As Integer = 1
 Public Const COB_NO_DIA As Integer = 2
 Public Const COB_DEPOIS As Integer = 3
 Private Const COB_MAX_LINHAS As Long = 10
+'Máximo de parcelas a vencer listadas na mensagem (regra com "listar as parcelas a vencer")
+Private Const COB_MAX_FUTURAS As Long = 6
 
 'Filtro de Cob_Pendentes: HOJE = só quem tem mensagem para sair hoje (envio automático);
 'A_VENCER / VENCENDO / VENCIDO = todos os clientes daquela situação (a tela), com a previsão do próximo envio
@@ -187,10 +189,11 @@ Dim cliAtual As Long, cli As Long
 Dim dias As Long, ir As Long, melhor As Long, pesoMelhor As Long, peso As Long
 Dim dVenc As Date, saldo As Currency, codParc As Long, bDispara As Boolean
 Dim linhas As Long, extras As Long
-Dim it As CobItem, naoCobrar As Boolean, sMotivoCel As String
+Dim it As CobItem, naoCobrar As Boolean, sMotivoCel As String, sLinha As String
 Dim cJurosDia As Currency, nTipoJuros As Integer, cValor As Currency, cMulta As Currency, cBase As Currency
 Dim nJanela As Long, nCat As Integer, dProx As Date, iProx As Long, dP As Date, vH As Variant, bListar As Boolean
 Dim qF As Long, tF As Currency, vF As Date, linF As String, linhasF As Long, extrasF As Long
+Dim gAtr As String, gHoje As String, gBreve As String, rListar() As Boolean, rr As Long
 
 dHoje = DateValue(dHoje)
 sHoje = Format$(dHoje, "yyyymmdd")
@@ -199,14 +202,16 @@ If bJuros Then Cob_JurosConfig cJurosDia, nTipoJuros, cMulta
 On Error GoTo Falha
 
 'Regras ativas
-Set rs = dbData.OpenRecordset("SELECT Id, Descricao, Situacao, Dias, RepetirDias, MaxEnvios, Mensagem FROM CobrancaRegra WHERE Ativa = 1 ORDER BY Id")
+Set rs = dbData.OpenRecordset("SELECT Id, Descricao, Situacao, Dias, RepetirDias, MaxEnvios, Mensagem, " & _
+    IIf(Cob_TemListarAVencer(), "ListarAVencer", "1 AS ListarAVencer") & " FROM CobrancaRegra WHERE Ativa = 1 ORDER BY Id")
 Do While Not rs.EOF
     nR = nR + 1
-    ReDim Preserve rId(1 To nR), rDesc(1 To nR), rSit(1 To nR), rDias(1 To nR), rRep(1 To nR), rMax(1 To nR), rMsg(1 To nR)
+    ReDim Preserve rId(1 To nR), rDesc(1 To nR), rSit(1 To nR), rDias(1 To nR), rRep(1 To nR), rMax(1 To nR), rMsg(1 To nR), rListar(1 To nR)
     rId(nR) = rs("Id"): rDesc(nR) = "" & rs("Descricao"): rSit(nR) = rs("Situacao")
     rDias(nR) = Val("" & rs("Dias")): rRep(nR) = Val("" & rs("RepetirDias")): rMax(nR) = Val("" & rs("MaxEnvios"))
     If rMax(nR) < 1 Then rMax(nR) = 1
     rMsg(nR) = "" & rs("Mensagem")
+    rListar(nR) = CBool(rs("ListarAVencer"))
     If rSit(nR) = COB_ANTES And rDias(nR) > maxAntes Then maxAntes = rDias(nR)
     rs.MoveNext
 Loop
@@ -234,13 +239,13 @@ Do While Not rs.EOF
 Loop
 rs.Close
 
-'Parcelas em aberto até o maior "dias antes" das regras
+'Todas as parcelas em aberto (as que ainda vão vencer entram na lista "Próximas parcelas" quando a regra pede)
 Set rs = dbData.OpenRecordset("SELECT p.CODIGO, p.COD_PEDIDO, ISNULL(p.COD_OS, 0) AS COD_OS, ISNULL(p.NUMERO, 0) AS NUMERO, p.DATA, " & _
     "(SELECT COUNT(*) FROM parcelas x WHERE x.COD_PEDIDO = p.COD_PEDIDO) AS QTD, " & _
     "p.VALOR AS VALOR_PARC, p.VALOR - ISNULL((SELECT SUM(h.valor_haver) FROM parcelas_haver h WHERE h.cod_parcela = p.CODIGO), 0) AS SALDO, " & _
     "c.CODIGO AS COD_CLIENTE, c.NOME, ISNULL(c.NaoCobrarWhatsApp, 0) AS NAO_COBRAR " & _
     "FROM parcelas p INNER JOIN pedidos pe ON pe.COD_PEDIDO = p.COD_PEDIDO INNER JOIN cliente c ON c.CODIGO = pe.COD_CLIENTE " & _
-    "WHERE p.STATUS = 0 AND p.DATA < '" & Format$(dHoje + nJanela + 1, "yyyymmdd") & "' " & _
+    "WHERE p.STATUS = 0 " & _
     "ORDER BY c.CODIGO, p.DATA, p.CODIGO")
 
 cliAtual = -1
@@ -256,6 +261,7 @@ Do While Not rs.EOF
         naoCobrar = CBool(rs("NAO_COBRAR"))
         pesoMelhor = -1: melhor = 0: linhas = 0: extras = 0
         nCat = 0: dProx = 0: iProx = 0: qF = 0: tF = 0: vF = 0: linF = "": linhasF = 0: extrasF = 0
+        gAtr = "": gHoje = "": gBreve = ""
     End If
 
     If IsNull(rs("SALDO")) Then saldo = 0 Else saldo = CCur(rs("SALDO"))
@@ -269,12 +275,12 @@ Do While Not rs.EOF
             nCat = COB_FILTRO_VENCIDO
         ElseIf dias = 0 Then
             If nCat < COB_FILTRO_VENCENDO Then nCat = COB_FILTRO_VENCENDO
-        ElseIf nCat < COB_FILTRO_A_VENCER Then
-            nCat = COB_FILTRO_A_VENCER
+        ElseIf -dias <= nJanela Then
+            If nCat < COB_FILTRO_A_VENCER Then nCat = COB_FILTRO_A_VENCER
         End If
 
         'Próximo envio previsto desta parcela (depois de hoje), só para a tela
-        If nFiltro <> COB_FILTRO_HOJE Then
+        If nFiltro <> COB_FILTRO_HOJE And -dias <= nJanela Then
             For i = 1 To nR
                 dP = 0
                 vH = Empty
@@ -357,17 +363,27 @@ Do While Not rs.EOF
             If dias > it.DiasAtraso Then it.DiasAtraso = dias
             If it.Vencimento = 0 Or dVenc < it.Vencimento Then it.Vencimento = dVenc
             If linhas < COB_MAX_LINHAS Then
-                it.Lista = it.Lista & IIf(Len(it.Lista) > 0, vbLf, "") & Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, cValor, dias)
+                sLinha = Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, cValor, dias)
+                If dias > 0 Then
+                    gAtr = gAtr & IIf(Len(gAtr) > 0, vbLf, "") & sLinha
+                ElseIf dias = 0 Then
+                    gHoje = gHoje & IIf(Len(gHoje) > 0, vbLf, "") & sLinha
+                Else
+                    gBreve = gBreve & IIf(Len(gBreve) > 0, vbLf, "") & sLinha
+                End If
                 linhas = linhas + 1
             Else
                 extras = extras + 1
             End If
-        ElseIf nFiltro <> COB_FILTRO_HOJE Then
-            'A vencer sem aviso hoje: guardadas à parte, para mostrar se o cliente não tiver nada que já venceu
-            qF = qF + 1
-            tF = tF + cValor
-            If vF = 0 Or dVenc < vF Then vF = dVenc
-            If linhasF < COB_MAX_LINHAS Then
+        Else
+            'Ainda vai vencer, sem aviso hoje: lista "Próximas parcelas" da mensagem; as da janela "A vencer" contam
+            'para a tela quando o cliente não tem nada que já venceu
+            If -dias <= nJanela Then
+                qF = qF + 1
+                tF = tF + cValor
+                If vF = 0 Or dVenc < vF Then vF = dVenc
+            End If
+            If linhasF < COB_MAX_FUTURAS Then
                 linF = linF & IIf(Len(linF) > 0, vbLf, "") & Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, cValor, dias)
                 linhasF = linhasF + 1
             Else
@@ -389,11 +405,21 @@ Fechar:
         bListar = (nCat = nFiltro)
     End If
     If bListar Then
+        'Regra que vale para o texto: a de hoje ou, sem envio hoje, a prevista
+        If melhor > 0 Then rr = melhor Else rr = iProx
         If it.QtdParcelas = 0 Then
             'Só parcelas a vencer, sem aviso hoje
-            it.QtdParcelas = qF: it.Total = tF: it.Vencimento = vF: it.Lista = linF: extras = extrasF
+            it.QtdParcelas = qF: it.Total = tF: it.Vencimento = vF
+            it.Lista = Cob_MontarLista("", "", linF, "", 0, extrasF)
+        ElseIf rr > 0 Then
+            If rListar(rr) Then
+                it.Lista = Cob_MontarLista(gAtr, gHoje, gBreve, linF, extras, extrasF)
+            Else
+                it.Lista = Cob_MontarLista(gAtr, gHoje, gBreve, "", extras, 0)
+            End If
+        Else
+            it.Lista = Cob_MontarLista(gAtr, gHoje, gBreve, "", extras, 0)
         End If
-        If extras > 0 Then it.Lista = it.Lista & vbLf & "• e mais " & extras & " parcela(s)"
         If melhor > 0 Then
             it.CodRegra = rId(melhor)
             it.Regra = rDesc(melhor)
@@ -428,6 +454,50 @@ Falha:
 MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Cobrança por WhatsApp"
 Err.Clear
 Cob_Pendentes = n
+End Function
+
+'Coluna CobrancaRegra.ListarAVencer (script 189) existe?
+Public Function Cob_TemListarAVencer() As Boolean
+Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+
+If nTem = 0 Then
+    On Error Resume Next
+    nTem = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.CobrancaRegra', 'ListarAVencer') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then nTem = 1
+    Err.Clear
+End If
+Cob_TemListarAVencer = (nTem = 1)
+End Function
+
+'{LISTA_PARCELAS}: com um grupo só sai a lista simples (como antes); com mais de um, separa em
+'"Em atraso", "Vence hoje", "Vence em breve" e "Próximas parcelas (a vencer)", para o cliente não achar
+'que pagando o atrasado quitou tudo. Linhas separadas por vbLf; os emojis vão como tags (Cob_Texto converte).
+Public Function Cob_MontarLista(ByVal sAtraso As String, ByVal sHoje As String, ByVal sBreve As String, ByVal sFuturas As String, _
+                                ByVal nExtras As Long, ByVal nExtrasFuturas As Long) As String
+Dim nGrupos As Long, s As String
+
+If nExtras > 0 Then
+    'Parcelas além do limite: entram no último grupo com conteúdo (as listas vêm em ordem de vencimento)
+    If Len(sBreve) > 0 Then
+        sBreve = sBreve & vbLf & "• e mais " & nExtras & " parcela(s)"
+    ElseIf Len(sHoje) > 0 Then
+        sHoje = sHoje & vbLf & "• e mais " & nExtras & " parcela(s)"
+    Else
+        sAtraso = sAtraso & vbLf & "• e mais " & nExtras & " parcela(s)"
+    End If
+End If
+If nExtrasFuturas > 0 And Len(sFuturas) > 0 Then sFuturas = sFuturas & vbLf & "• e mais " & nExtrasFuturas & " parcela(s) a vencer"
+
+nGrupos = IIf(Len(sAtraso) > 0, 1, 0) + IIf(Len(sHoje) > 0, 1, 0) + IIf(Len(sBreve) > 0, 1, 0) + IIf(Len(sFuturas) > 0, 1, 0)
+If nGrupos <= 1 Then
+    Cob_MontarLista = sAtraso & sHoje & sBreve & sFuturas
+    Exit Function
+End If
+If Len(sAtraso) > 0 Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & "{VERMELHO} *Em atraso:*" & vbLf & sAtraso
+If Len(sHoje) > 0 Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & "{RELOGIO} *Vence hoje:*" & vbLf & sHoje
+If Len(sBreve) > 0 Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & "{RELOGIO} *Vence em breve:*" & vbLf & sBreve
+If Len(sFuturas) > 0 Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & "{CALENDARIO} *Próximas parcelas (a vencer):*" & vbLf & sFuturas
+Cob_MontarLista = s
 End Function
 
 'Data gravada no controle de envios ("quantidade|yyyymmdd")
@@ -528,6 +598,7 @@ Const LISTA As String = _
     "{DINHEIRO}|Emoji: saco de dinheiro|1F4B0;" & _
     "{OK}|Emoji: confirmado|2705;" & _
     "{ATENCAO}|Emoji: atenção|26A0+FE0F;" & _
+    "{VERMELHO}|Emoji: círculo vermelho|1F534;" & _
     "{CORACAO}|Emoji: coração laranja|1F9E1"
 Dim lst() As String, p() As String, i As Long
 

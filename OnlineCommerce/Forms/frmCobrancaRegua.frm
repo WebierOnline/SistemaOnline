@@ -302,7 +302,7 @@ Begin VB.Form frmCobrancaRegua
          Height          =   255
          Left            =   1380
          TabIndex        =   46
-         ToolTipText     =   "Marcado: o valor cobrado inclui multa e juros do atraso (Configuração Geral). A mensagem não fala em juros, só mostra o valor."
+         ToolTipText     =   "Marcado: além das parcelas vencidas e das que vencem no dia, a mensagem lista as próximas parcelas a vencer (separadas)."
          Top             =   1980
          Value           =   1  'Checked
          Width           =   3375
@@ -793,6 +793,10 @@ mCarregando = True
 mIdAtual = lId
 txtDescricao.Text = "" & rs("Descricao")
 chkAtiva.Value = IIf(CBool(rs("Ativa")), vbChecked, vbUnchecked)
+chkParcelasEmDias.Value = vbChecked
+If Cob_TemListarAVencer() Then
+    If Not CBool(rs("ListarAVencer")) Then chkParcelasEmDias.Value = vbUnchecked
+End If
 For i = 0 To cboSituacao.ListCount - 1
     If cboSituacao.ItemData(i) = rs("Situacao") Then cboSituacao.ListIndex = i
 Next
@@ -817,6 +821,7 @@ mCarregando = True
 mIdAtual = 0
 txtDescricao.Text = ""
 chkAtiva.Value = vbChecked
+chkParcelasEmDias.Value = vbChecked
 cboSituacao.ListIndex = 2
 txtDias.Text = "5"
 txtRepetir.Text = "0"
@@ -880,6 +885,12 @@ End Sub
 
 Private Sub chkAtiva_Click()
 If Not mCarregando Then mAlterado = True
+End Sub
+
+Private Sub chkParcelasEmDias_Click()
+If mCarregando Then Exit Sub
+mAlterado = True
+AtualizarPrevia
 End Sub
 
 Private Sub txtDias_Change()
@@ -972,6 +983,9 @@ Else
         ", Situacao = " & nSit & ", Dias = " & nDias & ", RepetirDias = " & nRep & ", MaxEnvios = " & nMax & _
         ", Mensagem = " & Cob_Q(txtMensagem.Text) & " WHERE Id = " & mIdAtual
 End If
+If Cob_TemListarAVencer() And mIdAtual > 0 Then
+    dbData.Execute "UPDATE CobrancaRegra SET ListarAVencer = " & IIf(chkParcelasEmDias.Value = vbChecked, 1, 0) & " WHERE Id = " & mIdAtual
+End If
 mAlterado = False
 SalvarRegra = True
 Exit Function
@@ -987,12 +1001,16 @@ End Sub
 ' Prévia e teste (dados de exemplo)
 '---------------------------------------------------------------------------
 Private Function Exemplo() As CobItem
-Dim it As CobItem
+Dim it As CobItem, sFuturas As String
 
 it.Nome = "MARIA DA SILVA"
 it.Mensagem = txtMensagem.Text
-it.LISTA = "• *Venda nº 1234* (parcela 2/3) – venc. " & Format$(Date - 5, "dd/mm/yyyy") & " – R$ 150,00 – 5 dia(s) em atraso" & vbLf & _
-           "• *OS nº 567* – venc. " & Format$(Date, "dd/mm/yyyy") & " – R$ 200,00"
+If chkParcelasEmDias.Value = vbChecked Then
+    sFuturas = "• *Venda nº 1234* (parcela 3/4) – venc. " & Format$(DateAdd("m", 1, Date - 5), "dd/mm/yyyy") & " – R$ 150,00" & vbLf & _
+               "• *Venda nº 1234* (parcela 4/4) – venc. " & Format$(DateAdd("m", 2, Date - 5), "dd/mm/yyyy") & " – R$ 150,00"
+End If
+it.Lista = Cob_MontarLista("• *Venda nº 1234* (parcela 2/4) – venc. " & Format$(Date - 5, "dd/mm/yyyy") & " – R$ 150,00 – 5 dia(s) em atraso", _
+                           "• *OS nº 567* – venc. " & Format$(Date, "dd/mm/yyyy") & " – R$ 200,00", "", sFuturas, 0, 0)
 it.QtdParcelas = 2
 it.Total = 350
 it.DiasAtraso = 5

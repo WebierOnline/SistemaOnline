@@ -184,3 +184,4 @@
 186|Update_CobrancaConfig_Intervalo30.sql|GERAL
 187|Fix_Cliente_Celular_NonoDigito.sql|GERAL
 188|Update_Configuracao_JurosMulta.sql|GERAL
+189|Alter_CobrancaRegra_ListarAVencer.sql|GERAL
