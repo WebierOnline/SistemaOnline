@@ -629,6 +629,8 @@ Private mIniciou As Boolean
 Private mSemEvento As Boolean     'mudando Row/Col por código: não atualiza a prévia
 Private mAguardeHtml As String
 Private mAguardeCarregado As Boolean
+Private mCarregandoLista As Boolean   'Carregar em andamento (o GIF anima com DoEvents: bloqueia cliques)
+Private mForaDoPlano As Boolean
 
 Private Sub Form_Load()
 mIniciou = False
@@ -701,6 +703,7 @@ Me.MousePointer = vbDefault
 If ZapOnlineForaDoPlano() Then
     MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
     lblProgresso.Caption = "O envio por WhatsApp não faz parte do plano desta empresa."
+    mForaDoPlano = True
     cmdEnviar.Enabled = False
 ElseIf sSit <> "" And sSit <> "conectado" Then
     lblProgresso.Caption = "Atenção: o WhatsApp da empresa não está conectado (Sistema > WhatsApp)."
@@ -708,10 +711,11 @@ End If
 End Sub
 
 Private Sub Form_KeyDown(KeyCode As Integer, Shift As Integer)
-If KeyCode = vbKeyEscape And Not mEnviando Then Unload Me
+If KeyCode = vbKeyEscape And Not mEnviando And Not mCarregandoLista Then Unload Me
 End Sub
 
 Private Sub Form_QueryUnload(Cancel As Integer, UnloadMode As Integer)
+If mCarregandoLista Then Cancel = 1: Exit Sub
 If mEnviando Then
     MsgBox "Aguarde terminar o envio ou clique em Parar.", vbInformation, TITULO
     Cancel = 1
@@ -728,10 +732,15 @@ Dim i As Long, r As Long, nProntos As Long, nSel As Long
 Dim nFiltro As Integer, sSituacao As String
 
 Me.MousePointer = vbHourglass
+mCarregandoLista = True
+HabilitarTela False
+cmdParar.Enabled = False
 Aguarde True
 Cob_LerConfig mCfg
 nFiltro = FiltroAtual()
+Cob_Eventos = True     'DoEvents durante a leitura: o GIF continua girando
 mQtd = Cob_Pendentes(Date, mItens, (chkJuros.Value = vbChecked), nFiltro)
+Cob_Eventos = False
 ReDim mMarca(0 To mQtd)
 
 mSemEvento = True
@@ -801,6 +810,8 @@ lblResumo.Caption = "Resumo: " & mQtd & " cliente(s) " & sSituacao & ", " & nPro
 MostrarPrevia
 Aguarde False
 Me.MousePointer = vbDefault
+HabilitarTela True
+mCarregandoLista = False
 End Sub
 
 'Recarrega a lista mantendo os desmarcados e a linha selecionada
@@ -937,7 +948,7 @@ txtPrevia.Text = "Para: " & IIf(Len(mItens(i).Celular) > 0, mItens(i).Celular, "
 End Sub
 
 Private Sub grdEnvio_Click()
-If mEnviando Then Exit Sub
+If mEnviando Or mCarregandoLista Then Exit Sub
 If grdEnvio.MouseCol = C_MARCA And grdEnvio.MouseRow = grdEnvio.Row Then
     MarcarLinha grdEnvio.Row, Not Marcada(grdEnvio.Row)
 End If
@@ -945,13 +956,13 @@ MostrarPrevia
 End Sub
 
 Private Sub grdEnvio_KeyPress(KeyAscii As Integer)
-If KeyAscii <> 32 Or mEnviando Then Exit Sub   'espaço marca/desmarca
+If KeyAscii <> 32 Or mEnviando Or mCarregandoLista Then Exit Sub   'espaço marca/desmarca
 MarcarLinha grdEnvio.Row, Not Marcada(grdEnvio.Row)
 KeyAscii = 0
 End Sub
 
 Private Sub grdEnvio_RowColChange()
-If mSemEvento Or mEnviando Then Exit Sub
+If mSemEvento Or mEnviando Or mCarregandoLista Then Exit Sub
 MostrarPrevia
 End Sub
 
@@ -1085,6 +1096,8 @@ Err.Clear
 End Function
 
 Private Sub Aguarde(ByVal bMostrar As Boolean)
+Dim t As Single
+
 On Error Resume Next
 If bMostrar Then
     If Len(mAguardeHtml) = 0 Then
@@ -1097,8 +1110,14 @@ If bMostrar Then
     If Not WebBrowser1.Visible Then
         WebBrowser1.ZOrder 0
         WebBrowser1.Visible = True
-        DoEvents
     End If
+    'O Navigate é assíncrono: espera a página (e o GIF) carregar, até 3 s, senão o quadro aparece em branco
+    t = Timer
+    Do While WebBrowser1.ReadyState <> 4   'READYSTATE_COMPLETE
+        DoEvents
+        If Abs(Timer - t) > 3 Then Exit Do
+    Loop
+    DoEvents
 Else
     WebBrowser1.Visible = False
 End If
@@ -1191,6 +1210,7 @@ For r = 1 To n
         grdEnvio.TextMatrix(marcados(r), C_SITUACAO) = "Erro: " & Replace(sMsg, vbCrLf, " ")
         PintarLinha marcados(r), &HC0&
         If ZapOnlineForaDoPlano() Then
+            mForaDoPlano = True
             Aguarde False
             MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
             Exit For
@@ -1219,7 +1239,7 @@ End Sub
 Private Sub HabilitarTela(ByVal bHabilitar As Boolean)
 Dim k As Integer
 
-cmdEnviar.Enabled = bHabilitar
+cmdEnviar.Enabled = bHabilitar And Not mForaDoPlano
 cmdMarcarTodos.Enabled = bHabilitar
 cmdDesmarcar.Enabled = bHabilitar
 cmdNaoCobrar.Enabled = bHabilitar

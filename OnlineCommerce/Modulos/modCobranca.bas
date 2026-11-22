@@ -30,6 +30,8 @@ Public Const COB_DIAS_A_VENCER As Long = 7
 
 'Envio em andamento: a tela liga para interromper a fila entre uma mensagem e outra
 Public Cob_Parar As Boolean
+'Tela carregando a lista: Cob_Pendentes chama DoEvents de vez em quando (o GIF "aguarde" anima)
+Public Cob_Eventos As Boolean
 'Intervalo mínimo entre mensagens (segundos): abaixo disso o WhatsApp tende a bloquear o número
 Public Const COB_INTERVALO_MIN As Long = 30
 
@@ -194,6 +196,7 @@ Dim cJurosDia As Currency, nTipoJuros As Integer, cValor As Currency, cMulta As 
 Dim nJanela As Long, nCat As Integer, dProx As Date, iProx As Long, dP As Date, vH As Variant, bListar As Boolean
 Dim qF As Long, tF As Currency, vF As Date, linF As String, linhasF As Long, extrasF As Long
 Dim gAtr As String, gHoje As String, gBreve As String, rListar() As Boolean, rr As Long
+Dim nLidas As Long
 
 dHoje = DateValue(dHoje)
 sHoje = Format$(dHoje, "yyyymmdd")
@@ -250,6 +253,8 @@ Set rs = dbData.OpenRecordset("SELECT p.CODIGO, p.COD_PEDIDO, ISNULL(p.COD_OS, 0
 
 cliAtual = -1
 Do While Not rs.EOF
+    nLidas = nLidas + 1
+    If Cob_Eventos And (nLidas Mod 20) = 0 Then DoEvents
     cli = rs("COD_CLIENTE")
     If cli <> cliAtual Then
         If cliAtual <> -1 Then GoSub Fechar
