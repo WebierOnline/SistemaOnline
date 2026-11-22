@@ -609,6 +609,8 @@ Option Explicit
 '(com o intervalo e o limite da configuração) e histórico. A régua e a configuração ficam em frmCobrancaRegua.
 'O GIF "aguarde" vem embutido no executável (OnlineCommerce.res, recurso "GIF" 101) e é mostrado no WebBrowser1.
 
+Private Declare Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+
 Private Const TITULO As String = "Cobrança por WhatsApp"
 
 Private Const C_MARCA As Integer = 0
@@ -658,7 +660,7 @@ Next
 End Function
 
 Private Sub optFiltro_Click(Index As Integer)
-If mIniciou And Not mEnviando Then Carregar
+If mIniciou And Not mEnviando And Not mCarregandoLista Then Carregar
 End Sub
 
 'Mostra a multa e o juros ao dia da Configuração Geral no próprio checkbox
@@ -675,7 +677,7 @@ End If
 End Sub
 
 Private Sub chkJuros_Click()
-If mIniciou And Not mEnviando Then Recarregar
+If mIniciou And Not mEnviando And Not mCarregandoLista Then Recarregar
 End Sub
 
 Private Sub Form_Activate()
@@ -1096,7 +1098,7 @@ Err.Clear
 End Function
 
 Private Sub Aguarde(ByVal bMostrar As Boolean)
-Dim t As Single
+Dim t As Single, bAcabouDeMostrar As Boolean
 
 On Error Resume Next
 If bMostrar Then
@@ -1110,6 +1112,7 @@ If bMostrar Then
     If Not WebBrowser1.Visible Then
         WebBrowser1.ZOrder 0
         WebBrowser1.Visible = True
+        bAcabouDeMostrar = True
     End If
     'O Navigate é assíncrono: espera a página (e o GIF) carregar, até 3 s, senão o quadro aparece em branco
     t = Timer
@@ -1117,7 +1120,14 @@ If bMostrar Then
         DoEvents
         If Abs(Timer - t) > 3 Then Exit Do
     Loop
-    DoEvents
+    If bAcabouDeMostrar Then
+        'Dá tempo de o WebBrowser redesenhar o GIF antes da leitura (que segura a tela)
+        t = Timer
+        Do
+            DoEvents
+            Sleep 20
+        Loop While Abs(Timer - t) < 0.4
+    End If
 Else
     WebBrowser1.Visible = False
 End If
@@ -1239,6 +1249,14 @@ End Sub
 Private Sub HabilitarTela(ByVal bHabilitar As Boolean)
 Dim k As Integer
 
+'Antes de desabilitar, o foco vai para o grid: se ficasse num botão desabilitado, o VB passaria o foco para o
+'próximo controle e, caindo num option (Vencido...), ele seria marcado sozinho e a lista trocaria de filtro
+If Not bHabilitar Then
+    On Error Resume Next
+    grdEnvio.SetFocus
+    Err.Clear
+    On Error GoTo 0
+End If
 cmdEnviar.Enabled = bHabilitar And Not mForaDoPlano
 cmdMarcarTodos.Enabled = bHabilitar
 cmdDesmarcar.Enabled = bHabilitar
