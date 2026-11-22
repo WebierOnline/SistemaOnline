@@ -197,6 +197,7 @@ Dim nJanela As Long, nCat As Integer, dProx As Date, iProx As Long, dP As Date, 
 Dim qF As Long, tF As Currency, vF As Date, linF As String, linhasF As Long, extrasF As Long
 Dim gAtr As String, gHoje As String, gBreve As String, rListar() As Boolean, rr As Long
 Dim nLidas As Long
+Dim qC As Long, tC As Currency, vC As Date   'parcelas do cliente na situação do filtro (quando ele aparece "junto")
 
 dHoje = DateValue(dHoje)
 sHoje = Format$(dHoje, "yyyymmdd")
@@ -267,6 +268,7 @@ Do While Not rs.EOF
         pesoMelhor = -1: melhor = 0: linhas = 0: extras = 0
         nCat = 0: dProx = 0: iProx = 0: qF = 0: tF = 0: vF = 0: linF = "": linhasF = 0: extrasF = 0
         gAtr = "": gHoje = "": gBreve = ""
+        qC = 0: tC = 0: vC = 0
     End If
 
     If IsNull(rs("SALDO")) Then saldo = 0 Else saldo = CCur(rs("SALDO"))
@@ -362,6 +364,16 @@ Do While Not rs.EOF
             cValor = saldo + Round(cBase * (cMulta + cJurosDia * dias) / 100, 2)
         End If
 
+        'Parcela na situação do filtro: o cliente aparece também nesse option (mesmo que a mensagem dele seja de outro)
+        If nFiltro <> COB_FILTRO_HOJE Then
+            If (nFiltro = COB_FILTRO_VENCIDO And dias >= 1) Or (nFiltro = COB_FILTRO_VENCENDO And dias = 0) Or _
+               (nFiltro = COB_FILTRO_A_VENCER And dias < 0 And -dias <= nJanela) Then
+                qC = qC + 1
+                tC = tC + cValor
+                If vC = 0 Or dVenc < vC Then vC = dVenc
+            End If
+        End If
+
         If dias >= 0 Or bDispara Then
             it.QtdParcelas = it.QtdParcelas + 1
             it.Total = it.Total + cValor
@@ -407,7 +419,7 @@ Fechar:
     If nFiltro = COB_FILTRO_HOJE Then
         bListar = (melhor > 0)
     Else
-        bListar = (nCat = nFiltro)
+        bListar = (nCat = nFiltro Or qC > 0)
     End If
     If bListar Then
         'Regra que vale para o texto: a de hoje ou, sem envio hoje, a prevista
@@ -449,6 +461,14 @@ Fechar:
                 it.Motivo = "Sem envio previsto (nenhuma regra ativa alcança este cliente)"
             End If
         End If
+        If nFiltro <> COB_FILTRO_HOJE And nCat <> nFiltro Then
+            'Não é a situação principal do cliente: mostra só as parcelas deste option; a mensagem (prévia) é a única
+            'do dia, que sai pelo option principal com tudo junto. Aqui não envia: só "Não cobrar" / "Atualizar Cliente".
+            it.QtdParcelas = qC: it.Total = tC: it.Vencimento = vC
+            If Not naoCobrar And Left$(it.Motivo, 11) <> "Sem celular" And Left$(it.Motivo, 16) <> "Celular inválido" Then
+                it.Motivo = "Cobrado junto em """ & Cob_FiltroNome(nCat) & """"
+            End If
+        End If
         n = n + 1
         ReDim Preserve Itens(n)
         Itens(n) = it
@@ -459,6 +479,15 @@ Falha:
 MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Cobrança por WhatsApp"
 Err.Clear
 Cob_Pendentes = n
+End Function
+
+'Nome do option da tela para a situação
+Public Function Cob_FiltroNome(ByVal nFiltro As Integer) As String
+Select Case nFiltro
+    Case COB_FILTRO_A_VENCER: Cob_FiltroNome = "À vencer"
+    Case COB_FILTRO_VENCENDO: Cob_FiltroNome = "Vencendo hoje"
+    Case COB_FILTRO_VENCIDO: Cob_FiltroNome = "Vencido"
+End Select
 End Function
 
 'Coluna CobrancaRegra.ListarAVencer (script 189) existe?
