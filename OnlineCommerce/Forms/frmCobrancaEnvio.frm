@@ -151,13 +151,13 @@ Begin VB.Form frmCobrancaEnvio
       End
    End
    Begin MSFlexGridLib.MSFlexGrid grdEnvio 
-      Height          =   3900
+      Height          =   3540
       Left            =   60
       TabIndex        =   0
-      Top             =   840
+      Top             =   1200
       Width           =   12060
       _ExtentX        =   21273
-      _ExtentY        =   6879
+      _ExtentY        =   6244
       _Version        =   393216
       Cols            =   8
       FixedCols       =   0
@@ -544,6 +544,42 @@ Begin VB.Form frmCobrancaEnvio
       Value           =   1  'Checked
       Width           =   3375
    End
+   Begin VB.Label lblMostrar 
+      Caption         =   "Mostrar:"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   22
+      Top             =   930
+      Width           =   735
+   End
+   Begin VB.OptionButton optFiltro 
+      Caption         =   "À vencer"
+      Height          =   255
+      Index           =   1
+      Left            =   900
+      TabIndex        =   23
+      Top             =   900
+      Width           =   1935
+   End
+   Begin VB.OptionButton optFiltro 
+      Caption         =   "Vencendo hoje"
+      Height          =   255
+      Index           =   2
+      Left            =   2880
+      TabIndex        =   24
+      Top             =   900
+      Width           =   1575
+   End
+   Begin VB.OptionButton optFiltro 
+      Caption         =   "Vencido"
+      Height          =   255
+      Index           =   3
+      Left            =   4500
+      TabIndex        =   25
+      Top             =   900
+      Value           =   -1  'True
+      Width           =   1095
+   End
    Begin VB.Label lblPrevia 
       Caption         =   "Mensagem (prévia):"
       Height          =   255
@@ -568,6 +604,8 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 Option Explicit
 'Cobrança por WhatsApp: quem recebe hoje pela régua (modCobranca.Cob_Pendentes), envio manual dos marcados
+'Mostrar: À vencer / Vencendo hoje / Vencido (padrão) = todos os clientes da situação; quem não tem envio hoje
+'aparece em cinza com a data prevista, para dar tempo de marcar "Não cobrar" antes do envio (inclusive o automático).
 '(com o intervalo e o limite da configuração) e histórico. A régua e a configuração ficam em frmCobrancaRegua.
 'O GIF "aguarde" vem embutido no executável (OnlineCommerce.res, recurso "GIF" 101) e é mostrado no WebBrowser1.
 
@@ -604,6 +642,21 @@ lblProgresso.Caption = ""
 lblResumo.Caption = ""
 txtPrevia.Text = ""
 LegendaJuros
+optFiltro(COB_FILTRO_A_VENCER).Caption = "À vencer (" & COB_DIAS_A_VENCER & " dias)"
+End Sub
+
+'Situação mostrada no grid (padrão: Vencido)
+Private Function FiltroAtual() As Integer
+Dim k As Integer
+
+FiltroAtual = COB_FILTRO_VENCIDO
+For k = COB_FILTRO_A_VENCER To COB_FILTRO_VENCIDO
+    If optFiltro(k).Value Then FiltroAtual = k
+Next
+End Function
+
+Private Sub optFiltro_Click(Index As Integer)
+If mIniciou And Not mEnviando Then Carregar
 End Sub
 
 'Mostra a multa e o juros ao dia da Configuração Geral no próprio checkbox
@@ -672,11 +725,13 @@ End Sub
 'lSelCliente = cliente que volta selecionado
 Private Sub Carregar(Optional ByVal sDesmarcados As String = "", Optional ByVal lSelCliente As Long = 0)
 Dim i As Long, r As Long, nProntos As Long, nSel As Long
+Dim nFiltro As Integer, sSituacao As String
 
 Me.MousePointer = vbHourglass
 Aguarde True
 Cob_LerConfig mCfg
-mQtd = Cob_Pendentes(Date, mItens, (chkJuros.Value = vbChecked))
+nFiltro = FiltroAtual()
+mQtd = Cob_Pendentes(Date, mItens, (chkJuros.Value = vbChecked), nFiltro)
 ReDim mMarca(0 To mQtd)
 
 mSemEvento = True
@@ -690,7 +745,7 @@ With grdEnvio
     .TextMatrix(0, C_REGRA) = "Regra"
     .TextMatrix(0, C_PARC) = "Parc."
     .TextMatrix(0, C_TOTAL) = "Total"
-    .TextMatrix(0, C_ATRASO) = "Atraso"
+    .TextMatrix(0, C_ATRASO) = IIf(nFiltro = COB_FILTRO_VENCIDO, "Atraso", "Vence")
     .TextMatrix(0, C_SITUACAO) = "Situação"
     .ColAlignment(C_MARCA) = flexAlignCenterCenter
     .ColAlignment(C_CLIENTE) = flexAlignLeftCenter
@@ -710,7 +765,11 @@ With grdEnvio
         .TextMatrix(r, C_REGRA) = mItens(i).Regra
         .TextMatrix(r, C_PARC) = mItens(i).QtdParcelas
         .TextMatrix(r, C_TOTAL) = Format$(mItens(i).Total, "#,##0.00")
-        .TextMatrix(r, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
+        Select Case nFiltro
+            Case COB_FILTRO_A_VENCER: .TextMatrix(r, C_ATRASO) = IIf(mItens(i).Vencimento > 0, Format$(mItens(i).Vencimento, "dd/mm/yyyy"), "-")
+            Case COB_FILTRO_VENCENDO: .TextMatrix(r, C_ATRASO) = "Hoje"
+            Case Else: .TextMatrix(r, C_ATRASO) = IIf(mItens(i).DiasAtraso > 0, mItens(i).DiasAtraso & "d", "-")
+        End Select
         If Len(mItens(i).Motivo) = 0 Then
             .TextMatrix(r, C_SITUACAO) = "Pronto para enviar"
             nProntos = nProntos + 1
@@ -732,7 +791,12 @@ With grdEnvio
 End With
 mSemEvento = False
 
-lblResumo.Caption = "Resumo: " & mQtd & " cliente(s) na régua de hoje, " & nProntos & " pronto(s) para enviar.   " & _
+Select Case nFiltro
+    Case COB_FILTRO_A_VENCER: sSituacao = "com parcelas a vencer"
+    Case COB_FILTRO_VENCENDO: sSituacao = "com parcelas vencendo hoje"
+    Case Else: sSituacao = "com parcelas vencidas"
+End Select
+lblResumo.Caption = "Resumo: " & mQtd & " cliente(s) " & sSituacao & ", " & nProntos & " pronto(s) para enviar hoje.   " & _
                     "Enviadas hoje: " & Cob_EnviadosHoje() & " de " & mCfg.LimiteDia & " (limite por dia)."
 MostrarPrevia
 Aguarde False
@@ -869,7 +933,7 @@ If i < 1 Or i > mQtd Then
     Exit Sub
 End If
 txtPrevia.Text = "Para: " & IIf(Len(mItens(i).Celular) > 0, mItens(i).Celular, "(sem celular)") & vbCrLf & _
-                 "Regra: " & mItens(i).Regra & vbCrLf & String$(30, "-") & vbCrLf & Cob_Texto(mItens(i), mCfg, True)
+                 "Regra: " & IIf(Len(mItens(i).Regra) > 0, mItens(i).Regra, "(nenhuma)") & IIf(mItens(i).CodRegra = 0 And Len(mItens(i).Regra) > 0, " (prevista)", "") & vbCrLf & String$(30, "-") & vbCrLf & Cob_Texto(mItens(i), mCfg, True)
 End Sub
 
 Private Sub grdEnvio_Click()
@@ -1153,6 +1217,8 @@ lblResumo.Caption = "Resumo: enviadas hoje " & Cob_EnviadosHoje() & " de " & mCf
 End Sub
 
 Private Sub HabilitarTela(ByVal bHabilitar As Boolean)
+Dim k As Integer
+
 cmdEnviar.Enabled = bHabilitar
 cmdMarcarTodos.Enabled = bHabilitar
 cmdDesmarcar.Enabled = bHabilitar
@@ -1163,6 +1229,9 @@ cmdRegua.Enabled = bHabilitar
 cmdFechar.Enabled = bHabilitar
 cboPeriodo.Enabled = bHabilitar
 chkJuros.Enabled = bHabilitar
+For k = COB_FILTRO_A_VENCER To COB_FILTRO_VENCIDO
+    optFiltro(k).Enabled = bHabilitar
+Next
 cmdParar.Enabled = Not bHabilitar
 End Sub
 

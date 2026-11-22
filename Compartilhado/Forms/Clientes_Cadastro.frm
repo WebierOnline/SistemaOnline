@@ -492,6 +492,15 @@ Begin VB.Form Clientes_Cadastro
             Top             =   1020
             Width           =   660
          End
+         Begin VB.CheckBox chkNaoCobrarZap 
+            Caption         =   "Não enviar cobrança pelo WhatsApp"
+            Height          =   195
+            Left            =   6900
+            TabIndex        =   114
+            ToolTipText     =   "Marcado: o cliente não recebe as mensagens da régua de cobrança (Financeiro > Cobrança por WhatsApp)."
+            Top             =   4260
+            Width           =   3315
+         End
          Begin VB.TextBox txtComplemento 
             DataField       =   "Correio_eletronico"
             DataSource      =   "Data1"
@@ -1853,6 +1862,7 @@ Private Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" (B
 ByVal lpOperation As String, ByVal lpFile As String, ByVal lpParameters As String, ByVal lpDirectory As String, _
 ByVal nShowCmd As Long) As Long
 Private Const conSwNormal = 1
+Private mColNaoCobrar As Integer   '0 = não verificado, 1 = cliente.NaoCobrarWhatsApp existe (script 184), 2 = não existe
 
 Private Sub AutoNumeracao()
 Dim sSQL As String
@@ -1872,6 +1882,7 @@ cboStatus.Text = ""
 txtEndereco.Text = ""
 txtNum.Text = ""
 chkSN.Value = 0
+chkNaoCobrarZap.Value = vbUnchecked
 txtReferencia.Text = ""
 mskTelefone1.Mask = ""
 mskTelefone1.Text = ""
@@ -1969,6 +1980,7 @@ If Not rTabela Is Nothing Then
    txtEndereco.Text = ValidateNull(rTabela("endereco"))
    txtNum.Text = ValidateNull(rTabela("numero"))
    chkSN.Value = IIf(ValidateNull(rTabela("SN")) = True, vbChecked, vbUnchecked)
+   LerNaoCobrar Val(txtCodigo.Text)
    AtualizarEstadoNumero
    txtReferencia.Text = ValidateNull(rTabela("ponto_de_referencia"))
    mskTelefone1.Text = ValidateNull(rTabela("telefone1"))
@@ -2454,6 +2466,7 @@ sSQL = sSQL & _
    cboEstadoCivil.Text & "', '" & txtProfissao.Text & "', '" & txtFiliacao.Text & "', '" & txtConjuge.Text & "', " & IIf((txtCodigoIBGE.Text = ""), "0", txtCodigoIBGE.Text) & ", '" & txtObs.Text & "', " & IIf(chkSN.Value = vbChecked, 1, 0) & ")"
 '" & IIf((txtCodigoIBGE.Text = ""), "0", "txtCodigoIBGE.Text") & "
 Inserir_Dados = dbData.Execute(sSQL)
+If Inserir_Dados Then GravarNaoCobrar Val(txtCodigo.Text)
 
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
@@ -2510,6 +2523,7 @@ Private Function Atualizar_Dados() As Boolean
    
    'Retorna o resultado da atualização
    Atualizar_Dados = dbData.Execute(sSQL)
+   If Atualizar_Dados Then GravarNaoCobrar Val(txtCodigo.Text)
 End Function
 
 Private Sub cmdCancelar_Click()
@@ -3273,8 +3287,36 @@ txtNome.SetFocus
 'Form_Load
 End Sub
 
+'Cobrança por WhatsApp: cliente.NaoCobrarWhatsApp (script 184) – também marcado pelo botão "Não cobrar" da tela de cobrança
+Private Function TemNaoCobrar() As Boolean
+If mColNaoCobrar = 0 Then
+    On Error Resume Next
+    mColNaoCobrar = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.cliente', 'NaoCobrarWhatsApp') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then mColNaoCobrar = 1
+    Err.Clear
+    On Error GoTo 0
+End If
+TemNaoCobrar = (mColNaoCobrar = 1)
+End Function
+
+Private Sub LerNaoCobrar(ByVal lCodigo As Long)
+chkNaoCobrarZap.Value = vbUnchecked
+If lCodigo = 0 Or Not TemNaoCobrar() Then Exit Sub
+On Error Resume Next
+If Val(CStr(SQLExecutaRetorno("SELECT ISNULL(NaoCobrarWhatsApp, 0) AS n FROM cliente WHERE codigo = " & lCodigo, "n", 0))) <> 0 Then chkNaoCobrarZap.Value = vbChecked
+Err.Clear
+End Sub
+
+Private Sub GravarNaoCobrar(ByVal lCodigo As Long)
+If lCodigo = 0 Or Not TemNaoCobrar() Then Exit Sub
+On Error Resume Next
+dbData.Execute "UPDATE cliente SET NaoCobrarWhatsApp = " & IIf(chkNaoCobrarZap.Value = vbChecked, 1, 0) & " WHERE codigo = " & lCodigo
+Err.Clear
+End Sub
+
 Private Sub Form_Load()
 SSTab1.Tab = 0
+chkNaoCobrarZap.Visible = TemNaoCobrar()
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 txtCadastro.Text = Format(Date, ocDATA)
 

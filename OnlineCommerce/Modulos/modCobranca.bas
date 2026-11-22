@@ -17,6 +17,15 @@ Public Const COB_NO_DIA As Integer = 2
 Public Const COB_DEPOIS As Integer = 3
 Private Const COB_MAX_LINHAS As Long = 10
 
+'Filtro de Cob_Pendentes: HOJE = só quem tem mensagem para sair hoje (envio automático);
+'A_VENCER / VENCENDO / VENCIDO = todos os clientes daquela situação (a tela), com a previsão do próximo envio
+Public Const COB_FILTRO_HOJE As Integer = 0
+Public Const COB_FILTRO_A_VENCER As Integer = 1
+Public Const COB_FILTRO_VENCENDO As Integer = 2
+Public Const COB_FILTRO_VENCIDO As Integer = 3
+'"A vencer" mostra as parcelas que vencem até esta quantidade de dias (ou até o maior "dias antes" da régua, se for maior)
+Public Const COB_DIAS_A_VENCER As Long = 7
+
 'Envio em andamento: a tela liga para interromper a fila entre uma mensagem e outra
 Public Cob_Parar As Boolean
 'Intervalo mínimo entre mensagens (segundos): abaixo disso o WhatsApp tende a bloquear o número
@@ -162,9 +171,12 @@ End Function
 
 '---------------------------------------------------------------------------
 ' Quem recebe cobrança em dHoje. Devolve a quantidade (Itens(1..n)); inclui os que não podem receber, com o Motivo.
+' nFiltro: COB_FILTRO_HOJE (só quem recebe hoje) ou A_VENCER / VENCENDO / VENCIDO (o cliente entra pela parcela mais
+' atrasada dele; quem não tem envio hoje vem com CodRegra = 0, a regra prevista e o Motivo "Sem envio hoje (próximo em ...)").
 ' bJuros = soma multa + juros do atraso (Configuração Geral: MULTA, JUROS_DIA e TIPO_JUROS) no valor de cada parcela vencida.
 '---------------------------------------------------------------------------
-Public Function Cob_Pendentes(ByVal dHoje As Date, ByRef Itens() As CobItem, Optional ByVal bJuros As Boolean = False) As Long
+Public Function Cob_Pendentes(ByVal dHoje As Date, ByRef Itens() As CobItem, Optional ByVal bJuros As Boolean = False, _
+                              Optional ByVal nFiltro As Integer = COB_FILTRO_HOJE) As Long
 Dim rs As ADODB.Recordset
 Dim nR As Long, i As Long, n As Long
 Dim rId() As Long, rDesc() As String, rSit() As Integer, rDias() As Long, rRep() As Long, rMax() As Long, rMsg() As String
@@ -177,6 +189,8 @@ Dim dVenc As Date, saldo As Currency, codParc As Long, bDispara As Boolean
 Dim linhas As Long, extras As Long
 Dim it As CobItem, naoCobrar As Boolean, sMotivoCel As String
 Dim cJurosDia As Currency, nTipoJuros As Integer, cValor As Currency, cMulta As Currency, cBase As Currency
+Dim nJanela As Long, nCat As Integer, dProx As Date, iProx As Long, dP As Date, vH As Variant, bListar As Boolean
+Dim qF As Long, tF As Currency, vF As Date, linF As String, linhasF As Long, extrasF As Long
 
 dHoje = DateValue(dHoje)
 sHoje = Format$(dHoje, "yyyymmdd")
@@ -198,6 +212,8 @@ Do While Not rs.EOF
 Loop
 rs.Close
 If nR = 0 Then Exit Function
+nJanela = maxAntes
+If nFiltro <> COB_FILTRO_HOJE And nJanela < COB_DIAS_A_VENCER Then nJanela = COB_DIAS_A_VENCER
 
 'Envios já feitos por parcela e regra (só das parcelas ainda em aberto): "quantidade|último dia"
 Set rs = dbData.OpenRecordset("SELECT ep.CodParcela, ep.CodRegra, COUNT(*) AS n, MAX(e.DataHora) AS ult " & _
@@ -224,7 +240,7 @@ Set rs = dbData.OpenRecordset("SELECT p.CODIGO, p.COD_PEDIDO, ISNULL(p.COD_OS, 0
     "p.VALOR AS VALOR_PARC, p.VALOR - ISNULL((SELECT SUM(h.valor_haver) FROM parcelas_haver h WHERE h.cod_parcela = p.CODIGO), 0) AS SALDO, " & _
     "c.CODIGO AS COD_CLIENTE, c.NOME, ISNULL(c.NaoCobrarWhatsApp, 0) AS NAO_COBRAR " & _
     "FROM parcelas p INNER JOIN pedidos pe ON pe.COD_PEDIDO = p.COD_PEDIDO INNER JOIN cliente c ON c.CODIGO = pe.COD_CLIENTE " & _
-    "WHERE p.STATUS = 0 AND p.DATA < '" & Format$(dHoje + maxAntes + 1, "yyyymmdd") & "' " & _
+    "WHERE p.STATUS = 0 AND p.DATA < '" & Format$(dHoje + nJanela + 1, "yyyymmdd") & "' " & _
     "ORDER BY c.CODIGO, p.DATA, p.CODIGO")
 
 cliAtual = -1
@@ -239,6 +255,7 @@ Do While Not rs.EOF
         it.Lista = "": it.QtdParcelas = 0: it.Total = 0: it.DiasAtraso = 0: it.Vencimento = 0: it.Motivo = ""
         naoCobrar = CBool(rs("NAO_COBRAR"))
         pesoMelhor = -1: melhor = 0: linhas = 0: extras = 0
+        nCat = 0: dProx = 0: iProx = 0: qF = 0: tF = 0: vF = 0: linF = "": linhasF = 0: extrasF = 0
     End If
 
     If IsNull(rs("SALDO")) Then saldo = 0 Else saldo = CCur(rs("SALDO"))
@@ -246,6 +263,39 @@ Do While Not rs.EOF
         codParc = rs("CODIGO")
         dVenc = DateValue(rs("DATA"))
         dias = DateDiff("d", dVenc, dHoje)
+
+        'Situação do cliente = a da parcela mais atrasada (vencido > vencendo hoje > a vencer)
+        If dias >= 1 Then
+            nCat = COB_FILTRO_VENCIDO
+        ElseIf dias = 0 Then
+            If nCat < COB_FILTRO_VENCENDO Then nCat = COB_FILTRO_VENCENDO
+        ElseIf nCat < COB_FILTRO_A_VENCER Then
+            nCat = COB_FILTRO_A_VENCER
+        End If
+
+        'Próximo envio previsto desta parcela (depois de hoje), só para a tela
+        If nFiltro <> COB_FILTRO_HOJE Then
+            For i = 1 To nR
+                dP = 0
+                vH = Empty
+                On Error Resume Next
+                vH = hist("p" & codParc & "r" & rId(i))
+                On Error GoTo Falha
+                Select Case rSit(i)
+                    Case COB_ANTES: If IsEmpty(vH) Then dP = dVenc - rDias(i)
+                    Case COB_NO_DIA: If IsEmpty(vH) Then dP = dVenc
+                    Case Else
+                        If IsEmpty(vH) Then
+                            dP = dVenc + rDias(i)
+                        ElseIf rRep(i) > 0 Then
+                            If Val(Split(vH, "|")(0)) < rMax(i) Then dP = Cob_DataHist(vH) + rRep(i)
+                        End If
+                End Select
+                If dP > dHoje Then
+                    If dProx = 0 Or dP < dProx Then dProx = dP: iProx = i
+                End If
+            Next
+        End If
 
         'Regra da parcela: após o vencimento = a de maior "dias" já alcançada; no dia; antes = dias exatos
         ir = 0
@@ -279,7 +329,7 @@ Do While Not rs.EOF
                 bDispara = True
             ElseIf rRep(ir) > 0 Then
                 bDispara = (Val(Split(v, "|")(0)) < rMax(ir)) And _
-                           (DateDiff("d", DateSerial(Left$(Split(v, "|")(1), 4), Mid$(Split(v, "|")(1), 5, 2), Right$(Split(v, "|")(1), 2)), dHoje) >= rRep(ir))
+                           (DateDiff("d", Cob_DataHist(v), dHoje) >= rRep(ir))
             End If
         End If
 
@@ -312,6 +362,17 @@ Do While Not rs.EOF
             Else
                 extras = extras + 1
             End If
+        ElseIf nFiltro <> COB_FILTRO_HOJE Then
+            'A vencer sem aviso hoje: guardadas à parte, para mostrar se o cliente não tiver nada que já venceu
+            qF = qF + 1
+            tF = tF + cValor
+            If vF = 0 Or dVenc < vF Then vF = dVenc
+            If linhasF < COB_MAX_LINHAS Then
+                linF = linF & IIf(Len(linF) > 0, vbLf, "") & Cob_LinhaParcela(rs("COD_PEDIDO"), rs("COD_OS"), rs("NUMERO"), rs("QTD"), dVenc, cValor, dias)
+                linhasF = linhasF + 1
+            Else
+                extrasF = extrasF + 1
+            End If
         End If
     End If
     rs.MoveNext
@@ -322,11 +383,25 @@ Cob_Pendentes = n
 Exit Function
 
 Fechar:
-    If melhor > 0 Then
+    If nFiltro = COB_FILTRO_HOJE Then
+        bListar = (melhor > 0)
+    Else
+        bListar = (nCat = nFiltro)
+    End If
+    If bListar Then
+        If it.QtdParcelas = 0 Then
+            'Só parcelas a vencer, sem aviso hoje
+            it.QtdParcelas = qF: it.Total = tF: it.Vencimento = vF: it.Lista = linF: extras = extrasF
+        End If
         If extras > 0 Then it.Lista = it.Lista & vbLf & "• e mais " & extras & " parcela(s)"
-        it.CodRegra = rId(melhor)
-        it.Regra = rDesc(melhor)
-        it.Mensagem = rMsg(melhor)
+        If melhor > 0 Then
+            it.CodRegra = rId(melhor)
+            it.Regra = rDesc(melhor)
+            it.Mensagem = rMsg(melhor)
+        ElseIf iProx > 0 Then
+            it.Regra = rDesc(iProx)      'regra prevista (CodRegra fica 0: não envia hoje)
+            it.Mensagem = rMsg(iProx)
+        End If
         it.Celular = PDFZap_CelularCliente(it.CodCliente)
         If naoCobrar Then
             it.Motivo = "Cliente marcado para não receber cobrança"
@@ -336,6 +411,12 @@ Fechar:
             it.Motivo = "Sem celular no cadastro"
         ElseIf Not CelularValido(it.Celular, sMotivoCel) Then
             it.Motivo = "Celular inválido (" & sMotivoCel & ")"
+        ElseIf melhor = 0 Then
+            If iProx > 0 Then
+                it.Motivo = "Sem envio hoje (próximo em " & Format$(dProx, "dd/mm/yyyy") & ")"
+            Else
+                it.Motivo = "Sem envio previsto (nenhuma regra ativa alcança este cliente)"
+            End If
         End If
         n = n + 1
         ReDim Preserve Itens(n)
@@ -347,6 +428,14 @@ Falha:
 MsgBox "Não foi possível montar a lista de cobranças." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Cobrança por WhatsApp"
 Err.Clear
 Cob_Pendentes = n
+End Function
+
+'Data gravada no controle de envios ("quantidade|yyyymmdd")
+Private Function Cob_DataHist(ByVal v As Variant) As Date
+Dim s As String
+
+s = Split(v, "|")(1)
+Cob_DataHist = DateSerial(Left$(s, 4), Mid$(s, 5, 2), Right$(s, 2))
 End Function
 
 'Juros ao dia (%), tipo (0 = sobre o saldo restante, 1 = sobre o valor da parcela) e multa (%) da Configuração Geral
