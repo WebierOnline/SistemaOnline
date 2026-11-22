@@ -42,7 +42,7 @@ Public Type CobItem
     CodRegra As Long
     Regra As String
     Mensagem As String       'modelo da regra (com as tags)
-    Parcelas As String       '"|cod|cod|" das parcelas que dispararam a regra (vão para o histórico)
+    Parcelas As String       '"|parcela:regra|parcela:regra|" das parcelas que dispararam a regra (vão para o histórico)
     Lista As String          'linhas das parcelas em aberto ({LISTA_PARCELAS}), separadas por vbLf
     QtdParcelas As Long
     Total As Currency
@@ -345,7 +345,7 @@ Do While Not rs.EOF
         End If
 
         If bDispara Then
-            it.Parcelas = it.Parcelas & codParc & "|"
+            it.Parcelas = it.Parcelas & codParc & ":" & rId(ir) & "|"   'cada parcela com a regra dela
             Select Case rSit(ir)
                 Case COB_DEPOIS: peso = 2000 + rDias(ir)
                 Case COB_NO_DIA: peso = 1000
@@ -646,7 +646,7 @@ Cob_Registrar it, Cob_Enviar, sErro, bManual
 End Function
 
 Private Sub Cob_Registrar(ByRef it As CobItem, ByVal bOk As Boolean, ByVal sErro As String, ByVal bManual As Boolean)
-Dim r As ADODB.Recordset, lId As Long, p() As String, i As Long, sUsuario As String
+Dim r As ADODB.Recordset, lId As Long, p() As String, i As Long, sUsuario As String, q() As String, lRegra As Long
 
 On Error GoTo Fim
 sUsuario = ""
@@ -663,7 +663,10 @@ If Not bOk Or lId = 0 Then Exit Sub
 p = Split(it.Parcelas, "|")
 For i = 0 To UBound(p)
     If Val(p(i)) > 0 Then
-        dbData.Execute "INSERT INTO CobrancaEnvioParcela (CodEnvio, CodParcela, CodRegra) VALUES (" & lId & ", " & Val(p(i)) & ", " & it.CodRegra & ")"
+        'Regra da própria parcela (numa mensagem só podem ir parcelas de regras diferentes: atrasada + vence hoje...)
+        q = Split(p(i) & ":", ":")
+        If Val(q(1)) > 0 Then lRegra = Val(q(1)) Else lRegra = it.CodRegra
+        dbData.Execute "INSERT INTO CobrancaEnvioParcela (CodEnvio, CodParcela, CodRegra) VALUES (" & lId & ", " & Val(p(i)) & ", " & lRegra & ")"
     End If
 Next
 Exit Sub
