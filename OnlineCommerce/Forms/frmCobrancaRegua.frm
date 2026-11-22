@@ -297,6 +297,16 @@ Begin VB.Form frmCobrancaRegua
       TabIndex        =   23
       Top             =   60
       Width           =   7440
+      Begin VB.CheckBox chkParcelasEmDias 
+         Caption         =   "Enviar a lista de parcelas à vencer junto."
+         Height          =   255
+         Left            =   1380
+         TabIndex        =   46
+         ToolTipText     =   "Marcado: o valor cobrado inclui multa e juros do atraso (Configuração Geral). A mensagem não fala em juros, só mostra o valor."
+         Top             =   1980
+         Value           =   1  'Checked
+         Width           =   3375
+      End
       Begin VB.TextBox txtDescricao 
          Height          =   315
          Left            =   1320
@@ -393,37 +403,37 @@ Begin VB.Form frmCobrancaRegua
       End
       Begin VB.TextBox txtMensagem 
          Height          =   2655
-         Left            =   240
+         Left            =   120
          MaxLength       =   2000
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   38
-         Top             =   2040
-         Width           =   6975
+         Top             =   2340
+         Width           =   7215
       End
       Begin VB.TextBox txtPrevia 
          Height          =   2055
-         Left            =   240
+         Left            =   120
          Locked          =   -1  'True
          MultiLine       =   -1  'True
          ScrollBars      =   2  'Vertical
          TabIndex        =   40
-         Top             =   5040
-         Width           =   6975
+         Top             =   5340
+         Width           =   7215
       End
       Begin VB.TextBox txtTeste 
          Height          =   315
-         Left            =   1680
+         Left            =   1560
          MaxLength       =   20
          TabIndex        =   42
-         Top             =   7230
+         Top             =   7530
          Width           =   1815
       End
       Begin ChamaleonBtn.chameleonButton cmdTeste 
          Height          =   375
-         Left            =   3600
+         Left            =   3480
          TabIndex        =   43
-         Top             =   7200
+         Top             =   7500
          Width           =   1695
          _ExtentX        =   2990
          _ExtentY        =   661
@@ -459,9 +469,9 @@ Begin VB.Form frmCobrancaRegua
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   375
-         Left            =   5880
+         Left            =   6060
          TabIndex        =   44
-         Top             =   7200
+         Top             =   7500
          Width           =   1335
          _ExtentX        =   2355
          _ExtentY        =   661
@@ -546,18 +556,18 @@ Begin VB.Form frmCobrancaRegua
       Begin VB.Label lblPrevia 
          Caption         =   "Prévia com dados de exemplo (os emojis aparecem como [nome]; no celular saem como emoji):"
          Height          =   255
-         Left            =   240
+         Left            =   120
          TabIndex        =   39
-         Top             =   4800
+         Top             =   5100
          Width           =   6975
       End
       Begin VB.Label lblTeste 
          Caption         =   "Testar no celular:"
          Height          =   255
-         Left            =   240
+         Left            =   120
          TabIndex        =   41
-         Top             =   7260
-         Width           =   1400
+         Top             =   7560
+         Width           =   1395
       End
    End
    Begin ChamaleonBtn.chameleonButton cmdFechar 

@@ -39,7 +39,7 @@ Begin VB.Form frmCobrancaEnvio
       NoFolders       =   0   'False
       Transparent     =   0   'False
       ViewID          =   "{0057D0E0-3573-11CF-AE69-08002B2E1262}"
-      Location        =   ""
+      Location        =   "http:///"
    End
    Begin VB.Frame Frame1 
       Caption         =   "Histórico de envios"
@@ -292,11 +292,11 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdEnviar 
       Height          =   375
-      Left            =   12300
+      Left            =   13200
       TabIndex        =   5
       Top             =   4800
-      Width           =   1935
-      _ExtentX        =   3413
+      Width           =   1515
+      _ExtentX        =   2672
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "&Enviar marcados"
@@ -330,11 +330,11 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdParar 
       Height          =   375
-      Left            =   14280
+      Left            =   14760
       TabIndex        =   6
       Top             =   4800
-      Width           =   1215
-      _ExtentX        =   2143
+      Width           =   975
+      _ExtentX        =   1720
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "&Parar"
@@ -368,11 +368,11 @@ Begin VB.Form frmCobrancaEnvio
    End
    Begin ChamaleonBtn.chameleonButton cmdAtualizar 
       Height          =   375
-      Left            =   15540
+      Left            =   15780
       TabIndex        =   7
       Top             =   4800
-      Width           =   1215
-      _ExtentX        =   2143
+      Width           =   975
+      _ExtentX        =   1720
       _ExtentY        =   661
       BTYPE           =   3
       TX              =   "&Atualizar"
@@ -518,39 +518,15 @@ Begin VB.Form frmCobrancaEnvio
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.Image ImgMarcada 
-      Height          =   195
-      Left            =   7320
-      Picture         =   "frmCobrancaEnvio.frx":0D6C
-      Top             =   4800
-      Visible         =   0   'False
-      Width           =   195
-   End
-   Begin VB.Image imgDesmarcada 
-      Height          =   195
-      Left            =   7620
-      Picture         =   "frmCobrancaEnvio.frx":316B
-      Top             =   4800
-      Visible         =   0   'False
-      Width           =   195
-   End
    Begin VB.CheckBox chkJuros 
       Caption         =   "Cobrar juros e multa"
       Height          =   255
-      Left            =   7320
+      Left            =   7260
       TabIndex        =   21
       ToolTipText     =   "Marcado: o valor cobrado inclui multa e juros do atraso (Configuração Geral). A mensagem não fala em juros, só mostra o valor."
-      Top             =   4920
+      Top             =   4860
       Value           =   1  'Checked
-      Width           =   3375
-   End
-   Begin VB.Label lblMostrar 
-      Caption         =   "Mostrar:"
-      Height          =   255
-      Left            =   120
-      TabIndex        =   22
-      Top             =   930
-      Width           =   735
+      Width           =   5895
    End
    Begin VB.OptionButton optFiltro 
       Caption         =   "À vencer"
@@ -579,6 +555,30 @@ Begin VB.Form frmCobrancaEnvio
       Top             =   900
       Value           =   -1  'True
       Width           =   1095
+   End
+   Begin VB.Image ImgMarcada 
+      Height          =   195
+      Left            =   7320
+      Picture         =   "frmCobrancaEnvio.frx":0D6C
+      Top             =   4800
+      Visible         =   0   'False
+      Width           =   195
+   End
+   Begin VB.Image imgDesmarcada 
+      Height          =   195
+      Left            =   7620
+      Picture         =   "frmCobrancaEnvio.frx":316B
+      Top             =   4800
+      Visible         =   0   'False
+      Width           =   195
+   End
+   Begin VB.Label lblMostrar 
+      Caption         =   "Mostrar:"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   22
+      Top             =   930
+      Width           =   735
    End
    Begin VB.Label lblPrevia 
       Caption         =   "Mensagem (prévia):"
@@ -1048,7 +1048,7 @@ Dim nW As Long, nH As Long, nPx As Long
 
 On Error GoTo Falha
 sPasta = Environ$("TEMP")
-If Len(sPasta) = 0 Then sPasta = App.Path
+If Len(sPasta) = 0 Then sPasta = App.path
 If Right$(sPasta, 1) <> "\" Then sPasta = sPasta & "\"
 sGif = sPasta & "oc_aguarde.gif"
 
@@ -1283,12 +1283,12 @@ Do While Not rs.EOF
 Loop
 rs.Close
 
-Continua:
+continua:
 On Error Resume Next
 AjustarColunas grdHist, ",1,3,7,", -1
 grdHist.Redraw = True
 Err.Clear
 Exit Sub
 Falha:
-Resume Continua
+Resume continua
 End Sub
