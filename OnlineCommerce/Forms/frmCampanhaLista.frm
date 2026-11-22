@@ -15,22 +15,13 @@ Begin VB.Form frmCampanhaLista
    ScaleHeight     =   9795
    ScaleWidth      =   16815
    StartUpPosition =   2  'CenterScreen
-   Begin VB.Label lblResumo 
-      Caption         =   ""
-      ForeColor       =   &H00800000&
-      Height          =   255
-      Left            =   120
-      TabIndex        =   0
-      Top             =   120
-      Width           =   16575
-   End
    Begin MSFlexGridLib.MSFlexGrid grdCamp 
       Height          =   3600
       Left            =   120
       TabIndex        =   1
       Top             =   420
       Width           =   16575
-      _ExtentX        =   29237
+      _ExtentX        =   29236
       _ExtentY        =   6350
       _Version        =   393216
       Cols            =   10
@@ -68,6 +59,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":0000
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -105,6 +97,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":001C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -142,6 +135,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":0038
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -153,9 +147,9 @@ Begin VB.Form frmCampanhaLista
    End
    Begin ChamaleonBtn.chameleonButton cmdAtualizar 
       Height          =   375
-      Left            =   4380
+      Left            =   6120
       TabIndex        =   5
-      Top             =   4110
+      Top             =   4140
       Width           =   1215
       _ExtentX        =   2143
       _ExtentY        =   661
@@ -179,6 +173,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":0054
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -190,9 +185,9 @@ Begin VB.Form frmCampanhaLista
    End
    Begin ChamaleonBtn.chameleonButton cmdExcluir 
       Height          =   375
-      Left            =   5640
+      Left            =   4380
       TabIndex        =   9
-      Top             =   4110
+      Top             =   4140
       Width           =   1695
       _ExtentX        =   2990
       _ExtentY        =   661
@@ -216,6 +211,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":0070
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -225,22 +221,14 @@ Begin VB.Form frmCampanhaLista
       CHECK           =   0   'False
       VALUE           =   0   'False
    End
-   Begin VB.Label lblDest 
-      Caption         =   "Clientes da campanha:"
-      Height          =   255
-      Left            =   120
-      TabIndex        =   6
-      Top             =   4620
-      Width           =   8000
-   End
    Begin MSFlexGridLib.MSFlexGrid grdDest 
       Height          =   4335
       Left            =   120
       TabIndex        =   7
       Top             =   4860
       Width           =   16575
-      _ExtentX        =   29237
-      _ExtentY        =   7647
+      _ExtentX        =   29236
+      _ExtentY        =   7646
       _Version        =   393216
       Cols            =   5
       FixedCols       =   0
@@ -277,6 +265,7 @@ Begin VB.Form frmCampanhaLista
       FCOLO           =   0
       MCOL            =   12632256
       MPTR            =   1
+      MICON           =   "frmCampanhaLista.frx":008C
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -285,6 +274,22 @@ Begin VB.Form frmCampanhaLista
       HAND            =   0   'False
       CHECK           =   0   'False
       VALUE           =   0   'False
+   End
+   Begin VB.Label lblResumo 
+      ForeColor       =   &H00800000&
+      Height          =   255
+      Left            =   120
+      TabIndex        =   0
+      Top             =   120
+      Width           =   16575
+   End
+   Begin VB.Label lblDest 
+      Caption         =   "Clientes da campanha:"
+      Height          =   255
+      Left            =   120
+      TabIndex        =   6
+      Top             =   4620
+      Width           =   8000
    End
 End
 Attribute VB_Name = "frmCampanhaLista"
@@ -320,7 +325,7 @@ Carregar CampanhaAtual()
 End Sub
 
 Private Function CampanhaAtual() As Long
-If grdCamp.Row >= 1 And grdCamp.Row < grdCamp.Rows Then CampanhaAtual = grdCamp.RowData(grdCamp.Row)
+If grdCamp.Row >= 1 And grdCamp.Row < grdCamp.rows Then CampanhaAtual = grdCamp.RowData(grdCamp.Row)
 End Function
 
 Private Sub Carregar(ByVal lSel As Long)
@@ -332,7 +337,7 @@ lblResumo.Caption = "Promoções enviadas hoje: " & Camp_EnviadasHoje() & " de " &
 mSemEvento = True
 With grdCamp
     .Redraw = False
-    .Rows = 1
+    .rows = 1
     .Cols = 10
     .TextMatrix(0, 0) = "Nº"
     .TextMatrix(0, 1) = "Campanha"
@@ -360,8 +365,8 @@ Set rs = dbData.OpenRecordset("SELECT ca.Id, ca.Nome, ca.TipoMidia, ca.CriadaEm,
     "FROM Campanha ca LEFT JOIN CampanhaDestinatario d ON d.CodCampanha = ca.Id " & _
     "GROUP BY ca.Id, ca.Nome, ca.TipoMidia, ca.CriadaEm, ca.AgendadaPara, ca.Situacao ORDER BY ca.Id DESC")
 Do While Not rs.EOF
-    grdCamp.Rows = grdCamp.Rows + 1
-    r = grdCamp.Rows - 1
+    grdCamp.rows = grdCamp.rows + 1
+    r = grdCamp.rows - 1
     grdCamp.RowData(r) = rs("Id")
     grdCamp.TextMatrix(r, 0) = rs("Id")
     grdCamp.TextMatrix(r, 1) = "" & rs("Nome")
@@ -377,10 +382,10 @@ Do While Not rs.EOF
     rs.MoveNext
 Loop
 rs.Close
-Continua:
+continua:
 On Error Resume Next
 AjustarColunas grdCamp, ",1,"
-If grdCamp.Rows > 1 Then
+If grdCamp.rows > 1 Then
     If nSel = 0 Then nSel = 1
     grdCamp.Row = nSel
     grdCamp.Col = 1
@@ -392,7 +397,7 @@ CarregarDestinatarios
 Me.MousePointer = vbDefault
 Exit Sub
 Falha:
-Resume Continua
+Resume continua
 End Sub
 
 Private Sub CarregarDestinatarios()
@@ -401,7 +406,7 @@ Dim rs As ADODB.Recordset, lId As Long, r As Long, c As Integer
 lId = CampanhaAtual()
 With grdDest
     .Redraw = False
-    .Rows = 1
+    .rows = 1
     .Cols = 5
     .TextMatrix(0, 0) = "Cliente"
     .TextMatrix(0, 1) = "Celular"
@@ -423,8 +428,8 @@ On Error GoTo Falha
 Set rs = dbData.OpenRecordset("SELECT c.Nome, d.Celular, d.Situacao, d.DataHora, d.Erro FROM CampanhaDestinatario d " & _
     "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente WHERE d.CodCampanha = " & lId & " ORDER BY d.Situacao, c.Nome")
 Do While Not rs.EOF
-    grdDest.Rows = grdDest.Rows + 1
-    r = grdDest.Rows - 1
+    grdDest.rows = grdDest.rows + 1
+    r = grdDest.rows - 1
     grdDest.TextMatrix(r, 0) = "" & rs("Nome")
     grdDest.TextMatrix(r, 1) = "" & rs("Celular")
     Select Case Val("" & rs("Situacao"))
@@ -438,14 +443,14 @@ Do While Not rs.EOF
     rs.MoveNext
 Loop
 rs.Close
-Continua:
+continua:
 On Error Resume Next
 AjustarColunas grdDest, ",0,4,"
 grdDest.Redraw = True
 Err.Clear
 Exit Sub
 Falha:
-Resume Continua
+Resume continua
 End Sub
 
 Private Sub AtualizarBotoes()
@@ -520,7 +525,7 @@ Me.FontSize = grd.Font.Size
 Me.FontBold = False
 ReDim w(0 To grd.Cols - 1)
 For c = 0 To grd.Cols - 1
-    For r = 0 To grd.Rows - 1
+    For r = 0 To grd.rows - 1
         wt = Me.TextWidth(grd.TextMatrix(r, c))
         If wt > w(c) Then w(c) = wt
     Next
@@ -529,7 +534,7 @@ For c = 0 To grd.Cols - 1
     If InStr(sElasticas, "," & c & ",") > 0 Then nElast = nElast + w(c)
 Next
 nDisp = grd.Width - 90
-If grd.Rows * grd.RowHeight(0) > grd.Height - 60 Then nDisp = nDisp - 270
+If grd.rows * grd.RowHeight(0) > grd.Height - 60 Then nDisp = nDisp - 270
 If nElast > 0 And nTotal <> nDisp Then
     nDif = nDisp - nTotal
     For c = 0 To grd.Cols - 1
