@@ -6,7 +6,7 @@ Option Explicit
 '   quem envia é a tarefa do servidor (OnlineCommerce.exe /cobrancazap -> Camp_ProcessarFila), aos poucos:
 '   limite próprio por dia (CobrancaConfig.PromoLimiteDia, padrão 40), depois das cobranças (prioridade),
 '   no horário/dias da Régua de cobrança, intervalo aleatório, uma promoção por cliente por dia e nunca no
-'   mesmo dia de uma cobrança. Texto com variações {Olá|Oi} e rodapé fixo de opt-out (anti-bloqueio).
+'   mesmo dia de uma cobrança. Texto com variações {Olá|Oi} e rodapé de opt-out opcional (Campanha.RodapeSair, script 192).
 '   Arquivo (imagem, vídeo ou PDF) fica no banco (Campanha.Arquivo) para o servidor ler de qualquer máquina.
 '   cliente.NaoReceberPromocao: quem não quer promoções (a cobrança continua).
 '---------------------------------------------------------------------------
@@ -64,6 +64,19 @@ Camp_BancoPronto = (Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.
     "OR OBJECT_ID('dbo.CampanhaDestinatario', 'U') IS NULL OR COL_LENGTH('dbo.cliente', 'NaoReceberPromocao') IS NULL " & _
     "OR COL_LENGTH('dbo.CobrancaConfig', 'PromoLimiteDia') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1)
 Err.Clear
+End Function
+
+'Coluna Campanha.RodapeSair (script 192) existe?
+Public Function Camp_TemRodape() As Boolean
+Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+
+If nTem = 0 Then
+    On Error Resume Next
+    nTem = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.Campanha', 'RodapeSair') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then nTem = 1
+    Err.Clear
+End If
+Camp_TemRodape = (nTem = 1)
 End Function
 
 '---------------------------------------------------------------------------
@@ -151,8 +164,9 @@ End Function
 ' Texto da mensagem
 '---------------------------------------------------------------------------
 'Variações {Olá|Oi|Bom dia} sorteadas por cliente (bPrimeira = sempre a primeira, para a prévia), tags do cliente,
-'emojis e o rodapé de opt-out. bPrevia: emojis como [nome] (TextBox).
-Public Function Camp_Texto(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal bPrimeira As Boolean, ByVal bPrevia As Boolean) As String
+'emojis e, com bRodape, o rodapé de opt-out. bPrevia: emojis como [nome] (TextBox).
+Public Function Camp_Texto(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal bPrimeira As Boolean, ByVal bPrevia As Boolean, _
+                           Optional ByVal bRodape As Boolean = False) As String
 Dim s As String, i As Long, tags() As String, desc() As String, emo() As String
 
 s = Camp_Variacoes(Replace(sMsg, vbCrLf, vbLf), bPrimeira)
@@ -163,7 +177,7 @@ s = Trim$(s)
 Do While Right$(s, 1) = vbLf
     s = Left$(s, Len(s) - 1)
 Loop
-s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & CAMP_RODAPE
+If bRodape Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & CAMP_RODAPE
 
 Cob_ListaTags tags, desc, emo
 For i = 0 To UBound(tags)
@@ -224,11 +238,12 @@ Next
 End Sub
 
 'Prévia em HTML (balão do WhatsApp) para o WebBrowser: emojis de verdade (entidades HTML), *negrito* _itálico_ ~riscado~
-Public Function Camp_PreviaHtml(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal nTipo As Integer, ByVal sArquivo As String) As String
+Public Function Camp_PreviaHtml(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal nTipo As Integer, ByVal sArquivo As String, _
+                                Optional ByVal bRodape As Boolean = False) As String
 Dim s As String, i As Long, tags() As String, desc() As String, emo() As String, p() As String, j As Long, sEnt As String
 Dim sMidia As String
 
-s = Camp_Texto(sMsg, sNomeCliente, True, True)      'emojis como [nome]
+s = Camp_Texto(sMsg, sNomeCliente, True, True, bRodape)      'emojis como [nome]
 s = Replace(s, vbCrLf, vbLf)
 s = Replace(s, "&", "&amp;")
 s = Replace(s, "<", "&lt;")
@@ -297,7 +312,7 @@ End Function
 'Grava a campanha e os destinatários (na fila do servidor). Devolve o Id (0 = erro, sErro com o motivo).
 Public Function Camp_Salvar(ByVal sNome As String, ByVal sMsg As String, ByVal nTipo As Integer, ByVal sArquivo As String, _
                             ByVal vAgendada As Variant, ByVal sPublico As String, ByRef Cods() As Long, ByRef Cels() As String, _
-                            ByVal nQtd As Long, ByRef sErro As String) As Long
+                            ByVal nQtd As Long, ByRef sErro As String, Optional ByVal bRodape As Boolean = False) As Long
 Dim r As ADODB.Recordset, lId As Long, i As Long, s As String, nLote As Long, bTrans As Boolean, sUsuario As String, sAgenda As String
 
 On Error Resume Next
@@ -316,6 +331,7 @@ If Not r.EOF Then lId = r(0)
 r.Close
 If lId = 0 Then Err.Raise vbObjectError + 1, , "O banco não devolveu o número da campanha."
 
+If bRodape And Camp_TemRodape() Then dbData.Execute "UPDATE Campanha SET RodapeSair = 1 WHERE Id = " & lId
 If Len(sArquivo) > 0 Then
     dbData.Execute "UPDATE Campanha SET Arquivo = 0x" & Camp_HexArquivo(sArquivo) & " WHERE Id = " & lId
 End If
@@ -460,7 +476,7 @@ Public Sub Camp_ProcessarFila(ByRef cfg As CobConfig)
 Dim r As ADODB.Recordset, nRestam As Long, nOk As Long, nErro As Long, nPuladas As Long, nSeguidos As Long
 Dim lDest As Long, lCamp As Long, lCampArq As Long, sArq As String, sCel As String, sNome As String, sMsg As String
 Dim nTipo As Integer, sTexto As String, sErro As String, sMotivo As String, sSit As String, sNum As String, sNomeZap As String
-Dim sHoje As String, sParou As String
+Dim sHoje As String, sParou As String, bRodape As Boolean
 
 On Error GoTo Falha
 If Not Camp_BancoPronto() Then Exit Sub
@@ -481,7 +497,7 @@ Do While nOk + nErro < nRestam
     If Not Cob_DentroDoHorario(cfg) Then sParou = "fim do horário de envio": Exit Do
     'Próximo da fila: campanha mais antiga primeiro; uma promoção por cliente por dia e nunca no dia de uma cobrança
     Set r = dbData.OpenRecordset("SELECT TOP 1 d.Id, d.CodCliente, d.Celular, c.Nome, ISNULL(c.NaoReceberPromocao, 0) AS NAO, " & _
-        "ca.Id AS CAMP, ca.Mensagem, ca.TipoMidia FROM CampanhaDestinatario d INNER JOIN Campanha ca ON ca.Id = d.CodCampanha " & _
+        "ca.Id AS CAMP, ca.Mensagem, ca.TipoMidia, " & IIf(Camp_TemRodape(), "ca.RodapeSair", "0 AS RodapeSair") & " FROM CampanhaDestinatario d INNER JOIN Campanha ca ON ca.Id = d.CodCampanha " & _
         "INNER JOIN cliente c ON c.CODIGO = d.CodCliente WHERE d.Situacao = " & CAMP_DEST_AGUARDANDO & " AND ca.Situacao = " & CAMP_NA_FILA & _
         " AND (ca.AgendadaPara IS NULL OR ca.AgendadaPara <= GETDATE()) " & _
         "AND d.CodCliente NOT IN (SELECT CodCliente FROM CampanhaDestinatario WHERE Situacao = " & CAMP_DEST_ENVIADA & " AND DataHora >= '" & sHoje & "') " & _
@@ -490,6 +506,7 @@ Do While nOk + nErro < nRestam
     If r.EOF Then r.Close: Exit Do
     lDest = r("Id"): lCamp = r("CAMP"): nTipo = Val("" & r("TipoMidia"))
     sCel = Trim$("" & r("Celular")): sNome = Trim$("" & r("Nome")): sMsg = "" & r("Mensagem")
+    bRodape = CBool(r("RodapeSair"))
     sMotivo = ""
     If CBool(r("NAO")) Then sMotivo = "Cliente não quer promoções"
     r.Close
@@ -513,7 +530,7 @@ Do While nOk + nErro < nRestam
             Cob_Esperar Cob_Intervalo(cfg)
             'A campanha ainda está ativa? (pausada/cancelada pela tela durante a espera)
             If Val(CStr(SQLExecutaRetorno("SELECT Situacao AS r FROM Campanha WHERE Id = " & lCamp, "r", 0))) = CAMP_NA_FILA Then
-                sTexto = Camp_Texto(sMsg, sNome, False, False)
+                sTexto = Camp_Texto(sMsg, sNome, False, False, bRodape)
                 If ZapOnlineEnviar(sCel, sTexto, IIf(nTipo = CAMP_SO_TEXTO, "", sArq), sErro) Then
                     Camp_MarcarDestinatario lDest, CAMP_DEST_ENVIADA, ""
                     nOk = nOk + 1

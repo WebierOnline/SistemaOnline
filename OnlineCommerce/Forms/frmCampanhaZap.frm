@@ -211,13 +211,22 @@ Begin VB.Form frmCampanhaZap
          Top             =   2100
          Width           =   6015
       End
-      Begin VB.Label lblDica 
-         Caption         =   "O rodapé ""Para não receber mais promoções, responda SAIR"" vai sempre no final. Use {Olá|Oi|Bom dia} para o texto variar entre os clientes (evita bloqueio)."
-         ForeColor       =   &H00000080&
-         Height          =   435
+      Begin VB.CheckBox chkRodape 
+         Caption         =   "Incluir no final: ""Para não receber mais promoções, responda SAIR."""
+         Height          =   255
          Left            =   120
          TabIndex        =   16
-         Top             =   4440
+         ToolTipText     =   "Marcado: a mensagem termina com o pedido de opt-out (reduz denúncias). As respostas SAIR chegam no WhatsApp da loja: marque o cliente em Não enviar promoções."
+         Top             =   4410
+         Width           =   6015
+      End
+      Begin VB.Label lblDica 
+         Caption         =   "Use {Olá|Oi|Bom dia} para o texto variar entre os clientes (evita bloqueio)."
+         ForeColor       =   &H00000080&
+         Height          =   210
+         Left            =   120
+         TabIndex        =   17
+         Top             =   4680
          Width           =   6015
       End
    End
@@ -225,14 +234,14 @@ Begin VB.Form frmCampanhaZap
       Caption         =   "Público (os filtros marcados valem juntos)"
       Height          =   4155
       Left            =   120
-      TabIndex        =   17
+      TabIndex        =   18
       Top             =   5100
       Width           =   6255
       Begin VB.CheckBox chkAniver 
          Caption         =   "Aniversariantes"
          Height          =   255
          Left            =   120
-         TabIndex        =   18
+         TabIndex        =   19
          Top             =   300
          Width           =   1935
       End
@@ -240,7 +249,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2100
          Style           =   2  'Dropdown List
-         TabIndex        =   19
+         TabIndex        =   20
          Top             =   270
          Width           =   1815
       End
@@ -248,7 +257,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Compraram nos últimos"
          Height          =   255
          Left            =   120
-         TabIndex        =   20
+         TabIndex        =   21
          Top             =   690
          Width           =   2535
       End
@@ -256,7 +265,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2700
          MaxLength       =   4
-         TabIndex        =   21
+         TabIndex        =   22
          Top             =   660
          Width           =   615
       End
@@ -264,7 +273,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "dias"
          Height          =   255
          Left            =   3360
-         TabIndex        =   22
+         TabIndex        =   23
          Top             =   690
          Width           =   600
       End
@@ -272,7 +281,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Sem comprar há mais de"
          Height          =   255
          Left            =   120
-         TabIndex        =   23
+         TabIndex        =   24
          Top             =   1080
          Width           =   2535
       End
@@ -280,7 +289,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2700
          MaxLength       =   4
-         TabIndex        =   24
+         TabIndex        =   25
          Top             =   1050
          Width           =   615
       End
@@ -288,7 +297,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "dias"
          Height          =   255
          Left            =   3360
-         TabIndex        =   25
+         TabIndex        =   26
          Top             =   1080
          Width           =   600
       End
@@ -296,7 +305,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Compraram o produto"
          Height          =   255
          Left            =   120
-         TabIndex        =   26
+         TabIndex        =   27
          Top             =   1470
          Width           =   1935
       End
@@ -304,7 +313,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2100
          MaxLength       =   60
-         TabIndex        =   27
+         TabIndex        =   28
          ToolTipText     =   "Parte da descrição do produto. Com ""Compraram nos últimos X dias"" marcado, vale só para esse período."
          Top             =   1440
          Width           =   3975
@@ -313,7 +322,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Da categoria"
          Height          =   255
          Left            =   120
-         TabIndex        =   28
+         TabIndex        =   29
          Top             =   1860
          Width           =   1935
       End
@@ -321,7 +330,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2100
          Style           =   2  'Dropdown List
-         TabIndex        =   29
+         TabIndex        =   30
          Top             =   1830
          Width           =   3975
       End
@@ -329,7 +338,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Cidade"
          Height          =   255
          Left            =   120
-         TabIndex        =   30
+         TabIndex        =   31
          Top             =   2250
          Width           =   1935
       End
@@ -337,7 +346,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2100
          Style           =   2  'Dropdown List
-         TabIndex        =   31
+         TabIndex        =   32
          Top             =   2220
          Width           =   3975
       End
@@ -345,7 +354,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Bairro"
          Height          =   255
          Left            =   120
-         TabIndex        =   32
+         TabIndex        =   33
          Top             =   2640
          Width           =   1935
       End
@@ -353,7 +362,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2100
          Style           =   2  'Dropdown List
-         TabIndex        =   33
+         TabIndex        =   34
          Top             =   2610
          Width           =   3975
       End
@@ -361,7 +370,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Gastaram nos últimos 12 meses mais de R$"
          Height          =   255
          Left            =   120
-         TabIndex        =   34
+         TabIndex        =   35
          Top             =   3030
          Width           =   3255
       End
@@ -369,7 +378,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   3420
          MaxLength       =   12
-         TabIndex        =   35
+         TabIndex        =   36
          Top             =   3000
          Width           =   1215
       End
@@ -377,7 +386,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Não enviar para quem tem parcela vencida"
          Height          =   255
          Left            =   120
-         TabIndex        =   36
+         TabIndex        =   37
          Top             =   3420
          Value           =   1  'Checked
          Width           =   3975
@@ -385,7 +394,7 @@ Begin VB.Form frmCampanhaZap
       Begin ChamaleonBtn.chameleonButton cmdBuscar 
          Height          =   375
          Left            =   4440
-         TabIndex        =   37
+         TabIndex        =   38
          Top             =   3660
          Width           =   1635
          _ExtentX        =   2884
@@ -425,14 +434,14 @@ Begin VB.Form frmCampanhaZap
       ForeColor       =   &H00800000&
       Height          =   435
       Left            =   6480
-      TabIndex        =   38
+      TabIndex        =   39
       Top             =   120
       Width           =   5655
    End
    Begin MSFlexGridLib.MSFlexGrid grdClientes 
       Height          =   8100
       Left            =   6480
-      TabIndex        =   39
+      TabIndex        =   40
       Top             =   600
       Width           =   5655
       _ExtentX        =   9975
@@ -448,7 +457,7 @@ Begin VB.Form frmCampanhaZap
    Begin ChamaleonBtn.chameleonButton cmdMarcarTodos 
       Height          =   375
       Left            =   6480
-      TabIndex        =   40
+      TabIndex        =   41
       Top             =   8790
       Width           =   1335
       _ExtentX        =   2355
@@ -485,7 +494,7 @@ Begin VB.Form frmCampanhaZap
    Begin ChamaleonBtn.chameleonButton cmdDesmarcar 
       Height          =   375
       Left            =   7860
-      TabIndex        =   41
+      TabIndex        =   42
       Top             =   8790
       Width           =   1455
       _ExtentX        =   2566
@@ -523,14 +532,14 @@ Begin VB.Form frmCampanhaZap
       Caption         =   "Como o cliente vai ver:"
       Height          =   255
       Left            =   12240
-      TabIndex        =   42
+      TabIndex        =   43
       Top             =   120
       Width           =   4455
    End
    Begin SHDocVwCtl.WebBrowser WebBrowser1 
       Height          =   4575
       Left            =   12240
-      TabIndex        =   43
+      TabIndex        =   44
       Top             =   360
       Width           =   4455
       ExtentX         =   7858
@@ -556,7 +565,7 @@ Begin VB.Form frmCampanhaZap
       Caption         =   "Testar no celular:"
       Height          =   255
       Left            =   12240
-      TabIndex        =   44
+      TabIndex        =   45
       Top             =   5070
       Width           =   1815
    End
@@ -564,14 +573,14 @@ Begin VB.Form frmCampanhaZap
       Height          =   315
       Left            =   12240
       MaxLength       =   20
-      TabIndex        =   45
+      TabIndex        =   46
       Top             =   5310
       Width           =   1815
    End
    Begin ChamaleonBtn.chameleonButton cmdTeste 
       Height          =   375
       Left            =   14100
-      TabIndex        =   46
+      TabIndex        =   47
       Top             =   5280
       Width           =   1335
       _ExtentX        =   2355
@@ -609,7 +618,7 @@ Begin VB.Form frmCampanhaZap
       Caption         =   "Envio"
       Height          =   2655
       Left            =   12240
-      TabIndex        =   47
+      TabIndex        =   48
       Top             =   5760
       Width           =   4455
       Begin VB.OptionButton optQuando 
@@ -617,7 +626,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Index           =   0
          Left            =   120
-         TabIndex        =   48
+         TabIndex        =   49
          Top             =   300
          Value           =   -1  'True
          Width           =   1935
@@ -627,7 +636,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Index           =   1
          Left            =   120
-         TabIndex        =   49
+         TabIndex        =   50
          Top             =   630
          Width           =   1455
       End
@@ -635,7 +644,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   1620
          MaxLength       =   10
-         TabIndex        =   50
+         TabIndex        =   51
          ToolTipText     =   "dd/mm/aaaa"
          Top             =   600
          Width           =   1215
@@ -644,7 +653,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2880
          MaxLength       =   5
-         TabIndex        =   51
+         TabIndex        =   52
          ToolTipText     =   "hh:mm"
          Top             =   600
          Width           =   735
@@ -653,7 +662,7 @@ Begin VB.Form frmCampanhaZap
          Caption         =   "Limite de promoções por dia:"
          Height          =   255
          Left            =   120
-         TabIndex        =   52
+         TabIndex        =   53
          Top             =   1050
          Width           =   2295
       End
@@ -661,7 +670,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   315
          Left            =   2460
          MaxLength       =   4
-         TabIndex        =   53
+         TabIndex        =   54
          ToolTipText     =   "Promoções por dia (a cobrança tem limite próprio e sai primeiro). Comece com pouco: número novo = mais risco de bloqueio."
          Top             =   1020
          Width           =   615
@@ -671,7 +680,7 @@ Begin VB.Form frmCampanhaZap
          ForeColor       =   &H00800000&
          Height          =   1095
          Left            =   120
-         TabIndex        =   54
+         TabIndex        =   55
          Top             =   1440
          Width           =   4215
       End
@@ -679,7 +688,7 @@ Begin VB.Form frmCampanhaZap
    Begin ChamaleonBtn.chameleonButton cmdEnviar 
       Height          =   375
       Left            =   12240
-      TabIndex        =   55
+      TabIndex        =   56
       Top             =   8520
       Width           =   2175
       _ExtentX        =   3836
@@ -716,7 +725,7 @@ Begin VB.Form frmCampanhaZap
    Begin ChamaleonBtn.chameleonButton cmdCampanhas 
       Height          =   375
       Left            =   14520
-      TabIndex        =   56
+      TabIndex        =   57
       Top             =   8520
       Width           =   2175
       _ExtentX        =   3836
@@ -753,7 +762,7 @@ Begin VB.Form frmCampanhaZap
    Begin ChamaleonBtn.chameleonButton cmdFechar 
       Height          =   375
       Left            =   15480
-      TabIndex        =   57
+      TabIndex        =   58
       Top             =   9300
       Width           =   1215
       _ExtentX        =   2143
@@ -1004,6 +1013,10 @@ Private Sub txtMensagem_Change()
 ReiniciarPrevia
 End Sub
 
+Private Sub chkRodape_Click()
+ReiniciarPrevia
+End Sub
+
 '---------------------------------------------------------------------------
 ' Prévia (balão do WhatsApp no WebBrowser1)
 '---------------------------------------------------------------------------
@@ -1043,7 +1056,7 @@ If Right$(sPasta, 1) <> "\" Then sPasta = sPasta & "\"
 mHtml = sPasta & "oc_campanha_previa.htm"
 f = FreeFile
 Open mHtml For Output As #f
-Print #f, Camp_PreviaHtml(MensagemAtual(), NomeExemplo(), TipoAtual(), txtArquivo.Text)
+Print #f, Camp_PreviaHtml(MensagemAtual(), NomeExemplo(), TipoAtual(), txtArquivo.Text, (chkRodape.Value = vbChecked))
 Close #f
 WebBrowser1.Navigate mHtml, 4   'navNoReadFromCache: o mesmo arquivo muda a cada digitação
 Exit Sub
@@ -1418,7 +1431,7 @@ End If
 If Not ConteudoValido() Then Exit Sub
 If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text
 Me.MousePointer = vbHourglass
-If ZapOnlineEnviar(txtTeste.Text, Camp_Texto(MensagemAtual(), NomeExemplo(), False, False), sArq, sMsg) Then
+If ZapOnlineEnviar(txtTeste.Text, Camp_Texto(MensagemAtual(), NomeExemplo(), False, False, (chkRodape.Value = vbChecked)), sArq, sMsg) Then
     Me.MousePointer = vbDefault
     MsgBox "Mensagem de teste enviada (com o nome de " & Cob_PrimeiroNome(NomeExemplo()) & ").", vbInformation, TITULO
 Else
@@ -1481,7 +1494,7 @@ Next
 If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text
 Camp_SalvarLimite nLim
 Me.MousePointer = vbHourglass
-lId = Camp_Salvar(Trim$(txtNome.Text), MensagemAtual(), TipoAtual(), sArq, vAgenda, sDesc, Cods, Cels, n, sErro)
+lId = Camp_Salvar(Trim$(txtNome.Text), MensagemAtual(), TipoAtual(), sArq, vAgenda, sDesc, Cods, Cels, n, sErro, (chkRodape.Value = vbChecked))
 Me.MousePointer = vbDefault
 If lId = 0 Then
     MsgBox "Não foi possível gravar a campanha." & vbCrLf & vbCrLf & sErro, vbExclamation, TITULO
