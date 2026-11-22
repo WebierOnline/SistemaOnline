@@ -623,24 +623,6 @@ Begin VB.Form frmCampanhaZap
          Top             =   630
          Width           =   1455
       End
-      Begin VB.TextBox txtData 
-         Height          =   315
-         Left            =   1620
-         MaxLength       =   10
-         TabIndex        =   50
-         ToolTipText     =   "dd/mm/aaaa"
-         Top             =   600
-         Width           =   1215
-      End
-      Begin VB.TextBox txtHora 
-         Height          =   315
-         Left            =   2880
-         MaxLength       =   5
-         TabIndex        =   51
-         ToolTipText     =   "hh:mm"
-         Top             =   600
-         Width           =   735
-      End
       Begin VB.TextBox txtLimite 
          Height          =   315
          Left            =   2340
@@ -652,11 +634,11 @@ Begin VB.Form frmCampanhaZap
       End
       Begin ChamaleonBtn.chameleonButton cmdCalendario1 
          Height          =   315
-         Left            =   3000
-         TabIndex        =   59
+         Left            =   2640
+         TabIndex        =   51
          Tag             =   "Calendario"
-         Top             =   240
-         Visible         =   0   'False
+         ToolTipText     =   "Escolher a data no calendário"
+         Top             =   600
          Width           =   315
          _ExtentX        =   556
          _ExtentY        =   556
@@ -694,10 +676,10 @@ Begin VB.Form frmCampanhaZap
       End
       Begin MSMask.MaskEdBox mskData 
          Height          =   315
-         Left            =   2040
-         TabIndex        =   60
-         Top             =   240
-         Visible         =   0   'False
+         Left            =   1620
+         TabIndex        =   50
+         ToolTipText     =   "Data do agendamento (dd/mm/aa)"
+         Top             =   600
          Width           =   990
          _ExtentX        =   1746
          _ExtentY        =   556
@@ -707,22 +689,21 @@ Begin VB.Form frmCampanhaZap
       End
       Begin MSMask.MaskEdBox mskHora 
          Height          =   315
-         Left            =   3300
-         TabIndex        =   61
-         Top             =   240
-         Visible         =   0   'False
+         Left            =   3000
+         TabIndex        =   52
+         ToolTipText     =   "Hora do agendamento (hh:mm)"
+         Top             =   600
          Width           =   690
          _ExtentX        =   1217
          _ExtentY        =   556
          _Version        =   393216
-         Format          =   "dd/mm/yy"
          PromptChar      =   "_"
       End
       Begin VB.Label lblLimite 
          Caption         =   "Limite de promoções por dia:"
          Height          =   255
          Left            =   120
-         TabIndex        =   52
+         TabIndex        =   61
          Top             =   1050
          Width           =   2295
       End
@@ -955,8 +936,8 @@ cboTag.ListIndex = 0
 cboAniver.AddItem "do mês"
 cboAniver.AddItem "de hoje"
 cboAniver.ListIndex = 0
-txtData.Text = Format$(Date + 1, "dd/mm/yyyy")
-txtHora.Text = "09:00"
+mskData.Mask = "": mskData.Text = Format$(Date + 1, "dd/mm/yy")
+mskHora.Mask = "": mskHora.Text = "09:00"
 txtArquivo.Text = ""
 lblContador.Caption = "Marque os filtros do público (ao lado) e clique em Buscar clientes."
 ReDim mCli(0): ReDim mMarca(0): mQtd = 0
@@ -1366,11 +1347,22 @@ Dim i As Long
 
 i = grdClientes.RowData(r)
 If i < 1 Or i > mQtd Then Exit Sub
-If Len(mCli(i).Motivo) > 0 Then
-    grdClientes.TextMatrix(r, C_MARCA) = ""
-Else
-    grdClientes.TextMatrix(r, C_MARCA) = IIf(mMarca(i), "X", "")
-End If
+Dim nRow As Long, nCol As Long, bSem As Boolean
+
+'ImgMarcada = vai receber, imgDesmarcada = não vai (desmarcado ou sem poder receber)
+With grdClientes
+    bSem = mSemEvento
+    mSemEvento = True          'mudar Row/Col aqui não é o usuário navegando
+    nRow = .Row: nCol = .Col
+    .TextMatrix(r, C_MARCA) = ""
+    .Row = r
+    .Col = C_MARCA
+    If mMarca(i) And Len(mCli(i).Motivo) = 0 Then Set .CellPicture = ImgMarcada.Picture Else Set .CellPicture = imgDesmarcada.Picture
+    .CellPictureAlignment = flexAlignCenterCenter
+    If nRow > 0 And nRow < .rows Then .Row = nRow
+    .Col = nCol
+    mSemEvento = bSem
+End With
 End Sub
 
 Private Sub PintarLinha(ByVal nLinha As Long, ByVal nCor As Long)
@@ -1553,6 +1545,56 @@ Else
 End If
 End Sub
 
+'---------------------------------------------------------------------------
+' Agendamento: data (dd/mm/aa, pelo calendário ou digitada) e hora (hh:mm)
+'---------------------------------------------------------------------------
+Private Sub cmdCalendario1_Click()
+Dim varData As Variant, fCal As Calendario
+
+Set fCal = New Calendario
+fCal.Show vbModal
+varData = fCal.DateSelected
+Unload fCal
+Set fCal = Nothing
+If Not IsDate(varData) Then Exit Sub
+If varData = 0 Then Exit Sub
+mskData.Mask = ""
+mskData.Text = Format$(varData, "dd/mm/yy")
+optQuando(1).Value = True
+End Sub
+
+Private Sub mskData_GotFocus()
+SelectControl mskData
+End Sub
+
+Private Sub mskData_KeyPress(KeyAscii As Integer)
+optQuando(1).Value = True          'digitou a data = vai agendar (no GotFocus o Tab marcaria sozinho)
+If mskData.Mask = "" Then mskData.Mask = "##/##/##"
+End Sub
+
+Private Sub mskData_LostFocus()
+If mskData.Text = "__/__/__" Then
+    mskData.Mask = ""
+    mskData.Text = ""
+End If
+End Sub
+
+Private Sub mskHora_GotFocus()
+SelectControl mskHora
+End Sub
+
+Private Sub mskHora_KeyPress(KeyAscii As Integer)
+optQuando(1).Value = True
+If mskHora.Mask = "" Then mskHora.Mask = "##:##"
+End Sub
+
+Private Sub mskHora_LostFocus()
+If mskHora.Text = "__:__" Then
+    mskHora.Mask = ""
+    mskHora.Text = ""
+End If
+End Sub
+
 Private Sub cmdEnviar_Click()
 Dim f As CampFiltro, sDesc As String, n As Long, i As Long, Cods() As Long, Cels() As String
 Dim vAgenda As Variant, nLim As Long, lId As Long, sErro As String, sArq As String
@@ -1570,15 +1612,15 @@ If n = 0 Then
 End If
 vAgenda = Null
 If optQuando(1).Value Then
-    If Not IsDate(txtData.Text & " " & txtHora.Text) Then
-        MsgBox "Informe a data (dd/mm/aaaa) e a hora (hh:mm) do agendamento.", vbExclamation, TITULO
-        txtData.SetFocus
+    If Not IsDate(mskData.Text) Or Not IsDate(mskHora.Text) Then
+        MsgBox "Informe a data (dd/mm/aa) e a hora (hh:mm) do agendamento.", vbExclamation, TITULO
+        mskData.SetFocus
         Exit Sub
     End If
-    vAgenda = CDate(txtData.Text & " " & txtHora.Text)
+    vAgenda = CDate(mskData.Text) + TimeValue(mskHora.Text)
     If vAgenda <= Now Then
         MsgBox "O agendamento precisa ser para depois de agora.", vbExclamation, TITULO
-        txtData.SetFocus
+        mskData.SetFocus
         Exit Sub
     End If
 End If

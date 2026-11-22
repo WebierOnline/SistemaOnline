@@ -304,11 +304,8 @@ Option Explicit
 
 Private Const TITULO As String = "Promoções por WhatsApp"
 Private mSemEvento As Boolean
-Private mIniciou As Boolean
-
-Private Sub Form_Activate()
-If mIniciou Then Exit Sub
-mIniciou = True
+'Carrega no Load: a tela já abre com os grids preenchidos
+Private Sub Form_Load()
 Carregar 0
 End Sub
 
