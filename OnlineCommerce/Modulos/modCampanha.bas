@@ -74,29 +74,32 @@ End Function
 
 'Coluna Campanha.RodapeSair (script 192) existe?
 Public Function Camp_TemRodape() As Boolean
-Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+Static bTem As Boolean   'só guarda o "sim": o script pode rodar com o sistema aberto
 
-If nTem = 0 Then
-    On Error Resume Next
-    nTem = 2
-    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN COL_LENGTH('dbo.Campanha', 'RodapeSair') IS NULL THEN 0 ELSE 1 END AS r", "r", 0))) = 1 Then nTem = 1
-    Err.Clear
-End If
-Camp_TemRodape = (nTem = 1)
+If Not bTem Then bTem = Camp_SqlSim("SELECT CASE WHEN COL_LENGTH('dbo.Campanha', 'RodapeSair') IS NULL THEN 0 ELSE 1 END")
+Camp_TemRodape = bTem
 End Function
 
 'Tabela Contatos e CampanhaDestinatario.CodContato (script 194) existem?
 Public Function Camp_TemContatos() As Boolean
-Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+Static bTem As Boolean   'só guarda o "sim": o script pode rodar com o sistema aberto
 
-If nTem = 0 Then
-    On Error Resume Next
-    nTem = 2
-    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.Contatos', 'U') IS NOT NULL AND " & _
-        "COL_LENGTH('dbo.CampanhaDestinatario', 'CodContato') IS NOT NULL THEN 1 ELSE 0 END AS r", "r", 0))) = 1 Then nTem = 1
-    Err.Clear
-End If
-Camp_TemContatos = (nTem = 1)
+If Not bTem Then bTem = Camp_SqlSim("SELECT CASE WHEN OBJECT_ID('dbo.Contatos', 'U') IS NOT NULL AND " & _
+    "COL_LENGTH('dbo.CampanhaDestinatario', 'CodContato') IS NOT NULL THEN 1 ELSE 0 END")
+Camp_TemContatos = bTem
+End Function
+
+'SELECT de uma coluna que devolve 1 (sim) ou 0, na conexão do sistema (dbData)
+Private Function Camp_SqlSim(ByVal sSql As String) As Boolean
+Dim r As ADODB.Recordset
+
+On Error GoTo Falha
+Set r = dbData.OpenRecordset(sSql)
+If Not r.EOF Then Camp_SqlSim = (Val("" & r(0)) = 1)
+r.Close
+Exit Function
+Falha:
+Err.Clear
 End Function
 
 '---------------------------------------------------------------------------
