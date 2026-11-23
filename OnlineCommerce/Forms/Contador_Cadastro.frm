@@ -29,6 +29,7 @@ Begin VB.Form Contador_Cadastro
       _ExtentY        =   7117
       _Version        =   393216
       Tabs            =   2
+      Tab             =   1
       TabsPerRow      =   2
       TabHeight       =   520
       TabMaxWidth     =   2293
@@ -43,7 +44,7 @@ Begin VB.Form Contador_Cadastro
       EndProperty
       TabCaption(0)   =   "CADASTRO"
       TabPicture(0)   =   "Contador_Cadastro.frx":23D2
-      Tab(0).ControlEnabled=   -1  'True
+      Tab(0).ControlEnabled=   0   'False
       Tab(0).Control(0)=   "cmdNovo"
       Tab(0).Control(0).Enabled=   0   'False
       Tab(0).Control(1)=   "cmdSalvar"
@@ -59,14 +60,17 @@ Begin VB.Form Contador_Cadastro
       Tab(0).ControlCount=   6
       TabCaption(1)   =   "CONSULTA"
       TabPicture(1)   =   "Contador_Cadastro.frx":23EE
-      Tab(1).ControlEnabled=   0   'False
+      Tab(1).ControlEnabled=   -1  'True
       Tab(1).Control(0)=   "Grid"
+      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Picture1"
+      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).Control(2)=   "cmdImprimir"
+      Tab(1).Control(2).Enabled=   0   'False
       Tab(1).ControlCount=   3
       Begin ChamaleonBtn.chameleonButton cmdImprimir 
          Height          =   435
-         Left            =   -65340
+         Left            =   9660
          TabIndex        =   47
          Top             =   3360
          Width           =   2055
@@ -107,7 +111,7 @@ Begin VB.Form Contador_Cadastro
          BackColor       =   &H80000005&
          ForeColor       =   &H80000008&
          Height          =   375
-         Left            =   -74880
+         Left            =   120
          ScaleHeight     =   345
          ScaleWidth      =   3645
          TabIndex        =   35
@@ -183,7 +187,7 @@ Begin VB.Form Contador_Cadastro
             Strikethrough   =   0   'False
          EndProperty
          Height          =   3315
-         Left            =   180
+         Left            =   -74820
          TabIndex        =   23
          Top             =   480
          Width           =   9435
@@ -492,7 +496,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin MSFlexGridLib.MSFlexGrid Grid 
          Height          =   2895
-         Left            =   -74880
+         Left            =   120
          TabIndex        =   34
          Top             =   420
          Width           =   11655
@@ -505,7 +509,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdCancelar 
          Height          =   615
-         Left            =   9660
+         Left            =   -65340
          TabIndex        =   17
          Top             =   1860
          Width           =   2175
@@ -544,7 +548,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdAlterar 
          Height          =   615
-         Left            =   9660
+         Left            =   -65340
          TabIndex        =   18
          Top             =   2520
          Width           =   2175
@@ -583,7 +587,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdExcluir 
          Height          =   615
-         Left            =   9660
+         Left            =   -65340
          TabIndex        =   19
          Top             =   3180
          Width           =   2175
@@ -622,7 +626,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdSalvar 
          Height          =   615
-         Left            =   9660
+         Left            =   -65340
          TabIndex        =   16
          Top             =   1200
          Width           =   2175
@@ -661,7 +665,7 @@ Begin VB.Form Contador_Cadastro
       End
       Begin ChamaleonBtn.chameleonButton cmdNovo 
          Height          =   615
-         Left            =   9660
+         Left            =   -65340
          TabIndex        =   0
          Top             =   540
          Width           =   2175
@@ -763,7 +767,7 @@ Begin VB.Form Contador_Cadastro
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "09:57"
+            TextSave        =   "12:44"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -792,7 +796,11 @@ Private moCombo As cComboHelper
 Dim printSQL As String
 Dim sSQL As String
 Dim r As ADODB.Recordset
+'valores do registro como foram carregados (TbContabilista nao tem codigo; o UPDATE/DELETE localiza o registro por eles,
+'senao, ao editar CNPJ/CPF/CRC, o WHERE nao achava nada e nada era alterado)
+Private mOrigNome As String, mOrigCNPJ As String, mOrigCPF As String, mOrigCRC As String
 Private Sub Campos_Brancos()
+mOrigNome = "": mOrigCNPJ = "": mOrigCPF = "": mOrigCRC = ""
 txtRazao.Text = ""
 txtEndereco.Text = ""
 txtComplemento.Text = ""
@@ -836,6 +844,10 @@ Private Sub Mostrar_Dados(rTabela As ADODB.Recordset)
       txtCRC.Text = ValidateNull(rTabela("CRC"))
       txtCodigoIBGE = ValidateNull(rTabela("CodigoIBGE"))
       txtNum = ValidateNull(rTabela("Num"))
+      mOrigNome = Replace(ValidateNull(rTabela("NomeContabilista")), "'", "''")
+      mOrigCNPJ = Replace(ValidateNull(rTabela("CNPJ")), "'", "''")
+      mOrigCPF = Replace(ValidateNull(rTabela("CPF")), "'", "''")
+      mOrigCRC = Replace(ValidateNull(rTabela("CRC")), "'", "''")
    End If
 End Sub
 
@@ -1015,7 +1027,7 @@ sSQL = "UPDATE TbContabilista SET " & _
    "cep = '" & mskCEP.Text & "', " & _
    "CRC = '" & txtCRC.Text & "', " & _
    "Num = " & txtNum.Text & ", codigoibge = " & txtCodigoIBGE.Text & " " & _
-   "WHERE (CNPJ = '" & Me.mskCNPJ.Text & "');"
+   "WHERE (NomeContabilista = '" & mOrigNome & "') AND (CNPJ = '" & mOrigCNPJ & "') AND (CPF = '" & mOrigCPF & "') AND (CRC = '" & mOrigCRC & "');"
 
 'Retorna o resultado da atualização
 Atualizar_Dados = dbData.Execute(sSQL)
@@ -1041,7 +1053,7 @@ End If
 
 If ShowMsg("Deseja excluir esse Contador?", vbInformation + vbYesNo + vbDefaultButton2) = vbNo Then Exit Sub
 
-sSQL = "DELETE FROM TbContabilista WHERE (NomeContabilista = '" & txtRazao.Text & "');"
+sSQL = "DELETE FROM TbContabilista WHERE (NomeContabilista = '" & mOrigNome & "') AND (CNPJ = '" & mOrigCNPJ & "') AND (CPF = '" & mOrigCPF & "') AND (CRC = '" & mOrigCRC & "');"
 bRet = dbData.Execute(sSQL)
  
 If Not bRet Then
