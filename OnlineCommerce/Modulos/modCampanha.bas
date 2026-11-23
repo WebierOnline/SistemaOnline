@@ -19,6 +19,7 @@ Public Const CAMP_IMAGEM As Integer = 1
 Public Const CAMP_VIDEO As Integer = 2
 Public Const CAMP_SO_IMAGEM As Integer = 3
 Public Const CAMP_PDF As Integer = 4
+Public Const CAMP_LINK As Integer = 5          'Texto + link (link curto do servidor de licenças, script 195)
 
 Public Const CAMP_NA_FILA As Integer = 1
 Public Const CAMP_PAUSADA As Integer = 2
@@ -35,6 +36,8 @@ Public Const CAMP_RODAPE As String = "_Para não receber mais promoções, responda
 Public Const CAMP_MAX_IMAGEM As Long = 5242880      '5 MB
 Public Const CAMP_MAX_ARQUIVO As Long = 15728640    '15 MB (vídeo e PDF; limite do servidor)
 Public Const CAMP_CONTATO_DESATIVADO As String = "Contato desativado"
+Public Const CAMP_TAG_LINK As String = "{LINK}"
+Public Const CAMP_LINK_EXEMPLO As String = "https://onlinecommerce.com.br/l/Ab3x9Q-2k"   'prévia (o de verdade sai ao testar/gravar)
 
 'Filtros do público (todos os marcados valem juntos)
 Public Type CampFiltro
@@ -88,6 +91,91 @@ If Not bTem Then bTem = Camp_SqlSim("SELECT CASE WHEN OBJECT_ID('dbo.Contatos', 
     "COL_LENGTH('dbo.CampanhaDestinatario', 'CodContato') IS NOT NULL THEN 1 ELSE 0 END")
 Camp_TemContatos = bTem
 End Function
+
+'Colunas do link (script 195) existem?
+Public Function Camp_TemLink() As Boolean
+Static bTem As Boolean   'só guarda o "sim": o script pode rodar com o sistema aberto
+
+If Not bTem Then bTem = Camp_SqlSim("SELECT CASE WHEN COL_LENGTH('dbo.Campanha', 'LinkCurto') IS NOT NULL AND " & _
+    "COL_LENGTH('dbo.CampanhaDestinatario', 'Cliques') IS NOT NULL THEN 1 ELSE 0 END")
+Camp_TemLink = bTem
+End Function
+
+'Tipo que leva arquivo (imagem, vídeo, PDF)
+Public Function Camp_TemArquivo(ByVal nTipo As Integer) As Boolean
+Camp_TemArquivo = (nTipo = CAMP_IMAGEM Or nTipo = CAMP_VIDEO Or nTipo = CAMP_SO_IMAGEM Or nTipo = CAMP_PDF)
+End Function
+
+'Nº do destinatário em base 36 (0-9a-z): vai no fim do link curto para saber quem clicou
+Public Function Camp_Base36(ByVal n As Long) As String
+Const DIG As String = "0123456789abcdefghijklmnopqrstuvwxyz"
+
+If n <= 0 Then Camp_Base36 = "0": Exit Function
+Do While n > 0
+    Camp_Base36 = Mid$(DIG, (n Mod 36) + 1, 1) & Camp_Base36
+    n = n \ 36
+Loop
+End Function
+
+Private Function Camp_DeBase36(ByVal s As String) As Long
+Const DIG As String = "0123456789abcdefghijklmnopqrstuvwxyz"
+Dim i As Long, p As Long, n As Double
+
+s = LCase$(Trim$(s))
+If Len(s) = 0 Or Len(s) > 6 Then Exit Function      '6 dígitos em base 36 já passam de 2 bilhões
+For i = 1 To Len(s)
+    p = InStr(DIG, Mid$(s, i, 1))
+    If p = 0 Then Exit Function
+    n = n * 36 + (p - 1)
+Next
+If n <= 2147483647# Then Camp_DeBase36 = CLng(n)
+End Function
+
+'Link digitado na tela: com https:// na frente se faltar. "" se não parecer um endereço.
+Public Function Camp_NormalizarLink(ByVal s As String) As String
+s = Trim$(s)
+If Len(s) = 0 Or InStr(s, " ") > 0 Or InStr(s, ".") = 0 Or Len(s) > 2000 Then Exit Function
+If InStr(s, "://") = 0 Then s = "https://" & s
+If LCase$(Left$(s, 7)) <> "http://" And LCase$(Left$(s, 8)) <> "https://" Then Exit Function
+Camp_NormalizarLink = s
+End Function
+
+'Lê do servidor de licenças quem clicou nos links das campanhas dos últimos 90 dias (Acompanhar campanhas).
+'Sem conexão: fica como estava, sem aviso.
+Public Sub Camp_AtualizarCliques()
+Dim r As ADODB.Recordset, vDesde As Variant, sLista As String, sMsg As String, it() As String, p() As String
+Dim i As Long, lDest As Long, s As String, nLote As Long
+
+On Error GoTo Falha
+If Not Camp_TemLink() Then Exit Sub
+Set r = dbData.OpenRecordset("SELECT MIN(CriadaEm) FROM Campanha WHERE TipoMidia = " & CAMP_LINK & _
+    " AND LinkCurto IS NOT NULL AND CriadaEm >= DATEADD(day, -90, GETDATE())")
+If Not r.EOF Then vDesde = r(0)
+r.Close
+If IsNull(vDesde) Or IsEmpty(vDesde) Then Exit Sub
+If Not ZapOnlineCliques(DateValue(vDesde), sLista, sMsg) Then Exit Sub
+If Len(sLista) = 0 Then Exit Sub
+
+it = Split(sLista, ",")
+For i = 0 To UBound(it)
+    p = Split(it(i), ":")
+    If UBound(p) = 1 Then
+        lDest = Camp_DeBase36(p(0))
+        If lDest > 0 And Val(p(1)) > 0 Then
+            s = s & IIf(nLote > 0, ", ", "") & "(" & lDest & ", " & CLng(Val(p(1))) & ")"
+            nLote = nLote + 1
+        End If
+    End If
+    If nLote > 0 And (nLote = 500 Or i = UBound(it)) Then
+        dbData.Execute "UPDATE d SET Cliques = v.q FROM CampanhaDestinatario d INNER JOIN (VALUES " & s & ") AS v(id, q) ON v.id = d.Id " & _
+            "INNER JOIN Campanha ca ON ca.Id = d.CodCampanha WHERE ca.TipoMidia = " & CAMP_LINK & " AND ISNULL(d.Cliques, 0) <> v.q"
+        s = "": nLote = 0
+    End If
+Next
+Exit Sub
+Falha:
+Err.Clear
+End Sub
 
 'SELECT de uma coluna que devolve 1 (sim) ou 0, na conexão do sistema (dbData)
 Private Function Camp_SqlSim(ByVal sSql As String) As Boolean
@@ -271,8 +359,9 @@ End Function
 '---------------------------------------------------------------------------
 'Variações {Olá|Oi|Bom dia} sorteadas por cliente (bPrimeira = sempre a primeira, para a prévia), tags do cliente,
 'emojis e, com bRodape, o rodapé de opt-out. bPrevia: emojis como [nome] (TextBox).
+'sLink (Texto + link): no lugar de {LINK}; sem a tag, vai no fim ("{APONTAR} Clique aqui: <link>").
 Public Function Camp_Texto(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal bPrimeira As Boolean, ByVal bPrevia As Boolean, _
-                           Optional ByVal bRodape As Boolean = False) As String
+                           Optional ByVal bRodape As Boolean = False, Optional ByVal sLink As String = "") As String
 Dim s As String, i As Long, tags() As String, desc() As String, emo() As String
 
 s = Camp_Variacoes(Replace(sMsg, vbCrLf, vbLf), bPrimeira)
@@ -283,6 +372,15 @@ s = Trim$(s)
 Do While Right$(s, 1) = vbLf
     s = Left$(s, Len(s) - 1)
 Loop
+If Len(sLink) > 0 Then
+    If InStr(1, s, CAMP_TAG_LINK, vbTextCompare) > 0 Then
+        s = Replace(s, CAMP_TAG_LINK, sLink, , , vbTextCompare)
+    Else
+        s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & "{APONTAR} Clique aqui: " & sLink
+    End If
+Else
+    s = Replace(s, CAMP_TAG_LINK, "", , , vbTextCompare)
+End If
 If bRodape Then s = s & IIf(Len(s) > 0, vbLf & vbLf, "") & CAMP_RODAPE
 
 Cob_ListaTags tags, desc, emo
@@ -328,12 +426,13 @@ Public Sub Camp_ListaTags(ByRef tags() As String, ByRef desc() As String)
 Dim t() As String, d() As String, e() As String, i As Long, n As Long
 
 Cob_ListaTags t, d, e
-ReDim tags(0 To 3): ReDim desc(0 To 3)
+ReDim tags(0 To 4): ReDim desc(0 To 4)
 tags(0) = "{PRIMEIRO_NOME}": desc(0) = "Primeiro nome do cliente"
 tags(1) = "{NOME_CLIENTE}": desc(1) = "Nome completo do cliente"
 tags(2) = "{EMPRESA}": desc(2) = "Nome da empresa"
 tags(3) = "{Olá|Oi|Bom dia}": desc(3) = "Variação: cada cliente recebe uma das opções (evita bloqueio)"
-n = 3
+tags(4) = CAMP_TAG_LINK: desc(4) = "Link curto (Texto + link): cada cliente recebe o seu; sem a tag, vai no fim"
+n = 4
 For i = 0 To UBound(t)
     If Len(e(i)) > 0 Then
         n = n + 1
@@ -344,12 +443,13 @@ Next
 End Sub
 
 'Prévia em HTML (balão do WhatsApp) para o WebBrowser: emojis de verdade (entidades HTML), *negrito* _itálico_ ~riscado~
+'Texto + link: o link aparece como o de exemplo (CAMP_LINK_EXEMPLO), azul como no WhatsApp
 Public Function Camp_PreviaHtml(ByVal sMsg As String, ByVal sNomeCliente As String, ByVal nTipo As Integer, ByVal sArquivo As String, _
                                 Optional ByVal bRodape As Boolean = False) As String
 Dim s As String, i As Long, tags() As String, desc() As String, emo() As String, p() As String, j As Long, sEnt As String
 Dim sMidia As String
 
-s = Camp_Texto(sMsg, sNomeCliente, True, True, bRodape)      'emojis como [nome]
+s = Camp_Texto(sMsg, sNomeCliente, True, True, bRodape, IIf(nTipo = CAMP_LINK, CAMP_LINK_EXEMPLO, ""))      'emojis como [nome]
 s = Replace(s, vbCrLf, vbLf)
 s = Replace(s, "&", "&amp;")
 s = Replace(s, "<", "&lt;")
@@ -368,6 +468,7 @@ Next
 s = Camp_Marcar(s, "*", "b")
 s = Camp_Marcar(s, "_", "i")
 s = Camp_Marcar(s, "~", "s")
+If nTipo = CAMP_LINK Then s = Replace(s, CAMP_LINK_EXEMPLO, "<span style=""color:#027EB5;text-decoration:underline"">" & CAMP_LINK_EXEMPLO & "</span>")
 s = Replace(s, vbLf, "<br>")
 
 Select Case nTipo
@@ -420,12 +521,20 @@ Public Function Camp_Salvar(ByVal sNome As String, ByVal sMsg As String, ByVal n
                             ByVal vAgendada As Variant, ByVal sPublico As String, ByRef Cods() As Long, ByRef Cels() As String, ByRef Ctts() As Long, _
                             ByVal nQtd As Long, ByRef sErro As String, Optional ByVal bRodape As Boolean = False) As Long
 Dim r As ADODB.Recordset, lId As Long, i As Long, s As String, nLote As Long, bTrans As Boolean, sUsuario As String, sAgenda As String
-Dim sPastaCriada As String, bContatos As Boolean
+Dim sPastaCriada As String, bContatos As Boolean, sLinkCurto As String, sLinkUrl As String
 
 On Error Resume Next
 sUsuario = Trim$(Tela_Principal.txtCodFuncionario.Text)
 Err.Clear
 If IsDate(vAgendada) Then sAgenda = "'" & Format$(vAgendada, "yyyymmdd hh:nn") & "'" Else sAgenda = "NULL"   'IIf avaliaria Format$(Null)
+If nTipo = CAMP_LINK Then
+    'link curto criado antes de gravar (sem ele a campanha não teria o que mandar)
+    If Not Camp_TemLink() Then sErro = "Rode o script 195 (Texto + link) no banco.": Exit Function
+    sLinkUrl = Camp_NormalizarLink(sArquivo)
+    If Len(sLinkUrl) = 0 Then sErro = "Link inválido. Ex.: https://www.instagram.com/sua_loja": Exit Function
+    If Not ZapOnlineCriarLink(sLinkUrl, sLinkCurto, sErro) Then Exit Function
+    sArquivo = ""
+End If
 On Error GoTo Falha
 dbData.Execute "BEGIN TRANSACTION"
 bTrans = True
@@ -439,6 +548,7 @@ r.Close
 If lId = 0 Then Err.Raise vbObjectError + 1, , "O banco não devolveu o número da campanha."
 
 If bRodape And Camp_TemRodape() Then dbData.Execute "UPDATE Campanha SET RodapeSair = 1 WHERE Id = " & lId
+If Len(sLinkCurto) > 0 Then dbData.Execute "UPDATE Campanha SET LinkUrl = " & Cob_Q(sLinkUrl) & ", LinkCurto = " & Cob_Q(sLinkCurto) & " WHERE Id = " & lId
 If Len(sArquivo) > 0 Then
     s = Camp_CopiarArquivo(sArquivo, sNome, sPastaCriada)
     dbData.Execute "UPDATE Campanha SET ArquivoNome = " & Cob_Q(s) & " WHERE Id = " & lId
@@ -647,6 +757,7 @@ Select Case n
     Case CAMP_VIDEO: Camp_TipoTexto = "Texto + vídeo"
     Case CAMP_SO_IMAGEM: Camp_TipoTexto = "Só imagem"
     Case CAMP_PDF: Camp_TipoTexto = "Texto + PDF"
+    Case CAMP_LINK: Camp_TipoTexto = "Texto + link"
     Case Else: Camp_TipoTexto = "Só texto"
 End Select
 End Function
@@ -684,6 +795,7 @@ Dim r As ADODB.Recordset, nRestam As Long, nOk As Long, nErro As Long, nPuladas 
 Dim lDest As Long, lCamp As Long, lCampArq As Long, sArq As String, sCel As String, sNome As String, sMsg As String
 Dim nTipo As Integer, sTexto As String, sErro As String, sMotivo As String, sSit As String, sNum As String, sNomeZap As String
 Dim sHoje As String, sParou As String, bRodape As Boolean, bContatos As Boolean, sNomeSql As String, sNaoSql As String, sJoin As String
+Dim sLinkCurto As String
 
 On Error GoTo Falha
 If Not Camp_BancoPronto() Then Exit Sub
@@ -714,7 +826,7 @@ Do While nOk + nErro < nRestam
     If Not Cob_DentroDoHorario(cfg) Then sParou = "fim do horário de envio": Exit Do
     'Próximo da fila: campanha mais antiga primeiro; uma promoção por cliente (ou celular) por dia e nunca no dia de uma cobrança
     Set r = dbData.OpenRecordset("SELECT TOP 1 d.Id, d.CodCliente, d.Celular, " & sNomeSql & ", " & sNaoSql & ", " & _
-        "ca.Id AS CAMP, ca.Mensagem, ca.TipoMidia, " & IIf(Camp_TemRodape(), "ca.RodapeSair", "0 AS RodapeSair") & " FROM CampanhaDestinatario d INNER JOIN Campanha ca ON ca.Id = d.CodCampanha " & _
+        "ca.Id AS CAMP, ca.Mensagem, ca.TipoMidia, " & IIf(Camp_TemRodape(), "ca.RodapeSair", "0 AS RodapeSair") & IIf(Camp_TemLink(), ", ca.LinkCurto", ", NULL AS LinkCurto") & " FROM CampanhaDestinatario d INNER JOIN Campanha ca ON ca.Id = d.CodCampanha " & _
         sJoin & "WHERE d.Situacao = " & CAMP_DEST_AGUARDANDO & " AND ca.Situacao = " & CAMP_NA_FILA & _
         " AND (c.CODIGO IS NOT NULL" & IIf(bContatos, " OR ct.Id IS NOT NULL", "") & ")" & _
         " AND (ca.AgendadaPara IS NULL OR ca.AgendadaPara <= GETDATE()) " & _
@@ -726,6 +838,7 @@ Do While nOk + nErro < nRestam
     lDest = r("Id"): lCamp = r("CAMP"): nTipo = Val("" & r("TipoMidia"))
     sCel = Trim$("" & r("Celular")): sNome = Trim$("" & r("Nome")): sMsg = "" & r("Mensagem")
     bRodape = CBool(r("RodapeSair"))
+    sLinkCurto = Trim$("" & r("LinkCurto"))
     sMotivo = ""
     Select Case Val("" & r("NAO"))
         Case 1: sMotivo = "Cliente não quer promoções"
@@ -740,20 +853,23 @@ Do While nOk + nErro < nRestam
         Camp_MarcarDestinatario lDest, CAMP_DEST_PULADA, sMotivo
         nPuladas = nPuladas + 1
     Else
-        If nTipo <> CAMP_SO_TEXTO And lCamp <> lCampArq Then
+        If Camp_TemArquivo(nTipo) And lCamp <> lCampArq Then
             sArq = Camp_CaminhoArquivo(lCamp)
             lCampArq = lCamp
         End If
-        If nTipo <> CAMP_SO_TEXTO And Len(sArq) = 0 Then
+        If Camp_TemArquivo(nTipo) And Len(sArq) = 0 Then
             Camp_MarcarDestinatario lDest, CAMP_DEST_ERRO, "Arquivo da campanha não encontrado na pasta Campanhas do servidor"
+            nErro = nErro + 1
+        ElseIf nTipo = CAMP_LINK And Len(sLinkCurto) = 0 Then
+            Camp_MarcarDestinatario lDest, CAMP_DEST_ERRO, "Campanha sem o link curto (rode o script 195 e grave a campanha de novo)"
             nErro = nErro + 1
         Else
             'intervalo antes de toda promoção (inclusive a primeira: as cobranças podem ter acabado de sair)
             Cob_Esperar Cob_Intervalo(cfg)
             'A campanha ainda está ativa? (pausada/cancelada pela tela durante a espera)
             If Val(CStr(SQLExecutaRetorno("SELECT Situacao AS r FROM Campanha WHERE Id = " & lCamp, "r", 0))) = CAMP_NA_FILA Then
-                sTexto = Camp_Texto(sMsg, sNome, False, False, bRodape)
-                If ZapOnlineEnviar(sCel, sTexto, IIf(nTipo = CAMP_SO_TEXTO, "", sArq), sErro) Then
+                sTexto = Camp_Texto(sMsg, sNome, False, False, bRodape, IIf(nTipo = CAMP_LINK, sLinkCurto & "-" & Camp_Base36(lDest), ""))
+                If ZapOnlineEnviar(sCel, sTexto, IIf(Camp_TemArquivo(nTipo), sArq, ""), sErro) Then
                     Camp_MarcarDestinatario lDest, CAMP_DEST_ENVIADA, ""
                     nOk = nOk + 1
                     nSeguidos = 0

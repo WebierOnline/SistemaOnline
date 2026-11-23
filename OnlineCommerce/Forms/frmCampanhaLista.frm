@@ -326,16 +326,18 @@ If grdCamp.Row >= 1 And grdCamp.Row < grdCamp.rows Then CampanhaAtual = grdCamp.
 End Function
 
 Private Sub Carregar(ByVal lSel As Long)
-Dim rs As ADODB.Recordset, r As Long, nSel As Long, c As Integer
+Dim rs As ADODB.Recordset, r As Long, nSel As Long, c As Integer, bLink As Boolean
 
 Me.MousePointer = vbHourglass
+bLink = Camp_TemLink()
+Camp_AtualizarCliques          'Texto + link: quem clicou (servidor de licenças)
 lblResumo.Caption = "Promoções enviadas hoje: " & Camp_EnviadasHoje() & " de " & Camp_LimiteDia() & " (limite por dia). " & _
                     "O servidor envia a cada 30 minutos, no horário e nos dias da Régua de cobrança, depois das cobranças."
 mSemEvento = True
 With grdCamp
     .Redraw = False
     .rows = 1
-    .Cols = 10
+    .Cols = 11
     .TextMatrix(0, 0) = "Nº"
     .TextMatrix(0, 1) = "Campanha"
     .TextMatrix(0, 2) = "Conteúdo"
@@ -346,10 +348,11 @@ With grdCamp
     .TextMatrix(0, 7) = "Erros"
     .TextMatrix(0, 8) = "Aguardando"
     .TextMatrix(0, 9) = "Puladas"
-    For c = 0 To 9
+    .TextMatrix(0, 10) = "Clicaram"
+    For c = 0 To 10
         .ColAlignment(c) = flexAlignLeftCenter
     Next
-    For c = 6 To 9
+    For c = 6 To 10
         .ColAlignment(c) = flexAlignCenterCenter
     Next
 End With
@@ -359,6 +362,7 @@ Set rs = dbData.OpenRecordset("SELECT ca.Id, ca.Nome, ca.TipoMidia, ca.CriadaEm,
     "SUM(CASE WHEN d.Situacao = " & CAMP_DEST_ERRO & " THEN 1 ELSE 0 END) AS ERR, " & _
     "SUM(CASE WHEN d.Situacao = " & CAMP_DEST_AGUARDANDO & " THEN 1 ELSE 0 END) AS AGU, " & _
     "SUM(CASE WHEN d.Situacao = " & CAMP_DEST_PULADA & " THEN 1 ELSE 0 END) AS PUL " & _
+    IIf(bLink, ", SUM(CASE WHEN d.Cliques > 0 THEN 1 ELSE 0 END) AS CLI ", ", 0 AS CLI ") & _
     "FROM Campanha ca LEFT JOIN CampanhaDestinatario d ON d.CodCampanha = ca.Id " & _
     "GROUP BY ca.Id, ca.Nome, ca.TipoMidia, ca.CriadaEm, ca.AgendadaPara, ca.Situacao ORDER BY ca.Id DESC")
 Do While Not rs.EOF
@@ -375,6 +379,8 @@ Do While Not rs.EOF
     grdCamp.TextMatrix(r, 7) = Val("" & rs("ERR"))
     grdCamp.TextMatrix(r, 8) = Val("" & rs("AGU"))
     grdCamp.TextMatrix(r, 9) = Val("" & rs("PUL"))
+    'só Texto + link tem link para clicar
+    grdCamp.TextMatrix(r, 10) = IIf(Val("" & rs("TipoMidia")) = CAMP_LINK, CStr(Val("" & rs("CLI"))), "")
     If rs("Id") = lSel Then nSel = r
     rs.MoveNext
 Loop
@@ -398,19 +404,20 @@ Resume continua
 End Sub
 
 Private Sub CarregarDestinatarios()
-Dim rs As ADODB.Recordset, lId As Long, r As Long, c As Integer
+Dim rs As ADODB.Recordset, lId As Long, r As Long, c As Integer, bLink As Boolean
 
 lId = CampanhaAtual()
 With grdDest
     .Redraw = False
     .rows = 1
-    .Cols = 5
+    .Cols = 6
     .TextMatrix(0, 0) = "Cliente"
     .TextMatrix(0, 1) = "Celular"
     .TextMatrix(0, 2) = "Situação"
     .TextMatrix(0, 3) = "Data/hora"
-    .TextMatrix(0, 4) = "Detalhe"
-    For c = 0 To 4
+    .TextMatrix(0, 4) = "Clicou"
+    .TextMatrix(0, 5) = "Detalhe"
+    For c = 0 To 5
         .ColAlignment(c) = flexAlignLeftCenter
     Next
 End With
@@ -421,8 +428,9 @@ If lId = 0 Then
     Exit Sub
 End If
 lblDest.Caption = "Clientes da campanha nº " & lId & ":"
+bLink = Camp_TemLink()
 On Error GoTo Falha
-Set rs = dbData.OpenRecordset("SELECT " & IIf(Camp_TemContatos(), "COALESCE(c.Nome, ct.Nome)", "c.Nome") & " AS Nome, d.Celular, d.Situacao, d.DataHora, d.Erro FROM CampanhaDestinatario d " & _
+Set rs = dbData.OpenRecordset("SELECT " & IIf(Camp_TemContatos(), "COALESCE(c.Nome, ct.Nome)", "c.Nome") & " AS Nome, d.Celular, d.Situacao, d.DataHora, d.Erro, " & IIf(bLink, "d.Cliques", "NULL AS Cliques") & " FROM CampanhaDestinatario d " & _
     "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente " & IIf(Camp_TemContatos(), "LEFT JOIN Contatos ct ON ct.Id = d.CodContato ", "") & "WHERE d.CodCampanha = " & lId & " ORDER BY d.Situacao, 1")
 Do While Not rs.EOF
     grdDest.rows = grdDest.rows + 1
@@ -436,13 +444,14 @@ Do While Not rs.EOF
         Case Else: grdDest.TextMatrix(r, 2) = "Aguardando"
     End Select
     grdDest.TextMatrix(r, 3) = IIf(IsNull(rs("DataHora")), "", Format$(rs("DataHora"), "dd/mm/yyyy hh:nn"))
-    grdDest.TextMatrix(r, 4) = Replace("" & rs("Erro"), vbCrLf, " ")
+    If Val("" & rs("Cliques")) > 0 Then grdDest.TextMatrix(r, 4) = "Sim (" & Val("" & rs("Cliques")) & "x)"
+    grdDest.TextMatrix(r, 5) = Replace("" & rs("Erro"), vbCrLf, " ")
     rs.MoveNext
 Loop
 rs.Close
 continua:
 On Error Resume Next
-AjustarColunas grdDest, ",0,4,"
+AjustarColunas grdDest, ",0,5,"
 grdDest.Redraw = True
 Err.Clear
 Exit Sub

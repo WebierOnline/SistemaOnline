@@ -89,6 +89,16 @@ Begin VB.Form frmCampanhaZap
          Top             =   930
          Width           =   1575
       End
+      Begin VB.OptionButton optTipo
+         Caption         =   "Texto + link"
+         Height          =   255
+         Index           =   5
+         Left            =   4020
+         TabIndex        =   64
+         ToolTipText     =   "A mensagem leva um link curto (onlinecommerce.com.br/l/...) que abre o seu link e conta quem clicou."
+         Top             =   930
+         Width           =   1575
+      End
       Begin VB.TextBox txtArquivo 
          Height          =   315
          Left            =   1020
@@ -1046,6 +1056,9 @@ Private mIniciou As Boolean
 Private mSemEvento As Boolean
 Private mHtml As String
 Private mModoContatos As Boolean   'grid com os contatos do celular (Contatos), não com clientes
+Private mCampoLink As Boolean      'txtArquivo está com o link (Texto + link), não com um arquivo
+Private mLinkUrl As String         'último link curto criado (teste): gravar reaproveita
+Private mLinkCurto As String
 
 Private Sub Form_Load()
 Dim desc() As String, i As Long
@@ -1137,14 +1150,18 @@ End Sub
 Private Function TipoAtual() As Integer
 Dim k As Integer
 
-For k = CAMP_SO_TEXTO To CAMP_PDF
+For k = CAMP_SO_TEXTO To CAMP_LINK
     If optTipo(k).Value Then TipoAtual = k
 Next
 End Function
 
 Private Sub optTipo_Click(Index As Integer)
-If Len(txtArquivo.Text) > 0 Then
-    Dim sMsg As String
+Dim sMsg As String
+
+'o campo guarda o arquivo ou, em Texto + link, o link: ao trocar entre os dois, começa vazio
+If (Index = CAMP_LINK) <> mCampoLink Then
+    txtArquivo.Text = ""
+ElseIf Len(txtArquivo.Text) > 0 And Camp_TemArquivo(Index) Then
     If Not ArquivoValido(txtArquivo.Text, Index, sMsg) Then txtArquivo.Text = ""
 End If
 AtualizarTipo
@@ -1155,9 +1172,18 @@ Private Sub AtualizarTipo()
 Dim nTipo As Integer
 
 nTipo = TipoAtual()
+mCampoLink = (nTipo = CAMP_LINK)
 txtArquivo.Enabled = (nTipo <> CAMP_SO_TEXTO)
-cmdArquivo.Enabled = (nTipo <> CAMP_SO_TEXTO)
+txtArquivo.Locked = Not mCampoLink          'link é digitado; arquivo vem do Escolher...
+cmdArquivo.Enabled = Camp_TemArquivo(nTipo)
 lblArquivo.Enabled = (nTipo <> CAMP_SO_TEXTO)
+If mCampoLink Then
+    lblArquivo.Caption = "Link:"
+    txtArquivo.ToolTipText = "Endereço que abre ao clicar (site, Instagram, cardápio...). Na mensagem vai um link curto."
+Else
+    lblArquivo.Caption = "Arquivo:"
+    txtArquivo.ToolTipText = ""
+End If
 If nTipo = CAMP_SO_TEXTO Then txtArquivo.Text = ""
 txtMensagem.Enabled = (nTipo <> CAMP_SO_IMAGEM)
 cboTag.Enabled = txtMensagem.Enabled
@@ -1228,6 +1254,10 @@ End Sub
 
 Private Sub txtMensagem_Change()
 ReiniciarPrevia
+End Sub
+
+Private Sub txtArquivo_Change()
+If mCampoLink Then ReiniciarPrevia
 End Sub
 
 Private Sub chkRodape_Click()
@@ -1795,7 +1825,17 @@ If nTipo <> CAMP_SO_IMAGEM And Len(Trim$(txtMensagem.Text)) = 0 Then
     txtMensagem.SetFocus
     Exit Function
 End If
-If nTipo <> CAMP_SO_TEXTO Then
+If nTipo = CAMP_LINK Then
+    If Not Camp_TemLink() Then
+        MsgBox "Para usar Texto + link, rode o script 195 no banco (Atualizar banco de dados).", vbExclamation, TITULO
+        Exit Function
+    End If
+    If Len(Camp_NormalizarLink(txtArquivo.Text)) = 0 Then
+        MsgBox "Digite o link que deve abrir ao clicar." & vbCrLf & vbCrLf & "Ex.: https://www.instagram.com/sua_loja", vbExclamation, TITULO
+        txtArquivo.SetFocus
+        Exit Function
+    End If
+ElseIf nTipo <> CAMP_SO_TEXTO Then
     If Len(txtArquivo.Text) = 0 Then
         MsgBox "Escolha o arquivo (" & LCase$(Camp_TipoTexto(nTipo)) & ").", vbExclamation, TITULO
         cmdArquivo.SetFocus
@@ -1810,7 +1850,7 @@ ConteudoValido = True
 End Function
 
 Private Sub cmdTeste_Click()
-Dim sMotivo As String, sMsg As String, sArq As String
+Dim sMotivo As String, sMsg As String, sArq As String, sLink As String
 
 If Not CelularValido(txtTeste.Text, sMotivo) Then
     MsgBox "Celular inválido para o teste: " & sMotivo & "." & vbCrLf & vbCrLf & "Digite com o DDD, ex.: (89) 9 9999-9999.", vbExclamation, TITULO
@@ -1818,9 +1858,16 @@ If Not CelularValido(txtTeste.Text, sMotivo) Then
     Exit Sub
 End If
 If Not ConteudoValido() Then Exit Sub
-If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text
+If Camp_TemArquivo(TipoAtual()) Then sArq = txtArquivo.Text
 Me.MousePointer = vbHourglass
-If ZapOnlineEnviar(txtTeste.Text, Camp_Texto(MensagemAtual(), NomeExemplo(), False, False, (chkRodape.Value = vbChecked)), sArq, sMsg) Then
+If TipoAtual() = CAMP_LINK Then
+    If Not LinkCurtoAtual(sLink, sMsg) Then
+        Me.MousePointer = vbDefault
+        MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
+        Exit Sub
+    End If
+End If
+If ZapOnlineEnviar(txtTeste.Text, Camp_Texto(MensagemAtual(), NomeExemplo(), False, False, (chkRodape.Value = vbChecked), sLink), sArq, sMsg) Then
     Me.MousePointer = vbDefault
     MsgBox "Mensagem de teste enviada (com o nome de " & Cob_PrimeiroNome(NomeExemplo()) & ").", vbInformation, TITULO
 Else
@@ -1828,6 +1875,19 @@ Else
     MsgBox sMsg, vbExclamation, ZapOnlineTitulo(TITULO)
 End If
 End Sub
+
+'Link curto do link da tela (cria no servidor só quando o link muda)
+Private Function LinkCurtoAtual(ByRef sLink As String, ByRef sMsg As String) As Boolean
+Dim sUrl As String
+
+sUrl = Camp_NormalizarLink(txtArquivo.Text)
+If sUrl <> mLinkUrl Or Len(mLinkCurto) = 0 Then
+    If Not ZapOnlineCriarLink(sUrl, mLinkCurto, sMsg) Then mLinkCurto = "": Exit Function
+    mLinkUrl = sUrl
+End If
+sLink = mLinkCurto
+LinkCurtoAtual = True
+End Function
 
 '---------------------------------------------------------------------------
 ' Agendamento: data (dd/mm/aa, pelo calendário ou digitada) e hora (hh:mm)
@@ -1931,7 +1991,7 @@ For i = 1 To mQtd
         Ctts(n) = mCli(i).CodContato
     End If
 Next
-If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text
+If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text   'Texto + link: o link (Camp_Salvar cria o link curto)
 Camp_SalvarLimite nLim
 Me.MousePointer = vbHourglass
 lId = Camp_Salvar(Trim$(txtNome.Text), MensagemAtual(), TipoAtual(), sArq, vAgenda, sDesc, Cods, Cels, Ctts, n, sErro, (chkRodape.Value = vbChecked))

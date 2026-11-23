@@ -1641,6 +1641,42 @@ Falha:
    mLimiteEspera = nEsperaAnt
 End Function
 
+'Link curto das promoções (Texto + link): o servidor devolve o endereço (https://onlinecommerce.com.br/l/Ab3x9Q) que
+'redireciona para Url. A mesma Url devolve sempre o mesmo endereço. Para contar quem clicou, cada destinatário recebe
+'Endereco & "-" & <nº dele em base 36>.
+Public Function ZapOnlineCriarLink(ByVal Url As String, ByRef Endereco As String, ByRef Msg As String) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String
+
+   Endereco = ""
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   If Not ZapOnlineChamar("POST", base & "/whatsapp/link", "{""url"":" & LicJsonStr(Url) & "}", chave, resp, Msg) Then Exit Function
+   Endereco = LicJsonTexto(resp, "endereco")
+   If Len(Endereco) = 0 Then
+      Msg = "O servidor não devolveu o link curto. Tente de novo."
+      Exit Function
+   End If
+   ZapOnlineCriarLink = True
+   Exit Function
+Falha:
+   Msg = "Falha ao criar o link curto: " & Err.Description
+End Function
+
+'Cliques nos links curtos desde a data: Lista = "destino:quantidade,destino:quantidade" (destino = nº do destinatário em base 36)
+Public Function ZapOnlineCliques(ByVal Desde As Date, ByRef Lista As String, ByRef Msg As String) As Boolean
+   On Error GoTo Falha
+   Dim cnpj As String, chave As String, base As String, resp As String
+
+   Lista = ""
+   If Not LicConexao(cnpj, chave, base, Msg) Then Exit Function
+   If Not ZapOnlineChamar("GET", base & "/whatsapp/cliques?desde=" & Format$(Desde, "yyyy-mm-dd"), "", chave, resp, Msg) Then Exit Function
+   Lista = LicJsonTexto(resp, "cliques")
+   ZapOnlineCliques = True
+   Exit Function
+Falha:
+   Msg = "Falha ao consultar os cliques: " & Err.Description
+End Function
+
 '200 = True. Senão Msg com o motivo (a "mensagem" do servidor quando vier).
 Private Function ZapOnlineChamar(ByVal Metodo As String, ByVal Url As String, ByVal Corpo As String, ByVal Chave As String, _
                                  ByRef Resposta As String, ByRef Msg As String) As Boolean

@@ -190,3 +190,4 @@
 192|Alter_Campanha_RodapeSair.sql|GERAL
 193|Alter_Campanha_SemArquivo.sql|GERAL
 194|CreateTable_Contatos.sql|GERAL
+195|Alter_Campanha_Link.sql|GERAL

@@ -852,7 +852,8 @@ Const LISTA As String = _
     "{OK}|Emoji: confirmado|2705;" & _
     "{ATENCAO}|Emoji: atenção|26A0+FE0F;" & _
     "{VERMELHO}|Emoji: círculo vermelho|1F534;" & _
-    "{CORACAO}|Emoji: coração laranja|1F9E1"
+    "{CORACAO}|Emoji: coração laranja|1F9E1;" & _
+    "{APONTAR}|Emoji: dedo apontando|1F449"
 Dim lst() As String, p() As String, i As Long
 
 lst = Split(LISTA, ";")
