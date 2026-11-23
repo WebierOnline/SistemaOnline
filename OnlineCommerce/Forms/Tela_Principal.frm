@@ -2412,7 +2412,7 @@ Dim vExe As String
    vExe = """\""" & appPathApp & appEXEName & "\"" /cobrancazap"""
 
    vExitCode = vShell.Run("schtasks /Query /TN ""OnlineCommerce_CobrancaZap""", 0, True)
-   If LicTemRecurso("WHATSAPP") Then
+   If LicTemWhatsApp() Then
       If vExitCode <> 0 Then
          vComando = "schtasks /Create /TN ""OnlineCommerce_CobrancaZap"" /TR " & vExe & " /SC MINUTE /MO 30 /F"
          vShell.Run vComando, 0, True
@@ -2575,6 +2575,11 @@ Else
          Menu_Fin_Promocao.Enabled = False
          'cmdContasApagar.Enabled = False
 
+    End If
+    'Cobrança e promoções por WhatsApp: só com o recurso WHATSAPP marcado no painel de licenças
+    If Not LicTemWhatsApp() Then
+         Menu_Fin_Cobranca.Visible = False
+         Menu_Fin_Promocao.Visible = False
     End If
     If LerPermissoesUsuario(vCodUsuario, 14) = True Then
          Menu_Fin_AReceber.Enabled = True

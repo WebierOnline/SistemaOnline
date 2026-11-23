@@ -962,7 +962,7 @@ If Not Camp_BancoPronto() Then
     Unload Me
     Exit Sub
 End If
-If Not LicTemRecurso("WHATSAPP") Then
+If Not LicTemWhatsApp() Then
     MsgBox "O envio por WhatsApp não faz parte do plano desta empresa.", vbExclamation, TITULO
     Unload Me
     Exit Sub

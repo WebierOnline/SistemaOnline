@@ -560,7 +560,7 @@ Dim cfg As CobConfig, bPromo As Boolean
 
 On Error GoTo Falha
 If Not EhServidorLocal() Then Exit Sub
-If Not LicTemRecurso("WHATSAPP") Then Exit Sub   'licença sem WhatsApp: sai sem consultar nada
+If Not LicTemWhatsApp() Then Exit Sub   'licença sem WhatsApp: sai sem consultar nada
 If Not Cob_BancoPronto() Then Exit Sub
 Cob_LerConfig cfg
 If Not Cob_DentroDoHorario(cfg) Then Exit Sub

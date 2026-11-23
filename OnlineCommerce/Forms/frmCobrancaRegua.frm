@@ -711,7 +711,7 @@ If Not Cob_TemColunasAuto() Then
     txtResumoCel.Enabled = False
     lblResumoCel.Enabled = False
 End If
-If Not LicTemRecurso("WHATSAPP") Then
+If Not LicTemWhatsApp() Then
     chkAutomatico.Value = vbUnchecked
     chkAutomatico.Enabled = False
     chkAutoJuros.Enabled = False
@@ -1121,7 +1121,7 @@ Private Sub MostrarSituacaoAuto()
 Dim bErro As Boolean, s As String
 
 s = Cob_AutoTextoSituacao(bErro)
-If Not LicTemRecurso("WHATSAPP") Then s = "O envio por WhatsApp não faz parte do plano desta empresa: o envio automático fica desligado.": bErro = True
+If Not LicTemWhatsApp() Then s = "O envio por WhatsApp não faz parte do plano desta empresa: o envio automático fica desligado.": bErro = True
 If Len(s) = 0 And chkAutomatico.Value = vbChecked Then s = "Ainda não executou (roda a cada 30 minutos na máquina servidor)."
 lblAutoSituacao.Caption = s
 lblAutoSituacao.ForeColor = IIf(bErro, &HC0&, &H800000)

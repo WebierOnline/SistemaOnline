@@ -689,6 +689,11 @@ If Not Cob_BancoPronto() Then
     Unload Me
     Exit Sub
 End If
+If Not LicTemWhatsApp() Then
+    MsgBox LicMsgForaDoPlano("A cobrança por WhatsApp"), vbExclamation, LIC_TITULO_RECURSO
+    Unload Me
+    Exit Sub
+End If
 Cob_GarantirRegrasPadrao
 Carregar
 CarregarHistorico

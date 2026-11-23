@@ -3352,8 +3352,8 @@ End Sub
 
 Private Sub Form_Load()
 SSTab1.Tab = 0
-chkNaoCobrarZap.Visible = TemNaoCobrar()
-chkNaoPromoZap.Visible = TemNaoPromo()
+chkNaoCobrarZap.Visible = TemNaoCobrar() And LicTemWhatsApp()
+chkNaoPromoZap.Visible = TemNaoPromo() And LicTemWhatsApp()
 StatusBar1.Panels(3).Text = Format(Date, "dd/mm/yy")
 txtCadastro.Text = Format(Date, ocDATA)
 

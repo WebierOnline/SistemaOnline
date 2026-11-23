@@ -1513,11 +1513,12 @@ End Function
 'O plano desta empresa tem o projeto/recurso (código do painel: "MDFE", "WHATSAPP", "OS"...)?
 'Licença sem a lista (avaliação, licença antiga) ou não lida = liberado: quem bloqueia a falta de licença é a tela de bloqueio.
 'Para recursos que passam pelo servidor (WhatsApp), quem decide é o servidor, sempre com o plano atual.
-Public Function LicTemRecurso(ByVal Codigo As String) As Boolean
+'Estrito = True: só libera com o recurso marcado no painel (licença sem a lista ou não lida = bloqueado).
+Public Function LicTemRecurso(ByVal Codigo As String, Optional ByVal Estrito As Boolean = False) As Boolean
    On Error GoTo Falha
    Dim r As ADODB.Recordset, d As LicDados
 
-   LicTemRecurso = True
+   LicTemRecurso = Not Estrito
    Set r = dbData.OpenRecordset("SELECT Token FROM od.Licenca WHERE Id = 1;")
    If r.EOF Then Exit Function
    If Not LicLerToken("" & r("Token"), d) Then Exit Function
@@ -1527,7 +1528,12 @@ Public Function LicTemRecurso(ByVal Codigo As String) As Boolean
    Exit Function
 Falha:
    Err.Clear
-   LicTemRecurso = True
+   LicTemRecurso = Not Estrito
+End Function
+
+'Cobrança e promoções por WhatsApp: só para quem tem o recurso WHATSAPP marcado no painel de licenças
+Public Function LicTemWhatsApp() As Boolean
+   LicTemWhatsApp = LicTemRecurso("WHATSAPP", True)
 End Function
 
 'Aviso padrão de recurso fora do plano (ex.: LicMsgForaDoPlano("A emissão de MDF-e")), com o título LIC_TITULO_RECURSO
