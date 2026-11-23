@@ -216,7 +216,7 @@ Begin VB.Form frmCampanhaZap
       End
       Begin VB.Label lblDica 
          AutoSize        =   -1  'True
-         Caption         =   "Use {Olá|Oi|Bom dia} para o texto variar entre os clientes (evita bloqueio)."
+         Caption         =   "Use {Olá | Oi | Bom dia} para o texto variar entre os clientes (evita bloqueio)."
          ForeColor       =   &H00000080&
          Height          =   195
          Left            =   120
@@ -718,10 +718,10 @@ Begin VB.Form frmCampanhaZap
       End
       Begin VB.Label lblPrevisao 
          ForeColor       =   &H00800000&
-         Height          =   735
+         Height          =   855
          Left            =   120
          TabIndex        =   54
-         Top             =   1800
+         Top             =   1935
          Width           =   4215
       End
    End
@@ -1337,8 +1337,8 @@ If f.Aniver = 0 And f.ComprouDias = 0 And f.SumidoDias = 0 And Len(f.Produto) = 
     Exit Sub
 End If
 If f.SoCelularValido Then
-    If MsgBox("Buscar TODOS os clientes ativos com celular válido?" & vbCrLf & vbCrLf & _
-              "Promoção para todo mundo é o que mais faz o WhatsApp bloquear o número: comece com um limite por dia baixo.", _
+    If MsgBox("Selecionar todos os clientes ativos com celular válido?" & vbCrLf & vbCrLf & _
+              "Para proteger seu número no WhatsApp, recomendamos iniciar com um envio diário reduzido.", _
               vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
 End If
 Me.MousePointer = vbHourglass
@@ -1399,9 +1399,7 @@ With grdClientes
 End With
 mSemEvento = False
 If mQtd > 0 Then
-    lblContador.Caption = mQtd & " cliente(s): " & nOk & " vão receber" & _
-        IIf(nNao > 0, ", " & nNao & " não querem promoções", "") & IIf(nCel > 0, ", " & nCel & " sem celular válido", "") & _
-        ". Clique em Env. (ou espaço) para tirar alguém."
+    MostrarContador
 ElseIf grdClientes.Tag = "buscou" Then
     lblContador.Caption = "Nenhum cliente com esses filtros."
 End If
@@ -1509,6 +1507,11 @@ grdClientes.Redraw = True
 AtualizarPrevisao
 End Sub
 
+Private Sub MostrarContador()
+lblContador.Caption = "Clientes exibidos: " & mQtd & ", Clientes selecionados: " & QtdMarcados() & _
+                      ". Clique no quadradinho antes do nome, caso deseja remover o envio de promoção!"
+End Sub
+
 Private Function QtdMarcados() As Long
 Dim i As Long
 
@@ -1563,6 +1566,7 @@ Private Sub AtualizarPrevisao()
 Dim n As Long, nLim As Long, nDias As Long
 
 If Not mIniciou Then Exit Sub
+If mQtd > 0 Then MostrarContador
 n = QtdMarcados()
 nLim = Val(txtLimite.Text)
 If nLim < 1 Then nLim = CAMP_LIMITE_PADRAO

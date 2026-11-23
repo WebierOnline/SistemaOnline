@@ -2578,8 +2578,8 @@ Else
     End If
     'Cobrança e promoções por WhatsApp: só com o recurso WHATSAPP marcado no painel de licenças
     If Not LicTemWhatsApp() Then
-         Menu_Fin_Cobranca.Visible = False
-         Menu_Fin_Promocao.Visible = False
+         Menu_Fin_Cobranca.Enabled = False
+         Menu_Fin_Promocao.Enabled = False
     End If
     If LerPermissoesUsuario(vCodUsuario, 14) = True Then
          Menu_Fin_AReceber.Enabled = True
