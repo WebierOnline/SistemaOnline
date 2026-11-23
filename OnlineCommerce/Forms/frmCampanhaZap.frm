@@ -232,12 +232,21 @@ Begin VB.Form frmCampanhaZap
       TabIndex        =   17
       Top             =   5100
       Width           =   5835
+      Begin VB.CheckBox chkClientes 
+         Caption         =   "Todos (somente com celular válido)"
+         Height          =   255
+         Left            =   120
+         TabIndex        =   62
+         ToolTipText     =   "Todos os clientes ativos com celular válido (os demais filtros, menos o das parcelas vencidas, ficam desmarcados)."
+         Top             =   300
+         Width           =   3975
+      End
       Begin VB.CheckBox chkAniver 
          Caption         =   "Aniversariantes"
          Height          =   255
          Left            =   120
          TabIndex        =   18
-         Top             =   300
+         Top             =   660
          Width           =   1935
       End
       Begin VB.ComboBox cboAniver 
@@ -245,7 +254,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2100
          Style           =   2  'Dropdown List
          TabIndex        =   19
-         Top             =   270
+         Top             =   630
          Width           =   1815
       End
       Begin VB.CheckBox chkComprou 
@@ -253,7 +262,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   20
-         Top             =   690
+         Top             =   1020
          Width           =   2535
       End
       Begin VB.TextBox txtComprou 
@@ -261,7 +270,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2700
          MaxLength       =   4
          TabIndex        =   21
-         Top             =   660
+         Top             =   990
          Width           =   615
       End
       Begin VB.CheckBox chkSumido 
@@ -269,7 +278,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   23
-         Top             =   1080
+         Top             =   1380
          Width           =   2535
       End
       Begin VB.TextBox txtSumido 
@@ -277,7 +286,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2700
          MaxLength       =   4
          TabIndex        =   24
-         Top             =   1050
+         Top             =   1350
          Width           =   615
       End
       Begin VB.CheckBox chkProduto 
@@ -285,7 +294,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   26
-         Top             =   1470
+         Top             =   1740
          Width           =   1935
       End
       Begin VB.TextBox txtProduto 
@@ -294,7 +303,7 @@ Begin VB.Form frmCampanhaZap
          MaxLength       =   60
          TabIndex        =   27
          ToolTipText     =   "Parte da descrição do produto. Com ""Compraram nos últimos X dias"" marcado, vale só para esse período."
-         Top             =   1440
+         Top             =   1710
          Width           =   3435
       End
       Begin VB.CheckBox chkCategoria 
@@ -302,7 +311,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   28
-         Top             =   1860
+         Top             =   2100
          Width           =   1935
       End
       Begin VB.ComboBox cboCategoria 
@@ -310,7 +319,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2100
          Style           =   2  'Dropdown List
          TabIndex        =   29
-         Top             =   1830
+         Top             =   2070
          Width           =   3435
       End
       Begin VB.CheckBox chkCidade 
@@ -318,7 +327,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   30
-         Top             =   2250
+         Top             =   2460
          Width           =   1935
       End
       Begin VB.ComboBox cboCidade 
@@ -326,7 +335,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2100
          Style           =   2  'Dropdown List
          TabIndex        =   31
-         Top             =   2220
+         Top             =   2430
          Width           =   3435
       End
       Begin VB.CheckBox chkBairro 
@@ -334,7 +343,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   32
-         Top             =   2640
+         Top             =   2820
          Width           =   1935
       End
       Begin VB.ComboBox cboBairro 
@@ -342,7 +351,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   2100
          Style           =   2  'Dropdown List
          TabIndex        =   33
-         Top             =   2610
+         Top             =   2790
          Width           =   3435
       End
       Begin VB.CheckBox chkGastou 
@@ -350,7 +359,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   34
-         Top             =   3030
+         Top             =   3180
          Width           =   3435
       End
       Begin VB.TextBox txtGastou 
@@ -358,7 +367,7 @@ Begin VB.Form frmCampanhaZap
          Left            =   3600
          MaxLength       =   12
          TabIndex        =   35
-         Top             =   3000
+         Top             =   3150
          Width           =   1215
       End
       Begin VB.CheckBox chkDevedores 
@@ -366,7 +375,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   120
          TabIndex        =   36
-         Top             =   3420
+         Top             =   3540
          Value           =   1  'Checked
          Width           =   3975
       End
@@ -374,7 +383,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   375
          Left            =   3780
          TabIndex        =   37
-         Top             =   3780
+         Top             =   3960
          Width           =   1635
          _ExtentX        =   2884
          _ExtentY        =   661
@@ -413,7 +422,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   3360
          TabIndex        =   22
-         Top             =   690
+         Top             =   1020
          Width           =   600
       End
       Begin VB.Label lblSumido 
@@ -421,7 +430,7 @@ Begin VB.Form frmCampanhaZap
          Height          =   255
          Left            =   3360
          TabIndex        =   25
-         Top             =   1080
+         Top             =   1380
          Width           =   600
       End
    End
@@ -1173,6 +1182,55 @@ Private Sub cboBairro_Click()
 If mIniciou Then chkBairro.Value = vbChecked
 End Sub
 
+'"Todos (somente com celular válido)" e os filtros de público não valem juntos (o de parcela vencida vale com qualquer um)
+Private Sub chkClientes_Click()
+If chkClientes.Value <> vbChecked Then Exit Sub
+chkAniver.Value = vbUnchecked
+chkComprou.Value = vbUnchecked
+chkSumido.Value = vbUnchecked
+chkProduto.Value = vbUnchecked
+chkCategoria.Value = vbUnchecked
+chkCidade.Value = vbUnchecked
+chkBairro.Value = vbUnchecked
+chkGastou.Value = vbUnchecked
+End Sub
+
+Private Sub FiltroMarcado(ByVal chk As CheckBox)
+If chk.Value = vbChecked Then chkClientes.Value = vbUnchecked
+End Sub
+
+Private Sub chkAniver_Click()
+FiltroMarcado chkAniver
+End Sub
+
+Private Sub chkComprou_Click()
+FiltroMarcado chkComprou
+End Sub
+
+Private Sub chkSumido_Click()
+FiltroMarcado chkSumido
+End Sub
+
+Private Sub chkProduto_Click()
+FiltroMarcado chkProduto
+End Sub
+
+Private Sub chkCategoria_Click()
+FiltroMarcado chkCategoria
+End Sub
+
+Private Sub chkCidade_Click()
+FiltroMarcado chkCidade
+End Sub
+
+Private Sub chkBairro_Click()
+FiltroMarcado chkBairro
+End Sub
+
+Private Sub chkGastou_Click()
+FiltroMarcado chkGastou
+End Sub
+
 Private Sub cboAniver_Click()
 If mIniciou Then chkAniver.Value = vbChecked
 End Sub
@@ -1222,6 +1280,10 @@ End Sub
 Private Function LerFiltro(ByRef f As CampFiltro, ByRef sDescricao As String) As Boolean
 Dim s As String
 
+If chkClientes.Value = vbChecked Then
+    f.SoCelularValido = True
+    s = s & "; todos com celular válido"
+End If
 If chkAniver.Value = vbChecked Then
     f.Aniver = cboAniver.ListIndex + 1
     s = s & "; aniversariantes " & cboAniver.Text
@@ -1260,7 +1322,7 @@ If chkGastou.Value = vbChecked Then
 End If
 f.ExcluirDevedores = (chkDevedores.Value = vbChecked)
 If f.ExcluirDevedores Then s = s & "; sem parcela vencida"
-If Len(s) = 0 Then s = "; todos os clientes ativos"
+If Len(s) = 0 Then s = "; todos os clientes ativos"   'não acontece: a busca pede um filtro
 sDescricao = Mid$(s, 3)
 LerFiltro = True
 End Function
@@ -1270,9 +1332,13 @@ Dim f As CampFiltro, sDesc As String, i As Long
 
 If Not LerFiltro(f, sDesc) Then Exit Sub
 If f.Aniver = 0 And f.ComprouDias = 0 And f.SumidoDias = 0 And Len(f.Produto) = 0 And Len(f.Categoria) = 0 And _
-   Len(f.Cidade) = 0 And Len(f.Bairro) = 0 And f.GastouAcima = 0 Then
-    If MsgBox("Nenhum filtro marcado: a lista vai trazer TODOS os clientes ativos." & vbCrLf & vbCrLf & _
-              "Promoção para todo mundo é o que mais faz o WhatsApp bloquear o número. Continuar?", _
+   Len(f.Cidade) = 0 And Len(f.Bairro) = 0 And f.GastouAcima = 0 And Not f.SoCelularValido Then
+    MsgBox "Marque pelo menos um filtro do público, ou ""Todos (somente com celular válido)"".", vbInformation, TITULO
+    Exit Sub
+End If
+If f.SoCelularValido Then
+    If MsgBox("Buscar TODOS os clientes ativos com celular válido?" & vbCrLf & vbCrLf & _
+              "Promoção para todo mundo é o que mais faz o WhatsApp bloquear o número: comece com um limite por dia baixo.", _
               vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
 End If
 Me.MousePointer = vbHourglass
@@ -1333,13 +1399,22 @@ With grdClientes
 End With
 mSemEvento = False
 If mQtd > 0 Then
-    lblContador.Caption = mQtd & " cliente(s) encontrado(s): " & nOk & " podem receber" & _
-        IIf(nNao > 0, ", " & nNao & " não querem promoções", "") & IIf(nCel > 0, ", " & nCel & " sem celular válido", "") & "." & vbCrLf & _
-        "Clique na coluna Env. (ou espaço) para tirar alguém da lista."
+    lblContador.Caption = mQtd & " cliente(s): " & nOk & " vão receber" & _
+        IIf(nNao > 0, ", " & nNao & " não querem promoções", "") & IIf(nCel > 0, ", " & nCel & " sem celular válido", "") & _
+        ". Clique em Env. (ou espaço) para tirar alguém."
 ElseIf grdClientes.Tag = "buscou" Then
     lblContador.Caption = "Nenhum cliente com esses filtros."
 End If
 grdClientes.Tag = "buscou"
+End Sub
+
+'Uma linha só, alinhada com a borda direita do grid (AutoSize cresce para a direita)
+Private Sub lblContador_Change()
+Dim nMin As Long
+
+nMin = cmdDesmarcar.Left + cmdDesmarcar.Width + 120
+lblContador.Left = grdClientes.Left + grdClientes.Width - lblContador.Width
+If lblContador.Left < nMin Then lblContador.Left = nMin
 End Sub
 
 Private Sub MostrarMarca(ByVal r As Long)

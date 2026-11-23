@@ -44,6 +44,7 @@ Public Type CampFiltro
     Bairro As String
     GastouAcima As Currency    'gastaram acima disso nos últimos 12 meses
     ExcluirDevedores As Boolean
+    SoCelularValido As Boolean  'Todos (somente com celular válido): quem não tem celular válido nem aparece
 End Type
 
 Public Type CampCliente
@@ -117,6 +118,7 @@ If f.GastouAcima > 0 Then
     w = w & " AND (SELECT SUM(p.TOTAL) FROM pedidos p WHERE p.COD_CLIENTE = c.CODIGO AND " & SQL_VENDA & _
             " AND p.DATA_COMPRA >= DATEADD(month, -12, GETDATE())) > " & Replace(CStr(f.GastouAcima), ",", ".")
 End If
+If f.SoCelularValido Then w = w & " AND LEN(LTRIM(RTRIM(ISNULL(c.CELULAR, '')))) >= 8"
 If f.ExcluirDevedores Then
     w = w & " AND NOT EXISTS (SELECT 1 FROM parcelas pa INNER JOIN pedidos pe ON pe.COD_PEDIDO = pa.COD_PEDIDO " & _
             "WHERE pe.COD_CLIENTE = c.CODIGO AND pa.STATUS = 0 AND pa.DATA < " & sHoje & ")"
@@ -142,6 +144,7 @@ Do While Not rs.EOF
             If sMotivo = "sem número" Then .Motivo = "Sem celular" Else .Motivo = "Celular inválido (" & sMotivo & ")"
         End If
     End With
+    If f.SoCelularValido And Left$(Cli(n).Motivo, 3) <> "Não" And Len(Cli(n).Motivo) > 0 Then n = n - 1: ReDim Preserve Cli(n)   'sem celular válido: fora da lista
     rs.MoveNext
 Loop
 rs.Close
