@@ -239,7 +239,16 @@ Begin VB.Form frmCampanhaZap
          TabIndex        =   62
          ToolTipText     =   "Todos os clientes ativos com celular válido (os demais filtros, menos o das parcelas vencidas, ficam desmarcados)."
          Top             =   300
-         Width           =   3975
+         Width           =   3135
+      End
+      Begin VB.CheckBox chkContatos 
+         Caption         =   "Contatos do celular"
+         Height          =   255
+         Left            =   3300
+         TabIndex        =   63
+         ToolTipText     =   "Contatos importados do celular (botão Importar contatos). Os desativados aparecem em cinza e não recebem."
+         Top             =   300
+         Width           =   2415
       End
       Begin VB.CheckBox chkAniver 
          Caption         =   "Aniversariantes"
@@ -379,6 +388,43 @@ Begin VB.Form frmCampanhaZap
          Value           =   1  'Checked
          Width           =   3975
       End
+      Begin ChamaleonBtn.chameleonButton cmdImportar 
+         Height          =   375
+         Left            =   2100
+         TabIndex        =   64
+         Top             =   3960
+         Width           =   1635
+         _ExtentX        =   2884
+         _ExtentY        =   661
+         BTYPE           =   3
+         TX              =   "&Importar contatos"
+         ENAB            =   -1  'True
+         BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+            Name            =   "MS Sans Serif"
+            Size            =   8.25
+            Charset         =   0
+            Weight          =   400
+            Underline       =   0   'False
+            Italic          =   0   'False
+            Strikethrough   =   0   'False
+         EndProperty
+         COLTYPE         =   1
+         FOCUSR          =   -1  'True
+         BCOL            =   12632256
+         BCOLO           =   12632256
+         FCOL            =   0
+         FCOLO           =   0
+         MCOL            =   12632256
+         MPTR            =   1
+         UMCOL           =   -1  'True
+         SOFT            =   0   'False
+         PICPOS          =   0
+         NGREY           =   0   'False
+         FX              =   0
+         HAND            =   0   'False
+         CHECK           =   0   'False
+         VALUE           =   0   'False
+      End
       Begin ChamaleonBtn.chameleonButton cmdBuscar 
          Height          =   375
          Left            =   3780
@@ -517,6 +563,43 @@ Begin VB.Form frmCampanhaZap
       MCOL            =   12632256
       MPTR            =   1
       MICON           =   "frmCampanhaZap.frx":0070
+      UMCOL           =   -1  'True
+      SOFT            =   0   'False
+      PICPOS          =   0
+      NGREY           =   0   'False
+      FX              =   0
+      HAND            =   0   'False
+      CHECK           =   0   'False
+      VALUE           =   0   'False
+   End
+   Begin ChamaleonBtn.chameleonButton cmdDesativarCliente 
+      Height          =   255
+      Left            =   2940
+      TabIndex        =   65
+      Top             =   4760
+      Width           =   1455
+      _ExtentX        =   2566
+      _ExtentY        =   450
+      BTYPE           =   3
+      TX              =   "Desativar contato"
+      ENAB            =   0   'False
+      BeginProperty FONT {0BE35203-8F91-11CE-9DE3-00AA004BB851} 
+         Name            =   "MS Sans Serif"
+         Size            =   8.25
+         Charset         =   0
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      COLTYPE         =   1
+      FOCUSR          =   -1  'True
+      BCOL            =   12632256
+      BCOLO           =   12632256
+      FCOL            =   0
+      FCOLO           =   0
+      MCOL            =   12632256
+      MPTR            =   1
       UMCOL           =   -1  'True
       SOFT            =   0   'False
       PICPOS          =   0
@@ -932,6 +1015,7 @@ Private mTags() As String
 Private mIniciou As Boolean
 Private mSemEvento As Boolean
 Private mHtml As String
+Private mModoContatos As Boolean   'grid com os contatos do celular (Contatos), não com clientes
 
 Private Sub Form_Load()
 Dim desc() As String, i As Long
@@ -1185,6 +1269,7 @@ End Sub
 '"Todos (somente com celular válido)" e os filtros de público não valem juntos (o de parcela vencida vale com qualquer um)
 Private Sub chkClientes_Click()
 If chkClientes.Value <> vbChecked Then Exit Sub
+chkContatos.Value = vbUnchecked
 chkAniver.Value = vbUnchecked
 chkComprou.Value = vbUnchecked
 chkSumido.Value = vbUnchecked
@@ -1195,8 +1280,80 @@ chkBairro.Value = vbUnchecked
 chkGastou.Value = vbUnchecked
 End Sub
 
+'Contatos do celular: lista só os contatos importados (os filtros de clientes não valem junto)
+Private Sub chkContatos_Click()
+If chkContatos.Value <> vbChecked Then Exit Sub
+chkClientes.Value = vbUnchecked
+chkAniver.Value = vbUnchecked
+chkComprou.Value = vbUnchecked
+chkSumido.Value = vbUnchecked
+chkProduto.Value = vbUnchecked
+chkCategoria.Value = vbUnchecked
+chkCidade.Value = vbUnchecked
+chkBairro.Value = vbUnchecked
+chkGastou.Value = vbUnchecked
+End Sub
+
+Private Sub cmdImportar_Click()
+frmContatosImportar.Show vbModal, Me
+If Camp_TemContatos() Then chkContatos.Value = vbChecked
+End Sub
+
+'Desativa (ATIVO = 0, fica cinza e não recebe) ou ativa de novo o contato da linha
+Private Sub cmdDesativarCliente_Click()
+Dim i As Long, r As Long, bAtivar As Boolean, sMotivo As String
+
+r = grdClientes.Row
+If r < 1 Or r >= grdClientes.rows Then Exit Sub
+i = grdClientes.RowData(r)
+If i < 1 Or i > mQtd Then Exit Sub
+If mCli(i).CodContato = 0 Then Exit Sub
+bAtivar = (mCli(i).Motivo = CAMP_CONTATO_DESATIVADO)
+If Not Camp_ContatoAtivo(mCli(i).CodContato, bAtivar) Then
+    MsgBox "Não foi possível " & IIf(bAtivar, "ativar", "desativar") & " o contato.", vbExclamation, TITULO
+    Exit Sub
+End If
+mSemEvento = True
+If bAtivar Then
+    If CelularValido(mCli(i).Celular, sMotivo) Then mCli(i).Motivo = "" Else mCli(i).Motivo = "Celular inválido (" & sMotivo & ")"
+    mMarca(i) = (Len(mCli(i).Motivo) = 0)
+Else
+    mCli(i).Motivo = CAMP_CONTATO_DESATIVADO
+    mMarca(i) = False
+End If
+If Len(mCli(i).Motivo) = 0 Then
+    grdClientes.TextMatrix(r, C_SITUACAO) = "Vai receber"
+    PintarLinha r, vbBlack
+Else
+    grdClientes.TextMatrix(r, C_SITUACAO) = mCli(i).Motivo
+    PintarLinha r, &H808080
+End If
+MostrarMarca r
+mSemEvento = False
+AtualizarBotaoContato
+AtualizarPrevisao
+End Sub
+
+'Botão Desativar / Ativar contato conforme a linha (só para os contatos do celular)
+Private Sub AtualizarBotaoContato()
+Dim i As Long
+
+If mModoContatos And grdClientes.Row >= 1 And grdClientes.Row < grdClientes.rows Then i = grdClientes.RowData(grdClientes.Row)
+If i < 1 Or i > mQtd Then
+    cmdDesativarCliente.Enabled = False
+    cmdDesativarCliente.Caption = "Desativar contato"
+    Exit Sub
+End If
+cmdDesativarCliente.Enabled = (mCli(i).CodContato > 0)
+If mCli(i).Motivo = CAMP_CONTATO_DESATIVADO Then
+    cmdDesativarCliente.Caption = "Ativar contato"
+Else
+    cmdDesativarCliente.Caption = "Desativar contato"
+End If
+End Sub
+
 Private Sub FiltroMarcado(ByVal chk As CheckBox)
-If chk.Value = vbChecked Then chkClientes.Value = vbUnchecked
+If chk.Value = vbChecked Then chkClientes.Value = vbUnchecked: chkContatos.Value = vbUnchecked
 End Sub
 
 Private Sub chkAniver_Click()
@@ -1280,6 +1437,11 @@ End Sub
 Private Function LerFiltro(ByRef f As CampFiltro, ByRef sDescricao As String) As Boolean
 Dim s As String
 
+If chkContatos.Value = vbChecked Then
+    sDescricao = "contatos do celular"
+    LerFiltro = True
+    Exit Function
+End If
 If chkClientes.Value = vbChecked Then
     f.SoCelularValido = True
     s = s & "; todos com celular válido"
@@ -1330,25 +1492,37 @@ End Function
 Private Sub cmdBuscar_Click()
 Dim f As CampFiltro, sDesc As String, i As Long
 
-If Not LerFiltro(f, sDesc) Then Exit Sub
-If f.Aniver = 0 And f.ComprouDias = 0 And f.SumidoDias = 0 And Len(f.Produto) = 0 And Len(f.Categoria) = 0 And _
-   Len(f.Cidade) = 0 And Len(f.Bairro) = 0 And f.GastouAcima = 0 And Not f.SoCelularValido Then
-    MsgBox "Marque pelo menos um filtro do público, ou ""Todos (somente com celular válido)"".", vbInformation, TITULO
-    Exit Sub
+If chkContatos.Value = vbChecked Then
+    If Not Camp_TemContatos() Then
+        MsgBox "O banco de dados ainda não tem a tabela de contatos (script 194). Atualize o sistema e tente de novo.", vbExclamation, TITULO
+        Exit Sub
+    End If
+    Me.MousePointer = vbHourglass
+    mModoContatos = True
+    mQtd = Camp_BuscarContatos(mCli)
+Else
+    If Not LerFiltro(f, sDesc) Then Exit Sub
+    If f.Aniver = 0 And f.ComprouDias = 0 And f.SumidoDias = 0 And Len(f.Produto) = 0 And Len(f.Categoria) = 0 And _
+       Len(f.Cidade) = 0 And Len(f.Bairro) = 0 And f.GastouAcima = 0 And Not f.SoCelularValido Then
+        MsgBox "Marque pelo menos um filtro do público, ou ""Todos (somente com celular válido)"".", vbInformation, TITULO
+        Exit Sub
+    End If
+    If f.SoCelularValido Then
+        If MsgBox("Selecionar todos os clientes ativos com celular válido?" & vbCrLf & vbCrLf & _
+                  "Para proteger seu número no WhatsApp, recomendamos iniciar com um envio diário reduzido.", _
+                  vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
+    End If
+    Me.MousePointer = vbHourglass
+    mModoContatos = False
+    mQtd = Camp_Buscar(f, mCli)
 End If
-If f.SoCelularValido Then
-    If MsgBox("Selecionar todos os clientes ativos com celular válido?" & vbCrLf & vbCrLf & _
-              "Para proteger seu número no WhatsApp, recomendamos iniciar com um envio diário reduzido.", _
-              vbQuestion + vbYesNo + vbDefaultButton2, TITULO) <> vbYes Then Exit Sub
-End If
-Me.MousePointer = vbHourglass
-mQtd = Camp_Buscar(f, mCli)
 ReDim mMarca(0 To mQtd)
 For i = 1 To mQtd
     mMarca(i) = (Len(mCli(i).Motivo) = 0)
 Next
 MontarGrid
 Me.MousePointer = vbDefault
+AtualizarBotaoContato
 AtualizarPrevisao
 End Sub
 
@@ -1410,7 +1584,7 @@ End Sub
 Private Sub lblContador_Change()
 Dim nMin As Long
 
-nMin = cmdDesmarcar.Left + cmdDesmarcar.Width + 120
+nMin = cmdDesativarCliente.Left + cmdDesativarCliente.Width + 120
 lblContador.Left = grdClientes.Left + grdClientes.Width - lblContador.Width
 If lblContador.Left < nMin Then lblContador.Left = nMin
 End Sub
@@ -1485,7 +1659,9 @@ AtualizarPrevisao
 End Sub
 
 Private Sub grdClientes_RowColChange()
-If Not mSemEvento Then ReiniciarPrevia
+If mSemEvento Then Exit Sub
+AtualizarBotaoContato
+ReiniciarPrevia
 End Sub
 
 Private Sub cmdMarcarTodos_Click()
@@ -1508,8 +1684,7 @@ AtualizarPrevisao
 End Sub
 
 Private Sub MostrarContador()
-lblContador.Caption = "Clientes exibidos: " & mQtd & ", Clientes selecionados: " & QtdMarcados() & _
-                      ". Clique no quadradinho antes do nome, caso deseja remover o envio de promoção!"
+lblContador.Caption = "Clientes exibidos: " & mQtd & ", Clientes selecionados: " & QtdMarcados()
 End Sub
 
 Private Function QtdMarcados() As Long
@@ -1675,7 +1850,7 @@ End If
 End Sub
 
 Private Sub cmdEnviar_Click()
-Dim f As CampFiltro, sDesc As String, n As Long, i As Long, Cods() As Long, Cels() As String
+Dim f As CampFiltro, sDesc As String, n As Long, i As Long, Cods() As Long, Cels() As String, Ctts() As Long
 Dim vAgenda As Variant, nLim As Long, lId As Long, sErro As String, sArq As String
 
 If Len(Trim$(txtNome.Text)) = 0 Then
@@ -1716,19 +1891,20 @@ If MsgBox("Enviar a campanha """ & Trim$(txtNome.Text) & """ para " & n & " clie
           " e envia até " & nLim & " por dia, no horário da Régua de cobrança." & vbCrLf & _
           "Dá para pausar ou cancelar em Acompanhar campanhas.", vbQuestion + vbYesNo, TITULO) <> vbYes Then Exit Sub
 
-ReDim Cods(1 To n): ReDim Cels(1 To n)
+ReDim Cods(1 To n): ReDim Cels(1 To n): ReDim Ctts(1 To n)
 n = 0
 For i = 1 To mQtd
     If mMarca(i) Then
         n = n + 1
         Cods(n) = mCli(i).CodCliente
         Cels(n) = mCli(i).Celular
+        Ctts(n) = mCli(i).CodContato
     End If
 Next
 If TipoAtual() <> CAMP_SO_TEXTO Then sArq = txtArquivo.Text
 Camp_SalvarLimite nLim
 Me.MousePointer = vbHourglass
-lId = Camp_Salvar(Trim$(txtNome.Text), MensagemAtual(), TipoAtual(), sArq, vAgenda, sDesc, Cods, Cels, n, sErro, (chkRodape.Value = vbChecked))
+lId = Camp_Salvar(Trim$(txtNome.Text), MensagemAtual(), TipoAtual(), sArq, vAgenda, sDesc, Cods, Cels, Ctts, n, sErro, (chkRodape.Value = vbChecked))
 Me.MousePointer = vbDefault
 If lId = 0 Then
     MsgBox "Não foi possível gravar a campanha." & vbCrLf & vbCrLf & sErro, vbExclamation, TITULO

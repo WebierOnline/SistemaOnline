@@ -10,6 +10,8 @@ Option Explicit
 '   Só no servidor: o arquivo (imagem, vídeo ou PDF) é copiado para <pasta do sistema>\Campanhas\<nome da campanha>\
 '   (Campanha.ArquivoNome guarda esse caminho relativo) e a pasta é apagada ao cancelar ou excluir a campanha.
 '   cliente.NaoReceberPromocao: quem não quer promoções (a cobrança continua).
+'   Contatos (script 194): contatos importados do celular (frmContatosImportar); ATIVO = 0 não recebe.
+'   CampanhaDestinatario.CodContato: destinatário que é contato (CodCliente = 0).
 '---------------------------------------------------------------------------
 
 Public Const CAMP_SO_TEXTO As Integer = 0
@@ -32,6 +34,7 @@ Public Const CAMP_LIMITE_PADRAO As Long = 40
 Public Const CAMP_RODAPE As String = "_Para não receber mais promoções, responda SAIR._"
 Public Const CAMP_MAX_IMAGEM As Long = 5242880      '5 MB
 Public Const CAMP_MAX_ARQUIVO As Long = 15728640    '15 MB (vídeo e PDF; limite do servidor)
+Public Const CAMP_CONTATO_DESATIVADO As String = "Contato desativado"
 
 'Filtros do público (todos os marcados valem juntos)
 Public Type CampFiltro
@@ -54,6 +57,7 @@ Public Type CampCliente
     Cidade As String
     UltimaCompra As Date       '0 = nunca
     Motivo As String           '"" = pode receber
+    CodContato As Long         'contato do celular (tabela Contatos); 0 = cliente do cadastro
 End Type
 
 'Venda que conta como compra do cliente
@@ -79,6 +83,101 @@ If nTem = 0 Then
     Err.Clear
 End If
 Camp_TemRodape = (nTem = 1)
+End Function
+
+'Tabela Contatos e CampanhaDestinatario.CodContato (script 194) existem?
+Public Function Camp_TemContatos() As Boolean
+Static nTem As Integer   '0 = não verificado, 1 = sim, 2 = não
+
+If nTem = 0 Then
+    On Error Resume Next
+    nTem = 2
+    If Val(CStr(SQLExecutaRetorno("SELECT CASE WHEN OBJECT_ID('dbo.Contatos', 'U') IS NOT NULL AND " & _
+        "COL_LENGTH('dbo.CampanhaDestinatario', 'CodContato') IS NOT NULL THEN 1 ELSE 0 END AS r", "r", 0))) = 1 Then nTem = 1
+    Err.Clear
+End If
+Camp_TemContatos = (nTem = 1)
+End Function
+
+'---------------------------------------------------------------------------
+' Contatos do celular
+'---------------------------------------------------------------------------
+'Todos os contatos importados (os desativados vêm em cinza, com Motivo = CAMP_CONTATO_DESATIVADO)
+Public Function Camp_BuscarContatos(ByRef Cli() As CampCliente) As Long
+Dim rs As ADODB.Recordset, n As Long, sMotivo As String
+
+ReDim Cli(0)
+On Error GoTo Falha
+Set rs = dbData.OpenRecordset("SELECT Id, Nome, Celular, ATIVO FROM Contatos ORDER BY Nome")
+Do While Not rs.EOF
+    n = n + 1
+    ReDim Preserve Cli(n)
+    With Cli(n)
+        .CodCliente = 0
+        .CodContato = rs("Id")
+        .Nome = Trim$("" & rs("Nome"))
+        .Celular = Trim$("" & rs("Celular"))
+        .Cidade = ""
+        .UltimaCompra = 0
+        If Not CBool(rs("ATIVO")) Then
+            .Motivo = CAMP_CONTATO_DESATIVADO
+        ElseIf Not CelularValido(.Celular, sMotivo) Then
+            .Motivo = "Celular inválido (" & sMotivo & ")"
+        End If
+    End With
+    rs.MoveNext
+Loop
+rs.Close
+Camp_BuscarContatos = n
+Exit Function
+Falha:
+MsgBox "Não foi possível buscar os contatos." & vbCrLf & vbCrLf & Err.Description, vbExclamation, "Promoções por WhatsApp"
+Err.Clear
+Camp_BuscarContatos = n
+End Function
+
+'Ativa / desativa o contato (Contatos.ATIVO)
+Public Function Camp_ContatoAtivo(ByVal lContato As Long, ByVal bAtivo As Boolean) As Boolean
+On Error GoTo Falha
+dbData.Execute "UPDATE Contatos SET ATIVO = " & IIf(bAtivo, 1, 0) & ", AtualizadoEm = GETDATE() WHERE Id = " & lContato
+Camp_ContatoAtivo = True
+Exit Function
+Falha:
+Err.Clear
+End Function
+
+'Celular do contato no padrão do sistema "(DD) 9XXXX-XXXX"; "" se não for celular válido (sMotivo diz por quê).
+'Aceita +55, 0 + DDD, 0 + operadora + DDD (ex.: 021 (89) 99999-9999) e celular antigo de 8 dígitos (põe o 9).
+Public Function Camp_NormalizarCelular(ByVal sNumero As String, ByRef sMotivo As String) As String
+Dim d As String, i As Long, ch As String
+
+sMotivo = ""
+For i = 1 To Len(sNumero)
+    ch = Mid$(sNumero, i, 1)
+    If ch Like "#" Then d = d & ch
+Next
+Select Case Len(d)
+    Case 14: If Left$(d, 1) = "0" Then d = Mid$(d, 4)                          '0 + operadora + DDD + 9 dígitos
+    Case 13
+        If Left$(d, 1) = "0" Then
+            d = Mid$(d, 4)                                                      '0 + operadora + DDD + 8 dígitos
+        ElseIf Left$(d, 2) = "55" Then
+            d = Mid$(d, 3)
+        End If
+    Case 12
+        If Left$(d, 1) = "0" Then
+            d = Mid$(d, 2)                                                      '0 + DDD + 9 dígitos
+        ElseIf Left$(d, 2) = "55" Then
+            d = Mid$(d, 3)
+        End If
+    Case 11: If Left$(d, 1) = "0" Then d = Mid$(d, 2)                          '0 + DDD + 8 dígitos
+End Select
+'celular antigo (8 dígitos começando com 6 a 9): ganha o 9 depois do DDD
+If Len(d) = 10 Then
+    If Mid$(d, 3, 1) Like "[6-9]" Then d = Left$(d, 2) & "9" & Mid$(d, 3)
+End If
+If Not CelularValido(d, sMotivo) Then Exit Function
+Camp_NormalizarCelular = "(" & Left$(d, 2) & ") " & Mid$(d, 3, 5) & "-" & Mid$(d, 8)
 End Function
 
 '---------------------------------------------------------------------------
@@ -315,10 +414,10 @@ End Function
 '---------------------------------------------------------------------------
 'Grava a campanha e os destinatários (na fila do servidor). Devolve o Id (0 = erro, sErro com o motivo).
 Public Function Camp_Salvar(ByVal sNome As String, ByVal sMsg As String, ByVal nTipo As Integer, ByVal sArquivo As String, _
-                            ByVal vAgendada As Variant, ByVal sPublico As String, ByRef Cods() As Long, ByRef Cels() As String, _
+                            ByVal vAgendada As Variant, ByVal sPublico As String, ByRef Cods() As Long, ByRef Cels() As String, ByRef Ctts() As Long, _
                             ByVal nQtd As Long, ByRef sErro As String, Optional ByVal bRodape As Boolean = False) As Long
 Dim r As ADODB.Recordset, lId As Long, i As Long, s As String, nLote As Long, bTrans As Boolean, sUsuario As String, sAgenda As String
-Dim sPastaCriada As String
+Dim sPastaCriada As String, bContatos As Boolean
 
 On Error Resume Next
 sUsuario = Trim$(Tela_Principal.txtCodFuncionario.Text)
@@ -343,12 +442,14 @@ If Len(sArquivo) > 0 Then
     s = ""
 End If
 
-'Destinatários em lotes de 500 linhas por INSERT
+'Destinatários em lotes de 500 linhas por INSERT (contato do celular: CodCliente = 0 e CodContato)
+bContatos = Camp_TemContatos()
 For i = 1 To nQtd
-    s = s & IIf(nLote > 0, ", ", "") & "(" & lId & ", " & Cods(i) & ", " & Cob_Q(Left$(Cels(i), 20)) & ")"
+    s = s & IIf(nLote > 0, ", ", "") & "(" & lId & ", " & Cods(i) & ", " & Cob_Q(Left$(Cels(i), 20)) & _
+        IIf(bContatos, ", " & IIf(Ctts(i) > 0, CStr(Ctts(i)), "NULL"), "") & ")"
     nLote = nLote + 1
     If nLote = 500 Or i = nQtd Then
-        dbData.Execute "INSERT INTO CampanhaDestinatario (CodCampanha, CodCliente, Celular) VALUES " & s
+        dbData.Execute "INSERT INTO CampanhaDestinatario (CodCampanha, CodCliente, Celular" & IIf(bContatos, ", CodContato", "") & ") VALUES " & s
         s = "": nLote = 0
     End If
 Next
@@ -579,7 +680,7 @@ Public Sub Camp_ProcessarFila(ByRef cfg As CobConfig)
 Dim r As ADODB.Recordset, nRestam As Long, nOk As Long, nErro As Long, nPuladas As Long, nSeguidos As Long
 Dim lDest As Long, lCamp As Long, lCampArq As Long, sArq As String, sCel As String, sNome As String, sMsg As String
 Dim nTipo As Integer, sTexto As String, sErro As String, sMotivo As String, sSit As String, sNum As String, sNomeZap As String
-Dim sHoje As String, sParou As String, bRodape As Boolean
+Dim sHoje As String, sParou As String, bRodape As Boolean, bContatos As Boolean, sNomeSql As String, sNaoSql As String, sJoin As String
 
 On Error GoTo Falha
 If Not Camp_BancoPronto() Then Exit Sub
@@ -595,15 +696,27 @@ If sSit <> "conectado" Then
 End If
 
 sHoje = Format$(Date, "yyyymmdd")
+bContatos = Camp_TemContatos()
+If bContatos Then
+    sNomeSql = "COALESCE(c.Nome, ct.Nome) AS Nome"
+    sNaoSql = "CASE WHEN ISNULL(c.NaoReceberPromocao, 0) = 1 THEN 1 WHEN ct.ATIVO = 0 THEN 2 ELSE 0 END AS NAO"
+    sJoin = "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente LEFT JOIN Contatos ct ON ct.Id = d.CodContato "
+Else
+    sNomeSql = "c.Nome"
+    sNaoSql = "ISNULL(c.NaoReceberPromocao, 0) AS NAO"
+    sJoin = "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente "
+End If
 Cob_Log "Promoções: início (limite restante hoje: " & nRestam & ")."
 Do While nOk + nErro < nRestam
     If Not Cob_DentroDoHorario(cfg) Then sParou = "fim do horário de envio": Exit Do
-    'Próximo da fila: campanha mais antiga primeiro; uma promoção por cliente por dia e nunca no dia de uma cobrança
-    Set r = dbData.OpenRecordset("SELECT TOP 1 d.Id, d.CodCliente, d.Celular, c.Nome, ISNULL(c.NaoReceberPromocao, 0) AS NAO, " & _
+    'Próximo da fila: campanha mais antiga primeiro; uma promoção por cliente (ou celular) por dia e nunca no dia de uma cobrança
+    Set r = dbData.OpenRecordset("SELECT TOP 1 d.Id, d.CodCliente, d.Celular, " & sNomeSql & ", " & sNaoSql & ", " & _
         "ca.Id AS CAMP, ca.Mensagem, ca.TipoMidia, " & IIf(Camp_TemRodape(), "ca.RodapeSair", "0 AS RodapeSair") & " FROM CampanhaDestinatario d INNER JOIN Campanha ca ON ca.Id = d.CodCampanha " & _
-        "INNER JOIN cliente c ON c.CODIGO = d.CodCliente WHERE d.Situacao = " & CAMP_DEST_AGUARDANDO & " AND ca.Situacao = " & CAMP_NA_FILA & _
+        sJoin & "WHERE d.Situacao = " & CAMP_DEST_AGUARDANDO & " AND ca.Situacao = " & CAMP_NA_FILA & _
+        " AND (c.CODIGO IS NOT NULL" & IIf(bContatos, " OR ct.Id IS NOT NULL", "") & ")" & _
         " AND (ca.AgendadaPara IS NULL OR ca.AgendadaPara <= GETDATE()) " & _
-        "AND d.CodCliente NOT IN (SELECT CodCliente FROM CampanhaDestinatario WHERE Situacao = " & CAMP_DEST_ENVIADA & " AND DataHora >= '" & sHoje & "') " & _
+        "AND NOT EXISTS (SELECT 1 FROM CampanhaDestinatario e WHERE e.Situacao = " & CAMP_DEST_ENVIADA & " AND e.DataHora >= '" & sHoje & "' " & _
+        "AND ((d.CodCliente > 0 AND e.CodCliente = d.CodCliente) OR e.Celular = d.Celular)) " & _
         "AND d.CodCliente NOT IN (SELECT CodCliente FROM CobrancaEnvio WHERE Situacao = 1 AND DataHora >= '" & sHoje & "') " & _
         "ORDER BY ca.Id, d.Id")
     If r.EOF Then r.Close: Exit Do
@@ -611,7 +724,10 @@ Do While nOk + nErro < nRestam
     sCel = Trim$("" & r("Celular")): sNome = Trim$("" & r("Nome")): sMsg = "" & r("Mensagem")
     bRodape = CBool(r("RodapeSair"))
     sMotivo = ""
-    If CBool(r("NAO")) Then sMotivo = "Cliente não quer promoções"
+    Select Case Val("" & r("NAO"))
+        Case 1: sMotivo = "Cliente não quer promoções"
+        Case 2: sMotivo = CAMP_CONTATO_DESATIVADO
+    End Select
     r.Close
     If Len(sMotivo) = 0 Then
         If Not CelularValido(sCel, sMotivo) Then sMotivo = "Celular inválido (" & sMotivo & ")" Else sMotivo = ""

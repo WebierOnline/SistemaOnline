@@ -422,8 +422,8 @@ If lId = 0 Then
 End If
 lblDest.Caption = "Clientes da campanha nº " & lId & ":"
 On Error GoTo Falha
-Set rs = dbData.OpenRecordset("SELECT c.Nome, d.Celular, d.Situacao, d.DataHora, d.Erro FROM CampanhaDestinatario d " & _
-    "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente WHERE d.CodCampanha = " & lId & " ORDER BY d.Situacao, c.Nome")
+Set rs = dbData.OpenRecordset("SELECT " & IIf(Camp_TemContatos(), "COALESCE(c.Nome, ct.Nome)", "c.Nome") & " AS Nome, d.Celular, d.Situacao, d.DataHora, d.Erro FROM CampanhaDestinatario d " & _
+    "LEFT JOIN cliente c ON c.CODIGO = d.CodCliente " & IIf(Camp_TemContatos(), "LEFT JOIN Contatos ct ON ct.Id = d.CodContato ", "") & "WHERE d.CodCampanha = " & lId & " ORDER BY d.Situacao, 1")
 Do While Not rs.EOF
     grdDest.rows = grdDest.rows + 1
     r = grdDest.rows - 1
