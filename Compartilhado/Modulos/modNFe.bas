@@ -420,6 +420,54 @@ MsgBox sMsg & vbCr & vbCr & "A operação (" & sAcao & ") não foi realizada.", vbC
 CertificadoImpedeAcao = True
 End Function
 
+'Gera o IBS/CBS e o IS de um item (NF-e e NFC-e usam a mesma rotina).
+'Devolve os valores do item para o chamador somar nos totais da nota.
+'Regras do Simples Nacional (NT 2026.005) entram aqui, uma unica vez.
+Private Sub GerarIBSCBSItem(ByVal oNFe As snfe.Util, ByRef NFeItens As ADODB.Recordset, _
+                             ByRef vBCCBSIBS As Double, ByRef vIBSUF As Double, ByRef vIBSMun As Double, _
+                             ByRef vIBS As Double, ByRef vCBS As Double, ByRef vBCIS As Double, ByRef vIS As Double)
+    Dim pIBSUF As Double, pIBSMun As Double, pCBS As Double
+    Dim pIBSpRed As Double, pCBSpRed As Double
+    Dim pAliqEfetUF As Double, pAliqEfetMun As Double, pAliqEfetCBS As Double
+    Dim pIS As Double, dISqUnid As Double, dISvUnid As Double
+
+    ' IBS/CBS: todos os regimes
+    vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
+    pIBSUF = IIf(IsNull(NFeItens!IBS_UFpAliq), 0, CDbl(NFeItens!IBS_UFpAliq))
+    vIBSUF = IIf(IsNull(NFeItens!IBS_vIBSUF), 0, CDbl(NFeItens!IBS_vIBSUF))
+    pIBSMun = IIf(IsNull(NFeItens!IBS_MunpAliq), 0, CDbl(NFeItens!IBS_MunpAliq))
+    vIBSMun = IIf(IsNull(NFeItens!IBS_vIBSMun), 0, CDbl(NFeItens!IBS_vIBSMun))
+    vIBS = vIBSUF + vIBSMun
+    pCBS = IIf(IsNull(NFeItens!CBS_pAliq), 0, CDbl(NFeItens!CBS_pAliq))
+    vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
+    pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
+    pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
+    pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
+    pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
+    pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
+    If vBCCBSIBS > 0 Then
+        iRetorno = oNFe.GerarItensImpostoIBSCBS( _
+                IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
+                IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
+                vBCCBSIBS, _
+                pIBSUF, 0, 0, 0, pIBSpRed, pAliqEfetUF, vIBSUF, _
+                pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
+                pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
+                mensagemAlerta, mensagemErro)
+    End If
+    ' IS (Imposto Seletivo)
+    vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
+    pIS = IIf(IsNull(NFeItens!IS_pAliq), 0, CDbl(NFeItens!IS_pAliq))
+    vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
+    dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
+    dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
+    If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
+    If vIS > 0 Then
+        iRetorno = oNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
+    End If
+End Sub
+
+
 Public Function TransmitirNFe(ByVal NumeroNota As Variant, ByVal SerieNF As Variant, Optional PodeEnviar As Boolean = False) As Boolean  'Função que monta o arquivo XML e faz o envio para a Receita
 Dim txtNumerado As String, Retorno As String, vsNFe As String, dhEmi As String, dhProtocolo As String
 Dim Parametros As New ADODB.Recordset, Destinatario As New ADODB.Recordset, Produtos As New ADODB.Recordset
@@ -802,79 +850,15 @@ End If
            iRetorno = sistNFe.GerarItensImpostoEstadual(NFeItens!ValorTributos, "0", ICMSCST, IIf(Vazio(NFeItens!modBC), 3, Left$(NFeItens!modBC, 1)), NFeItens!vBC, NFeItens!pICMS, NFeItens!vICMS, NFeItens!pRedBC, 0, 0, 0, _
                                                         IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, dblPCredSN, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
         
-                      ' IBS/CBS: todos os regimes
-           vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
-           pIBSUF = IIf(IsNull(NFeItens!IBS_UFpAliq), 0, CDbl(NFeItens!IBS_UFpAliq))
-           vIBSUF = IIf(IsNull(NFeItens!IBS_vIBSUF), 0, CDbl(NFeItens!IBS_vIBSUF))
-           pIBSMun = IIf(IsNull(NFeItens!IBS_MunpAliq), 0, CDbl(NFeItens!IBS_MunpAliq))
-           vIBSMun = IIf(IsNull(NFeItens!IBS_vIBSMun), 0, CDbl(NFeItens!IBS_vIBSMun))
-           vIBS = vIBSUF + vIBSMun
-           pCBS = IIf(IsNull(NFeItens!CBS_pAliq), 0, CDbl(NFeItens!CBS_pAliq))
-           vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
-           pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
-           pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
-           pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
-           pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
-           pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
-           If vBCCBSIBS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIBSCBS( _
-                  IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
-                  IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
-                  vBCCBSIBS, _
-                  pIBSUF, 0, 0, 0, pIBSpRed, pAliqEfetUF, vIBSUF, _
-                  pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
-                  pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
-                  mensagemAlerta, mensagemErro)
-           End If
-           ' IS (Imposto Seletivo)
-           vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
-           pIS = IIf(IsNull(NFeItens!IS_pAliq), 0, CDbl(NFeItens!IS_pAliq))
-           vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
-           dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
-           dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
-           If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
-           If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
-           End If
+                      ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
+                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
            
            'iRetorno = sistNFe.GerarItensObservacao("CST61", "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
            
-                      ' IBS/CBS: todos os regimes
-           vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
-           pIBSUF = IIf(IsNull(NFeItens!IBS_UFpAliq), 0, CDbl(NFeItens!IBS_UFpAliq))
-           vIBSUF = IIf(IsNull(NFeItens!IBS_vIBSUF), 0, CDbl(NFeItens!IBS_vIBSUF))
-           pIBSMun = IIf(IsNull(NFeItens!IBS_MunpAliq), 0, CDbl(NFeItens!IBS_MunpAliq))
-           vIBSMun = IIf(IsNull(NFeItens!IBS_vIBSMun), 0, CDbl(NFeItens!IBS_vIBSMun))
-           vIBS = vIBSUF + vIBSMun
-           pCBS = IIf(IsNull(NFeItens!CBS_pAliq), 0, CDbl(NFeItens!CBS_pAliq))
-           vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
-           pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
-           pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
-           pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
-           pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
-           pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
-           If vBCCBSIBS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIBSCBS( _
-                  IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
-                  IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
-                  vBCCBSIBS, _
-                  pIBSUF, 0, 0, 0, pIBSpRed, pAliqEfetUF, vIBSUF, _
-                  pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
-                  pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
-                  mensagemAlerta, mensagemErro)
-           End If
-           ' IS (Imposto Seletivo)
-           vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
-           pIS = IIf(IsNull(NFeItens!IS_pAliq), 0, CDbl(NFeItens!IS_pAliq))
-           vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
-           dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
-           dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
-           If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
-           If vIS > 0 Then
-              iRetorno = sistNFe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
-           End If
+                      ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
+                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
         End If
         
         TotvBCCBSIBS = TotvBCCBSIBS + vBCCBSIBS
@@ -2063,40 +2047,8 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
                                                              pAliqSN, vCredSN, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
         End If
 
-        ' IBS/CBS: todos os regimes
-        vBCCBSIBS = IIf(IsNull(NFeItens!IBS_vBC), 0, CDbl(NFeItens!IBS_vBC))
-        pIBSUF = IIf(IsNull(NFeItens!IBS_UFpAliq), 0, CDbl(NFeItens!IBS_UFpAliq))
-        vIBSUF = IIf(IsNull(NFeItens!IBS_vIBSUF), 0, CDbl(NFeItens!IBS_vIBSUF))
-        pIBSMun = IIf(IsNull(NFeItens!IBS_MunpAliq), 0, CDbl(NFeItens!IBS_MunpAliq))
-        vIBSMun = IIf(IsNull(NFeItens!IBS_vIBSMun), 0, CDbl(NFeItens!IBS_vIBSMun))
-        vIBS = vIBSUF + vIBSMun
-        pCBS = IIf(IsNull(NFeItens!CBS_pAliq), 0, CDbl(NFeItens!CBS_pAliq))
-        vCBS = IIf(IsNull(NFeItens!CBS_vCBS), 0, CDbl(NFeItens!CBS_vCBS))
-        pIBSpRed = IIf(IsNull(NFeItens!IBS_pRed), 0, CDbl(NFeItens!IBS_pRed))
-        pCBSpRed = IIf(IsNull(NFeItens!CBS_pRed), 0, CDbl(NFeItens!CBS_pRed))
-        pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
-        pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
-        pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
-        If vBCCBSIBS > 0 Then
-           iRetorno = sistNFCe.GerarItensImpostoIBSCBS( _
-               IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
-               IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
-               vBCCBSIBS, _
-               pIBSUF, 0, 0, 0, pIBSpRed, pAliqEfetUF, vIBSUF, _
-               pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
-               pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
-               mensagemAlerta, mensagemErro)
-        End If
-        ' IS (Imposto Seletivo)
-        vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
-        pIS = IIf(IsNull(NFeItens!IS_pAliq), 0, CDbl(NFeItens!IS_pAliq))
-        vIS = IIf(IsNull(NFeItens!IS_vIS), 0, CDbl(NFeItens!IS_vIS))
-        dISqUnid = IIf(IsNull(NFeItens!IS_qUnid), 0, CDbl(NFeItens!IS_qUnid))
-        dISvUnid = IIf(IsNull(NFeItens!IS_vUnid), 0, CDbl(NFeItens!IS_vUnid))
-        If dISvUnid > 0 And dISqUnid = 0 And vIS > 0 Then dISqUnid = vIS / dISvUnid
-        If vIS > 0 Then
-           iRetorno = sistNFCe.GerarItensImpostoIS(IIf(IsNull(NFeItens!IS_CST), "99", NFeItens!IS_CST), IIf(IsNull(NFeItens!cClassTrib_IS), "", NFeItens!cClassTrib_IS), vBCIS, pIS, dISvUnid, IIf(IsNull(NFeItens!uTrib_IS), "", NFeItens!uTrib_IS), dISqUnid, vIS, mensagemAlerta, mensagemErro)
-        End If
+        ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
+        GerarIBSCBSItem sistNFCe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
 
         TotvBCCBSIBS = TotvBCCBSIBS + vBCCBSIBS
         TotvIBSUF = TotvIBSUF + vIBSUF

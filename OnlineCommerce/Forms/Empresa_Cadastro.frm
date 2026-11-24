@@ -578,6 +578,15 @@ Begin VB.Form Empresa_Cadastro
          Top             =   720
          Width           =   5355
       End
+      Begin VB.CommandButton cmdIBSCBS 
+         Caption         =   "IBS/CBS Simples"
+         Height          =   315
+         Left            =   5460
+         TabIndex        =   110
+         ToolTipText     =   "Enquadramento de IBS/CBS do Simples Nacional (NT 2026.005)"
+         Top             =   2145
+         Width           =   1335
+      End
       Begin VB.TextBox txtCRT 
          Alignment       =   2  'Center
          Appearance      =   0  'Flat
@@ -2703,6 +2712,21 @@ On Error GoTo erro
     Exit Sub
 erro:
     MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "EkklesiaSoft": Exit Sub
+End Sub
+
+Private Sub cmdIBSCBS_Click()
+    Dim rE As ADODB.Recordset
+    On Error GoTo erro
+    Set rE = dbData.OpenRecordset("SELECT COUNT(*) AS N FROM empresa")
+    If rE Is Nothing Then Exit Sub
+    If Val(rE("N") & "") = 0 Then
+        MsgBox "Salve os dados da empresa antes de definir o enquadramento de IBS/CBS.", vbInformation, "Aviso"
+        Exit Sub
+    End If
+    Empresa_EnquadramentoIBSCBS.Show vbModal, Me
+    Exit Sub
+erro:
+    MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Aviso do Sistema"
 End Sub
 
 Private Sub txtCRT_Change()
