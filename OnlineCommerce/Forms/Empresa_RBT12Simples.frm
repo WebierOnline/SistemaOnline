@@ -15,7 +15,7 @@ Begin VB.Form Empresa_RBT12Simples
    StartUpPosition =   1  'CenterOwner
    Begin VB.Label lblInfo 
       BackStyle       =   0  'Transparent
-      Caption         =   "RBT12 = receita bruta dos 12 meses anteriores ao mes da apuracao (o valor do PGDAS-D e a fonte oficial). A emissao ainda nao usa estes campos."
+      Caption         =   "RBT12 = receita bruta dos 12 meses anteriores ao mes da apuracao (o valor do PGDAS-D e a fonte oficial). Usado na emissao a partir de 01/01/2027."
       ForeColor       =   &H00606060&
       Height          =   615
       Left            =   240
@@ -446,7 +446,11 @@ Private Sub AtualizarPrevia()
     If SN_PercentuaisDoAnexo(AnexoSelecionado(), CLng(Left$(sComp, 4)), mCRT, dRBT, pC, pI) Then
         lblPrev.Caption = "Anexo " & AnexoSelecionado() & " em " & Left$(sComp, 4) & ": pCBSSN = " & Format$(pC, "0.0000") & "%   pIBSSN = " & Format$(pI, "0.0000") & "%"
     Else
-        lblPrev.Caption = "Nao ha aliquota cadastrada para este anexo/ano (script 197)."
+        If CLng(Left$(sComp, 4)) < 2027 Then
+            lblPrev.Caption = "Antes de 2027 nao ha IBS/CBS no Simples Nacional: informe uma competencia a partir de 01/2027 para ver as aliquotas."
+        Else
+            lblPrev.Caption = "Nao ha aliquota cadastrada para este anexo/ano (script 197)."
+        End If
     End If
     Exit Sub
 erro:

@@ -24,7 +24,7 @@ Begin VB.Form Empresa_EnquadramentoIBSCBS
    End
    Begin VB.Label lblAviso 
       BackStyle       =   0  'Transparent
-      Caption         =   "Estes dados serão usados na emissão da NF-e/NFC-e conforme a NT 2026.005 (Simples Nacional). A emissão ainda não usa estes campos: salvar aqui não altera as notas por enquanto."
+      Caption         =   "Estes dados serão usados na emissão da NF-e/NFC-e conforme a NT 2026.005 (Simples Nacional). As regras valem a partir de 01/01/2027."
       ForeColor       =   &H00606060&
       Height          =   615
       Left            =   240
