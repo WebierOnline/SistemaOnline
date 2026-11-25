@@ -100,6 +100,14 @@ Begin VB.Form Empresa_EnquadramentoIBSCBS
          Width           =   6240
       End
    End
+   Begin VB.CommandButton cmdRBT12 
+      Caption         =   "RBT12 e alíquotas..."
+      Height          =   435
+      Left            =   240
+      TabIndex        =   12
+      Top             =   4620
+      Width           =   2400
+   End
    Begin VB.CommandButton cmdSalvar 
       Caption         =   "Salvar"
       Default         =   -1  'True
@@ -210,6 +218,7 @@ Private Sub AtualizarTela()
             chkRegular.Enabled = False
     End Select
     cmdSalvar.Enabled = (mCRT >= 1 And mCRT <= 3)
+    cmdRBT12.Enabled = (mCRT >= 1 And mCRT <= 3)
     fraAtiv.Enabled = (mCRT >= 1 And mCRT <= 3)
     cboAtiv.Enabled = fraAtiv.Enabled
 
@@ -281,6 +290,10 @@ Private Sub cmdSalvar_Click()
     Exit Sub
 erro:
     MsgBox "Erro no sistema: " & Err.Number & " - " & Err.Description, vbCritical, "Aviso do Sistema"
+End Sub
+
+Private Sub cmdRBT12_Click()
+    Empresa_RBT12Simples.Show vbModal
 End Sub
 
 Private Sub cmdFechar_Click()

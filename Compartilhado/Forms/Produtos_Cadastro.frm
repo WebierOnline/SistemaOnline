@@ -263,6 +263,38 @@ Begin VB.Form Produtos_Cadastro
             TabIndex        =   239
             Top             =   420
             Width           =   11535
+            Begin VB.ComboBox cboAnexoSN 
+               Height          =   315
+               Left            =   6300
+               Style           =   2  'Dropdown List
+               TabIndex        =   900
+               Top             =   540
+               Width           =   3000
+            End
+            Begin VB.ComboBox cboCAtivSN 
+               Height          =   315
+               Left            =   6300
+               Style           =   2  'Dropdown List
+               TabIndex        =   901
+               Top             =   1140
+               Width           =   5100
+            End
+            Begin VB.Label lblAnexoSN 
+               BackStyle       =   0  'Transparent
+               Caption         =   "Anexo do Simples Nacional (NT 2026.005)"
+               Height          =   225
+               Left            =   6300
+               Top             =   300
+               Width           =   3600
+            End
+            Begin VB.Label lblCAtivSN 
+               BackStyle       =   0  'Transparent
+               Caption         =   "Atividade do Simples (cAtivSN)"
+               Height          =   225
+               Left            =   6300
+               Top             =   900
+               Width           =   3600
+            End
             Begin VB.TextBox txtISFatorConv 
                Height          =   315
                Left            =   2940
@@ -3957,6 +3989,7 @@ Attribute VB_Exposed = False
  'Option Explicit
 Private moCombo As cComboHelper
 Private printSQL As String
+Private mTemSNProd As Boolean     'colunas AnexoSN/cAtivSN existem (scripts 196/198)
 Private sCategoriaRef As String   'categoria usada na ultima aplicacao dos padroes PIS/COFINS/reforma
 Dim var_cod_Preco As Long
 Dim cCfg As ConfigItem
@@ -4009,6 +4042,69 @@ If txtpGNi.Text = "" Or txtpGNi.Text = "0" Then txtpGNi.Text = FormatNumber(0, 2
 If txtpMixGN.Text = "" Or txtpMixGN.Text = "0" Then txtpMixGN.Text = FormatNumber(0, 2) & "%"
 txtValorPartida.Text = Format(0, ocMONEY)
 frmGas.Visible = False
+End Sub
+
+'--- Simples Nacional (NT 2026.005): anexo e atividade do produto ---
+Private Sub PreencheSimplesProduto()
+    Dim r As ADODB.Recordset, vAtiv As Variant
+    On Error GoTo erro
+    cboAnexoSN.Clear
+    cboAnexoSN.AddItem "Padrao da empresa"
+    cboAnexoSN.AddItem "I - Comercio"
+    cboAnexoSN.AddItem "II - Industria"
+    cboAnexoSN.AddItem "III - Locacao e servicos"
+    cboAnexoSN.AddItem "IV - Servicos"
+    cboAnexoSN.AddItem "V - Servicos (fator r < 28%)"
+    cboCAtivSN.Clear
+    cboCAtivSN.AddItem "Padrao da empresa"
+    For Each vAtiv In Array("01", "02", "03", "04", "90")
+        cboCAtivSN.AddItem CStr(vAtiv) & " - " & SN_DescricaoCAtivSN(CStr(vAtiv))
+    Next vAtiv
+    cboAnexoSN.ListIndex = 0
+    cboCAtivSN.ListIndex = 0
+    mTemSNProd = False
+    Set r = dbData.OpenRecordset("SELECT COL_LENGTH('Produtos', 'AnexoSN') AS a, COL_LENGTH('Produtos', 'cAtivSN') AS b")
+    If Not r Is Nothing Then
+        If Not r.EOF Then
+            If Not IsNull(r("a")) And Not IsNull(r("b")) Then mTemSNProd = True
+        End If
+    End If
+    cboAnexoSN.Enabled = mTemSNProd
+    cboCAtivSN.Enabled = mTemSNProd
+    Exit Sub
+erro:
+    mTemSNProd = False
+    cboAnexoSN.Enabled = False
+    cboCAtivSN.Enabled = False
+End Sub
+
+Private Sub LimpaSimplesProduto()
+    If cboAnexoSN.ListCount > 0 Then cboAnexoSN.ListIndex = 0
+    If cboCAtivSN.ListCount > 0 Then cboCAtivSN.ListIndex = 0
+End Sub
+
+Private Sub CarregaSimplesProduto(ByRef r As ADODB.Recordset)
+    Dim sAnexo As String, sAtiv As String, i As Long
+    LimpaSimplesProduto
+    If Not mTemSNProd Then Exit Sub
+    sAnexo = Trim$(ValidateNull(r("AnexoSN")))
+    sAtiv = Trim$(ValidateNull(r("cAtivSN")))
+    For i = 1 To cboAnexoSN.ListCount - 1
+        If Split(cboAnexoSN.List(i), " ")(0) = sAnexo Then cboAnexoSN.ListIndex = i
+    Next i
+    For i = 1 To cboCAtivSN.ListCount - 1
+        If Left$(cboCAtivSN.List(i), 2) = sAtiv Then cboCAtivSN.ListIndex = i
+    Next i
+End Sub
+
+'Grava anexo e cAtivSN do produto (NULL = usa o padrao da empresa). Chamada depois do INSERT/UPDATE do produto.
+Private Sub GravarSimplesProduto()
+    Dim sAnexo As String, sAtiv As String
+    If Not mTemSNProd Then Exit Sub
+    sAnexo = "NULL": sAtiv = "NULL"
+    If cboAnexoSN.ListIndex > 0 Then sAnexo = "'" & Split(cboAnexoSN.Text, " ")(0) & "'"
+    If cboCAtivSN.ListIndex > 0 Then sAtiv = "'" & Left$(cboCAtivSN.Text, 2) & "'"
+    dbData.Execute "UPDATE produtos SET AnexoSN = " & sAnexo & ", cAtivSN = " & sAtiv & " WHERE (codigo = " & txtCodigo.Text & ");"
 End Sub
 
 Private Sub PreencheIBSCBS()
@@ -5100,6 +5196,7 @@ Private Sub MostrarDados_Produto()
     If sISCSTLoad = "" Then sISCSTLoad = "99"
     SelecionarNoCombo cboISCST, sISCSTLoad, True
     SelecionarNoCombo cboISClasse, ValidateNull(r("cClassTrib_IS")), True
+    CarregaSimplesProduto r
     If Not IsNull(r("tipo_calculo_is")) Then SelecionarNoCombo cboTipoIS, CStr(r("tipo_calculo_is")), True
     Dim dFatorIS As Double
     dFatorIS = CDbl(ValidateNull(r("fator_conversao_IS")))
@@ -5212,6 +5309,7 @@ SelecionarNoCombo cboISCST, "99", True
 cboISClasse.ListIndex = -1
 cboTipoIS.ListIndex = -1
 txtISFatorConv.Text = "1,0000"
+LimpaSimplesProduto
 txtISFatorConv.Enabled = False
 'cboCFOP.Text = ""
 'cboCST.Text = ""
@@ -6605,6 +6703,7 @@ sSQL = "INSERT INTO produtos (" & _
 'Debug.Print sSQL
 'Retorna o resultado da inclusão
 Inserir_Dados = dbData.Execute(sSQL)
+If Inserir_Dados Then GravarSimplesProduto
 
 dbData.Execute "COMMIT TRANSACTION"
 bTrans = False
@@ -6752,6 +6851,7 @@ Private Function Atualizar_Dados() As Boolean
 
     ' Execução
     Atualizar_Dados = dbData.Execute(sSQL)
+    If Atualizar_Dados Then GravarSimplesProduto
 End Function
 Private Sub cmdConsultarNCMean_Click()
 Dim varNomeProduto As String
@@ -7854,6 +7954,7 @@ Set r = Nothing
 Call PopularModalidades
 Call PreencherCFOP
 Call PreencheIBSCBS
+Call PreencheSimplesProduto
 
 'muda o label
 If var_CRT = 1 Then

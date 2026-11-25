@@ -6,7 +6,7 @@ Fontes: `Arquivos/NFe_NT_2026.005_v1.00_RTC_SimplesNacional.pdf`, `OnlineCommerc
 
 ## 1. O que a NT exige
 
-Prazo da NT: campos novos em teste até 26/10/2026 e **produção em 16/11/2026** (já vencido). O evento 412140 fica para implementação futura.
+Prazo da NT: campos novos em teste até 26/10/2026 e produção em 16/11/2026. Um Aviso de 12/11/2026 (fontes de terceiros: NFE.io, Inventti, Senior; texto oficial não localizado, confirmar no Portal Nacional da NF-e) adiou para **14/12/2026** a produção das regras de rejeição; os campos novos já podem ser enviados desde 16/11. O evento 412140 fica para implementação futura.
 
 | Emitente | `tpRegimeIBSCBS` (C21a) | `cAtivSN` (I17d, por item) | `gIBSCBS` | `gTribSN` (UB115a) |
 |---|---|---|---|---|
@@ -141,8 +141,18 @@ Um script novo `Alter_SimplesNacional_NT2026005.sql` (GERAL), idempotente (`COL_
 1. Com a DLL nova, o `GerarXML` rejeita (ou só avisa) quando faltam `cAtivSN` e `gTribSN` em empresa do Simples? E quando `gIBSCBS` vai junto com `gTribSN` onde a NT manda não enviar?
 2. Quem calcula `pIBSSN`/`pCBSSN` (alíquota efetiva do Simples, que depende de RBT12 e faixa)? A DLL, o ERP, ou vem de tabela do Fisco? O roteiro diz que valores fiscais ficam a cargo do chamador.
 3. `GerarTotalIBSCBS` ainda deve ser chamado para CRT 1 sem regime regular, ou o total vem só do `gTribSN`?
-4. A SEFAZ já rejeita em produção (desde 16/11/2026) nota de Simples sem esses campos?
+4. ~~A SEFAZ já rejeita?~~ Respondido: rejeições só em produção a partir de 14/12/2026 (confirmar no Portal).
 5. Qual `cAtivSN` usar para serviço (OS/NFS-e)? A NT só lista valores de bens materiais e 90.
+
+### Respostas da outra IA (genéricas, não conhecem a snfe.dll)
+
+- Q1: disse que a DLL só valida XSD. **Incorreto para esta DLL**: o ROTEIRO lista dezenas de regras de negócio validadas no `GerarXML`. Segue aberta (regras 1275 a 1277 e 1284 estão incluídas?).
+- Q2: o ERP calcula a alíquota efetiva pela fórmula do PGDAS-D `(RBT12 x alíquota nominal - parcela a deduzir) / RBT12`, parte de IBS/CBS por anexo. Resoluções CGSN citadas não conferidas: **confirmar com contador/dev**.
+- Q3: CRT 1 sem regime regular não chama `GerarTotalIBSCBS` (total em W59h a W59j); CRT 2 chama os dois totalizadores. Bate com a NT. Falta confirmar se a DLL soma o `gTribSN` sozinha.
+- Q5: NFS-e não usa `cAtivSN`; NF-e com serviço conjugado usar 90. Não confirmado, fica para o dev.
+
+### Impacto: tela de alíquotas efetivas do Simples
+Não existe nada hoje. Será preciso tabela/tela de parâmetros (alíquota efetiva de IBS e de CBS por anexo e competência, preenchida pelo contador ou calculada pelo RBT12). É o maior trabalho restante; decisão de como fazer é do usuário.
 
 ## 8. Decisões do usuário
 

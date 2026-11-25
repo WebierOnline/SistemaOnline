@@ -54,6 +54,7 @@ Private Const REG_SZ = 1
 Private Const REG_DWORD = 4
 
 Public NFeXML As String, NFeValidate As String, NFeChaveAcesso As String, NFeChaveAcessoAdicional As String, NFecNF As String, NFeMotivo As String, NFeResposta As String, NFeNumeroRecibo As String, NFeNumeroProtocolo As String, NFeDataHora As String, NFeDataHoraEnvio As String
+Private mSNFalha As String      'erro do Simples Nacional (NT 2026.005) que impede a emissao
 Public vsCertificado As String, msgResultado As String, nfeRetorno As String, iRetorno As Long, XMLOK As Boolean, cStat As Long, cStat2 As Long
 Public cabMsg As String, DadosMsg As String, msgRetWS As String, Proxy As String, UsuarioProxy As String, SenhaProxy As String
 Public xCaminhoXML As String, xCaminhoXMLAuxiliar As String, xCaminhoTXT As String, xCaminhoPDF As String, dirXML As String, vsSQL As String, retXML As String
@@ -420,13 +421,54 @@ MsgBox sMsg & vbCr & vbCr & "A operação (" & sAcao & ") não foi realizada.", vbC
 CertificadoImpedeAcao = True
 End Function
 
+'Informa o cAtivSN (I17d) do item quando o enquadramento do emitente exige (NT 2026.005).
+Private Sub GerarCAtivSNItem(ByVal oNFe As snfe.Util, ByVal vCodProd As Variant, ByVal vCAtivItem As Variant)
+    Dim sAnexoP As String, sAtivP As String
+    If Not SN_NotaAtiva() Then Exit Sub
+    If Not SN_ItemInformaCAtivSN() Then Exit Sub
+    SN_DadosProduto vCodProd, sAnexoP, sAtivP
+    iRetorno = oNFe.GerarItensAtividadeSimplesNacional(SN_CAtivDoItem(vCAtivItem, sAtivP), mensagemAlerta, mensagemErro)
+End Sub
+
+Private Function NzD(ByVal v As Variant) As Double
+    If IsNull(v) Then
+        NzD = 0
+    ElseIf IsEmpty(v) Then
+        NzD = 0
+    Else
+        NzD = Val(CStr(v))
+    End If
+End Function
+
+'Base do IBS/CBS do item na NF-e: a ja calculada (IBS_vBC) ou, na falta, produto - desconto + frete + seguro + outros
+Private Function BaseItemNFe(ByRef NFeItens As ADODB.Recordset) As Double
+    BaseItemNFe = CDbl(NzD(SN_Campo(NFeItens, "IBS_vBC", 0)))
+    If BaseItemNFe <= 0 Then
+        BaseItemNFe = CDbl(NFeItens!ValorTotalBruto) - NzD(NFeItens!ValorDesconto) + NzD(NFeItens!ValorFrete) + NzD(NFeItens!ValorSeguro) + NzD(NFeItens!ValorOutros)
+    End If
+    If BaseItemNFe < 0 Then BaseItemNFe = 0
+End Function
+
+'Idem para a NFC-e
+Private Function BaseItemNFCe(ByRef NFeItens As ADODB.Recordset) As Double
+    BaseItemNFCe = CDbl(NzD(SN_Campo(NFeItens, "IBS_vBC", 0)))
+    If BaseItemNFCe <= 0 Then
+        BaseItemNFCe = NzD(NFeItens!QtdeMov) * NzD(NFeItens!ValorUnit) - NzD(NFeItens!Desconto) + NzD(NFeItens!ValorFrete) + NzD(NFeItens!ValorSeguro) + NzD(NFeItens!ValorOutras)
+    End If
+    If BaseItemNFCe < 0 Then BaseItemNFCe = 0
+End Function
+
 'Gera o IBS/CBS e o IS de um item (NF-e e NFC-e usam a mesma rotina).
 'Devolve os valores do item para o chamador somar nos totais da nota.
 'Regras do Simples Nacional (NT 2026.005) entram aqui, uma unica vez.
 Private Sub GerarIBSCBSItem(ByVal oNFe As snfe.Util, ByRef NFeItens As ADODB.Recordset, _
                              ByRef vBCCBSIBS As Double, ByRef vIBSUF As Double, ByRef vIBSMun As Double, _
-                             ByRef vIBS As Double, ByRef vCBS As Double, ByRef vBCIS As Double, ByRef vIS As Double)
+                             ByRef vIBS As Double, ByRef vCBS As Double, ByRef vBCIS As Double, ByRef vIS As Double, _
+                             ByVal vCodProd As Variant, ByVal dBaseSN As Double)
     Dim pIBSUF As Double, pIBSMun As Double, pCBS As Double
+    Dim bSN As Boolean, bGIBS As Boolean, sCSTSN As String, sClsSN As String
+    Dim sAnexoP As String, sAtivP As String
+    Dim pIBSSN As Double, vIBSSN As Double, pCBSSN As Double, vCBSSN As Double
     Dim pIBSpRed As Double, pCBSpRed As Double
     Dim pAliqEfetUF As Double, pAliqEfetMun As Double, pAliqEfetCBS As Double
     Dim pIS As Double, dISqUnid As Double, dISvUnid As Double
@@ -445,7 +487,19 @@ Private Sub GerarIBSCBSItem(ByVal oNFe As snfe.Util, ByRef NFeItens As ADODB.Rec
     pAliqEfetUF = pIBSUF * (1 - pIBSpRed / 100)
     pAliqEfetMun = pIBSMun * (1 - pIBSpRed / 100)
     pAliqEfetCBS = pCBS * (1 - pCBSpRed / 100)
-    If vBCCBSIBS > 0 Then
+    'Simples Nacional (NT 2026.005): decide o que vai no item (gIBSCBS e/ou gTribSN)
+    bSN = SN_NotaAtiva()
+    bGIBS = True
+    If bSN Then bGIBS = SN_ItemInformaGIBSCBS()
+    If bSN And bGIBS Then
+        If SN_ItemCBSZerada() Then       'CRT 2 sem regime regular: gIBSCBS com CBS zerada
+            pCBS = 0: pCBSpRed = 0: pAliqEfetCBS = 0: vCBS = 0
+        End If
+    End If
+    If Not bGIBS Then                    'MEI e CRT 1 sem regime regular: nao envia gIBSCBS nem soma nos totais
+        vBCCBSIBS = 0: vIBSUF = 0: vIBSMun = 0: vIBS = 0: vCBS = 0
+    End If
+    If vBCCBSIBS > 0 And bGIBS Then
         iRetorno = oNFe.GerarItensImpostoIBSCBS( _
                 IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST), _
                 IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib), _
@@ -454,6 +508,23 @@ Private Sub GerarIBSCBSItem(ByVal oNFe As snfe.Util, ByRef NFeItens As ADODB.Rec
                 pIBSMun, 0, 0, 0, pIBSpRed, pAliqEfetMun, vIBSMun, vIBS, _
                 pCBS, 0, 0, 0, pCBSpRed, pAliqEfetCBS, vCBS, _
                 mensagemAlerta, mensagemErro)
+    End If
+    'gTribSN: aliquota efetiva do Simples (IBS e/ou CBS conforme o enquadramento)
+    If bSN Then
+        sCSTSN = IIf(IsNull(NFeItens!IBSCBS_CST), "000", NFeItens!IBSCBS_CST)
+        sClsSN = IIf(IsNull(NFeItens!cClassTrib), "000001", NFeItens!cClassTrib)
+        If SN_ItemInformaGTribSN(sCSTSN) Then
+            SN_DadosProduto vCodProd, sAnexoP, sAtivP
+            If SN_MontarItem(SN_AnexoDoItem(sAnexoP), dBaseSN, pIBSSN, vIBSSN, pCBSSN, vCBSSN) Then
+                iRetorno = oNFe.GerarItensImpostoSimplesNacional(sCSTSN, sClsSN, SN_ItemInformaIBSNoTribSN(), _
+                           pIBSSN, vIBSSN, pCBSSN, vCBSSN, mensagemAlerta, mensagemErro)
+                SN_RegistraItemTrib
+            Else
+                mSNFalha = SN_UltimoErro()
+                If Len(mSNFalha) = 0 Then mSNFalha = "Nao foi possivel calcular o IBS/CBS do Simples Nacional."
+                Exit Sub
+            End If
+        End If
     End If
     ' IS (Imposto Seletivo)
     vBCIS = IIf(IsNull(NFeItens!IS_vBC), 0, CDbl(NFeItens!IS_vBC))
@@ -563,6 +634,12 @@ On Error GoTo DeuErro
     '===================grupo de identificação do emitente (grupo B do Manual de integração - páginas 90)=======================
     'iRetorno = sistNFe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), Parametros!CNPJ, "", Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!Telefone, mensagemAlerta, mensagemErro)
     iRetorno = sistNFe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), yCNPJ, yCPF, Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!telefone, mensagemAlerta, mensagemErro)
+    'Simples Nacional (NT 2026.005): enquadramento do emitente (tag C21a) e contexto da nota
+    Dim nTpRegimeSN As Long
+    mSNFalha = ""
+    nTpRegimeSN = SN_IniciarNota(Parametros, NFe!DataEmissao)
+    If Len(SN_UltimoErro()) > 0 Then NFeMotivo = SN_UltimoErro(): GoTo Caifora
+    If nTpRegimeSN > 0 Then iRetorno = sistNFe.GerarEmitenteRegimeIBSCBS(nTpRegimeSN, mensagemAlerta, mensagemErro)
 
     '======= grupo de identificação da NF-e - grupo B do Manual de integração - páginas 86 a 89
     Dim dhContingencia As String, justContingencia As String
@@ -759,6 +836,8 @@ End If
                                       NFeItens!CFOP, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, NFeItens!QuantidadeComercial, NFeItens!ValorUnitarioComercializacao, NFeItens!UnidadeComercial, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), NFeItens!ValorFrete, NFeItens!ValorDesconto, _
                                       NFeItens!ValorOutros, NFeItens!ValorSeguro, "", "", lItemPed, sPedido, "", "", "", "", 1, infAdiProd, 0, "", 0, Round(NFeItens!QuantidadeComercial * NFeItens!ValorUnitarioComercializacao, 2), mensagemAlerta, mensagemErro)
 
+        GerarCAtivSNItem sistNFe, NFeItens!CodigoProduto, SN_Campo(NFeItens, "cAtivSN", "")
+
 'ESSE PONTO DO DEPOSITO DE GÁS
 
         Select Case NFeItens!TipoProduto     'Veículo|Medicamento|Armamento|Combustível
@@ -851,14 +930,16 @@ End If
                                                         IIf(Not Vazio(NFeItens!modBCST), Left(NFeItens!modBCST, 1), 5), NFeItens!pMVAST, NFeItens!pRedBCST, NFeItens!vBCST, NFeItens!pICMSST, NFeItens!vICMSST, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, dblPCredSN, vCredICMSSN, 0, NFeItens!vBC, 0, 0, mensagemAlerta, mensagemErro)
         
                       ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
-                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
+                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS, NFeItens!CodigoProduto, BaseItemNFe(NFeItens)
+                      If Len(mSNFalha) > 0 Then NFeMotivo = mSNFalha: GoTo Caifora
         Else
            iRetorno = sistNFe.GerarItensImpostoEstadualMonofasico(NFeItens!ValorTributos, "0", "61", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
            
            'iRetorno = sistNFe.GerarItensObservacao("CST61", "ICMS monofásico sobre combustíveis cobrado anteriormente conforme Convênio ICMS 199/2022;", "", "", mensagemAlerta, mensagemErro)
            
                       ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
-                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
+                      GerarIBSCBSItem sistNFe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS, NFeItens!CodigoProduto, BaseItemNFe(NFeItens)
+                      If Len(mSNFalha) > 0 Then NFeMotivo = mSNFalha: GoTo Caifora
         End If
         
         TotvBCCBSIBS = TotvBCCBSIBS + vBCCBSIBS
@@ -895,7 +976,7 @@ End If
     iRetorno = sistNFe.GerarTotalProdutos(NFe!BaseICMS, NFe!ValorICMS, NFe!BaseICMSST, NFe!ValorICMSST, NFe!ValorCOFINS, NFe!ValorPIS, NFe!ValorIPI, NFe!ValorDesconto, NFe!ValorSeguro, NFe!ValorFrete, NFe!ValorOutrasDespesas, 0, 0, 0, NFe!vFCPUFDest, 0, NFe!vICMSUFDest, NFe!vICMSUFRemet, _
                                           NFe!ValorImportacao, 0, NFe!ValorProdutos, NFe!ValorNota, vlTrib, 0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
 
-    If TotvBCCBSIBS > 0 Then
+    If TotvBCCBSIBS > 0 Or SN_TotalGTribSN() Then
        iRetorno = sistNFe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, NFe!ValorNota, mensagemAlerta, mensagemErro)
     End If
 '    If TotvIS > 0 Then
@@ -1886,6 +1967,12 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     
     '===================grupo de identificação do emitente (grupo B do Manual de integração - páginas 90)=======================
     iRetorno = sistNFCe.GerarEmitente(RemoveAcento(Parametros!Razao), RemoveAcento(Parametros!Fantasia), Parametros!CNPJ, "", Parametros!IE, "", "", "", Left(Parametros!CRT, 1), RemoveAcento(Parametros!Endereco), Parametros!Numero, "", Parametros!bairro, Parametros!CodigoIBGE, RemoveAcento(Parametros!Cidade), Parametros!Estado, Parametros!CEP, 1058, "BRASIL", Parametros!Celular, mensagemAlerta, mensagemErro)
+    'Simples Nacional (NT 2026.005): enquadramento do emitente (tag C21a) e contexto da nota
+    Dim nTpRegimeSN As Long
+    mSNFalha = ""
+    nTpRegimeSN = SN_IniciarNota(Parametros, NFe!DataEmissao)
+    If Len(SN_UltimoErro()) > 0 Then NFeMotivo = SN_UltimoErro(): GoTo Caifora
+    If nTpRegimeSN > 0 Then iRetorno = sistNFCe.GerarEmitenteRegimeIBSCBS(nTpRegimeSN, mensagemAlerta, mensagemErro)
 
     '======= grupo de identificação da NF-e - grupo B do Manual de integração - páginas 86 a 89
     Dim dhContingencia As String, justContingencia As String
@@ -2014,6 +2101,8 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         iRetorno = sistNFCe.GerarItens(i, Trim$(NFeItens!IDProduto), RemoveAcento(NFeItens!DescricaoProduto), NFeItens!NCM, "", "", NFeItens!CodBarras, NFeItens!CodBarras, _
                                        NFeItens!CFOP, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, NFeItens!QtdeMov, NFeItens!ValorUnit, NFeItens!UN, (NFeItens!QtdeMov * NFeItens!ValorUnit), NFeItens!ValorFrete, NFeItens!Desconto, NFeItens!ValorOutras, IIf(IsNull(NFeItens!ValorSeguro), 0, NFeItens!ValorSeguro), "", "", 0, "", "", "", "", "", IIf(NFeItens!CFOP = 1603, 0, 1), infAdProd, 0, "", 0, (NFeItens!QtdeMov * NFeItens!ValorUnit), mensagemAlerta, mensagemErro)
         
+        GerarCAtivSNItem sistNFCe, NFeItens!IDProduto, SN_Campo(NFeItens, "cAtivSN", "")
+
         '=========dados do ICMS (grupo N01 do Manual de integração - páginas 100)=====================
         'Parametros!
         If Left(Parametros!CRT, 1) = 1 Then
@@ -2048,7 +2137,8 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
         End If
 
         ' IBS/CBS e IS do item (rotina unica: GerarIBSCBSItem)
-        GerarIBSCBSItem sistNFCe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS
+        GerarIBSCBSItem sistNFCe, NFeItens, vBCCBSIBS, vIBSUF, vIBSMun, vIBS, vCBS, vBCIS, vIS, NFeItens!IDProduto, BaseItemNFCe(NFeItens)
+        If Len(mSNFalha) > 0 Then NFeMotivo = mSNFalha: GoTo Caifora
 
         TotvBCCBSIBS = TotvBCCBSIBS + vBCCBSIBS
         TotvIBSUF = TotvIBSUF + vIBSUF
@@ -2100,7 +2190,7 @@ Public Function TransmitirNFCe(ByVal NumeroNota As Variant, ByVal SerieNF As Var
     iRetorno = sistNFCe.GerarTotalProdutos(NFe!BaseCalc_ICMS, NFe!Valor_ICMS, NFe!BaseCalc_ICSM_Subst, NFe!Valor_ICMS_Subst, vlCOFINS, vlPIS, NFe!Valor_IPI, NFe!DescontoPromocional, NFe!Valor_Seguro, NFe!Valor_Frete, NFe!OutrasDespesasAces, 0, 0, 0, 0, 0, 0, 0, NFe!ValorImpostoImportacao, 0, NFe!Valor_NF_Prod, vlNF, vlTrib, _
                                            0, 0, 0, 0, 0, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, mensagemAlerta, mensagemErro)
 
-    If TotvBCCBSIBS > 0 Then
+    If TotvBCCBSIBS > 0 Or SN_TotalGTribSN() Then
        iRetorno = sistNFCe.GerarTotalIBSCBS(TotvIS, TotvBCCBSIBS, 0, 0, TotvIBSUF, 0, 0, TotvIBSMun, TotvIBS, 0, 0, 0, 0, TotvCBS, 0, 0, 0, 0, 0, 0, 0, 0, vlNF, mensagemAlerta, mensagemErro)
     End If
     

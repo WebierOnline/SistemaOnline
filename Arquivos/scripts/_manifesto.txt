@@ -192,3 +192,5 @@
 194|CreateTable_Contatos.sql|GERAL
 195|Alter_Campanha_Link.sql|GERAL
 196|Alter_SimplesNacional_NT2026005.sql|GERAL
+197|Alter_SimplesNacionalAliquota.sql|GERAL
+198|Alter_SimplesNacionalApuracao.sql|GERAL
