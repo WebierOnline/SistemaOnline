@@ -77,15 +77,15 @@ Begin VB.Form Configuracao_Geral
          BeginProperty Panel1 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             AutoSize        =   1
             Object.Width           =   11642
-            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
-            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 8817-7036"
+            Text            =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
+            TextSave        =   "Desenv.: Online.Info Sistemas - Tel.: (89) 9 9427-5280"
          EndProperty
          BeginProperty Panel2 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Style           =   5
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "17:57"
+            TextSave        =   "07:47"
          EndProperty
          BeginProperty Panel3 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -107,7 +107,7 @@ Begin VB.Form Configuracao_Geral
       Height          =   9315
       Left            =   60
       TabIndex        =   9
-      Top             =   900
+      Top             =   960
       Width           =   8895
       _ExtentX        =   15690
       _ExtentY        =   15796
@@ -143,53 +143,33 @@ Begin VB.Form Configuracao_Geral
       TabPicture(1)   =   "Configuracao_Geral.frx":82F8
       Tab(1).ControlEnabled=   0   'False
       Tab(1).Control(0)=   "Frame4"
-      Tab(1).Control(0).Enabled=   0   'False
       Tab(1).Control(1)=   "Frame5"
-      Tab(1).Control(1).Enabled=   0   'False
       Tab(1).ControlCount=   2
       TabCaption(2)   =   "ADICIONAIS"
       TabPicture(2)   =   "Configuracao_Geral.frx":8314
       Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "cmdSalvarBalanca"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).Control(1)=   "Frame3"
-      Tab(2).Control(1).Enabled=   0   'False
       Tab(2).Control(2)=   "Frame6"
-      Tab(2).Control(2).Enabled=   0   'False
       Tab(2).Control(3)=   "Frame13"
-      Tab(2).Control(3).Enabled=   0   'False
       Tab(2).ControlCount=   4
       TabCaption(3)   =   "IMPRESSÃO"
       TabPicture(3)   =   "Configuracao_Geral.frx":8330
       Tab(3).ControlEnabled=   0   'False
       Tab(3).Control(0)=   "Label48"
-      Tab(3).Control(0).Enabled=   0   'False
       Tab(3).Control(1)=   "Label14"
-      Tab(3).Control(1).Enabled=   0   'False
       Tab(3).Control(2)=   "Label49"
-      Tab(3).Control(2).Enabled=   0   'False
       Tab(3).Control(3)=   "Label61"
-      Tab(3).Control(3).Enabled=   0   'False
       Tab(3).Control(4)=   "cmdSalvarImpressao"
-      Tab(3).Control(4).Enabled=   0   'False
       Tab(3).Control(5)=   "Frame2"
-      Tab(3).Control(5).Enabled=   0   'False
       Tab(3).Control(6)=   "Frame17"
-      Tab(3).Control(6).Enabled=   0   'False
       Tab(3).Control(7)=   "Frame8"
-      Tab(3).Control(7).Enabled=   0   'False
       Tab(3).Control(8)=   "Frame7"
-      Tab(3).Control(8).Enabled=   0   'False
       Tab(3).Control(9)=   "cboINIImpNormal"
-      Tab(3).Control(9).Enabled=   0   'False
       Tab(3).Control(10)=   "cboFormaParcelasImpressao"
-      Tab(3).Control(10).Enabled=   0   'False
       Tab(3).Control(11)=   "txtFormaParcelasImpressao"
-      Tab(3).Control(11).Enabled=   0   'False
       Tab(3).Control(12)=   "cboDeclararRecebedor"
-      Tab(3).Control(12).Enabled=   0   'False
       Tab(3).Control(13)=   "Frame14"
-      Tab(3).Control(13).Enabled=   0   'False
       Tab(3).ControlCount=   14
       TabCaption(4)   =   "PROGRAMADOR"
       TabPicture(4)   =   "Configuracao_Geral.frx":834C
@@ -413,7 +393,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   1695
          Left            =   120
          TabIndex        =   178
-         Top             =   5280
+         Top             =   4680
          Width           =   3615
          Begin VB.ComboBox cboTipoJuros 
             Height          =   315
@@ -1063,7 +1043,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   1515
          Left            =   120
          TabIndex        =   106
-         Top             =   7020
+         Top             =   6420
          Width           =   8655
          Begin VB.Frame Frame11 
             Caption         =   "Balança/Pesagem"
@@ -1196,7 +1176,7 @@ Begin VB.Form Configuracao_Geral
       End
       Begin VB.Frame Frame1 
          Caption         =   "Configuração"
-         Height          =   4875
+         Height          =   4275
          Left            =   120
          TabIndex        =   78
          Top             =   360
@@ -1210,7 +1190,7 @@ Begin VB.Form Configuracao_Geral
             Top             =   3360
             Width           =   615
          End
-         Begin VB.CheckBox chkImpXMLAuto
+         Begin VB.CheckBox chkImpXMLAuto 
             Caption         =   "Sim"
             Height          =   195
             Left            =   4020
@@ -1218,16 +1198,6 @@ Begin VB.Form Configuracao_Geral
             ToolTipText     =   "O monitor de NF-e (no servidor) importa sozinho as notas de compra na Entrada de Estoque, em digitação, para conferência."
             Top             =   3600
             Width           =   615
-         End
-         Begin VB.Label lblImpXMLAuto
-            Alignment       =   1  'Right Justify
-            AutoSize        =   -1  'True
-            Caption         =   "Importar XML Automático:"
-            Height          =   195
-            Left            =   2190
-            TabIndex        =   244
-            Top             =   3600
-            Width           =   1755
          End
          Begin VB.CheckBox chkBloqueioAPrazo 
             Caption         =   "Bloqueio"
@@ -1366,6 +1336,16 @@ Begin VB.Form Configuracao_Geral
             HAND            =   0   'False
             CHECK           =   0   'False
             VALUE           =   0   'False
+         End
+         Begin VB.Label lblImpXMLAuto 
+            Alignment       =   1  'Right Justify
+            AutoSize        =   -1  'True
+            Caption         =   "Importar XML Automático:"
+            Height          =   195
+            Left            =   2190
+            TabIndex        =   244
+            Top             =   3600
+            Width           =   1755
          End
          Begin VB.Label lblEnviarSpedMensal 
             Alignment       =   1  'Right Justify
@@ -2290,7 +2270,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   1695
          Left            =   3780
          TabIndex        =   10
-         Top             =   5280
+         Top             =   4680
          Width           =   4995
          Begin VB.TextBox txtPastaBackup 
             Height          =   315
@@ -2404,7 +2384,7 @@ Begin VB.Form Configuracao_Geral
          Height          =   615
          Left            =   6600
          TabIndex        =   77
-         Top             =   8580
+         Top             =   7980
          Width           =   2175
          _ExtentX        =   3836
          _ExtentY        =   1085
@@ -4394,6 +4374,8 @@ Private Sub Mostrar_Tipo_Empresa()
       cboTipoEmpresa.Text = "Papelaria e Armarinhos"
    ElseIf txtTipoCadastroProduto.Text = 16 Then
       cboTipoEmpresa.Text = "Agropecuária e Agroveterinária"
+   ElseIf txtTipoCadastroProduto.Text = 17 Then
+      cboTipoEmpresa.Text = "Vidraçaria, Marmoraria e Esquadrias"
    Else
       Exit Sub
    End If
@@ -5537,6 +5519,7 @@ var_Texto = cboTipoEmpresa.Text
    cboTipoEmpresa.AddItem "Pneus"
    cboTipoEmpresa.AddItem "Papelaria e Armarinhos"
    cboTipoEmpresa.AddItem "Agropecuária e Agroveterinária"
+   cboTipoEmpresa.AddItem "Vidraçaria, Marmoraria e Esquadrias"
 cboTipoEmpresa.Text = var_Texto
 End Sub
 
@@ -5574,6 +5557,8 @@ ElseIf cboTipoEmpresa.Text = "Papelaria e Armarinhos" Then
    txtTipoCadastroProduto.Text = "15"
 ElseIf cboTipoEmpresa.Text = "Agropecuária e Agroveterinária" Then
    txtTipoCadastroProduto.Text = "16"
+ElseIf cboTipoEmpresa.Text = "Vidraçaria, Marmoraria e Esquadrias" Then
+   txtTipoCadastroProduto.Text = "17"
 Else
    txtTipoCadastroProduto.Text = "1"
 End If
@@ -5966,10 +5951,10 @@ Private Sub cmdMostrarSenha_Click()
 If cboMes.Text = "" Then Exit Sub
 If cboAno.Text = "" Then Exit Sub
 
-Dim vCnpj As Integer
+Dim vCNPJ As Integer
 Dim vQuantRazao As Integer
 
-vCnpj = SomarDigitos(mskCPF.Text)
+vCNPJ = SomarDigitos(mskCPF.Text)
 vQuantRazao = Len(txtRazao.Text)
 
 Dim vNumeroMes As Integer
@@ -6064,10 +6049,10 @@ Dim vDataBloqueio As String
     'Desbloqueio
     If vNumeroMes Mod 2 = 0 Then
         'MsgBox "Par!"
-        vCodDesbloqueio = Left(vCnpj, 1) & "" & Left(vQuantRazao, 1) & "" & Len(vMesInt) & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 3, 1))
+        vCodDesbloqueio = Left(vCNPJ, 1) & "" & Left(vQuantRazao, 1) & "" & Len(vMesInt) & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 3, 1))
     Else
         'MsgBox "Ímpar!"
-        vCodDesbloqueio = Mid(vCnpj, 2, 1) & "" & Mid(vQuantRazao, 2, 1) & "" & Len(vMesInt) - 1 & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 2, 1))
+        vCodDesbloqueio = Mid(vCNPJ, 2, 1) & "" & Mid(vQuantRazao, 2, 1) & "" & Len(vMesInt) - 1 & "" & vNumeroMes & "" & UCase(Mid(vMesInt, 2, 1))
     End If
 
     'Desbloqueio temporario

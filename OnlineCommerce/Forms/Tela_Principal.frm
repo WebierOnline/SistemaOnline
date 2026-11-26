@@ -595,7 +595,7 @@ Begin VB.MDIForm Tela_Principal
             Alignment       =   1
             Object.Width           =   2117
             MinWidth        =   2117
-            TextSave        =   "08:47"
+            TextSave        =   "15:55"
          EndProperty
          BeginProperty Panel5 {8E3867AB-8586-11D1-B16A-00C0F0283628} 
             Alignment       =   1
@@ -1019,7 +1019,7 @@ Dim varTipoEmpresa As String
    
    'Tipos 1..8 (todos varejo em Configuracao_Geral) mostram produtos. Os ElseIf de "6"/"7"/"8"
    'abaixo viraram codigo morto (nao ha opcao Escola/Curso no sistema) - mantidos so por historico.
-   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 16 Then
+   If Val(varTipoEmpresa) >= 1 And Val(varTipoEmpresa) <= 17 Then
       cmdCadClientes.ToolTipText = "Cadastro de Clientes"
       
       Menu_CAD_Clientes.Caption = "Clientes"
@@ -2047,7 +2047,7 @@ If Not existe(xCaminhoBK) Then Exit Sub
 'nome padronizado com a rotina automatica do fechamento de caixa (sempre
 'cnpj.bak/cnpj.rar - o historico com data vem da rotacao abaixo, nao mais
 'do proprio nome do arquivo ativo)
-nomeArquivoBK = Retira(rEmpresa!Cnpj, ".-/ ", UM_A_UM) & ".bak"
+nomeArquivoBK = Retira(rEmpresa!cnpj, ".-/ ", UM_A_UM) & ".bak"
 DoEvents
 
 'preserva o backup .rar da execucao anterior com um nome datado (historico
@@ -2295,7 +2295,7 @@ Dim IniciouProcesso As Boolean
         
    xCaminhoBK = dirXML & "backup"
       
-   nomeArquivoBK = Retira(r!Cnpj, ".-/ ", UM_A_UM) & ".rar"
+   nomeArquivoBK = Retira(r!cnpj, ".-/ ", UM_A_UM) & ".rar"
         
    DataHora = Now
         
