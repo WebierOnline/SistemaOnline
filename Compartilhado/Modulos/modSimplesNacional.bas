@@ -323,6 +323,7 @@ Public Function SN_IniciarNota(ByVal rsEmpresa As ADODB.Recordset, ByVal vEmissa
     mAnexoPadrao = Trim$(SN_Campo(rsEmpresa, "AnexoSNPadrao", "I") & "")
     If SN_IndiceAnexo(mAnexoPadrao) < 0 Then mAnexoPadrao = "I"
     mAno = Year(dtEmi)
+    If mAno < 2027 Then mAno = 2027    'so chega aqui antes de 2027 com SN_HOMOLOG.txt: usa a tabela de 2027 (a unica carregada)
     mComp = Format$(dtEmi, "yyyymm")
     mTpRegime = SN_TipoRegimeIBSCBS(mCRT, bOpta, nPend)
     mAtivo = SN_Vigente(dtEmi) And (mCRT = 1 Or mCRT = 2 Or mCRT = 4 Or (mCRT = 3 And mTpRegime >= 2))

@@ -718,6 +718,7 @@ On Error GoTo DeuErro
       
 If Parametros!AmbienteNF = 2 Then
     xCNPJ = "99999999000191"
+    xCPF = ""    'dest aceita CNPJ ou CPF, nunca os dois
     xRazaoSocial = "NF-E EMITIDA EM AMBIENTE DE HOMOLOGACAO - SEM VALOR FISCAL"
     destIE = "55931575"
     Destinatario!CodigoIBGE = 2927408
