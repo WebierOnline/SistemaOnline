@@ -1023,11 +1023,11 @@ Option Explicit
 Dim rsCliente As Recordset
 Dim rsPedidos As Recordset
 Dim rsParcelas As Recordset
-Dim Cod_Pedido As Integer
+Dim Cod_Pedido As Long
 Dim totalRegistros As Long
 
 
-Public Sub loadPromissoria(Pedido As Integer, PARCELA As Integer)
+Public Sub loadPromissoria(Pedido As Long, PARCELA As Integer)
 'colocar o nome da maquina na barra de status
 Dim var_Impressora As String
 'Dim oIni As Ini

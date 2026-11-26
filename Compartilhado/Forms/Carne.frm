@@ -360,7 +360,7 @@ Private Sub cmdFechar_Click()
 End Sub
 
 Private Sub cmdImprimir_Click()
-Dim Pedido As Integer
+Dim Pedido As Long
 
 If cboPedido.Text = "" Or cboCliente.Text = "" Or cboParcela.Text = "" Then Exit Sub
 
